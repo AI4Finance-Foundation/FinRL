@@ -1,7 +1,19 @@
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
+from config import config
 
+def load_dataset(*, file_name: str) -> pd.DataFrame:
+    #_data = pd.read_csv(f"{config.DATASET_DIR}/{file_name}")
+    _data = pd.read_csv(file_name)
+    return _data
+
+def data_split(df,start,end):
+    data = df[(df.datadate > start) & (df.datadate < end)]
+    data=data.sort_values(['datadate','tic'],ignore_index=True)
+    #data  = data[final_columns]
+    data.index = data.datadate.factorize()[0]
+    return data
 
 def calcualte_price(df):
     """
@@ -69,19 +81,19 @@ def add_technical_indicator(df):
 
 
 
-def preprocess_data(filename, choose_stock):
-    df_2020 = pd.read_csv(filename)
-    # only take the columns we want
-    df_2020=df_2020[['datadate','tic','prccd','ajexdi','prcod','prchd','prcld','cshtrd']]
-    # filter stocks
-    #choose_stock = ['SPY','QQQ','DIA']
-    df_2020_2 = df_2020[df_2020.tic.isin(choose_stock)]
-    # check if all the stocks have the same data length (very important)
-    df_2020_2[df_2020_2.datadate>=20090000].tic.value_counts()
-    df_2020_3 = df_2020_2[df_2020_2.datadate>=20090000]
-
-    df_preprocess = calcualte_price(df_2020_3)
+def preprocess_data():
+    df = load_dataset(file_name=config.TRAINING_DATA_FILE)
+    # get data after 2009
+    df = df[df.datadate>=20090000]
+    # calcualte adjusted price
+    df_preprocess = calcualte_price(df)
+    # add technical indicators using stockstats
     df_final=add_technical_indicator(df_preprocess)
-    #fill the missing values at the beginning
+    # fill the missing values at the beginning
     df_final.fillna(method='bfill',inplace=True)
     return df_final
+
+def add_turbulence(df):
+    df_turbulence = pd.read_csv(config.TURBULENCE_DATA)
+    df = df.merge(df_turbulence, on='datadate')
+    return df

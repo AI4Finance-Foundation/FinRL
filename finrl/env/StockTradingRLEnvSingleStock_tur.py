@@ -8,20 +8,20 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 #import pickle
 
-HMAX_NORMALIZE = 10
-INITIAL_ACCOUNT_BALANCE=10000
+HMAX_NORMALIZE = 100
+INITIAL_ACCOUNT_BALANCE=1000000
 STOCK_DIM = 1
 
 # transaction fee: 2/1000 reasonable percentage
-TRANSACTION_FEE_PERCENT = 0.001
-#TURBULENCE_THRESHOLD = 120
+TRANSACTION_FEE_PERCENT = 0.002
+TURBULENCE_THRESHOLD = 120
 
 # Normalization factor: (not used)
 #MAX_ACCOUNT_BALANCE = 2147483647
 #MAX_NUM_SHARES = 2147483647
 #MAX_CLOSE_PRICE = 5000
 
-class StockEnvBTC(gym.Env):
+class StockEnv(gym.Env):
     """A stock trading environment for OpenAI gym"""
     metadata = {'render.modes': ['human']}
 
@@ -49,7 +49,7 @@ class StockEnvBTC(gym.Env):
                       [self.data.adx]
         # initialize reward
         self.reward = 0
-        #self.turbulence = 0
+        self.turbulence = 0
 
         self.cost = 0
         
@@ -62,32 +62,48 @@ class StockEnvBTC(gym.Env):
 
     def _sell_stock(self, index, action):
         # perform sell action based on the sign of the action
-        if self.state[index+STOCK_DIM+1] > 0:
-            #update balance
-            self.state[0] += \
-            self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
-             (1- TRANSACTION_FEE_PERCENT)
-
-            self.state[index+STOCK_DIM+1] -= min(abs(action), self.state[index+STOCK_DIM+1])
-            self.cost +=self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
-             TRANSACTION_FEE_PERCENT
+        if self.turbulence<TURBULENCE_THRESHOLD:
+            if self.state[index+STOCK_DIM+1] > 0:
+                #update balance
+                self.state[0] += \
+                self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
+                 (1- TRANSACTION_FEE_PERCENT)
+                
+                self.state[index+STOCK_DIM+1] -= min(abs(action), self.state[index+STOCK_DIM+1])
+                self.cost +=self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
+                 TRANSACTION_FEE_PERCENT
+            else:
+                pass
         else:
-            pass
-
+            # if turbulence goes over threshold, just clear out all positions 
+            if self.state[index+STOCK_DIM+1] > 0:
+                #update balance
+                self.state[0] += self.state[index+1]*self.state[index+STOCK_DIM+1]* \
+                              (1- TRANSACTION_FEE_PERCENT)
+                self.state[index+STOCK_DIM+1] =0
+                self.cost += self.state[index+1]*self.state[index+STOCK_DIM+1]* \
+                              TRANSACTION_FEE_PERCENT
+            else:
+                pass
+            
     def _buy_stock(self, index, action):
         # perform buy action based on the sign of the action
-        available_amount = self.state[0] // self.state[index+1]
-        # print('available_amount:{}'.format(available_amount))
+        if self.turbulence< TURBULENCE_THRESHOLD:
+            available_amount = self.state[0] // self.state[index+1]
+            # print('available_amount:{}'.format(available_amount))
+            
+            #update balance
+            self.state[0] -= self.state[index+1]*min(available_amount, action)* \
+                              (1+ TRANSACTION_FEE_PERCENT)
 
-        #update balance
-        self.state[0] -= self.state[index+1]*min(available_amount, action)* \
-                          (1+ TRANSACTION_FEE_PERCENT)
-
-        self.state[index+STOCK_DIM+1] += min(available_amount, action)
-
-        self.cost+=self.state[index+1]*min(available_amount, action)* \
-                          TRANSACTION_FEE_PERCENT
-
+            self.state[index+STOCK_DIM+1] += min(available_amount, action)
+            
+            self.cost+=self.state[index+1]*min(available_amount, action)* \
+                              TRANSACTION_FEE_PERCENT
+        else:
+            # if turbulence goes over threshold, just stop buying
+            pass
+        
     def step(self, actions):
         # print(self.day)
         self.terminal = self.day >= len(self.df.index.unique())-1
@@ -141,7 +157,7 @@ class StockEnvBTC(gym.Env):
 
             self.day += 1
             self.data = self.df.loc[self.day,:]         
-            #self.turbulence = self.data['turbulence']
+            self.turbulence = self.data['turbulence']
 
             #load next state
             # print("stock_shares:{}".format(self.state[29:]))
@@ -170,7 +186,7 @@ class StockEnvBTC(gym.Env):
         self.asset_memory = [INITIAL_ACCOUNT_BALANCE]
         self.day = 0
         self.data = self.df.loc[self.day,:]
-        #self.turbulence = 0
+        self.turbulence = 0
 
         self.cost = 0
         self.terminal = False 

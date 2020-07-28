@@ -2,87 +2,50 @@
 import pandas as pd
 import numpy as np
 import time
-import gym
-
-# RL models from stable-baselines
-from stable_baselines import SAC
-from stable_baselines import PPO2
-from stable_baselines import A2C
-from stable_baselines import DDPG
-from stable_baselines import TD3
-from stable_baselines.ddpg.policies import DDPGPolicy
-from stable_baselines.common.policies import MlpPolicy
-from stable_baselines.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
 from stable_baselines.common.vec_env import DummyVecEnv
 
+
 # customized env
-from env.StockTradingRLEnvSingleStock import StockEnv
-
-#import json
-#import datetime as dt
-
-from stockstats import StockDataFrame as Sdf
-from sklearn import preprocessing
-#import pickle
-
-## data preprocessing part
+from env.StockTradingRLEnvSingleStock_tur import StockEnv
+from preprocessing.preprocessors import *
+from config.config import *
+from model.models import *
 
 
 
+def run_model() -> None:
+    """Train the model."""
 
-# EnvName = 'PongNoFrameskip-v4'
-# EnvType = 'atari'
+    # read and preprocess data
+    df = preprocess_data()
+    df = add_turbulence(df)
 
-# EnvName = 'CartPole-v0'
-EnvName = 'Pendulum-v0'
-EnvType = 'classic_control'
+    # divide train and test
+    train = data_split(df, start=20090000, end=20170000)
+    test = data_split(df, start=20170000, end=20200512)
 
-# EnvName = 'BipedalWalker-v2'
-# EnvType = 'box2d'
+    ## set up train & test environment
+    # training
+    env_train = DummyVecEnv([lambda: StockEnv(train)])
+    # testing
+    env_test = DummyVecEnv([lambda: StockEnv(test)])
+    obs_test = env_test.reset()
 
-# EnvName = 'Ant-v2'
-# EnvType = 'mujoco'
+    ## model training
+    print("==============Model Training===========")
+    model = train_A2C(env_train, "a2c_100k_spy", timesteps=100000)
 
-# EnvName = 'FetchPush-v1'
-# EnvType = 'robotics' 
+    print("==============Model Prediction===========")
+    for i in range(len(test.index.unique())):
+        action, _states = model.predict(obs_test)
+        obs_test, rewards, dones, info = env_test.step(action)
+        env_test.render()
 
-# EnvName = 'FishSwim-v0'
-# EnvType = 'dm_control'
+    #pipeline.price_pipe.fit(X_train[config.FEATURES], y_train)
 
-# EnvName = 'ReachTarget'
-# EnvType = 'rlbench'
-# env = build_env(EnvName, EnvType, state_type='vision')
+    #_logger.info(f"saving model version: {_version}")
+    #save_pipeline(pipeline_to_persist=pipeline.price_pipe)
 
-AlgName = 'SAC'
-env = build_env(EnvName, EnvType)
-alg_params, learn_params = call_default_params(env, EnvType, AlgName)
-alg = eval(AlgName+'(**alg_params)')
-alg.learn(env=env, mode='train', render=False, **learn_params)
-alg.learn(env=env, mode='test', render=True, **learn_params)
 
-# AlgName = 'DPPO'
-# number_workers = 2  # need to specify number of parallel workers in parallel algorithms like A3C and DPPO
-# env = build_env(EnvName, EnvType, nenv=number_workers)
-# alg_params, learn_params = call_default_params(env, EnvType, AlgName)
-# alg_params['method'] = 'clip'    # specify 'clip' or 'penalty' method for different version of PPO and DPPO
-# alg = eval(AlgName+'(**alg_params)')
-# alg.learn(env=env,  mode='train', render=False, **learn_params)
-# alg.learn(env=env,  mode='test', render=True, **learn_params)
-
-# AlgName = 'PPO'
-# env = build_env(EnvName, EnvType)
-# alg_params, learn_params = call_default_params(env, EnvType, AlgName)
-# alg_params['method'] = 'clip'    # specify 'clip' or 'penalty' method for different version of PPO and DPPO
-# alg = eval(AlgName+'(**alg_params)')
-# alg.learn(env=env,  mode='train', render=False, **learn_params)
-# alg.learn(env=env,  mode='test', render=True, **learn_params)
-
-# AlgName = 'A3C'
-# number_workers = 2  # need to specify number of parallel workers
-# env = build_env(EnvName, EnvType, nenv=number_workers)
-# alg_params, learn_params = call_default_params(env, EnvType, 'A3C')
-# alg = eval(AlgName+'(**alg_params)')
-# alg.learn(env=env,  mode='train', render=False, **learn_params)
-# alg.learn(env=env,  mode='test', render=True, **learn_params)
-
-env.close()
+if __name__ == "__main__":
+    run_model()
