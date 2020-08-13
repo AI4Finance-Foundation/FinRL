@@ -5,6 +5,7 @@ pandas==1.0.3
 scikit-learn==0.21.0
 gym==0.15.3
 stable-baselines==2.10.0
+tensorflow-gpu==1.11.1
 
 joblib==0.15.1
 
