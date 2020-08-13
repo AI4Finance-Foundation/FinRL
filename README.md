@@ -40,7 +40,7 @@ Ensure that you have **Python >=3.6**
 
 Direct installation:
 ```
-pip3 install finrl-library --upgrade
+pip3 install finrl --upgrade
 ```
 Install finrl-library from Git:
 ```
