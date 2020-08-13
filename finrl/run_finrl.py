@@ -14,7 +14,6 @@ from config.config import *
 from model.models import *
 
 
-
 def run_model() -> None:
     """Train the model."""
 
