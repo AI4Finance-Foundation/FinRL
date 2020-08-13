@@ -50,7 +50,8 @@ pip3 install .
 ```
 
 ## Prerequisites
-```pip3 install -r requirements.txt
+```
+pip3 install -r requirements.txt
 ```
 <details><summary><b>List of prerequisites.</b> <i>[click to expand]</i></summary>
 <div>
