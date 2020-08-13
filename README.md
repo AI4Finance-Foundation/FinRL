@@ -8,28 +8,20 @@ FinRL library, a DRL library designed specifically for automated stock trading w
 - [Installation](#installation)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
+- [Contributors](#Contributors)
 
 ## Status: Release
 <details><summary><b>Current status</b> <i>[click to expand]</i></summary>
 <div>
-We are currently open to any suggestions or pull requests from the community to make RLzoo a better repository. Given the scope of this project, we expect there could be some issues over
-the coming months after initial release. We will keep improving the potential problems and commit when significant changes are made in the future. Current default hyperparameters for each algorithm and each environment may not be optimal, so you can play around with those hyperparameters to achieve best performances. We will release a version with optimal hyperparameters and benchmark results for all algorithms in the future.
+We are currently open to any suggestions or pull requests from the community to make FinRL a better repository. 
 </div>
 </details>
 
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
 
-* 1.0.3 (Current version)
-
-  Changes:
-
-  * Fix bugs in SAC algorithm
-
 * 1.0.1
-
 	Changes:
-	* Better support RLBench environment, with multi-head network architectures to support dictionary as observation type;
 	* Make the code cleaner.
 * 0.0.1
 </div>
@@ -38,30 +30,31 @@ the coming months after initial release. We will keep improving the potential pr
 ## Installation
 Ensure that you have **Python >=3.6**
 
-Direct installation:
-```
-pip3 install finrl --upgrade
-```
 Install finrl-library from Git:
 ```
 git clone https://github.com/finrl/finrl-library.git
 cd finrl-library
-pip3 install .
 ```
 
 ## Prerequisites
 ```
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 <details><summary><b>List of prerequisites.</b> <i>[click to expand]</i></summary>
 <div>
-
 * tensorflow >= 1.14
-
 </div>
 </details>
 
+## Usage
 
+
+### Quick Start
+```python
+# in the root folder of finrl package
+cd finrl
+python run_finrl.py
+```
 
 ---
 
