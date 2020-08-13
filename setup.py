@@ -15,7 +15,7 @@ except:
     REQUIRES = list()
 
 setup(
-    name = "finrl",
+    name = "finrl-library",
     version = "0.0.1",
     include_package_data=True,
     author='Hongyang Yang, Xiaoyang Liu',
