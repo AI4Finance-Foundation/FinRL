@@ -4,11 +4,20 @@ from stockstats import StockDataFrame as Sdf
 from config import config
 
 def load_dataset(*, file_name: str) -> pd.DataFrame:
+    """
+    load csv dataset from path
+    :return: (df) pandas dataframe
+    """
     #_data = pd.read_csv(f"{config.DATASET_DIR}/{file_name}")
     _data = pd.read_csv(file_name)
     return _data
 
 def data_split(df,start,end):
+    """
+    split the dataset into training or testing using date
+    :param data: (df) pandas dataframe, start, end
+    :return: (df) pandas dataframe
+    """
     data = df[(df.datadate > start) & (df.datadate < end)]
     data=data.sort_values(['datadate','tic'],ignore_index=True)
     #data  = data[final_columns]
@@ -57,19 +66,19 @@ def add_technical_indicator(df):
             ## macd
             temp_macd = stock[stock.tic == unique_ticker[i]]['macd']
             temp_macd = pd.DataFrame(temp_macd)
-            macd = macd.append(temp_macd,ignore_index=True)
+            macd = macd.append(temp_macd, ignore_index=True)
             ## rsi
             temp_rsi = stock[stock.tic == unique_ticker[i]]['rsi_30']
             temp_rsi = pd.DataFrame(temp_rsi)
-            rsi = rsi.append(temp_rsi,ignore_index=True)
+            rsi = rsi.append(temp_rsi, ignore_index=True)
             ## cci
             temp_cci = stock[stock.tic == unique_ticker[i]]['cci_30']
             temp_cci = pd.DataFrame(temp_cci)
-            cci = cci.append(temp_cci,ignore_index=True)
+            cci = cci.append(temp_cci, ignore_index=True)
             ## adx
             temp_dx = stock[stock.tic == unique_ticker[i]]['dx_30']
             temp_dx = pd.DataFrame(temp_dx)
-            dx = dx.append(temp_dx,ignore_index=True)
+            dx = dx.append(temp_dx, ignore_index=True)
 
 
         df['macd'] = macd
@@ -82,6 +91,8 @@ def add_technical_indicator(df):
 
 
 def preprocess_data():
+    """data preprocessing pipeline"""
+
     df = load_dataset(file_name=config.TRAINING_DATA_FILE)
     # get data after 2009
     df = df[df.datadate>=20090000]
@@ -94,6 +105,12 @@ def preprocess_data():
     return df_final
 
 def add_turbulence(df):
+    """
+    add turbulence index from a precalcualted dataframe
+    :param data: (df) pandas dataframe
+    :return: (df) pandas dataframe
+    """
+
     df_turbulence = pd.read_csv(config.TURBULENCE_DATA)
     df = df.merge(df_turbulence, on='datadate')
     return df

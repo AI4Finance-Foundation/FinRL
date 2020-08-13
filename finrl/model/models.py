@@ -20,6 +20,8 @@ from config import config
 
 
 def train_A2C(env_train, model_name, timesteps=50000):
+    """A2C model"""
+
     start = time.time()
     model = A2C('MlpPolicy', env_train, verbose=0)
     model.learn(total_timesteps=timesteps)
@@ -30,6 +32,8 @@ def train_A2C(env_train, model_name, timesteps=50000):
     return model
 
 def train_DDPG(env_train, model_name, timesteps=50000):
+    """DDPG model"""
+
     start = time.time()
     model = DDPG('MlpPolicy', env_train)
     model.learn(total_timesteps=timesteps)
@@ -40,6 +44,8 @@ def train_DDPG(env_train, model_name, timesteps=50000):
     return model
 
 def train_PPO(env_train, model_name, timesteps=50000):
+    """PPO model"""
+
     start = time.time()
     model = PPO2('MlpPolicy', env_train)
     model.learn(total_timesteps=timesteps)
@@ -52,6 +58,8 @@ def train_PPO(env_train, model_name, timesteps=50000):
 
 
 def DRL_prediction(model, test_data, test_env, test_obs):
+    """make a prediction"""
+
     start = time.time()
     # we can directly load a pretrained model
     # model_a2c=A2C.load('model_single_stock/a2c_200k_all_tcost_best')

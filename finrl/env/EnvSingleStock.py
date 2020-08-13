@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 #import pickle
 
 HMAX_NORMALIZE = 100
-INITIAL_ACCOUNT_BALANCE=1000000
+INITIAL_ACCOUNT_BALANCE = 1000000
 STOCK_DIM = 1
 
 # transaction fee: 2/1000 reasonable percentage
@@ -25,13 +25,13 @@ class StockEnv(gym.Env):
     """A stock trading environment for OpenAI gym"""
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, df,day = 0):
+    def __init__(self, df, day = 0):
         #super(StockEnv, self).__init__()
         self.day = day
         self.df = df
 
         # action_space normalization and shape is STOCK_DIM
-        self.action_space = spaces.Box(low = -1, high = 1,shape = (STOCK_DIM,)) 
+        self.action_space = spaces.Box(low = -1, high = 1, shape = (STOCK_DIM,))
         
         # Shape = 7: [Current Balance]+[prices]+[owned shares] +[macd]+ [rsi] + [cci] + [adx]
         self.observation_space = spaces.Box(low=0, high=np.inf, shape = (7,))
@@ -67,7 +67,7 @@ class StockEnv(gym.Env):
                 #update balance
                 self.state[0] += \
                 self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
-                 (1- TRANSACTION_FEE_PERCENT)
+                 (1 - TRANSACTION_FEE_PERCENT)
                 
                 self.state[index+STOCK_DIM+1] -= min(abs(action), self.state[index+STOCK_DIM+1])
                 self.cost +=self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
@@ -126,14 +126,14 @@ class StockEnv(gym.Env):
             df_rewards = pd.DataFrame(self.rewards_memory)
             df_rewards.to_csv('account_rewards.csv')
             
-            # print('total asset: {}'.format(self.state[0]+ sum(np.array(self.state[1:29])*np.array(self.state[29:]))))
+            # print('total asset: {}'.format(self.state[0]+ sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):]))))
             #with open('obs.pkl', 'wb') as f:  
             #    pickle.dump(self.state, f)
             
             return self.state, self.reward, self.terminal,{}
 
         else:
-            # print(np.array(self.state[1:29]))
+            # print(np.array(self.state[1:(STOCK_DIM+1)]))
             # normalized the actions
             actions = actions * HMAX_NORMALIZE
             #actions = (actions.astype(int))
@@ -156,20 +156,21 @@ class StockEnv(gym.Env):
                 self._buy_stock(index, actions[index])
 
             self.day += 1
-            self.data = self.df.loc[self.day,:]         
+            self.data = self.df.loc[self.day, :]
             self.turbulence = self.data['turbulence']
 
-            #load next state
-            # print("stock_shares:{}".format(self.state[29:]))
-            self.state =  [self.state[0]] + \
+            # load next state
+            # print("stock_shares:{}".format(self.state[(STOCK_DIM+1):]))
+            self.state = [self.state[0]] + \
                     [self.data.adjcp] + \
                     list(self.state[(STOCK_DIM+1):(STOCK_DIM*2+1)]) + \
-                    [self.data.macd]+ \
-                    [self.data.rsi]+ \
+                    [self.data.macd] + \
+                    [self.data.rsi] + \
                     [self.data.cci] + \
                     [self.data.adx]
-            
-            end_total_asset = self.state[0]+ \
+
+            # calcualte total asset = balance + sum of (holding shares * prices of each stock)
+            end_total_asset = self.state[0] + \
             sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):(STOCK_DIM*2+1)]))
             
             #print("end_total_asset:{}".format(end_total_asset))
@@ -179,13 +180,12 @@ class StockEnv(gym.Env):
             self.rewards_memory.append(self.reward)
             self.asset_memory.append(end_total_asset)
 
-
         return self.state, self.reward, self.terminal, {}
 
     def reset(self):
         self.asset_memory = [INITIAL_ACCOUNT_BALANCE]
         self.day = 0
-        self.data = self.df.loc[self.day,:]
+        self.data = self.df.loc[self.day, :]
         self.turbulence = 0
 
         self.cost = 0
