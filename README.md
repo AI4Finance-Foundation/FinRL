@@ -45,12 +45,13 @@ pip3 install finrl-library --upgrade
 Install finrl-library from Git:
 ```
 git clone https://github.com/finrl/finrl-library.git
-cd RLzoo
+cd finrl-library
 pip3 install .
 ```
 
 ## Prerequisites
-```pip3 install -r requirements.txt```
+```pip3 install -r requirements.txt
+```
 <details><summary><b>List of prerequisites.</b> <i>[click to expand]</i></summary>
 <div>
 
@@ -58,7 +59,7 @@ pip3 install .
 
 </div>
 </details>
-```
+
 
 
 ---
