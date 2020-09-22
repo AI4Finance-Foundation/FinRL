@@ -1,5 +1,5 @@
-# finrl
-FinRL, a DRL library designed specifically for automated stock trading with an effort to close sim-real gap.
+# FinRL-Library
+FinRL-Library, a DRL library designed specifically for automated stock trading with an effort to close sim-real gap.
 
 **Table of contents:**
 
