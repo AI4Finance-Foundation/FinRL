@@ -5,7 +5,7 @@ stockstats
 scikit-learn==0.21.0
 gym==0.15.3
 stable-baselines[mpi]
-tensorflow==1.14
+tensorflow==1.15.2
 
 joblib==0.15.1
 
@@ -18,8 +18,3 @@ pytest>=5.3.2,<6.0.0
 # packaging
 setuptools>=41.4.0,<42.0.0
 wheel>=0.33.6,<0.34.0
-
-# fetching datasets
-#kaggle>=1.5.6,<1.6.0
-
-
