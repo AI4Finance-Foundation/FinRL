@@ -114,3 +114,23 @@ def add_turbulence(df):
     df_turbulence = pd.read_csv(config.TURBULENCE_DATA)
     df = df.merge(df_turbulence, on='datadate')
     return df
+
+
+    
+def get_type_list(feature_number):
+    """
+    :param feature_number: an int indicates the number of features
+    :return: a list of features n
+    """
+    if feature_number == 1:
+        type_list = ["close"]
+    elif feature_number == 2:
+        type_list = ["close", "volume"]
+        raise NotImplementedError("the feature volume is not supported currently")
+    elif feature_number == 3:
+        type_list = ["close", "high", "low"]
+    elif feature_number == 4:
+        type_list = ["close", "high", "low", "open"]
+    else:
+        raise ValueError("feature number could not be %s" % feature_number)
+    return type_list
