@@ -4,7 +4,6 @@ Yahoo Finance API
 
 import pandas as pd
 import yfinance as yf
-from config import config
 
 
 class YahooDownloader:
@@ -27,13 +26,13 @@ class YahooDownloader:
 
     """
     def __init__(self, 
-        start_date:str, 
-        end_date:str, 
-        ticker_list: list):
+        start_date:str,
+        end_date:str,
+        ticker_list:list):
 
-        self.start_date = config.START_DATE
-        self.end_date = config.END_DATE
-        self.ticker_list = config.DOW_30_TICKER
+        self.start_date = start_date
+        self.end_date = end_date
+        self.ticker_list = ticker_list
 
 
     def fetch_data(self) -> pd.DataFrame:
@@ -62,4 +61,6 @@ class YahooDownloader:
         # drop missing data 
         data_df = data_df.dropna()
         data_df = data_df.reset_index(drop=True)
-        return df
+        print("Shape of DataFrame: ", data_df.shape)
+        #print("Display DataFrame: ", data_df.head())
+        return data_df

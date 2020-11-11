@@ -3,7 +3,8 @@ import pathlib
 #import finrl
 
 import pandas as pd
-
+import datetime
+import os
 #pd.options.display.max_rows = 10
 #pd.options.display.max_columns = 10
 
@@ -38,7 +39,7 @@ DOW_30_TICKER = ['AAPL','MSFT','JPM','V','RTX','PG','GS','NKE','DIS','AXP',
 
 # Nasdaq 100 constituents at 2019/01/01
 nas_100_ticker = [
-'AMGN'.'AAPL','AMAT','INTC','PCAR','PAYX','MSFT','ADBE','CSCO',
+'AMGN','AAPL','AMAT','INTC','PCAR','PAYX','MSFT','ADBE','CSCO',
 'XLNX','QCOM','COST','SBUX','FISV','CTXS','INTU','AMZN','EBAY','BIIB','CHKP',
 'GILD','NLOK','CMCSA','FAST','ADSK','CTSH','CELG','NVDA','GOOGL','ISRG','VRTX',
 'HSIC','BIDU','ATVI','ADP','ROST','ORLY','TFCFA','CERN','BKNG','MYL','MU','DLTR',
