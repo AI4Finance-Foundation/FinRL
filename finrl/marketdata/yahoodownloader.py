@@ -63,4 +63,17 @@ class YahooDownloader:
         data_df = data_df.reset_index(drop=True)
         print("Shape of DataFrame: ", data_df.shape)
         #print("Display DataFrame: ", data_df.head())
+
         return data_df
+
+
+    def select_equal_rows_stock(df):
+        df_check=df.tic.value_counts()
+        df_check=pd.DataFrame(df_check).reset_index()
+        df_check.columns = ['tic','counts']
+        mean_df = df_check.counts.mean()
+        equal_list=list(df.tic.value_counts() >= mean_df)
+        names = df.tic.value_counts().index
+        select_stocks_list = list(names[equal_list])
+        df=df[df.tic.isin(select_stocks_list)]
+        return df
