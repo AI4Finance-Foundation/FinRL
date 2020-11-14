@@ -1,136 +1,154 @@
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
-from config import config
+from finrl.config import config
 
-def load_dataset(*, file_name: str) -> pd.DataFrame:
+
+class FeatureEngineer:
+    """Provides methods for retrieving daily stock data from
+    Yahoo Finance API
+
+    Attributes
+    ----------
+        df
+        feature_number : str
+            start date of the data (modified from config.py)
+        use_technical_indicator : str
+            end date of the data (modified from config.py)
+        use_turbulence : list
+            a list of stock tickers (modified from config.py)
+
+    Methods
+    -------
+    fetch_data()
+        Fetches data from yahoo API
+
     """
-    load csv dataset from path
-    :return: (df) pandas dataframe
-    """
-    #_data = pd.read_csv(f"{config.DATASET_DIR}/{file_name}")
-    _data = pd.read_csv(file_name)
-    return _data
+    def __init__(self, 
+        df,
+        feature_number = 5,
+        use_technical_indicator=True,
+        use_turbulence=False):
 
-def data_split(df,start,end):
-    """
-    split the dataset into training or testing using date
-    :param data: (df) pandas dataframe, start, end
-    :return: (df) pandas dataframe
-    """
-    data = df[(df.datadate > start) & (df.datadate < end)]
-    data=data.sort_values(['datadate','tic'],ignore_index=True)
-    #data  = data[final_columns]
-    data.index = data.datadate.factorize()[0]
-    return data
-
-def calcualte_price(df):
-    """
-    calcualte adjusted close price, open-high-low price and volume
-    :param data: (df) pandas dataframe
-    :return: (df) pandas dataframe
-    """
-    data = df.copy()
-    data = data[['datadate', 'tic', 'prccd', 'ajexdi', 'prcod', 'prchd', 'prcld', 'cshtrd']]
-    data['ajexdi'] = data['ajexdi'].apply(lambda x: 1 if x == 0 else x)
-
-    data['adjcp'] = data['prccd'] / data['ajexdi']
-    data['open'] = data['prcod'] / data['ajexdi']
-    data['high'] = data['prchd'] / data['ajexdi']
-    data['low'] = data['prcld'] / data['ajexdi']
-    data['volume'] = data['cshtrd']
-
-    data = data[['datadate', 'tic', 'adjcp', 'open', 'high', 'low', 'volume']]
-    data = data.sort_values(['tic', 'datadate'], ignore_index=True)
-    return data
-
-def add_technical_indicator(df):
-        """
-        calcualte technical indicators
-        use stockstats package to add technical inidactors
-        :param data: (df) pandas dataframe
-        :return: (df) pandas dataframe
-        """
-        stock = Sdf.retype(df.copy())
-
-        stock['close'] = stock['adjcp']
-        unique_ticker = stock.tic.unique()
-
-        macd = pd.DataFrame()
-        rsi = pd.DataFrame()
-        cci = pd.DataFrame()
-        dx = pd.DataFrame()
-
-        #temp = stock[stock.tic == unique_ticker[0]]['macd']
-        for i in range(len(unique_ticker)):
-            ## macd
-            temp_macd = stock[stock.tic == unique_ticker[i]]['macd']
-            temp_macd = pd.DataFrame(temp_macd)
-            macd = macd.append(temp_macd, ignore_index=True)
-            ## rsi
-            temp_rsi = stock[stock.tic == unique_ticker[i]]['rsi_30']
-            temp_rsi = pd.DataFrame(temp_rsi)
-            rsi = rsi.append(temp_rsi, ignore_index=True)
-            ## cci
-            temp_cci = stock[stock.tic == unique_ticker[i]]['cci_30']
-            temp_cci = pd.DataFrame(temp_cci)
-            cci = cci.append(temp_cci, ignore_index=True)
-            ## adx
-            temp_dx = stock[stock.tic == unique_ticker[i]]['dx_30']
-            temp_dx = pd.DataFrame(temp_dx)
-            dx = dx.append(temp_dx, ignore_index=True)
+        self.df = df
+        self.feature_number = feature_number
+        type_list = self.__get_type_list(feature_number)
+        self.__features = type_list
+        self.__data_columns = config.DEFAULT_DATA_COLUMNS + self.__features
+        self.use_technical_indicator = use_technical_indicator
+        self.use_turbulence=use_turbulence
 
 
-        df['macd'] = macd
-        df['rsi'] = rsi
-        df['cci'] = cci
-        df['adx'] = dx
+    def preprocess_data(self):
+        """data preprocessing pipeline"""
+        df = self.df.copy()
 
+        # add technical indicators
+        # stockstats require all 5 columns
+        if (self.use_technical_indicator==True) & (self.feature_number>=5):
+            # add technical indicators using stockstats
+            df=self.__add_technical_indicator(df)
+            print("Successfully added technical indicators")
+
+        # add turbulence index for multiple stock
+        if self.use_turbulence==True:
+            df = self.__add_turbulence(df)
+            print("Successfully added turbulence index")
+
+       
+        # fill the missing values at the beginning and the end
+        df=df.fillna(method='bfill').fillna(method="ffill")
         return df
 
 
+    def __add_technical_indicator(self, data):
+            """
+            calcualte technical indicators
+            use stockstats package to add technical inidactors
+            :param data: (df) pandas dataframe
+            :return: (df) pandas dataframe
+            """
+            df = data.copy()
+            stock = Sdf.retype(df.copy())
+            unique_ticker = stock.tic.unique()
+            tech_indicator_list = config.TECHNICAL_INDICATORS_LIST
 
-def preprocess_data():
-    """data preprocessing pipeline"""
-
-    df = load_dataset(file_name=config.TRAINING_DATA_FILE)
-    # get data after 2009
-    df = df[df.datadate>=20090000]
-    # calcualte adjusted price
-    df_preprocess = calcualte_price(df)
-    # add technical indicators using stockstats
-    df_final=add_technical_indicator(df_preprocess)
-    # fill the missing values at the beginning
-    df_final.fillna(method='bfill',inplace=True)
-    return df_final
-
-def add_turbulence(df):
-    """
-    add turbulence index from a precalcualted dataframe
-    :param data: (df) pandas dataframe
-    :return: (df) pandas dataframe
-    """
-
-    df_turbulence = pd.read_csv(config.TURBULENCE_DATA)
-    df = df.merge(df_turbulence, on='datadate')
-    return df
+            for indicator in tech_indicator_list:
+                indicator_df = pd.DataFrame()
+                for i in range(len(unique_ticker)):
+                    try:
+                        temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
+                        temp_indicator= pd.DataFrame(temp_indicator)
+                        indicator_df = indicator_df.append(temp_indicator, ignore_index=True)
+                    except Exception as e:
+                        print(e)
+                df[indicator] = indicator_df
+            return df
 
 
-    
-def get_type_list(feature_number):
-    """
-    :param feature_number: an int indicates the number of features
-    :return: a list of features n
-    """
-    if feature_number == 1:
-        type_list = ["close"]
-    elif feature_number == 2:
-        type_list = ["close", "volume"]
-        raise NotImplementedError("the feature volume is not supported currently")
-    elif feature_number == 3:
-        type_list = ["close", "high", "low"]
-    elif feature_number == 4:
-        type_list = ["close", "high", "low", "open"]
-    else:
-        raise ValueError("feature number could not be %s" % feature_number)
-    return type_list
+
+    def __add_turbulence(self, data):
+        """
+        add turbulence index from a precalcualted dataframe
+        :param data: (df) pandas dataframe
+        :return: (df) pandas dataframe
+        """
+        df = data.copy()
+        turbulence_index = self.__calcualte_turbulence(df)
+        df = df.merge(turbulence_index, on='date')
+        df = df.sort_values(['date','tic']).reset_index(drop=True)
+        return df
+
+    def __get_type_list(self, feature_number):
+        """
+        :param feature_number: an int indicates the number of features
+        :return: a list of features n
+        """
+        if feature_number == 1:
+            type_list = ["close"]
+        elif feature_number == 2:
+            type_list = ["close", "volume"]
+            #raise NotImplementedError("the feature volume is not supported currently")
+        elif feature_number == 3:
+            type_list = ["close", "high", "low"]
+        elif feature_number == 4:
+            type_list = ["close", "high", "low", "open"]
+        elif feature_number == 5:
+            type_list = ["close", "high", "low", "open","volume"]  
+        else:
+            raise ValueError("feature number could not be %s" % feature_number)
+        return type_list
+
+
+    def __calcualte_turbulence(self, data):
+        """calculate turbulence index based on dow 30"""
+        # can add other market assets
+        df = data.copy()
+        df_price_pivot=df.pivot(index='date', columns='tic', values='close')
+        unique_date = df.date.unique()
+        # start after a year
+        start = 252
+        turbulence_index = [0]*start
+        #turbulence_index = [0]
+        count=0
+        for i in range(start,len(unique_date)):
+            current_price = df_price_pivot[df_price_pivot.index == unique_date[i]]
+            hist_price = df_price_pivot[[n in unique_date[0:i] for n in df_price_pivot.index ]]
+            cov_temp = hist_price.cov()
+            current_temp=(current_price - np.mean(hist_price,axis=0))
+            temp = current_temp.values.dot(np.linalg.inv(cov_temp)).dot(current_temp.values.T)
+            if temp>0:
+                count+=1
+                if count>2:
+                    turbulence_temp = temp[0][0]
+                else:
+                    #avoid large outlier because of the calculation just begins
+                    turbulence_temp=0
+            else:
+                turbulence_temp=0
+            turbulence_index.append(turbulence_temp)
+        
+        
+        turbulence_index = pd.DataFrame({'date':df_price_pivot.index,
+                                         'turbulence':turbulence_index})
+        return turbulence_index
