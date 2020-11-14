@@ -29,8 +29,14 @@ TRAINED_MODEL_DIR = f"trained_models/{now}"
 START_DATE = "2009-01-01"
 END_DATE = "2020-11-01"
 
+## dataset default columns
+DEFAULT_DATA_COLUMNS = ['date','tic','close']
 
+## stockstats technical indicator column names
+## check https://pypi.org/project/stockstats/ for different names
+TECHNICAL_INDICATORS_LIST = ['macd', 'rsi_30', 'cci_30', 'dx_30']
 
+########################################################
 ############## Stock Ticker Setup starts ##############
 SINGLE_TICKER =['AAPL']
 
@@ -57,7 +63,7 @@ NAS_100_TICKER = [
 'TTWO','PEP','NXPI','XEL','AMD','NTAP','VRSN','LULU','WLTW','UAL'
 ]       
 
-# SP 500 constituents 
+# SP 500 constituents at 2019
 SP_500_TICKER =['A', 'AAL', 'AAP', 'AAPL', 'ABBV', 'ABC', 'ABMD', 'ABT', 'ACN',
 		       'ADBE', 'ADI', 'ADM', 'ADP', 'ADS', 'ADSK', 'AEE', 'AEP', 'AES',
 		       'AFL', 'AGN', 'AIG', 'AIV', 'AIZ', 'AJG', 'AKAM', 'ALB', 'ALGN',
@@ -123,7 +129,7 @@ HSI_50_TICKER = ['0011.HK', '0005.HK','0012.HK','0006.HK','0003.HK','0016.HK','0
 				 '1038.HK','2018.HK','0175.HK','0288.HK','1997.HK','2007.HK','2382.HK','1093.HK','1177.HK','2313.HK']
 
 # www.csindex.com.cn, for SSE and CSI adjustments
-# SSE 50 Index constituents 
+# SSE 50 Index constituents at 2019
 SSE_50_TICKER = ['600000.SS','600036.SS','600104.SS','600030.SS','601628.SS','601166.SS','601318.SS','601328.SS','601088.SS','601857.SS',
 				 '601601.SS','601668.SS','601288.SS','601818.SS','601989.SS','601398.SS','600048.SS','600028.SS','600050.SS','600519.SS',
 				 '600016.SS','600887.SS','601688.SS','601186.SS','601988.SS','601211.SS','601336.SS','600309.SS','603993.SS','600690.SS',
@@ -132,7 +138,7 @@ SSE_50_TICKER = ['600000.SS','600036.SS','600104.SS','600030.SS','601628.SS','60
 				  '601319.SS','600837.SS','600031.SS','601066.SS','600009.SS','601236.SS','601012.SS','600745.SS','600588.SS',
 				  '601658.SS','601816.SS','603160.SS']			 
 
-# CSI 300 Index constituents
+# CSI 300 Index constituents at 2019
 CSI_300_TICKER = ['600000.SS', '600004.SS', '600009.SS', '600010.SS', '600011.SS', '600015.SS', '600016.SS', '600018.SS', '600019.SS', '600025.SS', 
 				 '600027.SS', '600028.SS', '600029.SS', '600030.SS', '600031.SS', '600036.SS', '600038.SS', '600048.SS', '600050.SS', '600061.SS', 
 				 '600066.SS', '600068.SS', '600085.SS', '600089.SS', '600104.SS', '600109.SS', '600111.SS', '600115.SS', '600118.SS', '600170.SS', 
@@ -165,3 +171,4 @@ CSI_300_TICKER = ['600000.SS', '600004.SS', '600009.SS', '600010.SS', '600011.SS
 				 '300136.SZ', '300142.SZ', '300144.SZ', '300347.SZ', '300408.SZ', '300413.SZ', '300433.SZ', '300498.SZ', '300601.SZ', '300628.SZ',]
 
 ############## Stock Ticker Setup ends ##############
+########################################################

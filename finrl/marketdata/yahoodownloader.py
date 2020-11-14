@@ -42,8 +42,8 @@ class YahooDownloader:
 
         Returns
         -------
-        `pd.DataFrame`
-            A date, open, high, low, close, adjusted close price, volume and tick symbol
+        `pd.DataFrame` 
+            7 columns: A date, open, high, low, close, volume and tick symbol
             for the specified stock ticker
         """
         # Download and save the data in a pandas DataFrame:
@@ -52,11 +52,19 @@ class YahooDownloader:
             temp_df = yf.download(tic, start=self.start_date, end=self.end_date)
             temp_df['tic'] = tic
             data_df=data_df.append(temp_df)
-        # reset the index, we want to use numbers instead of dates
+        # reset the index, we want to use numbers as index instead of dates
         data_df=data_df.reset_index()
-        # convert the column names to standardized names
-        data_df.columns = ['date','open','high','low','close','adjcp','volume','tic']
-        # convert date to string format, easy to filter
+        try:
+            # convert the column names to standardized names
+            data_df.columns = ['date','open','high','low','close','adjcp','volume','tic']
+            # use adjusted close price instead of close price
+            data_df['close'] = data_df['adjcp']
+            # drop the adjusted close price column
+            data_df = data_df.drop('adjcp', 1)
+        except NotImplementedError:
+            print("the feature volume is not supported currently")
+
+        # convert date to standard string format, easy to filter
         data_df['date']=data_df.date.apply(lambda x: x.strftime('%Y-%m-%d'))
         # drop missing data 
         data_df = data_df.dropna()

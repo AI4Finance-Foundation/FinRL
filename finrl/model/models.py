@@ -15,7 +15,7 @@ from stable_baselines.common.policies import MlpPolicy
 from stable_baselines.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
 from stable_baselines.common.vec_env import DummyVecEnv
 
-from config import config
+from finrl.config import config
 
 
 

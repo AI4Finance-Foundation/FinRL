@@ -7,11 +7,11 @@ from stable_baselines.common.vec_env import DummyVecEnv
 # customized env
 from env.EnvSingleStock import StockEnv
 # preprocessor
-from preprocessing.preprocessors import *
+from finrl.preprocessing.preprocessors import *
 # config
-from config.config import *
+from finrl.config.config import *
 # model
-from model.models import *
+from finrl.model.models import *
 
 
 def run_model() -> None:
