@@ -5,66 +5,88 @@ import time
 import gym
 
 # RL models from stable-baselines
-from stable_baselines import SAC
-from stable_baselines import PPO2
-from stable_baselines import A2C
-from stable_baselines import DDPG
-from stable_baselines import TD3
-from stable_baselines.ddpg.policies import DDPGPolicy
+#from stable_baselines import SAC
+#from stable_baselines import TD3
+
 from stable_baselines.common.policies import MlpPolicy
-from stable_baselines.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
 from stable_baselines.common.vec_env import DummyVecEnv
 
 from finrl.config import config
 
 
+class DRLAgent:
+    def __init__(self, env):
+        self.env = env
 
-def train_A2C(env_train, model_name, timesteps=50000):
-    """A2C model"""
+    def train_A2C(self, model_name, a2c_params = config.A2C_PARAMS):
+        """A2C model"""
+        from stable_baselines import A2C
+        env_train = self.env
+        start = time.time()
+        model = A2C('MlpPolicy', env_train, 
+                    n_steps = a2c_params['n_steps'],
+                    ent_coef = a2c_params['ent_coef'],
+                    learning_rate = a2c_params['learning_rate'],
+                    verbose = a2c_params['verbose']
+                    )
+        model.learn(total_timesteps=a2c_params['timesteps'])
+        end = time.time()
 
-    start = time.time()
-    model = A2C('MlpPolicy', env_train, verbose=0)
-    model.learn(total_timesteps=timesteps)
-    end = time.time()
+        model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
+        print('Training time (A2C): ', (end-start)/60,' minutes')
+        return model
 
-    model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
-    print('Training time (A2C): ', (end-start)/60,' minutes')
-    return model
-
-def train_DDPG(env_train, model_name, timesteps=50000):
-    """DDPG model"""
-
-    start = time.time()
-    model = DDPG('MlpPolicy', env_train)
-    model.learn(total_timesteps=timesteps)
-    end = time.time()
-
-    model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
-    print('Training time (DDPG): ', (end-start)/60,' minutes')
-    return model
-
-def train_PPO(env_train, model_name, timesteps=50000):
-    """PPO model"""
-
-    start = time.time()
-    model = PPO2('MlpPolicy', env_train)
-    model.learn(total_timesteps=timesteps)
-    end = time.time()
-
-    model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
-    print('Training time (PPO): ', (end-start)/60,' minutes')
-    return model
+    def train_DDPG(self, model_name, ddpg_params = config.DDPG_PARAMS):
+        """DDPG model"""
+        from stable_baselines import DDPG
+        from stable_baselines.ddpg.policies import DDPGPolicy
+        from stable_baselines.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
 
 
+        env_train = self.env
 
-def DRL_prediction(model, test_data, test_env, test_obs):
-    """make a prediction"""
+        start = time.time()
+        model = DDPG('MlpPolicy', env_train,
+                    batch_size=ddpg_params['batch_size'],
+                    buffer_size=ddpg_params['buffer_size'],
+                    verbose=ddpg_params['verbose']
+                    )
+        model.learn(total_timesteps=ddpg_params['timesteps'])
+        end = time.time()
 
-    start = time.time()
-    # we can directly load a pretrained model
-    # model_a2c=A2C.load('model_single_stock/a2c_200k_all_tcost_best')
-    for i in range(len(test_data.index.unique())):
-        action, _states = model.predict(test_obs)
-        test_obs, rewards, dones, info = test_env.step(action)
-        # env_test.render()
-    end = time.time()
+        model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
+        print('Training time (DDPG): ', (end-start)/60,' minutes')
+        return model
+
+    def train_PPO(self, model_name, ppo_params = config.PPO_PARAMS):
+        """PPO model"""
+        from stable_baselines import PPO2
+        env_train = self.env
+
+        start = time.time()
+        model = PPO2('MlpPolicy', env_train,
+                     n_steps = ppo_params['n_steps'],
+                     ent_coef = ppo_params['ent_coef'],
+                     learning_rate = ppo_params['learning_rate'],
+                     nminibatches = ppo_params['nminibatches'],
+                     verbose = ppo_params['verbose']
+                     )
+        model.learn(total_timesteps=ppo_params['timesteps'])
+        end = time.time()
+
+        model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
+        print('Training time (PPO): ', (end-start)/60,' minutes')
+        return model
+
+    @staticmethod
+    def DRL_prediction(model, test_data, test_env, test_obs):
+        """make a prediction"""
+        start = time.time()
+        account_memory = []
+        for i in range(len(test_data.index.unique())):
+            action, _states = model.predict(test_obs)
+            test_obs, rewards, dones, info = test_env.step(action)
+            if i == (len(test_data.index.unique()) - 2):
+                account_memory = test_env.env_method(method_name = 'save_asset_memory')
+        end = time.time()
+        return account_memory[0]

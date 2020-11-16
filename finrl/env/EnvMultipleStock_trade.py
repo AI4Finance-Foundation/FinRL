@@ -59,6 +59,8 @@ class StockEnvTrade(gym.Env):
         # memorize all the total balance change
         self.asset_memory = [self.initial_amount]
         self.rewards_memory = []
+        self.actions_memory=[]
+        self.date_memory=[self.data.date.unique()[0]]
         #self.reset()
         self._seed()
         
@@ -119,10 +121,10 @@ class StockEnvTrade(gym.Env):
 
         if self.terminal:
             plt.plot(self.asset_memory,'r')
-            plt.savefig('results/account_value_validation_{}.png'.format(self.iteration))
+            plt.savefig('results/account_value_trade_{}.png'.format(self.iteration))
             plt.close()
             df_total_value = pd.DataFrame(self.asset_memory)
-            df_total_value.to_csv('results/account_value_validation_{}.csv'.format(self.iteration))
+            df_total_value.to_csv('results/account_value_trade_{}.csv'.format(self.iteration))
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             print("previous_total_asset:{}".format(self.asset_memory[0]))           
@@ -147,6 +149,8 @@ class StockEnvTrade(gym.Env):
 
         else:
             # print(np.array(self.state[1:29]))
+            self.date_memory.append(self.data.date.unique()[0])
+            self.actions_memory.append(actions)
 
             actions = actions * self.hmax
             #actions = (actions.astype(int))
@@ -204,6 +208,8 @@ class StockEnvTrade(gym.Env):
         self.terminal = False 
         #self.iteration=self.iteration
         self.rewards_memory = []
+        self.actions_memory=[]
+        self.date_memory=[self.data.date.unique()[0]]
         #initiate state
         self.state = [self.initial_amount] + \
                       self.data.close.values.tolist() + \
@@ -215,7 +221,14 @@ class StockEnvTrade(gym.Env):
     
     def render(self, mode='human',close=False):
         return self.state
-    
+
+    def save_asset_memory(self):
+        date_list = self.date_memory
+        asset_list = self.asset_memory
+        #print(len(date_list))
+        #print(len(asset_list))
+        df_account_value = pd.DataFrame({'date':date_list,'account_value':asset_list})
+        return df_account_value
 
     def _seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)

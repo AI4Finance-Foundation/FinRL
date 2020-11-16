@@ -20,8 +20,11 @@ TRAINING_DATA_FILE = "data/ETF_SPY_2009_2020.csv"
 TURBULENCE_DATA = "data/dow30_turbulence_index.csv"
 TESTING_DATA_FILE = "test.csv"
 
-now = datetime.datetime.now()
-TRAINED_MODEL_DIR = f"trained_models/{now}"
+#now = datetime.datetime.now()
+#TRAINED_MODEL_DIR = f"trained_models/{now}"
+DATA_SAVE_DIR = f"datasets"
+TRAINED_MODEL_DIR = f"trained_models"
+RESULTS_DIR = f"results"
 #os.makedirs(TRAINED_MODEL_DIR)
 
 
@@ -35,6 +38,24 @@ DEFAULT_DATA_COLUMNS = ['date','tic','close']
 ## stockstats technical indicator column names
 ## check https://pypi.org/project/stockstats/ for different names
 TECHNICAL_INDICATORS_LIST = ['macd', 'rsi_30', 'cci_30', 'dx_30']
+
+
+## Model Parameters
+A2C_PARAMS = {'n_steps':5, 
+			  'ent_coef':0.01, 
+			  'learning_rate':0.0007,
+			  'verbose':0,
+			  'timesteps':20000}
+PPO_PARAMS = {'n_steps':128, 
+			  'ent_coef':0.01, 
+			  'learning_rate':0.00025,   
+			  'nminibatches':4,
+			  'verbose':0,
+			  'timesteps':20000}
+DDPG_PARAMS = {'batch_size':128, 
+			   'buffer_size':50000,
+			   'verbose':0,
+			   'timesteps':20000}
 
 ########################################################
 ############## Stock Ticker Setup starts ##############

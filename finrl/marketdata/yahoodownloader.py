@@ -62,7 +62,7 @@ class YahooDownloader:
             # drop the adjusted close price column
             data_df = data_df.drop('adjcp', 1)
         except NotImplementedError:
-            print("the feature volume is not supported currently")
+            print("the features are not supported currently")
 
         # convert date to standard string format, easy to filter
         data_df['date']=data_df.date.apply(lambda x: x.strftime('%Y-%m-%d'))
