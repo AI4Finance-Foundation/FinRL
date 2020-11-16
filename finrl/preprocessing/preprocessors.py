@@ -36,11 +36,15 @@ class FeatureEngineer:
         self.__features = type_list
         self.__data_columns = config.DEFAULT_DATA_COLUMNS + self.__features
         self.use_technical_indicator = use_technical_indicator
+        self.tech_indicator_list = config.TECHNICAL_INDICATORS_LIST
         self.use_turbulence=use_turbulence
 
 
     def preprocess_data(self):
-        """data preprocessing pipeline"""
+        """main method to do the feature engineering
+        @:param config: source dataframe
+        @:return: a DataMatrices object
+        """
         df = self.df.copy()
 
         # add technical indicators
@@ -71,9 +75,8 @@ class FeatureEngineer:
             df = data.copy()
             stock = Sdf.retype(df.copy())
             unique_ticker = stock.tic.unique()
-            tech_indicator_list = config.TECHNICAL_INDICATORS_LIST
 
-            for indicator in tech_indicator_list:
+            for indicator in self.tech_indicator_list:
                 indicator_df = pd.DataFrame()
                 for i in range(len(unique_ticker)):
                     try:
