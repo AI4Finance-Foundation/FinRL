@@ -1,12 +1,14 @@
-# Model Building Requirements
+# data handling
 numpy==1.16.4
 pandas==1.0.3
 stockstats
+yfinance
+
+# Model Building Requirements
 scikit-learn==0.21.0
 gym==0.15.3
 stable-baselines[mpi]
 tensorflow==1.15.4
-
 joblib==0.15.1
 
 # plot
