@@ -227,7 +227,7 @@ class StockEnvTrade(gym.Env):
         asset_list = self.asset_memory
         #print(len(date_list))
         #print(len(asset_list))
-        df_account_value = pd.DataFrame({'Date':date_list,'account_value':asset_list})
+        df_account_value = pd.DataFrame({'date':date_list,'account_value':asset_list})
         return df_account_value
 
     def _seed(self, seed=None):
