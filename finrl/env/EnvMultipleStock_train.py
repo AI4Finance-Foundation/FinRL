@@ -96,15 +96,15 @@ class StockEnvTrain(gym.Env):
         # print(actions)
 
         if self.terminal:
-            plt.plot(self.asset_memory,'r')
-            plt.savefig('results/account_value_train.png')
-            plt.close()
+            #plt.plot(self.asset_memory,'r')
+            #plt.savefig('results/account_value_train.png')
+            #plt.close()
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             
             #print("end_total_asset:{}".format(end_total_asset))
             df_total_value = pd.DataFrame(self.asset_memory)
-            df_total_value.to_csv('results/account_value_train.csv')
+            #df_total_value.to_csv('results/account_value_train.csv')
             #print("total_reward:{}".format(self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):61]))- self.initial_amount ))
             #print("total_cost: ", self.cost)
             #print("total_trades: ", self.trades)

@@ -120,11 +120,11 @@ class StockEnvTrade(gym.Env):
         # print(actions)
 
         if self.terminal:
-            plt.plot(self.asset_memory,'r')
-            plt.savefig('results/account_value_trade_{}.png'.format(self.iteration))
-            plt.close()
+            #plt.plot(self.asset_memory,'r')
+            #plt.savefig('results/account_value_trade_{}.png'.format(self.iteration))
+            #plt.close()
             df_total_value = pd.DataFrame(self.asset_memory)
-            df_total_value.to_csv('results/account_value_trade_{}.csv'.format(self.iteration))
+            #df_total_value.to_csv('results/account_value_trade_{}.csv'.format(self.iteration))
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             print("previous_total_asset:{}".format(self.asset_memory[0]))           
