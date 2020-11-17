@@ -18,25 +18,25 @@ class DRLAgent:
     def __init__(self, env):
         self.env = env
 
-    def train_A2C(self, model_name, a2c_params = config.A2C_PARAMS):
+    def train_A2C(self, model_name, model_params = config.A2C_PARAMS):
         """A2C model"""
         from stable_baselines import A2C
         env_train = self.env
         start = time.time()
         model = A2C('MlpPolicy', env_train, 
-                    n_steps = a2c_params['n_steps'],
-                    ent_coef = a2c_params['ent_coef'],
-                    learning_rate = a2c_params['learning_rate'],
-                    verbose = a2c_params['verbose']
+                    n_steps = model_params['n_steps'],
+                    ent_coef = model_params['ent_coef'],
+                    learning_rate = model_params['learning_rate'],
+                    verbose = model_params['verbose']
                     )
-        model.learn(total_timesteps=a2c_params['timesteps'])
+        model.learn(total_timesteps=model_params['timesteps'])
         end = time.time()
 
         model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
         print('Training time (A2C): ', (end-start)/60,' minutes')
         return model
 
-    def train_DDPG(self, model_name, ddpg_params = config.DDPG_PARAMS):
+    def train_DDPG(self, model_name, model_params = config.DDPG_PARAMS):
         """DDPG model"""
         from stable_baselines import DDPG
         from stable_baselines.ddpg.policies import DDPGPolicy
@@ -47,31 +47,31 @@ class DRLAgent:
 
         start = time.time()
         model = DDPG('MlpPolicy', env_train,
-                    batch_size=ddpg_params['batch_size'],
-                    buffer_size=ddpg_params['buffer_size'],
-                    verbose=ddpg_params['verbose']
+                    batch_size=model_params['batch_size'],
+                    buffer_size=model_params['buffer_size'],
+                    verbose=model_params['verbose']
                     )
-        model.learn(total_timesteps=ddpg_params['timesteps'])
+        model.learn(total_timesteps=model_params['timesteps'])
         end = time.time()
 
         model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
         print('Training time (DDPG): ', (end-start)/60,' minutes')
         return model
 
-    def train_PPO(self, model_name, ppo_params = config.PPO_PARAMS):
+    def train_PPO(self, model_name, model_params = config.PPO_PARAMS):
         """PPO model"""
         from stable_baselines import PPO2
         env_train = self.env
 
         start = time.time()
         model = PPO2('MlpPolicy', env_train,
-                     n_steps = ppo_params['n_steps'],
-                     ent_coef = ppo_params['ent_coef'],
-                     learning_rate = ppo_params['learning_rate'],
-                     nminibatches = ppo_params['nminibatches'],
-                     verbose = ppo_params['verbose']
+                     n_steps = model_params['n_steps'],
+                     ent_coef = model_params['ent_coef'],
+                     learning_rate = model_params['learning_rate'],
+                     nminibatches = model_params['nminibatches'],
+                     verbose = model_params['verbose']
                      )
-        model.learn(total_timesteps=ppo_params['timesteps'])
+        model.learn(total_timesteps=model_params['timesteps'])
         end = time.time()
 
         model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
