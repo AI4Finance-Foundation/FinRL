@@ -18,6 +18,13 @@ Xiao-Yang Liu, Hongyang Yang, Shan Zhong, and Anwar Walid. 2020. Deep Reinforcem
 
 ## [Our Medium Blog]()
 ## Installation:
+
+Clone this repository
+```shell
+git clone https://github.com/AI4Finance-LLC/FinRL-Library.git
+```
+
+Install the unstable development version of FinRL:
 ```shell
 pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
