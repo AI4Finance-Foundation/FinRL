@@ -1,7 +1,6 @@
 # FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
 This repository refers to the codes for our [paper]() that appears at Deep RL Workshop, NeurIPS 2020
 
-
 ## Abstract
 As deep reinforcement learning (DRL) has been recognized as an effective approach in quantitative finance, getting hands-on experiences is attractive to begin-ners. However, to train a practical DRL trading agent that decides where to trade, at what price, and what quantity involves error-prone and arduous developmentand debugging. 
 
@@ -14,12 +13,31 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 <img src=figs/stock_trading.png width="600">
 
 ## Guiding principles
-- **Completeness.** Our library shall cover components of the DRL framework completely,which is a fundamental requirement;
+- **Completeness.** Our library shall cover components of the DRL framework completely, which is a fundamental requirement;
 - **Hands-on tutorials.** We aim for a library that is friendly to beginners. Tutorials withdetailed walk-through will help users to explore the functionalities of our library;
 - **Reproducibility.** Our library shall guarantee reproducibility to ensure the transparency andalso provide users with confidence in what they have done.
 
-## Reference
-Xiao-Yang Liu, Hongyang Yang, Shan Zhong, and Anwar Walid. 2020. Deep Reinforcement Learning for Automated Stock Trading: An Ensemble Strategy. In ICAIF ’20: ACM International Conference on AI in Finance, Oct. 15–16, 2020, Manhattan, NY. ACM, New York, NY, USA.
+## Contributions
+- FinRL is an open source library specifically designed and implemented for quantitativefinance. Trading environments incorporating market frictions are used and provided.
+- Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
+- FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
+- Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
+
+## Architecture of the FinRL library
+- **Three-layer architecture:** The three layers of FinRL library are stock market environment,DRL trading agent,  and stock trading applications. The agent layer interacts with theenvironment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layerprovides APIs for the upper layer, making the lower layer transparent to the upper layer.
+- **Modularity:** Each layer includes several modules and each module defines a separatefunction. One can select certain modules from any layer to implement his/her stock tradingtask. Furthermore, updating existing modules is possible.
+- **Simplicity, Applicability and Extendibility:** Specifically designed for automated stocktrading, FinRL presents DRL algorithms as modules. In this way, FinRL is made accessibleyet not demanding.  FinRL provides three trading tasks as use cases that can be easilyreproduced. Each layer includes reserved interfaces that allow users to develop new modules.
+- **Better Market Environment Modeling:** We build a trading simulator that replicates livestock market and provides backtesting support that incorporates important market frictionssuch as transaction cost, market liquidity and the investor’s degree of risk-aversion. All ofthose are crucial among key determinants of net returns.
+
+
+## Citing FinRL
+@article{tensorlayer2017,
+    author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
+    journal = {Deep RL Workshop, NeurIPS 2020},
+    title   = {{FinRL: A Deep Reinforcement Learning Library forAutomated Stock Trading in Quantitative Finance}},
+    url     = {http://tensorlayer.org},
+    year    = {2020}
+}
 
 ## [Our Medium Blog]()
 ## Installation:
