@@ -13,6 +13,11 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 
 <img src=figs/stock_trading.png width="600">
 
+## Guiding principles
+- **Completeness.** Our library shall cover components of the DRL framework completely,which is a fundamental requirement;
+- **Hands-on tutorials.** We aim for a library that is friendly to beginners. Tutorials withdetailed walk-through will help users to explore the functionalities of our library;
+- **Reproducibility.** Our library shall guarantee reproducibility to ensure the transparency andalso provide users with confidence in what they have done.
+
 ## Reference
 Xiao-Yang Liu, Hongyang Yang, Shan Zhong, and Anwar Walid. 2020. Deep Reinforcement Learning for Automated Stock Trading: An Ensemble Strategy. In ICAIF ’20: ACM International Conference on AI in Finance, Oct. 15–16, 2020, Manhattan, NY. ACM, New York, NY, USA.
 
