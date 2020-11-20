@@ -17,11 +17,7 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 - **Hands-on tutorials.** We aim for a library that is friendly to beginners. Tutorials withdetailed walk-through will help users to explore the functionalities of our library;
 - **Reproducibility.** Our library shall guarantee reproducibility to ensure the transparency andalso provide users with confidence in what they have done.
 
-## Contributions
-- FinRL is an open source library specifically designed and implemented for quantitativefinance. Trading environments incorporating market frictions are used and provided.
-- Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
-- FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
-- Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
+
 
 ## Architecture of the FinRL library
 - **Three-layer architecture:** The three layers of FinRL library are stock market environment,DRL trading agent,  and stock trading applications. The agent layer interacts with theenvironment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layerprovides APIs for the upper layer, making the lower layer transparent to the upper layer.
@@ -30,16 +26,6 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 - **Better Market Environment Modeling:** We build a trading simulator that replicates livestock market and provides backtesting support that incorporates important market frictionssuch as transaction cost, market liquidity and the investor’s degree of risk-aversion. All ofthose are crucial among key determinants of net returns.
 
 
-## Citing FinRL
-```
-@article{tensorlayer2017,
-    author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
-    journal = {Deep RL Workshop, NeurIPS 2020},
-    title   = {{FinRL: A Deep Reinforcement Learning Library forAutomated Stock Trading in Quantitative Finance}},
-    url     = {},
-    year    = {2020}
-}
-```
 
 ## [Our Medium Blog]()
 ## Installation:
@@ -157,3 +143,19 @@ The stock data we use is pulled from Yahoo Finance API
 
 ## Performance
 <img src=figs/performance.png>
+
+## Contributions
+- FinRL is an open source library specifically designed and implemented for quantitativefinance. Trading environments incorporating market frictions are used and provided.
+- Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
+- FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
+- Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
+## Citing FinRL
+```
+@article{tensorlayer2017,
+    author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
+    journal = {Deep RL Workshop, NeurIPS 2020},
+    title   = {{FinRL: A Deep Reinforcement Learning Library forAutomated Stock Trading in Quantitative Finance}},
+    url     = {},
+    year    = {2020}
+}
+```
