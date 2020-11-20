@@ -1,5 +1,5 @@
 # FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
-This repository refers to the codes for [Deep RL Workshop, NeurIPS 2020]()
+This repository refers to the codes for our [paper]() that appears at Deep RL Workshop, NeurIPS 2020
 
 
 ## Abstract
