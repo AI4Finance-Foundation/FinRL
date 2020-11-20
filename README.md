@@ -31,13 +31,15 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 
 
 ## Citing FinRL
+```
 @article{tensorlayer2017,
     author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
     journal = {Deep RL Workshop, NeurIPS 2020},
     title   = {{FinRL: A Deep Reinforcement Learning Library forAutomated Stock Trading in Quantitative Finance}},
-    url     = {http://tensorlayer.org},
+    url     = {},
     year    = {2020}
 }
+```
 
 ## [Our Medium Blog]()
 ## Installation:
