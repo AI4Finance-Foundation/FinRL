@@ -3,6 +3,7 @@ numpy==1.19.4
 pandas==1.1.4
 stockstats
 yfinance
+git+https://github.com/quantopian/pyfolio
 
 # Model Building Requirements
 scikit-learn==0.21.0
