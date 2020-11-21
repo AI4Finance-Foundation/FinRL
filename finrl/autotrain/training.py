@@ -59,4 +59,5 @@ def train_one():
 
     print("==============Get Backtest Results===========")
     perf_stats_all = BackTestStats(df_account_value)
-    print(perf_stats_all)
+    perf_stats_all = pd.DataFrame(perf_stats_all)
+    perf_stats_all.to_csv("./"+config.RESULTS_DIR+"/perf_stats_all_"+now+'.csv')

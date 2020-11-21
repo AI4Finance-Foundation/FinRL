@@ -41,7 +41,7 @@ class EnvSetup:
         self.action_space = self.stock_dim
 
 
-    def create_env_training(self, data, env_class):
+    def create_env_training(self, data, env_class, turbulence_threshold=150):
         env_train = DummyVecEnv([lambda: env_class(df = data,
                                                     stock_dim = self.stock_dim,
                                                     hmax = self.hmax,
@@ -50,7 +50,8 @@ class EnvSetup:
                                                     reward_scaling = self.reward_scaling,
                                                     state_space = self.state_space,
                                                     action_space = self.action_space,
-                                                    tech_indicator_list = self.tech_indicator_list)])
+                                                    tech_indicator_list = self.tech_indicator_list,
+                                                    turbulence_threshold = turbulence_threshold)])
         return env_train
 
 
@@ -64,7 +65,7 @@ class EnvSetup:
                                             state_space = self.state_space,
                                             action_space = self.action_space,
                                             tech_indicator_list = self.tech_indicator_list,
-                                            turbulence_threshold=self.turbulence_threshold)])
+                                            turbulence_threshold = turbulence_threshold)])
         obs_validation = env_validation.reset()
 
 
