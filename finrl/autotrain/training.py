@@ -57,6 +57,6 @@ def train_one():
                             test_obs = obs_trade)
     df_account_value.to_csv("./"+config.RESULTS_DIR+"/"+now+'.csv')
 
-    print("==============Get backtest results===========")
+    print("==============Get Backtest Results===========")
     perf_stats_all = BackTestStats(df_account_value)
     print(perf_stats_all)
