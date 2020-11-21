@@ -10,7 +10,7 @@ FinRL is featured with completeness, hands-on tutorial and reproducibility that 
 
 Furthermore, we incorporated three application demonstrations, namely single stock trading, multiple stock trading, and portfolio allocation. 
 
-<img src=figs/stock_trading.png width="600">
+
 
 ## Guiding principles
 - **Completeness.** Our library shall cover components of the DRL framework completely, which is a fundamental requirement;
@@ -25,7 +25,7 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 - **Simplicity, Applicability and Extendibility:** Specifically designed for automated stocktrading, FinRL presents DRL algorithms as modules. In this way, FinRL is made accessibleyet not demanding.  FinRL provides three trading tasks as use cases that can be easilyreproduced. Each layer includes reserved interfaces that allow users to develop new modules.
 - **Better Market Environment Modeling:** We build a trading simulator that replicates livestock market and provides backtesting support that incorporates important market frictionssuch as transaction cost, market liquidity and the investor’s degree of risk-aversion. All ofthose are crucial among key determinants of net returns.
 
-
+<img src=figs/FinRL-Architecture.png width="600">
 
 ## [Our Medium Blog]()
 ## Installation:
