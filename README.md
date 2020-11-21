@@ -151,7 +151,7 @@ The stock data we use is pulled from Yahoo Finance API
 - Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
 ## Citing FinRL
 ```
-@article{tensorlayer2017,
+@article{finrl2020,
     author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
     journal = {Deep RL Workshop, NeurIPS 2020},
     title   = {{FinRL: A Deep Reinforcement Learning Library forAutomated Stock Trading in Quantitative Finance}},
