@@ -1,79 +1,62 @@
+import pandas as pd
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('Agg')
+import datetime
 
-
-import logging
-import os
-import time
-from multiprocessing import Process
-from finrl.model.models import DRLAgent
 from finrl.config import config
+from finrl.marketdata.yahoodownloader import YahooDownloader
+from finrl.preprocessing.preprocessors import FeatureEngineer
+from finrl.preprocessing.data import data_split
+from finrl.env.environment import EnvSetup
+from finrl.env.EnvMultipleStock_train import StockEnvTrain
+from finrl.env.EnvMultipleStock_trade import StockEnvTrade
+from finrl.model.models import DRLAgent
+from finrl.trade.backtest import BackTestStats
 
 
-def train_one(save_path, config, log_file_dir, index, logfile_level, console_level, device):
+
+def train_one():
     """
     train an agent
-    :param save_path: the path to save the tensorflow model (.ckpt), could be None
-    :param config: the json configuration file
-    :param log_file_dir: the directory to save the tensorboard logging file, could be None
-    :param index: identifier of this train, which is also the sub directory in the train_package,
-    if it is 0. nothing would be saved into the summary file.
-    :param logfile_level: logging level of the file
-    :param console_level: logging level of the console
-    :param device: 0 or 1 to show which gpu to use, if 0, means use cpu instead of gpu
-    :return : the Result namedtuple
     """
-    if log_file_dir:
-        logging.basicConfig(filename=log_file_dir.replace("tensorboard","programlog"),
-                            level=logfile_level)
-        console = logging.StreamHandler()
-        console.setLevel(console_level)
-        logging.getLogger().addHandler(console)
-    print("training at %s started" % index)
-    return TraderTrainer(config, save_path=save_path, device=device).train_net(log_file_dir=log_file_dir, index=index)
+    print("==============Start Fetching Data===========")
+    df = YahooDownloader(start_date = config.START_DATE,
+                     end_date = config.END_DATE,
+                     ticker_list = config.DOW_30_TICKER).fetch_data()
+    print("==============Start Feature Engineering===========")
+    df = FeatureEngineer(df,feature_number=5,
+                        use_technical_indicator=True,
+                        use_turbulence=True).preprocess_data()
 
-def train_all(processes=1, device="cpu"):
-    """
-    train all the agents in the train_package folders
 
-    :param processes: the number of the processes. If equal to 1, the logging level is debug
-                      at file and info at console. If greater than 1, the logging level is
-                      info at file and warming at console.
-    """
-    if processes == 1:
-        console_level = logging.INFO
-        logfile_level = logging.DEBUG
-    else:
-        console_level = logging.WARNING
-        logfile_level = logging.INFO
-    train_dir = "train_package"
-    if not os.path.exists("./" + train_dir): #if the directory does not exist, creates one
-        os.makedirs("./" + train_dir)
-    all_subdir = os.listdir("./" + train_dir)
-    all_subdir.sort()
-    pool = []
-    for dir in all_subdir:
-        # train only if the log dir does not exist
-        if not str.isdigit(dir):
-            return
-        # NOTE: logfile is for compatibility reason
-        if not (os.path.isdir("./"+train_dir+"/"+dir+"/tensorboard") or os.path.isdir("./"+train_dir+"/"+dir+"/logfile")):
-            p = Process(target=train_one, args=(
-                "./" + train_dir + "/" + dir + "/netfile",
-                load_config(dir),
-                "./" + train_dir + "/" + dir + "/tensorboard",
-                dir, logfile_level, console_level, device))
-            p.start()
-            pool.append(p)
-        else:
-            continue
+    train = data_split(df, config.START_DATE,config.START_TRADE_DATE)
+    trade = data_split(df,config.START_TRADE_DATE,config.END_DATE)
+    env_setup = EnvSetup(stock_dim = len(train.tic.unique()))
+    env_train = env_setup.create_env_training(data = train,
+                                          env_class = StockEnvTrain)
+    agent = DRLAgent(env = env_train)
+    print("==============Model Training===========")
+    now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
+    a2c_params_tuning = {'n_steps':5, 
+                  'ent_coef':0.005, 
+                  'learning_rate':0.0007,
+                  'verbose':0,
+                  'timesteps':100000}
+    model_a2c = agent.train_A2C(model_name = "A2C_{}".format(now), a2c_params = a2c_params_tuning)
 
-        # suspend if the processes are too many
-        wait = True
-        while wait:
-            time.sleep(5)
-            for p in pool:
-                alive = p.is_alive()
-                if not alive:
-                    pool.remove(p)
-            if len(pool)<processes:
-                wait = False
-    print("All the Tasks are Over")
+    print("==============Start Trading===========")
+    env_trade, obs_trade = env_setup.create_env_trading(data = trade,
+                                         env_class = StockEnvTrade,
+                                         turbulence_threshold=250) 
+
+    df_account_value = DRLAgent.DRL_prediction(model=model_a2c,
+                            test_data = trade,
+                            test_env = env_trade,
+                            test_obs = obs_trade)
+    df_account_value.to_csv("./"+config.RESULTS_DIR+"/"+now+'.csv')
+
+    print("==============Get backtest results===========")
+    perf_stats_all = BackTestStats(df_account_value)
+    print(perf_stats_all)

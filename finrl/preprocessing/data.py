@@ -30,18 +30,3 @@ def convert_to_datetime(time):
         return datetime.datetime.strptime(time, time_fmt)
 
 
-def panel_fillna(panel, type="bfill"):
-    """
-    fill nan along the 3rd axis
-    :param panel: the panel to be filled
-    :param type: bfill or ffill
-    """
-    frames = {}
-    for item in panel.items:
-        if type == "both":
-            frames[item] = panel.loc[item].fillna(axis=1, method="bfill").\
-                fillna(axis=1, method="ffill")
-        else:
-            frames[item] = panel.loc[item].fillna(axis=1, method=type)
-    return pd.Panel(frames)
-
