@@ -24,6 +24,9 @@ setup(
     license = "MIT" ,
     packages = find_packages(),
     install_requires=REQUIRES,
+    dependency_links=[
+        'git+https://github.com/quantopian/pyfolio.git#egg=pyfolio'
+    ],
     description = "FinRL library, a Deep Reinforcement Learning library designed specifically for automated stock trading.",
     classifiers = [
         # Trove classifiers
