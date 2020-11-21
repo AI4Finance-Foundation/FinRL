@@ -1,5 +1,5 @@
 # FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
-This repository refers to the codes for our [paper]() that appears at Deep RL Workshop, NeurIPS 2020
+This repository refers to the codes for our [paper](https://arxiv.org/abs/2011.09607) that appears at Deep RL Workshop, NeurIPS 2020
 
 ## Abstract
 As deep reinforcement learning (DRL) has been recognized as an effective approach in quantitative finance, getting hands-on experiences is attractive to begin-ners. However, to train a practical DRL trading agent that decides where to trade, at what price, and what quantity involves error-prone and arduous developmentand debugging. 
