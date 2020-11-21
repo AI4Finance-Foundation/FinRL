@@ -44,7 +44,7 @@ def train_one():
                   'learning_rate':0.0007,
                   'verbose':0,
                   'timesteps':100000}
-    model_a2c = agent.train_A2C(model_name = "A2C_{}".format(now), a2c_params = a2c_params_tuning)
+    model_a2c = agent.train_A2C(model_name = "A2C_{}".format(now), model_params = a2c_params_tuning)
 
     print("==============Start Trading===========")
     env_trade, obs_trade = env_setup.create_env_trading(data = trade,
