@@ -77,7 +77,7 @@ Virtualenvs are essentially folders that have copies of python executable and al
 
 **Virtualenvs can also avoid packages conflicts.**
 
-Create a virtualenv **venv** under folder /Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020
+Create a virtualenv **venv** under folder /FinRL-Library
 ```bash
 virtualenv -p python3 venv
 ```
