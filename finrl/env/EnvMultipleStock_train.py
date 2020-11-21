@@ -21,6 +21,7 @@ class StockEnvTrain(gym.Env):
                 state_space,
                 action_space,
                 tech_indicator_list,
+                turbulence_threshold,
                 day = 0):
         #super(StockEnv, self).__init__()
         #money = 10 , scope = 1
