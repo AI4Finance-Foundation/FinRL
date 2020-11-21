@@ -119,13 +119,12 @@ Please read the [documentation](https://stable-baselines.readthedocs.io/) for mo
 
 ## Run 
 ```shell
-python main.py
+python main.py --mode=train
 ```
 ## Backtesting
 
 Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do the backtesting.
 
-[Backtesting script]()
 
 ## Status
 
