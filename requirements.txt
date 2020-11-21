@@ -3,7 +3,7 @@ numpy>=1.16.0,<1.19.0
 pandas==1.1.4
 stockstats
 yfinance
-pyfolio==0.9.2
+pyfolio>0.9
 
 # Model Building Requirements
 scikit-learn==0.21.0
