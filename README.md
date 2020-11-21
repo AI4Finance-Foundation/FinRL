@@ -69,7 +69,7 @@ cd into this repository
 ```bash
 cd Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020
 ```
-Under folder /Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020, create a virtual environment
+Under folder /FinRL-Library, create a virtual environment
 ```bash
 pip install virtualenv
 ```
