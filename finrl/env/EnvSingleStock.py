@@ -56,6 +56,8 @@ class SingleStockEnv(gym.Env):
         # memorize all the total balance change
         self.asset_memory = [self.initial_amount]
         self.rewards_memory = []
+        self.actions_memory=[]
+        self.date_memory=[self.data.date]
         self.trades = 0
         #self.reset()
         self._seed()
@@ -128,6 +130,8 @@ class SingleStockEnv(gym.Env):
 
         else:
             # print(np.array(self.state[1:29]))
+            self.date_memory.append(self.data.date)
+            self.actions_memory.append(actions)
 
             actions = actions * self.hmax
             #actions = (actions.astype(int))
@@ -181,6 +185,8 @@ class SingleStockEnv(gym.Env):
         self.trades = 0
         self.terminal = False 
         self.rewards_memory = []
+        self.actions_memory=[]
+        self.date_memory=[self.data.date]
         #initiate state
         self.state = [self.initial_amount] + \
                       [self.data.close] + \
@@ -191,6 +197,14 @@ class SingleStockEnv(gym.Env):
     
     def render(self, mode='human'):
         return self.state
+    
+    def save_asset_memory(self):
+        date_list = self.date_memory
+        asset_list = self.asset_memory
+        #print(len(date_list))
+        #print(len(asset_list))
+        df_account_value = pd.DataFrame({'date':date_list,'account_value':asset_list})
+        return df_account_value
 
     def _seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)

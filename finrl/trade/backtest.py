@@ -20,11 +20,11 @@ def BackTestStats(account_value):
     return perf_stats_all
 
 
-def BackTestPlot(account_value):
+def BackTestPlot(account_value, baseline_ticker = '^DJI'):
     df = account_value.copy()
     df=get_daily_return(df)
 
-    dji, dow_strat = baseline_strat()
+    dji, dow_strat = baseline_strat(ticker = baseline_ticker)
     df['date'] = dji['date']
     df=df.dropna()
     
@@ -45,7 +45,7 @@ def backtest_strat(df):
     return ts
 
 
-def baseline_strat(ticker='^DJI'):
+def baseline_strat(ticker):
     dji = YahooDownloader(start_date = "2019-01-02",
                      end_date = "2020-10-30",
                      ticker_list = [ticker]).fetch_data()
