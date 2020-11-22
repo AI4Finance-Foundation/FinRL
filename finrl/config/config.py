@@ -58,6 +58,11 @@ DDPG_PARAMS = {'batch_size':128,
 			   'buffer_size':50000,
 			   'verbose':0,
 			   'timesteps':20000}
+TD3_PARAMS = {'batch_size':128, 
+			   'buffer_size':50000,
+			   'learning_rate':1e-4,
+			   'verbose':0,
+			   'timesteps':20000}
 
 ########################################################
 ############## Stock Ticker Setup starts ##############
