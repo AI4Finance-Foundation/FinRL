@@ -137,8 +137,7 @@ Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do 
 
 ## Data
 The stock data we use is pulled from Yahoo Finance API
-<img src=figs/data.PNG width="500">
-
+<img src=figs/example_data.PNG width="800">
 
 ## Performance
 <img src=figs/performance.png>
