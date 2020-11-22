@@ -141,7 +141,7 @@ The stock data we use is pulled from Yahoo Finance API
 <img src=figs/example_data.PNG width="600">
 
 ## Performance
-<img src=figs/performance.png>
+<img src=figs/performance.PNG>
 
 ## Contributions
 - FinRL is an open source library specifically designed and implemented for quantitativefinance. Trading environments incorporating market frictions are used and provided.
