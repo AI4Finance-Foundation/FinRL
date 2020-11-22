@@ -130,9 +130,6 @@ Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do 
 
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
-
-* 1.0.1
-	Changes: added ensemble strategy
 * 0.0.1
     Simple version
 </div>
