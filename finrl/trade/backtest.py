@@ -6,6 +6,7 @@ import pyfolio
 import matplotlib.pyplot as plt
 
 from finrl.marketdata.yahoodownloader import YahooDownloader
+from finrl.config import config
 
 
 def BackTestStats(account_value):
@@ -20,11 +21,17 @@ def BackTestStats(account_value):
     return perf_stats_all
 
 
-def BackTestPlot(account_value, baseline_ticker = '^DJI'):
-    df = account_value.copy()
-    df=get_daily_return(df)
+def BackTestPlot(account_value, 
+                 baseline_start = config.START_TRADE_DATE, 
+                 baseline_end = config.END_DATE, 
+                 baseline_ticker = '^DJI'):
 
-    dji, dow_strat = baseline_strat(ticker = baseline_ticker)
+    df = account_value.copy()
+    df = get_daily_return(df)
+
+    dji, dow_strat = baseline_strat(ticker = baseline_ticker, 
+                                    start = baseline_start, 
+                                    end = baseline_end)
     df['date'] = dji['date']
     df=df.dropna()
     
@@ -45,9 +52,9 @@ def backtest_strat(df):
     return ts
 
 
-def baseline_strat(ticker):
-    dji = YahooDownloader(start_date = "2019-01-02",
-                     end_date = "2020-10-30",
+def baseline_strat(ticker, start, end):
+    dji = YahooDownloader(start_date = start,
+                     end_date = end,
                      ticker_list = [ticker]).fetch_data()
     dji['daily_return']=dji['close'].pct_change(1)
     dow_strat = backtest_strat(dji)
