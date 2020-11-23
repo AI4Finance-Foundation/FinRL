@@ -20,6 +20,19 @@ def BackTestStats(account_value):
     print(perf_stats_all)
     return perf_stats_all
 
+def BaselineStats(baseline_ticker = '^DJI', 
+                  baseline_start = config.START_TRADE_DATE, 
+                  baseline_end = config.END_DATE):
+
+    dji, dow_strat = baseline_strat(ticker = baseline_ticker, 
+                                    start = baseline_start, 
+                                    end = baseline_end)
+    perf_func = timeseries.perf_stats 
+    perf_stats_all = perf_func( returns=dow_strat, 
+                                factor_returns=dow_strat, 
+                                 positions=None, transactions=None, turnover_denom="AGB")
+    print(perf_stats_all)
+    return perf_stats_all
 
 def BackTestPlot(account_value, 
                  baseline_start = config.START_TRADE_DATE, 
