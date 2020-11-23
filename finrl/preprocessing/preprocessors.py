@@ -5,23 +5,23 @@ from finrl.config import config
 
 
 class FeatureEngineer:
-    """Provides methods for retrieving daily stock data from
-    Yahoo Finance API
+    """Provides methods for preprocessing the stock price data
 
     Attributes
     ----------
-        df
-        feature_number : str
-            start date of the data (modified from config.py)
-        use_technical_indicator : str
-            end date of the data (modified from config.py)
-        use_turbulence : list
-            a list of stock tickers (modified from config.py)
+        df: DataFrame
+            data downloaded from Yahoo API
+        feature_number : int
+            number of features we used
+        use_technical_indicator : boolean
+            we technical indicator or not
+        use_turbulence : boolean
+            use turbulence index or not
 
     Methods
     -------
-    fetch_data()
-        Fetches data from yahoo API
+    preprocess_data()
+        main method to do the feature engineering
 
     """
     def __init__(self, 
