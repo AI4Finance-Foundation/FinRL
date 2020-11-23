@@ -86,7 +86,7 @@ class DRLAgent:
 
 
     def train_TD3(self, model_name, model_params = config.TD3_PARAMS):
-        """DDPG model"""
+        """TD3 model"""
         from stable_baselines import TD3
         from stable_baselines.common.noise import NormalActionNoise
 
