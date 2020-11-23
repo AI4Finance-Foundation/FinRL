@@ -15,6 +15,24 @@ from finrl.config import config
 
 
 class DRLAgent:
+    """Provides implementations for DRL algorithms
+
+    Attributes
+    ----------
+        env: gym environment class
+            user-defined class
+
+    Methods
+    -------
+    train_PPO()
+        the implementation for PPO algorithm
+    train_A2C()
+        the implementation for A2C algorithm
+    train_DDPG()
+        the implementation for DDPG algorithm
+     train_TD3()
+        the implementation for TD3 algorithm       
+    """
     def __init__(self, env):
         self.env = env
 
