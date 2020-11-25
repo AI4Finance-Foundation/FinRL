@@ -137,7 +137,7 @@ Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do 
 ## Data
 The stock data we use is pulled from Yahoo Finance API
 
-(The following time line is used in the paper; users update to new time windows.)
+(The following time line is used in the paper; users can update to new time windows.)
 
 <img src=figs/example_data.PNG width="600">
 
