@@ -1,10 +1,10 @@
 # FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
-This repository refers to the codes for [our paper](https://arxiv.org/abs/2011.09607) that appears at Deep RL Workshop, NeurIPS 2020
+This repository includes the codes for [our paper](https://arxiv.org/abs/2011.09607) that appears at Deep RL Workshop, NeurIPS 2020
 
 ## Abstract
 As deep reinforcement learning (DRL) has been recognized as an effective approach in quantitative finance, getting hands-on experiences is attractive to beginners. However, to train a practical DRL trading agent that decides where to trade, at what price, and what quantity involves error-prone and arduous developmentand debugging. 
 
-In this paper, we introduce a DRL library FinRL that facilitates beginners to expose themselves to quantitative finance and to develop their own stock trading strategies. Along with easily-reproducible tutorials, FinRL library allows users to streamline their own developments and to compare with existing schemes easily.  Within FinRL, virtual environments are configured with stock market datasets, trading agents are trained with neural networks, and extensive backtesting is analyzed via trading performance. Moreover, it incorporates important trading constraints such as transaction cost, market liquidity and the investor’s degree of risk-aversion. 
+We introduce a DRL library FinRL that facilitates beginners to expose themselves to quantitative finance and to develop their own stock trading strategies. Along with easily-reproducible tutorials, FinRL library allows users to streamline their own developments and to compare with existing schemes easily.  Within FinRL, virtual environments are configured with stock market datasets, trading agents are trained with neural networks, and extensive backtesting is analyzed via trading performance. Moreover, it incorporates important trading constraints such as transaction cost, market liquidity and the investor’s degree of risk-aversion. 
 
 FinRL is featured with completeness, hands-on tutorial and reproducibility that favors beginners: (i) at multiple levels of time granularity, FinRL simulates trading environments across various stock markets, including NASDAQ-100, DJIA, S&P 500, HSI, SSE 50, and CSI 300; (ii) organized in a layered architecture with modular structure, FinRL provides fine-tuned state-of-the-art DRL algorithms (DQN, DDPG, PPO, SAC, A2C, TD3, etc.), commonly-used reward functions and standard evaluation baselines to alleviate the debugging work-loads and promote the reproducibility, and (iii) being highly extendable, FinRL reserves a complete set of user-import interfaces. 
 
@@ -16,7 +16,6 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 - **Completeness.** Our library shall cover components of the DRL framework completely, which is a fundamental requirement;
 - **Hands-on tutorials.** We aim for a library that is friendly to beginners. Tutorials with detailed walk-through will help users to explore the functionalities of our library;
 - **Reproducibility.** Our library shall guarantee reproducibility to ensure the transparency and also provide users with confidence in what they have done.
-
 
 
 ## Architecture of the FinRL Library
