@@ -141,5 +141,6 @@ class DRLAgent:
             test_obs, rewards, dones, info = test_env.step(action)
             if i == (len(test_data.index.unique()) - 2):
                 account_memory = test_env.env_method(method_name = 'save_asset_memory')
+                actions_memory = test_env.env_method(method_name = 'save_action_memory')
         end = time.time()
-        return account_memory[0]
+        return account_memory[0], actions_memory[0]

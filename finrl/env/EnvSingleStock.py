@@ -116,10 +116,10 @@ class SingleStockEnv(gym.Env):
             df_total_value.columns = ['account_value']
             df_total_value['daily_return']=df_total_value.pct_change(1)
             if df_total_value['daily_return'].std() !=0:
-                sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
+              sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
                     df_total_value['daily_return'].std()
-                print("Sharpe: ",sharpe)
-                print("=================================")
+              print("Sharpe: ",sharpe)
+              print("=================================")
             df_rewards = pd.DataFrame(self.rewards_memory)
             #df_rewards.to_csv('results/account_rewards_train.csv')
             
@@ -131,9 +131,7 @@ class SingleStockEnv(gym.Env):
 
         else:
             # print(np.array(self.state[1:29]))
-            self.date_memory.append(self.data.date)
             self.actions_memory.append(actions)
-
             actions = actions * self.hmax
             #actions = (actions.astype(int))
             
@@ -166,6 +164,7 @@ class SingleStockEnv(gym.Env):
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             self.asset_memory.append(end_total_asset)
+            self.date_memory.append(self.data.date)
             #print("end_total_asset:{}".format(end_total_asset))
             
             self.reward = end_total_asset - begin_total_asset            
@@ -206,6 +205,13 @@ class SingleStockEnv(gym.Env):
         #print(len(asset_list))
         df_account_value = pd.DataFrame({'date':date_list,'account_value':asset_list})
         return df_account_value
+
+    def save_action_memory(self):
+        # date must match actions
+        date_list = self.date_memory[:-1]
+        action_list = self.actions_memory
+        df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
+        return df_actions
 
     def _seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
