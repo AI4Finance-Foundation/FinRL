@@ -120,9 +120,10 @@ class StockEnvTrade(gym.Env):
         # print(actions)
 
         if self.terminal:
-            #plt.plot(self.asset_memory,'r')
-            #plt.savefig('results/account_value_trade_{}.png'.format(self.iteration))
-            #plt.close()
+            plt.plot(self.asset_memory,'r')
+            plt.savefig('results/account_value_trade_{}.png'.format(self.iteration))
+            plt.close()
+            
             df_total_value = pd.DataFrame(self.asset_memory)
             #df_total_value.to_csv('results/account_value_trade_{}.csv'.format(self.iteration))
             end_total_asset = self.state[0]+ \
@@ -149,10 +150,8 @@ class StockEnvTrade(gym.Env):
 
         else:
             # print(np.array(self.state[1:29]))
-            self.date_memory.append(self.data.date.unique()[0])
-            self.actions_memory.append(actions)
-
             actions = actions * self.hmax
+            self.actions_memory.append(actions)
             #actions = (actions.astype(int))
             if self.turbulence>=self.turbulence_threshold:
                 actions=np.array([-self.hmax]*self.stock_dim)
@@ -188,6 +187,7 @@ class StockEnvTrade(gym.Env):
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             self.asset_memory.append(end_total_asset)
+            self.date_memory.append(self.data.date.unique()[0])
             #print("end_total_asset:{}".format(end_total_asset))
             
             self.reward = end_total_asset - begin_total_asset            
@@ -229,6 +229,18 @@ class StockEnvTrade(gym.Env):
         #print(len(asset_list))
         df_account_value = pd.DataFrame({'date':date_list,'account_value':asset_list})
         return df_account_value
+
+    def save_action_memory(self):
+        # date and close price length must match actions length
+        date_list = self.date_memory[:-1]
+        df_date = pd.DataFrame(date_list)
+        df_actions.columns = ['date']
+        action_list = self.actions_memory
+        df_actions = pd.DataFrame(action_list)
+        df_actions.columns = self.data.tic.values
+        df_actions.index = df_date.date
+        #df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
+        return df_actions
 
     def _seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
