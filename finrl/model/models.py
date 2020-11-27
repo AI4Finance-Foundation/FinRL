@@ -47,9 +47,10 @@ class DRLAgent:
                     n_steps = model_params['n_steps'],
                     ent_coef = model_params['ent_coef'],
                     learning_rate = model_params['learning_rate'],
-                    verbose = model_params['verbose']
+                    verbose = model_params['verbose'],
+                    tensorboard_log = f"{config.TENSORBOARD_LOG_DIR}/{model_name}"
                     )
-        model.learn(total_timesteps=model_params['timesteps'])
+        model.learn(total_timesteps=model_params['timesteps'], tb_log_name = "A2C_run")
         end = time.time()
 
         model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
@@ -77,9 +78,10 @@ class DRLAgent:
                     buffer_size=model_params['buffer_size'],
                     param_noise=param_noise,
                     action_noise=action_noise,
-                    verbose=model_params['verbose']
+                    verbose=model_params['verbose'],
+                    tensorboard_log = f"{config.TENSORBOARD_LOG_DIR}/{model_name}"
                     )
-        model.learn(total_timesteps=model_params['timesteps'])
+        model.learn(total_timesteps=model_params['timesteps'], tb_log_name = "DDPG_run")
         end = time.time()
 
         model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
@@ -103,9 +105,10 @@ class DRLAgent:
                     buffer_size=model_params['buffer_size'],
                     learning_rate = model_params['learning_rate'],
                     action_noise = action_noise,
-                    verbose=model_params['verbose']
+                    verbose=model_params['verbose'],
+                    tensorboard_log = f"{config.TENSORBOARD_LOG_DIR}/{model_name}"
                     )
-        model.learn(total_timesteps=model_params['timesteps'])
+        model.learn(total_timesteps=model_params['timesteps'], tb_log_name = "TD3_run")
         end = time.time()
 
         model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
@@ -124,9 +127,10 @@ class DRLAgent:
                      ent_coef = model_params['ent_coef'],
                      learning_rate = model_params['learning_rate'],
                      nminibatches = model_params['nminibatches'],
-                     verbose = model_params['verbose']
+                     verbose = model_params['verbose'],
+                     tensorboard_log = f"{config.TENSORBOARD_LOG_DIR}/{model_name}"
                      )
-        model.learn(total_timesteps=model_params['timesteps'])
+        model.learn(total_timesteps=model_params['timesteps'], tb_log_name = "PPO_run")
         end = time.time()
 
         model.save(f"{config.TRAINED_MODEL_DIR}/{model_name}")
