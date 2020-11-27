@@ -24,6 +24,7 @@ TESTING_DATA_FILE = "test.csv"
 #TRAINED_MODEL_DIR = f"trained_models/{now}"
 DATA_SAVE_DIR = f"datasets"
 TRAINED_MODEL_DIR = f"trained_models"
+TENSORBOARD_LOG_DIR = f"tensorboard_log"
 RESULTS_DIR = f"results"
 #os.makedirs(TRAINED_MODEL_DIR)
 
