@@ -99,11 +99,7 @@ class SingleStockEnv(gym.Env):
                       [self.data.open] + \
                       [self.data.high] + \
                       [self.data.low] +\
-                      [self.data.return_lag_0] + \
-                      [self.data.return_lag_1] +\
-                      [self.data.return_lag_2] +\
-                      [self.data.return_lag_3] +\
-                      [self.data.return_lag_4] 
+                      [self.data.daily_return] 
         # initialize reward
         self.reward = 0
         self.cost = 0
@@ -214,11 +210,7 @@ class SingleStockEnv(gym.Env):
                       [self.data.open] + \
                       [self.data.high] + \
                       [self.data.low] +\
-                      [self.data.return_lag_0] + \
-                      [self.data.return_lag_1] +\
-                      [self.data.return_lag_2] +\
-                      [self.data.return_lag_3] +\
-                      [self.data.return_lag_4] 
+                      [self.data.daily_return] 
             
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
@@ -256,12 +248,7 @@ class SingleStockEnv(gym.Env):
                       [self.data.open] + \
                       [self.data.high] + \
                       [self.data.low] +\
-                      [self.data.return_lag_0] + \
-                      [self.data.return_lag_1] +\
-                      [self.data.return_lag_2] +\
-                      [self.data.return_lag_3] +\
-                      [self.data.return_lag_4] 
-        # iteration += 1 
+                      [self.data.daily_return] 
         return self.state
     
     def render(self, mode='human'):
