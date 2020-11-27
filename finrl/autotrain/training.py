@@ -62,20 +62,21 @@ def train_one():
 
     print("==============Model Training===========")
     now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
-    ppo_params_tuning = {'n_steps':128, 
-                         'nminibatches': 4,
-                         'ent_coef':0.005, 
-                         'learning_rate':0.00025,
-                         'verbose':0,
-                         'timesteps':80000}
-    model_ppo = agent.train_PPO(model_name = "PPO_{}".format(now), model_params = ppo_params_tuning)
+
+    a2c_params_tuning = {'n_steps':5, 
+        'ent_coef':0.005, 
+        'learning_rate':0.0007,
+        'verbose':0,
+        'timesteps':80000}
+
+    model = agent.train_A2C(model_name = "A2C_{}".format(now), model_params = a2c_params_tuning)
 
     print("==============Start Trading===========")
     env_trade, obs_trade = env_setup.create_env_trading(data = trade,
                                          env_class = StockEnvTrade,
                                          turbulence_threshold=250) 
 
-    df_account_value,df_actions = DRLAgent.DRL_prediction(model=model_ppo,
+    df_account_value,df_actions = DRLAgent.DRL_prediction(model=model,
                                                           test_data = trade,
                                                           test_env = env_trade,
                                                           test_obs = obs_trade)
