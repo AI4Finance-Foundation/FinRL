@@ -106,6 +106,11 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """          
         df = data.copy()
+        df['return_lag_0']=data_df.close.pct_change(1)
+        df['return_lag_1']=data_df.close.pct_change(2)
+        df['return_lag_2']=data_df.close.pct_change(3)
+        df['return_lag_3']=data_df.close.pct_change(4)
+        df['return_lag_4']=data_df.close.pct_change(5)
         return df
 
 
