@@ -24,12 +24,17 @@ class EnvSetup:
 
     Methods
     -------
-    fetch_data()
-        Fetches data from yahoo API
+    create_env_training()
+        create env class for training
+    create_env_validation()
+        create env class for validation
+    create_env_trading()
+        create env class for trading
 
     """
     def __init__(self, 
         stock_dim:int,
+        state_space:int,
         hmax = 100,
         initial_amount = 1000000,
         transaction_cost_pct = 0.001,
@@ -43,7 +48,7 @@ class EnvSetup:
         self.reward_scaling = reward_scaling
         self.tech_indicator_list = tech_indicator_list
         # account balance + close price + shares + technical indicators
-        self.state_space = 1 + 2*self.stock_dim + len(self.tech_indicator_list)*self.stock_dim
+        self.state_space = state_space
         self.action_space = self.stock_dim
 
 
