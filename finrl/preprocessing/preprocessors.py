@@ -35,7 +35,7 @@ class FeatureEngineer:
 
         self.df = df
         self.feature_number = feature_number
-        type_list = self.__get_type_list(feature_number)
+        type_list = self._get_type_list(feature_number)
         self.__features = type_list
         self.__data_columns = config.DEFAULT_DATA_COLUMNS + self.__features
         self.use_technical_indicator = use_technical_indicator
@@ -54,12 +54,12 @@ class FeatureEngineer:
         # stockstats require all 5 columns
         if (self.use_technical_indicator==True) & (self.feature_number>=5):
             # add technical indicators using stockstats
-            df=self.__add_technical_indicator(df)
+            df=self.add_technical_indicator(df)
             print("Successfully added technical indicators")
 
         # add turbulence index for multiple stock
         if self.use_turbulence==True:
-            df = self.__add_turbulence(df)
+            df = self.add_turbulence(df)
             print("Successfully added turbulence index")
 
        
@@ -100,7 +100,7 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        turbulence_index = self.__calcualte_turbulence(df)
+        turbulence_index = self.calcualte_turbulence(df)
         df = df.merge(turbulence_index, on='date')
         df = df.sort_values(['date','tic']).reset_index(drop=True)
         return df
