@@ -91,11 +91,15 @@ class SingleStockEnv(gym.Env):
         self.data = self.df.loc[self.day,:]
         self.terminal = False     
         self.turbulence_threshold = turbulence_threshold        
-        # initalize state
+        # initalize state: inital amount + close price + shares + technical indicators + other features
         self.state = [self.initial_amount] + \
                       [self.data.close] + \
                       [0]*self.stock_dim  + \
-                      sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+                      sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])+ \
+                      [self.data.open] + \
+                      [self.data.high] + \
+                      [self.data.low] + \
+                      [self.data.volumn] + \
         # initialize reward
         self.reward = 0
         self.cost = 0
@@ -104,8 +108,8 @@ class SingleStockEnv(gym.Env):
         self.rewards_memory = []
         self.actions_memory=[]
         self.date_memory=[self.data.date]
+        self.close_price_memory = [self.data.close]
         self.trades = 0
-        #self.reset()
         self._seed()
 
 
@@ -202,12 +206,18 @@ class SingleStockEnv(gym.Env):
             self.state =  [self.state[0]] + \
                     [self.data.close] + \
                     list(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]) + \
-                      sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+                      sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])+ \
+                      [self.data.open] + \
+                      [self.data.high] + \
+                      [self.data.low] + \
+                      [self.data.volumn] + \
             
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             self.asset_memory.append(end_total_asset)
             self.date_memory.append(self.data.date)
+            self.close_price_memory.append(self.data.close)
+
             #print("end_total_asset:{}".format(end_total_asset))
             
             self.reward = end_total_asset - begin_total_asset            
@@ -234,7 +244,11 @@ class SingleStockEnv(gym.Env):
         self.state = [self.initial_amount] + \
                       [self.data.close] + \
                       [0]*self.stock_dim + \
-                      sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+                      sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])+ \
+                      [self.data.open] + \
+                      [self.data.high] + \
+                      [self.data.low] + \
+                      [self.data.volumn] + \
         # iteration += 1 
         return self.state
     
@@ -250,10 +264,12 @@ class SingleStockEnv(gym.Env):
         return df_account_value
 
     def save_action_memory(self):
-        # date must match actions
+        # date and close price length must match actions length
         date_list = self.date_memory[:-1]
+        close_price_list = self.close_price_memory[:-1]
+
         action_list = self.actions_memory
-        df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
+        df_actions = pd.DataFrame({'date':date_list,'actions':action_list,'close_price':close_price_list})
         return df_actions
 
     def _seed(self, seed=None):
