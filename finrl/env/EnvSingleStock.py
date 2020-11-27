@@ -269,6 +269,7 @@ class SingleStockEnv(gym.Env):
 
         action_list = self.actions_memory
         df_actions = pd.DataFrame({'date':date_list,'actions':action_list,'close_price':close_price_list})
+        df_actions['daily_return']=df_actions.close_price.pct_change()
         return df_actions
 
     def _seed(self, seed=None):
