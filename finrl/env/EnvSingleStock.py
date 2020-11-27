@@ -98,8 +98,7 @@ class SingleStockEnv(gym.Env):
                       sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])+ \
                       [self.data.open] + \
                       [self.data.high] + \
-                      [self.data.low] + \
-                      [self.data.volume]
+                      [self.data.low] 
         # initialize reward
         self.reward = 0
         self.cost = 0
@@ -177,9 +176,9 @@ class SingleStockEnv(gym.Env):
             return self.state, self.reward, self.terminal,{}
 
         else:
-            # print(np.array(self.state[1:29]))
-            self.actions_memory.append(actions)
+            #print(actions)
             actions = actions * self.hmax
+            self.actions_memory.append(actions)
             #actions = (actions.astype(int))
             
             begin_total_asset = self.state[0]+ \
@@ -209,8 +208,7 @@ class SingleStockEnv(gym.Env):
                       sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])+ \
                       [self.data.open] + \
                       [self.data.high] + \
-                      [self.data.low] + \
-                      [self.data.volume] 
+                      [self.data.low]
             
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
@@ -247,8 +245,7 @@ class SingleStockEnv(gym.Env):
                       sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])+ \
                       [self.data.open] + \
                       [self.data.high] + \
-                      [self.data.low] + \
-                      [self.data.volume] 
+                      [self.data.low] 
         # iteration += 1 
         return self.state
     
