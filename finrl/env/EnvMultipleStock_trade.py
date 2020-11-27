@@ -123,7 +123,7 @@ class StockEnvTrade(gym.Env):
             plt.plot(self.asset_memory,'r')
             plt.savefig('results/account_value_trade_{}.png'.format(self.iteration))
             plt.close()
-            
+
             df_total_value = pd.DataFrame(self.asset_memory)
             #df_total_value.to_csv('results/account_value_trade_{}.csv'.format(self.iteration))
             end_total_asset = self.state[0]+ \
@@ -234,7 +234,8 @@ class StockEnvTrade(gym.Env):
         # date and close price length must match actions length
         date_list = self.date_memory[:-1]
         df_date = pd.DataFrame(date_list)
-        df_actions.columns = ['date']
+        df_date.columns = ['date']
+        
         action_list = self.actions_memory
         df_actions = pd.DataFrame(action_list)
         df_actions.columns = self.data.tic.values
