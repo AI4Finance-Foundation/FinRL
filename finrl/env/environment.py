@@ -9,13 +9,18 @@ class EnvSetup:
 
     Attributes
     ----------
-        df
-        feature_number : str
-            start date of the data (modified from config.py)
-        use_technical_indicator : str
-            end date of the data (modified from config.py)
-        use_turbulence : list
-            a list of stock tickers (modified from config.py)
+        stock_dim: int
+            number of unique stocks
+        hmax : int
+            maximum number of shares to trade
+        initial_amount: int
+            start money
+        transaction_cost_pct : float
+            transaction cost percentage per trade
+        reward_scaling: float
+            scaling factor for reward, good for training
+        tech_indicator_list: list
+            a list of technical indicator names (modified from config.py)
 
     Methods
     -------
@@ -28,14 +33,15 @@ class EnvSetup:
         hmax = 100,
         initial_amount = 1000000,
         transaction_cost_pct = 0.001,
-        reward_scaling = 1e-4):
+        reward_scaling = 1e-4,
+        tech_indicator_list = config.TECHNICAL_INDICATORS_LIST):
 
         self.stock_dim = stock_dim
         self.hmax = hmax
         self.initial_amount = initial_amount
         self.transaction_cost_pct =transaction_cost_pct
         self.reward_scaling = reward_scaling
-        self.tech_indicator_list = config.TECHNICAL_INDICATORS_LIST
+        self.tech_indicator_list = tech_indicator_list
         # account balance + close price + shares + technical indicators
         self.state_space = 1 + 2*self.stock_dim + len(self.tech_indicator_list)*self.stock_dim
         self.action_space = self.stock_dim
