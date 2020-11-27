@@ -11,6 +11,8 @@ class FeatureEngineer:
     ----------
         df: DataFrame
             data downloaded from Yahoo API
+            7 columns: A date, open, high, low, close, volume and tick symbol
+            for the specified stock ticker
         feature_number : int
             number of features we used
         use_technical_indicator : boolean
@@ -28,7 +30,8 @@ class FeatureEngineer:
         df,
         feature_number = 5,
         use_technical_indicator=True,
-        use_turbulence=False):
+        use_turbulence=False,
+        user_defined_feature=False):
 
         self.df = df
         self.feature_number = feature_number
@@ -65,7 +68,7 @@ class FeatureEngineer:
         return df
 
 
-    def __add_technical_indicator(self, data):
+    def add_technical_indicator(self, data):
             """
             calcualte technical indicators
             use stockstats package to add technical inidactors
@@ -90,7 +93,7 @@ class FeatureEngineer:
 
 
 
-    def __add_turbulence(self, data):
+    def add_turbulence(self, data):
         """
         add turbulence index from a precalcualted dataframe
         :param data: (df) pandas dataframe
@@ -102,7 +105,7 @@ class FeatureEngineer:
         df = df.sort_values(['date','tic']).reset_index(drop=True)
         return df
 
-    def __get_type_list(self, feature_number):
+    def _get_type_list(self, feature_number):
         """
         :param feature_number: an int indicates the number of features
         :return: a list of features n
@@ -123,7 +126,7 @@ class FeatureEngineer:
         return type_list
 
 
-    def __calcualte_turbulence(self, data):
+    def calcualte_turbulence(self, data):
         """calculate turbulence index based on dow 30"""
         # can add other market assets
         df = data.copy()
