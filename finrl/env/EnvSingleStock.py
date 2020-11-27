@@ -8,7 +8,53 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 class SingleStockEnv(gym.Env):
-    """A stock trading environment for OpenAI gym"""
+    """A single stock trading environment for OpenAI gym
+
+    Attributes
+    ----------
+        df: DataFrame
+            input data
+        stock_dim : int
+            number of unique stocks
+        hmax : int
+            maximum number of shares to trade
+        initial_amount : int
+            start money
+        transaction_cost_pct: float
+            transaction cost percentage per trade
+        reward_scaling: float
+            scaling factor for reward, good for training
+        state_space: int
+            the dimension of input features
+        action_space: int
+            equals stock dimension
+        tech_indicator_list: list
+            a list of technical indicator names
+        turbulence_threshold: int
+            a threshold to control risk aversion
+        day: int
+            an increment number to control date
+
+    Methods
+    -------
+    _sell_stock()
+        perform sell action based on the sign of the action
+    _buy_stock()
+        perform buy action based on the sign of the action
+    step()
+        at each step the agent will return actions, then 
+        we will calculate the reward, and return the next observation.
+    reset()
+        reset the environment
+    render()
+        use render to return other functions
+    save_asset_memory()
+        return account value at each time step
+    save_action_memory()
+        return actions/positions at each time step
+        
+
+    """
     metadata = {'render.modes': ['human']}
 
     def __init__(self, 
@@ -123,9 +169,6 @@ class SingleStockEnv(gym.Env):
             df_rewards = pd.DataFrame(self.rewards_memory)
             #df_rewards.to_csv('results/account_rewards_train.csv')
             
-            # print('total asset: {}'.format(self.state[0]+ sum(np.array(self.state[1:29])*np.array(self.state[29:]))))
-            #with open('obs.pkl', 'wb') as f:  
-            #    pickle.dump(self.state, f)
             
             return self.state, self.reward, self.terminal,{}
 
