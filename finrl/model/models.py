@@ -30,8 +30,10 @@ class DRLAgent:
         the implementation for A2C algorithm
     train_DDPG()
         the implementation for DDPG algorithm
-     train_TD3()
-        the implementation for TD3 algorithm       
+    train_TD3()
+        the implementation for TD3 algorithm      
+    DRL_prediction() 
+        make a prediction in a test dataset and get results
     """
     def __init__(self, env):
         self.env = env
