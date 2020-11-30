@@ -31,7 +31,9 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 ## Implemented Algorithms
 <img src=figs/alg_compare.PNG width="800">
 
-## [Our Medium Blog]()
+## Our Medium Blog
+[FinRL for Quantitative Finance: Tutorial for Single Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-single-stock-trading-37d6d7c30aac)
+
 ## Installation:
 
 Clone this repository
