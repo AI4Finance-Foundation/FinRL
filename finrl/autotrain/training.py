@@ -63,13 +63,16 @@ def train_one():
     print("==============Model Training===========")
     now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
 
-    a2c_params_tuning = {'n_steps':5, 
-        'ent_coef':0.005, 
-        'learning_rate':0.0007,
-        'verbose':0,
-        'timesteps':80000}
+    sac_params_tuning={
+                      'batch_size': 64,
+                     'buffer_size': 100000,
+                      'ent_coef':'auto_0.1',
+                     'learning_rate': 0.0001,
+                     'learning_starts':200,
+                     'timesteps': 50000,
+                     'verbose': 0}
 
-    model = agent.train_A2C(model_name = "A2C_{}".format(now), model_params = a2c_params_tuning)
+    model = agent.train_SAC(model_name = "SAC_{}".format(now), model_params = sac_params_tuning)
 
     print("==============Start Trading===========")
     env_trade, obs_trade = env_setup.create_env_trading(data = trade,
