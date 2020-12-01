@@ -1,7 +1,9 @@
 # FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
 This repository includes the codes for our [paper](https://arxiv.org/abs/2011.09607) in Deep RL Workshop, NeurIPS 2020.
 
-This project is closely related to our [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996) in ACM International Conference on AI in Finance (ICAIF), 2020.
+This project is closely related to our [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996) [codes](https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020) in ACM International Conference on AI in Finance (ICAIF), 2020.
+
+An early project is [paper](https://arxiv.org/abs/1811.07522) [codes](https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018) in NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services, 2018.
 
 ## Abstract
 As deep reinforcement learning (DRL) has been recognized as an effective approach in quantitative finance, getting hands-on experiences is attractive to beginners. However, to train a practical DRL trading agent that decides where to trade, at what price, and what quantity involves error-prone and arduous development and debugging. 
