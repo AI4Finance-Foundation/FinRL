@@ -36,7 +36,7 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 ## Our Medium Blog
 [FinRL for Quantitative Finance: Tutorial for Single Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-single-stock-trading-37d6d7c30aac)
 
-FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading
+[FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
 
 FinRL for Quantitative Finance: Tutorial for Portfolio Allocation
 
