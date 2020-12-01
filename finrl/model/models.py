@@ -32,6 +32,8 @@ class DRLAgent:
         the implementation for DDPG algorithm
     train_TD3()
         the implementation for TD3 algorithm      
+    train_SAC()
+        the implementation for SAC algorithm 
     DRL_prediction() 
         make a prediction in a test dataset and get results
     """
