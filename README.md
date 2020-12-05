@@ -1,16 +1,18 @@
 # FinRL: A Deep Reinforcement Learning Library for Automated Trading in Quantitative Finance
 
-We aim to maintain an open source FinRL library for the AI + finance community: support various markets, SOTA DRL algorithms, benchmarks for many  trading tasks, live trading, etc.  Welcome your contributions, please check the call for contributions section at the end of this page.
+We aim to maintain an open source FinRL library for the "AI + finance" community: support various markets, SOTA DRL algorithms, benchmarks for many quant finance tasks, live trading, etc.  To contribute? please check the call for contributions section at the end of this page.
+
+Feel free to leave us feedback for any issue.
 
 ## Prior Arts:
 
-This repository starts from the codes of our [paper](https://arxiv.org/abs/2011.09607) in Deep RL Workshop, NeurIPS 2020.
+This repository starts from our [paper](https://arxiv.org/abs/2011.09607) in Deep RL Workshop, NeurIPS 2020.
 
 This project is closely related to our [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996) and [codes](https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020) in ACM International Conference on AI in Finance (ICAIF), 2020.
 
 An early [paper](https://arxiv.org/abs/1811.07522) with [codes](https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018) appeared in NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services, 2018.
 
-## Abstract
+## Overview
 As deep reinforcement learning (DRL) has been recognized as an effective approach in quantitative finance, getting hands-on experiences is attractive to beginners. However, to train a practical DRL trading agent that decides where to trade, at what price, and what quantity involves error-prone and arduous development and debugging. 
 
 We introduce a DRL library FinRL that facilitates beginners to expose themselves to quantitative finance and to develop their own stock trading strategies. Along with easily-reproducible tutorials, FinRL library allows users to streamline their own developments and to compare with existing schemes easily.  Within FinRL, virtual environments are configured with stock market datasets, trading agents are trained with neural networks, and extensive backtesting is analyzed via trading performance. Moreover, it incorporates important trading constraints such as transaction cost, market liquidity and the investor’s degree of risk-aversion. 
