@@ -1,5 +1,10 @@
-# FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
-This repository includes the codes for our [paper](https://arxiv.org/abs/2011.09607) in Deep RL Workshop, NeurIPS 2020.
+# FinRL: A Deep Reinforcement Learning Library for Automated Trading in Quantitative Finance
+
+We aim to maintain an open source FinRL library for the AI + finance community: support various markets, SOTA DRL algorithms, benchmarks for many  trading tasks, live trading, etc.  Welcome your contributions, please check the call for contributions section at the end of this page.
+
+## Prior Arts:
+
+This repository starts from the codes of our [paper](https://arxiv.org/abs/2011.09607) in Deep RL Workshop, NeurIPS 2020.
 
 This project is closely related to our [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996) and [codes](https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020) in ACM International Conference on AI in Finance (ICAIF), 2020.
 
@@ -169,3 +174,11 @@ The stock data we use is pulled from Yahoo Finance API
     year    = {2020}
 }
 ```
+
+
+# Call for Contributions
+## Support various markets, 
+## SOTA DRL algorithms, 
+## benchmarks for many trading tasks, 
+## live trading.
+
