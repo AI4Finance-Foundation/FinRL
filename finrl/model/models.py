@@ -167,6 +167,7 @@ class DRLAgent:
         """make a prediction"""
         start = time.time()
         account_memory = []
+        actions_memory = []
         for i in range(len(test_data.index.unique())):
             action, _states = model.predict(test_obs)
             test_obs, rewards, dones, info = test_env.step(action)
