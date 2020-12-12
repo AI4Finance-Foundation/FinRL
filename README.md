@@ -4,7 +4,17 @@ We aim to maintain an open source FinRL library for the "AI + finance" community
 
 Feel free to leave us feedback for any issue.
 
-https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-jyaottie-hHqU6TdvuhMHHAMXaLw_~w
+
+
+<br/>
+
+<a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-jyaottie-hHqU6TdvuhMHHAMXaLw_~w" target="\_blank">
+	<div align="center">
+		<img src="https://github.com/tensorlayer/tensorlayer/raw/master/img/join_slack.png" width="40%"/>
+	</div>
+</a>
+
+<br/>
 
 
 ## Prior Arts:
