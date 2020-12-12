@@ -4,6 +4,9 @@ We aim to maintain an open source FinRL library for the "AI + finance" community
 
 Feel free to leave us feedback for any issue.
 
+https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-jyaottie-hHqU6TdvuhMHHAMXaLw_~w
+
+
 ## Prior Arts:
 
 This repository starts from our [paper](https://arxiv.org/abs/2011.09607) in Deep RL Workshop, NeurIPS 2020.
