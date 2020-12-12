@@ -10,7 +10,7 @@ Feel free to leave us feedback for any issue.
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-jyaottie-hHqU6TdvuhMHHAMXaLw_~w" target="\_blank">
 	<div align="center">
-		<img src="https://github.com/tensorlayer/tensorlayer/raw/master/img/join_slack.png" width="40%"/>
+		<img src=figs/join_slack.png width="40%"/>
 	</div>
 </a>
 
