@@ -2,7 +2,7 @@
 
 We aim to maintain an open source FinRL library for the "AI + finance" community: support various markets, SOTA DRL algorithms, benchmarks for many quant finance tasks, live trading, etc.  To contribute? please check the call for contributions section at the end of this page.
 
-Feel free to leave us feedback for any issue.
+Feel free to leave us feedback for any issue. We suggest users to report bugs using Github issues. Users can also discuss how to use FinRL in the following slack channel.
 
 
 
