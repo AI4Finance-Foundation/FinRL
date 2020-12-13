@@ -58,7 +58,7 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 
 [FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
 
-FinRL for Quantitative Finance: Tutorial for Portfolio Allocation
+[FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
 
 ## Installation:
 
