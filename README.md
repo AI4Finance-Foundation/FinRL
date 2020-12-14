@@ -32,7 +32,7 @@ An early [paper](https://arxiv.org/abs/1811.07522) with [codes](https://github.c
 * 2020-12-14
   	upgrade to **Pytorch** with stable-baselines3, remove tensorflow 1.0, still under development for tensorflow 2.0 
 * 2020-11-27
-  	0.0.1: beta development version
+  	0.0.1: beta development version with tensorflow 1.5
 </div>
 </details>
 
