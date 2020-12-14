@@ -140,13 +140,15 @@ pip install -r requirements.txt
 
 Stable-Baselines3 is a set of improved implementations of reinforcement learning algorithms in PyTorch. It is the next major version of Stable Baselines. If you have questions regarding Stable-baselines package, please refer to [Stable-baselines3 installation guide](https://stable-baselines3.readthedocs.io/en/master/guide/install.html). Install the Stable Baselines package using pip:
 
-
 ```
 pip install stable-baselines3[extra]
 
 ```
-
 A migration guide from SB2 to SB3 can be found in the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/migration.html).
+
+## Stable-Baselines using Tensorflow 2.0
+Still [Under Development](https://github.com/Stable-Baselines-Team/stable-baselines-tf2)
+
 
 ## Run 
 ```shell
