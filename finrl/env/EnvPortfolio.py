@@ -37,10 +37,6 @@ class StockPortfolioEnv(gym.Env):
 
     Methods
     -------
-    _sell_stock()
-        perform sell action based on the sign of the action
-    _buy_stock()
-        perform buy action based on the sign of the action
     step()
         at each step the agent will return actions, then 
         we will calculate the reward, and return the next observation.
