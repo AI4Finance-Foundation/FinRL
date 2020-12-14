@@ -85,7 +85,6 @@ pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
 
 
-
 ### Prerequisites
 For [OpenAI Baselines](https://github.com/openai/baselines), you'll need system packages CMake, OpenMPI and zlib. Those can be installed as follows
 
@@ -135,7 +134,7 @@ The script has been tested running under **Python >= 3.6.0**, with the folowing 
 pip install -r requirements.txt
 ```
 
-### Stable-Baselines3 using Pytorch
+## Stable-Baselines3 using Pytorch
 
 ### About [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3)
 
