@@ -91,14 +91,14 @@ brew install cmake openmpi
 
 #### Windows 10
 
-To install stable-baselines on Windows, please look at the [documentation](https://stable-baselines.readthedocs.io/en/master/guide/install.html#prerequisites).
+To install stable-baselines on Windows, please look at the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/install.html#prerequisites).
     
-### Create and Activate Virtual Environment (Optional but highly recommended)
+### Create and Activate Python Virtual Environment (Optional but highly recommended)
 cd into this repository
 ```bash
 cd FinRL-Library
 ```
-Under folder /FinRL-Library, create a virtual environment
+Under folder /FinRL-Library, create a Python virtual environment
 ```bash
 pip install virtualenv
 ```
@@ -123,28 +123,19 @@ The script has been tested running under **Python >= 3.6.0**, with the folowing 
 pip install -r requirements.txt
 ```
 
-### Questions
+### Stable-Baselines3 using Pytorch
 
-### About Tensorflow 2.0: https://github.com/hill-a/stable-baselines/issues/366
+### About [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3)
 
-If you have questions regarding TensorFlow, note that tensorflow 2.0 is not compatible now, you may use
+Stable-Baselines3 is a set of improved implementations of reinforcement learning algorithms in PyTorch. It is the next major version of Stable Baselines. If you have questions regarding Stable-baselines package, please refer to [Stable-baselines3 installation guide](https://stable-baselines3.readthedocs.io/en/master/guide/install.html). Install the Stable Baselines package using pip:
 
-```bash
-pip install tensorflow==1.15.4
- ```
 
-If you have questions regarding Stable-baselines package, please refer to [Stable-baselines installation guide](https://github.com/hill-a/stable-baselines). Install the Stable Baselines package using pip:
 ```
-pip install stable-baselines[mpi]
+pip install stable-baselines3[extra]
+
 ```
 
-This includes an optional dependency on MPI, enabling algorithms DDPG, GAIL, PPO1 and TRPO. If you do not need these algorithms, you can install without MPI:
-```
-pip install stable-baselines
-```
-
-Please read the [documentation](https://stable-baselines.readthedocs.io/) for more details and alternatives (from source, using docker).
-
+A migration guide from SB2 to SB3 can be found in the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/migration.html).
 
 ## Run 
 ```shell
