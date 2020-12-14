@@ -8,8 +8,8 @@ import gym
 #from stable_baselines import SAC
 #from stable_baselines import TD3
 
-from stable_baselines.common.policies import MlpPolicy
-from stable_baselines.common.vec_env import DummyVecEnv
+from stable_baselines3.ppo import MlpPolicy
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 from finrl.config import config
 
@@ -42,7 +42,9 @@ class DRLAgent:
 
     def train_A2C(self, model_name, model_params = config.A2C_PARAMS):
         """A2C model"""
-        from stable_baselines import A2C
+        from stable_baselines3 import A2C
+        from stable_baselines3.a2c import MlpPolicy
+
         env_train = self.env
         start = time.time()
         model = A2C('MlpPolicy', env_train, 
@@ -62,23 +64,21 @@ class DRLAgent:
 
     def train_DDPG(self, model_name, model_params = config.DDPG_PARAMS):
         """DDPG model"""
-        from stable_baselines import DDPG
-        from stable_baselines.ddpg.policies import DDPGPolicy
-        from stable_baselines.common.noise import OrnsteinUhlenbeckActionNoise
+        from stable_baselines3 import DDPG
+        from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise
 
 
         env_train = self.env
 
         n_actions = env_train.action_space.shape[-1]
-        param_noise = None
-        action_noise = OrnsteinUhlenbeckActionNoise(mean=np.zeros(n_actions), sigma=float(0.5)*np.ones(n_actions))
+        action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.1*np.ones(n_actions))
+
 
         start = time.time()
         model = DDPG('MlpPolicy', 
                     env_train,
                     batch_size=model_params['batch_size'],
                     buffer_size=model_params['buffer_size'],
-                    param_noise=param_noise,
                     action_noise=action_noise,
                     verbose=model_params['verbose'],
                     tensorboard_log = f"{config.TENSORBOARD_LOG_DIR}/{model_name}"
@@ -93,8 +93,9 @@ class DRLAgent:
 
     def train_TD3(self, model_name, model_params = config.TD3_PARAMS):
         """TD3 model"""
-        from stable_baselines import TD3
-        from stable_baselines.common.noise import NormalActionNoise
+        from stable_baselines3 import TD3
+        from stable_baselines3.td3.policies import MlpPolicy
+        from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise
 
         env_train = self.env
 
@@ -119,7 +120,8 @@ class DRLAgent:
 
     def train_SAC(self, model_name, model_params = config.SAC_PARAMS):
         """TD3 model"""
-        from stable_baselines import SAC
+        from stable_baselines3 import SAC
+        from stable_baselines3.sac import MlpPolicy
 
         env_train = self.env
 
@@ -143,7 +145,9 @@ class DRLAgent:
 
     def train_PPO(self, model_name, model_params = config.PPO_PARAMS):
         """PPO model"""
-        from stable_baselines import PPO2
+        from stable_baselines3 import PPO
+        from stable_baselines3.ppo import MlpPolicy
+
         env_train = self.env
 
         start = time.time()

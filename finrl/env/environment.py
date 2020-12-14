@@ -1,5 +1,5 @@
 from finrl.config import config
-from stable_baselines.common.vec_env import DummyVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 
 
