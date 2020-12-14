@@ -18,5 +18,5 @@ stable-baselines3[extra]
 pytest
 
 # packaging
-setuptools>=41.4.0,<42.0.0
-wheel>=0.33.6,<0.34.0
+setuptools>=41.4.0
+wheel>=0.33.6
