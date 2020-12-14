@@ -30,7 +30,7 @@ An early [paper](https://arxiv.org/abs/1811.07522) with [codes](https://github.c
 <div>
 	
 * 2020-12-14
-  	Drop tensorflow, use **Pytorch**, upgrade to stable-baselines3
+  	upgrade to **Pytorch** with stable-baselines3, remove tensorflow 1.0, still under development for tensorflow 2.0 
 * 2020-11-27
   	0.0.1: beta development version
 </div>
