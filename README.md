@@ -25,6 +25,17 @@ This project is closely related to our [paper](https://papers.ssrn.com/sol3/pape
 
 An early [paper](https://arxiv.org/abs/1811.07522) with [codes](https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018) appeared in NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services, 2018.
 
+## Status
+
+<details><summary><b>Version History</b> <i>[click to expand]</i></summary>
+<div>
+* 2020-12-14
+  Drop tensorflow, use Pytorch, upgrade to stable-baselines3
+* 2020-11-27
+  0.0.1: beta development version
+</div>
+</details>
+
 ## Overview
 As deep reinforcement learning (DRL) has been recognized as an effective approach in quantitative finance, getting hands-on experiences is attractive to beginners. However, to train a practical DRL trading agent that decides where to trade, at what price, and what quantity involves error-prone and arduous development and debugging. 
 
