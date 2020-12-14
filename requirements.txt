@@ -3,6 +3,7 @@ numpy
 pandas
 stockstats
 yfinance
+
 # plot
 matplotlib
 
