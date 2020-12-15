@@ -151,7 +151,7 @@ class DRLAgent:
         env_train = self.env
 
         start = time.time()
-        model = PPO2('MlpPolicy', env_train,
+        model = PPO('MlpPolicy', env_train,
                      n_steps = model_params['n_steps'],
                      ent_coef = model_params['ent_coef'],
                      learning_rate = model_params['learning_rate'],
