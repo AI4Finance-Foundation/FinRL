@@ -1,8 +1,8 @@
 # FinRL: A Deep Reinforcement Learning Library for Automated Trading in Quantitative Finance
 
-We aim to maintain an open source FinRL library for the "AI + finance" community: support various markets, SOTA DRL algorithms, benchmarks for many quant finance tasks, live trading, etc.  To contribute? please check the call for contributions section at the end of this page.
+We will maintain the open source FinRL library for the "AI + finance" community: support various markets, SOTA DRL algorithms, benchmarks for many quant finance tasks, live trading, etc.  To contribute?  Please check the call for contributions at the end of this page.
 
-Feel free to leave us feedback for any issue. We suggest users to report bugs using Github issues. Users can also discuss how to use FinRL in the following slack channel.
+Feel free to leave us feedback for any issue. We suggest users to report bugs using Github issues. Users can also discuss FinRL in the following slack channel.
 
 
 
@@ -34,9 +34,9 @@ A list of papers that made this project possible:
 <div>
 	
 * 2020-12-14
-  	upgrade to **Pytorch** with stable-baselines3, remove tensorflow 1.0, still under development for tensorflow 2.0 
+  	Upgraded to **Pytorch** with stable-baselines3; Remove tensorflow 1.0 at this moment, under development to support tensorflow 2.0 
 * 2020-11-27
-  	0.0.1: beta development version with tensorflow 1.5
+  	0.1: Beta version with tensorflow 1.5
 </div>
 </details>
 
@@ -183,7 +183,7 @@ The stock data we use is pulled from Yahoo Finance API
 <img src=figs/performance.PNG width="600">
 
 ## Contributions
-- FinRL is an open source library specifically designed and implemented for quantitativefinance. Trading environments incorporating market frictions are used and provided.
+- FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided.
 - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
 - FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
 - Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
@@ -201,13 +201,13 @@ The stock data we use is pulled from Yahoo Finance API
 
 # Call for Contributions
 
-We aim to maintain an open source FinRL library for the AI + finance community and welcome your contributions!
+We will maintain the open source FinRL library for the "AI + finance" community and welcome you to join as contributors!
 
 ## Support various markets
-   We would like to support more asset markets, so that the community can test their stategies.
+   We would like to support more asset markets, so that the users can test their stategies.
 ## SOTA DRL algorithms 
    We will continue to maintian a pool of DRL algorithms that can be treated as SOTA implementations.
-## Benchmarks for more trading tasks
+## Benchmarks for typical trading tasks
    To help quants have better evaluations, here we maintain benchmarks for many trading tasks, upon which you can improve for your own tasks.
 ## Support live trading
    Supporting live trading can close the simulation-reality gap, it will enable quant to switch to the real market when they are confident with their strategies.
