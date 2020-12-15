@@ -49,10 +49,10 @@ A2C_PARAMS = {'n_steps':5,
 			  'learning_rate':0.0007,
 			  'verbose':0,
 			  'timesteps':20000}
-PPO_PARAMS = {'n_steps':128, 
+PPO_PARAMS = {'n_steps':2048, 
 			  'ent_coef':0.01, 
 			  'learning_rate':0.00025,   
-			  'nminibatches':4,
+			  'batch_size':4,
 			  'verbose':0,
 			  'timesteps':20000}
 DDPG_PARAMS = {'batch_size':128, 

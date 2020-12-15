@@ -155,7 +155,7 @@ class DRLAgent:
                      n_steps = model_params['n_steps'],
                      ent_coef = model_params['ent_coef'],
                      learning_rate = model_params['learning_rate'],
-                     nminibatches = model_params['nminibatches'],
+                     batch_size = model_params['batch_size'],
                      verbose = model_params['verbose'],
                      tensorboard_log = f"{config.TENSORBOARD_LOG_DIR}/{model_name}"
                      )
