@@ -19,7 +19,7 @@ Feel free to leave us feedback for any issue. We suggest users to report bugs us
 
 ## Prior Arts:
 
-A list of papers that made this project possible:
+We worked on the following papers and now arrive at this project:
 
 4). [FinRL](https://arxiv.org/abs/2011.09607): A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance, Deep RL Workshop, NeurIPS 2020.
 
