@@ -37,6 +37,10 @@ class StockPortfolioEnv(gym.Env):
 
     Methods
     -------
+    _sell_stock()
+        perform sell action based on the sign of the action
+    _buy_stock()
+        perform buy action based on the sign of the action
     step()
         at each step the agent will return actions, then 
         we will calculate the reward, and return the next observation.
@@ -82,14 +86,13 @@ class StockPortfolioEnv(gym.Env):
 
         # action_space normalization and shape is self.stock_dim
         self.action_space = spaces.Box(low = 0, high = 1,shape = (self.action_space,)) 
-        # Shape = 181: [Current Balance]+[prices 1-30]+[owned shares 1-30] 
-        # +[macd 1-30]+ [rsi 1-30] + [cci 1-30] + [adx 1-30]
+        # Shape = (34, 30)
+        # covariance matrix + technical indicators
         self.observation_space = spaces.Box(low=0, high=np.inf, shape = (self.state_space+len(self.tech_indicator_list),self.state_space))
 
         # load data from a pandas dataframe
         self.data = self.df.loc[self.day,:]
         self.covs = self.data['cov_list'].values[0]
-        #new_states = np.append(np.array(self.covs), [self.data[tech].values.tolist() for tech in self.tech_indicator_list ], axis=0)
         self.state =  np.append(np.array(self.covs), [self.data[tech].values.tolist() for tech in self.tech_indicator_list ], axis=0)
         self.terminal = False     
         self.turbulence_threshold = turbulence_threshold        
@@ -102,9 +105,6 @@ class StockPortfolioEnv(gym.Env):
         self.portfolio_return_memory = [0]
         self.actions_memory=[[1/self.stock_dim]*self.stock_dim]
         self.date_memory=[self.data.date.unique()[0]]
-        #self.close_price_memory = [self.data.close]
-        #self.trades = 0
-        #self._seed()
 
         
     def step(self, actions):
@@ -138,12 +138,15 @@ class StockPortfolioEnv(gym.Env):
             return self.state, self.reward, self.terminal,{}
 
         else:
-            #print(actions)
+            #print("Model actions: ",actions)
             # actions are the portfolio weight
             # normalize to sum of 1
-            norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
+            if  (np.array(actions) - np.array(actions).min()).sum() != 0:
+              norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
+            else:
+              norm_actions = actions
             weights = norm_actions 
-            #print(weights)
+            #print("Normalized actions: ", weights)
             self.actions_memory.append(weights)
             last_day_memory = self.data
 
@@ -167,8 +170,9 @@ class StockPortfolioEnv(gym.Env):
 
             # the reward is the new portfolio value or end portfolo value
             self.reward = new_portfolio_value 
+            #print("Step reward: ", self.reward)
+            #self.reward = self.reward * self.reward_scaling
             #self.reward = self.reward*self.reward_scaling
-
 
         return self.state, self.reward, self.terminal, {}
 
