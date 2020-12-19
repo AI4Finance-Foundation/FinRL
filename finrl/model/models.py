@@ -79,6 +79,7 @@ class DRLAgent:
                     env_train,
                     batch_size=model_params['batch_size'],
                     buffer_size=model_params['buffer_size'],
+                    learning_rate=model_params['learning_rate'],
                     action_noise=action_noise,
                     verbose=model_params['verbose'],
                     tensorboard_log = f"{config.TENSORBOARD_LOG_DIR}/{model_name}"

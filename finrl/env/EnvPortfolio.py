@@ -141,7 +141,7 @@ class StockPortfolioEnv(gym.Env):
             #print("Model actions: ",actions)
             # actions are the portfolio weight
             # normalize to sum of 1
-            if  (np.array(actions) - np.array(actions).min()).sum() != 0:
+            if (np.array(actions) - np.array(actions).min()).sum() != 0:
               norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
             else:
               norm_actions = actions

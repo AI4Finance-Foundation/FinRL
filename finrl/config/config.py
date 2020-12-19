@@ -57,6 +57,7 @@ PPO_PARAMS = {'n_steps':2048,
 			  'timesteps':20000}
 DDPG_PARAMS = {'batch_size':128, 
 			   'buffer_size':50000,
+			   'learning_rate':0.001,
 			   'verbose':0,
 			   'timesteps':20000}
 TD3_PARAMS = {'batch_size':128, 
