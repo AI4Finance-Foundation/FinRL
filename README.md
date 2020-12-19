@@ -1,4 +1,4 @@
-# FinRL: A Deep Reinforcement Learning Library for Automated Trading in Quantitative Finance
+# FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
 
 We will maintain the open source FinRL library for the "AI + finance" community: support various markets, SOTA DRL algorithms, benchmarks for many quant finance tasks, live trading, etc.  To contribute?  Please check the call for contributions at the end of this page.
 
