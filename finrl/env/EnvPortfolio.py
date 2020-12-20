@@ -141,11 +141,11 @@ class StockPortfolioEnv(gym.Env):
             #print("Model actions: ",actions)
             # actions are the portfolio weight
             # normalize to sum of 1
-            if (np.array(actions) - np.array(actions).min()).sum() != 0:
-              norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
-            else:
-              norm_actions = actions
-            weights = norm_actions 
+            #if (np.array(actions) - np.array(actions).min()).sum() != 0:
+            #  norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
+            #else:
+            #  norm_actions = actions
+            weights = self.softmax_normalization(actions) 
             #print("Normalized actions: ", weights)
             self.actions_memory.append(weights)
             last_day_memory = self.data
@@ -171,7 +171,6 @@ class StockPortfolioEnv(gym.Env):
             # the reward is the new portfolio value or end portfolo value
             self.reward = new_portfolio_value 
             #print("Step reward: ", self.reward)
-            #self.reward = self.reward * self.reward_scaling
             #self.reward = self.reward*self.reward_scaling
 
         return self.state, self.reward, self.terminal, {}
@@ -194,6 +193,13 @@ class StockPortfolioEnv(gym.Env):
     
     def render(self, mode='human'):
         return self.state
+        
+    def softmax_normalization(self, actions):
+        numerator = np.exp(actions)
+        denominator = np.sum(np.exp(actions))
+        softmax_output = numerator/denominator
+        return softmax_output
+
     
     def save_asset_memory(self):
         date_list = self.date_memory
