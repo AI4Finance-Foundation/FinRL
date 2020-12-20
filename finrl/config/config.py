@@ -60,11 +60,11 @@ DDPG_PARAMS = {'batch_size':128,
 			   'learning_rate':0.001,
 			   'verbose':0,
 			   'timesteps':20000}
-TD3_PARAMS = {'batch_size':128, 
-			   'buffer_size':50000,
-			   'learning_rate':1e-4,
-			   'verbose':0,
-			   'timesteps':20000}
+TD3_PARAMS = {'batch_size': 100,
+	          'buffer_size':1000000, 
+              'learning_rate': 0.001,
+	          'verbose':0,
+	          'timesteps':30000}
 SAC_PARAMS = {'batch_size': 64,
 			  'buffer_size': 100000,
 			  'learning_rate': 0.0001,
