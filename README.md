@@ -1,8 +1,14 @@
-# FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
+# FinRL: A Deep Reinforcement Learning Library for Quantitative Finance
 
-We will maintain the open source FinRL library for the "AI + finance" community: support various markets, SOTA DRL algorithms, benchmarks for many quant finance tasks, live trading, etc.  To contribute?  Please check the call for contributions at the end of this page.
+FinRL is the open source library for practitioners. To efficiently automate trading, **AI4Finance** provides this educational resource and makes it easier to learn about deep reinforcement learning (DRL) in quantitative finance. 
 
-Feel free to leave us feedback for any issue. We suggest users to report bugs using Github issues. Users can also discuss FinRL in the following slack channel.
+Reinforcement learning (RL) trains an agent how to solve tasks by trial and error, while DRL combines RL with deep learning. Deep reinforcement learning (DRL), that balances exploration (of uncharted territory) and exploitation (of current knowledge), has been recognized as an advantageous approach for automated trading. DRL framework is powerful in solving dynamic decisionmaking problems by learning through interaction with an unknown environment, thus provides two major advantages: portfolio scala-bility and market model independence. In quantitative finance, automated trading is essentially making dynamic decisions, namely to decide where to trade, at what price, and what quantity, over a highlystochastic and complex stock market. Taking many complex financialfactors into account, DRL trading agents build a multi-factor modeland provide algorithmic trading strategies, which are difficult forhuman traders
+ 
+FinRL provides a framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.  
+
+To contribute?  Please check the call for contributions at the end of this page.
+
+Feel free to leave us feedback: report bugs using Github issues or discuss FinRL development in the slack channel.
 
 
 
