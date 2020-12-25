@@ -146,7 +146,7 @@ pip install -r requirements.txt
 
 ## Stable-Baselines3 using Pytorch
 
-### About [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3)
+### About [Stable-Baselines 3](https://github.com/DLR-RM/stable-baselines3)
 
 Stable-Baselines3 is a set of improved implementations of reinforcement learning algorithms in PyTorch. It is the next major version of Stable Baselines. If you have questions regarding Stable-baselines package, please refer to [Stable-baselines3 installation guide](https://stable-baselines3.readthedocs.io/en/master/guide/install.html). Install the Stable Baselines package using pip:
 
