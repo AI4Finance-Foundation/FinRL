@@ -86,7 +86,7 @@ class SingleStockEnv(gym.Env):
         self.action_space = spaces.Box(low = -1, high = 1,shape = (self.action_space,)) 
         # Shape = 181: [Current Balance]+[prices 1-30]+[owned shares 1-30] 
         # +[macd 1-30]+ [rsi 1-30] + [cci 1-30] + [adx 1-30]
-        self.observation_space = spaces.Box(low=0, high=np.inf, shape = (self.state_space,))
+        self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape = (self.state_space,))
         # load data from a pandas dataframe
         self.data = self.df.loc[self.day,:]
         self.terminal = False     
