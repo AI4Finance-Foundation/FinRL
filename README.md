@@ -1,8 +1,14 @@
-# FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance
+# FinRL: A Deep Reinforcement Learning Library for Quantitative Finance
 
-We will maintain the open source FinRL library for the "AI + finance" community: support various markets, SOTA DRL algorithms, benchmarks for many quant finance tasks, live trading, etc.  To contribute?  Please check the call for contributions at the end of this page.
+FinRL is the open source library for practitioners. To efficiently automate trading, **AI4Finance** provides this educational resource and makes it easier to learn about deep reinforcement learning (DRL) in quantitative finance. 
 
-Feel free to leave us feedback for any issue. We suggest users to report bugs using Github issues. Users can also discuss FinRL in the following slack channel.
+Reinforcement learning (RL) trains an agent how to solve tasks by trial and error, while DRL combines RL with deep learning. DRL balances exploration (of uncharted territory) and exploitation (of current knowledge), and has been recognized as an advantageous approach for automated trading. DRL framework is powerful in solving dynamic decision making problems by learning through interaction with an unknown environment, thus provides two major advantages: portfolio scala-bility and market model independence. In quantitative finance, automated trading is essentially making dynamic decisions, namely **to decide where to trade, at what price, and what quantity**, over a highlystochastic and complex stock market. Taking many complex financialfactors into account, DRL trading agents build a multi-factor model and provide algorithmic trading strategies, which are difficult for human traders
+ 
+FinRL provides a framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.  
+
+To contribute?  Please check the call for contributions at the end of this page.
+
+Feel free to leave us feedback: report bugs using Github issues or discuss FinRL development in the slack channel.
 
 
 
@@ -19,7 +25,7 @@ Feel free to leave us feedback for any issue. We suggest users to report bugs us
 
 ## Prior Arts:
 
-We worked on the following papers and now arrive at this project:
+We published the following papers and now arrive at this project:
 
 4). [FinRL](https://arxiv.org/abs/2011.09607): A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance, Deep RL Workshop, NeurIPS 2020.
 
@@ -140,7 +146,7 @@ pip install -r requirements.txt
 
 ## Stable-Baselines3 using Pytorch
 
-### About [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3)
+### About [Stable-Baselines 3](https://github.com/DLR-RM/stable-baselines3)
 
 Stable-Baselines3 is a set of improved implementations of reinforcement learning algorithms in PyTorch. It is the next major version of Stable Baselines. If you have questions regarding Stable-baselines package, please refer to [Stable-baselines3 installation guide](https://stable-baselines3.readthedocs.io/en/master/guide/install.html). Install the Stable Baselines package using pip:
 
