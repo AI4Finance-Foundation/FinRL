@@ -88,7 +88,7 @@ class StockPortfolioEnv(gym.Env):
         self.action_space = spaces.Box(low = 0, high = 1,shape = (self.action_space,)) 
         # Shape = (34, 30)
         # covariance matrix + technical indicators
-        self.observation_space = spaces.Box(low=0, high=np.inf, shape = (self.state_space+len(self.tech_indicator_list),self.state_space))
+        self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape = (self.state_space+len(self.tech_indicator_list),self.state_space))
 
         # load data from a pandas dataframe
         self.data = self.df.loc[self.day,:]
