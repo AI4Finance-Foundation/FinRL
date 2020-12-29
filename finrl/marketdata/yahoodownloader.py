@@ -75,7 +75,7 @@ class YahooDownloader:
         return data_df
 
 
-    def select_equal_rows_stock(df):
+    def select_equal_rows_stock(self, df):
         df_check=df.tic.value_counts()
         df_check=pd.DataFrame(df_check).reset_index()
         df_check.columns = ['tic','counts']
