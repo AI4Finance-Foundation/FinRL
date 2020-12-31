@@ -23,8 +23,8 @@ setup(
     url = "https://github.com/finrl/finrl-library" ,
     license = "MIT" ,
     packages = find_packages(),
-    install_requires=REQUIRES,
-    #install_requires=REQUIRES+['pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2'],
+    #install_requires=REQUIRES,
+    install_requires=REQUIRES+['pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2'],
     #dependency_links=['git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2'],
     description = "FinRL library, a Deep Reinforcement Learning library for automated trading in quantitative finance.",
     long_description = """finrl is a Python library for that facilitates beginners to expose themselves to quantitative finance 
