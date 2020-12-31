@@ -40,14 +40,15 @@ class DRLAgent:
     def __init__(self, env):
         self.env = env
 
-    def train_A2C(self, model_name, model_params = config.A2C_PARAMS):
+    def train_A2C(self, model_name, policy = "MlpPolicy", model_params = config.A2C_PARAMS, policy_kwargs=None):
         """A2C model"""
         from stable_baselines3 import A2C
         from stable_baselines3.a2c import MlpPolicy
 
         env_train = self.env
         start = time.time()
-        model = A2C('MlpPolicy', env_train, 
+        model = A2C(policy, env_train, 
+                    policy_kwargs=policy_kwargs,
                     n_steps = model_params['n_steps'],
                     ent_coef = model_params['ent_coef'],
                     learning_rate = model_params['learning_rate'],
@@ -62,7 +63,7 @@ class DRLAgent:
         return model
 
 
-    def train_DDPG(self, model_name, model_params = config.DDPG_PARAMS):
+    def train_DDPG(self, model_name, policy = "MlpPolicy", model_params = config.DDPG_PARAMS, policy_kwargs=None):
         """DDPG model"""
         from stable_baselines3 import DDPG
         from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise
@@ -75,8 +76,9 @@ class DRLAgent:
 
 
         start = time.time()
-        model = DDPG('MlpPolicy', 
+        model = DDPG(policy, 
                     env_train,
+                    policy_kwargs=policy_kwargs,
                     batch_size=model_params['batch_size'],
                     buffer_size=model_params['buffer_size'],
                     learning_rate=model_params['learning_rate'],
@@ -92,7 +94,7 @@ class DRLAgent:
         return model
 
 
-    def train_TD3(self, model_name, model_params = config.TD3_PARAMS):
+    def train_TD3(self, model_name, policy = "MlpPolicy", model_params = config.TD3_PARAMS, policy_kwargs=None):
         """TD3 model"""
         from stable_baselines3 import TD3
         from stable_baselines3.td3.policies import MlpPolicy
@@ -104,7 +106,8 @@ class DRLAgent:
         action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.1*np.ones(n_actions))
 
         start = time.time()
-        model = TD3('MlpPolicy', env_train,
+        model = TD3(policy, env_train,
+                    policy_kwargs=policy_kwargs,
                     batch_size=model_params['batch_size'],
                     buffer_size=model_params['buffer_size'],
                     learning_rate = model_params['learning_rate'],
@@ -119,7 +122,7 @@ class DRLAgent:
         print('Training time (DDPG): ', (end-start)/60,' minutes')
         return model
 
-    def train_SAC(self, model_name, model_params = config.SAC_PARAMS):
+    def train_SAC(self, model_name, policy = "MlpPolicy", model_params = config.SAC_PARAMS, policy_kwargs=None):
         """TD3 model"""
         from stable_baselines3 import SAC
         from stable_baselines3.sac import MlpPolicy
@@ -127,7 +130,8 @@ class DRLAgent:
         env_train = self.env
 
         start = time.time()
-        model = SAC('MlpPolicy', env_train,
+        model = SAC(policy, env_train,
+                    policy_kwargs=policy_kwargs,
                     batch_size=model_params['batch_size'],
                     buffer_size=model_params['buffer_size'],
                     learning_rate = model_params['learning_rate'],
@@ -144,7 +148,7 @@ class DRLAgent:
         return model
 
 
-    def train_PPO(self, model_name, model_params = config.PPO_PARAMS):
+    def train_PPO(self, model_name, policy = "MlpPolicy", model_params = config.PPO_PARAMS, policy_kwargs=None):
         """PPO model"""
         from stable_baselines3 import PPO
         from stable_baselines3.ppo import MlpPolicy
@@ -152,7 +156,8 @@ class DRLAgent:
         env_train = self.env
 
         start = time.time()
-        model = PPO('MlpPolicy', env_train,
+        model = PPO(policy, env_train,
+                     policy_kwargs=policy_kwargs,
                      n_steps = model_params['n_steps'],
                      ent_coef = model_params['ent_coef'],
                      learning_rate = model_params['learning_rate'],
