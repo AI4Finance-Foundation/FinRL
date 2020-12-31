@@ -134,3 +134,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*events.out.tfevents.*
+*.csv
+*.zip
+*.png
