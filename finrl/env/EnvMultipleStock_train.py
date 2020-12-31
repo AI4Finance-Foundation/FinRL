@@ -58,6 +58,7 @@ class StockEnvTrain(gym.Env):
         self.trades = 0
         #self.reset()
         self._seed()
+        self.episodes =0
 
 
     def _sell_stock(self, index, action):
@@ -92,29 +93,29 @@ class StockEnvTrain(gym.Env):
         self.trades+=1
         
     def step(self, actions):
-        # print(self.day)
         self.terminal = self.day >= len(self.df.index.unique())-1
-        # print(actions)
 
         if self.terminal:
+            self.episodes+=1
             #plt.plot(self.asset_memory,'r')
             #plt.savefig('results/account_value_train.png')
             #plt.close()
             end_total_asset = self.state[0]+ \
                 sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
-
-            print("begin_total_asset:{}".format(self.asset_memory[0]))           
-            print("end_total_asset:{}".format(end_total_asset))
+            print(f"day: {self.day}, episode: {self.episodes}")
+            print(f"begin_total_asset:{self.asset_memory[0]:0.2f}")           
+            print(f"end_total_asset:{end_total_asset:0.2f}")
             df_total_value = pd.DataFrame(self.asset_memory)
             #df_total_value.to_csv('results/account_value_train.csv')
-            print("total_reward:{}".format(self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))- self.initial_amount ))
-            print("total_cost: ", self.cost)
-            print("total_trades: ", self.trades)
+            tot_reward = self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))- self.initial_amount 
+            print(f"total_reward:{tot_reward:0.2f}")
+            print(f"total_cost: {self.cost:0.2f}")
+            print(f"total_trades: {self.trades}")
             df_total_value.columns = ['account_value']
             df_total_value['daily_return']=df_total_value.pct_change(1)
             sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
                   df_total_value['daily_return'].std()
-            print("Sharpe: ",sharpe)
+            print(f"Sharpe: {sharpe:0.3f}")
             print("=================================")
             df_rewards = pd.DataFrame(self.rewards_memory)
             #df_rewards.to_csv('results/account_rewards_train.csv')
