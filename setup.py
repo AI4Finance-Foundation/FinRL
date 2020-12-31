@@ -27,13 +27,13 @@ setup(
     #install_requires=REQUIRES+['pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2'],
     #dependency_links=['git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2'],
     description = "FinRL library, a Deep Reinforcement Learning library for automated trading in quantitative finance.",
-    LONG_DESCRIPTION = """finrl is a Python library for that facilitates beginners to expose themselves to quantitative finance 
+    long_description = """finrl is a Python library for that facilitates beginners to expose themselves to quantitative finance 
     and to develop their own trading strategies, it is developed by `AI4Finance`_. 
     
     FinRL has been developed under three primary principles: completeness, hands-on tutorial and reproducibility. 
     
     .. _AI4Finance: https://github.com/AI4Finance-LLC
-    """
+    """,
     classifiers = [
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
