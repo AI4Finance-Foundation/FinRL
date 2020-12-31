@@ -16,7 +16,7 @@ except:
 
 setup(
     name = "finrl",
-    version = "0.0.1",
+    version = "0.0.2",
     include_package_data=True,
     author='Hongyang Yang, Xiaoyang Liu',
     author_email='hy2500@columbia.edu',
