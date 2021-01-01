@@ -149,23 +149,3 @@ class FeatureEngineer:
             {"date": df_price_pivot.index, "turbulence": turbulence_index}
         )
         return turbulence_index
-
-    def _get_type_list(self, feature_number):
-        """
-        :param feature_number: an int indicates the number of features
-        :return: a list of features n
-        """
-        if feature_number == 1:
-            type_list = ["close"]
-        elif feature_number == 2:
-            type_list = ["close", "volume"]
-            # raise NotImplementedError("the feature volume is not supported currently")
-        elif feature_number == 3:
-            type_list = ["close", "high", "low"]
-        elif feature_number == 4:
-            type_list = ["close", "high", "low", "open"]
-        elif feature_number == 5:
-            type_list = ["close", "high", "low", "open", "volume"]
-        else:
-            raise ValueError("feature number could not be %s" % feature_number)
-        return type_list
