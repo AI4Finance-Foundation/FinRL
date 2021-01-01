@@ -1,5 +1,8 @@
 # FinRL: A Deep Reinforcement Learning Library for Quantitative Finance
 
+[![Downloads](https://pepy.tech/badge/finrl)](https://pepy.tech/project/finrl)
+
+
 FinRL is the open source library for practitioners. To efficiently automate trading, **AI4Finance** provides this educational resource and makes it easier to learn about deep reinforcement learning (DRL) in quantitative finance. 
 
 Reinforcement learning (RL) trains an agent how to solve tasks by trial and error, while DRL combines RL with deep learning. DRL balances exploration (of uncharted territory) and exploitation (of current knowledge), and has been recognized as an advantageous approach for automated trading. DRL framework is powerful in solving dynamic decision making problems by learning through interaction with an unknown environment, thus provides two major advantages: portfolio scala-bility and market model independence. In quantitative finance, automated trading is essentially making dynamic decisions, namely **to decide where to trade, at what price, and what quantity**, over a highlystochastic and complex stock market. Taking many complex financialfactors into account, DRL trading agents build a multi-factor model and provide algorithmic trading strategies, which are difficult for human traders
