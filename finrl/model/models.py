@@ -92,7 +92,7 @@ class DRLAgent:
         verbose=1,
     ):
         if model_name not in MODELS:
-            raise NotImplementedException()
+            raise NotImplementedError("NotImplementedError")
 
         if model_kwargs is None:
             model_kwargs = MODEL_KWARGS[model_name]
