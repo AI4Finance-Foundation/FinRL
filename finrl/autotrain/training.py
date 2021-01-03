@@ -29,13 +29,17 @@ def train_one():
         ticker_list=config.DOW_30_TICKER,
     ).fetch_data()
     print("==============Start Feature Engineering===========")
-    df = FeatureEngineer(
-        df, use_technical_indicator=True, use_turbulence=True
-    ).preprocess_data()
+    fe = FeatureEngineer(
+                    use_technical_indicator=True,
+                    tech_indicator_list = config.TECHNICAL_INDICATORS_LIST,
+                    use_turbulence=True,
+                    user_defined_feature = False)
+
+    processed = fe.preprocess_data(df)
 
     # Training & Trade data split
-    train = data_split(df, config.START_DATE, config.START_TRADE_DATE)
-    trade = data_split(df, config.START_TRADE_DATE, config.END_DATE)
+    train = data_split(processed, config.START_DATE, config.START_TRADE_DATE)
+    trade = data_split(processed, config.START_TRADE_DATE, config.END_DATE)
 
     # data normalization
     # feaures_list = list(train.columns)
@@ -69,18 +73,9 @@ def train_one():
     print("==============Model Training===========")
     now = datetime.datetime.now().strftime("%Y%m%d-%Hh%M")
 
-    sac_params_tuning = {
-        "batch_size": 64,
-        "buffer_size": 100000,
-        "ent_coef": "auto_0.1",
-        "learning_rate": 0.0001,
-        "learning_starts": 200,
-        "timesteps": 50000,
-        "verbose": 0,
-    }
-
-    model = agent.train_SAC(
-        model_name="SAC_{}".format(now), model_params=sac_params_tuning
+    model_sac = agent.get_model("sac")
+    trained_sac = agent.train_model(model=model_sac, 
+        tb_log_name='sac', total_timesteps=80000
     )
 
     print("==============Start Trading===========")
@@ -89,7 +84,7 @@ def train_one():
     )
 
     df_account_value, df_actions = DRLAgent.DRL_prediction(
-        model=model, test_data=trade, test_env=env_trade, test_obs=obs_trade
+        model=trained_sac, test_data=trade, test_env=env_trade, test_obs=obs_trade
     )
     df_account_value.to_csv(
         "./" + config.RESULTS_DIR + "/df_account_value_" + now + ".csv"
