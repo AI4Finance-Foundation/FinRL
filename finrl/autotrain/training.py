@@ -11,7 +11,7 @@ from finrl.config import config
 from finrl.marketdata.yahoodownloader import YahooDownloader
 from finrl.preprocessing.preprocessors import FeatureEngineer
 from finrl.preprocessing.data import data_split
-from finrl.env.env_multistock import MultistockEnv
+from finrl.env.env_stocktrading import StockTradingEnv
 from finrl.model.models import DRLAgent
 from finrl.trade.backtest import BackTestStats
 
@@ -69,9 +69,9 @@ def train_one():
         
     }
 
-    e_train_gym = MultistockEnv(df = train, **env_kwargs)
+    e_train_gym = StockTradingEnv(df = train, **env_kwargs)
 
-    e_trade_gym = MultistockEnv(df = trade, turbulence_threshold = 250, **env_kwargs)
+    e_trade_gym = StockTradingEnv(df = trade, turbulence_threshold = 250, **env_kwargs)
     env_train, _ = e_train_gym.get_sb_env()
     env_trade, obs_trade = e_trade_gym.get_sb_env()
 
