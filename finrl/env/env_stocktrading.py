@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import pickle
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-class MultistockEnv(gym.Env):
+class StockTradingEnv(gym.Env):
     """A stock trading environment for OpenAI gym"""
     metadata = {'render.modes': ['human']}
 
@@ -45,10 +45,8 @@ class MultistockEnv(gym.Env):
         self.print_verbosity = print_verbosity
         self.turbulence_threshold = turbulence_threshold
         # initalize state
-        self.state = [self.initial_amount] + \
-                      self.data.close.values.tolist() + \
-                      [0]*self.stock_dim  + \
-                      sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
+        self.state = self._initiate_state()
+        
         # initialize reward
         self.reward = 0
         self.turbulence = 0
@@ -59,7 +57,7 @@ class MultistockEnv(gym.Env):
         self.asset_memory = [self.initial_amount]
         self.rewards_memory = []
         self.actions_memory=[]
-        self.date_memory=[self.data.date.unique()[0]]
+        self.date_memory=[self._get_date()]
         #self.reset()
         self._seed()
 
@@ -178,18 +176,15 @@ class MultistockEnv(gym.Env):
                 self._buy_stock(index, actions[index])
 
             self.day += 1
-            self.data = self.df.loc[self.day,:]         
-            self.turbulence = self.data['turbulence'].values[0]
-            self.state =  [self.state[0]] + \
-                    self.data.close.values.tolist() + \
-                    list(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]) + \
-                    sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
-
-            
+            self.data = self.df.loc[self.day,:]    
+            if self.turbulence_threshold is not None:     
+                self.turbulence = self.data['turbulence'].values[0]
+            self.state =  self._update_state()
+                           
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             self.asset_memory.append(end_total_asset)
-            self.date_memory.append(self.data.date.unique()[0])
+            self.date_memory.append(self._get_date())
             self.reward = end_total_asset - begin_total_asset            
             self.rewards_memory.append(self.reward)
             self.reward = self.reward*self.reward_scaling
@@ -207,18 +202,53 @@ class MultistockEnv(gym.Env):
         #self.iteration=self.iteration
         self.rewards_memory = []
         self.actions_memory=[]
-        self.date_memory=[self.data.date.unique()[0]]
+        self.date_memory=[self._get_date()]
         #initiate state
-        self.state = [self.initial_amount] + \
-                      self.data.close.values.tolist() + \
-                      [0]*self.stock_dim + \
-                      sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
-
+        self.state = self._initiate_state()
         self.episode+=1
         return self.state
     
     def render(self, mode='human',close=False):
         return self.state
+
+    def _initiate_state(self):
+        if len(self.df.tic.unique())>1:
+            # for multiple stock
+            state = [self.initial_amount] + \
+                     self.data.close.values.tolist() + \
+                     [0]*self.stock_dim  + \
+                     sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
+        else:
+            # for single stock
+            state = [self.initial_amount] + \
+                    [self.data.close] + \
+                    [0]*self.stock_dim  + \
+                    sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+        return state
+
+    def _update_state(self):
+        if len(self.df.tic.unique())>1:
+            # for multiple stock
+            state =  [self.state[0]] + \
+                      self.data.close.values.tolist() + \
+                      list(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]) + \
+                      sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
+
+        else:
+            # for single stock
+            state =  [self.state[0]] + \
+                     [self.data.close] + \
+                     list(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]) + \
+                     sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+                          
+        return state
+
+    def _get_date(self):
+        if len(self.df.tic.unique())>1:
+            date = self.data.date.unique()[0]
+        else:
+            date = self.data.date
+        return date
 
     def save_asset_memory(self):
         date_list = self.date_memory
@@ -229,16 +259,21 @@ class MultistockEnv(gym.Env):
         return df_account_value
 
     def save_action_memory(self):
-        # date and close price length must match actions length
-        date_list = self.date_memory[:-1]
-        df_date = pd.DataFrame(date_list)
-        df_date.columns = ['date']
-        
-        action_list = self.actions_memory
-        df_actions = pd.DataFrame(action_list)
-        df_actions.columns = self.data.tic.values
-        df_actions.index = df_date.date
-        #df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
+        if len(self.df.tic.unique())>1:
+            # date and close price length must match actions length
+            date_list = self.date_memory[:-1]
+            df_date = pd.DataFrame(date_list)
+            df_date.columns = ['date']
+            
+            action_list = self.actions_memory
+            df_actions = pd.DataFrame(action_list)
+            df_actions.columns = self.data.tic.values
+            df_actions.index = df_date.date
+            #df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
+        else:
+            date_list = self.date_memory[:-1]
+            action_list = self.actions_memory
+            df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
         return df_actions
 
     def _seed(self, seed=None):
