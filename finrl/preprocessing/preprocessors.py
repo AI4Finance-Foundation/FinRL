@@ -108,12 +108,12 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        turbulence_index = self.calcualte_turbulence(df)
+        turbulence_index = self.calculate_turbulence(df)
         df = df.merge(turbulence_index, on="date")
         df = df.sort_values(["date", "tic"]).reset_index(drop=True)
         return df
 
-    def calcualte_turbulence(self, data):
+    def calculate_turbulence(self, data):
         """calculate turbulence index based on dow 30"""
         # can add other market assets
         df = data.copy()
