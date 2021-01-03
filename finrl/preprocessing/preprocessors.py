@@ -36,7 +36,6 @@ class FeatureEngineer:
         self.tech_indicator_list = tech_indicator_list
         self.use_turbulence = use_turbulence
         self.user_defined_feature = user_defined_feature
-        self.custom_features = {}
 
     def preprocess_data(self, df):
         """main method to do the feature engineering
@@ -56,8 +55,7 @@ class FeatureEngineer:
 
         # add user defined feature
         if self.user_defined_feature == True:
-            for k, v in self.custom_features.items():
-                df = self.add_user_defined_feature(df, feature_fun=v, name=k)
+            df = self.add_user_defined_feature(df)
             print("Successfully added user defined features")
 
         # fill the missing values at the beginning and the end
@@ -89,28 +87,18 @@ class FeatureEngineer:
             df[indicator] = indicator_df
         return df
 
-    def add_user_defined_feature(self, data, name='custom_feature', feature_fun=None):
+    def add_user_defined_feature(self, data):
         """
          add user defined features
         :param data: (df) pandas dataframe
         :return: (df) pandas dataframe
         """
-        def _calculate_daily_return(df):
-            df['daily_return'] = df.close.pct_change(1)
-            return df
-
         df = data.copy()
-
-        if feature_fun is None:
-            return _calculate_daily_return(df)
-        else:
-            df[name] = feature_fun(data)
-            self.custom_features[name] = feature_fun # store feature for later application
-        # df["daily_return"] = df.close.pct_change(1)
-        # # df['return_lag_1']=df.close.pct_change(2)
-        # # df['return_lag_2']=df.close.pct_change(3)
-        # # df['return_lag_3']=df.close.pct_change(4)
-        # # df['return_lag_4']=df.close.pct_change(5)
+        df["daily_return"] = df.close.pct_change(1)
+        # df['return_lag_1']=df.close.pct_change(2)
+        # df['return_lag_2']=df.close.pct_change(3)
+        # df['return_lag_3']=df.close.pct_change(4)
+        # df['return_lag_4']=df.close.pct_change(5)
         return df
 
     def add_turbulence(self, data):
@@ -120,12 +108,12 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        turbulence_index = self.calculate_turbulence(df)
+        turbulence_index = self.calcualte_turbulence(df)
         df = df.merge(turbulence_index, on="date")
         df = df.sort_values(["date", "tic"]).reset_index(drop=True)
         return df
 
-    def calculate_turbulence(self, data):
+    def calcualte_turbulence(self, data):
         """calculate turbulence index based on dow 30"""
         # can add other market assets
         df = data.copy()
