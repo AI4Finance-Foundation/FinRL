@@ -27,14 +27,17 @@ def train_one():
                          end_date = config.END_DATE,
                          ticker_list = config.DOW_30_TICKER).fetch_data()
     print("==============Start Feature Engineering===========")
-    df = FeatureEngineer(df,
-                        use_technical_indicator=True,
-                        use_turbulence=True).preprocess_data()
+    fe = FeatureEngineer(
+                    use_technical_indicator=True,
+                    tech_indicator_list = config.TECHNICAL_INDICATORS_LIST,
+                    use_turbulence=True,
+                    user_defined_feature = False)
 
+    processed = fe.preprocess_data(df)
 
     # Training & Trade data split
-    train = data_split(df, config.START_DATE,config.START_TRADE_DATE)
-    trade = data_split(df, config.START_TRADE_DATE,config.END_DATE)
+    train = data_split(processed, config.START_DATE,config.START_TRADE_DATE)
+    trade = data_split(processed, config.START_TRADE_DATE,config.END_DATE)
 
     # data normalization
     #feaures_list = list(train.columns)
@@ -63,23 +66,18 @@ def train_one():
     print("==============Model Training===========")
     now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
 
-    sac_params_tuning={
-                      'batch_size': 64,
-                     'buffer_size': 100000,
-                      'ent_coef':'auto_0.1',
-                     'learning_rate': 0.0001,
-                     'learning_starts':200,
-                     'timesteps': 50000,
-                     'verbose': 0}
+    model_sac = agent.get_model("sac")
 
-    model = agent.train_SAC(model_name = "SAC_{}".format(now), model_params = sac_params_tuning)
+    trained_sac = agent.train_model(model=model_sac, 
+                             tb_log_name='sac',
+                             total_timesteps=80000)
 
     print("==============Start Trading===========")
     env_trade, obs_trade = env_setup.create_env_trading(data = trade,
                                          env_class = StockEnvTrade,
                                          turbulence_threshold=250) 
 
-    df_account_value,df_actions = DRLAgent.DRL_prediction(model=model,
+    df_account_value,df_actions = DRLAgent.DRL_prediction(model=trained_sac,
                                                           test_data = trade,
                                                           test_env = env_trade,
                                                           test_obs = obs_trade)
