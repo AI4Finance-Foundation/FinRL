@@ -11,9 +11,7 @@ from finrl.config import config
 from finrl.marketdata.yahoodownloader import YahooDownloader
 from finrl.preprocessing.preprocessors import FeatureEngineer
 from finrl.preprocessing.data import data_split
-from finrl.env.environment import EnvSetup
-from finrl.env.EnvMultipleStock_train import StockEnvTrain
-from finrl.env.EnvMultipleStock_trade import StockEnvTrade
+from finrl.env.env_multistock import MultistockEnv
 from finrl.model.models import DRLAgent
 from finrl.trade.backtest import BackTestStats
 
@@ -59,15 +57,24 @@ def train_one():
         + len(config.TECHNICAL_INDICATORS_LIST) * stock_dimension
     )
 
-    env_setup = EnvSetup(
-        stock_dim=stock_dimension,
-        state_space=state_space,
-        hmax=100,
-        initial_amount=1000000,
-        transaction_cost_pct=0.001,
-    )
+    env_kwargs = {
+        "hmax": 100, 
+        "initial_amount": 1000000, 
+        "transaction_cost_pct": 0.001, 
+        "state_space": state_space, 
+        "stock_dim": stock_dimension, 
+        "tech_indicator_list": config.TECHNICAL_INDICATORS_LIST, 
+        "action_space": stock_dimension, 
+        "reward_scaling": 1e-4
+        
+    }
 
-    env_train = env_setup.create_env_training(data=train, env_class=StockEnvTrain)
+    e_train_gym = MultistockEnv(df = train, **env_kwargs)
+
+    e_trade_gym = MultistockEnv(df = trade, turbulence_threshold = 250, **env_kwargs)
+    env_train, _ = e_train_gym.get_sb_env()
+    env_trade, obs_trade = e_trade_gym.get_sb_env()
+
     agent = DRLAgent(env=env_train)
 
     print("==============Model Training===========")
@@ -79,10 +86,6 @@ def train_one():
     )
 
     print("==============Start Trading===========")
-    env_trade, obs_trade = env_setup.create_env_trading(
-        data=trade, env_class=StockEnvTrade, turbulence_threshold=250
-    )
-
     df_account_value, df_actions = DRLAgent.DRL_prediction(
         model=trained_sac, test_data=trade, test_env=env_trade, test_obs=obs_trade
     )
