@@ -6,6 +6,8 @@ from gym import spaces
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from stable_baselines3.common.vec_env import DummyVecEnv
+
 
 class StockPortfolioEnv(gym.Env):
     """A single stock trading environment for OpenAI gym
@@ -67,7 +69,7 @@ class StockPortfolioEnv(gym.Env):
                 state_space,
                 action_space,
                 tech_indicator_list,
-                turbulence_threshold,
+                turbulence_threshold=None,
                 lookback=252,
                 day = 0):
         #super(StockEnv, self).__init__()
@@ -225,7 +227,7 @@ class StockPortfolioEnv(gym.Env):
     def _seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
-        
+
     def get_sb_env(self):
         e = DummyVecEnv([lambda: self])
         obs = e.reset()
