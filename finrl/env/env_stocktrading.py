@@ -136,8 +136,9 @@ class StockTradingEnv(gym.Env):
             tot_reward = self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))- self.initial_amount 
             df_total_value.columns = ['account_value']
             df_total_value['daily_return']=df_total_value.pct_change(1)
-            sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
-                  df_total_value['daily_return'].std()
+            if df_total_value['daily_return'].std() !=0:
+                sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
+                      df_total_value['daily_return'].std()
             df_rewards = pd.DataFrame(self.rewards_memory)
             if self.episode%self.print_verbosity ==0:
                 print(f"day: {self.day}, episode: {self.episode}")
@@ -146,7 +147,8 @@ class StockTradingEnv(gym.Env):
                 print(f"total_reward:{tot_reward:0.2f}")
                 print(f"total_cost: {self.cost:0.2f}")
                 print(f"total_trades: {self.trades}")
-                print(f"Sharpe: {sharpe:0.3f}")
+                if df_total_value['daily_return'].std() !=0:
+                    print(f"Sharpe: {sharpe:0.3f}")
                 print("=================================")
             return self.state, self.reward, self.terminal,{}
 
