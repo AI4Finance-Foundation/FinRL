@@ -139,3 +139,4 @@ dmypy.json
 *.csv
 *.zip
 *.png
+/venv/
