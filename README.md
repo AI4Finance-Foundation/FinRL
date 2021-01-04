@@ -78,12 +78,15 @@ Furthermore, we incorporated three application demonstrations, namely single sto
 ## Implemented Algorithms
 <img src=figs/alg_compare.PNG width="800">
 
-## Our Medium Blog
+## Medium Blogs
 [FinRL for Quantitative Finance: Tutorial for Single Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-single-stock-trading-37d6d7c30aac)
 
 [FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
 
 [FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
+
+## Related Reports
+【量化投资与机器学习】[基于深度强化学习的股票交易策略框架（代码+文档)](https://www.mdeditor.tw/pl/p5Gg)
 
 ## Installation:
 
@@ -206,7 +209,6 @@ The stock data we use is pulled from Yahoo Finance API
     year    = {2020}
 }
 ```
-
 
 # Call for Contributions
 
