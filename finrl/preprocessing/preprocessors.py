@@ -118,6 +118,9 @@ class FeatureEngineer:
         # can add other market assets
         df = data.copy()
         df_price_pivot = df.pivot(index="date", columns="tic", values="close")
+        # use returns to calculate turbulence
+        df_price_pivot = df_price_pivot.pct_change().dropna()
+
         unique_date = df.date.unique()
         # start after a year
         start = 252
@@ -126,9 +129,8 @@ class FeatureEngineer:
         count = 0
         for i in range(start, len(unique_date)):
             current_price = df_price_pivot[df_price_pivot.index == unique_date[i]]
-            hist_price = df_price_pivot[
-                [n in unique_date[0:i] for n in df_price_pivot.index]
-            ]
+            hist_price = df_price_pivot[df_price_pivot.index < unique_date[i]]
+
             cov_temp = hist_price.cov()
             current_temp = current_price - np.mean(hist_price, axis=0)
             temp = current_temp.values.dot(np.linalg.inv(cov_temp)).dot(
