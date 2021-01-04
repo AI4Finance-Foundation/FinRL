@@ -141,7 +141,10 @@ To activate a virtualenv:
 ```
 source venv/bin/activate
 ```
-
+To activate a virtualenv on windows:
+```
+venv\Scripts\activate
+```
 ## Dependencies
 
 The script has been tested running under **Python >= 3.6.0**, with the folowing packages installed:
