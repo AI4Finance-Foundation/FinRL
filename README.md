@@ -100,6 +100,18 @@ Install the unstable development version of FinRL:
 pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
 
+## Docker Installation
+
+Build the container:
+```bash
+$ docker build -f docker/Dockerfile -t finrl docker/
+```
+
+Start the container
+Note: The default container run starts jupyter lab in the root directory, allowing you to run scripts, notebooks, etc.
+```bash
+$ docker run -it --rm -v ${PWD}:/home -p 8888:8888 finrl
+```
 
 ### Prerequisites
 For [OpenAI Baselines](https://github.com/openai/baselines), you'll need system packages CMake, OpenMPI and zlib. Those can be installed as follows
