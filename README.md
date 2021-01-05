@@ -219,7 +219,7 @@ The stock data we use is pulled from Yahoo Finance API
 @article{finrl2020,
     author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
     journal = {Deep RL Workshop, NeurIPS 2020},
-    title   = {{FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance}},
+    title   = {FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance},
     url     = {},
     year    = {2020}
 }
