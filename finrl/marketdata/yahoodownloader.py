@@ -77,7 +77,9 @@ class YahooDownloader:
         data_df = data_df.reset_index(drop=True)
         print("Shape of DataFrame: ", data_df.shape)
         # print("Display DataFrame: ", data_df.head())
-
+        # create day of the week column (monday = 0)
+        data_df['day'] = data_df['date'].dt.dayofweek
+        
         return data_df
 
     def select_equal_rows_stock(self, df):
