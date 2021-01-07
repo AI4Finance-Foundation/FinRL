@@ -1,6 +1,4 @@
-# FinRL: A Deep Reinforcement Learning Library for Quantitative Finance
-
-# FinRL: A Deep Reinforcement Learning Library for Quantitative Finance[![alt text][1.1]][1]
+# FinRL: A Deep Reinforcement Learning Library for Quantitative Finance [![alt text][1.1]][1]
 [1.1]: http://www.tensorlet.com/wp-content/uploads/2021/01/logo_twitter.png
 [1]: https://twitter.com/intent/tweet?text=FinRL-A-Deep-Reinforcement-Learning-Library-for-Quantitative-Finance%20&url=hhttps://github.com/AI4Finance-LLC/FinRL-Library&hashtags=DRL
 
