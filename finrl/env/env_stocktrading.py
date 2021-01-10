@@ -24,20 +24,20 @@ from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 
 
 class StockTradingEnv(gym.Env):
-    """A stock trading environment for OpenAI gym"""
-
-    metadata = {"render.modes": ["human"]}
-
+    
     """
+    A stock trading environment for OpenAI gym
+    Parameters:
     state space: {start_cash, <owned_shares>, for s in stocks{<stock.values>}, }
-    transaction_cost (float): cost for buying or selling shares
-    hmax (int): max number of share purchases allowed per asset
-    turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
-    print_verbosity(int): When iterating (step), how often to print stats about state of env
-    reward_scaling (float): Scaling value to multiply reward by at each step. 
-    initial_amount: (int, float): Amount of cash initially available
-    daily_information_columns (list(str)): Columns to use when building state space from the dataframe. 
-    out_of_cash_penalty (int, float): Penalty to apply if the algorithm runs out of cash
+        df (pandas.DataFrame): Dataframe containing data
+        transaction_cost (float): cost for buying or selling shares
+        hmax (int): max number of share purchases allowed per asset
+        turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
+        print_verbosity(int): When iterating (step), how often to print stats about state of env
+        reward_scaling (float): Scaling value to multiply reward by at each step. 
+        initial_amount: (int, float): Amount of cash initially available
+        daily_information_columns (list(str)): Columns to use when building state space from the dataframe. 
+        out_of_cash_penalty (int, float): Penalty to apply if the algorithm runs out of cash
     
 
 
@@ -47,6 +47,7 @@ class StockTradingEnv(gym.Env):
         buy zero should result in no costs, no assets purchased
         given no change in prices, no change in asset values
     """
+    metadata = {"render.modes": ["human"]}
 
     def __init__(
         self,
@@ -59,7 +60,7 @@ class StockTradingEnv(gym.Env):
         reward_scaling=1e-4,
         initial_amount=1e6,
         daily_information_cols=["open", "close", "high", "low", "volume"],
-        out_of_cash_penalty=100000,
+        out_of_cash_penalty=None,
     ):
         self.df = df
         self.stock_col = "tic"
@@ -68,6 +69,8 @@ class StockTradingEnv(gym.Env):
         self.df = self.df.set_index(date_col_name)
         self.hmax = hmax
         self.initial_amount = initial_amount
+        if out_of_cash_penalty is None:
+            out_of_cash_penalty=-initial_amount*0.5
         self.out_of_cash_penalty = out_of_cash_penalty
         self.print_verbosity = print_verbosity
         self.transaction_cost_pct = transaction_cost_pct
@@ -85,6 +88,7 @@ class StockTradingEnv(gym.Env):
         self._seed()
 
     def _seed(self):
+
         self.reward = 0
         self.cumulative_reward = 0
         self.date_index = 0
@@ -124,14 +128,25 @@ class StockTradingEnv(gym.Env):
             v += subset.loc[date, cols].tolist()
         assert len(v) == len(self.assets) * len(cols)
         return v
+    
+    def log_step(self, reason):
+        cash_pct = self.account_information['cash'][-1]/self.account_information['total_assets'][-1]
+        rec = [self.episode, self.date_index, reason, f"${int(self.account_information['total_assets'][-1])}", f"{cash_pct*100:0.2f}"]
+        print(self.template.format(*rec))
 
     def step(self, actions):
+        if self.date_index==0:
+            self.template = "{0:8}|{1:10}|{2:15}|{3:7}|{4:10}" # column widths: 8, 10, 15, 7, 10
+            print(self.template.format("EPISODE", "STEPS", "TERMINAL_REASON", "TOT_ASSETS", "CASH_PCT"))
         # multiply action values by our scalar multiplier and save
         actions = actions * self.hmax
         self.actions_memory.append(actions)
 
         # define terminal function in scope so we can do something about the cycle being over
-        def return_terminal(reason=None, penalty=0):
+        
+        # assume that your data rows are tuples
+
+        def return_terminal(reason='Last Date', penalty=0):
 
             state = self.state_memory[-1]
             reward = (
@@ -141,22 +156,13 @@ class StockTradingEnv(gym.Env):
             reward += penalty
             reward = reward*self.reward_scaling
             self.cumulative_reward+=reward
-            if reason is None:
-                reason = f"end of dates! end assets: {self.account_information['total_assets'][-1]:0.2f} at date {self.dates[self.date_index]}"
-            reason += f" cumul reward : {self.cumulative_reward:0.2f}"
-            print(reason)   
+            
+            self.log_step(reason = reason)
             return state, reward * self.reward_scaling, True, {}
 
         # print if it's time.
         if (self.date_index + 1) % self.print_verbosity == 0:
-            print(f" date index: {self.date_index} of {len(self.dates)}")
-            total_assets, cash_assets = (
-                self.account_information["total_assets"][-1],
-                self.account_information["cash"][-1],
-            )
-            print(
-                f"assets: {total_assets:0.2f}, cash proportion: {(cash_assets/total_assets)*100:0.2f}%"
-            )
+            self.log_step(reason = 'update')
 
         #if we're at the end
         if self.date_index == len(self.dates) - 1:
@@ -195,8 +201,7 @@ class StockTradingEnv(gym.Env):
 
             # if we run out of cash, end the cycle and penalize
             if (spend + costs) > coh:
-                return return_terminal(
-                    f"ran out of cash at step: {self.date_index}, spend: {spend:0.2f}, costs: {costs:0.2f}, coh: {coh:0.2f}",
+                return return_terminal(reason = 'CASH SHORTAGE',
                     penalty=self.out_of_cash_penalty,
                 )
 
