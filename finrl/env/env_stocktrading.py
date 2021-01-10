@@ -131,7 +131,7 @@ class StockTradingEnv(gym.Env):
     
     def log_step(self, reason):
         cash_pct = self.account_information['cash'][-1]/self.account_information['total_assets'][-1]
-        rec = [self.episode, self.date_index, reason, f"${int(self.account_information['total_assets'][-1])}", f"{cash_pct*100:0.2f}"]
+        rec = [self.episode, self.date_index, reason, f"${int(self.account_information['total_assets'][-1])}", f"{cash_pct*100:0.2f}%"]
         print(self.template.format(*rec))
 
     def step(self, actions):
