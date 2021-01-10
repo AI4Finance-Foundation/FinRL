@@ -4,286 +4,223 @@ from gym.utils import seeding
 import gym
 from gym import spaces
 import matplotlib
-matplotlib.use('Agg')
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import pickle
+from stable_baselines3.common.vec_env import DummyVecEnv
+import numpy as np
+import pandas as pd
+from gym.utils import seeding
+import gym
+from gym import spaces
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pickle
 from stable_baselines3.common.vec_env import DummyVecEnv
 
+
 class StockTradingEnv(gym.Env):
     """A stock trading environment for OpenAI gym"""
-    metadata = {'render.modes': ['human']}
 
-    def __init__(self, 
-                df, 
-                stock_dim,
-                hmax,                
-                initial_amount,
-                transaction_cost_pct,
-                reward_scaling,
-                state_space,
-                action_space,
-                tech_indicator_list,
-                turbulence_threshold=None,
-                make_plots = False, 
-                print_verbosity = 10,
-                day = 0, iteration=''):
-        self.day = day
+    metadata = {"render.modes": ["human"]}
+
+    """
+    state space: {start_cash, <owned_shares>, for s in stocks{<stock.values>}, }
+    transaction_cost (float): cost for buying or selling shares
+    hmax (int): max number of share purchases allowed per asset
+    turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
+    print_verbosity(int): When iterating (step), how often to print stats about state of env
+    reward_scaling (float): Scaling value to multiply reward by at each step. 
+    initial_amount: (int, float): Amount of cash initially available
+    daily_information_columns (list(str)): Columns to use when building state space from the dataframe. 
+    out_of_cash_penalty (int, float): Penalty to apply if the algorithm runs out of cash
+    
+
+
+    tests:
+        after reset, static strategy should result in same metrics
+
+        buy zero should result in no costs, no assets purchased
+        given no change in prices, no change in asset values
+    """
+
+    def __init__(
+        self,
+        df,
+        transaction_cost_pct=3e-3,
+        date_col_name="date",
+        hmax=10,
+        turbulence_threshold=None,
+        print_verbosity=10,
+        reward_scaling=1e-4,
+        initial_amount=1e6,
+        daily_information_cols=["open", "close", "high", "low", "volume"],
+        out_of_cash_penalty=100000,
+    ):
         self.df = df
-        self.stock_dim = stock_dim
+        self.stock_col = "tic"
+        self.assets = df[self.stock_col].unique()
+        self.dates = df[date_col_name].sort_values().unique()
+        self.df = self.df.set_index(date_col_name)
         self.hmax = hmax
         self.initial_amount = initial_amount
-        self.transaction_cost_pct =transaction_cost_pct
-        self.reward_scaling = reward_scaling
-        self.state_space = state_space
-        self.action_space = action_space
-        self.tech_indicator_list = tech_indicator_list
-        self.action_space = spaces.Box(low = -1, high = 1,shape = (self.action_space,)) 
-        self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape = (self.state_space,))
-        self.data = self.df.loc[self.day,:]
-        self.terminal = False     
-        self.make_plots = make_plots
+        self.out_of_cash_penalty = out_of_cash_penalty
         self.print_verbosity = print_verbosity
-        self.turbulence_threshold = turbulence_threshold
-        # initalize state
-        self.state = self._initiate_state()
-        
-        # initialize reward
-        self.reward = 0
-        self.turbulence = 0
-        self.cost = 0
-        self.trades = 0
-        self.episode = 0
-        # memorize all the total balance change
-        self.asset_memory = [self.initial_amount]
-        self.rewards_memory = []
-        self.actions_memory=[]
-        self.date_memory=[self._get_date()]
-        #self.reset()
+        self.transaction_cost_pct = transaction_cost_pct
+        self.reward_scaling = reward_scaling
+        self.daily_information_cols = daily_information_cols
+        self.close_index = self.daily_information_cols.index("close")
+        self.state_space = (
+            1 + len(self.assets) + len(self.assets) * len(self.daily_information_cols)
+        )
+        self.action_space = spaces.Box(low=-1, high=1, shape=(len(self.assets),))
+        self.observation_space = spaces.Box(
+            low=-np.inf, high=np.inf, shape=(self.state_space,)
+        )
+        self.episode = -1  # initialize so we can call reset
         self._seed()
 
-
-    def _sell_stock(self, index, action):
-        # perform sell action based on the sign of the action
-        if self.turbulence_threshold is not None:
-            if self.turbulence>self.turbulence_threshold:
-                # if turbulence goes over threshold, just clear out all positions 
-                if self.state[index+self.stock_dim+1] > 0:
-                    #update balance
-                    self.state[0] += self.state[index+1]*self.state[index+self.stock_dim+1]* \
-                                (1- self.transaction_cost_pct)
-                    self.state[index+self.stock_dim+1] =0
-                    self.cost += self.state[index+1]*self.state[index+self.stock_dim+1]* \
-                                self.transaction_cost_pct
-                    self.trades+=1
-                else:
-                    pass
-        else:
-            # perform sell action based on the sign of the action
-            if self.state[index+self.stock_dim+1] > 0:
-                #update balance
-                self.state[0] += \
-                self.state[index+1]*min(abs(action),self.state[index+self.stock_dim+1]) * \
-                (1- self.transaction_cost_pct)
-
-                self.state[index+self.stock_dim+1] -= min(abs(action), self.state[index+self.stock_dim+1])
-                self.cost +=self.state[index+1]*min(abs(action),self.state[index+self.stock_dim+1]) * \
-                self.transaction_cost_pct
-                self.trades+=1
-            else:
-                pass
-
-
-    
-    def _buy_stock(self, index, action):
-
-        def _do_buy():
-            available_amount = self.state[0] // self.state[index+1]
-            # print('available_amount:{}'.format(available_amount))
-            
-            #update balance
-            self.state[0] -= self.state[index+1]*min(available_amount, action)* \
-                              (1+ self.transaction_cost_pct)
-
-            self.state[index+self.stock_dim+1] += min(available_amount, action)
-            
-            self.cost+=self.state[index+1]*min(available_amount, action)* \
-                              self.transaction_cost_pct
-            self.trades+=1
-        # perform buy action based on the sign of the action
-        if self.turbulence_threshold is None:
-            _do_buy()
-        else:
-            if self.turbulence< self.turbulence_threshold:
-                _do_buy()
-            else:
-                pass
-
-    def _make_plot(self):
-        plt.plot(self.asset_memory,'r')
-        plt.savefig('results/account_value_trade_{}.png'.format(self.episode))
-        plt.close()
-
-
-    def step(self, actions):
-        self.terminal = self.day >= len(self.df.index.unique())-1
-        if self.terminal:
-            # print(f"Episode: {self.episode}")
-            if self.make_plots:
-                self._make_plot()            
-            end_total_asset = self.state[0]+ \
-                sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
-            df_total_value = pd.DataFrame(self.asset_memory)
-            tot_reward = self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))- self.initial_amount 
-            df_total_value.columns = ['account_value']
-            df_total_value['daily_return']=df_total_value.pct_change(1)
-            if df_total_value['daily_return'].std() !=0:
-                sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
-                      df_total_value['daily_return'].std()
-            df_rewards = pd.DataFrame(self.rewards_memory)
-            if self.episode%self.print_verbosity ==0:
-                print(f"day: {self.day}, episode: {self.episode}")
-                print(f"begin_total_asset:{self.asset_memory[0]:0.2f}")           
-                print(f"end_total_asset:{end_total_asset:0.2f}")
-                print(f"total_reward:{tot_reward:0.2f}")
-                print(f"total_cost: {self.cost:0.2f}")
-                print(f"total_trades: {self.trades}")
-                if df_total_value['daily_return'].std() !=0:
-                    print(f"Sharpe: {sharpe:0.3f}")
-                print("=================================")
-            return self.state, self.reward, self.terminal,{}
-
-        else:
-
-            actions = actions * self.hmax
-            self.actions_memory.append(actions)
-            #actions = (actions.astype(int))
-            if self.turbulence_threshold is not None:
-                if self.turbulence>=self.turbulence_threshold:
-                    actions=np.array([-self.hmax]*self.stock_dim)
-            begin_total_asset = self.state[0]+ \
-            sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
-            #print("begin_total_asset:{}".format(begin_total_asset))
-            
-            argsort_actions = np.argsort(actions)
-            
-            sell_index = argsort_actions[:np.where(actions < 0)[0].shape[0]]
-            buy_index = argsort_actions[::-1][:np.where(actions > 0)[0].shape[0]]
-
-            for index in sell_index:
-                # print('take sell action'.format(actions[index]))
-                self._sell_stock(index, actions[index])
-
-            for index in buy_index:
-                # print('take buy action: {}'.format(actions[index]))
-                self._buy_stock(index, actions[index])
-
-            self.day += 1
-            self.data = self.df.loc[self.day,:]    
-            if self.turbulence_threshold is not None:     
-                self.turbulence = self.data['turbulence'].values[0]
-            self.state =  self._update_state()
-                           
-            end_total_asset = self.state[0]+ \
-            sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
-            self.asset_memory.append(end_total_asset)
-            self.date_memory.append(self._get_date())
-            self.reward = end_total_asset - begin_total_asset            
-            self.rewards_memory.append(self.reward)
-            self.reward = self.reward*self.reward_scaling
-
-        return self.state, self.reward, self.terminal, {}
-
-    def reset(self):  
-        self.asset_memory = [self.initial_amount]
-        self.day = 0
-        self.data = self.df.loc[self.day,:]
+    def _seed(self):
+        self.reward = 0
+        self.date_index = 0
         self.turbulence = 0
         self.cost = 0
         self.trades = 0
-        self.terminal = False 
-        #self.iteration=self.iteration
+        self.episode += 1
+        self.asset_memory = [self.initial_amount]
         self.rewards_memory = []
-        self.actions_memory=[]
-        self.date_memory=[self._get_date()]
-        #initiate state
-        self.state = self._initiate_state()
-        self.episode+=1
-        return self.state
-    
-    def render(self, mode='human',close=False):
-        return self.state
+        self.actions_memory = []
+        self.state_memory = []
+        self.account_information = {
+            "cash": [self.initial_amount],
+            "asset_value": [0],
+            "total_assets": [self.initial_amount],
+        }
+        self.state_memory.append(
+            np.array(
+                [self.initial_amount]
+                + [0] * len(self.assets)
+                + self.get_date_vector(self.date_index)
+            )
+        )
 
-    def _initiate_state(self):
-        if len(self.df.tic.unique())>1:
-            # for multiple stock
-            state = [self.initial_amount] + \
-                     self.data.close.values.tolist() + \
-                     [0]*self.stock_dim  + \
-                     sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
+    def reset(self):
+        print("reset called")
+        self._seed()
+        return [0 for _ in range(self.state_space)]
+
+    def get_date_vector(self, date, cols=None):
+        date = self.dates[date]
+        if cols is None:
+            cols = self.daily_information_cols
+        trunc_df = self.df.loc[date]
+        v = []
+        for a in self.assets:
+            subset = trunc_df[trunc_df[self.stock_col] == a]
+            v += subset.loc[date, cols].tolist()
+        assert len(v) == len(self.assets) * len(cols)
+        return v
+
+    def step(self, actions):
+        # multiply action values by our scalar multiplier and save
+        actions = actions * self.hmax
+        self.actions_memory.append(actions)
+
+        # define terminal function in scope so we can do something about the cycle being over
+        def return_terminal(reason=None, penalty=0):
+            if reason is None:
+                reason = f"hit end of the dates! end assets: {self.account_information['total_assets'][-1]:0.2f} at date {self.dates[self.date_index]}"
+            print(reason)
+            state = self.state_memory[-1]
+            reward = (
+                self.account_information["total_assets"][-1]
+                - self.account_information["total_assets"][0]
+            )
+            reward += penalty
+            return state, reward * self.reward_scaling, True, {}
+
+        # print if it's time.
+        if (self.date_index + 1) % self.print_verbosity == 0:
+            print(f" date index: {self.date_index} of {len(self.dates)}")
+            total_assets, cash_assets = (
+                self.account_information["total_assets"][-1],
+                self.account_information["cash"][-1],
+            )
+            print(
+                f"assets: {total_assets:0.2f}, cash proportion: {(cash_assets/total_assets)*100:0.2f}%"
+            )
+
+        #if we're at the end
+        if self.date_index == len(self.dates) - 1:
+            return return_terminal()
         else:
-            # for single stock
-            state = [self.initial_amount] + \
-                    [self.data.close] + \
-                    [0]*self.stock_dim  + \
-                    sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
-        return state
+            begin_cash = self.state_memory[-1][0]
+            holdings = self.state_memory[-1][1 : len(self.assets) + 1]
+            closings = np.array(self.get_date_vector(self.date_index, cols=["close"]))
 
-    def _update_state(self):
-        if len(self.df.tic.unique())>1:
-            # for multiple stock
-            state =  [self.state[0]] + \
-                      self.data.close.values.tolist() + \
-                      list(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]) + \
-                      sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
+            # compute current value of holdings
+            asset_value = np.dot(holdings, closings)
 
-        else:
-            # for single stock
-            state =  [self.state[0]] + \
-                     [self.data.close] + \
-                     list(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]) + \
-                     sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
-                          
-        return state
+            # reward is (cash + assets) - (cash_last_step + assets_last_step)
+            reward = (
+                begin_cash + asset_value - self.account_information["total_assets"][-1]
+            )
 
-    def _get_date(self):
-        if len(self.df.tic.unique())>1:
-            date = self.data.date.unique()[0]
-        else:
-            date = self.data.date
-        return date
+            # log the values of cash, assets, and total assets
+            self.account_information["cash"].append(begin_cash)
+            self.account_information["asset_value"].append(asset_value)
+            self.account_information["total_assets"].append(begin_cash + asset_value)
 
-    def save_asset_memory(self):
-        date_list = self.date_memory
-        asset_list = self.asset_memory
-        #print(len(date_list))
-        #print(len(asset_list))
-        df_account_value = pd.DataFrame({'date':date_list,'account_value':asset_list})
-        return df_account_value
+            # clip actions so we can't sell more assets than we hold
+            actions = np.maximum(actions, -np.array(holdings))
 
-    def save_action_memory(self):
-        if len(self.df.tic.unique())>1:
-            # date and close price length must match actions length
-            date_list = self.date_memory[:-1]
-            df_date = pd.DataFrame(date_list)
-            df_date.columns = ['date']
-            
-            action_list = self.actions_memory
-            df_actions = pd.DataFrame(action_list)
-            df_actions.columns = self.data.tic.values
-            df_actions.index = df_date.date
-            #df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
-        else:
-            date_list = self.date_memory[:-1]
-            action_list = self.actions_memory
-            df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
-        return df_actions
+            # compute our proceeds from sales, and add to cash
+            sells = -np.clip(actions, -np.inf, 0)
+            proceeds = np.dot(sells, closings)
+            costs = proceeds * self.transaction_cost_pct
+            coh = begin_cash + proceeds
 
-    def _seed(self, seed=None):
-        self.np_random, seed = seeding.np_random(seed)
-        return [seed]
+            # compute the cost of our buys
+            buys = np.clip(actions, 0, np.inf)
+            spend = np.dot(buys, closings)
+            costs += spend * self.transaction_cost_pct
 
+            # if we run out of cash, end the cycle and penalize
+            if (spend + costs) > coh:
+                return return_terminal(
+                    f"ran out of cash at step: {self.date_index}, spend: {spend:0.2f}, costs: {costs:0.2f}, coh: {coh:0.2f}",
+                    penalty=self.out_of_cash_penalty,
+                )
+
+            # verify we didn't do anything impossible here
+            assert (spend + costs) < coh
+
+            # update our holdings
+            coh = coh - spend - costs
+            holdings_updated = holdings + actions
+            self.date_index += 1
+            state = (
+                [coh] + list(holdings_updated) + self.get_date_vector(self.date_index)
+            )
+            self.state_memory.append(state)
+
+            return state, reward * self.reward_scaling, False, {}
 
     def get_sb_env(self):
         e = DummyVecEnv([lambda: self])
+        print(type(e))
         obs = e.reset()
         return e, obs
+
+    def save_asset_memory(self):
+        self.account_information["date"] = self.dates[: self.date_index + 1]
+        return pd.DataFrame(self.account_information)
+
+    def save_action_memory(self):
+        return pd.DataFrame(
+            {"date": self.dates[: self.date_index], "actions": self.actions_memory}
+        )
+
