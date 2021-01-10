@@ -130,7 +130,10 @@ class FeatureEngineer:
         for i in range(start, len(unique_date)):
             current_price = df_price_pivot[df_price_pivot.index == unique_date[i]]
             # use one year rolling window to calcualte covariance
-            hist_price = df_price_pivot[(df_price_pivot.index < unique_date[i]) & (df_price_pivot.index >= unique_date[i-252])]
+            hist_price = df_price_pivot[
+                (df_price_pivot.index < unique_date[i])
+                & (df_price_pivot.index >= unique_date[i - 252])
+            ]
 
             cov_temp = hist_price.cov()
             current_temp = current_price - np.mean(hist_price, axis=0)
