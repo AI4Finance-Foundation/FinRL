@@ -9,9 +9,9 @@ from finrl.marketdata.yahoodownloader import YahooDownloader
 from finrl.config import config
 
 
-def BackTestStats(account_value):
+def BackTestStats(account_value, value_col_name = 'account_value'):
     df = account_value.copy()
-    df = get_daily_return(df)
+    df = get_daily_return(df, value_col_name = value_col_name)
     DRL_strat = backtest_strat(df)
     perf_func = timeseries.perf_stats
     perf_stats_all = perf_func(
@@ -50,11 +50,11 @@ def BackTestPlot(
     account_value,
     baseline_start=config.START_TRADE_DATE,
     baseline_end=config.END_DATE,
-    baseline_ticker="^DJI",
+    baseline_ticker="^DJI",value_col_name  ='account_value'
 ):
 
     df = account_value.copy()
-    df = get_daily_return(df)
+    df = get_daily_return(df, value_col_name = value_col_name)
 
     dji, dow_strat = baseline_strat(
         ticker=baseline_ticker, start=baseline_start, end=baseline_end
@@ -89,9 +89,9 @@ def baseline_strat(ticker, start, end):
     return dji, dow_strat
 
 
-def get_daily_return(df):
-    df["daily_return"] = df.account_value.pct_change(1)
-    # df=df.dropna()
+def get_daily_return(df, value_col_name = 'account_value'):
+    df["daily_return"] = df[value_col_name].pct_change(1)
+    df=df.dropna()
     sharpe = (252 ** 0.5) * df["daily_return"].mean() / df["daily_return"].std()
 
     annual_return = ((df["daily_return"].mean() + 1) ** 252 - 1) * 100

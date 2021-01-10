@@ -4,6 +4,7 @@ from gym.utils import seeding
 import gym
 from gym import spaces
 import matplotlib
+from copy import deepcopy
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -19,7 +20,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pickle
-from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 
 
 class StockTradingEnv(gym.Env):
@@ -85,6 +86,7 @@ class StockTradingEnv(gym.Env):
 
     def _seed(self):
         self.reward = 0
+        self.cumulative_reward = 0
         self.date_index = 0
         self.turbulence = 0
         self.cost = 0
@@ -108,7 +110,6 @@ class StockTradingEnv(gym.Env):
         )
 
     def reset(self):
-        print("reset called")
         self._seed()
         return [0 for _ in range(self.state_space)]
 
@@ -131,15 +132,19 @@ class StockTradingEnv(gym.Env):
 
         # define terminal function in scope so we can do something about the cycle being over
         def return_terminal(reason=None, penalty=0):
-            if reason is None:
-                reason = f"hit end of the dates! end assets: {self.account_information['total_assets'][-1]:0.2f} at date {self.dates[self.date_index]}"
-            print(reason)
+
             state = self.state_memory[-1]
             reward = (
                 self.account_information["total_assets"][-1]
                 - self.account_information["total_assets"][0]
             )
             reward += penalty
+            reward = reward*self.reward_scaling
+            self.cumulative_reward+=reward
+            if reason is None:
+                reason = f"end of dates! end assets: {self.account_information['total_assets'][-1]:0.2f} at date {self.dates[self.date_index]}"
+            reason += f" cumul reward : {self.cumulative_reward:0.2f}"
+            print(reason)   
             return state, reward * self.reward_scaling, True, {}
 
         # print if it's time.
@@ -196,7 +201,7 @@ class StockTradingEnv(gym.Env):
                 )
 
             # verify we didn't do anything impossible here
-            assert (spend + costs) < coh
+            assert (spend + costs) <= coh
 
             # update our holdings
             coh = coh - spend - costs
@@ -207,11 +212,21 @@ class StockTradingEnv(gym.Env):
             )
             self.state_memory.append(state)
 
+            reward = reward * self.reward_scaling
+
+            self.cumulative_reward+= reward
+
             return state, reward * self.reward_scaling, False, {}
 
     def get_sb_env(self):
         e = DummyVecEnv([lambda: self])
-        print(type(e))
+        obs = e.reset()
+        return e, obs
+    
+    def get_multiproc_env(self, n = 10):
+        def get_self():
+            return deepcopy(self)
+        e = SubprocVecEnv([get_self for _ in range(n)], start_method = 'fork')
         obs = e.reset()
         return e, obs
 
