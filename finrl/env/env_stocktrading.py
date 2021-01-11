@@ -157,7 +157,6 @@ class StockTradingEnv(gym.Env):
             logger.record("environment/total_reward", tot_reward)
             logger.record("environment/total_cost", self.cost)
             logger.record("environment/total_trades", self.trades)
-            logger.dump(step=self.episode)
 
             return self.state, self.reward, self.terminal, {}
 
