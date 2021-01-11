@@ -86,11 +86,11 @@ class StockTradingEnv(gym.Env):
         )
         self.episode = -1  # initialize so we can call reset
         self._seed()
+        self.episode_history = []
 
     def _seed(self):
 
         self.reward = 0
-        self.cumulative_reward = 0
         self.date_index = 0
         self.turbulence = 0
         self.cost = 0
@@ -129,15 +129,19 @@ class StockTradingEnv(gym.Env):
         assert len(v) == len(self.assets) * len(cols)
         return v
     
-    def log_step(self, reason):
+    def log_step(self, reason, terminal_reward=None):
+        if terminal_reward is None:
+            terminal_reward = self.rewards_memory[-1]
         cash_pct = self.account_information['cash'][-1]/self.account_information['total_assets'][-1]
-        rec = [self.episode, self.date_index, reason, f"${int(self.account_information['total_assets'][-1])}", f"{cash_pct*100:0.2f}%"]
+        rec = [self.episode, self.date_index, reason, f"${int(self.account_information['total_assets'][-1])}",terminal_reward, f"{cash_pct*100:0.2f}%"]
+
+        self.episode_history.append(rec)
         print(self.template.format(*rec))
 
     def step(self, actions):
         if self.date_index==0:
             self.template = "{0:8}|{1:10}|{2:15}|{3:7}|{4:10}" # column widths: 8, 10, 15, 7, 10
-            print(self.template.format("EPISODE", "STEPS", "TERMINAL_REASON", "TOT_ASSETS", "CASH_PCT"))
+            print(self.template.format("EPISODE", "STEPS", "TERMINAL_REASON", "TOT_ASSETS", "TERMINAL_REWARD", "CASH_PCT"))
         # multiply action values by our scalar multiplier and save
         actions = actions * self.hmax
         self.actions_memory.append(actions)
@@ -151,14 +155,14 @@ class StockTradingEnv(gym.Env):
             state = self.state_memory[-1]
             reward = (
                 self.account_information["total_assets"][-1]
-                - self.account_information["total_assets"][0]
+                - self.account_information["total_assets"][-2]
             )
             reward += penalty
             reward = reward*self.reward_scaling
-            self.cumulative_reward+=reward
             
-            self.log_step(reason = reason)
-            return state, reward * self.reward_scaling, True, {}
+            self.log_step(reason = reason, terminal_reward= reward)
+            self.rewards_memory.append(reward)
+            return state, reward, True, {}
 
         # print if it's time.
         if (self.date_index + 1) % self.print_verbosity == 0:
@@ -170,6 +174,7 @@ class StockTradingEnv(gym.Env):
         else:
             begin_cash = self.state_memory[-1][0]
             holdings = self.state_memory[-1][1 : len(self.assets) + 1]
+            assert (min(holdings)>=0)
             closings = np.array(self.get_date_vector(self.date_index, cols=["close"]))
 
             # compute current value of holdings
@@ -219,9 +224,8 @@ class StockTradingEnv(gym.Env):
 
             reward = reward * self.reward_scaling
 
-            self.cumulative_reward+= reward
-
-            return state, reward * self.reward_scaling, False, {}
+            self.rewards_memory.append(reward)
+            return state, reward, False, {}
 
     def get_sb_env(self):
         e = DummyVecEnv([lambda: self])
