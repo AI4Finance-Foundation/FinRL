@@ -104,6 +104,7 @@ class StockTradingEnv(gym.Env):
             "cash": [self.initial_amount],
             "asset_value": [0],
             "total_assets": [self.initial_amount],
+            'reward': [0]
         }
         self.state_memory.append(
             np.array(
@@ -170,7 +171,7 @@ class StockTradingEnv(gym.Env):
 
         #if we're at the end
         if self.date_index == len(self.dates) - 1:
-            return return_terminal()
+            return return_terminal(penalty = self.account_information['total_assets'][-1]-self.initial_amount)
         else:
             begin_cash = self.state_memory[-1][0]
             holdings = self.state_memory[-1][1 : len(self.assets) + 1]
@@ -189,6 +190,7 @@ class StockTradingEnv(gym.Env):
             self.account_information["cash"].append(begin_cash)
             self.account_information["asset_value"].append(asset_value)
             self.account_information["total_assets"].append(begin_cash + asset_value)
+            self.account_information['reward'].append(reward)
 
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
