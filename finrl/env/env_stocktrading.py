@@ -8,6 +8,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pickle
 from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common import logger
+
 
 class StockTradingEnv(gym.Env):
     """A stock trading environment for OpenAI gym"""
@@ -123,7 +125,6 @@ class StockTradingEnv(gym.Env):
         plt.savefig('results/account_value_trade_{}.png'.format(self.episode))
         plt.close()
 
-
     def step(self, actions):
         self.terminal = self.day >= len(self.df.index.unique())-1
         if self.terminal:
@@ -150,7 +151,15 @@ class StockTradingEnv(gym.Env):
                 if df_total_value['daily_return'].std() !=0:
                     print(f"Sharpe: {sharpe:0.3f}")
                 print("=================================")
-            return self.state, self.reward, self.terminal,{}
+
+            # Add outputs to logger interface
+            logger.record("environment/portfolio_value", end_total_asset)
+            logger.record("environment/total_reward", tot_reward)
+            logger.record("environment/total_cost", self.cost)
+            logger.record("environment/total_trades", self.trades)
+            logger.dump(step=self.episode)
+
+            return self.state, self.reward, self.terminal, {}
 
         else:
 
