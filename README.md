@@ -249,4 +249,3 @@ We will maintain the open source FinRL library for the "AI + finance" community 
    To help quants have better evaluations, here we maintain benchmarks for many trading tasks, upon which you can improve for your own tasks.
 ## Support live trading
    Supporting live trading can close the simulation-reality gap, it will enable quant to switch to the real market when they are confident with their strategies.
-
