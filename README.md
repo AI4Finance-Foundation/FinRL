@@ -28,7 +28,7 @@ Feel free to leave us feedback: report bugs using Github issues or discuss FinRL
 
 <br/>
 
-<a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-jyaottie-hHqU6TdvuhMHHAMXaLw_~w" target="\_blank">
+<a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-kq0c9het-FCSU6Y986OnSw6Wb5EkEYw" target="\_blank">
 	<div align="center">
 		<img src=figs/join_slack.png width="40%"/>
 	</div>
