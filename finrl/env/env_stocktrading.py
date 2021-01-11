@@ -87,6 +87,7 @@ class StockTradingEnv(gym.Env):
         self.episode = -1  # initialize so we can call reset
         self._seed()
         self.episode_history = []
+        self.printed_header = False
 
     def _seed(self):
 
@@ -101,10 +102,10 @@ class StockTradingEnv(gym.Env):
         self.actions_memory = []
         self.state_memory = []
         self.account_information = {
-            "cash": [self.initial_amount],
-            "asset_value": [0],
-            "total_assets": [self.initial_amount],
-            'reward': [0]
+            "cash": [],
+            "asset_value": [],
+            "total_assets": [],
+            'reward': []
         }
         self.state_memory.append(
             np.array(
@@ -140,9 +141,10 @@ class StockTradingEnv(gym.Env):
         print(self.template.format(*rec))
 
     def step(self, actions):
-        if self.date_index==0:
-            self.template = "{0:8}|{1:10}|{2:15}|{3:7}|{4:10}" # column widths: 8, 10, 15, 7, 10
+        if self.printed_header is False:
+            self.template = "{0:8}|{1:10}|{2:15}|{3:7}|{4:10}|{5:10}" # column widths: 8, 10, 15, 7, 10
             print(self.template.format("EPISODE", "STEPS", "TERMINAL_REASON", "TOT_ASSETS", "TERMINAL_REWARD", "CASH_PCT"))
+            self.printed_header = True
         # multiply action values by our scalar multiplier and save
         actions = actions * self.hmax
         self.actions_memory.append(actions)
@@ -182,9 +184,12 @@ class StockTradingEnv(gym.Env):
             asset_value = np.dot(holdings, closings)
 
             # reward is (cash + assets) - (cash_last_step + assets_last_step)
-            reward = (
-                begin_cash + asset_value - self.account_information["total_assets"][-1]
-            )
+            if self.date_index==0:
+                reward = 0
+            else:
+                reward = (
+                    begin_cash + asset_value - self.account_information["total_assets"][-1]
+                )
 
             # log the values of cash, assets, and total assets
             self.account_information["cash"].append(begin_cash)
@@ -242,7 +247,7 @@ class StockTradingEnv(gym.Env):
         return e, obs
 
     def save_asset_memory(self):
-        self.account_information["date"] = self.dates[: self.date_index + 1]
+        self.account_information["date"] = self.dates[: len(self.account_information['cash'])]
         return pd.DataFrame(self.account_information)
 
     def save_action_memory(self):
