@@ -1,4 +1,6 @@
 # common library
+import logging
+import os
 import pandas as pd
 import numpy as np
 import time
@@ -113,6 +115,19 @@ class DRLAgent:
         )
         return model
 
-    def train_model(self, model, tb_log_name, total_timesteps=5000):
-        model = model.learn(total_timesteps=total_timesteps, tb_log_name=tb_log_name)
+    def train_model(self, model, tb_log_name, total_timesteps=5000, save_every_n_steps=0, save_path=None):
+        if total_timesteps > 0 and save_every_n_steps > 0 and save_path is not None:
+            model = model.learn(total_timesteps=save_every_n_steps, tb_log_name=tb_log_name, reset_num_timesteps=True)
+            current_step = save_every_n_steps
+            save_pathfile = os.path.join(save_path, tb_log_name, 'step_{}.zip'.format(current_step))
+            logging.info("Saving step {} as {}".format(current_step, save_pathfile))
+            model.save(path=save_pathfile)
+            while current_step < total_timesteps:
+                model = model.learn(total_timesteps=save_every_n_steps, tb_log_name=tb_log_name, reset_num_timesteps=False)
+                current_step += save_every_n_steps
+                save_pathfile = os.path.join(save_path, tb_log_name, 'step_{}.zip'.format(current_step))
+                logging.info("Saving step {} as {}".format(current_step, save_pathfile))
+                model.save(path=save_pathfile)
+        else:
+            model = model.learn(total_timesteps=total_timesteps, tb_log_name=tb_log_name)
         return model
