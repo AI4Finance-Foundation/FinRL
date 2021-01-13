@@ -1,6 +1,6 @@
 # data handling
 numpy
-pandas
+pandas>=1.1.5
 stockstats
 yfinance
 #pyfolio
