@@ -129,8 +129,7 @@ class StockTradingEnv(gym.Env):
         if terminal_reward is None:
             terminal_reward = self.account_information['reward'][-1]
         cash_pct = self.account_information['cash'][-1]/self.account_information['total_assets'][-1]
-        rec = [self.episode, self.date_index, reason, f"${int(self.account_information['total_assets'][-1])}",f"${terminal_reward:0.2f}, f"{cash_pct*100:0.2f}%"]
-
+        rec = [self.episode, self.date_index, reason, f"${int(self.account_information['total_assets'][-1])}",f"${terminal_reward:0.2f}", f"{cash_pct*100:0.2f}%"]
         self.episode_history.append(rec)
         print(self.template.format(*rec))
 
