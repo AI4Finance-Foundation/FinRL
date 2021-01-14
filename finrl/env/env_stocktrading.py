@@ -21,7 +21,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pickle
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
-
+from stable_baselines3.common import logger
 
 class StockTradingEnv(gym.Env):
     
@@ -94,6 +94,7 @@ class StockTradingEnv(gym.Env):
 
 
     def reset(self):
+        self.sum_trades = 0
         self.date_index = 0
         self.episode += 1
         self.actions_memory = []
@@ -130,6 +131,7 @@ class StockTradingEnv(gym.Env):
             terminal_reward = self.account_information['reward'][-1]
         cash_pct = self.account_information['cash'][-1]/self.account_information['total_assets'][-1]
         rec = [self.episode, self.date_index, reason, f"${int(self.account_information['total_assets'][-1])}",f"${terminal_reward:0.2f}", f"{cash_pct*100:0.2f}%"]
+
         self.episode_history.append(rec)
         print(self.template.format(*rec))
 
@@ -148,6 +150,11 @@ class StockTradingEnv(gym.Env):
             reward += extra_reward
             self.log_step(reason = reason, terminal_reward= reward)
             reward = reward*self.reward_scaling
+            # Add outputs to logger interface
+            reward_pct = self.account_information['total_assets'][-1]/self.initial_amount
+            logger.record("environment/total_reward_pct", (reward_pct-1)*100)
+            logger.record("environment/total_trades", self.sum_trades/self.date_index)
+            logger.record("environment/completed_steps", self.date_index)
             return state, reward, True, {}
 
         # print if it's time.
@@ -188,6 +195,7 @@ class StockTradingEnv(gym.Env):
 
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
+            self.sum_trades += np.sum(np.abs(actions))
 
             # compute our proceeds from sales, and add to cash
             sells = -np.clip(actions, -np.inf, 0)
