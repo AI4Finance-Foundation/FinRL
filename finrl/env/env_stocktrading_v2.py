@@ -166,6 +166,7 @@ class StockTradingEnvV2(gym.Env):
             logger.record("environment/total_reward_pct", (reward_pct-1)*100)
             logger.record("environment/daily_trades", self.sum_trades/self.date_index)
             logger.record("environment/completed_steps", self.date_index)
+            logger.record("environment/sum_rewards", np.sum(self.account_information['reward']))
             return state, reward, True, {}
 
         # print if it's time.
