@@ -61,6 +61,7 @@ class StockTradingEnv(gym.Env):
         initial_amount=1e6,
         daily_information_cols=["open", "close", "high", "low", "volume"],
         out_of_cash_penalty=None,
+        cache_indicator_data = True
     ):
         self.df = df
         self.stock_col = "tic"
@@ -88,6 +89,13 @@ class StockTradingEnv(gym.Env):
         self.seed()
         self.episode_history = []
         self.printed_header = False
+        self.cache_indicator_data = cache_indicator_data
+        self.cached_data = None
+        if self.cache_indicator_data:
+            print("caching data")
+            self.cached_data = [self.get_date_vector(i) for i, _ in enumerate(self.dates)]
+            print("data cached!")
+        
 
     def seed(self):
         pass
@@ -115,16 +123,19 @@ class StockTradingEnv(gym.Env):
         return [0 for _ in range(self.state_space)]
 
     def get_date_vector(self, date, cols=None):
-        date = self.dates[date]
-        if cols is None:
-            cols = self.daily_information_cols
-        trunc_df = self.df.loc[date]
-        v = []
-        for a in self.assets:
-            subset = trunc_df[trunc_df[self.stock_col] == a]
-            v += subset.loc[date, cols].tolist()
-        assert len(v) == len(self.assets) * len(cols)
-        return v
+        if (cols is None) and (self.cached_data is not None):
+            return self.cached_data[date]
+        else:
+            date = self.dates[date]
+            if cols is None:
+                cols = self.daily_information_cols
+            trunc_df = self.df.loc[date]
+            v = []
+            for a in self.assets:
+                subset = trunc_df[trunc_df[self.stock_col] == a]
+                v += subset.loc[date, cols].tolist()
+            assert len(v) == len(self.assets) * len(cols)
+            return v
     
     def log_step(self, reason, terminal_reward=None):
         if terminal_reward is None:
@@ -153,7 +164,7 @@ class StockTradingEnv(gym.Env):
             # Add outputs to logger interface
             reward_pct = self.account_information['total_assets'][-1]/self.initial_amount
             logger.record("environment/total_reward_pct", (reward_pct-1)*100)
-            logger.record("environment/total_trades", self.sum_trades/self.date_index)
+            logger.record("environment/daily_trades", self.sum_trades/self.date_index)
             logger.record("environment/completed_steps", self.date_index)
             return state, reward, True, {}
 
