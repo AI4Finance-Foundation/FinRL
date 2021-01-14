@@ -137,7 +137,7 @@ class FeatureEngineer:
 
             cov_temp = hist_price.cov()
             current_temp = current_price - np.mean(hist_price, axis=0)
-            temp = current_temp.values.dot(np.linalg.inv(cov_temp)).dot(
+            temp = current_temp.values.dot(np.linalg.pinv(cov_temp)).dot(
                 current_temp.values.T
             )
             if temp > 0:
