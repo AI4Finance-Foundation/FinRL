@@ -23,7 +23,7 @@ import pickle
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common import logger
 
-class StockTradingEnv(gym.Env):
+class StockTradingEnvV2(gym.Env):
     
     """
     A stock trading environment for OpenAI gym
