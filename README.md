@@ -22,7 +22,7 @@ FinRL provides a framework that supports various markets, SOTA DRL algorithms, b
 
 To contribute?  Please check the call for contributions at the end of this page.
 
-Feel free to leave us feedback: report bugs using Github issues or discuss FinRL development in the slack channel.
+Feel free to leave us feedback: report bugs using Github issues, discuss FinRL development in the slack channel, or join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance).
 
 
 
