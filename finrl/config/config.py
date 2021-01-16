@@ -17,9 +17,9 @@ import os
 # DATASET_DIR = PACKAGE_ROOT / "data"
 
 # data
-TRAINING_DATA_FILE = "data/ETF_SPY_2009_2020.csv"
-TURBULENCE_DATA = "data/dow30_turbulence_index.csv"
-TESTING_DATA_FILE = "test.csv"
+# TRAINING_DATA_FILE = "data/ETF_SPY_2009_2020.csv"
+# TURBULENCE_DATA = "data/dow30_turbulence_index.csv"
+# TESTING_DATA_FILE = "test.csv"
 
 # now = datetime.datetime.now()
 # TRAINED_MODEL_DIR = f"trained_models/{now}"
@@ -31,8 +31,8 @@ RESULTS_DIR = f"results"
 
 
 ## time_fmt = '%Y-%m-%d'
-START_DATE = "2009-01-01"
-END_DATE = "2020-12-01"
+START_DATE = "2000-01-01"
+END_DATE = "2021-01-01"
 
 START_TRADE_DATE = "2019-01-01"
 
@@ -68,7 +68,33 @@ SAC_PARAMS = {
 SINGLE_TICKER = ["AAPL"]
 
 # self defined
-MULTIPLE_STOCK_TICKER = ["AAPL", "MSFT", "FB"]
+SRI_KEHATI_TICKER = [
+		"AALI.JK",
+		"ADHI.JK",
+		"ASII.JK",
+		"BBCA.JK", 
+		"BBNI.JK",
+		"BBRI.JK",
+		"BBTN.JK",
+		"BMRI.JK",
+		"BSDE.JK",
+		"INDF.JK",
+		"JPFA.JK",
+		"JSMR.JK",
+		"KLBF.JK",
+		"PGAS.JK",
+		"PJAA.JK",
+		"PPRO.JK",
+		"SIDO.JK",
+		"SMGR.JK",
+		"TINS.JK",
+		"TLKM.JK",
+		"UNTR.JK",
+		"UNVR.JK",
+		"WIKA.JK",
+		"WSKT.JK",
+		"WTON.JK"
+]
 
 # check https://wrds-www.wharton.upenn.edu/ for U.S. index constituents
 # Dow 30 constituents at 2019/01

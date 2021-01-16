@@ -20,7 +20,7 @@ def data_split(df, start, end):
     :return: (df) pandas dataframe
     """
     data = df[(df.date >= start) & (df.date < end)]
-    data = data.sort_values(["date", "tic"], ignore_index=True)
+    data = data.sort_values(["date", "tic"])
     data.index = data.date.factorize()[0]
     return data
 

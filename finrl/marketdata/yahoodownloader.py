@@ -46,6 +46,7 @@ class YahooDownloader:
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         for tic in self.ticker_list:
+            print(f"Downloading {tic}...")
             temp_df = yf.download(tic, start=self.start_date, end=self.end_date)
             temp_df["tic"] = tic
             data_df = data_df.append(temp_df)

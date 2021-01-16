@@ -42,7 +42,7 @@ def BaselineStats(
         transactions=None,
         turnover_denom="AGB",
     )
-    print(perf_stats_all)
+    display(perf_stats_all)
     return perf_stats_all
 
 
@@ -74,19 +74,42 @@ def backtest_strat(df):
     strategy_ret = df.copy()
     strategy_ret["date"] = pd.to_datetime(strategy_ret["date"])
     strategy_ret.set_index("date", drop=False, inplace=True)
-    strategy_ret.index = strategy_ret.index.tz_localize("UTC")
+#     strategy_ret.index = strategy_ret.index.tz_localize("UTC")
     del strategy_ret["date"]
     ts = pd.Series(strategy_ret["daily_return"].values, index=strategy_ret.index)
     return ts
 
 
 def baseline_strat(ticker, start, end):
-    dji = YahooDownloader(
-        start_date=start, end_date=end, ticker_list=[ticker]
-    ).fetch_data()
-    dji["daily_return"] = dji["close"].pct_change(1)
-    dow_strat = backtest_strat(dji)
-    return dji, dow_strat
+    # dji = YahooDownloader(
+    #     start_date=start, end_date=end, ticker_list=[ticker]
+    # ).fetch_data()
+    # dji["daily_return"] = dji["close"].pct_change(1)
+    # dow_strat = backtest_strat(dji)
+
+    ihsg = pd.read_csv(f"datasets/^JKSE.csv")
+    ihsg["tic"] = 'IHSG'
+    ihsg.columns = ["date","open","high","low", "close","adjcp","volume","tic"]
+    # use adjusted close price instead of close price
+    ihsg["close"] = ihsg["adjcp"]
+    # drop the adjusted close price column
+    ihsg = ihsg.drop("adjcp", 1)
+    #filter date to be the same as our dataset
+    ihsg['date'] = pd.to_datetime(ihsg['date'])
+    ihsg = ihsg[ihsg['date'].isin(smallest_date_list)]
+    ihsg = ihsg[(ihsg['date']>=start) & (ihsg['date']<=end)]
+    # create day of the week column (monday = 0)
+    ihsg['day'] = ihsg['date'].dt.dayofweek       
+    # convert date to standard string format, easy to filter
+    ihsg["date"] = ihsg.date.apply(lambda x: x.strftime("%Y-%m-%d"))
+    # drop missing data
+    ihsg = ihsg.dropna()
+    ihsg = ihsg.reset_index(drop=True)
+    
+    ihsg["daily_return"] = ihsg["close"].pct_change(1)
+
+    ihsg_strat = backtest_strat(ihsg)
+    return ihsg, ihsg_strat
 
 
 def get_daily_return(df):

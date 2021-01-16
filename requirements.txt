@@ -3,7 +3,7 @@ numpy
 pandas>=1.1.5
 stockstats
 yfinance
-#pyfolio
+pyfolio @ git+https://github.com/quantopian/pyfolio@4b901f6d73aa02ceb6d04b7d83502e5c6f2e81aa
 
 # plot
 matplotlib
