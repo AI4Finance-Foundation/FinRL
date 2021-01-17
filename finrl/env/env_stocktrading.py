@@ -67,6 +67,23 @@ class StockTradingEnv(gym.Env):
 
 
     def _sell_stock(self, index, action):
+        def _do_sell_normal():
+            # perform sell action based on the sign of the action
+            if self.state[index+self.stock_dim+1] > 0:
+                sell_num_shares = min(abs(action),self.state[index+self.stock_dim+1])
+                sell_amount = self.state[index+1]* sell_num_shares * (1- self.sell_cost_pct)
+                #update balance
+                self.state[0] += sell_amount
+
+                self.state[index+self.stock_dim+1] -= min(abs(action), self.state[index+self.stock_dim+1])
+                self.cost +=self.state[index+1]*min(abs(action),self.state[index+self.stock_dim+1]) * \
+                self.sell_cost_pct
+                self.trades+=1
+            else:
+                sell_num_shares = 0
+                pass
+            return sell_num_shares
+
         # perform sell action based on the sign of the action
         if self.turbulence_threshold is not None:
             if self.turbulence>=self.turbulence_threshold:
@@ -84,36 +101,10 @@ class StockTradingEnv(gym.Env):
                     sell_num_shares = 0
                     pass
             else:
-                # perform sell action based on the sign of the action
-                if self.state[index+self.stock_dim+1] > 0:
-                    sell_num_shares = min(abs(action),self.state[index+self.stock_dim+1])
-                    sell_amount = self.state[index+1]* sell_num_shares * (1- self.sell_cost_pct)
-                    #update balance
-                    self.state[0] += sell_amount
-
-                    self.state[index+self.stock_dim+1] -= min(abs(action), self.state[index+self.stock_dim+1])
-                    self.cost +=self.state[index+1]*min(abs(action),self.state[index+self.stock_dim+1]) * \
-                    self.sell_cost_pct
-                    self.trades+=1
-                else:
-                    sell_num_shares = 0
-                    pass
+                sell_num_shares = _do_sell_normal()
         else:
-            # perform sell action based on the sign of the action
-            if self.state[index+self.stock_dim+1] > 0:
-                sell_num_shares = min(abs(action),self.state[index+self.stock_dim+1])
-                sell_amount = self.state[index+1]* sell_num_shares * (1- self.sell_cost_pct)
-                #update balance
-                self.state[0] += sell_amount
-
-                self.state[index+self.stock_dim+1] -= min(abs(action), self.state[index+self.stock_dim+1])
-                self.cost +=self.state[index+1]*min(abs(action),self.state[index+self.stock_dim+1]) * \
-                self.sell_cost_pct
-                self.trades+=1
-            else:
-                sell_num_shares = 0
-                pass
-
+            sell_num_shares = _do_sell_normal()
+            
         return sell_num_shares
 
     
