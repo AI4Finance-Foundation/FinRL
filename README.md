@@ -49,8 +49,8 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 	- [Prerequisites](#Prerequisites)
 	- [Dependencies](#Dependencies)
 - [Contributions](#Contributions)
-- [Citing FinRL](#Citing-FinRL)
-- [Call for Contributions](#Call-for-Contributions)
+	- [Citing FinRL](#Citing-FinRL)
+	- [Call for Contributions](#Call-for-Contributions)
 - [LICENSE](#LICENSE)
 
 # Prior Arts:
@@ -225,7 +225,7 @@ The stock data we use is pulled from Yahoo Finance API
 - FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
 - Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
 
-# Citing FinRL
+## Citing FinRL
 ```
 @article{finrl2020,
     author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
@@ -236,7 +236,7 @@ The stock data we use is pulled from Yahoo Finance API
 }
 ```
 
-# Call for Contributions
+## Call for Contributions
 
 We will maintain the open source FinRL library for the "AI + finance" community and welcome you to join as contributors!
 
