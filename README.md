@@ -63,7 +63,7 @@ We published the following papers and now arrive at this project:
 
 A YouTube video about FinRL library.
 
-[<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
+[<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="80%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
 ## Guiding Principles
 - **Completeness.** Our library shall cover components of the DRL framework completely, which is a fundamental requirement;
@@ -76,7 +76,7 @@ A YouTube video about FinRL library.
 - **Simplicity, Applicability and Extendibility:** Specifically designed for automated stock trading, FinRL presents DRL algorithms as modules. In this way, FinRL is made accessible yet not demanding. FinRL provides three trading tasks as use cases that can be easily reproduced. Each layer includes reserved interfaces that allow users to develop new modules.
 - **Better Market Environment Modeling:** We build a trading simulator that replicates live stock market and provides backtesting support that incorporates important market frictions such as transaction cost, market liquidity and the investor’s degree of risk-aversion. All of those are crucial among key determinants of net returns.
 
-%<img src=figs/FinRL-Architecture.png width="800">
+<img src=figs/FinRL-Architecture.png width="800">
 
 ## Implemented Algorithms
 <img src=figs/alg_compare.PNG width="800">
