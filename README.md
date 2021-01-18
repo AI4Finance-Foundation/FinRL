@@ -44,6 +44,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [Implemented Algorithms](#Implemented-Algorithms)
 - [Status](#Status)
 - [Installation](#Installation)
+	- [Docker Installation](#Docker-Installation)
 	- [Prerequisites](#Prerequisites)
 	- [Dependencies](#Dependencies)
 - [Contributions](#Contributions)
