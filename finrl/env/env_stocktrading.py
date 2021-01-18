@@ -29,7 +29,12 @@ class StockTradingEnv(gym.Env):
                 turbulence_threshold=None,
                 make_plots = False, 
                 print_verbosity = 10,
-                day = 0, iteration=''):
+                day = 0, 
+                initial=True,
+                previous_state=[],
+                model_name = '',
+                mode='',
+                iteration=''):
         self.day = day
         self.df = df
         self.stock_dim = stock_dim
@@ -48,6 +53,11 @@ class StockTradingEnv(gym.Env):
         self.make_plots = make_plots
         self.print_verbosity = print_verbosity
         self.turbulence_threshold = turbulence_threshold
+        self.initial = initial
+        self.previous_state = previous_state
+        self.model_name=model_name
+        self.mode=mode 
+        self.iteration=iteration
         # initalize state
         self.state = self._initiate_state()
         
@@ -64,6 +74,7 @@ class StockTradingEnv(gym.Env):
         self.date_memory=[self._get_date()]
         #self.reset()
         self._seed()
+        
 
 
     def _sell_stock(self, index, action):
@@ -153,11 +164,14 @@ class StockTradingEnv(gym.Env):
             df_total_value = pd.DataFrame(self.asset_memory)
             tot_reward = self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))- self.initial_amount 
             df_total_value.columns = ['account_value']
-            df_total_value['daily_return']=df_total_value.pct_change(1)
+            df_total_value['date'] = self.date_memory
+            df_total_value['daily_return']=df_total_value['account_value'].pct_change(1)
             if df_total_value['daily_return'].std() !=0:
                 sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
                       df_total_value['daily_return'].std()
             df_rewards = pd.DataFrame(self.rewards_memory)
+            df_rewards.columns = ['account_rewards']
+            df_rewards['date'] = self.date_memory[:-1]
             if self.episode % self.print_verbosity == 0:
                 print(f"day: {self.day}, episode: {self.episode}")
                 print(f"begin_total_asset: {self.asset_memory[0]:0.2f}")
@@ -168,6 +182,15 @@ class StockTradingEnv(gym.Env):
                 if df_total_value['daily_return'].std() != 0:
                     print(f"Sharpe: {sharpe:0.3f}")
                 print("=================================")
+
+            if (self.model_name!='') and (self.mode!=''):
+                df_actions = self.save_action_memory()
+                df_actions.to_csv('results/actions_{}_{}_{}.csv'.format(self.mode,self.model_name, self.iteration))
+                df_total_value.to_csv('results/account_value_{}_{}_{}.csv'.format(self.mode,self.model_name, self.iteration),index=False)
+                df_rewards.to_csv('results/account_rewards_{}_{}_{}.csv'.format(self.mode,self.model_name, self.iteration),index=False)
+                plt.plot(self.asset_memory,'r')
+                plt.savefig('results/account_value_{}_{}_{}.png'.format(self.mode,self.model_name, self.iteration),index=False)
+                plt.close()
 
             # Add outputs to logger interface
             logger.record("environment/portfolio_value", end_total_asset)
@@ -224,38 +247,61 @@ class StockTradingEnv(gym.Env):
         return self.state, self.reward, self.terminal, {}
 
     def reset(self):  
-        self.asset_memory = [self.initial_amount]
+        if self.initial:
+            self.asset_memory = [self.initial_amount]
+        else:
+            previous_total_asset = self.previous_state[0]+ \
+            sum(np.array(self.previous_state[1:(self.stock_dim+1)])*np.array(self.previous_state[(self.stock_dim+1):(self.stock_dim*2+1)]))
+            self.asset_memory = [previous_total_asset]
+
         self.day = 0
         self.data = self.df.loc[self.day,:]
         self.turbulence = 0
         self.cost = 0
         self.trades = 0
         self.terminal = False 
-        #self.iteration=self.iteration
+        # self.iteration=self.iteration
         self.rewards_memory = []
         self.actions_memory=[]
         self.date_memory=[self._get_date()]
         #initiate state
         self.state = self._initiate_state()
         self.episode+=1
+
         return self.state
     
     def render(self, mode='human',close=False):
         return self.state
 
     def _initiate_state(self):
-        if len(self.df.tic.unique())>1:
-            # for multiple stock
-            state = [self.initial_amount] + \
-                     self.data.close.values.tolist() + \
-                     [0]*self.stock_dim  + \
-                     sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
+        if self.initial:
+            # For Initial State
+            if len(self.df.tic.unique())>1:
+                # for multiple stock
+                state = [self.initial_amount] + \
+                         self.data.close.values.tolist() + \
+                         [0]*self.stock_dim  + \
+                         sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
+            else:
+                # for single stock
+                state = [self.initial_amount] + \
+                        [self.data.close] + \
+                        [0]*self.stock_dim  + \
+                        sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
         else:
-            # for single stock
-            state = [self.initial_amount] + \
-                    [self.data.close] + \
-                    [0]*self.stock_dim  + \
-                    sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+            #Using Previous State
+            if len(self.df.tic.unique())>1:
+                # for multiple stock
+                state = [self.previous_state[0]] + \
+                         self.data.close.values.tolist() + \
+                         self.previous_state[(self.stock_dim+1):(self.stock_dim*2+1)]  + \
+                         sum([self.data[tech].values.tolist() for tech in self.tech_indicator_list ], [])
+            else:
+                # for single stock
+                state = [self.previous_state[0]] + \
+                        [self.data.close] + \
+                        self.previous_state[(self.stock_dim+1):(self.stock_dim*2+1)]  + \
+                        sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
         return state
 
     def _update_state(self):
