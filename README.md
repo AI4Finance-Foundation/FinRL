@@ -43,7 +43,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [Medium Blogs](#Medium-Blogs-and-Related-Reports)
 - [Installation](#Installation)
 - [Contributions](#Contributions)
-- [License](#license)
+- [Call for Contributions](#Call-for-Contributions)
 
 
 ## Prior Arts:
