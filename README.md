@@ -40,7 +40,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [Status](#Status)
 - [Overview](#Overview)
 - [Implemented Algorithms](#Implemented-Algorithms)
-- [Medium Blogs](#Medium-Blogs)
+- [Medium Blogs](#Medium-Blogs-and-Related-Reports)
 - [Installation](#Installation)
 - [Contributions](#Contributions)
 - [License](#license)
