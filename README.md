@@ -10,6 +10,7 @@
 [4]: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Fgithub.com%2FAI4Finance-LLC%2FFinRL-Library
 
 [![Downloads](https://pepy.tech/badge/finrl)](https://pepy.tech/project/finrl)
+[![Downloads](https://pepy.tech/badge/finrl/week)](https://pepy.tech/project/finrl)
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
