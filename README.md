@@ -218,10 +218,12 @@ The stock data we use is pulled from Yahoo Finance API
 
 
 # Contributions
+
 - FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided.
 - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
 - FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
 - Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
+
 # Citing FinRL
 ```
 @article{finrl2020,
@@ -236,6 +238,13 @@ The stock data we use is pulled from Yahoo Finance API
 # Call for Contributions
 
 We will maintain the open source FinRL library for the "AI + finance" community and welcome you to join as contributors!
+
+### Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
+</a>
 
 ## Support various markets
    We would like to support more asset markets, so that the users can test their stategies.
