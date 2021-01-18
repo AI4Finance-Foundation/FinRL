@@ -43,6 +43,9 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [Implemented Algorithms](#Implemented-Algorithms)
 - [Status](#Status)
 - [Installation](#Installation)
+	- [Docker Installation](#Docker-Installation)
+	- [Prerequisites](#Prerequisites)
+	- [Dependencies](#Dependencies)
 - [Contributions](#Contributions)
 - [Citing FinRL](#Citing-FinRL)
 - [Call for Contributions](#Call-for-Contributions)
@@ -142,7 +145,7 @@ brew install cmake openmpi
 
 To install stable-baselines on Windows, please look at the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/install.html#prerequisites).
     
-### Create and Activate Python Virtual-Environment (Optional but highly recommended)
+#### Create and Activate Python Virtual-Environment (Optional but highly recommended)
 cd into this repository
 ```bash
 cd FinRL-Library
@@ -175,9 +178,9 @@ The script has been tested running under **Python >= 3.6.0**, with the folowing 
 pip install -r requirements.txt
 ```
 
-### Stable-Baselines3 using Pytorch
+#### Stable-Baselines3 using Pytorch
 
-### About [Stable-Baselines 3](https://github.com/DLR-RM/stable-baselines3)
+#### About [Stable-Baselines 3](https://github.com/DLR-RM/stable-baselines3)
 
 Stable-Baselines3 is a set of improved implementations of reinforcement learning algorithms in PyTorch. It is the next major version of Stable Baselines. If you have questions regarding Stable-baselines package, please refer to [Stable-baselines3 installation guide](https://stable-baselines3.readthedocs.io/en/master/guide/install.html). Install the Stable Baselines package using pip:
 
@@ -187,7 +190,7 @@ pip install stable-baselines3[extra]
 ```
 A migration guide from SB2 to SB3 can be found in the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/migration.html).
 
-### Stable-Baselines using Tensorflow 2.0
+#### Stable-Baselines using Tensorflow 2.0
 Still [Under Development](https://github.com/Stable-Baselines-Team/stable-baselines-tf2)
 
 
