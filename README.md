@@ -44,6 +44,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [Status](#Status)
 - [Installation](#Installation)
 - [Contributions](#Contributions)
+- [Citing FinRL](#Citing-FinRL)
 - [Call for Contributions](#Call-for-Contributions)
 
 
