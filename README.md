@@ -50,7 +50,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [Contributions](#Contributions)
 - [Citing FinRL](#Citing-FinRL)
 - [Call for Contributions](#Call-for-Contributions)
-
+- [LICENSE](#LICENSE)
 
 # Prior Arts:
 
@@ -237,11 +237,6 @@ The stock data we use is pulled from Yahoo Finance API
 
 We will maintain the open source FinRL library for the "AI + finance" community and welcome you to join as contributors!
 
-### Contributors
-
-This project exists thanks to all the people who contribute. 
-<a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors"><img src="https://opencollective.com/FinRL-Library/contributors.svg?width=890&button=false" /></a>
-
 ## Support various markets
    We would like to support more asset markets, so that the users can test their stategies.
 ## SOTA DRL algorithms 
@@ -250,3 +245,7 @@ This project exists thanks to all the people who contribute.
    To help quants have better evaluations, here we maintain benchmarks for many trading tasks, upon which you can improve for your own tasks.
 ## Support live trading
    Supporting live trading can close the simulation-reality gap, it will enable quant to switch to the real market when they are confident with their strategies.
+   
+# LICENSE
+
+MIT
