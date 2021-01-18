@@ -36,7 +36,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 
 ## Table of Contents
 
-- [Prior Arts](#Prior Arts)
+- [Prior Arts](#PriorArts)
 - [Status](#Status)
 - [Overview](#Overview)
 - [Implemented Algorithms](#Implemented Algorithms)
