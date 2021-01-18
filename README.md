@@ -63,7 +63,7 @@ We published the following papers and now arrive at this project:
 
 A YouTube video about FinRL library.
 
-[<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="80%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
+[<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
 ## Guiding Principles
 - **Completeness.** Our library shall cover components of the DRL framework completely, which is a fundamental requirement;
