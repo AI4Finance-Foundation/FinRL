@@ -40,7 +40,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [News](#News)
 - [Overview](#Overview)
 	- [Guiding Principles](#Guiding-Principles)
-- [Architecture of the FinRL Library](#Architecture-of-the-FinRL-Library)
+- [Architecture of FinRL](#Architecture-of-the-FinRL-Library)
 - [Implemented Algorithms](#Implemented-Algorithms)
 - [Status](#Status)
 - [Installation](#Installation)
