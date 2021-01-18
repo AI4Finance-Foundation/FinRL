@@ -23,7 +23,6 @@ To contribute?  Please check the call for contributions at the end of this page.
 Feel free to leave us feedback: report bugs using Github issues, discuss FinRL development in the slack channel, or join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance).
 
 
-
 <br/>
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-kq0c9het-FCSU6Y986OnSw6Wb5EkEYw" target="\_blank">
@@ -33,6 +32,18 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 </a>
 
 <br/>
+
+
+## Table of Contents
+
+- [Prior Arts](#Prior Arts)
+- [Status](#Status)
+- [Overview](#Overview)
+- [Implemented Algorithms](#Implemented Algorithms)
+- [Related Efforts](#related-efforts)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
 
 
 ## Prior Arts:
@@ -181,15 +192,6 @@ python main.py --mode=train
 Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do the backtesting.
 
 
-## Status
-
-<details><summary><b>Version History</b> <i>[click to expand]</i></summary>
-<div>
-* 0.0.1
-    Simple version
-</div>
-</details>
-
 ## Data
 The stock data we use is pulled from Yahoo Finance API
 
@@ -197,8 +199,6 @@ The stock data we use is pulled from Yahoo Finance API
 
 <img src=figs/example_data.PNG width="600">
 
-## Performance
-<img src=figs/performance.PNG width="600">
 
 ## Contributions
 - FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided.
