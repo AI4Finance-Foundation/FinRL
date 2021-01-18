@@ -60,6 +60,7 @@ We published the following papers and now arrive at this project:
 
 
 ## Overview
+A YouTube video about FinRL library.
 [![FinRL](http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg)](http://www.youtube.com/watch?v=ZSGJjtM-5jA "FinRL")
 
 ## Guiding Principles
