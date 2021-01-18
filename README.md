@@ -37,10 +37,11 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 ## Table of Contents
 
 - [Prior Arts](#Prior-Arts)
-- [Status](#Status)
+- [News](#News)
 - [Overview](#Overview)
+- [Architecture of the FinRL Library](#Architecture-of-the-FinRL-Library)
 - [Implemented Algorithms](#Implemented-Algorithms)
-- [Medium Blogs](#Medium-Blogs-and-Related-Reports)
+- [Status](#Status)
 - [Installation](#Installation)
 - [Contributions](#Contributions)
 - [Call for Contributions](#Call-for-Contributions)
@@ -58,6 +59,33 @@ We published the following papers and now arrive at this project:
 
 1). Practical Deep Reinforcement Learning Approach for Stock Trading, [paper](https://arxiv.org/abs/1811.07522) and [codes](https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018), Workshop on Challenges and Opportunities for AI in Financial Services, NeurIPS 2018.
 
+## News
+[FinRL for Quantitative Finance: Tutorial for Single Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-single-stock-trading-37d6d7c30aac)
+
+[FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
+
+[FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
+
+[Analyticsindiamag.com] [How To Automate The Stock Market Using FinRL (Deep Reinforcement Learning Library)?](https://analyticsindiamag.com/stock-market-prediction-using-finrl/)
+
+[量化投资与机器学习] [基于深度强化学习的股票交易策略框架（代码+文档)](https://www.mdeditor.tw/pl/p5Gg)
+
+
+## Overview
+
+A YouTube video about FinRL library.
+
+[<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
+
+## Architecture of the FinRL Library
+- **Three-layer architecture:** The three layers of FinRL library are stock market environment, DRL trading agent, and stock trading applications. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
+- **Modularity:** Each layer includes several modules and each module defines a separate function. One can select certain modules from any layer to implement his/her stock trading task. Furthermore, updating existing modules is possible.
+- **Simplicity, Applicability and Extendibility:** Specifically designed for automated stock trading, FinRL presents DRL algorithms as modules. In this way, FinRL is made accessible yet not demanding. FinRL provides three trading tasks as use cases that can be easily reproduced. Each layer includes reserved interfaces that allow users to develop new modules.
+- **Better Market Environment Modeling:** We build a trading simulator that replicates live stock market and provides backtesting support that incorporates important market frictions such as transaction cost, market liquidity and the investor’s degree of risk-aversion. All of those are crucial among key determinants of net returns.
+
+## Implemented Algorithms
+<img src=figs/alg_compare.PNG width="800">
+
 ## Status
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
@@ -68,27 +96,6 @@ We published the following papers and now arrive at this project:
   	0.1: Beta version with tensorflow 1.5
 </div>
 </details>
-
-
-## Overview
-
-A YouTube video about FinRL library.
-
-[<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
-
-## Implemented Algorithms
-<img src=figs/alg_compare.PNG width="800">
-
-## Medium Blogs and Related Reports
-[FinRL for Quantitative Finance: Tutorial for Single Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-single-stock-trading-37d6d7c30aac)
-
-[FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
-
-[FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
-
-[Analyticsindiamag.com] [How To Automate The Stock Market Using FinRL (Deep Reinforcement Learning Library)?](https://analyticsindiamag.com/stock-market-prediction-using-finrl/)
-
-[量化投资与机器学习] [基于深度强化学习的股票交易策略框架（代码+文档)](https://www.mdeditor.tw/pl/p5Gg)
 
 ## Installation:
 
@@ -102,7 +109,7 @@ Install the unstable development version of FinRL:
 pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
 
-## Docker Installation
+### Docker Installation
 
 Build the container:
 ```bash
@@ -159,7 +166,7 @@ To activate a virtualenv on windows:
 ```
 venv\Scripts\activate
 ```
-## Dependencies
+### Dependencies
 
 The script has been tested running under **Python >= 3.6.0**, with the folowing packages installed:
 
@@ -167,7 +174,7 @@ The script has been tested running under **Python >= 3.6.0**, with the folowing 
 pip install -r requirements.txt
 ```
 
-## Stable-Baselines3 using Pytorch
+### Stable-Baselines3 using Pytorch
 
 ### About [Stable-Baselines 3](https://github.com/DLR-RM/stable-baselines3)
 
@@ -179,20 +186,20 @@ pip install stable-baselines3[extra]
 ```
 A migration guide from SB2 to SB3 can be found in the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/migration.html).
 
-## Stable-Baselines using Tensorflow 2.0
+### Stable-Baselines using Tensorflow 2.0
 Still [Under Development](https://github.com/Stable-Baselines-Team/stable-baselines-tf2)
 
 
-## Run 
+### Run 
 ```shell
 python main.py --mode=train
 ```
-## Backtesting
+### Backtesting
 
 Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do the backtesting.
 
 
-## Data
+### Data
 The stock data we use is pulled from Yahoo Finance API
 
 (The following time line is used in the paper; users can update to new time windows.)
