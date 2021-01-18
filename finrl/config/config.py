@@ -13,13 +13,13 @@ import os
 # PACKAGE_ROOT = pathlib.Path(finrl.__file__).resolve().parent
 # PACKAGE_ROOT = pathlib.Path().resolve().parent
 
-# TRAINED_MODEL_DIR = PACKAGE_ROOT / "trained_models"
+TRAINED_MODEL_DIR = f"trained_models"
 # DATASET_DIR = PACKAGE_ROOT / "data"
 
 # data
-TRAINING_DATA_FILE = "data/ETF_SPY_2009_2020.csv"
-TURBULENCE_DATA = "data/dow30_turbulence_index.csv"
-TESTING_DATA_FILE = "test.csv"
+# TRAINING_DATA_FILE = "data/ETF_SPY_2009_2020.csv"
+# TURBULENCE_DATA = "data/dow30_turbulence_index.csv"
+# TESTING_DATA_FILE = "test.csv"
 
 # now = datetime.datetime.now()
 # TRAINED_MODEL_DIR = f"trained_models/{now}"
@@ -31,8 +31,8 @@ RESULTS_DIR = f"results"
 
 
 ## time_fmt = '%Y-%m-%d'
-START_DATE = "2009-01-01"
-END_DATE = "2020-12-01"
+START_DATE = "2000-01-01"
+END_DATE = "2021-01-01"
 
 START_TRADE_DATE = "2019-01-01"
 
@@ -41,7 +41,7 @@ DEFAULT_DATA_COLUMNS = ["date", "tic", "close"]
 
 ## stockstats technical indicator column names
 ## check https://pypi.org/project/stockstats/ for different names
-TECHNICAL_INDICATORS_LIST = ["macd", "rsi_30", "cci_30", "dx_30"]
+TECHNICAL_INDICATORS_LIST = ["macd","boll_ub","boll_lb","rsi_30", "cci_30", "dx_30","close_30_sma","close_60_sma"]
 
 
 ## Model Parameters
@@ -68,7 +68,33 @@ SAC_PARAMS = {
 SINGLE_TICKER = ["AAPL"]
 
 # self defined
-MULTIPLE_STOCK_TICKER = ["AAPL", "MSFT", "FB"]
+SRI_KEHATI_TICKER = [
+		"AALI.JK",
+		"ADHI.JK",
+		"ASII.JK",
+		"BBCA.JK", 
+		"BBNI.JK",
+		"BBRI.JK",
+		"BBTN.JK",
+		"BMRI.JK",
+		"BSDE.JK",
+		"INDF.JK",
+		"JPFA.JK",
+		"JSMR.JK",
+		"KLBF.JK",
+		"PGAS.JK",
+		"PJAA.JK",
+		"PPRO.JK",
+		"SIDO.JK",
+		"SMGR.JK",
+		"TINS.JK",
+		"TLKM.JK",
+		"UNTR.JK",
+		"UNVR.JK",
+		"WIKA.JK",
+		"WSKT.JK",
+		"WTON.JK"
+]
 
 # check https://wrds-www.wharton.upenn.edu/ for U.S. index constituents
 # Dow 30 constituents at 2019/01
