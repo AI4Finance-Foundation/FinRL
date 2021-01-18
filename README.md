@@ -60,8 +60,12 @@ We published the following papers and now arrive at this project:
 
 
 ## Overview
+[<img src="https://img.youtube.com/vi/<VIDEO ID>/maxresdefault.jpg" width="50%">](https://youtu.be/<VIDEO ID>)
 
 A YouTube video about FinRL library.
+
+[<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="50%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
+
 
 [![FinRL](http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg)](http://www.youtube.com/watch?v=ZSGJjtM-5jA "FinRL")
 
