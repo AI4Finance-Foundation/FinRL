@@ -51,7 +51,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [Call for Contributions](#Call-for-Contributions)
 
 
-## Prior Arts:
+# Prior Arts:
 
 We published the following papers and now arrive at this project:
 
@@ -63,7 +63,7 @@ We published the following papers and now arrive at this project:
 
 1). Practical Deep Reinforcement Learning Approach for Stock Trading, [paper](https://arxiv.org/abs/1811.07522) and [codes](https://github.com/AI4Finance-LLC/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018), Workshop on Challenges and Opportunities for AI in Financial Services, NeurIPS 2018.
 
-## News
+# News
 [FinRL for Quantitative Finance: Tutorial for Single Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-single-stock-trading-37d6d7c30aac)
 
 [FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
@@ -75,22 +75,22 @@ We published the following papers and now arrive at this project:
 [量化投资与机器学习] [基于深度强化学习的股票交易策略框架（代码+文档)](https://www.mdeditor.tw/pl/p5Gg)
 
 
-## Overview
+# Overview
 
 A YouTube video about FinRL library.
 
 [<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
-## Architecture of the FinRL Library
+# Architecture of the FinRL Library
 - **Three-layer architecture:** The three layers of FinRL library are stock market environment, DRL trading agent, and stock trading applications. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
 - **Modularity:** Each layer includes several modules and each module defines a separate function. One can select certain modules from any layer to implement his/her stock trading task. Furthermore, updating existing modules is possible.
 - **Simplicity, Applicability and Extendibility:** Specifically designed for automated stock trading, FinRL presents DRL algorithms as modules. In this way, FinRL is made accessible yet not demanding. FinRL provides three trading tasks as use cases that can be easily reproduced. Each layer includes reserved interfaces that allow users to develop new modules.
 - **Better Market Environment Modeling:** We build a trading simulator that replicates live stock market and provides backtesting support that incorporates important market frictions such as transaction cost, market liquidity and the investor’s degree of risk-aversion. All of those are crucial among key determinants of net returns.
 
-## Implemented Algorithms
+# Implemented Algorithms
 <img src=figs/alg_compare.PNG width="800">
 
-## Status
+# Status
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
 	
@@ -101,7 +101,7 @@ A YouTube video about FinRL library.
 </div>
 </details>
 
-## Installation:
+# Installation:
 
 Clone this repository
 ```shell
@@ -211,7 +211,7 @@ The stock data we use is pulled from Yahoo Finance API
 <img src=figs/example_data.PNG width="600">
 
 
-## Contributions
+# Contributions
 - FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided.
 - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
 - FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
