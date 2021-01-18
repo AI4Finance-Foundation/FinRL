@@ -81,6 +81,11 @@ A YouTube video about FinRL library.
 
 [<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
+## Guiding Principles
+- **Completeness.** Cover components of the DRL framework completely, which is a fundamental requirement;
+- **Hands-on tutorials.** Friendly to beginners; tutorials with detailed walk-through. 
+- **Reproducibility.** Guarantee reproducibility to ensure the transparency; 
+
 # Architecture of the FinRL Library
 - **Three-layer architecture:** The three layers of FinRL library are stock market environment, DRL trading agent, and stock trading applications. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
 - **Modularity:** Each layer includes several modules and each module defines a separate function. One can select certain modules from any layer to implement his/her stock trading task. Furthermore, updating existing modules is possible.
