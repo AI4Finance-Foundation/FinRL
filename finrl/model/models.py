@@ -200,23 +200,6 @@ class DRLEnsembleAgent:
         self.tech_indicator_list = tech_indicator_list
         self.print_verbosity = print_verbosity
 
-        self.A2C_model_kwargs = {
-                                'n_steps': 5,
-                                'ent_coef': 0.01,
-                                'learning_rate': 0.0007
-                                }
-        self.PPO_model_kwargs = {
-                                "ent_coef":0.01,
-                                "n_steps": 2048,
-                                "learning_rate": 0.00025,
-                                "batch_size": 128
-                                }
-        self.DDPG_model_kwargs = {
-                                  "action_noise":"ornstein_uhlenbeck",
-                                  "buffer_size":50000,
-                                  "learning_rate": 0.000005,
-                                  "batch_size": 128
-                                }
 
     def DRL_validation(self, model, test_data, test_env, test_obs):
         ###validation process###
@@ -243,7 +226,7 @@ class DRLEnsembleAgent:
                                                         initial=initial,
                                                         previous_state=last_state,
                                                         model_name=name,
-                                                        model='trade',
+                                                        mode='trade',
                                                         iteration=iter_num,
                                                         print_verbosity=self.print_verbosity)])
 
@@ -260,7 +243,7 @@ class DRLEnsembleAgent:
         df_last_state.to_csv('results/last_state_{}_{}.csv'.format(name, i), index=False)
         return last_state
 
-    def run_ensemble_strategy(self):
+    def run_ensemble_strategy(self,A2C_model_kwargs,PPO_model_kwargs,DDPG_model_kwargs,timesteps_dict):
         """Ensemble Strategy that combines PPO, A2C and DDPG"""
         print("============Start Ensemble Strategy============")
         # for ensemble model, it's necessary to feed the last state
@@ -298,15 +281,17 @@ class DRLEnsembleAgent:
                 initial = False
 
             # Tuning trubulence index based on historical data
-            # Turbulence lookback window is one quarter
+            # Turbulence lookback window is one quarter (63 days)
             end_date_index = self.df.index[self.df["date"] == self.unique_trade_date[i - self.rebalance_window - self.validation_window]].to_list()[-1]
-            start_date_index = end_date_index - self.validation_window*30 + 1
+            start_date_index = end_date_index - 63 + 1
 
             historical_turbulence = self.df.iloc[start_date_index:(end_date_index + 1), :]
 
             historical_turbulence = historical_turbulence.drop_duplicates(subset=['date'])
 
             historical_turbulence_mean = np.mean(historical_turbulence.turbulence.values)
+
+            print(historical_turbulence_mean)
 
             if historical_turbulence_mean > insample_turbulence_threshold:
                 # if the mean of the historical data is greater than the 90% quantile of insample turbulence data
@@ -345,8 +330,8 @@ class DRLEnsembleAgent:
             # print("training: ",len(data_split(df, start=20090000, end=test.datadate.unique()[i-rebalance_window]) ))
             # print("==============Model Training===========")
             print("======A2C Training========")
-            model_a2c = self.get_model("a2c",self.train_env,policy="MlpPolicy",model_kwargs=self.A2C_model_kwargs)
-            model_a2c = self.train_model(model_a2c, "a2c", tb_log_name="a2c_{}".format(i), iter_num = i, total_timesteps=100000)
+            model_a2c = self.get_model("a2c",self.train_env,policy="MlpPolicy",model_kwargs=A2C_model_kwargs)
+            model_a2c = self.train_model(model_a2c, "a2c", tb_log_name="a2c_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['a2c']) #100_000
 
             print("======A2C Validation from: ", validation_start_date, "to ",validation_end_date)
             val_env_a2c = DummyVecEnv([lambda: StockTradingEnv(validation,
@@ -370,8 +355,8 @@ class DRLEnsembleAgent:
             print("A2C Sharpe Ratio: ", sharpe_a2c)
 
             print("======PPO Training========")
-            model_ppo = self.get_model("ppo",self.train_env,policy="MlpPolicy",model_kwargs=self.PPO_model_kwargs)
-            model_ppo = self.train_model(model_ppo, "ppo", tb_log_name="ppo_{}".format(i), iter_num = i, total_timesteps=100000)
+            model_ppo = self.get_model("ppo",self.train_env,policy="MlpPolicy",model_kwargs=PPO_model_kwargs)
+            model_ppo = self.train_model(model_ppo, "ppo", tb_log_name="ppo_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ppo']) #100_000
             print("======PPO Validation from: ", validation_start_date, "to ",validation_end_date)
             val_env_ppo = DummyVecEnv([lambda: StockTradingEnv(validation,
                                                                 self.stock_dim,
@@ -394,8 +379,8 @@ class DRLEnsembleAgent:
             print("PPO Sharpe Ratio: ", sharpe_ppo)
 
             print("======DDPG Training========")
-            model_ddpg = self.get_model("ddpg",self.train_env,policy="MlpPolicy",model_kwargs=self.DDPG_model_kwargs)
-            model_ddpg = self.train_model(model_ddpg, "ddpg", tb_log_name="ddpg_{}".format(i), iter_num = i, total_timesteps=50000) 
+            model_ddpg = self.get_model("ddpg",self.train_env,policy="MlpPolicy",model_kwargs=DDPG_model_kwargs)
+            model_ddpg = self.train_model(model_ddpg, "ddpg", tb_log_name="ddpg_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ddpg'])  #50_000
             print("======DDPG Validation from: ", validation_start_date, "to ",validation_end_date)
             val_env_ddpg = DummyVecEnv([lambda: StockTradingEnv(validation,
                                                                 self.stock_dim,
@@ -420,16 +405,38 @@ class DRLEnsembleAgent:
             a2c_sharpe_list.append(sharpe_a2c)
             ddpg_sharpe_list.append(sharpe_ddpg)
 
+            print("======Best Model Retraining from: ", self.train_period[0], "to ",
+                  self.unique_trade_date[i - self.rebalance_window])
+            # Environment setup for model retraining up to first trade date
+            train_full = data_split(self.df, start=self.train_period[0], end=self.unique_trade_date[i - self.rebalance_window])
+            self.train_full_env = DummyVecEnv([lambda: StockTradingEnv(train_full,
+                                                                self.stock_dim,
+                                                                self.hmax,
+                                                                self.initial_amount,
+                                                                self.buy_cost_pct,
+                                                                self.sell_cost_pct,
+                                                                self.reward_scaling,
+                                                                self.state_space,
+                                                                self.action_space,
+                                                                self.tech_indicator_list,
+                                                                print_verbosity=self.print_verbosity)])
             # Model Selection based on sharpe ratio
             if (sharpe_ppo >= sharpe_a2c) & (sharpe_ppo >= sharpe_ddpg):
-                model_ensemble = model_ppo
                 model_use.append('PPO')
+
+                model_ensemble = self.get_model("ppo",self.train_full_env,policy="MlpPolicy",model_kwargs=PPO_model_kwargs)
+                model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ppo']) #100_000
             elif (sharpe_a2c > sharpe_ppo) & (sharpe_a2c > sharpe_ddpg):
-                model_ensemble = model_a2c
                 model_use.append('A2C')
+
+                model_ensemble = self.get_model("a2c",self.train_full_env,policy="MlpPolicy",model_kwargs=A2C_model_kwargs)
+                model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['a2c']) #100_000
             else:
-                model_ensemble = model_ddpg
                 model_use.append('DDPG')
+
+                model_ensemble = self.get_model("ddpg",self.train_full_env,policy="MlpPolicy",model_kwargs=DDPG_model_kwargs)
+                model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ddpg']) #50_000
+
             ############## Training and Validation ends ##############
 
             ############## Trading starts ##############
