@@ -40,9 +40,6 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 - [Prior Arts](#Prior-Arts)
 - [News](#News)
 - [Overview](#Overview)
-	- [Guiding Principles](#Guiding-Principles)
-	- [Architecture of FinRL](#Architecture-of-the-FinRL-Library)
-	- [Implemented Algorithms](#Implemented-Algorithms)
 - [Status](#Status)
 - [Installation](#Installation)
 	- [Docker Installation](#Docker-Installation)
@@ -85,7 +82,7 @@ A YouTube video about FinRL library.
 
 [<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
-Poster of FinRL
+
 <img src=figs/Poster_FinRL.jpg width="800">
 
 
