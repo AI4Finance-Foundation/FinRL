@@ -40,6 +40,7 @@ NOISE = {
     "ornstein_uhlenbeck": OrnsteinUhlenbeckActionNoise,
 }
 
+
 class DRLAgent:
     """Provides implementations for DRL algorithms
 
@@ -65,11 +66,13 @@ class DRLAgent:
     """
 
     @staticmethod
-    def DRL_prediction(model, test_data, test_env, test_obs):
+    def DRL_prediction(model, environment):
+        test_env, test_obs = environment.get_sb_env()
         """make a prediction"""
         account_memory = []
         actions_memory = []
-        for i in range(len(test_data.index.unique())):
+        test_env.reset()
+        for i in range(len(environment.df.index.unique())):
             action, _states = model.predict(test_obs)
             account_memory = test_env.env_method(method_name="save_asset_memory")
             actions_memory = test_env.env_method(method_name="save_action_memory")
