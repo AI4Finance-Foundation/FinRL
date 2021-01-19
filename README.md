@@ -85,19 +85,9 @@ A YouTube video about FinRL library.
 
 [<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
-## Guiding Principles
-- **Completeness.** Cover components of the DRL framework completely, which is a fundamental requirement;
-- **Hands-on tutorials.** Friendly to beginners; tutorials with detailed walk-through. 
-- **Reproducibility.** Guarantee reproducibility to ensure the transparency; 
+Poster of FinRL
+<img src=figs/Poster_FinRL.jpg width="800">
 
-## Architecture of the FinRL Library
-- **Three-layer architecture:** The three layers of FinRL library are stock market environment, DRL trading agent, and stock trading applications. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
-- **Modularity:** Each layer includes several modules and each module defines a separate function. One can select certain modules from any layer to implement his/her stock trading task. Furthermore, updating existing modules is possible.
-- **Simplicity, Applicability and Extendibility:** Specifically designed for automated stock trading, FinRL presents DRL algorithms as modules. In this way, FinRL is made accessible yet not demanding. FinRL provides three trading tasks as use cases that can be easily reproduced. Each layer includes reserved interfaces that allow users to develop new modules.
-- **Better Market Environment Modeling:** We build a trading simulator that replicates live stock market and provides backtesting support that incorporates important market frictions such as transaction cost, market liquidity and the investor’s degree of risk-aversion. All of those are crucial among key determinants of net returns.
-
-## Implemented Algorithms
-<img src=figs/alg_compare.PNG width="800">
 
 # Status
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
