@@ -60,7 +60,8 @@ def train_one():
     env_kwargs = {
         "hmax": 100, 
         "initial_amount": 1000000, 
-        "transaction_cost_pct": 0.001, 
+        "buy_cost_pct": 0.001, 
+        "sell_cost_pct": 0.001, 
         "state_space": state_space, 
         "stock_dim": stock_dimension, 
         "tech_indicator_list": config.TECHNICAL_INDICATORS_LIST, 
