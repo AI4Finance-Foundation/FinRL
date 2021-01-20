@@ -75,6 +75,8 @@ We published the following papers and now arrive at this project:
 
 [Neurohive] [FinRL: глубокое обучение с подкреплением для трейдинга](https://neurohive.io/ru/gotovye-prilozhenija/finrl-glubokoe-obuchenie-s-podkrepleniem-dlya-trejdinga/)
 
+[YouTube][AI4Finance Channel] (https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g)
+
 
 # Overview
 
