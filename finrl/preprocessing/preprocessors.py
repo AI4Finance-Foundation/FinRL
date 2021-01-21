@@ -131,9 +131,11 @@ class FeatureEngineer:
             current_price = df_price_pivot[df_price_pivot.index == unique_date[i]]
             # use one year rolling window to calcualte covariance
             hist_price = df_price_pivot[(df_price_pivot.index < unique_date[i]) & (df_price_pivot.index >= unique_date[i-252])]
+            # Drop tickers which has number missing values more than the "oldest" ticker
+            filtered_hist_price = hist_price.iloc[hist_price.isna().sum().min():].dropna(axis=1)
 
-            cov_temp = hist_price.cov()
-            current_temp = current_price - np.mean(hist_price, axis=0)
+            cov_temp = filtered_hist_price.cov()
+            current_temp = current_price[[x for x in filtered_hist_price]] - np.mean(filtered_hist_price, axis=0)
             temp = current_temp.values.dot(np.linalg.pinv(cov_temp)).dot(
                 current_temp.values.T
             )

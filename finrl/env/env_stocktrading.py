@@ -79,37 +79,46 @@ class StockTradingEnv(gym.Env):
 
     def _sell_stock(self, index, action):
         def _do_sell_normal():
-            # perform sell action based on the sign of the action
-            if self.state[index+self.stock_dim+1] > 0:
-                sell_num_shares = min(abs(action),self.state[index+self.stock_dim+1])
-                sell_amount = self.state[index+1]* sell_num_shares * (1- self.sell_cost_pct)
-                #update balance
-                self.state[0] += sell_amount
+            if self.state[index+1]>0: 
+                # Sell only if the price is > 0 (no missing data in this particular date)
+                # perform sell action based on the sign of the action
+                if self.state[index+self.stock_dim+1] > 0:
+                    # Sell only if current asset is > 0
+                    sell_num_shares = min(abs(action),self.state[index+self.stock_dim+1])
+                    sell_amount = self.state[index+1] * sell_num_shares * (1- self.sell_cost_pct)
+                    #update balance
+                    self.state[0] += sell_amount
 
-                self.state[index+self.stock_dim+1] -= sell_num_shares
-                self.cost +=self.state[index+1]*sell_num_shares * self.sell_cost_pct
-                self.trades+=1
+                    self.state[index+self.stock_dim+1] -= sell_num_shares
+                    self.cost +=self.state[index+1] * sell_num_shares * self.sell_cost_pct
+                    self.trades+=1
+                else:
+                    sell_num_shares = 0
             else:
                 sell_num_shares = 0
-                pass
+
             return sell_num_shares
             
         # perform sell action based on the sign of the action
         if self.turbulence_threshold is not None:
             if self.turbulence>=self.turbulence_threshold:
-                # if turbulence goes over threshold, just clear out all positions 
-                if self.state[index+self.stock_dim+1] > 0:
-                    sell_num_shares = self.state[index+self.stock_dim+1]
-                    sell_amount = self.state[index+1]*sell_num_shares* (1- self.sell_cost_pct)
-                    #update balance
-                    self.state[0] += sell_amount
-                    self.state[index+self.stock_dim+1] =0
-                    self.cost += self.state[index+1]*self.state[index+self.stock_dim+1]* \
-                                self.sell_cost_pct
-                    self.trades+=1
+                if self.state[index+1]>0: 
+                    # Sell only if the price is > 0 (no missing data in this particular date)
+                    # if turbulence goes over threshold, just clear out all positions 
+                    if self.state[index+self.stock_dim+1] > 0:
+                        # Sell only if current asset is > 0
+                        sell_num_shares = self.state[index+self.stock_dim+1]
+                        sell_amount = self.state[index+1]*sell_num_shares* (1- self.sell_cost_pct)
+                        #update balance
+                        self.state[0] += sell_amount
+                        self.state[index+self.stock_dim+1] =0
+                        self.cost += self.state[index+1]*self.state[index+self.stock_dim+1]* \
+                                    self.sell_cost_pct
+                        self.trades+=1
+                    else:
+                        sell_num_shares = 0
                 else:
                     sell_num_shares = 0
-                    pass
             else:
                 sell_num_shares = _do_sell_normal()
         else:
@@ -121,20 +130,25 @@ class StockTradingEnv(gym.Env):
     def _buy_stock(self, index, action):
 
         def _do_buy():
-            available_amount = self.state[0] // self.state[index+1]
-            # print('available_amount:{}'.format(available_amount))
-            
-            #update balance
-            buy_num_shares = min(available_amount, action)
-            buy_amount = self.state[index+1]* buy_num_shares * (1+ self.buy_cost_pct)
-            self.state[0] -= buy_amount
+            if self.state[index+1]>0: 
+                #Buy only if the price is > 0 (no missing data in this particular date)       
+                available_amount = self.state[0] // self.state[index+1]
+                # print('available_amount:{}'.format(available_amount))
+                
+                #update balance
+                buy_num_shares = min(available_amount, action)
+                buy_amount = self.state[index+1] * buy_num_shares * (1+ self.buy_cost_pct)
+                self.state[0] -= buy_amount
 
-            self.state[index+self.stock_dim+1] += buy_num_shares
-            
-            self.cost+=self.state[index+1]*buy_num_shares*self.buy_cost_pct
-            self.trades+=1
+                self.state[index+self.stock_dim+1] += buy_num_shares
+                
+                self.cost+=self.state[index+1] * buy_num_shares * self.buy_cost_pct
+                self.trades+=1
+            else:
+                buy_num_shares = 0
 
             return buy_num_shares
+
         # perform buy action based on the sign of the action
         if self.turbulence_threshold is None:
             buy_num_shares = _do_buy()
@@ -142,6 +156,7 @@ class StockTradingEnv(gym.Env):
             if self.turbulence< self.turbulence_threshold:
                 buy_num_shares = _do_buy()
             else:
+                buy_num_shares = 0
                 pass
 
         return buy_num_shares
@@ -218,7 +233,7 @@ class StockTradingEnv(gym.Env):
             for index in sell_index:
                 # print(f"Num shares before: {self.state[index+self.stock_dim+1]}")
                 # print(f'take sell action before : {actions[index]}')
-                actions[index] = self._sell_stock(index, actions[index])
+                actions[index] = self._sell_stock(index, actions[index]) * (-1)
                 # print(f'take sell action after : {actions[index]}')
                 # print(f"Num shares after: {self.state[index+self.stock_dim+1]}")
 
