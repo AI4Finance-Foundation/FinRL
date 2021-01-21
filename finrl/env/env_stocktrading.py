@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 from gym.utils import seeding
@@ -7,7 +8,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pickle
-from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common import logger
 
 
@@ -220,7 +221,7 @@ class StockTradingEnv(gym.Env):
             for index in sell_index:
                 # print(f"Num shares before: {self.state[index+self.stock_dim+1]}")
                 # print(f'take sell action before : {actions[index]}')
-                actions[index] = self._sell_stock(index, actions[index])
+                actions[index] = self._sell_stock(index, actions[index])*(-1)
                 # print(f'take sell action after : {actions[index]}')
                 # print(f"Num shares after: {self.state[index+self.stock_dim+1]}")
 
@@ -363,3 +364,4 @@ class StockTradingEnv(gym.Env):
         e = DummyVecEnv([lambda: self])
         obs = e.reset()
         return e, obs
+    
