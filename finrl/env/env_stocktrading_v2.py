@@ -45,7 +45,7 @@ class StockTradingEnvV2(gym.Env):
     action space: <share_dollar_purchases>
 
     TODO:
-        property for date index - starting point
+        make cash penalty proportional to total assets
 
 
     tests:
@@ -90,7 +90,6 @@ class StockTradingEnvV2(gym.Env):
         self.transaction_cost_pct = transaction_cost_pct
         self.reward_scaling = reward_scaling
         self.daily_information_cols = daily_information_cols
-        self.close_index = self.daily_information_cols.index("close")
         self.state_space = (
             1 + len(self.assets) + len(self.assets) * len(self.daily_information_cols)
         )
@@ -198,7 +197,7 @@ class StockTradingEnvV2(gym.Env):
             self.date_index - self.starting_point,
             reason,
             f"${int(self.account_information['total_assets'][-1])}",
-            f"${terminal_reward:0.2f}",
+            f"{terminal_reward*100:0.5f}%",
             f"{cash_pct*100:0.2f}%",
         ]
 
@@ -218,6 +217,18 @@ class StockTradingEnvV2(gym.Env):
             )
         )
         self.printed_header = True
+        
+    def get_reward(self):
+        if self.current_step==0:
+            return 0
+        else:
+            assets = self.account_information['total_assets'][-1]
+            cash = self.account_information['cash'][-1]
+            cash_penalty = max(0, (assets*self.cash_penalty_proportion-cash))
+            assets -= cash_penalty
+            reward = (assets/self.initial_amount)-1
+            reward/=self.current_step
+            return reward
 
     def step(self, actions):
         # let's just log what we're doing in terms of max actions at each step.
@@ -234,10 +245,7 @@ class StockTradingEnvV2(gym.Env):
         # if we're at the end
         if self.date_index == len(self.dates) - 1:
             # if we hit the end, set reward to total gains (or losses)
-            terminal_reward = (
-                self.account_information["total_assets"][-1] - self.initial_amount
-            )
-            return self.return_terminal(reward=terminal_reward)
+            return self.return_terminal(reward=self.get_reward())
         else:
             # compute value of cash + assets
             begin_cash = self.state_memory[-1][0]
@@ -247,25 +255,7 @@ class StockTradingEnvV2(gym.Env):
             asset_value = np.dot(holdings, closings)
 
             # reward is (cash + assets) - (cash_last_step + assets_last_step)
-            if self.current_step == 0:
-                reward = 0
-            else:
-                # stepwise reward
-                reward = (
-                    begin_cash
-                    + asset_value
-                    - self.account_information["total_assets"][-1]
-                )
-                #
-                if self.daily_reward is not None:
-                    reward += self.daily_reward * self.current_step
-                if self.cash_penalty_proportion is not None:
-                    cash_penalty = min(
-                        0,
-                        begin_cash
-                        - (self.cash_penalty_proportion * self.initial_amount),
-                    )
-                    reward += cash_penalty
+            reward = self.get_reward()
 
             # log the values of cash, assets, and total assets
             self.account_information["cash"].append(begin_cash)
@@ -299,7 +289,7 @@ class StockTradingEnvV2(gym.Env):
             if (spend + costs) > coh:
                 return self.return_terminal(
                     reason="CASH SHORTAGE",
-                    reward=self.out_of_cash_penalty,
+                    reward=self.get_reward()
                 )
 
             # verify we didn't do anything impossible here
