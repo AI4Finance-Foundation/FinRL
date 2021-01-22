@@ -1,35 +1,29 @@
 import numpy as np
 import pandas as pd
-from gym.utils import seeding
-import gym
-from gym import spaces
-import matplotlib
 from copy import deepcopy
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import pickle
-from stable_baselines3.common.vec_env import DummyVecEnv
-import numpy as np
-import pandas as pd
 from gym.utils import seeding
 import gym
 from gym import spaces
 import matplotlib
-import random
-
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import pickle
+import random
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common import logger
 import time
 
 
-class StockTradingEnvV2(gym.Env):
+class StockTradingEnvCashpenalty(gym.Env):
 
     """
     A stock trading environment for OpenAI gym
+    This environment penalizes the model for not maintaining a reserve of cash. 
+    This enables the model to manage cash reserves in addition to performing trading procedures. 
+
+    Reward at any step is given as follows
+        r_i = (sum(cash + asset_value) - initial_cash - max(0, sum(cash, asset_value)*cash_penalty_proportion-cash))/(days_elapsed)
+        This reward function takes into account a liquidity requirement, as well as long-term accrued rewards. 
+
     Parameters:
     state space: {start_cash, <owned_shares>, for s in stocks{<stock.values>}, }
         df (pandas.DataFrame): Dataframe containing data
@@ -37,16 +31,11 @@ class StockTradingEnvV2(gym.Env):
         hmax (int): max number of share purchases allowed per asset
         turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
         print_verbosity(int): When iterating (step), how often to print stats about state of env
-        reward_scaling (float): Scaling value to multiply reward by at each step.
         initial_amount: (int, float): Amount of cash initially available
         daily_information_columns (list(str)): Columns to use when building state space from the dataframe.
         out_of_cash_penalty (int, float): Penalty to apply if the algorithm runs out of cash
 
     action space: <share_dollar_purchases>
-
-    TODO:
-        make cash penalty proportional to total assets
-
 
     tests:
         after reset, static strategy should result in same metrics
@@ -65,12 +54,9 @@ class StockTradingEnvV2(gym.Env):
         hmax=10,
         turbulence_threshold=None,
         print_verbosity=10,
-        reward_scaling=1e-4,
         initial_amount=1e6,
         daily_information_cols=["open", "close", "high", "low", "volume"],
-        out_of_cash_penalty=None,
         cache_indicator_data=True,
-        daily_reward=None,
         cash_penalty_proportion=0.1,
         random_start=True,
     ):
@@ -83,9 +69,6 @@ class StockTradingEnvV2(gym.Env):
         self.df = self.df.set_index(date_col_name)
         self.hmax = hmax
         self.initial_amount = initial_amount
-        if out_of_cash_penalty is None:
-            out_of_cash_penalty = -initial_amount * 0.5
-        self.out_of_cash_penalty = out_of_cash_penalty
         self.print_verbosity = print_verbosity
         self.transaction_cost_pct = transaction_cost_pct
         self.reward_scaling = reward_scaling
@@ -100,7 +83,6 @@ class StockTradingEnvV2(gym.Env):
         self.episode = -1  # initialize so we can call reset
         self.episode_history = []
         self.printed_header = False
-        self.daily_reward = daily_reward
         self.cache_indicator_data = cache_indicator_data
         self.cached_data = None
         self.cash_penalty_proportion = cash_penalty_proportion
@@ -166,7 +148,6 @@ class StockTradingEnvV2(gym.Env):
 
         state = self.state_memory[-1]
         self.log_step(reason=reason, terminal_reward=reward)
-        reward = reward * self.reward_scaling
         # Add outputs to logger interface
         reward_pct = self.account_information["total_assets"][-1] / self.initial_amount
         logger.record("environment/total_reward_pct", (reward_pct - 1) * 100)
@@ -303,7 +284,6 @@ class StockTradingEnvV2(gym.Env):
                 [coh] + list(holdings_updated) + self.get_date_vector(self.date_index)
             )
             self.state_memory.append(state)
-            reward = reward * self.reward_scaling
             return state, reward, False, {}
 
     def get_sb_env(self):
