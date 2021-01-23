@@ -15,9 +15,10 @@
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
 
-FinRL is the open source library for practitioners. To efficiently automate trading, **AI4Finance** provides this educational resource and makes it easier to learn about deep reinforcement learning (DRL) in quantitative finance. 
+FinRL is the open source library for practitioners. To efficiently automate trading, the open source community **AI4Finance** aims to make it easier to learn about deep reinforcement learning (DRL) in quantitative finance. FinRL provides a unified framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.  
 
-FinRL provides a framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.  
+Roadmaps of FinRL:
+**FinRl 1.0**
 
 To contribute?  Please check the call for contributions at the end of this page.
 
