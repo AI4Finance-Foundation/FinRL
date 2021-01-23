@@ -72,18 +72,18 @@ We published the following papers and now arrive at this project:
 
 [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
 
+[Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
+
 [Analyticsindiamag.com] [How To Automate The Stock Market Using FinRL (Deep Reinforcement Learning Library)?](https://analyticsindiamag.com/stock-market-prediction-using-finrl/)
 
 [量化投资与机器学习] [基于深度强化学习的股票交易策略框架（代码+文档)](https://www.mdeditor.tw/pl/p5Gg)
 
 [Neurohive] [FinRL: глубокое обучение с подкреплением для трейдинга](https://neurohive.io/ru/gotovye-prilozhenija/finrl-glubokoe-obuchenie-s-podkrepleniem-dlya-trejdinga/)
 
-[YouTube] [AI4Finance Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g)
-
 
 # Overview
 
-A YouTube video about FinRL library.
+A YouTube video about FinRL library.  [YouTube] [AI4Finance Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g)
 
 [<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
