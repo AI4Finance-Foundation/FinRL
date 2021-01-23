@@ -14,12 +14,11 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
-FinRL is the open source library with a unified framework for practitioners to pipeline the strategy development. To efficiently automate trading. The open source community **AI4Finance** aims to make it easier to learn about deep reinforcement learning (DRL) in quantitative finance. **In reinforcement learning, an agent learns by interacting with an environment, in a trial-and-error manner, achieving a balance between exploration and exploitation.**
+FinRL is the open source library with a unified framework for practitioners to pipeline the strategy development. **In reinforcement learning, an agent learns by interacting with an environment, in a trial-and-error manner, achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides educational resources to learn about deep reinforcement learning (DRL) in quantitative finance. 
 
 **To contribute?**  Please check the call for contributions at the end of this page.
 
-Feel free to report bugs using Github issues, discuss FinRL development in the slack channel, or join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance).
-
+Feel free to report bugs using Github issues, join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance), and discuss FinRL in the slack channel:
 
 <br/>
 
@@ -33,11 +32,11 @@ Feel free to report bugs using Github issues, discuss FinRL development in the s
 
 Roadmaps of FinRL:
 
-**FinRl 1.0**: for demonstrative and educational purpose, entry-level as toturials for beginners
+**FinRl 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
 
-**FinRl 2.0**: for demonstrative and educational purpose, intermediate-level as framework for full-stack developers and professionals  
+**FinRl 2.0**: intermediate-level framework for full-stack developers and professionals.  
 
-FinRL is a unified framework to support various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc. 
+FinRL provides a unified framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, Cryptocurrency trading), live trading, etc. 
 
 ## Table of Contents
 
