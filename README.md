@@ -15,11 +15,12 @@
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
 
-FinRL is the open source library for practitioners. To efficiently automate trading, the open source community **AI4Finance** aims to make it easier to learn about deep reinforcement learning (DRL) in quantitative finance. FinRL provides a unified framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.  
+FinRL is the open source library for practitioners to efficiently automate trading. The open source community **AI4Finance** aims to make it easier to learn about deep reinforcement learning (DRL) in quantitative finance. **In reinforcement learning, an agent learns by interacting with an environment, in a trial-and-error manner, achieving a balance between exploration and exploitation.**
+FinRL is a unified framework to support various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.  
 
-To contribute?  Please check the call for contributions at the end of this page.
+**To contribute?**  Please check the call for contributions at the end of this page.
 
-Feel free to leave us feedback: report bugs using Github issues, discuss FinRL development in the slack channel, or join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance).
+Feel free to report bugs using Github issues, discuss FinRL development in the slack channel, or join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance).
 
 
 <br/>
@@ -34,9 +35,9 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 
 Roadmaps of FinRL:
 
-**FinRl 1.0**: for demonstrative and educational purpose.
+**FinRl 1.0**: for demonstrative and educational purpose, entry-level as toturials for beginners
 
-**FinRl 2.0**: for demonstrative and educational purpose.
+**FinRl 2.0**: for demonstrative and educational purpose, intermediate-level as framework for full-stack developers and professionals  
 
 
 ## Table of Contents
