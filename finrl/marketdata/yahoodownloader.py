@@ -32,7 +32,7 @@ class YahooDownloader:
         self.end_date = end_date
         self.ticker_list = ticker_list
 
-    def fetch_data(self) -> pd.DataFrame:
+    def fetch_data(self, proxy=None) -> pd.DataFrame:
         """Fetches data from Yahoo API
         Parameters
         ----------
@@ -46,7 +46,7 @@ class YahooDownloader:
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         for tic in self.ticker_list:
-            temp_df = yf.download(tic, start=self.start_date, end=self.end_date)
+            temp_df = yf.download(tic, start=self.start_date, end=self.end_date, proxy=proxy)
             temp_df["tic"] = tic
             data_df = data_df.append(temp_df)
         # reset the index, we want to use numbers as index instead of dates

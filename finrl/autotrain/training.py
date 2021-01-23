@@ -59,15 +59,16 @@ def train_one():
     )
 
     env_kwargs = {
-        "hmax": 100,
-        "initial_amount": 1000000,
-        "transaction_cost_pct": 0.001,
-        "state_space": state_space,
-        "stock_dim": stock_dimension,
-        "tech_indicator_list": config.TECHNICAL_INDICATORS_LIST,
-        "action_space": stock_dimension,
-        "reward_scaling": 1e-4,
-    }
+        "hmax": 100, 
+        "initial_amount": 1000000, 
+        "buy_cost_pct": 0.001, 
+        "sell_cost_pct": 0.001, 
+        "state_space": state_space, 
+        "stock_dim": stock_dimension, 
+        "tech_indicator_list": config.TECHNICAL_INDICATORS_LIST, 
+        "action_space": stock_dimension, 
+        "reward_scaling": 1e-4
+        }
 
     e_train_gym = StockTradingEnv(df=train, **env_kwargs)
 
