@@ -260,11 +260,14 @@ class StockTradingEnv(gym.Env):
         return self.state, self.reward, self.terminal, {}
 
     def reset(self):  
+        #initiate state
+        self.state = self._initiate_state()
+        
         if self.initial:
             self.asset_memory = [self.initial_amount]
         else:
             previous_total_asset = self.previous_state[0]+ \
-            sum(np.array(self.previous_state[1:(self.stock_dim+1)])*np.array(self.previous_state[(self.stock_dim+1):(self.stock_dim*2+1)]))
+            sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.previous_state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             self.asset_memory = [previous_total_asset]
 
         self.day = 0
@@ -277,8 +280,7 @@ class StockTradingEnv(gym.Env):
         self.rewards_memory = []
         self.actions_memory=[]
         self.date_memory=[self._get_date()]
-        #initiate state
-        self.state = self._initiate_state()
+        
         self.episode+=1
 
         return self.state
