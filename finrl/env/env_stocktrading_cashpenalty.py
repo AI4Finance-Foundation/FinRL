@@ -71,7 +71,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.initial_amount = initial_amount
         self.print_verbosity = print_verbosity
         self.transaction_cost_pct = transaction_cost_pct
-        self.reward_scaling = reward_scaling
         self.daily_information_cols = daily_information_cols
         self.state_space = (
             1 + len(self.assets) + len(self.assets) * len(self.daily_information_cols)
