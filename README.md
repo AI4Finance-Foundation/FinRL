@@ -14,9 +14,7 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
-
-FinRL is the open source library for practitioners to efficiently automate trading. The open source community **AI4Finance** aims to make it easier to learn about deep reinforcement learning (DRL) in quantitative finance. **In reinforcement learning, an agent learns by interacting with an environment, in a trial-and-error manner, achieving a balance between exploration and exploitation.**
-FinRL is a unified framework to support various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.  
+FinRL is the open source library with a unified framework for practitioners to pipeline the strategy development. To efficiently automate trading. The open source community **AI4Finance** aims to make it easier to learn about deep reinforcement learning (DRL) in quantitative finance. **In reinforcement learning, an agent learns by interacting with an environment, in a trial-and-error manner, achieving a balance between exploration and exploitation.**
 
 **To contribute?**  Please check the call for contributions at the end of this page.
 
@@ -39,6 +37,7 @@ Roadmaps of FinRL:
 
 **FinRl 2.0**: for demonstrative and educational purpose, intermediate-level as framework for full-stack developers and professionals  
 
+FinRL is a unified framework to support various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc. 
 
 ## Table of Contents
 
