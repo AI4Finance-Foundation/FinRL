@@ -14,15 +14,11 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
+FinRL is the open source library with a unified framework for practitioners to pipeline the strategy development. **In reinforcement learning (or deep RL), an agent learns by interacting with an environment, in a trial-and-error manner, achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides educational resources to learn about deep reinforcement learning (DRL) in quantitative finance. 
 
-FinRL is the open source library for practitioners. To efficiently automate trading, **AI4Finance** provides this educational resource and makes it easier to learn about deep reinforcement learning (DRL) in quantitative finance. 
+**To contribute?**  Please check the call for contributions at the end of this page.
 
-FinRL provides a framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.  
-
-To contribute?  Please check the call for contributions at the end of this page.
-
-Feel free to leave us feedback: report bugs using Github issues, discuss FinRL development in the slack channel, or join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance).
-
+Feel free to report bugs using Github issues, join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance), and discuss FinRL in the slack channel:
 
 <br/>
 
@@ -34,6 +30,13 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 
 <br/>
 
+Roadmaps of FinRL:
+
+**FinRl 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
+
+**FinRl 2.0**: intermediate-level framework for full-stack developers and professionals.  
+
+FinRL provides a unified machine learning framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, Cryptocurrency trading), live trading, etc. 
 
 ## Table of Contents
 
@@ -52,7 +55,7 @@ Feel free to leave us feedback: report bugs using Github issues, discuss FinRL d
 
 # Prior Arts:
 
-We published the following papers and now arrive at this project:
+We published [papers in FinTech](http://www.tensorlet.com/projects/ai-in-finance/) and now arrive at this project:
 
 4). [FinRL](https://arxiv.org/abs/2011.09607): A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance, Deep RL Workshop, NeurIPS 2020.
 
@@ -69,24 +72,27 @@ We published the following papers and now arrive at this project:
 
 [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
 
+[Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
+
 [Analyticsindiamag.com] [How To Automate The Stock Market Using FinRL (Deep Reinforcement Learning Library)?](https://analyticsindiamag.com/stock-market-prediction-using-finrl/)
 
 [量化投资与机器学习] [基于深度强化学习的股票交易策略框架（代码+文档)](https://www.mdeditor.tw/pl/p5Gg)
 
 [Neurohive] [FinRL: глубокое обучение с подкреплением для трейдинга](https://neurohive.io/ru/gotovye-prilozhenija/finrl-glubokoe-obuchenie-s-podkrepleniem-dlya-trejdinga/)
 
-[YouTube] [AI4Finance Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g)
-
 
 # Overview
 
-A YouTube video about FinRL library.
+A YouTube video about FinRL library.  [YouTube] [AI4Finance Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quant finance.
 
 [<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
 
 <img src=figs/Poster_FinRL.jpg width="800">
 
+# DRL Algorithms 
+
+We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, InterSAC, InterAC, MuZero, etc. using PyTorch and OpenAI Gym. 
 
 # Status
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
@@ -211,7 +217,7 @@ The stock data we use is pulled from Yahoo Finance API
 
 # Contributions
 
-- FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided.
+- FinRL is an open source library specifically designed and implemented for quant finance. Trading environments incorporating market frictions are used and provided.
 - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
 - FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
 - Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
