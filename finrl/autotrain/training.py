@@ -28,10 +28,11 @@ def train_one():
     ).fetch_data()
     print("==============Start Feature Engineering===========")
     fe = FeatureEngineer(
-                    use_technical_indicator=True,
-                    tech_indicator_list = config.TECHNICAL_INDICATORS_LIST,
-                    use_turbulence=True,
-                    user_defined_feature = False)
+        use_technical_indicator=True,
+        tech_indicator_list=config.TECHNICAL_INDICATORS_LIST,
+        use_turbulence=True,
+        user_defined_feature=False,
+    )
 
     processed = fe.preprocess_data(df)
 
@@ -67,12 +68,11 @@ def train_one():
         "tech_indicator_list": config.TECHNICAL_INDICATORS_LIST, 
         "action_space": stock_dimension, 
         "reward_scaling": 1e-4
-        
-    }
+        }
 
-    e_train_gym = StockTradingEnv(df = train, **env_kwargs)
+    e_train_gym = StockTradingEnv(df=train, **env_kwargs)
 
-    e_trade_gym = StockTradingEnv(df = trade, turbulence_threshold = 250, **env_kwargs)
+    e_trade_gym = StockTradingEnv(df=trade, turbulence_threshold=250, **env_kwargs)
     env_train, _ = e_train_gym.get_sb_env()
     env_trade, obs_trade = e_trade_gym.get_sb_env()
 
@@ -82,8 +82,8 @@ def train_one():
     now = datetime.datetime.now().strftime("%Y%m%d-%Hh%M")
 
     model_sac = agent.get_model("sac")
-    trained_sac = agent.train_model(model=model_sac, 
-        tb_log_name='sac', total_timesteps=80000
+    trained_sac = agent.train_model(
+        model=model_sac, tb_log_name="sac", total_timesteps=80000
     )
 
     print("==============Start Trading===========")
