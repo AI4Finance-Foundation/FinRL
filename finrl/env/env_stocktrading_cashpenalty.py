@@ -37,6 +37,9 @@ class StockTradingEnvCashpenalty(gym.Env):
 
     action space: <share_dollar_purchases>
 
+    TODO: 
+        add holdings to memory
+        move transactions to after the clip step. 
     tests:
         after reset, static strategy should result in same metrics
 
@@ -249,10 +252,11 @@ class StockTradingEnvCashpenalty(gym.Env):
 
             # scale cash purchases to asset # changes
             actions = actions / closings
-            self.transaction_memory.append(actions)
+            
 
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
+            self.transaction_memory.append(actions)
 
             # compute our proceeds from sales, and add to cash
             sells = -np.clip(actions, -np.inf, 0)
