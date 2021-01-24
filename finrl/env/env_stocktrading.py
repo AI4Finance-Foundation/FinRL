@@ -233,7 +233,7 @@ class StockTradingEnv(gym.Env):
             for index in sell_index:
                 # print(f"Num shares before: {self.state[index+self.stock_dim+1]}")
                 # print(f'take sell action before : {actions[index]}')
-                actions[index] = self._sell_stock(index, actions[index]) * (-1)
+                actions[index] = -self._sell_stock(index, actions[index]) * (-1)
                 # print(f'take sell action after : {actions[index]}')
                 # print(f"Num shares after: {self.state[index+self.stock_dim+1]}")
 
