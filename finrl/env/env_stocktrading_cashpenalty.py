@@ -64,6 +64,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         cache_indicator_data=True,
         cash_penalty_proportion=0.1,
         random_start=True,
+        discrete_actions=False,
         currency="$",
     ):
         self.df = df
@@ -71,6 +72,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.assets = df[self.stock_col].unique()
         self.dates = df[date_col_name].sort_values().unique()
         self.random_start = random_start
+        self.discrete_actions = discrete_actions
         self.currency = currency
 
         self.df = self.df.set_index(date_col_name)
@@ -263,7 +265,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             # multiply action values by our scalar multiplier and save
             actions = actions * self.hmax 
             #buy/sell only if the price is > 0 (no missing data in this particular date 
-            actions = np.array([actions[i] if closings[i]>0 else 0 for i in range(len(actions))])
+            actions = np.where(closings>0,actions,0)
 
             if self.turbulence_threshold is not None:
                 # if turbulence goes over threshold, just clear out all positions
@@ -273,9 +275,12 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.actions_memory.append(actions)
 
             # scale cash purchases to asset
-            actions = actions // closings
-            #convert into integer because we can't buy fraction of shares
-            actions = (actions.astype(int))
+            if self.discrete_actions:
+                #convert into integer because we can't buy fraction of shares
+                actions = actions // closings
+                actions = (actions.astype(int))
+            else:
+                actions = actions / closings
             
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
