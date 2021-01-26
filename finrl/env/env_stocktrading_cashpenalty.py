@@ -261,17 +261,21 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.account_information["reward"].append(reward)
 
             # multiply action values by our scalar multiplier and save
-            actions = actions * self.hmax
-            actions = (actions.astype(int)) #convert into integer because we can't buy fraction of shares
+            actions = actions * self.hmax 
+            #buy/sell only if the price is > 0 (no missing data in this particular date 
+            actions = np.array([actions[i] if closings[i]>0 else 0 for i in range(len(actions))])
+
             if self.turbulence_threshold is not None:
-            	# if turbulence goes over threshold, just clear out all positions
+                # if turbulence goes over threshold, just clear out all positions
                 if self.turbulence>=self.turbulence_threshold:
                     actions = -(np.array(holdings) * closings)
                     self.log_step(reason="TURBULENCE")
             self.actions_memory.append(actions)
 
-            # scale cash purchases to asset # changes
-            actions = actions / closings
+            # scale cash purchases to asset
+            actions = actions // closings
+            #convert into integer because we can't buy fraction of shares
+            actions = (actions.astype(int))
             
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
