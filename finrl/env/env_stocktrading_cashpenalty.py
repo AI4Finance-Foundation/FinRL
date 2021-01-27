@@ -277,10 +277,10 @@ class StockTradingEnvCashpenalty(gym.Env):
             # scale cash purchases to asset
             if self.discrete_actions:
                 #convert into integer because we can't buy fraction of shares
-                actions = actions // closings
+                actions = np.where(closings>0,actions//closings,0)
                 actions = (actions.astype(int))
             else:
-                actions = actions / closings
+                actions = np.where(closings>0,actions/closings,0)
             
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
