@@ -198,7 +198,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.account_information["cash"][-1]
             / self.account_information["total_assets"][-1]
         )
-        GL_pct = self.account_information["total_assets"][-1] / self.initial_amount
+        gl_pct = self.account_information["total_assets"][-1] / self.initial_amount
         rec = [
             self.episode,
             self.date_index - self.starting_point,
@@ -206,7 +206,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             f"{self.currency}{'{:0,.0f}'.format(float(self.min_shares*self.account_information['cash'][-1]))}",
             f"{self.currency}{'{:0,.0f}'.format(float(self.min_shares*self.account_information['total_assets'][-1]))}",
             f"{terminal_reward*100:0.5f}%",
-            f"{(GL_pct - 1)*100:0.5f}%",
+            f"{(gl_pct - 1)*100:0.5f}%",
             f"{cash_pct*100:0.2f}%",
         ]
 
@@ -276,7 +276,9 @@ class StockTradingEnvCashpenalty(gym.Env):
 
             # multiply action values by our scalar multiplier and save
             actions = actions * self.hmax 
-            #buy/sell only if the price is > 0 (no missing data in this particular date 
+            self.actions_memory.append(actions*closings) #capture what the model's trying to do
+
+            #buy/sell only if the price is > 0 (no missing data in this particular date) 
             actions = np.where(closings>0,actions,0)
 
             if self.turbulence_threshold is not None:
@@ -296,8 +298,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
 
-            self.transaction_memory.append(actions)
-            self.actions_memory.append(actions*closings)
+            self.transaction_memory.append(actions) #capture what the model's could do
 
             # compute our proceeds from sells, and add to cash
             sells = -np.clip(actions, -np.inf, 0)
