@@ -21,8 +21,8 @@ class StockTradingEnvCashpenalty(gym.Env):
     This enables the model to manage cash reserves in addition to performing trading procedures. 
 
     Reward at any step is given as follows
-        r_i = (sum(cash, asset_value) - (1 if sum(cash, asset_value)>initial amount else negative_asset_penalty+1)*max(0, sum(cash, asset_value)*cash_penalty_proportion-cash))/(initial_cash)/(days_elapsed)
-        This reward function takes into account a liquidity requirement, long-term accrued rewards, and bigger penalty for losses.
+        r_i = (sum(cash, asset_value) - initial_cash - max(0, sum(cash, asset_value)*cash_penalty_proportion-cash))/(days_elapsed)
+        This reward function takes into account a liquidity requirement, as well as long-term accrued rewards. 
 
     Parameters:
     state space: {start_cash, <owned_shares>, for s in stocks{<stock.values>}, }
@@ -36,7 +36,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         initial_amount: (int, float): Amount of cash initially available
         daily_information_columns (list(str)): Columns to use when building state space from the dataframe. It could be OHLC columns or any other variables such as technical indicators and turbulence index
         out_of_cash_penalty (int, float): Penalty to apply if the algorithm runs out of cash
-        negative_asset_penalty (int, float): Penalty to apply if current total asset is less than the initial amount. Set as 0 if don't want to apply this penalty
         discrete_actions (bool): option to choose whether perform dicretization on actions space or not
 
     action space: <share_dollar_purchases>
@@ -67,7 +66,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         daily_information_cols=["open", "close", "high", "low", "volume"],
         cache_indicator_data=True,
         cash_penalty_proportion=0.1,
-        negative_asset_penalty=0,
         random_start=True,
         discrete_actions=False,
         currency="$",
@@ -103,7 +101,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.cache_indicator_data = cache_indicator_data
         self.cached_data = None
         self.cash_penalty_proportion = cash_penalty_proportion
-        self.negative_asset_penalty = negative_asset_penalty
         if self.cache_indicator_data:
             print("caching data")
             self.cached_data = [
@@ -236,7 +233,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             assets = self.account_information['total_assets'][-1]
             cash = self.account_information['cash'][-1]
             cash_penalty = max(0, (assets*self.cash_penalty_proportion-cash))
-            assets -= cash_penalty if assets > self.initial_amount else (self.negative_asset_penalty+1)*cash_penalty
+            assets -= cash_penalty
             reward = (assets/self.initial_amount)-1
             reward/=self.current_step
             return reward
