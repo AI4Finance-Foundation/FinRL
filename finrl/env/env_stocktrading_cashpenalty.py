@@ -30,7 +30,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         buy_cost_pct (float): cost for buying shares
         sell_cost_pct (float): cost for selling shares
         hmax (int): max number of share purchases allowed per asset
-        min_shares (int): minimum number of shares to be bought in each trade. Has to be >= 1
+        shares_increment (int): multiples number of shares can be bought in each trade. Only applicable if discrete_actions=True
         turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
         print_verbosity(int): When iterating (step), how often to print stats about state of env
         initial_amount: (int, float): Amount of cash initially available
@@ -59,7 +59,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         sell_cost_pct=3e-3,
         date_col_name="date",
         hmax=10,
-        min_shares=1,
+        shares_increment=1,
         turbulence_threshold=None,
         print_verbosity=10,
         initial_amount=1e6,
@@ -79,9 +79,9 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.currency = currency
 
         self.df = self.df.set_index(date_col_name
-        self.min_shares = min_shares
-        self.hmax = hmax / min_shares
-        self.initial_amount = initial_amount / min_shares
+        self.shares_increment = shares_increment
+        self.hmax = hmax
+        self.initial_amount = initial_amount
         self.print_verbosity = print_verbosity
         self.buy_cost_pct = buy_cost_pct
         self.sell_cost_pct = sell_cost_pct
@@ -165,7 +165,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         state = self.state_memory[-1]
         self.log_step(reason=reason, terminal_reward=reward)
         # Add outputs to logger interface
-        logger.record("environment/total_assets", int(self.min_shares*self.account_information['total_assets'][-1]))
+        logger.record("environment/total_assets", int(self.account_information['total_assets'][-1]))
         reward_pct = self.account_information["total_assets"][-1] / self.initial_amount
         logger.record("environment/total_reward_pct", (reward_pct - 1) * 100)
         logger.record("environment/total_trades", self.sum_trades)
@@ -200,8 +200,8 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.episode,
             self.date_index - self.starting_point,
             reason,
-            f"{self.currency}{'{:0,.0f}'.format(float(self.min_shares*self.account_information['cash'][-1]))}",
-            f"{self.currency}{'{:0,.0f}'.format(float(self.min_shares*self.account_information['total_assets'][-1]))}",
+            f"{self.currency}{'{:0,.0f}'.format(float(self.account_information['cash'][-1]))}",
+            f"{self.currency}{'{:0,.0f}'.format(float(self.account_information['total_assets'][-1]))}",
             f"{terminal_reward*100:0.5f}%",
             f"{(gl_pct - 1)*100:0.5f}%",
             f"{cash_pct*100:0.2f}%",
@@ -266,9 +266,9 @@ class StockTradingEnvCashpenalty(gym.Env):
             reward = self.get_reward()
 
             # log the values of cash, assets, and total assets
-            self.account_information["cash"].append(self.min_shares*begin_cash)
-            self.account_information["asset_value"].append(self.min_shares*asset_value)
-            self.account_information["total_assets"].append(self.min_shares*(begin_cash + asset_value))
+            self.account_information["cash"].append(begin_cash)
+            self.account_information["asset_value"].append(asset_value)
+            self.account_information["total_assets"].append(begin_cash + asset_value)
             self.account_information["reward"].append(reward)
 
             # multiply action values by our scalar multiplier and save
