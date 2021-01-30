@@ -1,4 +1,4 @@
-name: Super-Linter
+name: Run Tests!
 
 # Run this workflow every time a new commit pushed to your repository
 on: push
@@ -6,9 +6,9 @@ on: push
 jobs:
   # Set the job key. The key is displayed as the job name
   # when a job name is not provided
-  super-lint:
+  unittest:
     # Name the Job
-    name: Lint code base
+    name: Test the code
     # Set the type of machine to run on
     runs-on: ubuntu-latest
 
@@ -18,8 +18,8 @@ jobs:
         uses: actions/checkout@v2
 
       # Runs the Super-Linter action
-      - name: Run Super-Linter
-        uses: github/super-linter@v3
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Container
+        run: bash docker/bin/build_container.sh
+      
+      - name: Run Tests
+        run: bash docker/bin/test.sh
