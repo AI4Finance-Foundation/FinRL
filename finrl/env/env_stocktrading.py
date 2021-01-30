@@ -75,8 +75,6 @@ class StockTradingEnv(gym.Env):
         #self.reset()
         self._seed()
         
-
-
     def _sell_stock(self, index, action):
         def _do_sell_normal():
             if self.state[index+1]>0: 
@@ -125,7 +123,6 @@ class StockTradingEnv(gym.Env):
             sell_num_shares = _do_sell_normal()
 
         return sell_num_shares
-
     
     def _buy_stock(self, index, action):
 
@@ -354,7 +351,7 @@ class StockTradingEnv(gym.Env):
     def save_action_memory(self):
         if len(self.df.tic.unique())>1:
             # date and close price length must match actions length
-            date_list = self.date_memory[:-1]
+            date_list = self.date_memory
             df_date = pd.DataFrame(date_list)
             df_date.columns = ['date']
             
