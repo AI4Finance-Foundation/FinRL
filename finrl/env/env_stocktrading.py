@@ -12,9 +12,7 @@ from stable_baselines3.common import logger
 
 
 class StockTradingEnv(gym.Env):
-    """
-    A stock trading environment for OpenAI gym    
-    """
+    """A stock trading environment for OpenAI gym"""
     metadata = {'render.modes': ['human']}
 
     def __init__(self, 
@@ -354,26 +352,21 @@ class StockTradingEnv(gym.Env):
         return df_account_value
 
     def save_action_memory(self):
-        
-        # date and close price length must match actions length
-        date_list = self.date_memory[:-1]
-        if len(date_list) == 0:
-            return None
+        if len(self.df.tic.unique())>1:
+            # date and close price length must match actions length
+            date_list = self.date_memory[:-1]
+            df_date = pd.DataFrame(date_list)
+            df_date.columns = ['date']
+            
+            action_list = self.actions_memory
+            df_actions = pd.DataFrame(action_list)
+            df_actions.columns = self.data.tic.values
+            df_actions.index = df_date.date
+            #df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
         else:
-            if len(self.df.tic.unique())>1:
-                df_date = pd.DataFrame(date_list)
-#                 print(f"df_date columns: {df_date.columns}")
-                df_date.columns = ['date']
-
-                action_list = self.actions_memory
-                df_actions = pd.DataFrame(action_list)
-                df_actions.columns = self.data.tic.values
-                df_actions.index = df_date.date
-                #df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
-            else:
-                date_list = self.date_memory[:-1]
-                action_list = self.actions_memory
-                df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
+            date_list = self.date_memory[:-1]
+            action_list = self.actions_memory
+            df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
         return df_actions
 
     def _seed(self, seed=None):

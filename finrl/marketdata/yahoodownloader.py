@@ -71,11 +71,6 @@ class YahooDownloader:
             print("the features are not supported currently")
         # create day of the week column (monday = 0)
         data_df["day"] = data_df["date"].dt.dayofweek
-        #add support and resistance
-        data_df['short_resistance']= data_df['high'].rolling(window=10,min_periods=0).max()
-        data_df['short_support']= data_df['low'].rolling(window=10,min_periods=0).min()
-        data_df['long_resistance']= data_df['high'].rolling(window=50,min_periods=0).max()
-        data_df['long_support']= data_df['low'].rolling(window=50,min_periods=0).min()
         # convert date to standard string format, easy to filter
         data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))
         # drop missing data
