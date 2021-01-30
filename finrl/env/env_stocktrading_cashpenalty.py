@@ -30,14 +30,14 @@ class StockTradingEnvCashpenalty(gym.Env):
         buy_cost_pct (float): cost for buying shares
         sell_cost_pct (float): cost for selling shares
         hmax (int): max number of share purchases allowed per asset
+        discrete_actions (bool): option to choose whether perform dicretization on actions space or not
         shares_increment (int): multiples number of shares can be bought in each trade. Only applicable if discrete_actions=True
         turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
         print_verbosity(int): When iterating (step), how often to print stats about state of env
         initial_amount: (int, float): Amount of cash initially available
         daily_information_columns (list(str)): Columns to use when building state space from the dataframe. It could be OHLC columns or any other variables such as technical indicators and turbulence index
-        out_of_cash_penalty (int, float): Penalty to apply if the algorithm runs out of cash
-        discrete_actions (bool): option to choose whether perform dicretization on actions space or not
-
+        cash_penalty_proportion (int, float): Penalty to apply if the algorithm runs out of cash
+        
     action space: <share_dollar_purchases>
 
     TODO: 
@@ -59,6 +59,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         sell_cost_pct=3e-3,
         date_col_name="date",
         hmax=10,
+        discrete_actions=False,
         shares_increment=1,
         turbulence_threshold=None,
         print_verbosity=10,
@@ -67,7 +68,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         cache_indicator_data=True,
         cash_penalty_proportion=0.1,
         random_start=True,
-        discrete_actions=False,
         currency="$",
     ):
         self.df = df
@@ -78,7 +78,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.discrete_actions = discrete_actions
         self.currency = currency
 
-        self.df = self.df.set_index(date_col_name
+        self.df = self.df.set_index(date_col_name)
         self.shares_increment = shares_increment
         self.hmax = hmax
         self.initial_amount = initial_amount
@@ -294,6 +294,9 @@ class StockTradingEnvCashpenalty(gym.Env):
             
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
+
+            # round down actions to the nearest multiplies of shares_increment
+            actions = (actions//self.shares_increment)*self.shares_increment
 
             self.transaction_memory.append(actions) #capture what the model's could do
 
