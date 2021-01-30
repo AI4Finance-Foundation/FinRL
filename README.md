@@ -32,9 +32,9 @@ Feel free to report bugs using Github issues, join our mailing list: [AI4Finance
 
 Roadmaps of FinRL:
 
-**FinRl 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
+**FinRL 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
 
-**FinRl 2.0**: intermediate-level framework for full-stack developers and professionals.  
+**FinRL 2.0**: intermediate-level framework for full-stack developers and professionals.  
 
 FinRL provides a unified machine learning framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, Cryptocurrency trading), live trading, etc. 
 
