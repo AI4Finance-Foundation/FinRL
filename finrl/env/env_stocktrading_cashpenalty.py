@@ -29,7 +29,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         df (pandas.DataFrame): Dataframe containing data
         transaction_cost (float): cost for buying or selling shares
         hmax (int): max number of share purchases allowed per asset
-        turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
         print_verbosity(int): When iterating (step), how often to print stats about state of env
         initial_amount: (int, float): Amount of cash initially available
         daily_information_columns (list(str)): Columns to use when building state space from the dataframe.
@@ -55,7 +54,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         transaction_cost_pct=3e-3,
         date_col_name="date",
         hmax=10,
-        turbulence_threshold=None,
         print_verbosity=10,
         initial_amount=1e6,
         daily_information_cols=["open", "close", "high", "low", "volume"],
@@ -138,7 +136,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             date = self.dates[date]
             if cols is None:
                 cols = self.daily_information_cols
-            trunc_df = self.df.loc[date]
+            trunc_df = self.df.loc[[date]]
             v = []
             for a in self.assets:
                 subset = trunc_df[trunc_df[self.stock_col] == a]
