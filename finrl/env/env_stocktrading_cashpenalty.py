@@ -266,9 +266,9 @@ class StockTradingEnvCashpenalty(gym.Env):
             reward = self.get_reward()
 
             # log the values of cash, assets, and total assets
-            self.account_information["cash"].append(begin_cash)
-            self.account_information["asset_value"].append(asset_value)
-            self.account_information["total_assets"].append(begin_cash + asset_value)
+            self.account_information["cash"].append(self.min_shares*begin_cash)
+            self.account_information["asset_value"].append(self.min_shares*asset_value)
+            self.account_information["total_assets"].append(self.min_shares*(begin_cash + asset_value))
             self.account_information["reward"].append(reward)
 
             # multiply action values by our scalar multiplier and save
