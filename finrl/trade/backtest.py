@@ -11,10 +11,6 @@ from finrl.config import config
 
 
 def get_daily_return(df, value_col_name="account_value"):
-    '''
-    This function takes the return of env.get_save_asset_memory dataframe
-    It then computes daily returns based on the column 'value_col_name'
-    '''
     df = deepcopy(df)
     df["daily_return"] = df[value_col_name].pct_change(1)
     df['date'] = pd.to_datetime(df['date'])
@@ -25,9 +21,6 @@ def get_daily_return(df, value_col_name="account_value"):
 
 
 def backtest_stats(account_value, value_col_name="account_value"):
-    '''
-    This function takes in an account value dataframe and creates backtesting statistics about the value specified. 
-    '''
     dr_test = get_daily_return(account_value, value_col_name=value_col_name)
     perf_stats_all = timeseries.perf_stats(
         returns=dr_test,
@@ -47,11 +40,7 @@ def backtest_plot(
     baseline_ticker="^DJI",
     value_col_name="account_value",
 ):
-    '''
-    This function takes in the output of env.save_asset_memory function dataframe, and the specified value column and returns 
-        a backtesting plot for display. 
-        It also takes in a comparison ticker to see how the account value compares to the baseline. 
-    '''
+
     df = deepcopy(account_value)
     test_returns = get_daily_return(df, value_col_name=value_col_name)
 
@@ -69,9 +58,6 @@ def backtest_plot(
 
 
 def get_baseline(ticker, start, end):
-    '''
-    This function downloads a ticker from the yahoo downloader. 
-    '''
     dji = YahooDownloader(
         start_date=start, end_date=end, ticker_list=[ticker]
     ).fetch_data()
