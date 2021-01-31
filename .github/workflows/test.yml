@@ -1,0 +1,25 @@
+name: Run Tests!
+
+# Run this workflow every time a new commit pushed to your repository
+on: push
+
+jobs:
+  # Set the job key. The key is displayed as the job name
+  # when a job name is not provided
+  unittest:
+    # Name the Job
+    name: Test the code
+    # Set the type of machine to run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Runs the Super-Linter action
+      - name: Build Container
+        run: bash docker/bin/build_container.sh
+      
+      - name: Run Tests
+        run: bash docker/bin/test.sh

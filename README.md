@@ -14,7 +14,7 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
-FinRL is the open source library with a unified framework for practitioners to pipeline the strategy development. **In reinforcement learning (or deep RL), an agent learns by interacting with an environment, in a trial-and-error manner, achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides educational resources to learn about deep reinforcement learning (DRL) in quantitative finance. 
+FinRL is the open source library with a unified framework for practitioners for pipeline strategy development. **In reinforcement learning (or deep RL), an agent learns by interacting with an environment, in a trial and error manner, achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides educational resources to learn about deep reinforcement learning (DRL) in quantitative finance. 
 
 **To contribute?**  Please check the call for contributions at the end of this page.
 
@@ -32,9 +32,9 @@ Feel free to report bugs using Github issues, join our mailing list: [AI4Finance
 
 Roadmaps of FinRL:
 
-**FinRl 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
+**FinRL 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
 
-**FinRl 2.0**: intermediate-level framework for full-stack developers and professionals.  
+**FinRL 2.0**: intermediate-level framework for full-stack developers and professionals.  
 
 FinRL provides a unified machine learning framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, Cryptocurrency trading), live trading, etc. 
 
@@ -107,17 +107,24 @@ We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE,
 
 # Installation:
 
-Clone this repository
-```shell
-git clone https://github.com/AI4Finance-LLC/FinRL-Library.git
-```
-
-Install the unstable development version of FinRL:
-```shell
-pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
-```
-
 ## Docker Installation
+
+### option 1: Use the bin
+
+```bash
+# grant access to execute scripting (read it, it's harmless)
+$ sudo chmod -R 777 docker/bin
+
+# build the container!
+$ ./docker/bin/build_container.sh
+
+# start notebook on port 8887!
+$ ./docker/bin/start_notebook.sh
+
+# proceed to party!
+```
+
+### option 2: Do it manually
 
 Build the container:
 ```bash
@@ -129,6 +136,20 @@ Note: The default container run starts jupyter lab in the root directory, allowi
 ```bash
 $ docker run -it --rm -v ${PWD}:/home -p 8888:8888 finrl
 ```
+
+
+## Bare-metal installation (More difficult)
+
+Clone this repository
+```shell
+git clone https://github.com/AI4Finance-LLC/FinRL-Library.git
+```
+
+Install the unstable development version of FinRL:
+```shell
+pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
+```
+
 
 ## Prerequisites
 For [OpenAI Baselines](https://github.com/openai/baselines), you'll need system packages CMake, OpenMPI and zlib. Those can be installed as follows
