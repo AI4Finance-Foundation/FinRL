@@ -5,6 +5,7 @@ from gym.utils import seeding
 import gym
 from gym import spaces
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import random
@@ -17,12 +18,12 @@ class StockTradingEnvCashpenalty(gym.Env):
 
     """
     A stock trading environment for OpenAI gym
-    This environment penalizes the model for not maintaining a reserve of cash. 
-    This enables the model to manage cash reserves in addition to performing trading procedures. 
+    This environment penalizes the model for not maintaining a reserve of cash.
+    This enables the model to manage cash reserves in addition to performing trading procedures.
 
     Reward at any step is given as follows
         r_i = (sum(cash, asset_value) - initial_cash - max(0, sum(cash, asset_value)*cash_penalty_proportion-cash))/(days_elapsed)
-        This reward function takes into account a liquidity requirement, as well as long-term accrued rewards. 
+        This reward function takes into account a liquidity requirement, as well as long-term accrued rewards.
 
     Parameters:
     state space: {start_cash, <owned_shares>, for s in stocks{<stock.values>}, }
@@ -37,16 +38,14 @@ class StockTradingEnvCashpenalty(gym.Env):
         initial_amount: (int, float): Amount of cash initially available
         daily_information_columns (list(str)): Columns to use when building state space from the dataframe. It could be OHLC columns or any other variables such as technical indicators and turbulence index
         cash_penalty_proportion (int, float): Penalty to apply if the algorithm runs out of cash
-        
+
     action space: <share_dollar_purchases>
 
-    TODO: 
+    TODO:
         add holdings to memory
-        move transactions to after the clip step. 
+        move transactions to after the clip step.
     tests:
         after reset, static strategy should result in same metrics
-
-        buy zero should result in no costs, no assets purchased
         given no change in prices, no change in asset values
     """
 
@@ -94,7 +93,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.observation_space = spaces.Box(
             low=-np.inf, high=np.inf, shape=(self.state_space,)
         )
-        self.turbulence = 0 
+        self.turbulence = 0
         self.episode = -1  # initialize so we can call reset
         self.episode_history = []
         self.printed_header = False
@@ -165,7 +164,10 @@ class StockTradingEnvCashpenalty(gym.Env):
         state = self.state_memory[-1]
         self.log_step(reason=reason, terminal_reward=reward)
         # Add outputs to logger interface
-        logger.record("environment/total_assets", int(self.account_information['total_assets'][-1]))
+        logger.record(
+            "environment/total_assets",
+            int(self.account_information["total_assets"][-1]),
+        )
         reward_pct = self.account_information["total_assets"][-1] / self.initial_amount
         logger.record("environment/total_reward_pct", (reward_pct - 1) * 100)
         logger.record("environment/total_trades", self.sum_trades)
@@ -225,17 +227,17 @@ class StockTradingEnvCashpenalty(gym.Env):
             )
         )
         self.printed_header = True
-        
+
     def get_reward(self):
-        if self.current_step==0:
+        if self.current_step == 0:
             return 0
         else:
-            assets = self.account_information['total_assets'][-1]
-            cash = self.account_information['cash'][-1]
-            cash_penalty = max(0, (assets*self.cash_penalty_proportion-cash))
+            assets = self.account_information["total_assets"][-1]
+            cash = self.account_information["cash"][-1]
+            cash_penalty = max(0, (assets * self.cash_penalty_proportion - cash))
             assets -= cash_penalty
-            reward = (assets/self.initial_amount)-1
-            reward/=self.current_step
+            reward = (assets / self.initial_amount) - 1
+            reward /= self.current_step
             return reward
 
     def step(self, actions):
@@ -272,33 +274,35 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.account_information["reward"].append(reward)
 
             # multiply action values by our scalar multiplier and save
-            actions = actions * self.hmax 
-            self.actions_memory.append(actions*closings) #capture what the model's trying to do
+            actions = actions * self.hmax
+            self.actions_memory.append(
+                actions * closings
+            )  # capture what the model's trying to do
 
-            #buy/sell only if the price is > 0 (no missing data in this particular date) 
-            actions = np.where(closings>0,actions,0)
+            # buy/sell only if the price is > 0 (no missing data in this particular date)
+            actions = np.where(closings > 0, actions, 0)
 
             if self.turbulence_threshold is not None:
                 # if turbulence goes over threshold, just clear out all positions
-                if self.turbulence>=self.turbulence_threshold:
+                if self.turbulence >= self.turbulence_threshold:
                     actions = -(np.array(holdings) * closings)
                     self.log_step(reason="TURBULENCE")
 
             # scale cash purchases to asset
             if self.discrete_actions:
-                #convert into integer because we can't buy fraction of shares
-                actions = np.where(closings>0,actions//closings,0)
-                actions = (actions.astype(int))
+                # convert into integer because we can't buy fraction of shares
+                actions = np.where(closings > 0, actions // closings, 0)
+                actions = actions.astype(int)
             else:
-                actions = np.where(closings>0,actions/closings,0)
-            
+                actions = np.where(closings > 0, actions / closings, 0)
+
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
 
             # round down actions to the nearest multiplies of shares_increment
-            actions = (actions//self.shares_increment)*self.shares_increment
+            actions = (actions // self.shares_increment) * self.shares_increment
 
-            self.transaction_memory.append(actions) #capture what the model's could do
+            self.transaction_memory.append(actions)  # capture what the model's could do
 
             # compute our proceeds from sells, and add to cash
             sells = -np.clip(actions, -np.inf, 0)
@@ -314,8 +318,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             # if we run out of cash, end the cycle and penalize
             if (spend + costs) > coh:
                 return self.return_terminal(
-                    reason="CASH SHORTAGE",
-                    reward=self.get_reward()
+                    reason="CASH SHORTAGE", reward=self.get_reward()
                 )
 
             # verify we didn't do anything impossible here
@@ -326,10 +329,12 @@ class StockTradingEnvCashpenalty(gym.Env):
             holdings_updated = holdings + actions
 
             self.date_index += 1
-            if self.turbulence_threshold is not None:     
-                self.turbulence = self.get_date_vector(self.date_index,cols=["turbulence"])[0]
+            if self.turbulence_threshold is not None:
+                self.turbulence = self.get_date_vector(
+                    self.date_index, cols=["turbulence"]
+                )[0]
 
-            #Update State
+            # Update State
             state = (
                 [coh] + list(holdings_updated) + self.get_date_vector(self.date_index)
             )
