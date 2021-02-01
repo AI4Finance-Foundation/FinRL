@@ -13,11 +13,10 @@ from finrl.config import config
 def get_daily_return(df, value_col_name="account_value"):
     df = deepcopy(df)
     df["daily_return"] = df[value_col_name].pct_change(1)
-    df['date'] = pd.to_datetime(df['date'])
-    df.set_index('date', inplace = True, drop = True)
+    df["date"] = pd.to_datetime(df["date"])
+    df.set_index("date", inplace=True, drop=True)
     df.index = df.index.tz_localize("UTC")
-    return pd.Series(df['daily_return'], index = df.index)
-
+    return pd.Series(df["daily_return"], index=df.index)
 
 
 def backtest_stats(account_value, value_col_name="account_value"):
@@ -30,7 +29,6 @@ def backtest_stats(account_value, value_col_name="account_value"):
     )
     print(perf_stats_all)
     return perf_stats_all
-
 
 
 def backtest_plot(
@@ -47,14 +45,12 @@ def backtest_plot(
     baseline_df = get_baseline(
         ticker=baseline_ticker, start=baseline_start, end=baseline_end
     )
-    
-    baseline_returns = get_daily_return(baseline_df, value_col_name='close')
+
+    baseline_returns = get_daily_return(baseline_df, value_col_name="close")
     with pyfolio.plotting.plotting_context(font_scale=1.1):
         pyfolio.create_full_tear_sheet(
             returns=test_returns, benchmark_rets=baseline_returns, set_context=False
         )
-
-
 
 
 def get_baseline(ticker, start, end):
@@ -62,6 +58,3 @@ def get_baseline(ticker, start, end):
         start_date=start, end_date=end, ticker_list=[ticker]
     ).fetch_data()
     return dji
-
-
-
