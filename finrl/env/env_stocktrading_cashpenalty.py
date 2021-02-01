@@ -288,10 +288,17 @@ class StockTradingEnvCashpenalty(gym.Env):
             costs += spend * self.buy_cost_pct
              # if we run out of cash...
             if (spend + costs) > coh:
-                # ... end the cycle and penalize
-                return self.return_terminal(
-                    reason="CASH SHORTAGE",reward=self.get_reward()
-                )
+                if self.patient:
+                    # ... just don't buy anything until we got additional cash
+                    self.log_step(reason="CASH SHORTAGE")
+                    actions = np.where(actions>0,0,actions)
+                    spend = 0
+                    costs = 0
+                else:
+                    # ... end the cycle and penalize
+                    return self.return_terminal(
+                        reason="CASH SHORTAGE",reward=self.get_reward()
+                    )
             self.transaction_memory.append(actions)  # capture what the model's could do
             # verify we didn't do anything impossible here
             assert (spend + costs) <= coh
