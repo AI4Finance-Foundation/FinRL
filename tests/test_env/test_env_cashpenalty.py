@@ -61,7 +61,7 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
         actions = np.array([-12.0,0.0])
         next_state, _, _, _ = env.step(actions)
         holdings = next_state[1 : 1 + len(self.ticker_list)]
-        self.assertEqual(holdings[0], -10.0)
+        self.assertEqual(holdings[0], 10.0)
         self.assertEqual(holdings[1], 0.0)
 
 
