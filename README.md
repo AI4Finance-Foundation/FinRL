@@ -36,7 +36,7 @@ Roadmaps of FinRL:
 
 **FinRL 2.0**: intermediate-level framework for full-stack developers and professionals.  
 
-FinRL provides a unified machine learning framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, Cryptocurrency trading), live trading, etc. 
+FinRL provides a unified machine learning framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
 ## Table of Contents
 
@@ -109,7 +109,7 @@ We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE,
 
 ## Docker Installation
 
-### option 1: Use the bin
+### Option 1: Use the bin
 
 ```bash
 # grant access to execute scripting (read it, it's harmless)
@@ -124,7 +124,7 @@ $ ./docker/bin/start_notebook.sh
 # proceed to party!
 ```
 
-### option 2: Do it manually
+### Option 2: Do it manually
 
 Build the container:
 ```bash
