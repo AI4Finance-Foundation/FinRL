@@ -297,7 +297,7 @@ class StockTradingEnvCashpenalty(gym.Env):
                 actions = np.where(closings > 0, actions / closings, 0)
 
             # round down actions to the nearest multiplies of shares_increment
-            actions = np.where(actions>0,
+            actions = np.where(actions>=0,
                             (actions // self.shares_increment) * self.shares_increment,
                             ((actions + self.shares_increment) // self.shares_increment) * self.shares_increment)
 
