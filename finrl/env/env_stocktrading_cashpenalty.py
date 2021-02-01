@@ -150,6 +150,8 @@ class StockTradingEnvCashpenalty(gym.Env):
         state = self.state_memory[-1]
         self.log_step(reason=reason, terminal_reward=reward)
         # Add outputs to logger interface
+        gl_pct = self.account_information["total_assets"][-1] / self.initial_amount
+        logger.record("environment/GainLoss_pct",(gl_pct - 1)*100)
         logger.record(
             "environment/total_assets",
             int(self.account_information["total_assets"][-1]),
@@ -286,17 +288,10 @@ class StockTradingEnvCashpenalty(gym.Env):
             costs += spend * self.buy_cost_pct
              # if we run out of cash...
             if (spend + costs) > coh:
-                if self.patient:
-                    # ... just don't buy anything until we got additional cash
-                    self.log_step(reason="CASH SHORTAGE")
-                    actions = np.where(actions>0,0,actions)
-                    spend = 0
-                    costs = 0
-                else:
-                    # ... end the cycle and penalize
-                    return self.return_terminal(
-                        reason="CASH SHORTAGE",reward=self.get_reward()
-                    )
+                # ... end the cycle and penalize
+                return self.return_terminal(
+                    reason="CASH SHORTAGE",reward=self.get_reward()
+                )
             self.transaction_memory.append(actions)  # capture what the model's could do
             # verify we didn't do anything impossible here
             assert (spend + costs) <= coh
