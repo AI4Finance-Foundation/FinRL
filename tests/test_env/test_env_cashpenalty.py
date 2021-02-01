@@ -60,7 +60,7 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
         self.assertEqual(holdings[0], 20.0)
         self.assertEqual(holdings[1], 0.0)
 
-        hmax_mc = self.df[self.df['tic']=='AAPL'].head(2).iloc[-1]['close'].values[0] / aapl_first_close
+        hmax_mc = self.df[self.df['tic']=='AAPL'].head(2).iloc[-1]['close'] / aapl_first_close
         actions = np.array([-0.12 * hmax_mc,0.0])
         next_state, _, _, _ = env.step(actions)
         holdings = next_state[1 : 1 + len(self.ticker_list)]
