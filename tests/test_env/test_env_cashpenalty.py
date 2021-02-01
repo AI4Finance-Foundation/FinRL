@@ -67,6 +67,23 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
         self.assertEqual(holdings[0], 10.0)
         self.assertEqual(holdings[1], 0.0)
 
+    def test_patient(self):
+        # Prove that we just not buying any new assets if running out of cash and the cycle is not ended
+        aapl_first_close = self.df[self.df['tic']=='AAPL'].head(1)['close'].values[0]
+        init_amt = aapl_first_close
+        hmax = aapl_first_close * 100
+        env = StockTradingEnvCashpenalty(
+            df=self.df, initial_amount=init_amt, hmax=hmax,
+            cache_indicator_data=False,patient=True,
+            random_start=False, 
+        )
+        _ = env.reset()
+
+        actions = np.array([1.0,1.0])
+        next_state, _, is_done, _ = env.step(actions)
+        holdings = next_state[1 : 1 + len(self.ticker_list)]
+        self.assertEqual(False, is_done)
+        self.assertEqual(0.0, np.sum(holdings))
 
     def test_cost_penalties(self):
         # TODO: Requesting contributions!
