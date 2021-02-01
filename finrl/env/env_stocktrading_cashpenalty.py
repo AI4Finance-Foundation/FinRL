@@ -296,11 +296,13 @@ class StockTradingEnvCashpenalty(gym.Env):
             else:
                 actions = np.where(closings > 0, actions / closings, 0)
 
+            # round down actions to the nearest multiplies of shares_increment
+            actions = np.where(actions>0,
+                            (actions // self.shares_increment) * self.shares_increment,
+                            ((actions + self.shares_increment) // self.shares_increment) * self.shares_increment)
+
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
-
-            # round down actions to the nearest multiplies of shares_increment
-            actions = (actions // self.shares_increment) * self.shares_increment
 
             self.transaction_memory.append(actions)  # capture what the model's could do
 
