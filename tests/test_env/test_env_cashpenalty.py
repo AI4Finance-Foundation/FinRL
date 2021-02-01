@@ -41,6 +41,33 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
             self.assertEqual(init_amt, total_assets)
             self.assertEqual(i + 1, env.current_step)
 
+    def test_shares_increment(self):
+        # Prove that we can only buy/sell multiplies of shares based on shares_increment parameter
+        aapl_first_close = self.df[self.df['tic']=='AAPL'].head(1)['close'].values[0]
+        init_amt = 1e6
+        hmax = aapl_first_close * 100
+        shares_increment = 10
+        env = StockTradingEnvCashpenalty(
+            df=self.df, initial_amount=init_amt, hmax=hmax,
+            cache_indicator_data=False,shares_increment=shares_increment,
+            random_start=False
+        )
+        _ = env.reset()
+
+        actions = np.array([0.29,0.0])
+        next_state, _, _, _ = env.step(actions)
+        holdings = next_state[1 : 1 + len(self.ticker_list)]
+        self.assertEqual(holdings[0], 20.0)
+        self.assertEqual(holdings[1], 0.0)
+
+        hmax_mc = self.df[self.df['tic']=='AAPL'].head(2).iloc[-1]['close'] / aapl_first_close
+        actions = np.array([-0.12 * hmax_mc,0.0])
+        next_state, _, _, _ = env.step(actions)
+        holdings = next_state[1 : 1 + len(self.ticker_list)]
+        self.assertEqual(holdings[0], 10.0)
+        self.assertEqual(holdings[1], 0.0)
+
+
     def test_cost_penalties(self):
         # TODO: Requesting contributions!
         pass
