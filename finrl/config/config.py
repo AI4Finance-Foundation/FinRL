@@ -1165,6 +1165,51 @@ CSI_300_TICKER = [
     "300628.SZ",
 ]
 
+# Check https://www.bnains.org/archives/histocac/compocac.php for CAC 40 constituents
+# CAC 40 constituents at 2019/01
+CAC_40_TICKER = [
+    "AC.PA",
+    "AI.PA",
+    "AIR.PA",
+    "MT.AS",
+    "ATO.PA",
+    "CS.PA",
+    "BNP.PA",
+    "EN.PA",
+    "CAP.PA",
+    "CA.PA",
+    "ACA.PA",
+    "BN.PA",
+    "DSY.PA",
+    "ENGI.PA",
+    "EL.PA",
+    "RMS.PA",
+    "KER.PA",
+    "OR.PA",
+    "LR.PA",
+    "MC.PA",
+    "ML.PA",
+    "ORA.PA",
+    "RI.PA",
+    "PUGOY",
+    "PUB.PA",
+    "RNO.PA",
+    "SAF.PA",
+    "SGO.PA",
+    "SAN.PA",
+    "SU.PA",
+    "GLE.PA",
+    "SW.PA",
+    "STM.PA",
+    "FTI.PA",
+    "FP.PA",
+    "URW.AS",
+    "FR.PA",
+    "VIE.PA",
+    "DG.PA",
+    "VIV.PA",
+]
+
 ############## Stock Ticker Setup ends ##############
 
 ###Jan 20,2020, added by YuQing Huang###################
