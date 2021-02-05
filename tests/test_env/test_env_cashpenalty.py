@@ -47,7 +47,7 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
         init_amt = 1e6
         hmax = aapl_first_close * 100
         shares_increment = 10
-        env = StockTradingEnvCashpenalty(
+        env = StockTradingEnvCashpenalty(discrete_actions = True,
             df=self.df, initial_amount=init_amt, hmax=hmax,
             cache_indicator_data=False,shares_increment=shares_increment,
             random_start=False
