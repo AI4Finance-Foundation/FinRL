@@ -267,13 +267,14 @@ class StockTradingEnvCashpenalty(gym.Env):
                 # convert into integer because we can't buy fraction of shares
                 actions = np.where(closings > 0, actions // closings, 0)
                 actions = actions.astype(int)
+                # round down actions to the nearest multiplies of shares_increment
+                actions = np.where(actions >= 0,
+                                (actions // self.shares_increment) * self.shares_increment,
+                                ((actions + self.shares_increment) // self.shares_increment) * self.shares_increment)
             else:
                 actions = np.where(closings > 0, actions / closings, 0)
 
-            # round down actions to the nearest multiplies of shares_increment
-            actions = np.where(actions >= 0,
-                            (actions // self.shares_increment) * self.shares_increment,
-                            ((actions + self.shares_increment) // self.shares_increment) * self.shares_increment)
+
 
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
