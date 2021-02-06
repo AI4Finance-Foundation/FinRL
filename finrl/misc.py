@@ -1,5 +1,5 @@
 """
-Various tool function for Freqtrade and scripts
+Various tool function and scripts
 """
 import gzip
 import logging
@@ -175,7 +175,7 @@ def render_template(templatefile: str, arguments: dict = {}) -> str:
     from jinja2 import Environment, PackageLoader, select_autoescape
 
     env = Environment(
-        loader=PackageLoader('freqtrade', 'templates'),
+        loader=PackageLoader('finrl', 'templates'),
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template(templatefile)
