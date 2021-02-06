@@ -24,9 +24,9 @@ class StockTradingEnvCashpenalty(gym.Env):
         df (pandas.DataFrame): Dataframe containing data
         buy_cost_pct (float): cost for buying shares
         sell_cost_pct (float): cost for selling shares
-        hmax (int): max number of share purchases allowed per asset
+        hmax (int, array): maximum cash to be traded in each trade per asset. If an array is provided, then each index correspond to each asset
         discrete_actions (bool): option to choose whether perform dicretization on actions space or not
-        shares_increment (int): multiples number of shares can be bought in each trade.
+        shares_increment (int): multiples number of shares can be bought in each trade. Only applicable if discrete_actions=True
         turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
         print_verbosity(int): When iterating (step), how often to print stats about state of env
         initial_amount: (int, float): Amount of cash initially available
