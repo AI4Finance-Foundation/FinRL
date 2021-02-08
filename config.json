@@ -30,6 +30,38 @@
 
         ]
     },
+    "ticker_list": [
+        "AAPL",
+        "MSFT",
+        "JPM",
+        "V",
+        "RTX",
+        "PG",
+        "GS",
+        "NKE",
+        "DIS",
+        "AXP",
+        "HD",
+        "INTC",
+        "WMT",
+        "IBM",
+        "MRK",
+        "UNH",
+        "KO",
+        "CAT",
+        "TRV",
+        "JNJ",
+        "CVX",
+        "MCD",
+        "VZ",
+        "CSCO",
+        "XOM",
+        "BA",
+        "MMM",
+        "PFE",
+        "WBA",
+        "DD"
+    ],
     "pairlists": [
         {"method": "StaticPairList"}
     ],

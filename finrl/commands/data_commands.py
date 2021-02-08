@@ -1,8 +1,14 @@
 import logging
 import sys
+import yfinance
+import pandas as pd
+import yfinance as yf
+import os
+
 from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import Any, Dict, List
+
 
 from finrl.config import TimeRange, setup_utils_configuration
 from finrl.data.converter import convert_ohlcv_format, convert_trades_format
@@ -19,7 +25,16 @@ logger = logging.getLogger(__name__)
 
 def start_download_cryptodata(args: Dict[str, Any]) -> None:
     """
-    Download data (former download_backtest_data.py script)
+    Parameters:
+    ARGS_DOWNLOAD_DATA = {'config': ['config.json'], 'datadir': None, 
+                      'user_data_dir': None, 'pairs': None, 'pairs_file': None, 
+                      'days': 160, 'timerange': None, 
+                      'download_trades': False, 'exchange': 'binance', 
+                      'timeframes': ['1d'], 'erase': False, 
+                      'dataformat_ohlcv': None, 'dataformat_trades': None}
+    
+    Returns:
+    Json files in user_data/data/exchange/*.json
     """
     config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
     if 'days' in config and 'timerange' in config:
@@ -81,6 +96,57 @@ def start_download_cryptodata(args: Dict[str, Any]) -> None:
         if pairs_not_available:
             logger.info(f"Pairs [{','.join(pairs_not_available)}] not available "
                         f"on exchange {exchange.name}.")
+
+def start_download_stockdata(args: Dict[str, Any]) -> None:
+    """Fetches data from Yahoo API
+    Parameters
+    ----------
+    ticker_list, timerange, 
+    Returns
+    -------
+    Json of data
+    """
+    args["exchange"] = "yahoo"
+    config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
+    
+
+    if 'days' in config and 'timerange' in config:
+        raise OperationalException("--days and --timerange are mutually exclusive. "
+                                    "You can only specify one or the other.")
+
+    config["datadir"] = "user_data/data/yahoo"
+
+    timerange = TimeRange()
+    if 'days' in config:
+        time_since = (datetime.now() - timedelta(days=config['days'])).strftime("%Y%m%d")
+        timerange = TimeRange.parse_timerange(f'{time_since}-')
+        start = datetime.fromtimestamp(timerange.startts).strftime("%Y-%m-%d")
+        end = datetime.now().strftime("%Y-%m-%d")
+
+    if 'timerange' in config:
+        timerange = timerange.parse_timerange(config['timerange'])
+        start = datetime.fromtimestamp(timerange.startts).strftime("%Y-%m-%d")
+        end = datetime.fromtimestamp(timerange.stopts).strftime("%Y-%m-%d")
+    try:
+        data_df = pd.DataFrame()
+        for tic in config['ticker_list']:
+            temp_df = yf.download(tic, start=start, end=end)
+            temp_df.columns = [
+                "open",
+                "high",
+                "low",
+                "close",
+                "adjcp",
+                "volume",
+            ]
+            temp_df["close"] = temp_df["adjcp"]
+            temp_df = temp_df.drop(["adjcp"], axis=1)
+            temp_df.to_json(f'{os.getcwd()}/{config["datadir"]}/{tic}.json')
+    except KeyboardInterrupt:
+        sys.exit("Interrupt received, aborting ...")
+
+
+
 
 
 def start_convert_data(args: Dict[str, Any], ohlcv: bool = True) -> None:

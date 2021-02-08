@@ -33,7 +33,7 @@ class FetchData:
     def __init__(self, config: dict):
         self.config = config
 
-    def fetch_data_stock(self,start_date: str, end_date: str, ticker_list: list) -> pd.DataFrame:
+    def fetch_data_stock(self) -> pd.DataFrame:
         """Fetches data from Yahoo API
         Parameters
         ----------
@@ -44,14 +44,16 @@ class FetchData:
             7 columns: A date, open, high, low, close, volume and tick symbol
             for the specified stock ticker
         """
-        self.start_date = start_date
-        self.end_date = end_date
-        self.ticker_list = ticker_list
+        exchange = "yahoo"
+        datadir = f'{self.config["user_data_dir"]}/data/{exchange}'
+        print(datadir)
+        timeframe = self.config["timeframe"]
+        ticker_list = self.config["ticker_list"]
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
-        for tic in self.ticker_list:
-            temp_df = yf.download(tic, start=self.start_date, end=self.end_date)
-            temp_df["tic"] = tic
+        for i in ticker_list:
+            temp_df = pd.read_json(f'{os.getcwd()}/{datadir}/{i}.json')
+            temp_df["tic"] = i
             data_df = data_df.append(temp_df)
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
@@ -63,14 +65,9 @@ class FetchData:
                 "high",
                 "low",
                 "close",
-                "adjcp",
                 "volume",
                 "tic",
             ]
-            # use adjusted close price instead of close price
-            data_df["close"] = data_df["adjcp"]
-            # drop the adjusted close price column
-            data_df = data_df.drop("adjcp", 1)
         except NotImplementedError:
             print("the features are not supported currently")
         # create day of the week column (monday = 0)
@@ -84,7 +81,7 @@ class FetchData:
         # print("Display DataFrame: ", data_df.head())
 
         data_df = data_df.sort_values(by=['date','tic']).reset_index(drop=True)
-
+        print(data_df.head())
         return data_df
 
     def fetch_data_crypto(self) -> pd.DataFrame:
