@@ -101,7 +101,6 @@ class Configuration:
 
         self._process_optimize_options(config)
 
-
         # Check if the exchange set by the user is supported
         check_exchange(config, config.get('experimental', {}).get('block_bad_exchanges', True))
 
@@ -169,6 +168,8 @@ class Configuration:
 
         self._args_to_config(config, argname='timerange',
                              logstring='Parameter --timerange detected: {} ...')
+        self._args_to_config(config, argname='days',
+                        logstring='Parameter --days detected: {} ...')
 
         self._process_datadir_options(config)
 
