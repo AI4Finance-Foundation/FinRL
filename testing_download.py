@@ -2,7 +2,7 @@ from finrl.config.configuration import Configuration
 from finrl.config.directory_operations import create_userdata_dir
 from finrl.commands import start_download_data
 from pathlib import Path
-from finrl.marketdata.yahoodownloader import YahooDownloader
+from finrl.data.fetchdata import FetchData
 import pandas as pd
 
 
@@ -35,6 +35,6 @@ start_download_data(ARGS_DOWNLOAD_DATA)
 ################ can be modified to get its own ARGS and overide config info, using config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
 
 
-df = YahooDownloader(config).fetch_data_crypto()
+df = FetchData(config).fetch_data_crypto()
 
 print(df.head())
