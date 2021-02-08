@@ -4,7 +4,7 @@
     "stake_amount": 0.1,
     "tradable_balance_ratio": 0.99,
     "fiat_display_currency": "USD",
-    "timeframe": "5m",
+    "timeframe": "1d",
     "dry_run": true,
     
     "exchange": {
@@ -47,5 +47,8 @@
         "CORS_origins": [],
         "username": "",
         "password": ""
-    }
+    },
+    "dataformat_ohlcv": "json",
+    "dataformat_trades": "jsongz",
+    "user_data_dir":"./user_data/"
 }

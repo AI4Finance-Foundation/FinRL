@@ -8,13 +8,17 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 from finrl import constants
+from finrl.config.check_exchange import check_exchange
+from finrl.config.directory_operations import create_datadir, create_userdata_dir
 from finrl.config.load_config import load_config_file
+from finrl.exceptions import OperationalException
 from finrl.loggers import setup_logging
 from finrl.misc import deep_merge_dicts, json_load
 from finrl.state import NON_UTIL_MODES, TRADING_MODES, RunMode
 
 
 logger = logging.getLogger(__name__)
+
 
 class Configuration:
     """
@@ -91,9 +95,120 @@ class Configuration:
         # Keep a copy of the original configuration file
         config['original_config'] = deepcopy(config)
 
+        self._process_logging_options(config)
+
+        self._process_runmode(config)
+
+        self._process_optimize_options(config)
+
+
+        # Check if the exchange set by the user is supported
+        check_exchange(config, config.get('experimental', {}).get('block_bad_exchanges', True))
+
         self._resolve_pairs_list(config)
 
         return config
+
+    def _process_logging_options(self, config: Dict[str, Any]) -> None:
+        """
+        Extract information for sys.argv and load logging configuration:
+        the -v/--verbose, --logfile options
+        """
+        # Log level
+        config.update({'verbosity': self.args.get('verbosity', 0)})
+
+        if 'logfile' in self.args and self.args['logfile']:
+            config.update({'logfile': self.args['logfile']})
+
+        setup_logging(config)
+
+
+    def _process_datadir_options(self, config: Dict[str, Any]) -> None:
+        """
+        Extract information for sys.argv and load directory configurations
+        --user-data, --datadir
+        """
+        # Check exchange parameter here - otherwise `datadir` might be wrong.
+        if 'exchange' in self.args and self.args['exchange']:
+            config['exchange']['name'] = self.args['exchange']
+            logger.info(f"Using exchange {config['exchange']['name']}")
+
+        if 'pair_whitelist' not in config['exchange']:
+            config['exchange']['pair_whitelist'] = []
+
+        if 'user_data_dir' in self.args and self.args['user_data_dir']:
+            config.update({'user_data_dir': self.args['user_data_dir']})
+        elif 'user_data_dir' not in config:
+            # Default to cwd/user_data (legacy option ...)
+            config.update({'user_data_dir': str(Path.cwd() / 'user_data')})
+
+        # reset to user_data_dir so this contains the absolute path.
+        config['user_data_dir'] = create_userdata_dir(config['user_data_dir'], create_dir=False)
+        logger.info('Using user-data directory: %s ...', config['user_data_dir'])
+
+        config.update({'datadir': create_datadir(config, self.args.get('datadir', None))})
+        logger.info('Using data directory: %s ...', config.get('datadir'))
+
+        if self.args.get('exportfilename'):
+            self._args_to_config(config, argname='exportfilename',
+                                 logstring='Storing backtest results to {} ...')
+            config['exportfilename'] = Path(config['exportfilename'])
+        else:
+            config['exportfilename'] = (config['user_data_dir']
+                                        / 'backtest_results')
+
+    def _process_optimize_options(self, config: Dict[str, Any]) -> None:
+
+        # This will override the strategy configuration
+        self._args_to_config(config, argname='timeframes',
+                             logstring='Parameter -i/--timeframes detected ... '
+                             'Using timeframes: {} ...')
+
+        self._args_to_config(config, argname='position_stacking',
+                             logstring='Parameter --enable-position-stacking detected ...')
+
+        self._args_to_config(config, argname='timerange',
+                             logstring='Parameter --timerange detected: {} ...')
+
+        self._process_datadir_options(config)
+
+        self._args_to_config(config, argname='timeframes',
+                             logstring='Overriding timeframe with Command line argument')
+
+    def _process_runmode(self, config: Dict[str, Any]) -> None:
+
+        self._args_to_config(config, argname='dry_run',
+                             logstring='Parameter --dry-run detected, '
+                             'overriding dry_run to: {} ...')
+        if not self.runmode:
+            # Handle real mode, infer dry/live from config
+            self.runmode = RunMode.DRY_RUN if config.get('dry_run', True) else RunMode.LIVE
+            logger.info(f"Runmode set to {self.runmode.value}.")
+
+        config.update({'runmode': self.runmode})
+
+    def _args_to_config(self, config: Dict[str, Any], argname: str,
+                        logstring: str, logfun: Optional[Callable] = None,
+                        deprecated_msg: Optional[str] = None) -> None:
+        """
+        :param config: Configuration dictionary
+        :param argname: Argumentname in self.args - will be copied to config dict.
+        :param logstring: Logging String
+        :param logfun: logfun is applied to the configuration entry before passing
+                        that entry to the log string using .format().
+                        sample: logfun=len (prints the length of the found
+                        configuration instead of the content)
+        """
+        if (argname in self.args and self.args[argname] is not None
+           and self.args[argname] is not False):
+
+            config.update({argname: self.args[argname]})
+            if logfun:
+                logger.info(logstring.format(logfun(config[argname])))
+            else:
+                logger.info(logstring.format(config[argname]))
+            if deprecated_msg:
+                warnings.warn(f"DEPRECATED: {deprecated_msg}", DeprecationWarning)
 
     def _resolve_pairs_list(self, config: Dict[str, Any]) -> None:
         """

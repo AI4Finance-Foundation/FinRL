@@ -1,6 +1,7 @@
 # Custom config
 #results/
-
+#USER_DATA
+./user_data
 
 # remove DS_Store
 **/.DS_Store
@@ -126,6 +127,8 @@ celerybeat.pid
 
 # mkdocs documentation
 /site
+
+
 
 # mypy
 .mypy_cache/
