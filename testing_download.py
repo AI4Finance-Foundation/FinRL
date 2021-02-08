@@ -1,6 +1,6 @@
 from finrl.config.configuration import Configuration
 from finrl.config.directory_operations import create_userdata_dir
-from finrl.commands import start_download_data
+from finrl.commands import start_download_cryptodata
 from pathlib import Path
 from finrl.data.fetchdata import FetchData
 import pandas as pd
@@ -29,7 +29,7 @@ ARGS_DOWNLOAD_DATA = {'config': ['config.json'], 'datadir': None,
                       'dataformat_ohlcv': None, 'dataformat_trades': None}
 
 ######## downloads data to our local data repository as dictated by our config, or we could overide it using 'datadir'
-start_download_data(ARGS_DOWNLOAD_DATA)
+start_download_cryptodata(ARGS_DOWNLOAD_DATA)
 
 ################# fetches all our local data and outputs a df with the normal format (index:date, open, high, low, close, volume and tick symbol)
 ################ can be modified to get its own ARGS and overide config info, using config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
