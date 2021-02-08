@@ -20,14 +20,14 @@ class State(Enum):
 
 class RunMode(Enum):
     """
-    Bot running mode (backtest, hyperopt, ...)
-    can be "live", "dry-run", "backtest", "edge", "hyperopt".
+    Bot running mode (training, backtest, Predictions ...)
+    can be "live", "dry-run", "backtest", "train", "prediction"
     """
     LIVE = "live"
     DRY_RUN = "dry_run"
     BACKTEST = "backtest"
-    EDGE = "edge"
-    HYPEROPT = "hyperopt"
+    PREDICTION = "predicition"
+    TRAIN = "train"
     UTIL_EXCHANGE = "util_exchange"
     UTIL_NO_EXCHANGE = "util_no_exchange"
     PLOT = "plot"
@@ -35,5 +35,5 @@ class RunMode(Enum):
 
 
 TRADING_MODES = [RunMode.LIVE, RunMode.DRY_RUN]
-OPTIMIZE_MODES = [RunMode.BACKTEST, RunMode.EDGE, RunMode.HYPEROPT]
+OPTIMIZE_MODES = [RunMode.BACKTEST, RunMode.PREDICTION, RunMode.TRAIN]
 NON_UTIL_MODES = TRADING_MODES + OPTIMIZE_MODES
