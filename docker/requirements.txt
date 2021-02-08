@@ -144,3 +144,4 @@ python-rapidjson
 questionary
 sqlalchemy
 tabulate
+ccxt

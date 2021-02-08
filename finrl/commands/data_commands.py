@@ -17,7 +17,7 @@ from finrl.state import RunMode
 logger = logging.getLogger(__name__)
 
 
-def start_download_data(args: Dict[str, Any]) -> None:
+def start_download_cryptodata(args: Dict[str, Any]) -> None:
     """
     Download data (former download_backtest_data.py script)
     """
