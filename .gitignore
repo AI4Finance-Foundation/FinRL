@@ -1,6 +1,7 @@
 # Custom config
 #results/
-
+#USER_DATA
+user_data/
 
 # remove DS_Store
 **/.DS_Store
@@ -33,6 +34,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -126,6 +128,8 @@ celerybeat.pid
 
 # mkdocs documentation
 /site
+
+
 
 # mypy
 .mypy_cache/
