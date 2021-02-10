@@ -139,3 +139,9 @@ typepy==1.1.2
 Werkzeug==1.0.1
 yfinance==0.1.55
 zipp==3.4.0
+arrow
+python-rapidjson
+questionary
+sqlalchemy
+tabulate
+ccxt

@@ -1,5 +1,5 @@
 """
-Various tool function for Freqtrade and scripts
+Various tool function and scripts
 """
 import gzip
 import logging
@@ -8,7 +8,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 from typing.io import IO
-
 import numpy as np
 import rapidjson
 
@@ -175,7 +174,7 @@ def render_template(templatefile: str, arguments: dict = {}) -> str:
     from jinja2 import Environment, PackageLoader, select_autoescape
 
     env = Environment(
-        loader=PackageLoader('freqtrade', 'templates'),
+        loader=PackageLoader('finrl', 'templates'),
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template(templatefile)
@@ -192,3 +191,6 @@ def render_template_with_fallback(templatefile: str, templatefallbackfile: str,
         return render_template(templatefile, arguments)
     except TemplateNotFound:
         return render_template(templatefallbackfile, arguments)
+
+
+
