@@ -2,7 +2,11 @@
 """
 Cryptocurrency Exchanges support
 """
+from concurrent.futures import ThreadPoolExecutor
 import asyncio
+LOOP = asyncio.new_event_loop()
+ThreadPoolExecutor().submit(LOOP.run_forever)
+
 import inspect
 import logging
 from copy import deepcopy
@@ -140,7 +144,8 @@ class Exchange:
         """
         logger.debug("Exchange object destroyed, closing async loop")
         if self._api_async and inspect.iscoroutinefunction(self._api_async.close):
-            asyncio.get_event_loop().create_task(self._api_async.close())
+            asyncio.run_coroutine_threadsafe(self._api_async.close(),
+                                             LOOP).result()
 
     def _init_ccxt(self, exchange_config: Dict[str, Any], ccxt_module: CcxtModuleType = ccxt,
                    ccxt_kwargs: dict = None) -> ccxt.Exchange:
@@ -280,8 +285,9 @@ class Exchange:
     def _load_async_markets(self, reload: bool = False) -> None:
         try:
             if self._api_async:
-                asyncio.get_event_loop().create_task(
-                    self._api_async.load_markets(reload=reload))
+                asyncio.run_coroutine_threadsafe(
+                    self._api_async.load_markets(reload=reload),
+                    LOOP)
 
         except (asyncio.TimeoutError, ccxt.BaseError) as e:
             logger.warning('Could not load async markets. Reason: %s', e)
@@ -681,9 +687,10 @@ class Exchange:
         :param since_ms: Timestamp in milliseconds to get history from
         :return: List with candle (OHLCV) data
         """
-        return asyncio.get_event_loop().create_task(
+        return asyncio.run_coroutine_threadsafe(
             self._async_get_historic_ohlcv(pair=pair, timeframe=timeframe,
-                                           since_ms=since_ms))
+                                           since_ms=since_ms),
+            LOOP).result()
 
     def get_historic_ohlcv_as_df(self, pair: str, timeframe: str,
                                  since_ms: int) -> DataFrame:
@@ -755,8 +762,9 @@ class Exchange:
                     pair, timeframe
                 )
 
-        results = asyncio.get_event_loop().create_task(
-            asyncio.gather(*input_coroutines, return_exceptions=True))
+        results = asyncio.run_coroutine_threadsafe(
+            asyncio.gather(*input_coroutines, return_exceptions=True),
+            LOOP).result()
 
         # handle caching
         for res in results:
@@ -981,9 +989,10 @@ class Exchange:
         if not self.exchange_has("fetchTrades"):
             raise OperationalException("This exchange does not suport downloading Trades.")
 
-        return asyncio.get_event_loop().create_task(
+        return asyncio.run_coroutine_threadsafe(
             self._async_get_trade_history(pair=pair, since=since,
-                                          until=until, from_id=from_id))
+                                          until=until, from_id=from_id),
+            LOOP).result()
 
     def check_order_canceled_empty(self, order: Dict) -> bool:
         """
