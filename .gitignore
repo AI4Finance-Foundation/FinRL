@@ -1,7 +1,7 @@
 # Custom config
 #results/
 #USER_DATA
-./user_data/*
+user_data/*
 
 
 # remove DS_Store
