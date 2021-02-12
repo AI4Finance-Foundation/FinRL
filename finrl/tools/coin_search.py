@@ -43,7 +43,14 @@ def coins_to_json(config, coinslist):
         data = json.load(f)
         data['exchange']["pair_whitelist"] = coinslist
         f.seek(0)        # <--- should reset file position to the beginning.
-        json.dumps(data, f, indent=4)
+        json.dump(data, f, indent=4,separators=(", ", ": "))
+        f.truncate()     # remove remaining part
+def stocks_to_json(config, coinslist):
+    with open(config, 'r+') as f:
+        data = json.load(f)
+        data['ticker_list'] = coinslist
+        f.seek(0)        # <--- should reset file position to the beginning.
+        json.dump(data, f, indent=4,separators=(", ", ": "))
         f.truncate()     # remove remaining part
 
 def coins_to_txt(coins, Path):
