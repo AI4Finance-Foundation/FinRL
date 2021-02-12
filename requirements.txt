@@ -36,3 +36,6 @@ colorama
 
 #tensorboard
 tensorflow
+
+#notebooks need
+nest-asyncio
