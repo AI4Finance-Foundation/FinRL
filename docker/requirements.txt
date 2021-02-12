@@ -145,3 +145,4 @@ questionary
 sqlalchemy
 tabulate
 ccxt
+nest-asyncio
