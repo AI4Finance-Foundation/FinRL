@@ -43,7 +43,7 @@ def coins_to_json(config, coinslist):
         data = json.load(f)
         data['exchange']["pair_whitelist"] = coinslist
         f.seek(0)        # <--- should reset file position to the beginning.
-        json.dumps(data, f, indent=4)
+        json.dump(data, f, indent=4,separators=(", ", ": "))
         f.truncate()     # remove remaining part
 
 def coins_to_txt(coins, Path):
