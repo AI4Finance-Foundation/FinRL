@@ -53,18 +53,18 @@ class DRLAgent:
 
     Methods
     -------
-    train_PPO()
-        the implementation for PPO algorithm
-    train_A2C()
-        the implementation for A2C algorithm
-    train_DDPG()
-        the implementation for DDPG algorithm
-    train_TD3()
-        the implementation for TD3 algorithm
-    train_SAC()
-        the implementation for SAC algorithm
-    DRL_prediction()
-        make a prediction in a test dataset and get results
+        train_PPO()
+            the implementation for PPO algorithm
+        train_A2C()
+            the implementation for A2C algorithm
+        train_DDPG()
+            the implementation for DDPG algorithm
+        train_TD3()
+            the implementation for TD3 algorithm
+        train_SAC()
+            the implementation for SAC algorithm
+        DRL_prediction()
+            make a prediction in a test dataset and get results
     """
 
     @staticmethod
