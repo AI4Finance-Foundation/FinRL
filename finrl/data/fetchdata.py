@@ -16,12 +16,14 @@ class FetchData:
 
     Attributes
     ----------
-        start_date : str
-            start date of the data (modified from config.py)
-        end_date : str
-            end date of the data (modified from config.py)
-        ticker_list : list
-            a list of stock tickers (modified from config.py)
+    start_date : str
+        start date of the data (modified from config.py)
+        
+    end_date : str
+        end date of the data (modified from config.py)
+            
+    ticker_list : list
+        a list of stock tickers (modified from config.py)
 
     Methods
     -------
@@ -35,6 +37,7 @@ class FetchData:
 
     def fetch_data_stock(self) -> pd.DataFrame:
         """Fetches data from Yahoo API
+        
         Parameters
         ----------
 
