@@ -16,8 +16,11 @@ logger = logging.getLogger(__name__)
 def start_create_userdir(args: Dict[str, Any]) -> None:
     """
     Create "user_data" directory to contain user data strategies, hyperopt, ...)
-    :param args: Cli args from Arguments()
-    :return: None
+    
+    param args: 
+        Cli args from Arguments()
+    return: 
+        None
     """
     if "user_data_dir" in args and args["user_data_dir"]:
         userdir = create_userdata_dir(args["user_data_dir"], create_dir=True)
