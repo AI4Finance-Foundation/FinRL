@@ -26,11 +26,14 @@ def remove_credentials(config: Dict[str, Any]) -> None:
 def check_exchange(config: Dict[str, Any], check_for_bad: bool = True) -> bool:
     """
     Check if the exchange name in the config file is supported by ccxt
-    :param check_for_bad: if True, check the exchange against the list of known 'bad'
-                          exchanges
-    :return: False if exchange is 'bad', i.e. is known to work with the bot with
-             critical issues or does not work at all, crashes, etc. True otherwise.
-             raises an exception if the exchange if not supported by ccxt.
+    
+    param check_for_bad: 
+      if True, check the exchange against the list of known 'bad' exchanges
+      
+    return: 
+      False if exchange is 'bad', i.e. is known to work with the bot with 
+      critical issues or does not work at all, crashes, etc. True otherwise.
+      raises an exception if the exchange if not supported by ccxt.
     """
 
     if (config['runmode'] in [RunMode.PLOT, RunMode.UTIL_NO_EXCHANGE, RunMode.OTHER]
