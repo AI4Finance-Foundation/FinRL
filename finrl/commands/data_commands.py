@@ -105,7 +105,7 @@ def start_download_stockdata(args: Dict[str, Any]) -> None:
       
     Returns
     -------
-    Json of data
+      Json of data
     """
     args["exchange"] = "yahoo"
     config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
