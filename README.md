@@ -141,7 +141,7 @@ Note: The default container run starts jupyter lab in the root directory, allowi
 
 ## Bare-metal installation (More difficult)
 
-Clone this repository
+Clone this repository:
 ```shell
 git clone https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
