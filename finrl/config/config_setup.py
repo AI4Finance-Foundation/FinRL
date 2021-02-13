@@ -13,8 +13,12 @@ logger = logging.getLogger(__name__)
 def setup_utils_configuration(args: Dict[str, Any], method: RunMode) -> Dict[str, Any]:
     """
     Prepare the configuration for utils subcommands
-    :param args: Cli args from Arguments()
-    :return: Configuration
+    
+    param args: 
+        Cli args from Arguments()
+        
+    return: 
+        Configuration
     """
     configuration = Configuration(args, method)
     config = configuration.get_config()
