@@ -14,7 +14,7 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
-FinRL is the open source library that provides practitioners a unified framework for pipeline strategy development. **In reinforcement learning (or deep RL), an agent learns by continuously interacting with an environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides educational resources to learn about deep reinforcement learning (DRL) in quantitative finance. 
+FinRL is an open source library that provides practitioners a unified framework for pipeline strategy development. **In reinforcement learning (or deep RL), an agent learns by continuously interacting with an environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides educational resources to learn about deep reinforcement learning (DRL) in quantitative finance. 
 
 **To contribute?**  Please check the call for contributions at the end of this page.
 
