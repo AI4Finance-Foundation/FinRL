@@ -98,10 +98,12 @@ def start_download_cryptodata(args: Dict[str, Any]) -> None:
 
 def start_download_stockdata(args: Dict[str, Any]) -> None:
     """Fetches data from Yahoo API
+    
     Parameters
     ----------
       ticker_list, timerange, 
-      Returns
+      
+    Returns
     -------
     Json of data
     """
