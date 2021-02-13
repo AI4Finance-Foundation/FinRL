@@ -34,7 +34,7 @@ Roadmaps of FinRL:
 
 **FinRL 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
 
-**FinRL 2.0**: intermediate-level framework for full-stack developers and professionals.  
+**FinRL 2.0**: intermediate-level framework for full-stack developers and professionals. As a Starter, check out [ElegantRL](https://github.com/AI4Finance-LLC/ElegantRL)  
 
 FinRL provides a unified machine learning framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
@@ -94,7 +94,7 @@ A YouTube video about FinRL library.  [YouTube] [AI4Finance Channel](https://www
 
 # DRL Algorithms 
 
-We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, InterSAC, InterAC, MuZero, etc. using PyTorch and OpenAI Gym. 
+We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, MuZero, etc. using PyTorch and OpenAI Gym. 
 
 # Status
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
