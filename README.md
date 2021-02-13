@@ -212,7 +212,6 @@ Stable-Baselines3 is a set of improved implementations of reinforcement learning
 
 ```
 pip install stable-baselines3[extra]
-
 ```
 A migration guide from SB2 to SB3 can be found in the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/migration.html).
 
