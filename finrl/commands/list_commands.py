@@ -38,8 +38,12 @@ ARGS_TEST_PAIRLIST = ["config", "quote_currencies", "print_one_column", "list_pa
 def start_list_exchanges(args: Dict[str, Any]) -> None:
     """
     Print available exchanges
-    :param args: Cli args from Arguments()
-    :return: None
+    
+    param args: 
+      Cli args from Arguments()
+      
+    return: 
+      None
     """
     exchanges = ccxt_exchanges() if args['list_exchanges_all'] else available_exchanges()
     if args['print_one_column']:
@@ -95,9 +99,14 @@ def start_list_timeframes(args: Dict[str, Any]) -> None:
 def start_list_markets(args: Dict[str, Any], pairs_only: bool = False) -> None:
     """
     Print pairs/markets on the exchange
-    :param args: Cli args from Arguments()
-    :param pairs_only: if True print only pairs, otherwise print all instruments (markets)
-    :return: None
+    param args: 
+      Cli args from Arguments()
+      
+    param pairs_only: 
+      if True print only pairs, otherwise print all instruments (markets)
+      
+    return: 
+      None
     """
     config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
 
