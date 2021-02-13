@@ -24,7 +24,6 @@ logger = logging.getLogger(__name__)
 """
 TODO MAKE LIST AGENTS, LIST MODELS, LIST ENVIRONMENTS
 
-
 ARGS_LIST_EXCHANGES = ["print_one_column", "list_exchanges_all"]
 
 ARGS_LIST_TIMEFRAMES = ["exchange", "print_one_column"]
