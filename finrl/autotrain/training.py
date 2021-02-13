@@ -36,19 +36,9 @@ def train_one():
 
     processed = fe.preprocess_data(df)
 
-    # Training & Trade data split
+    # Training & Trading data split
     train = data_split(processed, config.START_DATE, config.START_TRADE_DATE)
     trade = data_split(processed, config.START_TRADE_DATE, config.END_DATE)
-
-    # data normalization
-    # feaures_list = list(train.columns)
-    # feaures_list.remove('date')
-    # feaures_list.remove('tic')
-    # feaures_list.remove('close')
-    # print(feaures_list)
-    # data_normaliser = preprocessing.StandardScaler()
-    # train[feaures_list] = data_normaliser.fit_transform(train[feaures_list])
-    # trade[feaures_list] = data_normaliser.fit_transform(trade[feaures_list])
 
     # calculate state action space
     stock_dimension = len(train.tic.unique())
