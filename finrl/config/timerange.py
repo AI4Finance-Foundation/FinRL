@@ -34,8 +34,12 @@ class TimeRange:
     def subtract_start(self, seconds: int) -> None:
         """
         Subtracts <seconds> from startts if startts is set.
-        :param seconds: Seconds to subtract from starttime
-        :return: None (Modifies the object in place)
+        
+        param seconds: 
+            Seconds to subtract from starttime
+            
+        return: 
+            None (Modifies the object in place)
         """
         if self.startts:
             self.startts = self.startts - seconds
@@ -45,11 +49,18 @@ class TimeRange:
         """
         Adjust startts by <startup_candles> candles.
         Applies only if no startup-candles have been available.
-        :param timeframe_secs: Timeframe in seconds e.g. `timeframe_to_seconds('5m')`
-        :param startup_candles: Number of candles to move start-date forward
-        :param min_date: Minimum data date loaded. Key kriterium to decide if start-time
-                         has to be moved
-        :return: None (Modifies the object in place)
+        
+        param timeframe_secs: 
+            Timeframe in seconds e.g. `timeframe_to_seconds('5m')`
+            
+        param startup_candles: 
+            Number of candles to move start-date forward
+            
+        param min_date: 
+            Minimum data date loaded. Key kriterium to decide if start-time has to be moved
+            
+        return: 
+            None (Modifies the object in place)
         """
         if (not self.starttype or (startup_candles
                                    and min_date.int_timestamp >= self.startts)):
@@ -63,8 +74,12 @@ class TimeRange:
     def parse_timerange(text: Optional[str]) -> 'TimeRange':
         """
         Parse the value of the argument --timerange to determine what is the range desired
-        :param text: value from --timerange
-        :return: Start and End range period
+        
+        param text: 
+            value from --timerange
+            
+        return: 
+            Start and End range period
         """
         if text is None:
             return TimeRange(None, None, 0, 0)
