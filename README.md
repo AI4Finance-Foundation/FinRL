@@ -172,11 +172,11 @@ brew install cmake openmpi
 To install stable-baselines on Windows, please look at the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/install.html#prerequisites).
     
 #### Create and Activate Python Virtual-Environment (Optional but highly recommended)
-cd into this repository
+cd into this repository:
 ```bash
 cd FinRL-Library
 ```
-Under folder /FinRL-Library, create a Python virtual-environment
+Under folder /FinRL-Library, create a Python virtual-environment:
 ```bash
 pip install virtualenv
 ```
