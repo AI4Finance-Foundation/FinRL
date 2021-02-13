@@ -41,8 +41,12 @@ FinrlValidator = _extend_validator(Draft4Validator)
 def validate_config_schema(conf: Dict[str, Any]) -> Dict[str, Any]:
     """
     Validate the configuration follow the Config Schema
-    :param conf: Config in JSON format
-    :return: Returns the config if valid, otherwise throw an exception
+    
+    param conf: 
+        Config in JSON format
+        
+    return: 
+        Returns the config if valid, otherwise throw an exception
     """
     conf_schema = deepcopy(constants.CONF_SCHEMA)
     if conf.get('runmode', RunMode.OTHER) in (RunMode.DRY_RUN, RunMode.LIVE):
@@ -66,8 +70,12 @@ def validate_config_consistency(conf: Dict[str, Any]) -> None:
     Validate the configuration consistency.
     Should be ran after loading both configuration and strategy,
     since strategies can set certain configuration settings too.
-    :param conf: Config in JSON format
-    :return: Returns None if everything is ok, otherwise throw an OperationalException
+    
+    param conf: 
+        Config in JSON format
+        
+    return: 
+        Returns None if everything is ok, otherwise throw an OperationalException
     """
 
     # validating trailing stoploss
@@ -84,7 +92,9 @@ def validate_config_consistency(conf: Dict[str, Any]) -> None:
 def _validate_unlimited_amount(conf: Dict[str, Any]) -> None:
     """
     If edge is disabled, either max_open_trades or stake_amount need to be set.
-    :raise: OperationalException if config validation failed
+    
+    raise: 
+        OperationalException if config validation failed
     """
     if (not conf.get('edge', {}).get('enabled')
        and conf.get('max_open_trades') == float('inf')
