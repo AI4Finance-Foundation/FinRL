@@ -34,7 +34,9 @@ class Configuration:
     def get_config(self) -> Dict[str, Any]:
         """
         Return the config. Use this method to get the bot config
-        :return: Dict: Bot config
+        
+        return: 
+            Dict: Bot config
         """
         if self.config is None:
             self.config = self.load_config()
@@ -50,8 +52,12 @@ class Configuration:
         override the same parameter from an earlier file (last definition wins).
         Runs through the whole Configuration initialization, so all expected config entries
         are available to interactive environments.
-        :param files: List of file paths
-        :return: configuration dictionary
+        
+        param files: 
+            List of file paths
+            
+        return: 
+            configuration dictionary
         """
         c = Configuration({'config': files}, RunMode.OTHER)
         return c.get_config()
@@ -192,13 +198,20 @@ class Configuration:
                         logstring: str, logfun: Optional[Callable] = None,
                         deprecated_msg: Optional[str] = None) -> None:
         """
-        :param config: Configuration dictionary
-        :param argname: Argumentname in self.args - will be copied to config dict.
-        :param logstring: Logging String
-        :param logfun: logfun is applied to the configuration entry before passing
-                        that entry to the log string using .format().
-                        sample: logfun=len (prints the length of the found
-                        configuration instead of the content)
+        param config: 
+            Configuration dictionary
+            
+        param argname: 
+            Argumentname in self.args - will be copied to config dict.
+            
+        param logstring: 
+            Logging String
+            
+        param logfun: 
+            logfun is applied to the configuration entry before passing
+            that entry to the log string using .format().
+            sample: logfun=len (prints the length of the found
+            configuration instead of the content)
         """
         if (argname in self.args and self.args[argname] is not None
            and self.args[argname] is not False):
