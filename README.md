@@ -153,7 +153,7 @@ pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 
 
 ## Prerequisites
-For [OpenAI Baselines](https://github.com/openai/baselines), you'll need system packages CMake, OpenMPI and zlib. Those can be installed as follows
+For [OpenAI Baselines](https://github.com/openai/baselines), you'll need system packages CMake, OpenMPI and zlib. Those can be installed as follows:
 
 #### Ubuntu
 
