@@ -26,15 +26,15 @@ logger = logging.getLogger(__name__)
 def start_download_cryptodata(args: Dict[str, Any]) -> None:
     """
     Parameters:
-    ARGS_DOWNLOAD_DATA = {'config': ['config.json'], 'datadir': None, 
-                      'user_data_dir': None, 'pairs': None, 'pairs_file': None, 
-                      'days': 160, 'timerange': None, 
-                      'download_trades': False, 'exchange': 'binance', 
-                      'timeframes': ['1d'], 'erase': False, 
-                      'dataformat_ohlcv': None, 'dataformat_trades': None}
+      ARGS_DOWNLOAD_DATA = {'config': ['config.json'], 'datadir': None, 
+                        'user_data_dir': None, 'pairs': None, 'pairs_file': None, 
+                        'days': 160, 'timerange': None, 
+                        'download_trades': False, 'exchange': 'binance', 
+                        'timeframes': ['1d'], 'erase': False, 
+                        'dataformat_ohlcv': None, 'dataformat_trades': None}
     
     Returns:
-    Json files in user_data/data/exchange/*.json
+      Json files in user_data/data/exchange/*.json
     """
     config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
     if 'days' in config and 'timerange' in config:
@@ -69,7 +69,6 @@ def start_download_cryptodata(args: Dict[str, Any]) -> None:
         exchange.validate_timeframes(timeframe)
 
     try:
-
         if config.get('download_trades'):
             pairs_not_available = refresh_backtest_trades_data(
                 exchange, pairs=config['pairs'], datadir=config['datadir'],
@@ -101,8 +100,8 @@ def start_download_stockdata(args: Dict[str, Any]) -> None:
     """Fetches data from Yahoo API
     Parameters
     ----------
-    ticker_list, timerange, 
-    Returns
+      ticker_list, timerange, 
+      Returns
     -------
     Json of data
     """
@@ -144,8 +143,6 @@ def start_download_stockdata(args: Dict[str, Any]) -> None:
             temp_df.to_json(f'{os.getcwd()}/{config["datadir"]}/{tic}.json')
     except KeyboardInterrupt:
         sys.exit("Interrupt received, aborting ...")
-
-
 
 
 
