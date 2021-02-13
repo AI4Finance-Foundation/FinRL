@@ -32,9 +32,15 @@ class DataProvider:
         Store cached Dataframe.
         Using private method as this should never be used by a user
         (but the class is exposed via `self.dp` to the strategy)
-        :param pair: pair to get the data for
-        :param timeframe: Timeframe to get data for
-        :param dataframe: analyzed dataframe
+        
+        param pair: 
+            pair to get the data for
+            
+        param timeframe: 
+            Timeframe to get data for
+            
+        param dataframe: 
+            analyzed dataframe
         """
         self.__cached_pairs[(pair, timeframe)] = (dataframe, datetime.now(timezone.utc))
 
@@ -69,10 +75,16 @@ class DataProvider:
         """
         Get candle (OHLCV) data for the given pair as DataFrame
         Please use the `available_pairs` method to verify which pairs are currently cached.
-        :param pair: pair to get the data for
-        :param timeframe: Timeframe to get data for
-        :param copy: copy dataframe before returning if True.
-                     Use False only for read-only operations (where the dataframe is not modified)
+        
+        param pair: 
+            pair to get the data for
+            
+        param timeframe: 
+            Timeframe to get data for
+            
+        param copy: 
+            copy dataframe before returning if True.
+            Use False only for read-only operations (where the dataframe is not modified)
         """
         if self.runmode in (RunMode.DRY_RUN, RunMode.LIVE):
             return self._exchange.klines(
@@ -84,8 +96,12 @@ class DataProvider:
     def historic_ohlcv(self, pair: str, timeframe: str = None) -> DataFrame:
         """
         Get stored historical candle (OHLCV) data
-        :param pair: pair to get the data for
-        :param timeframe: timeframe to get data for
+        
+        param pair: 
+            pair to get the data for
+            
+        param timeframe: 
+            timeframe to get data for
         """
         return load_pair_history(
             pair=pair,
@@ -98,9 +114,15 @@ class DataProvider:
         """
         Return pair candle (OHLCV) data, either live or cached historical -- depending
         on the runmode.
-        :param pair: pair to get the data for
-        :param timeframe: timeframe to get data for
-        :return: Dataframe for this pair
+        
+        param pair: 
+            pair to get the data for
+            
+        param timeframe: 
+            timeframe to get data for
+            
+        return: 
+            Dataframe for this pair
         """
         if self.runmode in (RunMode.DRY_RUN, RunMode.LIVE):
             # Get live OHLCV data.
@@ -116,10 +138,15 @@ class DataProvider:
         self, pair: str, timeframe: str
     ) -> Tuple[DataFrame, datetime]:
         """
-        :param pair: pair to get the data for
-        :param timeframe: timeframe to get data for
-        :return: Tuple of (Analyzed Dataframe, lastrefreshed) for the requested pair / timeframe
-            combination.
+        param pair: 
+            pair to get the data for
+            
+        param timeframe: 
+            timeframe to get data for
+            
+        return: 
+            Tuple of (Analyzed Dataframe, lastrefreshed) for the requested 
+            pair / timeframe combination.
             Returns empty dataframe and Epoch 0 (1970-01-01) if no dataframe was cached.
         """
         if (pair, timeframe) in self.__cached_pairs:
@@ -131,16 +158,24 @@ class DataProvider:
     def market(self, pair: str) -> Optional[Dict[str, Any]]:
         """
         Return market data for the pair
-        :param pair: Pair to get the data for
-        :return: Market data dict from ccxt or None if market info is not available for the pair
+        
+        param pair: 
+            Pair to get the data for
+            
+        return: 
+            Market data dict from ccxt or None if market info is not available for the pair
         """
         return self._exchange.markets.get(pair)
 
     def ticker(self, pair: str):
         """
         Return last ticker data from exchange
-        :param pair: Pair to get the data for
-        :return: Ticker dict from exchange or empty dict if ticker is not available for the pair
+        
+        param pair: 
+            Pair to get the data for
+            
+        return: 
+            Ticker dict from exchange or empty dict if ticker is not available for the pair
         """
         try:
             return self._exchange.fetch_ticker(pair)
@@ -151,9 +186,15 @@ class DataProvider:
         """
         Fetch latest l2 orderbook data
         Warning: Does a network request - so use with common sense.
-        :param pair: pair to get the data for
-        :param maximum: Maximum number of orderbook entries to query
-        :return: dict including bids/asks with a total of `maximum` entries.
+        
+        param pair: 
+            pair to get the data for
+            
+        param maximum: 
+            Maximum number of orderbook entries to query
+            
+        return: 
+            dict including bids/asks with a total of `maximum` entries.
         """
         return self._exchange.fetch_l2_order_book(pair, maximum)
 
@@ -171,7 +212,9 @@ class DataProvider:
 
         Useful when you have a large whitelist and need to call each pair as an informative pair.
         As available pairs does not show whitelist until after informative pairs have been cached.
-        :return: list of pairs in whitelist
+        
+        return: 
+            list of pairs in whitelist
         """
 
         if self._pairlists:
