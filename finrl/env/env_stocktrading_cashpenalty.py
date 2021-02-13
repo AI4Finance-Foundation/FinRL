@@ -23,7 +23,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         r_i = (sum(cash, asset_value) - initial_cash - max(0, sum(cash, asset_value)*cash_penalty_proportion-cash))/(days_elapsed)
         This reward function takes into account a liquidity requirement, as well as long-term accrued rewards.
     Parameters:
-    state space: {start_cash, <owned_shares>, for s in stocks{<stock.values>}, }
         df (pandas.DataFrame): Dataframe containing data
         buy_cost_pct (float): cost for buying shares
         sell_cost_pct (float): cost for selling shares
@@ -36,13 +35,14 @@ class StockTradingEnvCashpenalty(gym.Env):
         daily_information_columns (list(str)): Columns to use when building state space from the dataframe. It could be OHLC columns or any other variables such as technical indicators and turbulence index
         cash_penalty_proportion (int, float): Penalty to apply if the algorithm runs out of cash
         patient (bool): option to choose whether end the cycle when we're running out of cash or just don't buy anything until we got additional cash
-    action space: <share_dollar_purchases>
+
+    RL Inputs and Outputs
+        action space: [<n_assets>,] in range {-1, 1}
+        state space: {start_cash, [shares_i for in in assets], [[indicator_j for j in indicators] for i in assets]]}
     TODO:
-        add holdings to memory
-        move transactions to after the clip step.
-    tests:
-        after reset, static strategy should result in same metrics
-        given no change in prices, no change in asset values
+        Organize functions
+        Write README
+        Document tests
     """
 
     metadata = {"render.modes": ["human"]}
