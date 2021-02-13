@@ -46,6 +46,5 @@ def main():
         now = datetime.datetime.now().strftime("%Y%m%d-%Hh%M")
         df.to_csv("./" + config.DATA_SAVE_DIR + "/" + now + ".csv")
 
-
 if __name__ == "__main__":
     main()
