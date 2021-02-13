@@ -18,7 +18,10 @@ bufferHandler.setFormatter(Formatter(LOGFORMAT))
 def _set_loggers(verbosity: int = 0, api_verbosity: str = 'info') -> None:
     """
     Set the logging level for third party libraries
-    :return: None
+    
+    return
+    -------
+        None
     """
 
     logging.getLogger('requests').setLevel(
