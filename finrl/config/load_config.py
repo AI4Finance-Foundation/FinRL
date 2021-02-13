@@ -41,8 +41,12 @@ def log_config_error_range(path: str, errmsg: str) -> str:
 def load_config_file(path: str) -> Dict[str, Any]:
     """
     Loads a config file from the given path
-    :param path: path as str
-    :return: configuration as dictionary
+    
+    param path: 
+        path as str
+        
+    return: 
+        configuration as dictionary
     """
     try:
         # Read config from stdin if requested in the options
