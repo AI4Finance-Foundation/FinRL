@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 def start_download_cryptodata(args: Dict[str, Any]) -> None:
     """
     Parameters:
+    -----------
       ARGS_DOWNLOAD_DATA = {'config': ['config.json'], 'datadir': None, 
                         'user_data_dir': None, 'pairs': None, 'pairs_file': None, 
                         'days': 160, 'timerange': None, 
@@ -34,6 +35,7 @@ def start_download_cryptodata(args: Dict[str, Any]) -> None:
                         'dataformat_ohlcv': None, 'dataformat_trades': None}
     
     Returns:
+    ----------
       Json files in user_data/data/exchange/*.json
     """
     config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
@@ -99,12 +101,12 @@ def start_download_cryptodata(args: Dict[str, Any]) -> None:
 def start_download_stockdata(args: Dict[str, Any]) -> None:
     """Fetches data from Yahoo API
     
-    Parameters
+    Parameters:
     ----------
       ticker_list, timerange, 
       
-    Returns
-    -------
+    Returns:
+    ---------
       Json of data
     """
     args["exchange"] = "yahoo"
