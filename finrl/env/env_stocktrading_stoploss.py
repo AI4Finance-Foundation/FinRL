@@ -19,7 +19,7 @@ class StockTradingEnvStopLoss(gym.Env):
     This enables the model to do trading with high confidence and manage cash reserves in addition to performing trading procedures.
 
     Reward at any step is given as follows
-        r_i = (sum(cash, asset_value) + additional_reward - total_penalty - initial_cash) / initial_cash
+        r_i = (sum(cash, asset_value) + additional_reward - total_penalty - initial_cash) / initial_cash / days_elapsed
         , where total_penalty = cash_penalty + stop_loss_penalty + low_profit_penalty
                 cash_penalty = max(0, sum(cash, asset_value)*cash_penalty_proportion-cash)
                 stop_loss_penalty = -1 * dot(holdings,negative_closing_diff_avg_buy)
