@@ -19,11 +19,12 @@ class StockTradingEnvStopLoss(gym.Env):
     This enables the model to do trading with high confidence and manage cash reserves in addition to performing trading procedures.
 
     Reward at any step is given as follows
-        r_i = (sum(cash, asset_value) - total_penalty - initial_cash) / initial_cash
+        r_i = (sum(cash, asset_value) + additional_reward - total_penalty - initial_cash) / initial_cash
         , where total_penalty = cash_penalty + stop_loss_penalty + low_profit_penalty
                 cash_penalty = max(0, sum(cash, asset_value)*cash_penalty_proportion-cash)
-                stop_loss_penalty = -1 * dot(holdings,neg_closing_diff_avg_buy)
-                low_profit_penalty = -1 * dot(holdings,neg_profit_sell_diff_avg_buy)
+                stop_loss_penalty = -1 * dot(holdings,negative_closing_diff_avg_buy)
+                low_profit_penalty = -1 * dot(holdings,negative_profit_sell_diff_avg_buy)
+                additional_reward = dot(holdings,positive_profit_sell_diff_avg_buy)
 
         This reward function takes into account a profit/loss ratio constraint, liquidity requirement, as well as long-term accrued rewards.
         This reward function also forces the model to trade only when it's really confident to do so.
@@ -245,6 +246,7 @@ class StockTradingEnvStopLoss(gym.Env):
             holdings = self.state_memory[-1][1 : len(self.assets) + 1]
             neg_closing_diff_avg_buy = np.clip(self.closing_diff_avg_buy, -np.inf, 0)
             neg_profit_sell_diff_avg_buy = np.clip(self.profit_sell_diff_avg_buy, -np.inf, 0)
+            pos_profit_sell_diff_avg_buy = np.clip(self.profit_sell_diff_avg_buy, 0, np.inf)
 
             cash_penalty = max(0, (total_assets * self.cash_penalty_proportion - cash))
             if self.current_step > 1:
@@ -254,15 +256,11 @@ class StockTradingEnvStopLoss(gym.Env):
                 stop_loss_penalty = 0
             low_profit_penalty = -1 * np.dot(np.array(holdings),neg_profit_sell_diff_avg_buy)
             total_penalty = cash_penalty + stop_loss_penalty + low_profit_penalty
-
-            reward = ((total_assets - total_penalty) / self.initial_amount) - 1
-            reward /= self.current_step 
             
-#             print(f"assets: {assets}")
-#             print(f"Cash Penalty: {cash_penalty}")
-#             print(f"Stop Loss Penalty: {stop_loss_penalty}")
-#             print(f"Low Profit Penalty: {low_profit_penalty}")
-#             print(f"Reward: {reward}")
+            additional_reward = np.dot(np.array(holdings),pos_profit_sell_diff_avg_buy)
+
+            reward = ((total_assets - total_penalty + additional_reward) / self.initial_amount) - 1
+            reward /= self.current_step 
 
             return reward
     def step(self, actions):
@@ -319,15 +317,14 @@ class StockTradingEnvStopLoss(gym.Env):
 
             # clip actions so we can't sell more assets than we hold
             actions = np.maximum(actions, -np.array(holdings))
-            # clear out position if stop-loss criteria is met
+            
             self.closing_diff_avg_buy = closings - (self.stoploss_penalty * self.avg_buy_price)
-            actions = np.where(self.closing_diff_avg_buy < 0, -np.array(holdings), actions)
-            
-            if any(np.clip(self.closing_diff_avg_buy, -np.inf, 0) < 0):
-                self.log_step(reason="STOP LOSS")
+            if begin_cash >= self.stoploss_penalty * self.initial_amount:
+                # clear out position if stop-loss criteria is met
+                actions = np.where(self.closing_diff_avg_buy < 0, -np.array(holdings), actions)
                 
-            
-#             print(f"closing_diff_avg_buy: {self.closing_diff_avg_buy}")
+                if any(np.clip(self.closing_diff_avg_buy, -np.inf, 0) < 0):
+                    self.log_step(reason="STOP LOSS")
 
             # compute our proceeds from sells, and add to cash
             sells = -np.clip(actions, -np.inf, 0)
@@ -364,6 +361,9 @@ class StockTradingEnvStopLoss(gym.Env):
             
             if any(np.clip(self.profit_sell_diff_avg_buy, -np.inf, 0) < 0):
                 self.log_step(reason="LOW PROFIT")
+            else:
+                if any(np.clip(self.profit_sell_diff_avg_buy, 0, np.inf) > 0):
+                    self.log_step(reason="HIGH PROFIT")
 
             # verify we didn't do anything impossible here
             assert (spend + costs) <= coh
@@ -374,24 +374,15 @@ class StockTradingEnvStopLoss(gym.Env):
             # update our holdings
             coh = coh - spend - costs
             holdings_updated = holdings + actions
-            
-#             print(f"actions: {actions}")
-#             print(f"latest holdings: {holdings_updated}")
 
             # Update average buy price
             buys = np.sign(buys)
             self.n_buys += buys
             self.avg_buy_price = np.where(buys > 0, self.avg_buy_price + ((closings - self.avg_buy_price) / self.n_buys), self.avg_buy_price) #incremental average
             
-#             print(f"n_buys before: {self.n_buys}")
-#             print(f"avg_buy_price before: {self.avg_buy_price}")
-            
             #set as zero when we don't have any holdings anymore
             self.n_buys = np.where(holdings_updated > 0, self.n_buys, 0)
             self.avg_buy_price = np.where(holdings_updated > 0, self.avg_buy_price, 0) 
-            
-#             print(f"n_buys after: {self.n_buys}")
-#             print(f"avg_buy_price after: {self.avg_buy_price}")
             
             self.date_index += 1
             if self.turbulence_threshold is not None:
