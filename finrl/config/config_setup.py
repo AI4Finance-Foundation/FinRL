@@ -14,10 +14,13 @@ def setup_utils_configuration(args: Dict[str, Any], method: RunMode) -> Dict[str
     """
     Prepare the configuration for utils subcommands
     
-    param args: 
+    Parameters:
+    -----------
+    args: 
         Cli args from Arguments()
         
-    return: 
+    Return:
+    -------
         Configuration
     """
     configuration = Configuration(args, method)
