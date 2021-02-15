@@ -35,7 +35,8 @@ class Configuration:
         """
         Return the config. Use this method to get the bot config
         
-        return: 
+        Return: 
+        -------
             Dict: Bot config
         """
         if self.config is None:
@@ -53,10 +54,13 @@ class Configuration:
         Runs through the whole Configuration initialization, so all expected config entries
         are available to interactive environments.
         
-        param files: 
+        Parameters:
+        -----------
+        files: 
             List of file paths
             
-        return: 
+        Return: 
+        -------
             configuration dictionary
         """
         c = Configuration({'config': files}, RunMode.OTHER)
@@ -198,16 +202,18 @@ class Configuration:
                         logstring: str, logfun: Optional[Callable] = None,
                         deprecated_msg: Optional[str] = None) -> None:
         """
-        param config: 
+        Parameters:
+        -----------
+        config: 
             Configuration dictionary
             
-        param argname: 
+        argname: 
             Argumentname in self.args - will be copied to config dict.
             
-        param logstring: 
+        logstring: 
             Logging String
             
-        param logfun: 
+        logfun: 
             logfun is applied to the configuration entry before passing
             that entry to the log string using .format().
             sample: logfun=len (prints the length of the found
