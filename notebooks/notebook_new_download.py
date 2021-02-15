@@ -16,7 +16,11 @@ from finrl.tools.coin_search import *
 
 
 # ###### Pull Configuration File (using finrl/config/configuration.py)
-config = Configuration.from_files(["config.json"])
+config = Configuration.from_files(["./notebooks/config.json"])
+data = FetchData(config).get_data()
+
+datafetch = FetchData(config).fetch_data_crypto()
+
 
 ##### EXAMPLE
 ##### if directory path is kept none, default = user_data
@@ -75,6 +79,40 @@ ARGS_DOWNLOAD_DATA = {'config': ['config.json'], 'datadir': None,
                       'dataformat_ohlcv': None, 'dataformat_trades': None}
 
 start_download_cryptodata(ARGS_DOWNLOAD_DATA)
+
+
+
+data = FetchData(config).get_data()
+
+datafetch = FetchData(config).fetch_data_crypto()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import pandas as pd
 import numpy as np
