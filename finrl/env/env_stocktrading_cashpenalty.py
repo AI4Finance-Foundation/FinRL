@@ -12,6 +12,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common import logger
+from finrl.env.accounting.ledger import Ledger
 
 class StockTradingEnvCashpenalty(gym.Env):
     """
