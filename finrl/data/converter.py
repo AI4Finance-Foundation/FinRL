@@ -21,13 +21,29 @@ def ohlcv_to_dataframe(ohlcv: list, timeframe: str, pair: str, *,
     """
     Converts a list with candle (OHLCV) data (in format returned by ccxt.fetch_ohlcv)
     to a Dataframe
-    :param ohlcv: list with candle (OHLCV) data, as returned by exchange.async_get_candle_history
-    :param timeframe: timeframe (e.g. 5m). Used to fill up eventual missing data
-    :param pair: Pair this data is for (used to warn if fillup was necessary)
-    :param fill_missing: fill up missing candles with 0 candles
-                         (see ohlcv_fill_up_missing_data for details)
-    :param drop_incomplete: Drop the last candle of the dataframe, assuming it's incomplete
-    :return: DataFrame
+    
+    Parameters:
+    -----------
+    ohlcv: 
+      list with candle (OHLCV) data, as returned by exchange.async_get_candle_history
+    
+    timeframe: 
+      timeframe (e.g. 5m). Used to fill up eventual missing data
+    
+    pair: 
+      Pair this data is for (used to warn if fillup was necessary)
+    
+    fill_missing: 
+      fill up missing candles with 0 candles
+      (see ohlcv_fill_up_missing_data for details)
+      
+    drop_incomplete: 
+      Drop the last candle of the dataframe, assuming it's incomplete
+      
+    Return: 
+    -------
+    DataFrame
+    
     """
     logger.debug(f"Converting candle (OHLCV) data to dataframe for pair {pair}.")
     cols = DEFAULT_DATAFRAME_COLUMNS
@@ -53,13 +69,29 @@ def clean_ohlcv_dataframe(data: DataFrame, timeframe: str, pair: str, *,
       * Grouping it by date (removes duplicate tics)
       * dropping last candles if requested
       * Filling up missing data (if requested)
-    :param data: DataFrame containing candle (OHLCV) data.
-    :param timeframe: timeframe (e.g. 5m). Used to fill up eventual missing data
-    :param pair: Pair this data is for (used to warn if fillup was necessary)
-    :param fill_missing: fill up missing candles with 0 candles
-                         (see ohlcv_fill_up_missing_data for details)
-    :param drop_incomplete: Drop the last candle of the dataframe, assuming it's incomplete
-    :return: DataFrame
+    
+    Parameters:
+    -----------
+    data: 
+      DataFrame containing candle (OHLCV) data.
+      
+    timeframe: 
+      timeframe (e.g. 5m). Used to fill up eventual missing data
+    
+    pair: 
+      Pair this data is for (used to warn if fillup was necessary)
+    
+    fill_missing: 
+      fill up missing candles with 0 candles
+      (see ohlcv_fill_up_missing_data for details)
+      
+    drop_incomplete: 
+      Drop the last candle of the dataframe, assuming it's incomplete
+      
+    Return: 
+    -------
+    DataFrame
+    
     """
     # group by index and aggregate results to eliminate duplicate ticks
     data = data.groupby(by='date', as_index=False, sort=True).agg({
@@ -118,10 +150,22 @@ def ohlcv_fill_up_missing_data(dataframe: DataFrame, timeframe: str, pair: str) 
 def trim_dataframe(df: DataFrame, timerange, df_date_col: str = 'date') -> DataFrame:
     """
     Trim dataframe based on given timerange
-    :param df: Dataframe to trim
-    :param timerange: timerange (use start and end date if available)
-    :param: df_date_col: Column in the dataframe to use as Date column
-    :return: trimmed dataframe
+    
+    Parameters:
+    -----------
+    df: 
+      Dataframe to trim
+      
+    timerange: 
+      timerange (use start and end date if available)
+      
+    df_date_col: 
+      Column in the dataframe to use as Date column
+      
+    Return: 
+    -------
+    trimmed dataframe
+    
     """
     if timerange.starttype == 'date':
         start = datetime.fromtimestamp(timerange.startts, tz=timezone.utc)
@@ -162,8 +206,15 @@ def trades_remove_duplicates(trades: List[List]) -> List[List]:
     Removes duplicates from the trades list.
     Uses itertools.groupby to avoid converting to pandas.
     Tests show it as being pretty efficient on lists of 4M Lists.
-    :param trades: List of Lists with constants.DEFAULT_TRADES_COLUMNS as columns
-    :return: same format as above, but with duplicates removed
+    
+    Parameters:
+    -----------
+    trades: 
+      List of Lists with constants.DEFAULT_TRADES_COLUMNS as columns
+      
+    Return: 
+    -------
+    same format as above, but with duplicates removed
     """
     return [i for i, _ in itertools.groupby(sorted(trades, key=itemgetter(0)))]
 
@@ -171,8 +222,15 @@ def trades_remove_duplicates(trades: List[List]) -> List[List]:
 def trades_dict_to_list(trades: List[Dict]) -> TradeList:
     """
     Convert fetch_trades result into a List (to be more memory efficient).
-    :param trades: List of trades, as returned by ccxt.fetch_trades.
-    :return: List of Lists, with constants.DEFAULT_TRADES_COLUMNS as columns
+    
+    Parameters:
+    -----------
+    trades: 
+      List of trades, as returned by ccxt.fetch_trades.
+      
+    Return: 
+    -------
+    List of Lists, with constants.DEFAULT_TRADES_COLUMNS as columns
     """
     return [[t[col] for col in DEFAULT_TRADES_COLUMNS] for t in trades]
 
@@ -180,10 +238,22 @@ def trades_dict_to_list(trades: List[Dict]) -> TradeList:
 def trades_to_ohlcv(trades: TradeList, timeframe: str) -> DataFrame:
     """
     Converts trades list to OHLCV list
-    :param trades: List of trades, as returned by ccxt.fetch_trades.
-    :param timeframe: Timeframe to resample data to
-    :return: OHLCV Dataframe.
-    :raises: ValueError if no trades are provided
+    
+    Parameters:
+    -----------
+    trades: 
+      List of trades, as returned by ccxt.fetch_trades
+      
+    timeframe: 
+      Timeframe to resample data to
+      
+    Return: 
+    -------
+    OHLCV Dataframe
+    
+    Raises: 
+    -------
+    ValueError if no trades are provided
     """
     from freqtrade.exchange import timeframe_to_minutes
     timeframe_minutes = timeframe_to_minutes(timeframe)
@@ -205,10 +275,20 @@ def trades_to_ohlcv(trades: TradeList, timeframe: str) -> DataFrame:
 def convert_trades_format(config: Dict[str, Any], convert_from: str, convert_to: str, erase: bool):
     """
     Convert trades from one format to another format.
-    :param config: Config dictionary
-    :param convert_from: Source format
-    :param convert_to: Target format
-    :param erase: Erase souce data (does not apply if source and target format are identical)
+    
+    Parameters:
+    -----------
+    config: 
+      Config dictionary
+      
+    convert_from: 
+      Source format
+      
+    convert_to: 
+      Target format
+      
+    erase: 
+      Erase souce data (does not apply if source and target format are identical)
     """
     from freqtrade.data.history.idatahandler import get_datahandler
     src = get_datahandler(config['datadir'], convert_from)
@@ -230,10 +310,20 @@ def convert_trades_format(config: Dict[str, Any], convert_from: str, convert_to:
 def convert_ohlcv_format(config: Dict[str, Any], convert_from: str, convert_to: str, erase: bool):
     """
     Convert OHLCV from one format to another
-    :param config: Config dictionary
-    :param convert_from: Source format
-    :param convert_to: Target format
-    :param erase: Erase souce data (does not apply if source and target format are identical)
+    
+    Parameters:
+    -----------
+    config: 
+      Config dictionary
+      
+    convert_from: 
+      Source format
+      
+    convert_to: 
+      Target format
+      
+    erase: 
+      Erase souce data (does not apply if source and target format are identical)
     """
     from freqtrade.data.history.idatahandler import get_datahandler
     src = get_datahandler(config['datadir'], convert_from)
