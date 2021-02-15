@@ -42,10 +42,13 @@ def load_config_file(path: str) -> Dict[str, Any]:
     """
     Loads a config file from the given path
     
-    param path: 
+    Parameters:
+    -----------
+    path: 
         path as str
         
-    return: 
+    Return: 
+    -------
         configuration as dictionary
     """
     try:
