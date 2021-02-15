@@ -42,10 +42,13 @@ def validate_config_schema(conf: Dict[str, Any]) -> Dict[str, Any]:
     """
     Validate the configuration follow the Config Schema
     
-    param conf: 
+    Parameters:
+    -----------
+    conf: 
         Config in JSON format
         
-    return: 
+    Return:
+    -------
         Returns the config if valid, otherwise throw an exception
     """
     conf_schema = deepcopy(constants.CONF_SCHEMA)
@@ -71,10 +74,13 @@ def validate_config_consistency(conf: Dict[str, Any]) -> None:
     Should be ran after loading both configuration and strategy,
     since strategies can set certain configuration settings too.
     
-    param conf: 
+    Parameters:
+    -----------
+    conf: 
         Config in JSON format
         
-    return: 
+    Return:
+    -------
         Returns None if everything is ok, otherwise throw an OperationalException
     """
 
