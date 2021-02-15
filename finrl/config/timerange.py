@@ -35,10 +35,12 @@ class TimeRange:
         """
         Subtracts <seconds> from startts if startts is set.
         
-        param seconds: 
-            Seconds to subtract from starttime
+        Parameters:
+        -----------
+        seconds: Seconds to subtract from starttime
             
         return: 
+        --------
             None (Modifies the object in place)
         """
         if self.startts:
@@ -50,16 +52,19 @@ class TimeRange:
         Adjust startts by <startup_candles> candles.
         Applies only if no startup-candles have been available.
         
-        param timeframe_secs: 
+        Parameters:
+        -----------
+        timeframe_secs: 
             Timeframe in seconds e.g. `timeframe_to_seconds('5m')`
             
-        param startup_candles: 
+        startup_candles: 
             Number of candles to move start-date forward
             
-        param min_date: 
+        min_date: 
             Minimum data date loaded. Key kriterium to decide if start-time has to be moved
             
-        return: 
+        Return: 
+        -------
             None (Modifies the object in place)
         """
         if (not self.starttype or (startup_candles
@@ -75,10 +80,13 @@ class TimeRange:
         """
         Parse the value of the argument --timerange to determine what is the range desired
         
-        param text: 
+        Parameters:
+        -----------
+        text: 
             value from --timerange
             
-        return: 
+        Return: 
+        -------
             Start and End range period
         """
         if text is None:
