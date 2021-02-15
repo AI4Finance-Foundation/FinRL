@@ -62,7 +62,7 @@ class TestLedger(unittest.TestCase):
         for d in datelist[:10]:
             _ = l.log_date(d, [1.0, 1.0], [1.0,1.0])
 
-        results = l.get_longterm_holdings()
+        results = l.long_term_holdings
         self.assertTrue(len(results) == 2)
         self.assertEqual(results, [2.0, 2.0])
         print(results)
@@ -71,9 +71,12 @@ class TestLedger(unittest.TestCase):
         # sell 2 units each. But we advance a day, so we get one additional unit
         # result shoudl be that after sale we have 1 long term tax unit and the rest short term.
         tax_imps = l.log_date(datelist[-2], [-2, -2], [1.0, 1.0])
-        results = l.get_longterm_holdings()
-        self.assertEqual(results, [1.0, 1.0])
+        long_holdings = l.long_term_holdings
+        self.assertEqual(long_holdings, [1.0, 1.0])
         print(f"final results: {results}")
+        short_holdings  = l.short_term_holdings
+
+        self.assertEqual(l.holdings,np.add(long_holdings, short_holdings).tolist() )
 
 
     def test_price_calculations(self):
