@@ -17,9 +17,13 @@ def start_create_userdir(args: Dict[str, Any]) -> None:
     """
     Create "user_data" directory to contain user data strategies, hyperopt, ...)
     
-    param args: 
+    Parameters:
+    -----------
+    args: 
         Cli args from Arguments()
-    return: 
+        
+    Return: 
+    -------
         None
     """
     if "user_data_dir" in args and args["user_data_dir"]:
