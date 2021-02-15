@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from copy import copy
 import datetime
+from pprint import pprint
 
 
 class Ledger:
@@ -25,7 +26,7 @@ class Ledger:
     def date_to_str(self, date):
         return str(date)
 
-    def log_date(self, date, transactions):
+    def log_date(self, date, transactions, prices):
 
         if isinstance(date, datetime.date):
             date = self.date_to_str(date)
@@ -34,12 +35,20 @@ class Ledger:
         if date not in self.dates:
             self.dates.append(self.date_from_str(date))
         tax_d = {}
-        for i, (a, t) in enumerate(zip(self.assets, transactions)):
+        for i, (a, t, p) in enumerate(zip(self.assets, transactions, prices)):
             buys, sells = max(0, t), -min(0, t)
 
-            self.d[a][date] = {"buys": buys, "sells": sells, "tax_used": 0}
+            self.d[a][date] = {"buys": buys, "sells": sells, "price": p, "tax_used": 0}
             if sells > 0:  # consider order here
-                tax_d[i] = self.compute_tax_lots(a, sells, date)
+                try:
+                    lots = self.compute_tax_lots(a, sells, date)
+                except:
+                    pprint(self.d)
+                    raise Exception("caught exception")
+                #compute profit/loss of this tax lot
+                lots['short_profit']= (prices[i]-lots['short_avg_price'])*lots['short_term_shares']
+                lots['long_profit'] = (prices[i]-lots['long_avg_price'])*lots['long_term_shares']
+                tax_d[i] = lots
         return tax_d
 
     def get_longterm_holdings(self):
@@ -60,11 +69,15 @@ class Ledger:
         a_data = copy(self.d[asset])
         remaining_shares = sells
         long_shares = 0
+        long_total_value = 0
         short_shares = 0
+        short_total_value = 0
+        # need to figure out average cost for long term and short term
         # ok, let's loop here and use up shares oldest to youngest
         dates = sorted(a_data)
         i = 0
         while remaining_shares > 0:
+            
             date = dates[i]
             long_term = (
                 self.date_from_str(sell_date)
@@ -83,15 +96,24 @@ class Ledger:
                 remaining_shares -= shares_consumed
                 if long_term:
                     long_shares += shares_consumed
+                    long_total_value+=(shares_consumed*d['price'])
                 else:
                     short_shares += shares_consumed
+                    short_total_value+=(shares_consumed*d['price'])
 
                 a_data[date]["tax_used"] = shares_consumed
             i += 1
 
         self.d[asset] = a_data
+        def get_avg_price(shares, value):
+            if shares==0:
+                return 0
+            else:
+                return value/shares
         return {
             "asset": asset,
             "long_term_shares": long_shares,
+            "long_avg_price": get_avg_price(long_shares, long_total_value),
             "short_term_shares": short_shares,
+            "short_avg_price": get_avg_price(short_shares, short_total_value)
         }
