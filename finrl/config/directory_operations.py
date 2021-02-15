@@ -31,13 +31,16 @@ def create_userdata_dir(directory: str, create_dir: bool = False) -> Path:
     Sub-directories will always be created if the parent directory exists.
     Raises OperationalException if given a non-existing directory.
     
-    param directory: 
+    Parameters:
+    -----------
+    directory: 
         Directory to check
         
-    param create_dir: 
+    create_dir: 
         Create directory if it does not exist.
         
-    return: 
+    Return: 
+    -------
         Path object containing the directory
     """
     sub_dirs = ["backtest_results", "data", "logs",
@@ -64,10 +67,12 @@ def copy_sample_files(directory: Path, overwrite: bool = False) -> None:
     """
     Copy files from templates to User data directory.
     
-    param directory: 
+    Parameters:
+    -----------
+    directory: 
         Directory to copy data to
         
-    param overwrite: 
+    overwrite: 
         Overwrite existing sample files
     """
     if not directory.is_dir():
