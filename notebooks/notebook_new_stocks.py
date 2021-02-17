@@ -14,45 +14,23 @@ from finrl.tools.coin_search import *
 
 # create_userdata_dir("./user_data",create_dir=True)
 
-
-# ###### Pull Configuration File (using finrl/config/configuration.py)
-config = Configuration.from_files(["./notebooks/config.json"])
-data = FetchData(config).get_data()
-
-datafetch = FetchData(config).fetch_data_crypto()
-
-
 ##### EXAMPLE
 ##### if directory path is kept none, default = user_data
 # create_userdata_dir("./finrl_testing", create_dir=True)
 
-##### args are the different options that could overide config options
-
-# ARGS_DOWNLOAD_DATA = {'config': ['config.json'], 'datadir': None, 
-#                       'user_data_dir': None, 'pairs': None, 'pairs_file': None, 
-#                       'days': 160, 'timerange': None, 
-#                       'download_trades': False, 'exchange': 'binance', 
-#                       'timeframes': ['1d'], 'erase': False, 
-#                       'dataformat_ohlcv': None, 'dataformat_trades': None}
-
-# ######## downloads data to our local data repository as dictated by our config, or we could overide it using 'datadir'
-# start_download_cryptodata(ARGS_DOWNLOAD_DATA)
-
-# ################# fetches all our local data and outputs a df with the normal format (index:date, open, high, low, close, volume and tick symbol)
-# ################ can be modified to get its own ARGS and overide config info, using config = setup_utils_configuration(args, RunMode.UTIL_EXCHANGE)
 
 
-# df = FetchData(config).fetch_data_crypto()
-
-# print(df.head())
-
-################## Either input timerange or days for period of download
-# ARGS_DOWNLOAD_DATA = {'config': ['config.json'], 'datadir': None, 
-#                       'user_data_dir': None, 'days': None, 'timerange': "20200101-20210101",
-#                       'timeframes': ['1d'], 'erase': False}
+# ###### Pull Configuration File (using finrl/config/configuration.py)
+config = Configuration.from_files(["./notebooks/config.json"])
 
 
-# start_download_stockdata(ARGS_DOWNLOAD_DATA)
+################# Either input timerange or days for period of download
+ARGS_DOWNLOAD_DATA = {'config': ['./notebooks/config.json'], 'datadir': None, 
+                      'user_data_dir': None, 'days': None, 'timerange': "20000101-20210101",
+                      'timeframes': ['1d'], 'erase': False}
+
+
+start_download_stockdata(ARGS_DOWNLOAD_DATA)
 
 
 
