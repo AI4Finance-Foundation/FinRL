@@ -58,8 +58,6 @@ class FetchData:
             for the specified stock ticker
         """
         exchange = "yahoo"
-        datadir = f'{self.config["user_data_dir"]}/data/{exchange}'
-        print(datadir)
         data = self.get_data()
         timeframe = self.config["timeframe"]
         ticker_list = self.config["ticker_list"]
@@ -67,16 +65,18 @@ class FetchData:
         data_df = pd.DataFrame()
         for i in ticker_list:
             for text in data:
-                if f"{datadir}" and f"{i}-{timeframe}" in text:
+                if f"{exchange}" and f"{i}." in text:
                     i_df = pd.read_json(text)
                     if not i_df.empty:
                         i_df["tic"] = i
-                        data_df = data_df.append(temp_df)
+                        i_df.columns = ["open","high", "low", "close", "volume", "tic"]
+                        data_df = data_df.append(i_df)
                     else:
                         print(f"Stock {i} from {text} is Data Not Available...")
-                  print(f"Stock {i} from {text} Fetched successfully...")
+                    print(f"Stock {i} from {text} Fetched successfully...")
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
+        print(data_df.columns)
         try:
             # convert the column names to standardized names
             data_df.columns = [

@@ -1247,7 +1247,7 @@ def get_exchange_bad_reason(exchange_name: str) -> str:
 
 
 def is_exchange_known_ccxt(exchange_name: str, ccxt_module: CcxtModuleType = None) -> bool:
-    exchanges_confirmed = [ccxt_exchanges(ccxt_module), "yahoo"]
+    exchanges_confirmed = ccxt_exchanges(ccxt_module) + ["yahoo"]
     return exchange_name in exchanges_confirmed
 
 
@@ -1266,7 +1266,7 @@ def available_exchanges(ccxt_module: CcxtModuleType = None) -> List[str]:
     """
     Return exchanges available to the bot, i.e. non-bad exchanges in the ccxt list
     """
-    exchanges = ccxt_exchanges(ccxt_module)
+    exchanges = ccxt_exchanges(ccxt_module) + ["yahoo"]
     return [x for x in exchanges if not is_exchange_bad(x)]
 
 

@@ -32,6 +32,13 @@ ARGS_DOWNLOAD_DATA = {'config': ['./notebooks/config.json'], 'datadir': None,
 
 start_download_stockdata(ARGS_DOWNLOAD_DATA)
 
+from finrl.data.fetchdata import FetchData
+import pandas as pd
+from finrl.config import TimeRange
+
+
+df = FetchData(config).fetch_data_stock()
+print(df.head)
 
 
 # df = FetchData(config).fetch_data_stock()
