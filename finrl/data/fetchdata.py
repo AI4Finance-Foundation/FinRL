@@ -34,6 +34,16 @@ class FetchData:
 
     def __init__(self, config: dict):
         self.config = config
+        self.data_list = []
+        
+    def get_data(self):
+        for root, dirs, files in os.walk("./"):
+          for file in files:
+            if file.endswith(".json"):  
+              file_json = os.path.join(root, file)
+              self.data_list.append(file_json)
+        return self.data_list
+
 
     def fetch_data_stock(self) -> pd.DataFrame:
         """Fetches data from Yahoo API
@@ -48,18 +58,25 @@ class FetchData:
             for the specified stock ticker
         """
         exchange = "yahoo"
-        datadir = f'{self.config["user_data_dir"]}/data/{exchange}'
-        print(datadir)
+        data = self.get_data()
         timeframe = self.config["timeframe"]
         ticker_list = self.config["ticker_list"]
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         for i in ticker_list:
-            temp_df = pd.read_json(f'{os.getcwd()}/{datadir}/{i}.json')
-            temp_df["tic"] = i
-            data_df = data_df.append(temp_df)
+            for text in data:
+                if f"{exchange}" and f"{i}." in text:
+                    i_df = pd.read_json(text)
+                    if not i_df.empty:
+                        i_df["tic"] = i
+                        i_df.columns = ["open","high", "low", "close", "volume", "tic"]
+                        data_df = data_df.append(i_df)
+                    else:
+                        print(f"Stock {i} from {text} is Data Not Available...")
+                    print(f"Stock {i} from {text} Fetched successfully...")
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
+        print(data_df.columns)
         try:
             # convert the column names to standardized names
             data_df.columns = [
@@ -101,24 +118,27 @@ class FetchData:
             7 columns: A date, open, high, low, close, volume and tick symbol
             for the specified stock ticker
         """
-
-        datadir = self.config['datadir']
-        exchange = self.config["exchange"]["name"]
-        timeframe = self.config["timeframe"]
+        data = self.get_data()
+        if self.config.get("timeframes"):
+          timeframe = self.config["timeframes"]
+        else:
+          timeframe = self.config["timeframe"]
         # Check if regex found something and only return these results
         df = pd.DataFrame()
         for i in self.config["pairs"]:
             i = i.replace("/","_")
-            try:
-                i_df = pd.read_json(f'{os.getcwd()}/{datadir}/{i}-{timeframe}.json')
-                i_df["tic"] = i
-                i_df.columns = ["date", "open","high", "low", "close", "volume", "tic"]
-                i_df.date = i_df.date.apply(lambda d: datetime.fromtimestamp(d/1000))
-                df = df.append(i_df)
-                print(f"coin {i} completed...")
-            except:
-                print(f'coin {i} not available')
-                pass
+            for text in data:
+                if f"{self.config['datadir']}" and f"{i}-{timeframe}" in text:
+                  i_df = pd.read_json(text)
+                  if not i_df.empty:
+                       i_df["tic"] = i
+                       i_df.columns = ["date", "open","high", "low", "close", "volume", "tic"]
+                       i_df.date = i_df.date.apply(lambda d: datetime.fromtimestamp(d/1000))
+                       df = df.append(i_df)
+                  else:
+                     print(f"coin {i} from {text} is Empty...")
+                  print(f"coin {i} from {text} completed...")
+        df = df.sort_values(by=['date','tic']).reset_index(drop=True)
         print(df.shape)
         return df
 
