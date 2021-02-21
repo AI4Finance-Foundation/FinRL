@@ -356,11 +356,12 @@ class StockTradingEnv(gym.Env):
             # date and close price length must match actions length
             date_list = self.date_memory[:-1]
             df_date = pd.DataFrame(date_list)
-            df_date.rename(columns={0:'date'},inplace= True)
+            df_date.columns = ['date']
+            
             action_list = self.actions_memory
             df_actions = pd.DataFrame(action_list)
-            df_actions.rename(columns =lambda x : self.data.tic.values[x], inplace= True)
-            df_actions.set_index = df_date  
+            df_actions.columns = self.data.tic.values
+            df_actions.index = df_date.date
             #df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
         else:
             date_list = self.date_memory[:-1]
