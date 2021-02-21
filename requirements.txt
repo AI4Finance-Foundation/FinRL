@@ -3,8 +3,7 @@ numpy
 pandas>=1.1.5
 stockstats
 yfinance
-pyfolio
-
+#pyfolio
 
 # plot
 matplotlib
@@ -20,22 +19,3 @@ pytest
 # packaging
 setuptools>=41.4.0
 wheel>=0.33.6
-
-# Newly Added
-arrow
-python-rapidjson
-questionary
-sqlalchemy
-tabulate
-
-#Crypto Exchange
-ccxt
-
-#print colors
-colorama
-
-#tensorboard
-tensorflow
-
-#notebooks need
-nest-asyncio
