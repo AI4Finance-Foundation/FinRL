@@ -3,12 +3,12 @@ This project aims to bring a reinforcement learning environment to the trading c
 There are always competing priorities among the community, and we want to make sure that we are able to achieve together a project that is reliable, sustainable, and maintainable. 
 
 ## Guiding principles (v1)
-* We should have reliable code in this project
-    * reliable code has tests
-    * reliable code works
+* We should have reliable codes in this project
+    * reliable code with tests
+    * reliable code that works
     * reliable code runs without consuming excessive resources
 * We should help each other to achieve SOTA results together
-* We should write clear code
+* We should write clear codes
     * Code should not be redundant
     * Code should have documentation inline (standard pep format)
     * Code should be organized into classes and functions
