@@ -12,7 +12,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common import logger
-
+from finrl.env.accounting.ledger import Ledger
 
 class StockTradingEnvCashpenalty(gym.Env):
     """
@@ -52,6 +52,9 @@ class StockTradingEnvCashpenalty(gym.Env):
         df,
         buy_cost_pct=3e-3,
         sell_cost_pct=3e-3,
+        long_term_tax_rate = 0.15,
+        short_term_tax_rate = 0.35,
+        tax_horizon_days = 365,
         date_col_name="date",
         hmax=10,
         discrete_actions=False,
@@ -81,6 +84,9 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.print_verbosity = print_verbosity
         self.buy_cost_pct = buy_cost_pct
         self.sell_cost_pct = sell_cost_pct
+        self.long_term_tax_rate = long_term_tax_rate
+        self.short_term_tax_rate = short_term_tax_rate
+        self.tax_horizon_days = tax_horizon_days
         self.turbulence_threshold = turbulence_threshold
         self.daily_information_cols = daily_information_cols
         self.state_space = (
@@ -129,6 +135,7 @@ class StockTradingEnvCashpenalty(gym.Env):
 
     def reset(self):
         self.seed()
+        self.ledger = Ledger(assets = self.assets, tax_threshold_days = self.tax_horizon_days)
         self.sum_trades = 0
         if self.random_start:
             starting_point = random.choice(range(int(len(self.dates) * 0.5)))
@@ -292,7 +299,6 @@ class StockTradingEnvCashpenalty(gym.Env):
             if self.turbulence >= self.turbulence_threshold:
                 actions = -(np.array(self.holdings))
                 self.log_step(reason="TURBULENCE")
-
         return actions
 
     def step(self, actions):
@@ -339,7 +345,19 @@ class StockTradingEnvCashpenalty(gym.Env):
             spend = np.dot(buys, self.closings)
             costs += spend * self.buy_cost_pct
             # if we run out of cash...
-            if (spend + costs) > coh:
+            
+            #last, let's deal with taxes. 
+            dt = self.dates[self.date_index]
+            tax_implications = self.ledger.log_date(dt, transactions, self.closings)
+            # TODO: carry forward losses
+            short_profits, long_profits = 0,0
+            for a, d in tax_implications.items():
+                short_profits+=d['short_profit']
+                long_profits+=d['long_profit']
+            short_tax, long_tax = max(0, short_profits*self.short_term_tax_rate), max(0, long_profits*self.long_term_tax_rate)
+            #TODO: record taxes
+            taxes = short_tax + long_tax
+            if (spend + costs + taxes) > coh:
                 if self.patient:
                     # ... just don't buy anything until we got additional cash
                     self.log_step(reason="CASH SHORTAGE")
@@ -354,11 +372,13 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.transaction_memory.append(
                 transactions
             )  # capture what the model's could do
+            
             # verify we didn't do anything impossible here
-            assert (spend + costs) <= coh
+            assert (spend + costs + taxes) <= coh
             # update our holdings
-            coh = coh - spend - costs
+            coh = coh - spend - costs - taxes
             holdings_updated = self.holdings + transactions
+            
             self.date_index += 1
             if self.turbulence_threshold is not None:
                 self.turbulence = self.get_date_vector(
