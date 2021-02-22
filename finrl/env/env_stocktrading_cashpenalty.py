@@ -238,8 +238,8 @@ class StockTradingEnvCashpenalty(gym.Env):
 
     def log_step(self, reason):
 
-        cash_pct = self.ledger.cash / self.ledger.asset_value
-        gl_pct = self.ledger.asset_value / self.initial_amount
+        cash_pct = self.ledger.cash / self.ledger.total_value
+        gl_pct = self.ledger.total_value / self.initial_amount
         rec = [
             self.episode,
             self.date_index - self.starting_point,
@@ -299,21 +299,14 @@ class StockTradingEnvCashpenalty(gym.Env):
 
         # discretize optionally
         if self.discrete_actions:
-            # print("HERE IN DISCRET ACTIONS!")
-            # convert into integer because we can't buy fraction of shares
-            # print(f"actions: {actions}")
-            # print(f"closings: {self.closings}")
             actions = actions // self.closings
-            # print(f"clipped actions: {actions}")
             actions = actions.astype(int)
-            # round down actions to the nearest multiplies of shares_increment
             actions = np.where(
                 actions >= 0,
                 (actions // self.shares_increment) * self.shares_increment,
                 ((actions + self.shares_increment) // self.shares_increment)
                 * self.shares_increment,
             )
-            # print(f"actions final: {actions}")
         else:
             actions = actions / self.closings
 
