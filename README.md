@@ -210,13 +210,13 @@ virtualenv -p python3 venv
 
 To activate a virtualenv:
 
-```
+```bash
 source venv/bin/activate
 ```
 
 To activate a virtualenv on windows:
 
-```
+```bash
 venv\Scripts\activate
 ```
 
@@ -234,7 +234,7 @@ pip install -r requirements.txt
 
 Stable-Baselines3 is a set of improved implementations of reinforcement learning algorithms in PyTorch. It is the next major version of Stable Baselines. If you have questions regarding Stable-baselines package, please refer to [Stable-baselines3 installation guide](https://stable-baselines3.readthedocs.io/en/master/guide/install.html). Install the Stable Baselines package using pip:
 
-```
+```bash
 pip install stable-baselines3[extra]
 ```
 
@@ -294,11 +294,11 @@ Thanks to all the people who contribute.
 
 ## Support various markets
 
-Would like to support more asset markets, so that the users can test their stategies.
+Would like to support more asset markets, so that the users can test their strategies.
 
 ## SOTA DRL algorithms
 
-Will continue to maintian a pool of DRL algorithms that can be treated as SOTA implementations.
+Will continue to maintain a pool of DRL algorithms that can be treated as SOTA implementations.
 
 ## Benchmarks for typical trading tasks
 
