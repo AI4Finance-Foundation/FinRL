@@ -1211,7 +1211,7 @@ CAC_40_TICKER = [
 ]
 
 # DAX 30 constituents at 2021/02
-config.DAX_30_TICKER = [
+DAX_30_TICKER = [
 	"DHER.DE", 
 	"RWE.DE", 
 	"FRE.DE",
