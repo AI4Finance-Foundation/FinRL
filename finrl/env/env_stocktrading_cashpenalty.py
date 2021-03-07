@@ -12,6 +12,17 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common import logger
+from finrl.env.accounting.ledger import Ledger
+
+"""
+flowchart
+
+compute transactions
+perform transactions
+update scalars
+compute reward 
+repeat
+"""
 
 
 class StockTradingEnvCashpenalty(gym.Env):
@@ -52,6 +63,9 @@ class StockTradingEnvCashpenalty(gym.Env):
         df,
         buy_cost_pct=3e-3,
         sell_cost_pct=3e-3,
+        long_term_tax_rate=0.15,
+        short_term_tax_rate=0.35,
+        tax_horizon_days=365,
         date_col_name="date",
         hmax=10,
         discrete_actions=False,
@@ -81,6 +95,9 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.print_verbosity = print_verbosity
         self.buy_cost_pct = buy_cost_pct
         self.sell_cost_pct = sell_cost_pct
+        self.long_term_tax_rate = long_term_tax_rate
+        self.short_term_tax_rate = short_term_tax_rate
+        self.tax_horizon_days = tax_horizon_days
         self.turbulence_threshold = turbulence_threshold
         self.daily_information_cols = daily_information_cols
         self.state_space = (
@@ -90,7 +107,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.observation_space = spaces.Box(
             low=-np.inf, high=np.inf, shape=(self.state_space,)
         )
-        self.turbulence = 0
         self.episode = -1  # initialize so we can call reset
         self.episode_history = []
         self.printed_header = False
@@ -114,14 +130,22 @@ class StockTradingEnvCashpenalty(gym.Env):
         return self.date_index - self.starting_point
 
     @property
+    def current_date(self):
+        return self.dates[self.date_index]
+
+    @property
     def cash_on_hand(self):
         # amount of cash held at current timestep
-        return self.state_memory[-1][0]
+        return self.ledger.cash
 
     @property
     def holdings(self):
         # Quantity of shares held at current timestep
-        return self.state_memory[-1][1 : len(self.assets) + 1]
+        return self.ledger.holdings
+
+    @property
+    def turbulence(self):
+        return self.get_date_vector(self.date_index, cols=["turbulence"])[0]
 
     @property
     def closings(self):
@@ -129,6 +153,9 @@ class StockTradingEnvCashpenalty(gym.Env):
 
     def reset(self):
         self.seed()
+        self.ledger = Ledger(
+            assets=self.assets, tax_threshold_days=self.tax_horizon_days
+        )
         self.sum_trades = 0
         if self.random_start:
             starting_point = random.choice(range(int(len(self.dates) * 0.5)))
@@ -136,22 +163,31 @@ class StockTradingEnvCashpenalty(gym.Env):
         else:
             self.starting_point = 0
         self.date_index = self.starting_point
-        self.turbulence = 0
         self.episode += 1
         self.actions_memory = []
         self.transaction_memory = []
         self.state_memory = []
-        self.account_information = {
-            "cash": [],
-            "asset_value": [],
-            "total_assets": [],
-            "reward": [],
-        }
+        self.reward_memory = []
+        _ = self.ledger.log_transactions(
+            self.current_date, [0 for _ in self.assets], self.closings
+        )
+        self.ledger.log_scalars(
+            self.current_date,
+            {
+                "cash": self.initial_amount,
+                "long_term_tax_paid": 0,
+                "short_term_tax_paid": 0,
+                "long_term_profits": 0,
+                "short_term_profits": 0,
+                "asset_value": self.initial_amount,
+            },
+        )
         init_state = np.array(
             [self.initial_amount]
             + [0] * len(self.assets)
             + self.get_date_vector(self.date_index)
         )
+
         self.state_memory.append(init_state)
         return init_state
 
@@ -170,18 +206,13 @@ class StockTradingEnvCashpenalty(gym.Env):
             assert len(v) == len(self.assets) * len(cols)
             return v
 
-    def return_terminal(self, reason="Last Date", reward=0):
-        state = self.state_memory[-1]
-        self.log_step(reason=reason, terminal_reward=reward)
-        # Add outputs to logger interface
-        gl_pct = self.account_information["total_assets"][-1] / self.initial_amount
+    def log_terminal(self):
+        gl_pct = (self.ledger.total_value) / self.initial_amount
         logger.record("environment/GainLoss_pct", (gl_pct - 1) * 100)
         logger.record(
             "environment/total_assets",
-            int(self.account_information["total_assets"][-1]),
+            int(self.ledger.total_value),
         )
-        reward_pct = self.account_information["total_assets"][-1] / self.initial_amount
-        logger.record("environment/total_reward_pct", (reward_pct - 1) * 100)
         logger.record("environment/total_trades", self.sum_trades)
         logger.record(
             "environment/avg_daily_trades",
@@ -192,32 +223,30 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.sum_trades / (self.current_step) / len(self.assets),
         )
         logger.record("environment/completed_steps", self.current_step)
-        logger.record(
-            "environment/sum_rewards", np.sum(self.account_information["reward"])
-        )
+        logger.record("environment/sum_rewards", np.sum(self.reward_memory))
         logger.record(
             "environment/cash_proportion",
-            self.account_information["cash"][-1]
-            / self.account_information["total_assets"][-1],
+            self.ledger.cash / self.ledger.total_value,
         )
+
+    def return_terminal(self, reason="Last Date"):
+        self.log_terminal()
+        state = self.state_memory[-1]
+        self.log_step(reason=reason)
+
         return state, reward, True, {}
 
-    def log_step(self, reason, terminal_reward=None):
+    def log_step(self, reason):
 
-        if terminal_reward is None:
-            terminal_reward = self.account_information["reward"][-1]
-        cash_pct = (
-            self.account_information["cash"][-1]
-            / self.account_information["total_assets"][-1]
-        )
-        gl_pct = self.account_information["total_assets"][-1] / self.initial_amount
+        cash_pct = self.ledger.cash / self.ledger.total_value
+        gl_pct = self.ledger.total_value / self.initial_amount
         rec = [
             self.episode,
             self.date_index - self.starting_point,
             reason,
-            f"{self.currency}{'{:0,.0f}'.format(float(self.account_information['cash'][-1]))}",
-            f"{self.currency}{'{:0,.0f}'.format(float(self.account_information['total_assets'][-1]))}",
-            f"{terminal_reward*100:0.5f}%",
+            f"{self.currency}{'{:0,.0f}'.format(float(self.ledger.cash))}",
+            f"{self.currency}{'{:0,.0f}'.format(float(self.ledger.total_value))}",
+            f"{self.get_reward()*100:0.5f}%",
             f"{(gl_pct - 1)*100:0.5f}%",
             f"{cash_pct*100:0.2f}%",
         ]
@@ -231,10 +260,10 @@ class StockTradingEnvCashpenalty(gym.Env):
                 self.template.format(
                     "EPISODE",
                     "STEPS",
-                    "TERMINAL_REASON",
+                    "REASON",
                     "CASH",
                     "TOT_ASSETS",
-                    "TERMINAL_REWARD_unsc",
+                    "LAST_REWARD",
                     "GAINLOSS_PCT",
                     "CASH_PROPORTION",
                 )
@@ -245,8 +274,8 @@ class StockTradingEnvCashpenalty(gym.Env):
         if self.current_step == 0:
             return 0
         else:
-            assets = self.account_information["total_assets"][-1]
-            cash = self.account_information["cash"][-1]
+            assets = self.ledger.total_value
+            cash = self.ledger.cash
             cash_penalty = max(0, (assets * self.cash_penalty_proportion - cash))
             assets -= cash_penalty
             reward = (assets / self.initial_amount) - 1
@@ -270,10 +299,8 @@ class StockTradingEnvCashpenalty(gym.Env):
 
         # discretize optionally
         if self.discrete_actions:
-            # convert into integer because we can't buy fraction of shares
             actions = actions // self.closings
             actions = actions.astype(int)
-            # round down actions to the nearest multiplies of shares_increment
             actions = np.where(
                 actions >= 0,
                 (actions // self.shares_increment) * self.shares_increment,
@@ -293,11 +320,12 @@ class StockTradingEnvCashpenalty(gym.Env):
                 actions = -(np.array(self.holdings))
                 self.log_step(reason="TURBULENCE")
 
+        self.sum_trades += np.sum(np.abs(actions))
         return actions
 
     def step(self, actions):
+        self.date_index += 1
         # let's just log what we're doing in terms of max actions at each step.
-        self.sum_trades += np.sum(np.abs(actions))
         self.log_header()
         # print if it's time.
         if (self.current_step + 1) % self.print_verbosity == 0:
@@ -308,66 +336,62 @@ class StockTradingEnvCashpenalty(gym.Env):
             return self.return_terminal(reward=self.get_reward())
         else:
             """
-            First, we need to compute values of holdings, save these, and log everything.
-            Then we can reward our model for its earnings.
-            """
-            # compute value of cash + assets
-            begin_cash = self.cash_on_hand
-            assert min(self.holdings) >= 0
-            asset_value = np.dot(self.holdings, self.closings)
-            # log the values of cash, assets, and total assets
-            self.account_information["cash"].append(begin_cash)
-            self.account_information["asset_value"].append(asset_value)
-            self.account_information["total_assets"].append(begin_cash + asset_value)
-
-            # compute reward once we've computed the value of things!
-            reward = self.get_reward()
-            self.account_information["reward"].append(reward)
-
-            """
-            Now, let's get down to business at hand. 
+            Now, let's get down to business at hand.
             """
             transactions = self.get_transactions(actions)
+            # last, let's deal with taxes.
+            begin_cash = self.ledger.cash
+            tax_implications = self.ledger.log_transactions(
+                self.current_date, transactions, self.closings
+            )
+            # TODO: carry forward losses
+            short_profits, long_profits = 0, 0
+            for a, d in tax_implications["assets"].items():
+                short_profits += d["short_profit"]
+                long_profits += d["long_profit"]
+            short_tax, long_tax = max(0, short_profits * self.short_term_tax_rate), max(
+                0, long_profits * self.long_term_tax_rate
+            )
+            # TODO: record taxes
+            taxes = short_tax + long_tax
 
             # compute our proceeds from sells, and add to cash
-            sells = -np.clip(transactions, -np.inf, 0)
-            proceeds = np.dot(sells, self.closings)
-            costs = proceeds * self.sell_cost_pct
-            coh = begin_cash + proceeds
-            # compute the cost of our buys
-            buys = np.clip(transactions, 0, np.inf)
-            spend = np.dot(buys, self.closings)
+            spend = tax_implications["spend"]
+            proceeds = tax_implications["proceeds"]
+            costs = 0
+            costs += proceeds * self.sell_cost_pct
             costs += spend * self.buy_cost_pct
+
             # if we run out of cash...
-            if (spend + costs) > coh:
-                if self.patient:
-                    # ... just don't buy anything until we got additional cash
-                    self.log_step(reason="CASH SHORTAGE")
-                    transactions = np.where(transactions > 0, 0, transactions)
-                    spend = 0
-                    costs = 0
-                else:
-                    # ... end the cycle and penalize
-                    return self.return_terminal(
-                        reason="CASH SHORTAGE", reward=self.get_reward()
-                    )
+            if (begin_cash + proceeds - spend - costs - taxes) < 0:
+                # ... end the cycle and penalize
+                return self.return_terminal(
+                    reason="CASH SHORTAGE", reward=self.get_reward()
+                )
             self.transaction_memory.append(
                 transactions
             )  # capture what the model's could do
-            # verify we didn't do anything impossible here
-            assert (spend + costs) <= coh
             # update our holdings
-            coh = coh - spend - costs
-            holdings_updated = self.holdings + transactions
-            self.date_index += 1
-            if self.turbulence_threshold is not None:
-                self.turbulence = self.get_date_vector(
-                    self.date_index, cols=["turbulence"]
-                )[0]
-            # Update State
-            state = (
-                [coh] + list(holdings_updated) + self.get_date_vector(self.date_index)
+            coh = begin_cash + proceeds - spend - costs - taxes
+            asset_value = np.dot(self.holdings, self.closings)
+
+            # let's log scalars on our ledger
+            self.ledger.log_scalars(
+                self.current_date,
+                {
+                    "cash": coh,
+                    "long_term_tax_paid": long_tax,
+                    "short_term_tax_paid": short_tax,
+                    "transaction_costs": costs,
+                    "long_term_profits": long_profits,
+                    "short_term_profits": short_profits,
+                    "asset_value": asset_value,
+                },
             )
+            # compute reward once we've computed the value of things!
+            reward = self.get_reward()
+            self.reward_memory.append(reward)
+            state = [coh] + list(self.holdings) + self.get_date_vector(self.date_index)
             self.state_memory.append(state)
             return state, reward, False, {}
 
