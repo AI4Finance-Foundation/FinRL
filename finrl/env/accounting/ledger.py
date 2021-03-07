@@ -94,7 +94,7 @@ class Ledger:
             if sells > 0:  # consider order here
                 lots = self.compute_tax_lots(a, sells, date)
                 # compute profit/loss of this tax lot
-                lots["short_profit"] = (prices[i] - lots["short_avg_price"]) * lots[
+                lots["short_profit"] = (prices[i] - lots["short_avg_price"]) * lots[     # Should this be short_avg - prices????
                     "short_term_shares"
                 ]
                 lots["long_profit"] = (prices[i] - lots["long_avg_price"]) * lots[
@@ -182,6 +182,10 @@ class Ledger:
         return self.s[self.current_date]["asset_value"]
 
     @property
+    def total_assets(self):
+        return self.s[self.current_date]["total_assets"]
+
+    @property
     def total_value(self):
         return self.asset_value + self.cash
 
@@ -197,7 +201,6 @@ class Ledger:
         dates = sorted(a_data)
         i = 0
         while remaining_shares > 0:
-
             date = dates[i]
             long_term = (
                 self.date_from_str(sell_date)
@@ -206,6 +209,12 @@ class Ledger:
 
             d = a_data[date]
             avail_shares = d["buys"] - d["tax_used"]
+
+            # account for float imprecision
+            if avail_shares < 1e-9:
+                avail_shares = 0
+                break
+
             if avail_shares > 0:
                 # let's consume these
                 if avail_shares < remaining_shares:
