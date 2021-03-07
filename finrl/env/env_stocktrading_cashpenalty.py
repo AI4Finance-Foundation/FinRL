@@ -4,12 +4,10 @@ import random
 from copy import deepcopy
 import gym
 import time
-from gym.utils import seeding
 from gym import spaces
 import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 from stable_baselines3.common import logger
 from finrl.env.accounting.ledger import Ledger
@@ -180,6 +178,7 @@ class StockTradingEnvCashpenalty(gym.Env):
                 "long_term_profits": 0,
                 "short_term_profits": 0,
                 "asset_value": self.initial_amount,
+                "total_assets": self.initial_amount,
             },
         )
         init_state = np.array(
@@ -229,7 +228,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.ledger.cash / self.ledger.total_value,
         )
 
-    def return_terminal(self, reason="Last Date"):
+    def return_terminal(self, reason="Last Date", reward=0):
         self.log_terminal()
         state = self.state_memory[-1]
         self.log_step(reason=reason)
@@ -324,7 +323,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         return actions
 
     def step(self, actions):
-        self.date_index += 1
         # let's just log what we're doing in terms of max actions at each step.
         self.log_header()
         # print if it's time.
@@ -386,8 +384,11 @@ class StockTradingEnvCashpenalty(gym.Env):
                     "long_term_profits": long_profits,
                     "short_term_profits": short_profits,
                     "asset_value": asset_value,
+                    "total_assets": coh + asset_value,
                 },
             )
+            # moved date_index += 1 back to this position to maintain correct loop behavior
+            self.date_index += 1
             # compute reward once we've computed the value of things!
             reward = self.get_reward()
             self.reward_memory.append(reward)
@@ -415,10 +416,15 @@ class StockTradingEnvCashpenalty(gym.Env):
         if self.current_step == 0:
             return None
         else:
-            self.account_information["date"] = self.dates[
-                -len(self.account_information["cash"]) :
-            ]
-            return pd.DataFrame(self.account_information)
+            columns = ["cash", "asset_value", "total_assets", "long_term_tax_paid", "short_term_tax_paid", "date"]
+
+            self.account_value = pd.DataFrame(index=range(0, self.date_index-1), columns=columns)
+
+            for i, key in enumerate(self.ledger.s.keys()):
+                for k in columns[:-1]:
+                    self.account_value[k][i] = self.ledger.s[key][k]
+
+            return self.account_value
 
     def save_action_memory(self):
         if self.current_step == 0:
@@ -426,7 +432,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         else:
             return pd.DataFrame(
                 {
-                    "date": self.dates[-len(self.account_information["cash"]) :],
+                    "date": self.dates[-self.date_index :],
                     "actions": self.actions_memory,
                     "transactions": self.transaction_memory,
                 }
