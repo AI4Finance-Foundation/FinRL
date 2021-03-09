@@ -16,14 +16,14 @@ except:
 
 setup(
     name="finrl",
-    version="0.0.3",
+    version="0.3.0",
     include_package_data=True,
     author="Hongyang Yang, Xiaoyang Liu",
     author_email="hy2500@columbia.edu",
     url="https://github.com/finrl/finrl-library",
     license="MIT",
     packages=find_packages(),
-    # install_requires=REQUIRES,
+    #install_requires=REQUIRES,
     install_requires=REQUIRES
     + ["pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2"],
     # dependency_links=['git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2'],
