@@ -1370,6 +1370,42 @@ SDAX_50_TICKER = [
 	 'ZO1.DE'
 ]
 
+
+# Spanish IBEX 35 constituents at 2021/03
+# Source: https://finance.yahoo.com/quote/%5EIBEX/components
+IBEX_35_TICKER = [
+    "NTGY.MC",
+    "MAP.MC",
+    "ACX.MC",
+    "AMS.MC",
+    "REP.MC",
+    "AENA.MC",
+    "IAG.MC",
+    "COL.MC",
+    "VIS.MC",
+    "MTS.MC",
+    "TEF.MC",
+    "BKT.MC",
+    "MRL.MC",
+    "REE.MC",
+    "ITX.MC",
+    "GRF.MC",
+    "ACS.MC",
+    "MEL.MC",
+    "SAB.MC",
+    "ENG.MC",
+    "PHM.MC",
+    "IBE.MC",
+    "CABK.MC",
+    "FER.MC",
+    "ELE.MC",
+    "BBVA.MC",
+    "SAN.MC",
+    "ANA.MC",
+    "CLNX.MC",
+    "SGRE.MC"
+]
+
 ############## Stock Ticker Setup ends ##############
 
 ###Jan 20,2020, added by YuQing Huang###################
