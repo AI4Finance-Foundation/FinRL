@@ -9,7 +9,8 @@ class TestDownloader(unittest.TestCase):
 
     def test_download(self):
         df = YahooDownloader(
-            start_date="2019-01-01", end_date="2019-02-01", ticker_list=self.ticker_list
-        ).fetch_data()
+            start_date="2019-01-01",
+            end_date="2019-02-01",
+            ticker_list=self.ticker_list).fetch_data()
 
         self.assertIsInstance(df, pd.DataFrame)
