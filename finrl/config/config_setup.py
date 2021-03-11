@@ -10,15 +10,16 @@ from .configuration import Configuration
 logger = logging.getLogger(__name__)
 
 
-def setup_utils_configuration(args: Dict[str, Any], method: RunMode) -> Dict[str, Any]:
+def setup_utils_configuration(
+        args: Dict[str, Any], method: RunMode) -> Dict[str, Any]:
     """
     Prepare the configuration for utils subcommands
-    
+
     Parameters:
     -----------
-    args: 
+    args:
         Cli args from Arguments()
-        
+
     Return:
     -------
         Configuration
