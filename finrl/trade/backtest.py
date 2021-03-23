@@ -56,9 +56,10 @@ def backtest_plot(
     )
 
     baseline_returns = get_daily_return(baseline_df, value_col_name="close")
+    shared_index = test_returns.index & baseline_returns.index
     with pyfolio.plotting.plotting_context(font_scale=1.1):
         pyfolio.create_full_tear_sheet(
-            returns=test_returns, benchmark_rets=baseline_returns, set_context=False
+            returns=test_returns.loc[shared_index], benchmark_rets=baseline_returns.loc[shared_index], set_context=False
         )
 
 
