@@ -16,7 +16,7 @@
 
 FinRL is an open source library that provides practitioners a unified framework for pipeline strategy development. **In reinforcement learning (or Deep RL), an agent learns by continuously interacting with an environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides educational resources about deep reinforcement learning (DRL) in quantitative finance. 
 
-**To contribute?**  Please check the call for contributions at the end of this page.
+**To contribute?**  Please check the end of this page.
 
 Feel free to report bugs using Github issues, join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance), and discuss FinRL in the slack channel:
 
