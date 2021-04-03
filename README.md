@@ -18,7 +18,7 @@ FinRL is an open source library that provides practitioners a unified framework 
 
 **To contribute?**  Please check the end of this page.
 
-Feel free to report bugs using Github issues, join our mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance), and discuss FinRL in the slack channel:
+Feel free to report bugs via Github issues, join the mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance), and discuss FinRL in slack channel:
 
 <br/>
 
