@@ -270,7 +270,7 @@ Thanks to all the people who contribute.
 </a>
 
 ## Support various markets
-   Would like to support more asset markets, so that the users can test their stategies.
+   Support more markets, so that the users can test their stategies.
 ## SOTA DRL algorithms 
    Will continue to maintian a pool of DRL algorithms that can be treated as SOTA implementations.
 ## Benchmarks for typical trading tasks
