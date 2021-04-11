@@ -272,7 +272,7 @@ Thanks to all the people who contribute.
 ## Support various markets
    Support more markets, so that the users can test their stategies.
 ## SOTA DRL algorithms 
-   Will continue to maintian a pool of DRL algorithms that can be treated as SOTA implementations.
+   Maintain a pool of DRL algorithms that can be treated as SOTA implementations.
 ## Benchmarks for typical trading tasks
    To help quants have better evaluations, will maintain benchmarks for many trading tasks, upon which you can improve for your own tasks.
 ## Support live trading
