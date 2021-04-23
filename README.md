@@ -1,8 +1,8 @@
 # FinRL: A Deep Reinforcement Learning Library for Quantitative Finance [![twitter][1.1]][1] [![facebook][1.2]][2] [![google+][1.3]][3] [![linkedin][1.4]][4]
-[1.1]: http://www.tensorlet.com/wp-content/uploads/2021/01/button_twitter_22x22.png
-[1.2]: http://www.tensorlet.com/wp-content/uploads/2021/01/facebook-button_22x22.png
-[1.3]: http://www.tensorlet.com/wp-content/uploads/2021/01/button_google_22.xx_.png
-[1.4]: http://www.tensorlet.com/wp-content/uploads/2021/01/button_linkedin_22x22.png
+[1.1]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_twitter_22x22.png
+[1.2]: http://www.tensorlet.org/wp-content/uploads/2021/01/facebook-button_22x22.png
+[1.3]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_google_22.xx_.png
+[1.4]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_linkedin_22x22.png
 
 [1]: https://twitter.com/intent/tweet?text=FinRL-A-Deep-Reinforcement-Learning-Library-for-Quantitative-Finance%20&url=hhttps://github.com/AI4Finance-LLC/FinRL-Library&hashtags=DRL&hashtags=AI
 [2]: https://www.facebook.com/sharer.php?u=http%3A%2F%2Fgithub.com%2FAI4Finance-LLC%2FFinRL-Library
