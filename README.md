@@ -254,6 +254,8 @@ The stock data we use is pulled from Yahoo Finance API.
 
 Will maintain FinRL with the "AI4Finance" community and welcome your contributions!
 
+Please check the [contributing guidances](https://github.com/AI4Finance-LLC/FinRL/blob/master/contributing.md).
+
 ### Contributors
 
 Thanks to all the people who contribute. 
