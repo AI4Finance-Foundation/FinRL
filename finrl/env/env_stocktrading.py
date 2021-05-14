@@ -132,7 +132,7 @@ class StockTradingEnv(gym.Env):
         def _do_buy():
             if self.state[index+1]>0: 
                 #Buy only if the price is > 0 (no missing data in this particular date)       
-                available_amount = self.state[0] // self.state[index+1]
+                available_amount = self.state[0] // ((self.state[index+1])*(1+ self.buy_cost_pct))
                 # print('available_amount:{}'.format(available_amount))
                 
                 #update balance
