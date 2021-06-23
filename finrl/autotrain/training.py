@@ -15,6 +15,8 @@ from finrl.env.env_stocktrading import StockTradingEnv
 from finrl.model.models import DRLAgent
 from finrl.trade.backtest import backtest_stats, backtest_plot, get_daily_return, get_baseline
 
+import itertools
+
 
 
 def train_one():
@@ -37,9 +39,19 @@ def train_one():
 
     processed = fe.preprocess_data(df)
 
+    list_ticker = processed["tic"].unique().tolist()
+    list_date = list(pd.date_range(processed['date'].min(),processed['date'].max()).astype(str))
+    combination = list(itertools.product(list_date,list_ticker))
+
+    processed_full = pd.DataFrame(combination,columns=["date","tic"]).merge(processed,on=["date","tic"],how="left")
+    processed_full = processed_full[processed_full['date'].isin(processed['date'])]
+    processed_full = processed_full.sort_values(['date','tic'])
+
+    processed_full = processed_full.fillna(0)
+
     # Training & Trading data split
-    train = data_split(processed, config.START_DATE, config.START_TRADE_DATE)
-    trade = data_split(processed, config.START_TRADE_DATE, config.END_DATE)
+    train = data_split(processed_full, config.START_DATE, config.START_TRADE_DATE)
+    trade = data_split(processed_full, config.START_TRADE_DATE, config.END_DATE)
 
     # calculate state action space
     stock_dimension = len(train.tic.unique())
