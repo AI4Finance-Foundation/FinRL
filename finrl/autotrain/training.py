@@ -62,11 +62,6 @@ def train_one():
         }
 
     e_train_gym = StockTradingEnv(df=train, **env_kwargs)
-
-    e_trade_gym = StockTradingEnv(df=trade, turbulence_threshold=250, **env_kwargs)
-    env_train, _ = e_train_gym.get_sb_env()
-    env_trade, obs_trade = e_trade_gym.get_sb_env()
-
     agent = DRLAgent(env=env_train)
 
     print("==============Model Training===========")
@@ -78,8 +73,10 @@ def train_one():
     )
 
     print("==============Start Trading===========")
+    e_trade_gym = StockTradingEnv(df=trade, turbulence_threshold=250, **env_kwargs)
+
     df_account_value, df_actions = DRLAgent.DRL_prediction(
-        model=trained_sac, test_data=trade, test_env=env_trade, test_obs=obs_trade
+        model=trained_sac, environment = e_trade_gym
     )
     df_account_value.to_csv(
         "./" + config.RESULTS_DIR + "/df_account_value_" + now + ".csv"
