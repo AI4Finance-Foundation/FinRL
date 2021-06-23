@@ -62,6 +62,8 @@ def train_one():
         }
 
     e_train_gym = StockTradingEnv(df=train, **env_kwargs)
+    env_train, _ = e_train_gym.get_sb_env()
+
     agent = DRLAgent(env=env_train)
 
     print("==============Model Training===========")
