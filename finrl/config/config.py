@@ -31,7 +31,7 @@ RESULTS_DIR = f"results"
 
 
 ## time_fmt = '%Y-%m-%d'
-START_DATE = "2000-01-01"
+START_DATE = "2009-01-01"
 END_DATE = "2021-01-01"
 
 START_TRADE_DATE = "2019-01-01"
@@ -41,7 +41,8 @@ DEFAULT_DATA_COLUMNS = ["date", "tic", "close"]
 
 ## stockstats technical indicator column names
 ## check https://pypi.org/project/stockstats/ for different names
-TECHNICAL_INDICATORS_LIST = ["macd","boll_ub","boll_lb","rsi_30", "cci_30", "dx_30","close_30_sma","close_60_sma"]
+#TECHNICAL_INDICATORS_LIST = ["macd","boll_ub","boll_lb","rsi_30", "cci_30", "dx_30","close_30_sma","close_60_sma"]
+TECHNICAL_INDICATORS_LIST = ["macd","rsi_30", "cci_30", "dx_30"]
 
 
 ## Model Parameters
