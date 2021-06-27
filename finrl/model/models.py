@@ -413,34 +413,37 @@ class DRLEnsembleAgent:
             print("======Best Model Retraining from: ", self.train_period[0], "to ",
                   self.unique_trade_date[i - self.rebalance_window])
             # Environment setup for model retraining up to first trade date
-            train_full = data_split(self.df, start=self.train_period[0], end=self.unique_trade_date[i - self.rebalance_window])
-            self.train_full_env = DummyVecEnv([lambda: StockTradingEnv(train_full,
-                                                                self.stock_dim,
-                                                                self.hmax,
-                                                                self.initial_amount,
-                                                                self.buy_cost_pct,
-                                                                self.sell_cost_pct,
-                                                                self.reward_scaling,
-                                                                self.state_space,
-                                                                self.action_space,
-                                                                self.tech_indicator_list,
-                                                                print_verbosity=self.print_verbosity)])
+            #train_full = data_split(self.df, start=self.train_period[0], end=self.unique_trade_date[i - self.rebalance_window])
+            #self.train_full_env = DummyVecEnv([lambda: StockTradingEnv(train_full,
+            #                                                    self.stock_dim,
+            #                                                    self.hmax,
+            #                                                    self.initial_amount,
+            #                                                    self.buy_cost_pct,
+            #                                                    self.sell_cost_pct,
+            #                                                    self.reward_scaling,
+            #                                                    self.state_space,
+            #                                                    self.action_space,
+            #                                                    self.tech_indicator_list,
+            #                                                    print_verbosity=self.print_verbosity)])
             # Model Selection based on sharpe ratio
             if (sharpe_ppo >= sharpe_a2c) & (sharpe_ppo >= sharpe_ddpg):
                 model_use.append('PPO')
+                model_ensemble = model_ppo
 
-                model_ensemble = self.get_model("ppo",self.train_full_env,policy="MlpPolicy",model_kwargs=PPO_model_kwargs)
-                model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ppo']) #100_000
+                #model_ensemble = self.get_model("ppo",self.train_full_env,policy="MlpPolicy",model_kwargs=PPO_model_kwargs)
+                #model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ppo']) #100_000
             elif (sharpe_a2c > sharpe_ppo) & (sharpe_a2c > sharpe_ddpg):
                 model_use.append('A2C')
+                model_ensemble = model_a2c
 
-                model_ensemble = self.get_model("a2c",self.train_full_env,policy="MlpPolicy",model_kwargs=A2C_model_kwargs)
-                model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['a2c']) #100_000
+                #model_ensemble = self.get_model("a2c",self.train_full_env,policy="MlpPolicy",model_kwargs=A2C_model_kwargs)
+                #model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['a2c']) #100_000
             else:
                 model_use.append('DDPG')
+                model_ensemble = model_ddpg
 
-                model_ensemble = self.get_model("ddpg",self.train_full_env,policy="MlpPolicy",model_kwargs=DDPG_model_kwargs)
-                model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ddpg']) #50_000
+                #model_ensemble = self.get_model("ddpg",self.train_full_env,policy="MlpPolicy",model_kwargs=DDPG_model_kwargs)
+                #model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ddpg']) #50_000
 
             ############## Training and Validation ends ##############
 
