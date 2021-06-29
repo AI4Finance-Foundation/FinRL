@@ -123,7 +123,7 @@ class FeatureEngineer:
         df = data.copy()
         df_price_pivot = df.pivot(index="date", columns="tic", values="close")
         # use returns to calculate turbulence
-        df_price_pivot = df_price_pivot.pct_change()
+        #df_price_pivot = df_price_pivot.pct_change()
 
         unique_date = df.date.unique()
         # start after a year
