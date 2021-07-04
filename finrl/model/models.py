@@ -296,7 +296,7 @@ class DRLEnsembleAgent:
 
             historical_turbulence_mean = np.mean(historical_turbulence.turbulence.values)
 
-            print(historical_turbulence_mean)
+            #print(historical_turbulence_mean)
 
             if historical_turbulence_mean > insample_turbulence_threshold:
                 # if the mean of the historical data is greater than the 90% quantile of insample turbulence data
