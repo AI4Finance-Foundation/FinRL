@@ -308,6 +308,8 @@ class DRLEnsembleAgent:
                 # if the mean of the historical data is less than the 90% quantile of insample turbulence data
                 # then we tune up the turbulence_threshold, meaning we lower the risk
                 turbulence_threshold = np.quantile(insample_turbulence.turbulence.values, 1)
+                
+            turbulence_threshold = np.quantile(insample_turbulence.turbulence.values, 0.99) 
             print("turbulence_threshold: ", turbulence_threshold)
 
             ############## Environment Setup starts ##############
