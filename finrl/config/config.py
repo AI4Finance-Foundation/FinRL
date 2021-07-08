@@ -1449,4 +1449,10 @@ FX_TICKER = ["AUDCAD=X",
             "ZARJPY=X",
             "EURDKK=X"
 ]
+
+###July 07,80, added by bella###################
+################FX Ticker Setup Start###################
+LQ45_TICKER = ["ADHI.JK",
+            "ADRO.JK"
+]
 ################FX Ticker Setup End###################
