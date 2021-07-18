@@ -124,7 +124,7 @@ class FeatureEngineer:
                                 end_date = df.date.max(),
                                 ticker_list = ["^VIX"]).fetch_data()
         vix = df_vix[['date','close']]
-        vix.columns = ['date','VIX']
+        vix.columns = ['date','vix']
 
         df = df.merge(vix, on="date")
         df = df.sort_values(["date", "tic"]).reset_index(drop=True)
