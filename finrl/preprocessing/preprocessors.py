@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
 from finrl.config import config
+from finrl.marketdata.yahoodownloader import YahooDownloader
 
 
 class FeatureEngineer:
@@ -29,11 +30,13 @@ class FeatureEngineer:
         self,
         use_technical_indicator=True,
         tech_indicator_list=config.TECHNICAL_INDICATORS_LIST,
+        use_vix = False,
         use_turbulence=False,
         user_defined_feature=False,
     ):
         self.use_technical_indicator = use_technical_indicator
         self.tech_indicator_list = tech_indicator_list
+        self.use_vix = use_vix
         self.use_turbulence = use_turbulence
         self.user_defined_feature = user_defined_feature
 
@@ -47,7 +50,12 @@ class FeatureEngineer:
             # add technical indicators using stockstats
             df = self.add_technical_indicator(df)
             print("Successfully added technical indicators")
-
+            
+        # add vix for multiple stock
+        if self.use_vix == True:
+            df = self.add_vix(df)
+            print("Successfully added vix")
+            
         # add turbulence index for multiple stock
         if self.use_turbulence == True:
             df = self.add_turbulence(df)
@@ -103,6 +111,23 @@ class FeatureEngineer:
         # df['return_lag_2']=df.close.pct_change(3)
         # df['return_lag_3']=df.close.pct_change(4)
         # df['return_lag_4']=df.close.pct_change(5)
+        return df
+    
+    def add_vix(self, data):
+        """
+        add vix from yahoo finance
+        :param data: (df) pandas dataframe
+        :return: (df) pandas dataframe
+        """
+        df = data.copy()
+        df_vix = YahooDownloader(start_date = df.date.min(),
+                                end_date = df.date.max(),
+                                ticker_list = ["^VIX"]).fetch_data()
+        vix = df_vix[['date','close']]
+        vix.columns = ['date','VIX']
+
+        df = df.merge(vix, on="date")
+        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
         return df
 
     def add_turbulence(self, data):
