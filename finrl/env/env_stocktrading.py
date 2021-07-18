@@ -27,7 +27,7 @@ class StockTradingEnv(gym.Env):
                 action_space,
                 tech_indicator_list,
                 turbulence_threshold=None,
-                risk_indicator_col='turbulence'
+                risk_indicator_col='turbulence',
                 make_plots = False, 
                 print_verbosity = 10,
                 day = 0, 
