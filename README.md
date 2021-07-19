@@ -1,4 +1,4 @@
-# FinRL: A Deep Reinforcement Learning Library for Quantitative Finance [![twitter][1.1]][1] [![facebook][1.2]][2] [![google+][1.3]][3] [![linkedin][1.4]][4]
+# FinRL: A Deep Reinforcement Learning Framework for Quantitative Finance [![twitter][1.1]][1] [![facebook][1.2]][2] [![google+][1.3]][3] [![linkedin][1.4]][4]
 [1.1]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_twitter_22x22.png
 [1.2]: http://www.tensorlet.org/wp-content/uploads/2021/01/facebook-button_22x22.png
 [1.3]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_google_22.xx_.png
@@ -14,7 +14,7 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
-FinRL is an open source library that provides practitioners a unified framework for pipeline strategy development. **In reinforcement learning (or Deep RL), an agent learns by continuously interacting with an environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides educational resources about deep reinforcement learning (DRL) in quantitative finance. 
+FinRL is an open source framework to help practitioners pipeline the development of trading strategies. **In deep reinforcement learning (DRL), an agent learns by continuously interacting with an environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides resources about deep reinforcement learning (DRL) in quantitative finance, and aim to accelerate the paradigm shift from conventional machine learning approach to **RLOps in finance**.
 
 **To contribute?**  Please check the end of this page.
 
