@@ -137,5 +137,5 @@ traitlets==4.3.3
 typed-ast==1.4.1
 typepy==1.1.2
 Werkzeug==1.0.1
-yfinance==0.1.55
+yfinance==0.1.63
 zipp==3.4.0
