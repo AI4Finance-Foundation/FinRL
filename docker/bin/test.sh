@@ -3,4 +3,4 @@
 
 docker run \
     --rm \
-    -v ${PWD}:/home finrl python3 -m unittest discover
+    -v "${PWD}":/home finrl python3 -m unittest discover
