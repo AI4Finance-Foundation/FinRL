@@ -90,7 +90,7 @@ A YouTube video about FinRL library.  [YouTube] [AI4Finance Channel](https://www
 
 # DRL Algorithms 
 
-We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, MuZero, etc. using PyTorch and OpenAI Gym. 
+We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, etc. using PyTorch and OpenAI Gym. 
 
 # Status
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
