@@ -18,7 +18,7 @@ import itertools
 
 
 
-def train_one():
+def train_stock_trading():
     """
     train an agent
     """
@@ -100,3 +100,9 @@ def train_one():
     perf_stats_all = backtest_stats(df_account_value)
     perf_stats_all = pd.DataFrame(perf_stats_all)
     perf_stats_all.to_csv("./" + config.RESULTS_DIR + "/perf_stats_all_" + now + ".csv")
+
+
+#def train_portfolio_allocation():
+
+
+
