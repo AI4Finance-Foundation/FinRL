@@ -45,9 +45,11 @@ class FeatureEngineer:
         @:param config: source dataframe
         @:return: a DataMatrices object
         """
-
+        #clean data
+        df = self.clean_data(df)
+        
+        # add technical indicators using stockstats
         if self.use_technical_indicator == True:
-            # add technical indicators using stockstats
             df = self.add_technical_indicator(df)
             print("Successfully added technical indicators")
             
@@ -68,6 +70,22 @@ class FeatureEngineer:
 
         # fill the missing values at the beginning and the end
         df = df.fillna(method="bfill").fillna(method="ffill")
+        return df
+    
+    def clean_data(self, data):
+        """
+        clean the raw data
+        drop stocks with missing values
+        :param data: (df) pandas dataframe
+        :return: (df) pandas dataframe
+        """
+        df = data.copy()
+        df=df.sort_values(['date','tic'],ignore_index=True)
+        df.index = df.date.factorize()[0]
+        merged_closes = df.pivot_table(index = 'date',columns = 'tic', values = 'close')
+        merged_closes = merged_closes.dropna(axis=1)
+        tics = merged_closes.columns
+        df = df[df.tic.isin(tics)]
         return df
 
     def add_technical_indicator(self, data):
