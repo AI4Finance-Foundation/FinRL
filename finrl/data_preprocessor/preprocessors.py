@@ -4,6 +4,8 @@ from stockstats import StockDataFrame as Sdf
 from finrl.config import config
 from finrl.marketdata.yahoodownloader import YahooDownloader
 
+import itertools
+
 
 class FeatureEngineer:
     """Provides methods for preprocessing the stock price data
@@ -75,18 +77,29 @@ class FeatureEngineer:
     def clean_data(self, data):
         """
         clean the raw data
-        drop stocks with missing values
+        deal with missing values
+        reasons: stocks could be delisted, not incorporated at the time step 
         :param data: (df) pandas dataframe
         :return: (df) pandas dataframe
         """
+        #df = data.copy()
+        #df=df.sort_values(['date','tic'],ignore_index=True)
+        #df.index = df.date.factorize()[0]
+        #merged_closes = df.pivot_table(index = 'date',columns = 'tic', values = 'close')
+        #merged_closes = merged_closes.dropna(axis=1)
+        #tics = merged_closes.columns
+        #df = df[df.tic.isin(tics)]
         df = data.copy()
-        df=df.sort_values(['date','tic'],ignore_index=True)
-        df.index = df.date.factorize()[0]
-        merged_closes = df.pivot_table(index = 'date',columns = 'tic', values = 'close')
-        merged_closes = merged_closes.dropna(axis=1)
-        tics = merged_closes.columns
-        df = df[df.tic.isin(tics)]
-        return df
+        list_ticker = df["tic"].unique().tolist()
+        #only apply to daily level data, need to fix for minute level
+        list_date = list(pd.date_range(df['date'].min(),df['date'].max()).astype(str))
+        combination = list(itertools.product(list_date,list_ticker))
+
+        df_full = pd.DataFrame(combination,columns=["date","tic"]).merge(df,on=["date","tic"],how="left")
+        df_full = df_full[df_full['date'].isin(df['date'])]
+        df_full = df_full.sort_values(['date','tic'])
+        df_full = df_full.fillna(0)
+        return df_full
 
     def add_technical_indicator(self, data):
         """
