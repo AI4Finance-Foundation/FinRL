@@ -7,13 +7,12 @@ from sklearn import preprocessing
 matplotlib.use("Agg")
 import datetime
 
-from finrl.config import config
-from finrl.marketdata.yahoodownloader import YahooDownloader
-from finrl.preprocessing.preprocessors import FeatureEngineer
-from finrl.preprocessing.data import data_split
-from finrl.env.env_stocktrading import StockTradingEnv
-from finrl.model.models import DRLAgent
-from finrl.trade.backtest import backtest_stats, backtest_plot, get_daily_return, get_baseline
+from finrl.data_preprocessor.config import config
+from finrl.data_preprocessor.yahoodownloader import YahooDownloader
+from finrl.data_preprocessor.preprocessors import FeatureEngineer, data_split
+from finrl.neo_finrl.env_stocktrading import StockTradingEnv
+from finrl.agents.stablebaselines3.models import DRLAgent
+from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
 
 import itertools
 
