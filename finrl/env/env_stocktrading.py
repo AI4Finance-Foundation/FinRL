@@ -114,7 +114,7 @@ class StockTradingEnv(gym.Env):
                         #update balance
                         self.state[0] += sell_amount
                         self.state[index+self.stock_dim+1] =0
-                        self.cost += self.state[index+1]*self.state[index+self.stock_dim+1]* \
+                        self.cost += self.state[index+1]*sell_num_shares* \
                                     self.sell_cost_pct
                         self.trades+=1
                     else:
