@@ -36,7 +36,7 @@ Roadmaps of FinRL:
 
 **FinRL 2.0**: intermediate-level framework for full-stack developers and professionals. Check out [ElegantRL](https://github.com/AI4Finance-LLC/ElegantRL)  
 
-FinRL provides a unified machine learning framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
+FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
 ## Table of Contents
 
@@ -264,13 +264,13 @@ Thanks to all the people who contribute.
 </a>
 
 ## Support various markets
-   Support more markets, so that the users can test their stategies.
+   Support more markets for users to test their stategies.
 ## SOTA DRL algorithms 
-   Maintain a pool of DRL algorithms that can be treated as SOTA implementations.
+   Maintain a pool of SOTA DRL algorithms.
 ## Benchmarks for typical trading tasks
-   To help quants have better evaluations, will maintain benchmarks for many trading tasks, upon which you can improve for your own tasks.
+   To help quants have better evaluations, we will maintain benchmarks for many trading tasks, upon which you can improve for your own tasks.
 ## Support live trading
-   Supporting live trading can close the simulation-reality gap, it will enable quants to switch to the real market when they are confident with their strategies.
+   Supporting live trading can close the simulation-reality gap, which allows quants to switch to the real market when they are confident with the results.
    
 # LICENSE
 
