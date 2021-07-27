@@ -9,6 +9,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from stable_baselines3.common.vec_env import DummyVecEnv
 
+from finrl.utils.maths import softmax
 
 class StockPortfolioEnv(gym.Env):
     """A single stock trading environment for OpenAI gym
@@ -161,7 +162,7 @@ class StockPortfolioEnv(gym.Env):
             #  norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
             # else:
             #  norm_actions = actions
-            weights = self.softmax_normalization(actions)
+            weights = softmax(actions)
             # print("Normalized actions: ", weights)
             self.actions_memory.append(weights)
             last_day_memory = self.data
@@ -219,12 +220,6 @@ class StockPortfolioEnv(gym.Env):
 
     def render(self, mode="human"):
         return self.state
-
-    def softmax_normalization(self, actions):
-        numerator = np.exp(actions)
-        denominator = np.sum(np.exp(actions))
-        softmax_output = numerator / denominator
-        return softmax_output
 
     def save_asset_memory(self):
         date_list = self.date_memory

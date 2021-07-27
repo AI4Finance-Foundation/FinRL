@@ -15,6 +15,7 @@ stable-baselines3[extra]
 
 # testing requirements
 pytest
+parameterized==0.8.1
 
 # packaging
 setuptools>=41.4.0
