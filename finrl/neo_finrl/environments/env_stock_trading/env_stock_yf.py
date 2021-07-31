@@ -1,3 +1,5 @@
+'''From FinRL https://github.com/AI4Finance-LLC/FinRL/tree/master/finrl/env'''
+
 import numpy as np
 import pandas as pd
 from gym.utils import seeding
@@ -8,7 +10,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pickle
 from stable_baselines3.common.vec_env import DummyVecEnv
-#from stable_baselines3.common import logger
+from stable_baselines3.common import logger
 
 
 class StockTradingEnv(gym.Env):
@@ -27,7 +29,6 @@ class StockTradingEnv(gym.Env):
                 action_space,
                 tech_indicator_list,
                 turbulence_threshold=None,
-                risk_indicator_col='turbulence',
                 make_plots = False, 
                 print_verbosity = 10,
                 day = 0, 
@@ -54,7 +55,6 @@ class StockTradingEnv(gym.Env):
         self.make_plots = make_plots
         self.print_verbosity = print_verbosity
         self.turbulence_threshold = turbulence_threshold
-        self.risk_indicator_col = risk_indicator_col
         self.initial = initial
         self.previous_state = previous_state
         self.model_name=model_name
@@ -208,11 +208,11 @@ class StockTradingEnv(gym.Env):
                 plt.close()
 
             # Add outputs to logger interface
-            #logger.record("environment/portfolio_value", end_total_asset)
-            #logger.record("environment/total_reward", tot_reward)
-            #logger.record("environment/total_reward_pct", (tot_reward / (end_total_asset - tot_reward)) * 100)
-            #logger.record("environment/total_cost", self.cost)
-            #logger.record("environment/total_trades", self.trades)
+            logger.record("environment/portfolio_value", end_total_asset)
+            logger.record("environment/total_reward", tot_reward)
+            logger.record("environment/total_reward_pct", (tot_reward / (end_total_asset - tot_reward)) * 100)
+            logger.record("environment/total_cost", self.cost)
+            logger.record("environment/total_trades", self.trades)
 
             return self.state, self.reward, self.terminal, {}
 
@@ -244,12 +244,11 @@ class StockTradingEnv(gym.Env):
                 actions[index] = self._buy_stock(index, actions[index])
 
             self.actions_memory.append(actions)
-            
-            #state: s -> s+1
+
             self.day += 1
             self.data = self.df.loc[self.day,:]    
             if self.turbulence_threshold is not None:     
-                self.turbulence = self.data[self.risk_indicator_col].values[0]
+                self.turbulence = self.data['turbulence'].values[0]
             self.state =  self._update_state()
                            
             end_total_asset = self.state[0]+ \
