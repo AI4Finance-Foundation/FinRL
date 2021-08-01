@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from copy import deepcopy
 
-from finrl.preprocessor.yahoodownloader import YahooDownloader
-from finrl import config
+from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
+from finrl.apps import config
 
 
 def get_daily_return(df, value_col_name="account_value"):

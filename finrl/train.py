@@ -7,11 +7,11 @@ from sklearn import preprocessing
 matplotlib.use("Agg")
 import datetime
 
-from finrl import config
-from finrl.preprocessor.yahoodownloader import YahooDownloader
-from finrl.preprocessor.preprocessors import FeatureEngineer, data_split
+from finrl.apps import config
+from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
+from finrl.neo_finrl.preprocessor.preprocessors import FeatureEngineer, data_split
 from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
-from finrl.agents.stablebaselines3.models import DRLAgent
+from finrl.drl_agents.stablebaselines3.models import DRLAgent
 from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
 
 import itertools
