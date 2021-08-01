@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
-from finrl.config import config
-from finrl.marketdata.yahoodownloader import YahooDownloader
+from finrl import config
+from finrl.preprocessor.yahoodownloader import YahooDownloader
 
 import itertools
 
