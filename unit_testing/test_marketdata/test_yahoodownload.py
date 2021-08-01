@@ -1,5 +1,5 @@
 import unittest
-from finrl.marketdata.yahoodownloader import YahooDownloader
+from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
 import pandas as pd
 
 
