@@ -3,13 +3,17 @@ import os
 import gym
 from numpy import random as rd
 
-class StockTradingEnv():
+class StockTradingEnv(gym.Env):
 
-    def __init__(self, price_ary, tech_ary, turbulence_ary, initial_account=1e6,
+    def __init__(self, config, initial_account=1e6,
                  gamma=0.99, turbulence_thresh=30, min_stock_rate=0.1,
                  max_stock=1e2, initial_capital=1e6, buy_cost_pct=1e-3, 
                  sell_cost_pct=1e-3,reward_scaling=2 ** -11,  initial_stocks=None,
-                 if_train=True,):
+                 ):
+        price_ary = config['price_ary']
+        tech_ary = config['tech_ary']
+        turbulence_ary = config['turbulence_ary']
+        if_train = config['if_train']
         n = price_ary.shape[0]
         price_ary = price_ary[int(0.1*n):]
         tech_ary = tech_ary[int(0.1*n):]
@@ -52,7 +56,9 @@ class StockTradingEnv():
         self.if_discrete = False
         self.target_return = 2.2
         self.episode_return = 0.0
-
+        
+        self.observation_space = gym.spaces.Box(low=-3000, high=3000, shape=(self.state_dim,), dtype=np.float32)
+        self.action_space = gym.spaces.Box(low=-1, high=1, shape=(self.action_dim,), dtype=np.float32)
     def reset(self):
         self.day = 0
         price = self.price_ary[self.day]
