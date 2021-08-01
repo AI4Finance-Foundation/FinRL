@@ -4,8 +4,9 @@ import numpy as np
 import time
 import gym
 
-from finrl import config
-from finrl.preprocessor.preprocessors import data_split
+from finrl.apps import config
+from finrl.neo_finrl.preprocessor.preprocessors import FeatureEngineer, data_split
+
 from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
 # RL models from stable-baselines
 
