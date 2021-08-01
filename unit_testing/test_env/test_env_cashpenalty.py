@@ -1,6 +1,6 @@
 import unittest
-from finrl.marketdata.yahoodownloader import YahooDownloader
-from finrl.env.env_stocktrading_cashpenalty import StockTradingEnvCashpenalty
+from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
+from finrl.neo_finrl.env_stock_trading.env_stocktrading_cashpenalty import StockTradingEnvCashpenalty
 import numpy as np
 import pandas as pd
 
