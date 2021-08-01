@@ -5,7 +5,7 @@ import time
 from argparse import ArgumentParser
 import datetime
 
-from finrl.config import config
+from finrl.apps import config
 
 
 def build_parser():
@@ -33,19 +33,8 @@ def main():
         os.makedirs("./" + config.RESULTS_DIR)
 
     if options.mode == "train":
-        import finrl.autotrain.training
-
-        finrl.autotrain.training.train_one()
-
-    elif options.mode == "download_data":
-        from finrl.marketdata.yahoodownloader import YahooDownloader
-
-        df = YahooDownloader(start_date=config.START_DATE,
-                             end_date=config.END_DATE,
-                             ticker_list=config.DOW_30_TICKER).fetch_data()
-        now = datetime.datetime.now().strftime("%Y%m%d-%Hh%M")
-        df.to_csv("./" + config.DATA_SAVE_DIR + "/" + now + ".csv")
-
+        import finrl.train
+        finrl.train.train_stock_trading()
         
         
 if __name__ == "__main__":
