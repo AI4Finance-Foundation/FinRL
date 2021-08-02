@@ -1,8 +1,8 @@
-from neo_finrl.data_processors.alpaca_engineer import AlpacaEngineer as AE
-from neo_finrl.data_processors.ccxt_engineer import CCXTEngineer as CE
-from neo_finrl.data_processors.joinquant_engineer import JoinQuantEngineer as JE
-from neo_finrl.data_processors.wrds_engineer import WrdsEngineer as WE
-from neo_finrl.data_processors.yahoofinance_engineer import YahooFinanceEngineer as YE
+from neo_finrl.data_processors.processor_alpaca import AlpacaEngineer as AE
+from neo_finrl.data_processors.processor_ccxt import CCXTEngineer as CE
+from neo_finrl.data_processors.processor_joinquant import JoinQuantEngineer as JE
+from neo_finrl.data_processors.processor_wrds import WrdsEngineer as WE
+from neo_finrl.data_processors.processor_yahoofinance import YahooFinanceEngineer as YE
 import pandas as pd
 import numpy as np
 
