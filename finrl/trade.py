@@ -151,7 +151,7 @@ if __name__ == '__main__':
     from finrl.neo_finrl.config import TRADE_END_DATE
     
     #construct environment
-    from finrl.neo_finrl.env_stock_trading.env_stocktrading_v2 import StockTradingEnv
+    from finrl.neo_finrl.env_stock_trading.env_stocktrading_np import StockTradingEnv
     env = StockTradingEnv
 
     #demo for elegantrl
