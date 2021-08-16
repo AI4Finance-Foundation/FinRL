@@ -4,10 +4,10 @@ import pandas as pd
 import yfinance as yf
 import numpy as np
 from stockstats import StockDataFrame as Sdf
-from finrl.config import config
+import trading_calendars as tc
+import pytz
 
-
-class YahooFinanceEngineer():
+class YahooFinanceProcessor():
     """Provides methods for retrieving daily stock data from
     Yahoo Finance API
     Attributes
@@ -27,7 +27,8 @@ class YahooFinanceEngineer():
     def __init__(self):
         pass
     
-    def data_fetch(self, start_date: str, end_date: str, ticker_list: list) -> pd.DataFrame:
+    def download_data(self, start_date: str, end_date: str, ticker_list: list,
+                      time_interval: str) -> pd.DataFrame:
         """Fetches data from Yahoo API
         Parameters
         ----------
@@ -37,6 +38,11 @@ class YahooFinanceEngineer():
             7 columns: A date, open, high, low, close, volume and tick symbol
             for the specified stock ticker
         """
+        
+        self.start = start_date
+        self.end = end_date
+        self.time_interval = time_interval
+        
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         for tic in ticker_list:
@@ -72,17 +78,82 @@ class YahooFinanceEngineer():
         data_df = data_df.sort_values(by=['date','tic']).reset_index(drop=True)
 
         return data_df
-
-    def select_equal_rows_stock(self, df):
-        df_check = df.tic.value_counts()
-        df_check = pd.DataFrame(df_check).reset_index()
-        df_check.columns = ["tic", "counts"]
-        mean_df = df_check.counts.mean()
-        equal_list = list(df.tic.value_counts() >= mean_df)
-        names = df.tic.value_counts().index
-        select_stocks_list = list(names[equal_list])
-        df = df[df.tic.isin(select_stocks_list)]
-        return df
+    
+    def clean_data(self, data) -> pd.DataFrame:
+        
+        df = data.copy()
+        df = df.rename(columns={'date':'time'})
+        time_interval = self.time_interval
+        #get ticker list
+        tic_list = np.unique(df.tic.values)
+    
+        #get complete time index
+        trading_days = self.get_trading_days(start=self.start, end=self.end)
+        if time_interval == '1D':
+            times = trading_days
+        elif time_interval == '1Min':
+            times = []
+            for day in trading_days:
+                NY = 'America/New_York'
+                current_time = pd.Timestamp(day+' 09:30:00').tz_localize(NY)
+                for i in range(390):
+                    times.append(current_time)
+                    current_time += pd.Timedelta(minutes=1)
+        else:
+            raise ValueError('Data clean at given time interval is not supported for YahooFinance data.')
+            
+        #fill NaN data
+        new_df = pd.DataFrame()
+        for tic in tic_list:
+            print (('Clean data for ') + tic)
+            #create empty DataFrame using complete time index
+            tmp_df = pd.DataFrame(columns=['open','high','low','close',
+                                           'adjcp','volume'], 
+                                  index=times)
+            #get data for current ticker
+            tic_df = df[df.tic == tic]
+            #fill empty DataFrame using orginal data
+            for i in range(tic_df.shape[0]):
+                tmp_df.loc[tic_df.iloc[i]['time']] = tic_df.iloc[i]\
+                    [['open','high','low','close','adjcp','volume']]
+            
+            #if close on start date is NaN, fill data with first valid close 
+            #and set volume to 0.
+            if str(tmp_df.iloc[0]['close']) == 'nan':
+                print('NaN data on start date, fill using first valid data.')
+                for i in range(tmp_df.shape[0]):
+                    if str(tmp_df.iloc[i]['close']) != 'nan':
+                        first_valid_close = tmp_df.iloc[i]['close']
+                        first_valid_adjclose = tmp_df.iloc[i]['adjcp']
+                        
+                tmp_df.iloc[0] = [first_valid_close, first_valid_close, 
+                                  first_valid_close, first_valid_close,
+                                  first_valid_adjclose, 0.0]
+                
+            #fill NaN data with previous close and set volume to 0.
+            for i in range(tmp_df.shape[0]):
+                if str(tmp_df.iloc[i]['close']) == 'nan':
+                    previous_close = tmp_df.iloc[i-1]['close']
+                    previous_adjcp = tmp_df.iloc[i-1]['adjcp']
+                    if str(previous_close) == 'nan':
+                        raise ValueError
+                    tmp_df.iloc[i] = [previous_close, previous_close, previous_close,
+                                      previous_close, previous_adjcp, 0.0]
+            
+            #merge single ticker data to new DataFrame
+            tmp_df = tmp_df.astype(float)
+            tmp_df['tic'] = tic
+            new_df = new_df.append(tmp_df)
+        
+            print (('Data clean for ') + tic + (' is finished.'))
+            
+        #reset index and rename columns
+        new_df = new_df.reset_index()
+        new_df = new_df.rename(columns={'index':'time'})
+        
+        print('Data clean all finished!')
+        
+        return new_df
     
     def add_technical_indicator(self, data, tech_indicator_list):
         """
@@ -92,7 +163,7 @@ class YahooFinanceEngineer():
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        df = df.sort_values(by=['tic','date'])
+        df = df.sort_values(by=['tic','time'])
         stock = Sdf.retype(df.copy())
         unique_ticker = stock.tic.unique()
 
@@ -103,28 +174,14 @@ class YahooFinanceEngineer():
                     temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
                     temp_indicator = pd.DataFrame(temp_indicator)
                     temp_indicator['tic'] = unique_ticker[i]
-                    temp_indicator['date'] = df[df.tic == unique_ticker[i]]['date'].to_list()
+                    temp_indicator['time'] = df[df.tic == unique_ticker[i]]['time'].to_list()
                     indicator_df = indicator_df.append(
                         temp_indicator, ignore_index=True
                     )
                 except Exception as e:
                     print(e)
-            df = df.merge(indicator_df[['tic','date',indicator]],on=['tic','date'],how='left')
-        df = df.sort_values(by=['date','tic'])
-        return df
-
-    def add_user_defined_feature(self, data):
-        """
-         add user defined features
-        :param data: (df) pandas dataframe
-        :return: (df) pandas dataframe
-        """
-        df = data.copy()
-        df["daily_return"] = df.close.pct_change(1)
-        # df['return_lag_1']=df.close.pct_change(2)
-        # df['return_lag_2']=df.close.pct_change(3)
-        # df['return_lag_3']=df.close.pct_change(4)
-        # df['return_lag_4']=df.close.pct_change(5)
+            df = df.merge(indicator_df[['tic','time',indicator]],on=['tic','time'],how='left')
+        df = df.sort_values(by=['time','tic'])
         return df
 
     def add_turbulence(self, data):
@@ -135,15 +192,15 @@ class YahooFinanceEngineer():
         """
         df = data.copy()
         turbulence_index = self.calculate_turbulence(df)
-        df = df.merge(turbulence_index, on="date")
-        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
+        df = df.merge(turbulence_index, on="time")
+        df = df.sort_values(["time", "tic"]).reset_index(drop=True)
         return df
 
     def calculate_turbulence(self, data, time_period = 252):
         """calculate turbulence index based on dow 30"""
         # can add other market assets
         df = data.copy()
-        df_price_pivot = df.pivot(index="date", columns="tic", values="close")
+        df_price_pivot = df.pivot(index="time", columns="tic", values="close")
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
@@ -183,26 +240,59 @@ class YahooFinanceEngineer():
             turbulence_index.append(turbulence_temp)
 
         turbulence_index = pd.DataFrame(
-            {"date": df_price_pivot.index, "turbulence": turbulence_index}
+            {"time": df_price_pivot.index, "turbulence": turbulence_index}
         )
         return turbulence_index
     
-    def df_to_ary(self,df,tech_indicator_list):
+    def add_vix(self, data):
+        """
+        add vix from yahoo finance
+        :param data: (df) pandas dataframe
+        :return: (df) pandas dataframe
+        """
+        df = data.copy()
+        df_vix = self.download_data(start_date= df.time.min(), 
+                                    end_date= df.time.max(),
+                                    ticker_list = ["^VIX"],
+                                    time_interval = self.time_interval)
+        df_vix = self.clean_data(df_vix)
+        vix = df_vix[['time','adjcp']]
+        vix.columns = ['time','vix']
+
+        df = df.merge(vix, on="time")
+        df = df.sort_values(["time", "tic"]).reset_index(drop=True)
+        return df
+    
+    def df_to_array(self, df, tech_indicator_list, if_vix):
         """transform final df to numpy arrays"""
         unique_ticker = df.tic.unique()
         print(unique_ticker)
         if_first_time = True
         for tic in unique_ticker:
             if if_first_time:
-                price_ary = df[df.tic==tic][['adjcp']].values
+                price_array = df[df.tic==tic][['adjcp']].values
                 #price_ary = df[df.tic==tic]['close'].values
-                tech_ary = df[df.tic==tic][tech_indicator_list].values
-                turbulence_ary = df[df.tic==tic]['turbulence'].values
+                tech_array = df[df.tic==tic][tech_indicator_list].values
+                if if_vix:
+                    turbulence_array = df[df.tic==tic]['vix'].values 
+                else:
+                    turbulence_array = df[df.tic==tic]['turbulence'].values 
                 if_first_time = False
             else:
-                price_ary = np.hstack([price_ary, df[df.tic==tic][['close']].values])
-                tech_ary = np.hstack([tech_ary, df[df.tic==tic][tech_indicator_list].values])
-        assert price_ary.shape[0] == tech_ary.shape[0]
-        assert tech_ary.shape[0] == turbulence_ary.shape[0]
+                price_array = np.hstack([price_array, df[df.tic==tic][['adjcp']].values])
+                tech_array = np.hstack([tech_array, df[df.tic==tic][tech_indicator_list].values])
+        assert price_array.shape[0] == tech_array.shape[0]
+        assert tech_array.shape[0] == turbulence_array.shape[0]
         print('Successfully transformed into array')
-        return price_ary,tech_ary,turbulence_ary
+        return price_array, tech_array, turbulence_array
+        
+
+    def get_trading_days(self, start, end):
+        nyse = tc.get_calendar('NYSE')
+        df = nyse.sessions_in_range(pd.Timestamp(start,tz=pytz.UTC),
+                                    pd.Timestamp(end,tz=pytz.UTC))
+        trading_days = []
+        for day in df:
+            trading_days.append(str(day)[:10])
+    
+        return trading_days
