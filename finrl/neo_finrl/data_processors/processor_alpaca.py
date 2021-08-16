@@ -5,7 +5,7 @@ from stockstats import StockDataFrame as Sdf
 import trading_calendars as tc
 import pytz
 
-class AlpacaEngineer():
+class AlpacaProcessor():
     def __init__(self, API_KEY=None, API_SECRET=None, APCA_API_BASE_URL=None, api=None):
         if api == None:
             try:
@@ -15,11 +15,12 @@ class AlpacaEngineer():
         else:
             self.api = api
             
-    def data_fetch(self,stock_list=['AAPL'], start_date='2021-05-10',
-                   end_date='2021-05-10',time_interval='15Min') -> pd.DataFrame:
+    def download_data(self, ticker_list, start_date, end_date, 
+                   time_interval) -> pd.DataFrame:
         
         self.start = start_date
         self.end = end_date
+        self.time_interval = time_interval
         
         NY = 'America/New_York'
         start_date = pd.Timestamp(start_date, tz=NY)
@@ -29,7 +30,7 @@ class AlpacaEngineer():
         while date != end_date:
             start_time=(date + pd.Timedelta('09:30:00')).isoformat()
             end_time=(date + pd.Timedelta('15:59:00')).isoformat()
-            for tic in stock_list:
+            for tic in ticker_list:
                 barset = self.api.get_barset([tic], time_interval, 
                                              start=start_time, end=end_time, 
                                              limit=500).df[tic]
@@ -49,7 +50,7 @@ class AlpacaEngineer():
             times[i] = str(times[i])
         data_df['time'] = times'''
         return data_df
-    
+            
     def clean_data(self, df):
         tic_list = np.unique(df.tic.values)
     
@@ -90,7 +91,7 @@ class AlpacaEngineer():
         
         return new_df
       
-    def add_technical_indicators(self, df, tech_indicator_list = [
+    def add_technical_indicator(self, df, tech_indicator_list = [
             'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30',
             'close_30_sma', 'close_60_sma']):
         df = df.rename(columns={'time':'date'})
@@ -114,7 +115,19 @@ class AlpacaEngineer():
                 )
             df = df.merge(indicator_df[['tic', 'date', indicator]], on=['tic', 'date'], how='left')
         df = df.sort_values(by=['date', 'tic'])
+        df = df.rename(columns={'date':'time'})
         print('Succesfully add technical indicators')
+        return df
+    
+    def add_vix(self, data):
+        vix_df = self.download_data(['VIXY'], self.start, self.end, self.time_interval)
+        cleaned_vix = self.clean_data(vix_df)
+        vix = cleaned_vix[['time','close']]
+        vix = vix.rename(columns={'close':'VIXY'})
+        
+        df = data.copy()
+        df = df.merge(vix, on="time")
+        df = df.sort_values(["time", "tic"]).reset_index(drop=True)
         return df
     
     def calculate_turbulence(self,data, time_period=252):
@@ -173,22 +186,24 @@ class AlpacaEngineer():
         df = df.sort_values(["date", "tic"]).reset_index(drop=True)
         return df
 
-    def df_to_ary(self,df,tech_indicator_list):
+    def df_to_array(self, df, tech_indicator_list, if_vix):
+        df = df.copy()
         unique_ticker = df.tic.unique()
-        print(unique_ticker)
         if_first_time = True
         for tic in unique_ticker:
             if if_first_time:
-                price_ary = df[df.tic==tic][['close']].values
-                #price_ary = df[df.tic==tic]['close'].values
-                tech_ary = df[df.tic==tic][tech_indicator_list].values
-                turbulence_ary = df[df.tic==tic]['turbulence'].values
+                price_array = df[df.tic==tic][['close']].values
+                tech_array = df[df.tic==tic][tech_indicator_list].values
+                if if_vix:
+                    turbulence_array = df[df.tic==tic]['VIXY'].values
+                else:
+                    turbulence_array = df[df.tic==tic]['turbulence'].values
                 if_first_time = False
             else:
-                price_ary = np.hstack([price_ary, df[df.tic==tic][['close']].values])
-                tech_ary = np.hstack([tech_ary, df[df.tic==tic][tech_indicator_list].values])
+                price_array = np.hstack([price_array, df[df.tic==tic][['close']].values])
+                tech_array = np.hstack([tech_array, df[df.tic==tic][tech_indicator_list].values])
         print('Successfully transformed into array')
-        return price_ary,tech_ary,turbulence_ary
+        return price_array,tech_array,turbulence_array
     
     def get_trading_days(self, start, end):
         nyse = tc.get_calendar('NYSE')
@@ -199,4 +214,68 @@ class AlpacaEngineer():
             trading_days.append(str(day)[:10])
     
         return trading_days
+    
+    def fetch_latest_data(self, ticker_list, time_interval, tech_indicator_list,
+                          limit=100) -> pd.DataFrame: 
+        
+        data_df = pd.DataFrame()
+        for tic in ticker_list:
+            barset = self.api.get_barset([tic], time_interval, 
+                                         limit=limit).df[tic]
+            barset['tic'] = tic
+            barset = barset.reset_index()
+            data_df = data_df.append(barset)
+        
+        data_df = data_df.reset_index(drop=True)
+        start_time = data_df.time.min()
+        end_time = data_df.time.max()
+        times = []
+        current_time = start_time
+        end = end_time + pd.Timedelta(minutes=1)
+        while current_time != end:
+            times.append(current_time)
+            current_time += pd.Timedelta(minutes=1)
+        
+        df = data_df.copy()
+        new_df = pd.DataFrame()
+        for tic in ticker_list:
+            tmp_df = pd.DataFrame(columns=['open','high','low','close','volume'], 
+                                  index=times)
+            tic_df = df[df.tic == tic]
+            for i in range(tic_df.shape[0]):
+                tmp_df.loc[tic_df.iloc[i]['time']] = tic_df.iloc[i][['open','high',
+                                                                     'low','close',
+                                                                     'volume']]
+            if str(tmp_df.iloc[0]['close']) == 'nan':
+                for i in range(tmp_df.shape[0]):
+                    if str(tmp_df.iloc[i]['close']) != 'nan':
+                        first_valid_close = tmp_df.iloc[i]['close']
+                        
+                tmp_df.iloc[0] = [first_valid_close, first_valid_close, 
+                                  first_valid_close, first_valid_close, 0.0]
+                
+            for i in range(tmp_df.shape[0]):
+                if str(tmp_df.iloc[i]['close']) == 'nan':
+                    previous_close = tmp_df.iloc[i-1]['close']
+                    if str(previous_close) == 'nan':
+                        raise ValueError
+                    tmp_df.iloc[i] = [previous_close, previous_close, previous_close,
+                                      previous_close, 0.0]
+            tmp_df = tmp_df.astype(float)
+            tmp_df['tic'] = tic
+            new_df = new_df.append(tmp_df)
+        
+        new_df = new_df.reset_index()
+        new_df = new_df.rename(columns={'index':'time'})
+        
+        df = self.add_technical_indicator(new_df, tech_indicator_list)
+        df['VIXY'] = 0
+        
+        price_array, tech_array, turbulence_array = self.df_to_array(df, tech_indicator_list, if_vix=True)
+        latest_price = price_array[-1]
+        latest_tech = tech_array[-1]
+        turb_df = self.api.get_barset(['VIXY'], time_interval, 
+                                         limit=1).df['VIXY']
+        latest_turb = turb_df['close'].values
+        return latest_price, latest_tech, latest_turb
         
