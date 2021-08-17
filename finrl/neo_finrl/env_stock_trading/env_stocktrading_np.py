@@ -12,12 +12,11 @@ class StockTradingEnv(gym.Env):
                  ):
         price_ary = config['price_array']
         tech_ary = config['tech_array']
+        tech_nan_positions = np.isnan(tech_ary)
+        tech_ary[tech_nan_positions] = 0
         turbulence_ary = config['turbulence_array']
         if_train = config['if_train']
         n = price_ary.shape[0]
-        price_ary = price_ary[int(0.1*n):]
-        tech_ary = tech_ary[int(0.1*n):]
-        turbulence_ary = turbulence_ary[int(0.1*n):]
         self.price_ary =  price_ary.astype(np.float32)
         self.tech_ary = tech_ary.astype(np.float32)
         self.turbulence_ary = turbulence_ary
