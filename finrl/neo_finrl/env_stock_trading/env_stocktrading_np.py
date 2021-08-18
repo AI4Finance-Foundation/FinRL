@@ -52,7 +52,6 @@ class StockTradingEnv(gym.Env):
         self.max_step = self.price_ary.shape[0] - 1
         self.if_train = if_train
         self.if_discrete = False
-        self.target_return = 2.2
         self.episode_return = 0.0
         
         self.observation_space = gym.spaces.Box(low=-3000, high=3000, shape=(self.state_dim,), dtype=np.float32)
