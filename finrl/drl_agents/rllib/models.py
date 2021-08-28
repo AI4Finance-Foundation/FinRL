@@ -33,16 +33,11 @@ class DRLAgent:
             turbulence/risk data
     Methods
     -------
-        PPOTrainer()
-            the implementation for PPO algorithm
-        A2CTrainer()
-            the implementation for A2C algorithm
-        DDPGTrainer()
-            the implementation for DDPG algorithm
-        TD3Trainer()
-            the implementation for TD3 algorithm
-        SACTrainer()
-            the implementation for SAC algorithm
+        get_model()
+            setup DRL algorithms
+        train_model()
+            train DRL algorithms in a train dataset 
+            and output the trained model
         DRL_prediction()
             make a prediction in a test dataset and get results
     """
