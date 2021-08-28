@@ -109,7 +109,9 @@ class DRLAgent:
         return model, model_config
 
     def train_model(self, model, model_name, model_config,total_episodes=100):
-        ray.init()
+        if model_name not in MODELS:
+           raise NotImplementedError("NotImplementedError")
+        ray.init() # Other Ray APIs will not work until `ray.init()` is called.
         if model_name == 'ppo':
             trainer = model.PPOTrainer(env=self.env, config=model_config)
         elif model_name == 'a2c':
@@ -123,8 +125,12 @@ class DRLAgent:
 
         for i in range(total_episodes):
             trainer.train()
+
         ray.shutdown()
-        trainer.save('./'+str(model_name))
+
+        #save the trained model
+        cwd = './test_'+str(model_name)
+        trainer.save(cwd)
 
         return trainer
 
