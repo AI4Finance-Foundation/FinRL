@@ -88,9 +88,9 @@ class DRLAgent:
 
         model = MODELS[model_name]
         #get algorithm default configration based on algorithm in RLlib
-        if model_name = 'a2c':
+        if model_name == 'a2c':
             model_config = model.A2C_DEFAULT_CONFIG.copy()
-        elif model_name = 'td3':
+        elif model_name == 'td3':
             model_config = model.TD3_DEFAULT_CONFIG.copy()
         else:
             model_config = model.DEFAULT_CONFIG.copy()
