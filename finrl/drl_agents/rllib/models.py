@@ -67,7 +67,11 @@ class DRLAgent:
     #     return account_memory[0], actions_memory[0]
 
 
-    def __init__(self, env):
+    def __init__(self, 
+                 env, 
+                 price_array,
+                 tech_array,
+                 turbulence_array):
         self.env = env
         self.price_array=price_array
         self.tech_array=tech_array
