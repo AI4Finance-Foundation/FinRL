@@ -6,7 +6,7 @@ from numpy import random as rd
 class StockTradingEnv(gym.Env):
 
     def __init__(self, config, initial_account=1e6,
-                 gamma=0.99, turbulence_thresh=30, min_stock_rate=0.1,
+                 gamma=0.99, turbulence_thresh=99, min_stock_rate=0.1,
                  max_stock=1e2, initial_capital=1e6, buy_cost_pct=1e-3, 
                  sell_cost_pct=1e-3,reward_scaling=2 ** -11,  initial_stocks=None,
                  ):
