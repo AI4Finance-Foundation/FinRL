@@ -14,6 +14,16 @@ gym>=0.17
 stable-baselines3[extra]
 ray[default]
 ray[tune]
+lz4
+tensorboardX
+gputil
+
+# market data & paper trading API
+trading_calendars
+alpaca_trade_api
+ccxt
+jqdatasdk
+wrds
 
 # testing requirements
 pytest
