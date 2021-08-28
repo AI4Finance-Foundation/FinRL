@@ -46,27 +46,6 @@ class DRLAgent:
         DRL_prediction()
             make a prediction in a test dataset and get results
     """
-    # @staticmethod
-    # def DRL_prediction(model, environment):
-    #     test_env, test_obs = environment.get_sb_env()
-    #     """make a prediction"""
-    #     account_memory = []
-    #     actions_memory = []
-    #     test_env.reset()
-    #     for i in range(len(environment.df.index.unique())):
-    #         action, _states = model.predict(test_obs)
-    #         #account_memory = test_env.env_method(method_name="save_asset_memory")
-    #         #actions_memory = test_env.env_method(method_name="save_action_memory")
-    #         test_obs, rewards, dones, info = test_env.step(action)
-    #         if i == (len(environment.df.index.unique()) - 2):
-    #           account_memory = test_env.env_method(method_name="save_asset_memory")
-    #           actions_memory = test_env.env_method(method_name="save_action_memory")
-    #         if dones[0]:
-    #             print("hit end!")
-    #             break
-    #     return account_memory[0], actions_memory[0]
-
-
     def __init__(self, 
                  env, 
                  price_array,
@@ -134,4 +113,65 @@ class DRLAgent:
 
         return trainer
 
+    @staticmethod
+    def DRL_prediction(model, 
+                        model_name,
+                        env, 
+                        price_array, 
+                        tech_array, 
+                        turbulence_array, 
+                        agent_path='./ppo/checkpoint_000100/checkpoint-100'):
+        if model_name == 'a2c':
+            model_config = model.A2C_DEFAULT_CONFIG.copy()
+        elif model_name == 'td3':
+            model_config = model.TD3_DEFAULT_CONFIG.copy()
+        else:
+            model_config = model.DEFAULT_CONFIG.copy()
+        model_config['env'] = env
+        model_config["log_level"] = "WARN"
+        model_config['env_config'] = {'price_array':price_array,
+                                        'tech_array':tech_array,
+                                        'turbulence_array':turbulence_array,
+                                        'if_train':False}
+        env_config = {'price_array':price_array_test,
+                'tech_array':tech_array_test,
+                'turbulence_array':turbulence_array_test,
+                'if_train':False}
+        env_instance = env(config=env_config)
 
+        #ray.init() # Other Ray APIs will not work until `ray.init()` is called.
+        if model_name == 'ppo':
+            trainer = model.PPOTrainer(env=env, config=model_config)
+        elif model_name == 'a2c':
+            trainer = model.A2CTrainer(env=env, config=model_config)
+        elif model_name == 'ddpg':
+            trainer = model.DDPGTrainer(env=env, config=model_config)           
+        elif model_name == 'td3':
+            trainer = model.TD3Trainer(env=env, config=model_config)
+        elif model_name == 'sac':
+            trainer = model.SACTrainer(env=env, config=model_config)
+
+        try:
+            trainer.restore(agent_path)
+            print("Restoring from checkpoint path", agent_path)
+        except:
+            raise ValueError('Fail to load agent!')
+
+        #test on the testing env
+        state = env_instance.reset()
+        episode_returns = list()  # the cumulative_return / initial_account
+        episode_total_assets = list()
+        episode_total_assets.append(env_instance.initial_total_asset)
+        done = False
+        while not done:
+            action = trainer.compute_single_action(state)
+            state, reward, done, _ = env_instance.step(action)
+
+            total_asset = env_instance.amount + (env_instance.price_ary[env_instance.day] * env_instance.stocks).sum()
+            episode_total_assets.append(total_asset)
+            episode_return = total_asset / env_instance.initial_total_asset
+            episode_returns.append(episode_return)
+        ray.shutdown()
+        print('episode return: ' + str(episode_return))
+        print('Test Finished!')   
+        return episode_total_assets
