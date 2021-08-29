@@ -115,7 +115,10 @@ class DRLAgent:
                         price_array, 
                         tech_array, 
                         turbulence_array, 
-                        agent_path='./ppo/checkpoint_000100/checkpoint-100'):
+                        agent_path='./test_ppo/checkpoint_000100/checkpoint-100'):
+        if model_name not in MODELS:
+           raise NotImplementedError("NotImplementedError")
+           
         if model_name == 'a2c':
             model_config = model.A2C_DEFAULT_CONFIG.copy()
         elif model_name == 'td3':
@@ -128,9 +131,9 @@ class DRLAgent:
                                         'tech_array':tech_array,
                                         'turbulence_array':turbulence_array,
                                         'if_train':False}
-        env_config = {'price_array':price_array_test,
-                'tech_array':tech_array_test,
-                'turbulence_array':turbulence_array_test,
+        env_config = {'price_array':price_array,
+                'tech_array':tech_array,
+                'turbulence_array':turbulence_array,
                 'if_train':False}
         env_instance = env(config=env_config)
 
