@@ -22,7 +22,7 @@ Feel free to report bugs via Github issues, join the mailing list: [AI4Finance](
 
 <br/>
 
-<a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-tosajd1i-F0An2~EJWY2qvKJQDe3nbQ" target="\_blank">
+<a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
 	<div align="center">
 		<img src=figs/join_slack.png width="40%"/>
 	</div>
