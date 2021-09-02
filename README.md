@@ -34,7 +34,11 @@ Roadmaps of FinRL:
 
 **FinRL 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
 
-**FinRL 2.0**: intermediate-level framework for full-stack developers and professionals. Check out [ElegantRL](https://github.com/AI4Finance-LLC/ElegantRL)  
+**FinRL 2.0**: intermediate-level framework for full-stack developers and professionals. Check out [ElegantRL](https://github.com/AI4Finance-LLC/ElegantRL).  
+
+**FinRL 3.0**: advanced-level services for investment banks and hedge funds. Please check our cloud-native solution [GPU-podracer](https://github.com/AI4Finance-Foundation/GPU_Podracer). 
+
+**FinRL 0.0**: we would like to backup with a collective training environments in [NeoFinRL](https://github.com/AI4Finance-Foundation/NeoFinRL).
 
 FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
