@@ -1,6 +1,6 @@
 import datetime
 import threading
-from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor
+from neo_finrl.data_processors.processor_alpaca import AlpacaProcessor
 import alpaca_trade_api as tradeapi
 import time
 import pandas as pd
@@ -8,27 +8,65 @@ import numpy as np
 import torch
 import sys
 import os
+import gym
 
 class AlpacaPaperTrading():
 
-    def __init__(self,ticker_list, time_interval, agent, cwd, net_dim, 
+    def __init__(self,ticker_list, time_interval, drl_lib, agent, cwd, net_dim, 
                  state_dim, action_dim, API_KEY, API_SECRET, 
                  APCA_API_BASE_URL, tech_indicator_list, turbulence_thresh=30, 
                  max_stock=1e2, latency = None):
         #load agent
+        self.drl_lib = drl_lib
         if agent =='ppo':
-            try:
+            
+            if drl_lib == 'elegantrl':
                 from elegantrl.agent import AgentPPO
-                agent = AgentPPO()
-                agent.init(net_dim, state_dim, action_dim)
-                agent.save_load_model(cwd=cwd, if_save=False)
-                self.act = agent.act
-                self.device = agent.device
-            except:
-                raise ValueError('Fail to load the agent! Please check path, state dimension and action_dimension.')
                 
+                try:
+                    agent = AgentPPO()
+                    agent.init(net_dim, state_dim, action_dim)
+                    agent.save_load_model(cwd=cwd, if_save=False)
+                    self.act = agent.act
+                    self.device = agent.device
+                except:
+                    raise ValueError('Fail to load the agent! Please check path, state dimension and action_dimension.')
+            
+            elif drl_lib == 'rllib':
+                from ray.rllib.agents import ppo
+                from ray.rllib.agents.ppo.ppo import PPOTrainer
+                
+                config = ppo.DEFAULT_CONFIG.copy()
+                config['env'] = StockEnvEmpty
+                config["log_level"] = "WARN"
+                config['env_config'] = {'state_dim':state_dim,
+                            'action_dim':action_dim,}
+                trainer = PPOTrainer(env=StockEnvEmpty, config=config)
+                trainer.restore(cwd)
+                try:
+                    trainer.restore(cwd)
+                    self.agent = trainer
+                    print("Restoring from checkpoint path", cwd)
+                except:
+                    raise ValueError('Fail to load agent!')
+                    
+            elif drl_lib == 'stable_baselines3':
+                from stable_baselines3 import PPO
+                
+                try:
+                    #load agent
+                    self.model = PPO.load(cwd)
+                    print("Successfully load model", cwd)
+                except:
+                    raise ValueError('Fail to load agent!')
+                    
+            else:
+                raise ValueError('The DRL library input is NOT supported yet. Please check your input.')
+               
         else:
             raise ValueError('Agent input is NOT supported yet.')
+            
+            
             
         #connect to Alpaca trading API
         try:
@@ -143,12 +181,23 @@ class AlpacaPaperTrading():
     
     def trade(self):
         state = self.get_state()
-        with torch.no_grad():
-            s_tensor = torch.as_tensor((state,), device=self.device)
-            a_tensor = self.act(s_tensor)  
-            action = a_tensor.detach().cpu().numpy()[0]  
+        
+        if self.drl_lib == 'elegantrl':
+            with torch.no_grad():
+                s_tensor = torch.as_tensor((state,), device=self.device)
+                a_tensor = self.act(s_tensor)  
+                action = a_tensor.detach().cpu().numpy()[0]  
+                
+            action = (action * self.max_stock).astype(int)
             
-        action = (action * self.max_stock).astype(int)
+        elif self.drl_lib == 'rllib':
+            action = self.agent.compute_single_action(state)
+        
+        elif self.drl_lib == 'stable_baselines3':
+            action = self.model.predict(state)[0]
+            
+        else:
+            raise ValueError('The DRL library input is NOT supported yet. Please check your input.')
         
         self.stocks_cd += 1
         if self.turbulence_bool == 0:
@@ -249,3 +298,17 @@ class AlpacaPaperTrading():
             return 1 / (1 + np.exp(-x * np.e)) - 0.5
 
         return sigmoid(ary / thresh) * thresh
+    
+class StockEnvEmpty(gym.Env):
+    #Empty Env used for loading rllib agent
+    def __init__(self,config):
+      state_dim = config['state_dim']
+      action_dim = config['action_dim']
+      self.observation_space = gym.spaces.Box(low=-3000, high=3000, shape=(state_dim,), dtype=np.float32)
+      self.action_space = gym.spaces.Box(low=-1, high=1, shape=(action_dim,), dtype=np.float32)
+        
+    def reset(self):
+        return 
+
+    def step(self, actions):
+        return
