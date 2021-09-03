@@ -15,10 +15,10 @@ class StockTradingEnv(gym.Env):
     """A stock trading environment for OpenAI gym"""
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, 
-                df, 
+    def __init__(self,
+                df,
                 stock_dim,
-                hmax,                
+                hmax,
                 initial_amount,
                 buy_cost_pct,
                 sell_cost_pct,
@@ -28,9 +28,9 @@ class StockTradingEnv(gym.Env):
                 tech_indicator_list,
                 turbulence_threshold=None,
                 risk_indicator_col='turbulence',
-                make_plots = False, 
+                make_plots = False,
                 print_verbosity = 10,
-                day = 0, 
+                day = 0,
                 initial=True,
                 previous_state=[],
                 model_name = '',
@@ -47,10 +47,10 @@ class StockTradingEnv(gym.Env):
         self.state_space = state_space
         self.action_space = action_space
         self.tech_indicator_list = tech_indicator_list
-        self.action_space = spaces.Box(low = -1, high = 1,shape = (self.action_space,)) 
+        self.action_space = spaces.Box(low = -1, high = 1,shape = (self.action_space,))
         self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape = (self.state_space,))
         self.data = self.df.loc[self.day,:]
-        self.terminal = False     
+        self.terminal = False
         self.make_plots = make_plots
         self.print_verbosity = print_verbosity
         self.turbulence_threshold = turbulence_threshold
@@ -58,11 +58,11 @@ class StockTradingEnv(gym.Env):
         self.initial = initial
         self.previous_state = previous_state
         self.model_name=model_name
-        self.mode=mode 
+        self.mode=mode
         self.iteration=iteration
         # initalize state
         self.state = self._initiate_state()
-        
+
         # initialize reward
         self.reward = 0
         self.turbulence = 0
@@ -76,12 +76,12 @@ class StockTradingEnv(gym.Env):
         self.date_memory=[self._get_date()]
         #self.reset()
         self._seed()
-        
+
 
 
     def _sell_stock(self, index, action):
         def _do_sell_normal():
-            if self.state[index+1]>0: 
+            if self.state[index+1]>0:
                 # Sell only if the price is > 0 (no missing data in this particular date)
                 # perform sell action based on the sign of the action
                 if self.state[index+self.stock_dim+1] > 0:
@@ -100,13 +100,13 @@ class StockTradingEnv(gym.Env):
                 sell_num_shares = 0
 
             return sell_num_shares
-            
+
         # perform sell action based on the sign of the action
         if self.turbulence_threshold is not None:
             if self.turbulence>=self.turbulence_threshold:
-                if self.state[index+1]>0: 
+                if self.state[index+1]>0:
                     # Sell only if the price is > 0 (no missing data in this particular date)
-                    # if turbulence goes over threshold, just clear out all positions 
+                    # if turbulence goes over threshold, just clear out all positions
                     if self.state[index+self.stock_dim+1] > 0:
                         # Sell only if current asset is > 0
                         sell_num_shares = self.state[index+self.stock_dim+1]
@@ -128,22 +128,22 @@ class StockTradingEnv(gym.Env):
 
         return sell_num_shares
 
-    
+
     def _buy_stock(self, index, action):
 
         def _do_buy():
-            if self.state[index+1]>0: 
-                #Buy only if the price is > 0 (no missing data in this particular date)       
+            if self.state[index+1]>0:
+                #Buy only if the price is > 0 (no missing data in this particular date)
                 available_amount = self.state[0] // self.state[index+1]
                 # print('available_amount:{}'.format(available_amount))
-                
+
                 #update balance
                 buy_num_shares = min(available_amount, action)
                 buy_amount = self.state[index+1] * buy_num_shares * (1+ self.buy_cost_pct)
                 self.state[0] -= buy_amount
 
                 self.state[index+self.stock_dim+1] += buy_num_shares
-                
+
                 self.cost+=self.state[index+1] * buy_num_shares * self.buy_cost_pct
                 self.trades+=1
             else:
@@ -173,11 +173,11 @@ class StockTradingEnv(gym.Env):
         if self.terminal:
             # print(f"Episode: {self.episode}")
             if self.make_plots:
-                self._make_plot()            
+                self._make_plot()
             end_total_asset = self.state[0]+ \
                 sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             df_total_value = pd.DataFrame(self.asset_memory)
-            tot_reward = self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))- self.initial_amount 
+            tot_reward = self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))- self.initial_amount
             df_total_value.columns = ['account_value']
             df_total_value['date'] = self.date_memory
             df_total_value['daily_return']=df_total_value['account_value'].pct_change(1)
@@ -226,9 +226,9 @@ class StockTradingEnv(gym.Env):
             begin_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             #print("begin_total_asset:{}".format(begin_total_asset))
-            
+
             argsort_actions = np.argsort(actions)
-            
+
             sell_index = argsort_actions[:np.where(actions < 0)[0].shape[0]]
             buy_index = argsort_actions[::-1][:np.where(actions > 0)[0].shape[0]]
 
@@ -244,28 +244,31 @@ class StockTradingEnv(gym.Env):
                 actions[index] = self._buy_stock(index, actions[index])
 
             self.actions_memory.append(actions)
-            
+
             #state: s -> s+1
             self.day += 1
-            self.data = self.df.loc[self.day,:]    
-            if self.turbulence_threshold is not None:     
-                self.turbulence = self.data[self.risk_indicator_col].values[0]
+            self.data = self.df.loc[self.day,:]
+            if self.turbulence_threshold is not None:
+                if len(self.df.tic.unique())>1
+                    self.turbulence = self.data[self.risk_indicator_col].values[0]
+                else:
+                    self.turbulence = self.data[self.risk_indicator_col]
             self.state =  self._update_state()
-                           
+
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             self.asset_memory.append(end_total_asset)
             self.date_memory.append(self._get_date())
-            self.reward = end_total_asset - begin_total_asset            
+            self.reward = end_total_asset - begin_total_asset
             self.rewards_memory.append(self.reward)
             self.reward = self.reward*self.reward_scaling
 
         return self.state, self.reward, self.terminal, {}
 
-    def reset(self):  
+    def reset(self):
         #initiate state
         self.state = self._initiate_state()
-        
+
         if self.initial:
             self.asset_memory = [self.initial_amount]
         else:
@@ -278,16 +281,16 @@ class StockTradingEnv(gym.Env):
         self.turbulence = 0
         self.cost = 0
         self.trades = 0
-        self.terminal = False 
+        self.terminal = False
         # self.iteration=self.iteration
         self.rewards_memory = []
         self.actions_memory=[]
         self.date_memory=[self._get_date()]
-        
+
         self.episode+=1
 
         return self.state
-    
+
     def render(self, mode='human',close=False):
         return self.state
 
@@ -336,7 +339,7 @@ class StockTradingEnv(gym.Env):
                      [self.data.close] + \
                      list(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]) + \
                      sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
-                          
+
         return state
 
     def _get_date(self):
@@ -360,7 +363,7 @@ class StockTradingEnv(gym.Env):
             date_list = self.date_memory[:-1]
             df_date = pd.DataFrame(date_list)
             df_date.columns = ['date']
-            
+
             action_list = self.actions_memory
             df_actions = pd.DataFrame(action_list)
             df_actions.columns = self.data.tic.values
