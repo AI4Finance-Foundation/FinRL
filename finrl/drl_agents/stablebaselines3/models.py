@@ -70,12 +70,12 @@ class DRLAgent:
         account_memory = []
         actions_memory = []
         test_env.reset()
-        for i in range(len(environment.df.index.unique())):
+        for i in range(len(environment.train_set.index.unique())):
             action, _states = model.predict(test_obs)
             #account_memory = test_env.env_method(method_name="save_asset_memory")
             #actions_memory = test_env.env_method(method_name="save_action_memory")
             test_obs, rewards, dones, info = test_env.step(action)
-            if i == (len(environment.df.index.unique()) - 2):
+            if i == (len(environment.train_set.index.unique()) - 2):
               account_memory = test_env.env_method(method_name="save_asset_memory")
               actions_memory = test_env.env_method(method_name="save_action_memory")
             if dones[0]:
@@ -168,8 +168,8 @@ class DRLEnsembleAgent:
                  df_total_value['daily_return'].std()
         return sharpe
 
-    def __init__(self,df,
-                train_period,val_test_period,
+    def __init__(self,train_set,test_set,
+                train_period,
                 rebalance_window, validation_window,
                 stock_dim,
                 hmax,                
@@ -182,11 +182,11 @@ class DRLEnsembleAgent:
                 tech_indicator_list,
                 print_verbosity):
 
-        self.df=df
+        self.train_set = train_set
+        self.test_set = test_set
         self.train_period = train_period
-        self.val_test_period = val_test_period
 
-        self.unique_trade_date = df[(df.date > val_test_period[0])&(df.date <= val_test_period[1])].date.unique()
+        self.unique_trade_date = test_set.date.unique()
         self.rebalance_window = rebalance_window
         self.validation_window = validation_window
 
@@ -212,7 +212,7 @@ class DRLEnsembleAgent:
         ### make a prediction based on trained model###
 
         ## trading env
-        trade_data = data_split(self.df, start=self.unique_trade_date[iter_num - self.rebalance_window], end=self.unique_trade_date[iter_num])
+        trade_data = data_split(self.train_set, start=self.unique_trade_date[iter_num - self.rebalance_window], end=self.unique_trade_date[iter_num])
         trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
                                                         self.stock_dim,
                                                         self.hmax,
@@ -260,7 +260,7 @@ class DRLEnsembleAgent:
         validation_end_date_list = []
         iteration_list = []
 
-        insample_turbulence = self.df[(self.df.date<self.train_period[1]) & (self.df.date>=self.train_period[0])]
+        insample_turbulence = self.train_set
         insample_turbulence_threshold = np.quantile(insample_turbulence.turbulence.values, .90)
 
         start = time.time()
@@ -283,10 +283,10 @@ class DRLEnsembleAgent:
 
             # Tuning trubulence index based on historical data
             # Turbulence lookback window is one quarter (63 days)
-            end_date_index = self.df.index[self.df["date"] == self.unique_trade_date[i - self.rebalance_window - self.validation_window]].to_list()[-1]
+            end_date_index = self.train_set.index[self.train_set["date"] == self.unique_trade_date[i - self.rebalance_window - self.validation_window]].to_list()[-1]
             start_date_index = end_date_index - 63 + 1
 
-            historical_turbulence = self.df.iloc[start_date_index:(end_date_index + 1), :]
+            historical_turbulence = self.train_set.iloc[start_date_index:(end_date_index + 1), :]
 
             historical_turbulence = historical_turbulence.drop_duplicates(subset=['date'])
 
@@ -310,7 +310,7 @@ class DRLEnsembleAgent:
 
             ############## Environment Setup starts ##############
             ## training env
-            train = data_split(self.df, start=self.train_period[0], end=self.unique_trade_date[i - self.rebalance_window - self.validation_window])
+            train = data_split(self.train_set, start=self.train_set.date[0], end=self.train_set.date[i - self.rebalance_window - self.validation_window])
             self.train_env = DummyVecEnv([lambda: StockTradingEnv(train,
                                                                 self.stock_dim,
                                                                 self.hmax,
@@ -323,14 +323,13 @@ class DRLEnsembleAgent:
                                                                 self.tech_indicator_list,
                                                                 print_verbosity=self.print_verbosity)])
 
-            validation = data_split(self.df, start=self.unique_trade_date[i - self.rebalance_window - self.validation_window],
+            validation = data_split(self.test_set, start=self.unique_trade_date[i - self.rebalance_window - self.validation_window],
                                     end=self.unique_trade_date[i - self.rebalance_window])
             ############## Environment Setup ends ##############
 
             ############## Training and Validation starts ##############
-            print("======Model training from: ", self.train_period[0], "to ",
-                  self.unique_trade_date[i - self.rebalance_window - self.validation_window])
-            # print("training: ",len(data_split(df, start=20090000, end=test.datadate.unique()[i-rebalance_window]) ))
+            print("======Model training from: ", self.train_period[0], "to ",self.train_set.date[i - self.rebalance_window - self.validation_window])
+            # print("training: ",len(data_split(train_set, start=20090000, end=test.datadate.unique()[i-rebalance_window]) ))
             # print("==============Model Training===========")
             print("======A2C Training========")
             model_a2c = self.get_model("a2c",self.train_env,policy="MlpPolicy",model_kwargs=A2C_model_kwargs)
@@ -408,10 +407,9 @@ class DRLEnsembleAgent:
             a2c_sharpe_list.append(sharpe_a2c)
             ddpg_sharpe_list.append(sharpe_ddpg)
 
-            print("======Best Model Retraining from: ", self.train_period[0], "to ",
-                  self.unique_trade_date[i - self.rebalance_window])
+            print("======Best Model Retraining from: ", self.train_period[0], "to ",self.train_set.date[i - self.rebalance_window])
             # Environment setup for model retraining up to first trade date
-            #train_full = data_split(self.df, start=self.train_period[0], end=self.unique_trade_date[i - self.rebalance_window])
+            #train_full = data_split(self.train_set, start=self.train_period[0], end=self.unique_trade_date[i - self.rebalance_window])
             #self.train_full_env = DummyVecEnv([lambda: StockTradingEnv(train_full,
             #                                                    self.stock_dim,
             #                                                    self.hmax,
