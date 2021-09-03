@@ -308,7 +308,7 @@ class DRLEnsembleAgent:
 
             ############## Environment Setup starts ##############
             ## training env
-            train = data_split(self.train_set, start=self.train_set.date[0], end=self.train_set.date[i - self.rebalance_window - self.validation_window])
+            train = data_split(self.train_set, start=self.train_set.date[0], end=self.train_set.date[i - self.rebalance_window])
             self.train_env = DummyVecEnv([lambda: StockTradingEnv(train,
                                                                 self.stock_dim,
                                                                 self.hmax,
@@ -321,12 +321,12 @@ class DRLEnsembleAgent:
                                                                 self.tech_indicator_list,
                                                                 print_verbosity=self.print_verbosity)])
 
-            validation = data_split(self.test_set, start=self.unique_trade_date[i - self.rebalance_window - self.validation_window],
+            validation = data_split(self.test_set, start=self.unique_trade_date[i - self.validation_window],
                                     end=self.unique_trade_date[i - self.rebalance_window])
             ############## Environment Setup ends ##############
 
             ############## Training and Validation starts ##############
-            print("======Model training from: ",self.train_set.date[0], "to ",self.train_set.date[i - self.rebalance_window - self.validation_window])
+            print("======Model training from: ",self.train_set.date[0], "to ",self.train_set.date[i - self.rebalance_window])
             # print("training: ",len(data_split(train_set, start=20090000, end=test.datadate.unique()[i-rebalance_window]) ))
             # print("==============Model Training===========")
             print("======A2C Training========")
