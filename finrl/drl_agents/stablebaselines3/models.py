@@ -169,7 +169,6 @@ class DRLEnsembleAgent:
         return sharpe
 
     def __init__(self,train_set,test_set,
-                train_period,
                 rebalance_window, validation_window,
                 stock_dim,
                 hmax,                
@@ -184,7 +183,6 @@ class DRLEnsembleAgent:
 
         self.train_set = train_set
         self.test_set = test_set
-        self.train_period = train_period
 
         self.unique_trade_date = test_set.date.unique()
         self.rebalance_window = rebalance_window
@@ -328,7 +326,7 @@ class DRLEnsembleAgent:
             ############## Environment Setup ends ##############
 
             ############## Training and Validation starts ##############
-            print("======Model training from: ", self.train_period[0], "to ",self.train_set.date[i - self.rebalance_window - self.validation_window])
+            print("======Model training from: ",self.train_set.date[0], "to ",self.train_set.date[i - self.rebalance_window - self.validation_window])
             # print("training: ",len(data_split(train_set, start=20090000, end=test.datadate.unique()[i-rebalance_window]) ))
             # print("==============Model Training===========")
             print("======A2C Training========")
@@ -407,7 +405,7 @@ class DRLEnsembleAgent:
             a2c_sharpe_list.append(sharpe_a2c)
             ddpg_sharpe_list.append(sharpe_ddpg)
 
-            print("======Best Model Retraining from: ", self.train_period[0], "to ",self.train_set.date[i - self.rebalance_window])
+            print("======Best Model Retraining from: ", self.train_set.date[0], "to ",self.train_set.date[i - self.rebalance_window])
             # Environment setup for model retraining up to first trade date
             #train_full = data_split(self.train_set, start=self.train_period[0], end=self.unique_trade_date[i - self.rebalance_window])
             #self.train_full_env = DummyVecEnv([lambda: StockTradingEnv(train_full,
