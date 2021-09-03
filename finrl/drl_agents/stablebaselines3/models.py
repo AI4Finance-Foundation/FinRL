@@ -321,8 +321,8 @@ class DRLEnsembleAgent:
                                                                 self.tech_indicator_list,
                                                                 print_verbosity=self.print_verbosity)])
 
-            validation = data_split(self.test_set, start=self.unique_trade_date[i - self.validation_window],
-                                    end=self.unique_trade_date[i - self.rebalance_window])
+            validation = data_split(self.test_set, start=self.test_set.date[0],
+                                    end=self.unique_trade_date[i - self.validation_window])
             ############## Environment Setup ends ##############
 
             ############## Training and Validation starts ##############
@@ -442,7 +442,7 @@ class DRLEnsembleAgent:
             ############## Training and Validation ends ##############
 
             ############## Trading starts ##############
-            print("======Trading from: ", self.unique_trade_date[i - self.rebalance_window], "to ", self.unique_trade_date[i])
+            print("======Trading from: ", self.test_set.date[0], "to ", self.validation_window[i])
             #print("Used Model: ", model_ensemble)
             last_state_ensemble = self.DRL_prediction(model=model_ensemble, name="ensemble",
                                                      last_state=last_state_ensemble, iter_num=i,
