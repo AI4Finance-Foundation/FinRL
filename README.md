@@ -104,49 +104,21 @@ We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE,
   	Upgraded to **Pytorch** with stable-baselines3; Remove tensorflow 1.0 at this moment, under development to support tensorflow 2.0 
 * 2020-11-27
   	0.1: Beta version with tensorflow 1.5
+* 2021-08-25
+	0.3.1: pytorch version
 </div>
 </details>
 
 # Installation:
 
-## Docker Installation
+## Installation (Recommend using cloud service - Google Colab or AWS EC2)
 
-### Option 1: Use the bin
-
-```bash
-# grant access to execute scripting (read it, it's harmless)
-$ sudo chmod -R 777 docker/bin
-
-# build the container!
-$ ./docker/bin/build_container.sh
-
-# start notebook on port 8887!
-$ ./docker/bin/start_notebook.sh
-
-# proceed to party!
-```
-
-### Option 2: Do it manually
-
-Build the container:
-```bash
-$ docker build -f docker/Dockerfile -t finrl docker/
-```
-
-Start the container:
-```bash
-$ docker run -it --rm -v ${PWD}:/home -p 8888:8888 finrl
-```
-Note: The default container run starts jupyter lab in the root directory, allowing you to run scripts, notebooks, etc.
-
-## Bare-metal installation (More difficult)
-
-Clone this repository:
+Download to local:
 ```shell
 git clone https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
 
-Install the unstable development version of FinRL:
+Install the unstable development version of FinRL using **pip**:
 ```shell
 pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
@@ -218,6 +190,35 @@ A migration guide from SB2 to SB3 can be found in the [documentation](https://st
 #### Stable-Baselines using Tensorflow 2.0
 Still [Under Development](https://github.com/Stable-Baselines-Team/stable-baselines-tf2)
 
+## Docker Installation
+
+### Option 1: Use the bin
+
+```bash
+# grant access to execute scripting (read it, it's harmless)
+$ sudo chmod -R 777 docker/bin
+
+# build the container!
+$ ./docker/bin/build_container.sh
+
+# start notebook on port 8887!
+$ ./docker/bin/start_notebook.sh
+
+# proceed to party!
+```
+
+### Option 2: Do it manually
+
+Build the container:
+```bash
+$ docker build -f docker/Dockerfile -t finrl docker/
+```
+
+Start the container:
+```bash
+$ docker run -it --rm -v ${PWD}:/home -p 8888:8888 finrl
+```
+Note: The default container run starts jupyter lab in the root directory, allowing you to run scripts, notebooks, etc.
 
 ### Run 
 ```shell
