@@ -105,11 +105,11 @@ We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE,
 * 2020-11-27
   	0.1: Beta version with tensorflow 1.5
 * 2021-08-25
-	0.3.1: pytorch version
+	0.3.1: pytorch version with a three-layer architecture, apps (financial tasks), drl_agents (drl algorithms), neo_finrl (gym env)
 </div>
 </details>
 
-# Installation:
+# Installation:app
 
 ## Installation (Recommend using cloud service - Google Colab or AWS EC2)
 
