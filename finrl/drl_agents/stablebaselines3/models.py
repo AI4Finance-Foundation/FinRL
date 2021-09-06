@@ -5,7 +5,7 @@ import time
 import gym
 
 from finrl.apps import config
-from finrl.neo_finrl.preprocessor.preprocessors import FeatureEngineer, data_split
+from finrl.neo_finrl.preprocessor.preprocessors import FeatureEngineer, data_split,roll_data
 
 from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
 # RL models from stable-baselines
@@ -210,7 +210,8 @@ class DRLEnsembleAgent:
 
         ## trading env
         # trade_data = data_split(self.train_set, start=self.unique_trade_date[iter_num - self.validation_window], end=self.unique_trade_date[iter_num])
-        trade_data = self.train_set[iter_num - self.validation_window:iter_num]
+        # trade_data = self.train_set[iter_num - self.validation_window:iter_num]
+        trade_data = roll_data(df=self.train_set,iter_start=iter_num,window_size=self.validation_window)
         trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
                                                         self.stock_dim,
                                                         self.hmax,
@@ -309,7 +310,8 @@ class DRLEnsembleAgent:
             ############## Environment Setup starts ##############
             ## training env
             # train = data_split(self.train_set, start=self.train_set.date[0], end=self.train_set.date[i - self.validation_window])
-            train = self.train_set[i - self.validation_window:i]
+            # train = self.train_set[i - self.validation_window:i]
+            train = roll_data(df=self.train_set, iter_start=i, window_size=self.validation_window)
             self.train_env = DummyVecEnv([lambda: StockTradingEnv(train,
                                                                 self.stock_dim,
                                                                 self.hmax,
@@ -323,7 +325,8 @@ class DRLEnsembleAgent:
                                                                 print_verbosity=self.print_verbosity)])
 
             # validation = data_split(self.test_set, start=self.test_set.date[0],end=self.unique_trade_date[i - self.validation_window])
-            validation = self.train_set[i - self.validation_window:i]
+            # validation = self.test_set[i - self.validation_window:i]
+            validation = roll_data(df=self.test_set, iter_start=i, window_size=self.validation_window)
             ############## Environment Setup ends ##############
 
             ############## Training and Validation starts ##############
