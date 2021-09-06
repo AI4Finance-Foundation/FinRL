@@ -38,7 +38,7 @@ Roadmaps of FinRL:
 
 **FinRL 3.0**: advanced-level services for investment banks and hedge funds. Please check our cloud-native solution [GPU-podracer](https://github.com/AI4Finance-Foundation/GPU_Podracer). 
 
-**FinRL 0.0**: we would like to backup with tens of training environments in [NeoFinRL](https://github.com/AI4Finance-Foundation/NeoFinRL).
+**FinRL 0.0**: we provide tens of training/testing/trading environments in [NeoFinRL](https://github.com/AI4Finance-Foundation/NeoFinRL).
 
 FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
