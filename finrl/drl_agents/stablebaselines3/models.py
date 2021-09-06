@@ -209,7 +209,8 @@ class DRLEnsembleAgent:
         ### make a prediction based on trained model###
 
         ## trading env
-        trade_data = data_split(self.train_set, start=self.unique_trade_date[iter_num - self.validation_window], end=self.unique_trade_date[iter_num])
+        # trade_data = data_split(self.train_set, start=self.unique_trade_date[iter_num - self.validation_window], end=self.unique_trade_date[iter_num])
+        trade_data = self.train_set[iter_num - self.validation_window:iter_num]
         trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
                                                         self.stock_dim,
                                                         self.hmax,
