@@ -184,7 +184,7 @@ class DRLEnsembleAgent:
         self.train_set = train_set
         self.test_set = test_set
 
-        self.unique_trade_date = test_set.date.unique()
+        self.unique_trade_date = train_set.date.unique()
         self.validation_window = validation_window
 
         self.stock_dim = stock_dim
@@ -205,43 +205,44 @@ class DRLEnsembleAgent:
             action, _states = model.predict(test_obs)
             test_obs, rewards, dones, info = test_env.step(action)
 
-    def DRL_prediction(self,model,name,last_state,iter_num,turbulence_threshold,initial):
+    def DRL_prediction(self,model,name,last_state,turbulence_threshold,initial):
         ### make a prediction based on trained model###
 
         ## trading env
         # trade_data = data_split(self.train_set, start=self.unique_trade_date[iter_num - self.validation_window], end=self.unique_trade_date[iter_num])
         # trade_data = self.train_set[iter_num - self.validation_window:iter_num]
-        trade_data = roll_data(df=self.train_set,iter_start=iter_num,window_size=self.validation_window)
-        trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
-                                                        self.stock_dim,
-                                                        self.hmax,
-                                                        self.initial_amount,
-                                                        self.buy_cost_pct,
-                                                        self.sell_cost_pct,
-                                                        self.reward_scaling,
-                                                        self.state_space,
-                                                        self.action_space,
-                                                        self.tech_indicator_list,
-                                                        turbulence_threshold=turbulence_threshold,
-                                                        initial=initial,
-                                                        previous_state=last_state,
-                                                        model_name=name,
-                                                        mode='trade',
-                                                        iteration=iter_num,
-                                                        print_verbosity=self.print_verbosity)])
+        for iter_num in range(self.validation_window, len(self.test_set.date.unique())):
+            trade_data = roll_data(df=self.test_set,iter_start=iter_num,window_size=self.validation_window)
+            trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
+                                                            self.stock_dim,
+                                                            self.hmax,
+                                                            self.initial_amount,
+                                                            self.buy_cost_pct,
+                                                            self.sell_cost_pct,
+                                                            self.reward_scaling,
+                                                            self.state_space,
+                                                            self.action_space,
+                                                            self.tech_indicator_list,
+                                                            turbulence_threshold=turbulence_threshold,
+                                                            initial=initial,
+                                                            previous_state=last_state,
+                                                            model_name=name,
+                                                            mode='trade',
+                                                            iteration=iter_num,
+                                                            print_verbosity=self.print_verbosity)])
 
-        trade_obs = trade_env.reset()
+            trade_obs = trade_env.reset()
 
-        for i in range(len(trade_data.index.unique())):
-            action, _states = model.predict(trade_obs)
-            trade_obs, rewards, dones, info = trade_env.step(action)
-            if i == (len(trade_data.index.unique()) - 2):
-                # print(env_test.render())
-                last_state = trade_env.render()
+            for i in range(len(trade_data.index.unique())):
+                action, _states = model.predict(trade_obs)
+                trade_obs, rewards, dones, info = trade_env.step(action)
+                if i == (len(trade_data.index.unique()) - 2):
+                    # print(env_test.render())
+                    last_state = trade_env.render()
 
-        df_last_state = pd.DataFrame({'last_state': last_state})
-        df_last_state.to_csv('results/last_state_{}_{}.csv'.format(name, i), index=False)
-        return last_state
+            df_last_state = pd.DataFrame({'last_state': last_state})
+            df_last_state.to_csv('results/last_state_{}_{}.csv'.format(name, i), index=False)
+            return last_state
 
     def run_ensemble_strategy(self,A2C_model_kwargs,PPO_model_kwargs,DDPG_model_kwargs,timesteps_dict):
         """Ensemble Strategy that combines PPO, A2C and DDPG"""
@@ -263,7 +264,7 @@ class DRLEnsembleAgent:
         insample_turbulence_threshold = np.quantile(insample_turbulence.turbulence.values, .90)
 
         start = time.time()
-        for i in range(self.validation_window, len(self.unique_trade_date), self.validation_window):
+        for i in range(self.validation_window, len(self.unique_trade_date)):
             validation_start_date = self.unique_trade_date[i - self.validation_window]
             validation_end_date = self.unique_trade_date[i - self.validation_window]
 
@@ -326,7 +327,7 @@ class DRLEnsembleAgent:
 
             # validation = data_split(self.test_set, start=self.test_set.date[0],end=self.unique_trade_date[i - self.validation_window])
             # validation = self.test_set[i - self.validation_window:i]
-            validation = roll_data(df=self.test_set, iter_start=i, window_size=self.validation_window)
+            validation = roll_data(df=self.train_set, iter_start=i, window_size=self.validation_window,val=True)
             ############## Environment Setup ends ##############
 
             ############## Training and Validation starts ##############
@@ -449,7 +450,7 @@ class DRLEnsembleAgent:
             print("======Trading from: ", self.test_set.date[0], "to ", self.unique_trade_date[i])
             #print("Used Model: ", model_ensemble)
             last_state_ensemble = self.DRL_prediction(model=model_ensemble, name="ensemble",
-                                                     last_state=last_state_ensemble, iter_num=i,
+                                                     last_state=last_state_ensemble,
                                                      turbulence_threshold = turbulence_threshold,
                                                      initial=initial)
             ############## Trading ends ##############
