@@ -211,7 +211,7 @@ class DRLEnsembleAgent:
         ## trading env
         # trade_data = data_split(self.train_set, start=self.unique_trade_date[iter_num - self.validation_window], end=self.unique_trade_date[iter_num])
         # trade_data = self.train_set[iter_num - self.validation_window:iter_num]
-        for iter_num in range(self.validation_window, len(self.test_set.date.unique())):
+        for iter_num in range(self.validation_window, len(self.test_set.date.unique()),self.validation_window):
             trade_data = roll_data(df=self.test_set,iter_start=iter_num,window_size=self.validation_window)
             trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
                                                             self.stock_dim,
@@ -264,7 +264,7 @@ class DRLEnsembleAgent:
         insample_turbulence_threshold = np.quantile(insample_turbulence.turbulence.values, .90)
 
         start = time.time()
-        for i in range(self.validation_window, len(self.unique_trade_date)):
+        for i in range(self.validation_window, len(self.unique_trade_date),self.validation_window):
             validation_start_date = self.unique_trade_date[i - self.validation_window]
             validation_end_date = self.unique_trade_date[i - self.validation_window]
 

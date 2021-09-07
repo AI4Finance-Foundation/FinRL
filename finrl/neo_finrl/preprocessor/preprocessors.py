@@ -31,7 +31,7 @@ def roll_data(df,iter_start,window_size,target_date_col = "date",val=False):
     if not val:
         rdata = df[iter_start - window_size:iter_start]
     else:
-        rdata = df[iter_start + window_size - 1:iter_start + window_size]
+        rdata = df[iter_start + window_size - 1:iter_start + window_size*2]
     rdata.index = rdata[target_date_col].factorize()[0]
     return rdata
 
