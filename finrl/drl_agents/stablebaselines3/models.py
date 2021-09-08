@@ -213,7 +213,7 @@ class DRLEnsembleAgent:
         # trade_data = self.train_set[iter_num - self.validation_window:iter_num]
         for iter_num in range(self.validation_window, len(self.test_set.date.unique()),self.validation_window):
             trade_data = roll_data(df=self.test_set,iter_start=iter_num,window_size=self.validation_window)
-            if not trade_data:
+            if isinstance(trade_data,bool):
                 continue
             trade_env = SubprocVecEnv([lambda: StockTradingEnv(trade_data,
                                                             self.stock_dim,
@@ -315,7 +315,7 @@ class DRLEnsembleAgent:
             # train = data_split(self.train_set, start=self.train_set.date[0], end=self.train_set.date[i - self.validation_window])
             # train = self.train_set[i - self.validation_window:i]
             train = roll_data(df=self.train_set, iter_start=i, window_size=self.validation_window)
-            if not train:
+            if isinstance(train,bool):
                 continue
             self.train_env = SubprocVecEnv([lambda: StockTradingEnv(train,
                                                                 self.stock_dim,
@@ -332,7 +332,7 @@ class DRLEnsembleAgent:
             # validation = data_split(self.test_set, start=self.test_set.date[0],end=self.unique_trade_date[i - self.validation_window])
             # validation = self.test_set[i - self.validation_window:i]
             validation = roll_data(df=self.train_set, iter_start=i, window_size=self.validation_window,val=True)
-            if not validation:
+            if isinstance(validation,bool):
                 continue
             ############## Environment Setup ends ##############
 
