@@ -19,7 +19,7 @@ from stable_baselines3.common.noise import (
     OrnsteinUhlenbeckActionNoise,
 )
 from stable_baselines3.ppo import MlpPolicy
-from stable_baselines3.common.vec_env import DummyVecEnv,SubprocVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 from stable_baselines3 import DDPG
 from stable_baselines3.common.noise import (
@@ -215,7 +215,7 @@ class DRLEnsembleAgent:
             trade_data = roll_data(df=self.test_set,iter_start=iter_num,window_size=self.validation_window)
             if isinstance(trade_data,bool):
                 continue
-            trade_env = SubprocVecEnv([lambda: StockTradingEnv(trade_data,
+            trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
                                                             self.stock_dim,
                                                             self.hmax,
                                                             self.initial_amount,
@@ -317,7 +317,7 @@ class DRLEnsembleAgent:
             train = roll_data(df=self.train_set, iter_start=i, window_size=self.validation_window)
             if isinstance(train,bool):
                 continue
-            self.train_env = SubprocVecEnv([lambda: StockTradingEnv(train,
+            self.train_env = DummyVecEnv([lambda: StockTradingEnv(train,
                                                                 self.stock_dim,
                                                                 self.hmax,
                                                                 self.initial_amount,
@@ -345,7 +345,7 @@ class DRLEnsembleAgent:
             model_a2c = self.train_model(model_a2c, "a2c", tb_log_name="a2c_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['a2c']) #100_000
 
             print("======A2C Validation from: ", validation_start_date, "to ",validation_end_date)
-            val_env_a2c = SubprocVecEnv([lambda: StockTradingEnv(validation,
+            val_env_a2c = DummyVecEnv([lambda: StockTradingEnv(validation,
                                                                 self.stock_dim,
                                                                 self.hmax,
                                                                 self.initial_amount,
@@ -369,7 +369,7 @@ class DRLEnsembleAgent:
             model_ppo = self.get_model("ppo",self.train_env,policy="MlpPolicy",model_kwargs=PPO_model_kwargs)
             model_ppo = self.train_model(model_ppo, "ppo", tb_log_name="ppo_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ppo']) #100_000
             print("======PPO Validation from: ", validation_start_date, "to ",validation_end_date)
-            val_env_ppo = SubprocVecEnv([lambda: StockTradingEnv(validation,
+            val_env_ppo = DummyVecEnv([lambda: StockTradingEnv(validation,
                                                                 self.stock_dim,
                                                                 self.hmax,
                                                                 self.initial_amount,
@@ -393,7 +393,7 @@ class DRLEnsembleAgent:
             model_ddpg = self.get_model("ddpg",self.train_env,policy="MlpPolicy",model_kwargs=DDPG_model_kwargs)
             model_ddpg = self.train_model(model_ddpg, "ddpg", tb_log_name="ddpg_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ddpg'])  #50_000
             print("======DDPG Validation from: ", validation_start_date, "to ",validation_end_date)
-            val_env_ddpg = SubprocVecEnv([lambda: StockTradingEnv(validation,
+            val_env_ddpg = DummyVecEnv([lambda: StockTradingEnv(validation,
                                                                 self.stock_dim,
                                                                 self.hmax,
                                                                 self.initial_amount,
