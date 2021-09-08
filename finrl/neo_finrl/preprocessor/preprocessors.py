@@ -32,8 +32,12 @@ def roll_data(df,iter_start,window_size,target_date_col = "date",val=False):
         rdata = df[iter_start - window_size:iter_start]
     else:
         rdata = df[iter_start + window_size - 1:iter_start + window_size*2]
-    rdata.index = rdata[target_date_col].factorize()[0]
-    return rdata
+    # rdata.index = rdata[target_date_col].factorize()[0]
+    rdata.reset_index(inplace=True,drop=True)
+    if rdata.empty:
+        return False
+    else:
+        return rdata
 
 def convert_to_datetime(time):
     time_fmt = "%Y-%m-%dT%H:%M:%S"
