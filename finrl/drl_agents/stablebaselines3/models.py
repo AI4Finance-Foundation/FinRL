@@ -164,8 +164,8 @@ class DRLEnsembleAgent:
     def get_validation_sharpe(iteration,model_name):
         ###Calculate Sharpe ratio based on validation results###
         df_total_value = pd.read_csv('results/account_value_validation_{}_{}.csv'.format(model_name,iteration))
-        sharpe = (4 ** 0.5) * df_total_value['daily_return'].mean() / \
-                 df_total_value['daily_return'].std()
+        sharpe = (4 ** 0.5) * df_total_value['pct_return'].mean() / \
+                 df_total_value['pct_return'].std()
         return sharpe
 
     def __init__(self,train_set,test_set,

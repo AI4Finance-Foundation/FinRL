@@ -127,8 +127,8 @@ class StockPortfolioEnv(gym.Env):
 
         if self.terminal:
             df = pd.DataFrame(self.portfolio_return_memory)
-            df.columns = ["daily_return"]
-            plt.plot(df.daily_return.cumsum(), "r")
+            df.columns = ["pct_return"]
+            plt.plot(df.pct_return.cumsum(), "r")
             plt.savefig("results/cumulative_reward.png")
             plt.close()
 
@@ -141,12 +141,12 @@ class StockPortfolioEnv(gym.Env):
             print("end_total_asset:{}".format(self.portfolio_value))
 
             df_daily_return = pd.DataFrame(self.portfolio_return_memory)
-            df_daily_return.columns = ["daily_return"]
-            if df_daily_return["daily_return"].std() != 0:
+            df_daily_return.columns = ["pct_return"]
+            if df_daily_return["pct_return"].std() != 0:
                 sharpe = (
                     (252 ** 0.5)
-                    * df_daily_return["daily_return"].mean()
-                    / df_daily_return["daily_return"].std()
+                    * df_daily_return["pct_return"].mean()
+                    / df_daily_return["pct_return"].std()
                 )
                 print("Sharpe: ", sharpe)
             print("=================================")
@@ -232,7 +232,7 @@ class StockPortfolioEnv(gym.Env):
         # print(len(date_list))
         # print(len(asset_list))
         df_account_value = pd.DataFrame(
-            {"date": date_list, "daily_return": portfolio_return}
+            {"date": date_list, "pct_return": portfolio_return}
         )
         return df_account_value
 
