@@ -180,10 +180,10 @@ class StockTradingEnv(gym.Env):
             tot_reward = self.state[0]+sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))- self.initial_amount
             df_total_value.columns = ['account_value']
             df_total_value['date'] = self.date_memory
-            df_total_value['daily_return']=df_total_value['account_value'].pct_change(1)
-            if df_total_value['daily_return'].std() !=0:
-                sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
-                      df_total_value['daily_return'].std()
+            df_total_value['pct_return']=df_total_value['account_value'].pct_change(1)
+            if df_total_value['pct_return'].std() !=0:
+                sharpe = (252**0.5)*df_total_value['pct_return'].mean()/ \
+                      df_total_value['pct_return'].std()
             df_rewards = pd.DataFrame(self.rewards_memory)
             df_rewards.columns = ['account_rewards']
             df_rewards['date'] = self.date_memory[:-1]
@@ -194,7 +194,7 @@ class StockTradingEnv(gym.Env):
                 print(f"total_reward: {tot_reward:0.2f}")
                 print(f"total_cost: {self.cost:0.2f}")
                 print(f"total_trades: {self.trades}")
-                if df_total_value['daily_return'].std() != 0:
+                if df_total_value['pct_return'].std() != 0:
                     print(f"Sharpe: {sharpe:0.3f}")
                 print("=================================")
 
@@ -308,7 +308,12 @@ class StockTradingEnv(gym.Env):
                 state = [self.initial_amount] + \
                         [self.data.close] + \
                         [0]*self.stock_dim  + \
-                        sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+                        sum([[self.data[tech]] for tech in self.tech_indicator_list ], []) + \
+                        [self.data.open] + \
+                        [self.data.high] + \
+                        [self.data.low] + \
+                        [self.data.pct_return]
+
         else:
             #Using Previous State
             if len(self.df.tic.unique())>1:
@@ -322,7 +327,11 @@ class StockTradingEnv(gym.Env):
                 state = [self.previous_state[0]] + \
                         [self.data.close] + \
                         self.previous_state[(self.stock_dim+1):(self.stock_dim*2+1)]  + \
-                        sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+                        sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])+ \
+                        [self.data.open] + \
+                        [self.data.high] + \
+                        [self.data.low] + \
+                        [self.data.pct_return]
         return state
 
     def _update_state(self):
@@ -338,7 +347,11 @@ class StockTradingEnv(gym.Env):
             state =  [self.state[0]] + \
                      [self.data.close] + \
                      list(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]) + \
-                     sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])
+                     sum([[self.data[tech]] for tech in self.tech_indicator_list ], [])+ \
+                        [self.data.open] + \
+                        [self.data.high] + \
+                        [self.data.low] + \
+                        [self.data.pct_return]
 
         return state
 
