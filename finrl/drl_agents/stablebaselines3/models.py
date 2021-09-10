@@ -205,16 +205,14 @@ class DRLEnsembleAgent:
             action, _states = model.predict(test_obs)
             test_obs, rewards, dones, info = test_env.step(action)
 
-    def DRL_prediction(self,model,name,last_state,turbulence_threshold,initial):
+    def DRL_prediction(self,model,name,last_state,turbulence_threshold,initial,iter_num):
         ### make a prediction based on trained model###
 
         ## trading env
         # trade_data = data_split(self.train_set, start=self.unique_trade_date[iter_num - self.validation_window], end=self.unique_trade_date[iter_num])
         # trade_data = self.train_set[iter_num - self.validation_window:iter_num]
-        for iter_num in range(self.validation_window, len(self.test_set.date.unique()),self.validation_window):
-            trade_data = roll_data(df=self.test_set,iter_start=iter_num,window_size=self.validation_window)
-            if isinstance(trade_data,bool):
-                continue
+        trade_data = roll_data(df=self.test_set,iter_start=iter_num,window_size=self.validation_window)
+        try:
             trade_env = DummyVecEnv([lambda: StockTradingEnv(trade_data,
                                                             self.stock_dim,
                                                             self.hmax,
@@ -232,19 +230,21 @@ class DRLEnsembleAgent:
                                                             mode='trade',
                                                             iteration=iter_num,
                                                             print_verbosity=self.print_verbosity)])
+        except:
+            return
 
-            trade_obs = trade_env.reset()
+        trade_obs = trade_env.reset()
 
-            for i in range(len(trade_data.index.unique())):
-                action, _states = model.predict(trade_obs)
-                trade_obs, rewards, dones, info = trade_env.step(action)
-                if i == (len(trade_data.index.unique()) - 2):
-                    # print(env_test.render())
-                    last_state = trade_env.render()
+        for i in range(len(trade_data.index.unique())):
+            action, _states = model.predict(trade_obs)
+            trade_obs, rewards, dones, info = trade_env.step(action)
+            if i == (len(trade_data.index.unique()) - 2):
+                # print(env_test.render())
+                last_state = trade_env.render()
 
-            df_last_state = pd.DataFrame({'last_state': last_state})
-            df_last_state.to_csv('results/last_state_{}_{}.csv'.format(name, i), index=False)
-            return last_state
+        df_last_state = pd.DataFrame({'last_state': last_state})
+        df_last_state.to_csv('results/last_state_{}_{}.csv'.format(name, i), index=False)
+        return last_state
 
     def run_ensemble_strategy(self,A2C_model_kwargs,PPO_model_kwargs,DDPG_model_kwargs,timesteps_dict):
         """Ensemble Strategy that combines PPO, A2C and DDPG"""
@@ -458,7 +458,7 @@ class DRLEnsembleAgent:
             last_state_ensemble = self.DRL_prediction(model=model_ensemble, name="ensemble",
                                                      last_state=last_state_ensemble,
                                                      turbulence_threshold = turbulence_threshold,
-                                                     initial=initial)
+                                                     initial=initial,iter_num=i)
             ############## Trading ends ##############
 
         end = time.time()
