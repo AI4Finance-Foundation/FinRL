@@ -16,9 +16,8 @@
 
 FinRL is an open source framework to help practitioners pipeline the development of trading strategies. **In deep reinforcement learning (DRL), an agent learns by continuously interacting with an environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides resources about deep reinforcement learning (DRL) in quantitative finance, and aim to accelerate the paradigm shift from conventional machine learning approach to **RLOps in finance**.
 
-**To contribute?**  Please check the end of this page.
 
-Feel free to report bugs via Github issues, join the mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance), and discuss FinRL in slack channel:
+Join the mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance), or discuss FinRL in slack channel:
 
 <br/>
 
@@ -32,13 +31,13 @@ Feel free to report bugs via Github issues, join the mailing list: [AI4Finance](
 
 Roadmaps of FinRL:
 
-**FinRL 1.0**: entry-level toturials for beginners, with a demonstrative and educational purpose.
+**FinRL 1.0**: entry-level for beginners, with a demonstrative and educational purpose.
 
-**FinRL 2.0**: intermediate-level framework for full-stack developers and professionals. Check out [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
+**FinRL 2.0**: intermediate-level for full-stack developers and professionals. Check out [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
 
-**FinRL 3.0**: advanced-level services for investment banks and hedge funds. Please check our cloud-native solution [GPU-podracer](https://github.com/AI4Finance-Foundation/GPU_Podracer). 
+**FinRL 3.0**: advanced-level for investment banks and hedge funds. Check our cloud-native solution [GPU-podracer](https://github.com/AI4Finance-Foundation/GPU_Podracer). 
 
-**FinRL 0.0**: we provide tens of training/testing/trading environments in [NeoFinRL](https://github.com/AI4Finance-Foundation/NeoFinRL).
+**FinRL 0.0**: tens of training/testing/trading environments in [NeoFinRL](https://github.com/AI4Finance-Foundation/NeoFinRL).
 
 FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
