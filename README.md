@@ -35,7 +35,7 @@ Roadmaps of FinRL:
 
 **FinRL 2.0**: intermediate-level for full-stack developers and professionals. Check out [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
 
-**FinRL 3.0**: advanced-level for investment banks and hedge funds. Check our cloud-native solution [GPU-podracer](https://github.com/AI4Finance-Foundation/GPU_Podracer). 
+**FinRL 3.0**: advanced-level for investment banks and hedge funds. Check out our cloud-native solution [GPU-podracer](https://github.com/AI4Finance-Foundation/GPU_Podracer). 
 
 **FinRL 0.0**: tens of training/testing/trading environments in [NeoFinRL](https://github.com/AI4Finance-Foundation/NeoFinRL).
 
