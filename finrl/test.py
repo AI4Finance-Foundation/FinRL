@@ -1,7 +1,7 @@
 from elegantrl.agent import *
 from elegantrl.run import *
 import torch 
-from finrl.neo_finrl.data_processor import DataProcessor
+from neo_finrl.data_processor import DataProcessor
 
 def test(start_date, end_date, ticker_list, data_source, time_interval, 
          technical_indicator_list, drl_lib, env, agent, if_vix = True,
@@ -13,11 +13,11 @@ def test(start_date, end_date, ticker_list, data_source, time_interval,
     data = DP.add_technical_indicator(data, technical_indicator_list)
     if if_vix:
         data = DP.add_vix(data)
-    price_array, tech_array, turbulence_array = DP.df_to_array(data, if_vix)
+    price_array, tech_array, risk_array = DP.df_to_array(data, if_vix)
     
     env_config = {'price_array':price_array,
             'tech_array':tech_array,
-            'turbulence_array':turbulence_array,
+            'risk_array':risk_array,
             'if_train':False}
     env_instance = env(config=env_config)
     
@@ -29,7 +29,10 @@ def test(start_date, end_date, ticker_list, data_source, time_interval,
         
         #select agent
         if agent == 'ppo':
-            args = Arguments(agent=AgentPPO(), env=env_instance, if_on_policy=True)
+            args = Arguments(if_on_policy=True)
+            args.agent = AgentPPO()
+            args.env = env_instance
+            args.agent.if_use_cri_target = True
         else:
             raise ValueError('Invalid agent input or the agent input is not \
                              supported yet.')
@@ -43,7 +46,7 @@ def test(start_date, end_date, ticker_list, data_source, time_interval,
             net_dim = net_dimension
     
             agent.init(net_dim, state_dim, action_dim)
-            agent.save_load_model(cwd=cwd, if_save=False)
+            agent.save_or_load_agent(cwd=cwd, if_save=False)
             act = agent.act
             device = agent.device
     
@@ -80,7 +83,7 @@ def test(start_date, end_date, ticker_list, data_source, time_interval,
         config["log_level"] = "WARN"
         config['env_config'] = {'price_array':price_array,
                                 'tech_array':tech_array,
-                                'turbulence_array':turbulence_array,
+                                'risk_array':risk_array,
                                 'if_train':False}
         
         trainer = PPOTrainer(env=env, config=config)
@@ -136,13 +139,13 @@ def test(start_date, end_date, ticker_list, data_source, time_interval,
         raise ValueError('DRL library input is NOT supported yet. Please check.')
             
 if __name__ == '__main__':    
-    from finrl.neo_finrl.config import FAANG_TICKER
-    from finrl.neo_finrl.config import TECHNICAL_INDICATORS_LIST
-    from finrl.neo_finrl.config import TEST_START_DATE
-    from finrl.neo_finrl.config import TEST_END_DATE
+    from neo_finrl.config import FAANG_TICKER
+    from neo_finrl.config import TECHNICAL_INDICATORS_LIST
+    from neo_finrl.config import TEST_START_DATE
+    from neo_finrl.config import TEST_END_DATE
     
     #construct environment
-    from finrl.neo_finrl.env_stock_trading.env_stocktrading_np import StockTradingEnv
+    from neo_finrl.env_stock_trading.env_stock_trading import StockTradingEnv
     env = StockTradingEnv
     
     #demo for elegantrl
@@ -157,7 +160,7 @@ if __name__ == '__main__':
          ticker_list = FAANG_TICKER, data_source = 'yahoofinance',
          time_interval= '1D', technical_indicator_list= TECHNICAL_INDICATORS_LIST,
          drl_lib='rllib', env=env, agent='ppo', 
-         cwd='./test_ppo/checkpoint_000100/checkpoint-100')
+         cwd='./test_ppo/checkpoint_000010/checkpoint-10')
 
     #demo for stable baselines3 
     test(start_date = TEST_START_DATE, end_date = TEST_END_DATE,
@@ -165,3 +168,4 @@ if __name__ == '__main__':
          time_interval= '1D', technical_indicator_list= TECHNICAL_INDICATORS_LIST, 
          drl_lib='stable_baselines3', env=env, agent='ppo', 
          cwd='./test_ppo.zip')
+
