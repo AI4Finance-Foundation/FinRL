@@ -248,10 +248,13 @@ class StockTradingEnv(gym.Env):
             #state: s -> s+1
             self.day += 1
             self.data = self.df.loc[self.day,:]    
-            if self.turbulence_threshold is not None:     
-                self.turbulence = self.data[self.risk_indicator_col].values[0]
-            self.state =  self._update_state()
-                           
+            if self.turbulence_threshold is not None:
+                if len(self.df.tic.unique()) == 1:
+                    self.turbulence = self.data[self.risk_indicator_col]
+                elif len(self.df.tic.unique()) > 1:
+                    self.turbulence = self.data[self.risk_indicator_col].values[0]
+            self.state = self._update_state()
+            
             end_total_asset = self.state[0]+ \
             sum(np.array(self.state[1:(self.stock_dim+1)])*np.array(self.state[(self.stock_dim+1):(self.stock_dim*2+1)]))
             self.asset_memory.append(end_total_asset)
