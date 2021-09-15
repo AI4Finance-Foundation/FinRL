@@ -22,7 +22,7 @@ Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
 	<div align="center">
-		<img src=figs/join_slack.png width="30%"/>
+		<img src=figs/join_slack.png width="35%"/>
 	</div>
 </a>
 
@@ -84,13 +84,14 @@ We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) a
 
 ## Overview
 
-A YouTube video about FinRL library.  [YouTube] [AI4Finance Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quant finance.
+A video about FinRL library. The [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quantative finance.
 
-[<img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%">](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
+[<div align="center"><img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%"></div>](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
 
-
-<img src=figs/Poster_FinRL.jpg width="800">
-
+<div align="center">
+<img align="center" src=figs/Poster_FinRL.jpg width="600">
+</div>
+	
 ## DRL Algorithms 
 
 We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, etc. using PyTorch and OpenAI Gym. 
@@ -229,12 +230,10 @@ Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do 
 
 
 ### Data
-The stock data we use is pulled from Yahoo Finance API.
-
-(The following time line is used in the paper; users can update to new time windows.)
-
+The stock data we use is pulled from Yahoo Finance API (the following time windows show the data split in the paper; users can customized to new time windows).
+<div align="center">
 <img src=figs/example_data.PNG width="600">
-
+</div>
 
 ## Contributions
 
