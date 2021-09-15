@@ -115,12 +115,12 @@ We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE,
 
 Clone the repository:
 ```shell
-git clone https://github.com/AI4Finance-LLC/FinRL-Library.git
+git clone https://github.com/AI4Finance-Foundation/FinRL.git
 ```
 
 Install the unstable development version of FinRL using **pip**:
 ```shell
-pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
+pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
 ```
 
 
@@ -146,9 +146,9 @@ To install stable-baselines on Windows, please look at the [documentation](https
 #### Create and Activate Python Virtual-Environment (Optional but highly recommended)
 cd into this repository:
 ```bash
-cd FinRL-Library
+cd FinRL
 ```
-Under folder /FinRL-Library, create a Python virtual-environment:
+Under the root directory /FinRL, create a Python virtual-environment:
 ```bash
 pip install virtualenv
 ```
@@ -156,7 +156,7 @@ Virtualenvs are essentially folders that have copies of python executable and al
 
 **Virtualenvs can also avoid packages conflicts.**
 
-Create a virtualenv **venv** under folder /FinRL-Library
+Create a virtualenv **venv** under the root directory /FinR
 ```bash
 virtualenv -p python3 venv
 ```
@@ -257,7 +257,7 @@ The stock data we use is pulled from Yahoo Finance API (the following time windo
 
 Will maintain FinRL with the "AI4Finance" community and welcome your contributions!
 
-Please check the [contributing guidances](https://github.com/AI4Finance-LLC/FinRL/blob/master/contributing.md).
+Please check the [Contributing Guidances](https://github.com/AI4Finance-LLC/FinRL/blob/master/contributing.md).
 
 ### Contributors
 
