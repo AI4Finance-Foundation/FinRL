@@ -14,20 +14,17 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
-FinRL is an open source framework to help practitioners pipeline the development of trading strategies. **In deep reinforcement learning (DRL), an agent learns by continuously interacting with an environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration and exploitation.** The open source community **AI4Finance** (to efficiently automate trading) provides resources about deep reinforcement learning (DRL) in quantitative finance, and aim to accelerate the paradigm shift from conventional machine learning approach to **RLOps in finance**.
+**FinRL** is an open-source framework to help practitioners establish the development pipeline of trading strategies based on **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. The open-source community **AI4Finance** (efficiently automating trading) provides resources about deep reinforcement learning in quantitative finance. It accelerates the paradigm shift from the conventional machine learning approach to **RLOps in finance**.
 
 
-Join the mailing list: [AI4Finance](https://groups.google.com/u/1/g/ai4finance), or discuss FinRL in slack channel:
+Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
 
-<br/>
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
 	<div align="center">
-		<img src=figs/join_slack.png width="40%"/>
+		<img src=figs/join_slack.png width="30%"/>
 	</div>
 </a>
-
-<br/>
 
 Roadmaps of FinRL:
 
@@ -41,12 +38,12 @@ Roadmaps of FinRL:
 
 FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
-## Table of Contents
+## Outline
 
 - [Prior Arts](#Prior-Arts)
-- [News](#News)
+- [News](#Tutorials-and-News)
 - [Overview](#Overview)
-- [Status](#Status)
+- [Status Update](#Status-Update)
 - [Installation](#Installation)
 	- [Docker Installation](#Docker-Installation)
 	- [Prerequisites](#Prerequisites)
@@ -56,16 +53,16 @@ FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms,
 	- [Welcome Contributions](#Call-for-Contributions)
 - [LICENSE](#LICENSE)
 
-# Prior Arts:
+## Prior Arts
 
 We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) and now arrive at this project:
 
-+ 4). [FinRL](https://arxiv.org/abs/2011.09607): A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance, Deep RL Workshop, NeurIPS 2020.
-+ 3). Deep Reinforcement Learning for Automated Stock Trading: An Ensemble Strategy, [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996) and [codes](https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020), ACM International Conference on AI in Finance, ICAIF 2020.
-+ 2). Multi-agent Reinforcement Learning for Liquidation Strategy Analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
-+ 1). Practical Deep Reinforcement Learning Approach for Stock Trading, [paper](https://arxiv.org/abs/1811.07522) and [codes](https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018), Workshop on Challenges and Opportunities for AI in Financial Services, NeurIPS 2018.
++ [FinRL](https://arxiv.org/abs/2011.09607): A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance, Deep RL Workshop, NeurIPS 2020.
++ Deep Reinforcement Learning for Automated Stock Trading: An Ensemble Strategy, [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996) and [codes](https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020), ACM International Conference on AI in Finance, ICAIF 2020.
++ Multi-agent Reinforcement Learning for Liquidation Strategy Analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
++ Practical Deep Reinforcement Learning Approach for Stock Trading, [paper](https://arxiv.org/abs/1811.07522) and [codes](https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018), Workshop on Challenges and Opportunities for AI in Financial Services, NeurIPS 2018.
 
-# News and Tutorials
+## Tutorials and News
 + [Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
@@ -85,7 +82,7 @@ We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) a
 + [ICHI.PRO] [양적 금융을위한 FinRL: 단일 주식 거래를위한 튜토리얼](https://ichi.pro/ko/yangjeog-geum-yung-eul-wihan-finrl-dan-il-jusig-geolaeleul-wihan-tyutolieol-61395882412716)
 
 
-# Overview
+## Overview
 
 A YouTube video about FinRL library.  [YouTube] [AI4Finance Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quant finance.
 
@@ -94,11 +91,11 @@ A YouTube video about FinRL library.  [YouTube] [AI4Finance Channel](https://www
 
 <img src=figs/Poster_FinRL.jpg width="800">
 
-# DRL Algorithms 
+## DRL Algorithms 
 
 We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, etc. using PyTorch and OpenAI Gym. 
 
-# Status
+## Status Update
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
 	
@@ -111,11 +108,11 @@ We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE,
 </div>
 </details>
 
-# Installation:app
+## Installation
 
-## Installation (Recommend using cloud service - Google Colab or AWS EC2)
+### Installation (Recommend using cloud service - Google Colab or AWS EC2)
 
-Download to local:
+Clone the repository:
 ```shell
 git clone https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
@@ -126,7 +123,7 @@ pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 ```
 
 
-## Prerequisites
+### Prerequisites
 For [OpenAI Baselines](https://github.com/openai/baselines), you'll need system packages CMake, OpenMPI and zlib. Those can be installed as follows:
 
 #### Ubuntu
@@ -170,7 +167,7 @@ To activate a virtualenv on windows:
 ```
 venv\Scripts\activate
 ```
-## Dependencies
+### Dependencies
 
 The script has been tested running under **Python >= 3.6.0**, with the following packages installed:
 
@@ -194,7 +191,7 @@ Still [Under Development](https://github.com/Stable-Baselines-Team/stable-baseli
 
 ## Docker Installation
 
-### Option 1: Use the bin
+### Option 1: Run a container via scripts
 
 ```bash
 # grant access to execute scripting (read it, it's harmless)
@@ -209,7 +206,7 @@ $ ./docker/bin/start_notebook.sh
 # proceed to party!
 ```
 
-### Option 2: Do it manually
+### Option 2: Run a container manually
 
 Build the container:
 ```bash
@@ -239,7 +236,7 @@ The stock data we use is pulled from Yahoo Finance API.
 <img src=figs/example_data.PNG width="600">
 
 
-# Contributions
+## Contributions
 
 - FinRL is an open source library specifically designed and implemented for quant finance. Trading environments incorporating market frictions are used and provided.
 - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
