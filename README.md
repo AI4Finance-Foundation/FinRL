@@ -146,7 +146,7 @@ brew install cmake openmpi
 
 To install stable-baselines on Windows, please look at the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/install.html#prerequisites).
     
-#### Create and Activate Python Virtual-Environment (Optional but highly recommended)
+#### Create and Activate Python Virtual-Environment (optional but highly recommended)
 cd into this repository:
 ```bash
 cd FinRL
@@ -159,7 +159,7 @@ Virtualenvs are essentially folders that have copies of python executable and al
 
 **Virtualenvs can also avoid packages conflicts.**
 
-Create a virtualenv **venv** under the root directory /FinR
+Create a virtualenv **venv** under the root directory /FinRL
 ```bash
 virtualenv -p python3 venv
 ```
@@ -278,6 +278,6 @@ Thanks to all the people who contribute.
 ## Support live trading
    Supporting live trading can close the simulation-reality gap, which allows quants to switch to the real market when they are confident with the results.
    
-# LICENSE
+## LICENSE
 
-MIT
+MIT License
