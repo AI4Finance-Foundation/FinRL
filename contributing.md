@@ -1,8 +1,8 @@
-## Contribution Guidelines
+# Contribution Guidelines
 This project aims to bring a reinforcement learning environment to the trading community. 
 There are always competing priorities among the community, and we want to make sure that we are able to achieve together a project that is reliable, sustainable, and maintainable. 
 
-## Guiding principles (v1)
+## Guiding Principles (v1)
 * We should have reliable codes in this project
     * reliable code with tests
     * reliable code that works
