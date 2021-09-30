@@ -4,7 +4,7 @@ import pandas as pd
 import yfinance as yf
 import numpy as np
 from stockstats import StockDataFrame as Sdf
-import trading_calendars as tc
+import exchange_calendars as tc
 import pytz
 
 class YahooFinanceProcessor():

@@ -2,7 +2,7 @@ import alpaca_trade_api as tradeapi
 import pandas as pd
 import numpy as np
 from stockstats import StockDataFrame as Sdf
-import trading_calendars as tc
+import exchange_calendars as tc
 import pytz
 
 class AlpacaProcessor():
