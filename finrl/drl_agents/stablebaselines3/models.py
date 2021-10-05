@@ -20,6 +20,7 @@ from stable_baselines3.common.noise import (
 )
 from stable_baselines3.ppo import MlpPolicy
 from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.callbacks import BaseCallback
 
 from stable_baselines3 import DDPG
 from stable_baselines3.common.noise import (
@@ -37,6 +38,19 @@ NOISE = {
     "normal": NormalActionNoise,
     "ornstein_uhlenbeck": OrnsteinUhlenbeckActionNoise,
 }
+
+
+class TensorboardCallback(BaseCallback):
+    """
+    Custom callback for plotting additional values in tensorboard.
+    """
+
+    def __init__(self, verbose=0):
+        super(TensorboardCallback, self).__init__(verbose)
+
+    def _on_step(self) -> bool:
+        self.logger.record(key='train/reward', value=self.locals['rewards'][0])
+        return True
 
 
 class DRLAgent:
@@ -117,9 +131,8 @@ class DRLAgent:
         return model
 
     def train_model(self, model, tb_log_name, total_timesteps=5000):
-        model = model.learn(total_timesteps=total_timesteps, tb_log_name=tb_log_name)
+        model = model.learn(total_timesteps=total_timesteps, tb_log_name=tb_log_name, callback=TensorboardCallback())
         return model
-
 
 class DRLEnsembleAgent:
     @staticmethod
@@ -156,7 +169,7 @@ class DRLEnsembleAgent:
 
     @staticmethod
     def train_model(model, model_name, tb_log_name, iter_num, total_timesteps=5000):
-        model = model.learn(total_timesteps=total_timesteps, tb_log_name=tb_log_name)
+        model = model.learn(total_timesteps=total_timesteps, tb_log_name=tb_log_name, callback=TensorboardCallback())
         model.save(f"{config.TRAINED_MODEL_DIR}/{model_name.upper()}_{total_timesteps//1000}k_{iter_num}")
         return model
 
