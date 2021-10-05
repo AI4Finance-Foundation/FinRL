@@ -141,3 +141,4 @@ dmypy.json
 *.csv
 *.zip
 *.png
+finrl_test.py
