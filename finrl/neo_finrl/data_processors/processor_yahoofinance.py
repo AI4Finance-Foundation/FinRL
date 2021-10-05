@@ -44,13 +44,17 @@ class YahooFinanceProcessor():
         self.time_interval = time_interval
         
         # Download and save the data in a pandas DataFrame:
-        data_df = pd.DataFrame()
-        for tic in ticker_list:
-            temp_df = yf.download(tic, start=start_date, end=end_date)
-            temp_df["tic"] = tic
-            data_df = data_df.append(temp_df)
-        # reset the index, we want to use numbers as index instead of dates
+        data_df = yf.download(" ".join(ticker_list), start=start_date, end=end_date, group_by='ticker')
+        data_df = data_df.stack(level=0).rename_axis(['Date', 'Ticker']).reset_index(level=1)
         data_df = data_df.reset_index()
+
+        # data_df = pd.DataFrame()
+        # for tic in ticker_list:
+        #     temp_df = yf.download(tic, start=start_date, end=end_date)
+        #     temp_df["tic"] = tic
+        #     data_df = data_df.append(temp_df)
+        # # reset the index, we want to use numbers as index instead of dates
+        # data_df = data_df.reset_index()
         try:
             # convert the column names to standardized names
             data_df.columns = [
@@ -68,7 +72,7 @@ class YahooFinanceProcessor():
         # create day of the week column (monday = 0)
         data_df["day"] = data_df["date"].dt.dayofweek
         # convert date to standard string format, easy to filter
-        data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))
+        data_df["date"] = data_df["date"].dt.strftime('%Y-%m-%d')
         # drop missing data
         data_df = data_df.dropna()
         data_df = data_df.reset_index(drop=True)
