@@ -16,7 +16,7 @@
 
 **News: we plan to share our codes for both paper trading and live trading. Please share your interests.**
 
-**FinRL** is an open-source framework to help practitioners establish the development pipeline of trading strategies based on **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. The open-source community **AI4Finance** (efficiently automating trading) provides resources about deep reinforcement learning in quantitative finance. It accelerates the paradigm shift from the conventional machine learning approach to **RLOps in finance**.
+**FinRL** is an open-source framework to help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. The open-source community **AI4Finance** (efficiently automating trading) provides resources about DRL in quantitative finance. It aims to accelerate the paradigm shift from the conventional machine learning approach to **RLOps in finance**.
 
 
 Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
