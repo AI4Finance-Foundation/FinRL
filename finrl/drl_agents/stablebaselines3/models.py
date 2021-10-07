@@ -49,7 +49,8 @@ class TensorboardCallback(BaseCallback):
         super(TensorboardCallback, self).__init__(verbose)
 
     def _on_step(self) -> bool:
-        self.logger.record(key='train/reward', value=self.locals['rewards'][0])
+        try: self.logger.record(key='train/reward', value=self.locals['rewards'][0])
+        except: self.logger.record(key='train/reward', value=self.locals['reward'][0])
         return True
 
 
