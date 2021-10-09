@@ -117,7 +117,7 @@ class StockTradingEnv(gym.Env):
         return state, reward, done, dict()
 
     def get_state(self, price):
-        amount = np.array(max(self.amount, 1e4) * (2 ** -12), dtype=np.float32)
+        amount = np.array(self.amount * (2 ** -12), dtype=np.float32)
         scale = np.array(2 ** -6, dtype=np.float32)
         return np.hstack((amount,
                           self.turbulence_ary[self.day],
