@@ -9,6 +9,7 @@ import os
 from func import calc_all_filenames
 from func import remove_all_files
 from func import date2str
+from finrl.apps.config import START_DATE
 
 # import sys
 # sys.path.append("..")
@@ -94,6 +95,7 @@ if __name__ == '__main__':
     end_day = '2021-06-21'
     read_data_from_csv = 1
     path_of_data = '../data'
+
 
     e = JoinQuantEngineer()
     username = ''
