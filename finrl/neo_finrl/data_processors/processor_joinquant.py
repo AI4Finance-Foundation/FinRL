@@ -1,10 +1,26 @@
 import jqdatasdk as jq
 import pandas as pd
 import numpy as np
+import copy
+import datetime
+import csv
+import os
+
+from func import calc_all_filenames
+from func import remove_all_files
+from func import date2str
+
+# import sys
+# sys.path.append("..")
+# import config
 
 class JoinQuantEngineer():
     def __init__(self):
         pass
+
+    def auth(self, username, password):
+        jq.auth(username, password)
+
     def data_fetch(self,stock_list, num, unit, end_dt):
         df = jq.get_bars(security=stock_list, count=num, unit=unit, 
                          fields=['date','open','high','low','close','volume'],
@@ -21,5 +37,76 @@ class JoinQuantEngineer():
             stocki_ary = df.iloc[j*d:(j+1)*d,1:].values
             temp_ary = np.hstack((temp_ary,stocki_ary))
         return temp_ary
+
+    # start_day: str
+    # end_day: str
+    # output: list of str_of_trade_day, e.g., ['2021-10-10', '2021-10-11']
+    def calc_trade_days_by_joinquant(self, start_day, end_day):
+        dates = jq.get_trade_days(start_day, end_day)
+        str_dates = [date2str(dt) for dt in dates]
+        return str_dates
+
+    # start_day: str
+    # end_day: str
+    # output: list of dataframes, e.g., [df1, df2]
+    def read_data_from_csv(self, path_of_data, start_day, end_day):
+        datasets = []
+        selected_days = self.calc_trade_days_by_joinquant(start_day, end_day)
+        filenames = calc_all_filenames(path_of_data)
+        for filename in filenames:
+            dataset_orig = pd.read_csv(filename)
+            dataset = copy.deepcopy(dataset_orig)
+            days = dataset.iloc[:, 0].values.tolist()
+            indices_of_rows_to_drop = [d for d in days if d not in selected_days]
+            dataset.drop(index=indices_of_rows_to_drop, inplace=True)
+            datasets.append(dataset)
+        return datasets
+
+
+
+    # start_day: str
+    # end_day: str
+    # read_data_from_csv: if it is true, read_data_from_csv, and fetch data from joinquant otherwise.
+    # output: list of dataframes, e.g., [df1, df2]
+    def data_fetch_for_stocks(self, stocknames, start_day, end_day, read_data_from_csv, path_of_data):
+        assert read_data_from_csv in [0, 1]
+        if read_data_from_csv == 1:
+            remove = 0
+        else:
+            remove = 1
+        remove_all_files(remove, path_of_data)
+        dfs = []
+        if read_data_from_csv == 1:
+            dfs = self.read_data_from_csv(path_of_data, start_day, end_day)
+        else:
+            if os.path.exists(path_of_data) is False:
+                os.makedirs(path_of_data)
+            for stockname in stocknames:
+                df = jq.get_price(stockname, start_date=start_day, end_date=end_day, frequency='daily', fields=['open', 'close', 'high', 'low', 'volume'])
+                dfs.append(df)
+                df.to_csv(path_of_data + '/' + stockname + '.csv', float_format='%.4f')
+        return dfs
+
+
+
+if __name__ == '__main__':
+    start_day = '2021-06-12'
+    end_day = '2021-06-21'
+    read_data_from_csv = 1
+    path_of_data = '../data'
+
+    e = JoinQuantEngineer()
+    username = '18117580099'
+    password = 'Bl2020quant'
+    e.auth(username, password)
+
+    trade_days = e.calc_trade_days_by_joinquant(start_day, end_day)
+    stocknames = ['000612.XSHE', '601808.XSHG']
+    data = e.data_fetch_for_stocks(stocknames, start_day, end_day, read_data_from_csv, path_of_data)
+    pass
+
+
+
+
 
 
