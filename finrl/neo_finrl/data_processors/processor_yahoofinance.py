@@ -13,11 +13,11 @@ class YahooFinanceProcessor():
     Attributes
     ----------
         start_date : str
-            start date of the data (modified from config.py)
+            start date of the data (modified from neofinrl_config.py)
         end_date : str
-            end date of the data (modified from config.py)
+            end date of the data (modified from neofinrl_config.py)
         ticker_list : list
-            a list of stock tickers (modified from config.py)
+            a list of stock tickers (modified from neofinrl_config.py)
     Methods
     -------
     fetch_data()

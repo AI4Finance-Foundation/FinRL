@@ -147,10 +147,10 @@ def trade(start_date, end_date, ticker_list, data_source, time_interval,
             
 if __name__ == '__main__':    
     #fetch data
-    from neo_finrl.config import FAANG_TICKER
-    from neo_finrl.config import TECHNICAL_INDICATORS_LIST
-    from neo_finrl.config import TRADE_START_DATE
-    from neo_finrl.config import TRADE_END_DATE
+    from neo_finrl.neofinrl_config import FAANG_TICKER
+    from neo_finrl.neofinrl_config import TECHNICAL_INDICATORS_LIST
+    from neo_finrl.neofinrl_config import TRADE_START_DATE
+    from neo_finrl.neofinrl_config import TRADE_END_DATE
     
     #construct environment
     from neo_finrl.env_stock_trading.env_stock_trading import StockTradingEnv
