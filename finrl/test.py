@@ -139,10 +139,10 @@ def test(start_date, end_date, ticker_list, data_source, time_interval,
         raise ValueError('DRL library input is NOT supported yet. Please check.')
             
 if __name__ == '__main__':    
-    from neo_finrl.config import FAANG_TICKER
-    from neo_finrl.config import TECHNICAL_INDICATORS_LIST
-    from neo_finrl.config import TEST_START_DATE
-    from neo_finrl.config import TEST_END_DATE
+    from finrl.neo_finrl.neofinrl_config import FAANG_TICKER
+    from finrl.neo_finrl.neofinrl_config import TECHNICAL_INDICATORS_LIST
+    from finrl.neo_finrl.neofinrl_config import TEST_START_DATE
+    from finrl.neo_finrl.neofinrl_config import TEST_END_DATE
     
     #construct environment
     from neo_finrl.env_stock_trading.env_stock_trading import StockTradingEnv
