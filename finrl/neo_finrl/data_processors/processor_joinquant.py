@@ -101,8 +101,8 @@ if __name__ == '__main__':
 
 
     e = JoinQuantEngineer()
-    username = ''
-    password = ''
+    username = 'xxx'
+    password = 'xxx'
     e.auth(username, password)
 
     trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
