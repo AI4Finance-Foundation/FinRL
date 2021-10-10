@@ -105,6 +105,7 @@ if __name__ == '__main__':
     trade_days = e.calc_trade_days_by_joinquant(start_day, end_day)
     stocknames = ['000612.XSHE', '601808.XSHG']
     data = e.data_fetch_for_stocks(stocknames, start_day, end_day, read_data_from_csv, path_of_data)
+
     pass
 
 
