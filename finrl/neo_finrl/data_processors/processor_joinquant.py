@@ -96,8 +96,8 @@ if __name__ == '__main__':
     path_of_data = '../data'
 
     e = JoinQuantEngineer()
-    username = '18117580099'
-    password = 'Bl2020quant'
+    username = ''
+    password = ''
     e.auth(username, password)
 
     trade_days = e.calc_trade_days_by_joinquant(start_day, end_day)
