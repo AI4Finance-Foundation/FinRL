@@ -7,6 +7,10 @@ TEST_END_DATE = '2020-12-31'
 TRADE_START_DATE = '2021-01-01'
 TRADE_END_DATE = '2021-07-31'
 
+PATH_OF_DATA = 'data'
+READ_DATA_FROM_LOCAL = 1  # 0 or 1
+
+
 TECHNICAL_INDICATORS_LIST = ['macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30',
                              'close_30_sma', 'close_60_sma']
 
