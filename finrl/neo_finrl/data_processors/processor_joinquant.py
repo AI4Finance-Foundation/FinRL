@@ -40,7 +40,7 @@ class JoinQuantEngineer():
 
     # start_day: str
     # end_day: str
-    # output: list of str_of_trade_day, e.g., ['2021-10-10', '2021-10-11']
+    # output: list of str_of_trade_day, e.g., ['2021-09-01', '2021-09-02']
     def calc_trade_days_by_joinquant(self, start_day, end_day):
         dates = jq.get_trade_days(start_day, end_day)
         str_dates = [date2str(dt) for dt in dates]
