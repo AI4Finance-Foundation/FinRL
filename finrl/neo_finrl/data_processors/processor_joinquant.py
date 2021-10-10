@@ -60,8 +60,6 @@ class JoinQuantEngineer():
             datasets.append(dataset)
         return datasets
 
-
-
     # start_day: str
     # end_day: str
     # read_data_from_local: if it is true, read_data_from_csv, and fetch data from joinquant otherwise.
@@ -84,6 +82,7 @@ class JoinQuantEngineer():
                 dfs.append(df)
                 df.to_csv(path_of_data + '/' + stockname + '.csv', float_format='%.4f')
         return dfs
+
 
 
 

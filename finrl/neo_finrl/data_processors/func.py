@@ -34,6 +34,7 @@ def remove_all_files(remove, path_of_data):
             os.system("rm -f " + path_of_data + "/" + file)
     dir_list = os.listdir(path_of_data)
 
+
     if remove == 1:
         if len(dir_list) == 0:
             print("dir_list: {}. Right.".format(dir_list))
