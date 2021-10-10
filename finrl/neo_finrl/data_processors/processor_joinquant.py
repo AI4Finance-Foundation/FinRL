@@ -9,11 +9,8 @@ import os
 from func import calc_all_filenames
 from func import remove_all_files
 from func import date2str
-from finrl.apps.config import START_DATE
 
-# import sys
-# sys.path.append("..")
-# import config
+
 
 class JoinQuantEngineer():
     def __init__(self):
@@ -67,17 +64,17 @@ class JoinQuantEngineer():
 
     # start_day: str
     # end_day: str
-    # read_data_from_csv: if it is true, read_data_from_csv, and fetch data from joinquant otherwise.
+    # read_data_from_local: if it is true, read_data_from_csv, and fetch data from joinquant otherwise.
     # output: list of dataframes, e.g., [df1, df2]
-    def data_fetch_for_stocks(self, stocknames, start_day, end_day, read_data_from_csv, path_of_data):
-        assert read_data_from_csv in [0, 1]
-        if read_data_from_csv == 1:
+    def data_fetch_for_stocks(self, stocknames, start_day, end_day, read_data_from_local, path_of_data):
+        assert read_data_from_local in [0, 1]
+        if read_data_from_local == 1:
             remove = 0
         else:
             remove = 1
         remove_all_files(remove, path_of_data)
         dfs = []
-        if read_data_from_csv == 1:
+        if read_data_from_local == 1:
             dfs = self.read_data_from_csv(path_of_data, start_day, end_day)
         else:
             if os.path.exists(path_of_data) is False:
@@ -91,20 +88,26 @@ class JoinQuantEngineer():
 
 
 if __name__ == '__main__':
-    start_day = '2021-06-12'
-    end_day = '2021-06-21'
-    read_data_from_csv = 1
-    path_of_data = '../data'
+    import sys
+
+    sys.path.append("..")
+    from finrl.neo_finrl.neofinrl_config import TRADE_START_DATE
+    from finrl.neo_finrl.neofinrl_config import TRADE_END_DATE
+    from finrl.neo_finrl.neofinrl_config import READ_DATA_FROM_LOCAL
+    from finrl.neo_finrl.neofinrl_config import PATH_OF_DATA
+
+    read_data_from_local = READ_DATA_FROM_LOCAL
+    path_of_data = '../' + PATH_OF_DATA
 
 
     e = JoinQuantEngineer()
-    username = ''
-    password = ''
+    username = '18117580099'
+    password = 'Bl2020quant'
     e.auth(username, password)
 
-    trade_days = e.calc_trade_days_by_joinquant(start_day, end_day)
+    trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
     stocknames = ['000612.XSHE', '601808.XSHG']
-    data = e.data_fetch_for_stocks(stocknames, start_day, end_day, read_data_from_csv, path_of_data)
+    data = e.data_fetch_for_stocks(stocknames, TRADE_START_DATE, TRADE_END_DATE, READ_DATA_FROM_LOCAL, path_of_data)
 
     pass
 
