@@ -1,5 +1,6 @@
-from elegantrl.agent import *
-from elegantrl.run import *
+#from elegantrl.agent import *
+#from elegantrl.run import *
+import elegantrl
 import torch 
 from neo_finrl.data_processor import DataProcessor
 
