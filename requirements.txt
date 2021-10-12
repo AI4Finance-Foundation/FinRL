@@ -17,6 +17,7 @@ ray[tune]
 lz4
 tensorboardX
 gputil
+git+git://github.com/AI4Finance-Foundation/ElegantRL@master#egg=elegantrl
 
 # market data & paper trading API
 trading_calendars
