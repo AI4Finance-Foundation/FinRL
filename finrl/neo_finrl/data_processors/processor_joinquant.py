@@ -113,7 +113,7 @@ if __name__ == '__main__':
     stocknames = ['000612.XSHE', '601808.XSHG']
     data = e.data_fetch_for_stocks(stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data)
 
-    pass
+
 
 
 
