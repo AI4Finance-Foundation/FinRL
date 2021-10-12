@@ -90,14 +90,19 @@ if __name__ == '__main__':
     import sys
 
     sys.path.append("..")
-    from finrl.neo_finrl.neofinrl_config import TRADE_START_DATE
-    from finrl.neo_finrl.neofinrl_config import TRADE_END_DATE
-    from finrl.neo_finrl.neofinrl_config import READ_DATA_FROM_LOCAL
-    from finrl.neo_finrl.neofinrl_config import PATH_OF_DATA
+    # from finrl.neo_finrl.neofinrl_config import TRADE_START_DATE
+    # from finrl.neo_finrl.neofinrl_config import TRADE_END_DATE
+    # from finrl.neo_finrl.neofinrl_config import READ_DATA_FROM_LOCAL
+    # from finrl.neo_finrl.neofinrl_config import PATH_OF_DATA
 
-    read_data_from_local = READ_DATA_FROM_LOCAL
-    path_of_data = '../' + PATH_OF_DATA
+    # read_data_from_local = READ_DATA_FROM_LOCAL
+    # path_of_data = '../' + PATH_OF_DATA
 
+    path_of_data = '../' + 'data'
+
+    TRADE_START_DATE = '20210901'
+    TRADE_END_DATE = '20210911'
+    READ_DATA_FROM_LOCAL = 1
 
     e = JoinQuantEngineer()
     username = 'xxx'  # should input your username
@@ -106,7 +111,7 @@ if __name__ == '__main__':
 
     trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
     stocknames = ['000612.XSHE', '601808.XSHG']
-    data = e.data_fetch_for_stocks(stocknames, TRADE_START_DATE, TRADE_END_DATE, READ_DATA_FROM_LOCAL, path_of_data)
+    data = e.data_fetch_for_stocks(stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data)
 
     pass
 
