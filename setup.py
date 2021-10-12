@@ -24,8 +24,8 @@ setup(
     license="MIT",
     packages=find_packages(),
     install_requires=REQUIRES
-    + ["pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2"],
-    #+ ["elegantrl @ git+https://github.com/AI4Finance-Foundation/ElegantRL.git@master#egg=elegantrl"],
+    + ["pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2"]
+    + ["elegantrl @ git+https://github.com/AI4Finance-Foundation/ElegantRL.gitr#egg=elegantrl"],
     # dependency_links=['git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2'],
     #install_requires=REQUIRES,
     description="FinRL library, a Deep Reinforcement Learning library designed specifically for automated stock trading.",
