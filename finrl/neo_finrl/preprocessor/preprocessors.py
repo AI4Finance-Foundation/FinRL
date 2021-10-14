@@ -42,7 +42,7 @@ class FeatureEngineer:
         use_technical_indicator : boolean
             we technical indicator or not
         tech_indicator_list : list
-            a list of technical indicator names (modified from config.py)
+            a list of technical indicator names (modified from neofinrl_config.py)
         use_turbulence : boolean
             use turbulence index or not
         user_defined_feature:boolean
