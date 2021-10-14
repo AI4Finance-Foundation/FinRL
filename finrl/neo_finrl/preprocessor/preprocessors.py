@@ -135,30 +135,30 @@ class FeatureEngineer:
         :param data: (df) pandas dataframe
         :return: (df) pandas dataframe
         """
-        df = data.set_index(['date','tic']).sort_index()
-        df = df.join(df.groupby(level=0, group_keys=False).apply(lambda x, y: Sdf.retype(x)[y], y=self.tech_indicator_list))
-        return df.reset_index()
-        # df = data.copy()
-        # df = df.sort_values(by=['tic','date'])
-        # stock = Sdf.retype(df.copy())
-        # unique_ticker = stock.tic.unique()
+        df = data.copy()
+        df = df.sort_values(by=['tic','date'])
+        stock = Sdf.retype(df.copy())
+        unique_ticker = stock.tic.unique()
 
-        # for indicator in self.tech_indicator_list:
-        #     indicator_df = pd.DataFrame()
-        #     for i in range(len(unique_ticker)):
-        #         try:
-        #             temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
-        #             temp_indicator = pd.DataFrame(temp_indicator)
-        #             temp_indicator['tic'] = unique_ticker[i]
-        #             temp_indicator['date'] = df[df.tic == unique_ticker[i]]['date'].to_list()
-        #             indicator_df = indicator_df.append(
-        #                 temp_indicator, ignore_index=True
-        #             )
-        #         except Exception as e:
-        #             print(e)
-        #     df = df.merge(indicator_df[['tic','date',indicator]],on=['tic','date'],how='left')
-        # df = df.sort_values(by=['date','tic'])
-        # return df
+        for indicator in self.tech_indicator_list:
+              indicator_df = pd.DataFrame()
+              for i in range(len(unique_ticker)):
+                  try:
+                      temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
+                      temp_indicator = pd.DataFrame(temp_indicator)
+                      temp_indicator['tic'] = unique_ticker[i]
+                      temp_indicator['date'] = df[df.tic == unique_ticker[i]]['date'].to_list()
+                      indicator_df = indicator_df.append(
+                          temp_indicator, ignore_index=True
+                      )
+                  except Exception as e:
+                      print(e)
+              df = df.merge(indicator_df[['tic','date',indicator]],on=['tic','date'],how='left')
+        df = df.sort_values(by=['date','tic'])
+        return df
+        #df = data.set_index(['date','tic']).sort_index()
+        #df = df.join(df.groupby(level=0, group_keys=False).apply(lambda x, y: Sdf.retype(x)[y], y=self.tech_indicator_list))
+        #return df.reset_index()
 
     def add_user_defined_feature(self, data):
         """
