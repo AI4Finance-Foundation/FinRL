@@ -37,8 +37,8 @@ class AlpacaPaperTrading():
           
                   agent.init(net_dim, state_dim, action_dim)
                   agent.save_or_load_agent(cwd=cwd, if_save=False)
-                  act = agent.act
-                  device = agent.device
+                  self.act = agent.act
+                  self.device = agent.device
               except:
                   raise ValueError('Fail to load agent!')
             
