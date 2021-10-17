@@ -85,7 +85,8 @@ class DRLAgent:
     def train_model(self, model, model_name, model_config,total_episodes=100):
         if model_name not in MODELS:
            raise NotImplementedError("NotImplementedError")
-        ray.init() # Other Ray APIs will not work until `ray.init()` is called.
+        ray.init(ignore_reinit_error=True) # Other Ray APIs will not work until `ray.init()` is called.
+        
         if model_name == 'ppo':
             trainer = model.PPOTrainer(env=self.env, config=model_config)
         elif model_name == 'a2c':
