@@ -6,16 +6,11 @@ Overview
 Design Principles
 ----------------------
 
-    - **Completeness**: Our library provides a complete DRL framework that is
-    customized and optimized for financial trading tasks. Users can
-    transparently make use of the development pipeline.
+    - **Completeness**: Our library provides a complete DRL framework that is customized and optimized for financial trading tasks. Users can transparently make use of the development pipeline.
 
-    - **Hands-on tutorials**: Our library provides beginner-friendly tutorials
-    to help users walk through the pipeline of a strategy design while exploring
-    the functionalities and features.
+    - **Hands-on tutorials**: Our library provides beginner-friendly tutorials to help users walk through the pipeline of a strategy design while exploring the functionalities and features.
 
-    - **Reproducibility**: Our library guarantees reproducibility to ensure the
-    transparency and also provide users with confidence in what they have done.
+    - **Reproducibility**: Our library guarantees reproducibility to ensure the transparency and also provide users with confidence in what they have done.
 
 
 Architecture of the FinRL Library
