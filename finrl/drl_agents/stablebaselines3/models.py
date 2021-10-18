@@ -64,39 +64,14 @@ class DRLAgent:
 
     Methods
     -------
-        train_PPO()
-            the implementation for PPO algorithm
-        train_A2C()
-            the implementation for A2C algorithm
-        train_DDPG()
-            the implementation for DDPG algorithm
-        train_TD3()
-            the implementation for TD3 algorithm
-        train_SAC()
-            the implementation for SAC algorithm
+        get_model()
+            setup DRL algorithms
+        train_model()
+            train DRL algorithms in a train dataset 
+            and output the trained model
         DRL_prediction()
             make a prediction in a test dataset and get results
     """
-
-    @staticmethod
-    def DRL_prediction(model, environment):
-        test_env, test_obs = environment.get_sb_env()
-        """make a prediction"""
-        account_memory = []
-        actions_memory = []
-        test_env.reset()
-        for i in range(len(environment.df.index.unique())):
-            action, _states = model.predict(test_obs)
-            #account_memory = test_env.env_method(method_name="save_asset_memory")
-            #actions_memory = test_env.env_method(method_name="save_action_memory")
-            test_obs, rewards, dones, info = test_env.step(action)
-            if i == (len(environment.df.index.unique()) - 2):
-              account_memory = test_env.env_method(method_name="save_asset_memory")
-              actions_memory = test_env.env_method(method_name="save_action_memory")
-            if dones[0]:
-                print("hit end!")
-                break
-        return account_memory[0], actions_memory[0]
 
     def __init__(self, env):
         self.env = env
@@ -136,7 +111,58 @@ class DRLAgent:
     def train_model(self, model, tb_log_name, total_timesteps=5000):
         model = model.learn(total_timesteps=total_timesteps, tb_log_name=tb_log_name, callback=TensorboardCallback())
         return model
+    
+    @staticmethod
+    def DRL_prediction(model, environment):
+        test_env, test_obs = environment.get_sb_env()
+        """make a prediction"""
+        account_memory = []
+        actions_memory = []
+        test_env.reset()
+        for i in range(len(environment.df.index.unique())):
+            action, _states = model.predict(test_obs)
+            #account_memory = test_env.env_method(method_name="save_asset_memory")
+            #actions_memory = test_env.env_method(method_name="save_action_memory")
+            test_obs, rewards, dones, info = test_env.step(action)
+            if i == (len(environment.df.index.unique()) - 2):
+              account_memory = test_env.env_method(method_name="save_asset_memory")
+              actions_memory = test_env.env_method(method_name="save_action_memory")
+            if dones[0]:
+                print("hit end!")
+                break
+        return account_memory[0], actions_memory[0]
 
+    @staticmethod
+    def DRL_prediction_load_from_file(model_name, environment, cwd):
+        if model_name not in MODELS:
+            raise NotImplementedError("NotImplementedError")
+        try:
+            #load agent
+            model = MODELS[model_name].load(cwd)
+            print("Successfully load model", cwd)
+        except:
+            raise ValueError('Fail to load agent!')
+        
+        #test on the testing env
+        state = environment.reset()
+        episode_returns = list()  # the cumulative_return / initial_account
+        episode_total_assets = list()
+        episode_total_assets.append(environment.initial_total_asset)
+        done = False
+        while not done:
+            action = model.predict(state)[0]
+            state, reward, done, _ = environment.step(action)
+    
+            total_asset = environment.amount + (environment.price_ary[environment.day] * environment.stocks).sum()
+            episode_total_assets.append(total_asset)
+            episode_return = total_asset / environment.initial_total_asset
+            episode_returns.append(episode_return)
+        
+        print('episode_return', episode_return)
+        print('Test Finished!')   
+        return episode_total_assets
+    
+    
 class DRLEnsembleAgent:
     @staticmethod
     def get_model(model_name,
