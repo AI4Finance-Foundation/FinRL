@@ -110,8 +110,7 @@ class DRLAgent:
         return trainer
 
     @staticmethod
-    def DRL_prediction(model, 
-                        model_name,
+    def DRL_prediction(model_name,
                         env, 
                         price_array, 
                         tech_array, 
@@ -121,11 +120,11 @@ class DRLAgent:
            raise NotImplementedError("NotImplementedError")
            
         if model_name == 'a2c':
-            model_config = model.A2C_DEFAULT_CONFIG.copy()
+            model_config = MODELS[model_name].A2C_DEFAULT_CONFIG.copy()
         elif model_name == 'td3':
-            model_config = model.TD3_DEFAULT_CONFIG.copy()
+            model_config = MODELS[model_name].TD3_DEFAULT_CONFIG.copy()
         else:
-            model_config = model.DEFAULT_CONFIG.copy()
+            model_config = MODELS[model_name].DEFAULT_CONFIG.copy()
         model_config['env'] = env
         model_config["log_level"] = "WARN"
         model_config['env_config'] = {'price_array':price_array,
