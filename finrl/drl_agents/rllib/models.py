@@ -139,15 +139,15 @@ class DRLAgent:
 
         #ray.init() # Other Ray APIs will not work until `ray.init()` is called.
         if model_name == 'ppo':
-            trainer = model.PPOTrainer(env=env, config=model_config)
+            trainer = MODELS[model_name].PPOTrainer(env=env, config=model_config)
         elif model_name == 'a2c':
-            trainer = model.A2CTrainer(env=env, config=model_config)
+            trainer = MODELS[model_name].A2CTrainer(env=env, config=model_config)
         elif model_name == 'ddpg':
-            trainer = model.DDPGTrainer(env=env, config=model_config)           
+            trainer = MODELS[model_name].DDPGTrainer(env=env, config=model_config)           
         elif model_name == 'td3':
-            trainer = model.TD3Trainer(env=env, config=model_config)
+            trainer = MODELS[model_name].TD3Trainer(env=env, config=model_config)
         elif model_name == 'sac':
-            trainer = model.SACTrainer(env=env, config=model_config)
+            trainer = MODELS[model_name].SACTrainer(env=env, config=model_config)
 
         try:
             trainer.restore(agent_path)
