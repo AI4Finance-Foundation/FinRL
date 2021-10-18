@@ -107,7 +107,9 @@ class DRLAgent:
         #test on the testing env
         _torch = torch
         state = environment.reset()
+        episode_returns = list()  # the cumulative_return / initial_account
         episode_total_assets = list()
+        episode_total_assets.append(environment.initial_total_asset)
         with _torch.no_grad():
             for i in range(environment.max_step):
                 s_tensor = _torch.as_tensor((state,), device=device)
@@ -117,8 +119,11 @@ class DRLAgent:
 
                 total_asset = environment.amount + (environment.price_ary[environment.day] * environment.stocks).sum()
                 episode_total_assets.append(total_asset)
+                episode_return = total_asset / environment.initial_total_asset
+                episode_returns.append(episode_return)
                 if done:
                     break
         print('Test Finished!')
         #return episode total_assets on testing data
+        print('episode_return', episode_return)
         return episode_total_assets
