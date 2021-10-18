@@ -83,7 +83,10 @@ class DRLAgent:
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
         model = MODELS[model_name]
-        args = Arguments(agent=model(), env=environment, if_on_policy=True)
+        args = Arguments(if_on_policy=True)
+        args.agent = model()
+        args.env = environment
+        args.agent.if_use_cri_target = True
         
         #load agent
         try:
