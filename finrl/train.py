@@ -1,107 +1,143 @@
 import pandas as pd
 import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-from sklearn import preprocessing
-
-matplotlib.use("Agg")
-import datetime
-
+from elegantrl.agent import *
+from elegantrl.run import *
+import torch 
+import ray
 from finrl.apps import config
-from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
-from finrl.neo_finrl.preprocessor.preprocessors import FeatureEngineer, data_split
-from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
-from finrl.drl_agents.stablebaselines3.models import DRLAgent
-from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
+# import DRL agents
+from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
+from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
+from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
+# import data processor
+from finrl.neo_finrl.data_processor import DataProcessor
 
-import itertools
+def train(start_date, end_date, ticker_list, data_source, time_interval, 
+          technical_indicator_list, drl_lib, env, model_name, if_vix = True,
+          **kwargs):
+    
+    #fetch data
+    DP = DataProcessor(data_source, **kwargs)
+    data = DP.download_data(ticker_list, start_date, end_date, time_interval)
+    data = DP.clean_data(data)
+    data = DP.add_technical_indicator(data, technical_indicator_list)
+    if if_vix:
+        data = DP.add_vix(data)
+    price_array, tech_array, turbulence_array = DP.df_to_array(data, if_vix)
+    env_config = {'price_array':price_array,
+              'tech_array':tech_array,
+              'turbulence_array':turbulence_array,
+              'if_train':True}
+    env_instance = env(config=env_config)
 
+    #read parameters
+    cwd = kwargs.get('cwd','./'+str(model_name))
 
-def train_stock_trading():
-    """
-    train an agent
-    """
-    print("==============Start Fetching Data===========")
-    df = YahooDownloader(
-        start_date=config.START_DATE,
-        end_date=config.END_DATE,
-        ticker_list=config.DOW_30_TICKER,
-    ).fetch_data()
-    print("==============Start Feature Engineering===========")
-    fe = FeatureEngineer(
-        use_technical_indicator=True,
-        tech_indicator_list=config.TECHNICAL_INDICATORS_LIST,
-        use_turbulence=True,
-        user_defined_feature=False,
-    )
+    if drl_lib == 'elegantrl':
+        break_step = kwargs.get('break_step', 1e6)
+        erl_params = kwargs.get('erl_params')
 
-    processed = fe.preprocess_data(df)
+        agent = DRLAgent_erl(env = env,
+                             price_array = price_array,
+                             tech_array=tech_array,
+                             turbulence_array=turbulence_array)
+        
+        model = agent.get_model(model_name, model_kwargs = erl_params)
+        trained_model = agent.train_model(model=model, 
+                                          cwd=cwd,
+                                          total_timesteps=break_step)
+      
+    elif drl_lib == 'rllib':
+        total_episodes = kwargs.get('total_episodes', 100)
+        rllib_params = kwargs.get('rllib_params')
 
-    list_ticker = processed["tic"].unique().tolist()
-    list_date = list(pd.date_range(processed['date'].min(),processed['date'].max()).astype(str))
-    combination = list(itertools.product(list_date,list_ticker))
+        agent_rllib = DRLAgent_rllib(env = env,
+                       price_array=price_array,
+                       tech_array=tech_array,
+                       turbulence_array=turbulence_array)
 
-    processed_full = pd.DataFrame(combination,columns=["date","tic"]).merge(processed,on=["date","tic"],how="left")
-    processed_full = processed_full[processed_full['date'].isin(processed['date'])]
-    processed_full = processed_full.sort_values(['date','tic'])
+        model,model_config = agent_rllib.get_model(model_name)
 
-    processed_full = processed_full.fillna(0)
+        model_config['lr'] = rllib_params['lr']
+        model_config['train_batch_size'] = rllib_params['train_batch_size']
+        model_config['gamma'] = rllib_params['gamma']
 
-    # Training & Trading data split
-    train = data_split(processed_full, config.START_DATE, config.START_TRADE_DATE)
-    trade = data_split(processed_full, config.START_TRADE_DATE, config.END_DATE)
+        #ray.shutdown()
+        trained_model = agent_rllib.train_model(model=model, 
+                                          model_name=model_name,
+                                          model_config=model_config,
+                                          total_episodes=total_episodes)
+        trained_model.save(cwd)
+        
+            
+    elif drl_lib == 'stable_baselines3':
+        total_timesteps = kwargs.get('total_timesteps', 1e6)
+        agent_params = kwargs.get('agent_params')
 
-    # calculate state action space
-    stock_dimension = len(train.tic.unique())
-    state_space = (
-        1
-        + 2 * stock_dimension
-        + len(config.TECHNICAL_INDICATORS_LIST) * stock_dimension
-    )
+        agent = DRLAgent_sb3(env = env_instance)
 
-    env_kwargs = {
-        "hmax": 100, 
-        "initial_amount": 1000000, 
-        "buy_cost_pct": 0.001, 
-        "sell_cost_pct": 0.001, 
-        "state_space": state_space, 
-        "stock_dim": stock_dimension, 
-        "tech_indicator_list": config.TECHNICAL_INDICATORS_LIST, 
-        "action_space": stock_dimension, 
-        "reward_scaling": 1e-4
-        }
-
-    e_train_gym = StockTradingEnv(df=train, **env_kwargs)
-    env_train, _ = e_train_gym.get_sb_env()
-
-    agent = DRLAgent(env=env_train)
-
-    print("==============Model Training===========")
-    now = datetime.datetime.now().strftime("%Y%m%d-%Hh%M")
-
-    model_sac = agent.get_model("sac")
-    trained_sac = agent.train_model(
-        model=model_sac, tb_log_name="sac", total_timesteps=80000
-    )
-
-    print("==============Start Trading===========")
-    e_trade_gym = StockTradingEnv(df=trade, turbulence_threshold=250, **env_kwargs)
-
-    df_account_value, df_actions = DRLAgent.DRL_prediction(
-        model=trained_sac, environment = e_trade_gym
-    )
-    df_account_value.to_csv(
-        "./" + config.RESULTS_DIR + "/df_account_value_" + now + ".csv"
-    )
-    df_actions.to_csv("./" + config.RESULTS_DIR + "/df_actions_" + now + ".csv")
-
-    print("==============Get Backtest Results===========")
-    perf_stats_all = backtest_stats(df_account_value)
-    perf_stats_all = pd.DataFrame(perf_stats_all)
-    perf_stats_all.to_csv("./" + config.RESULTS_DIR + "/perf_stats_all_" + now + ".csv")
+        model = agent.get_model(model_name, model_kwargs = agent_params)
+        trained_model = agent.train_model(model=model, 
+                                tb_log_name=model_name,
+                                total_timesteps=total_timesteps)
+        print('Training finished!')
+        trained_model.save(cwd)
+        print('Trained model saved in ' + str(cwd))
+    else:
+        raise ValueError('DRL library input is NOT supported. Please check.')
+ if __name__ == '__main__':
+    from finrl.app.config import DOW_30_TICKER
+    from finrl.app.config import TECHNICAL_INDICATORS_LIST
+    from finrl.app.config import TRAIN_START_DATE
+    from finrl.app.config import ERL_PARAMS
+    from finrl.app.config import RLlib_PARAMS
+    from finrl.app.config import SAC_PARAMS
 
 
-#def train_portfolio_allocation():
+    # construct environment
+    from finrl.neo_finrl.env_stock_trading.env_stocktrading_np import StockTradingEnv
+    env = StockTradingEnv
+    
+    # demo for elegantrl    
+    train(start_date = TRAIN_START_DATE, 
+          end_date = TRAIN_END_DATE,
+          ticker_list = DOW_30_TICKER, 
+          data_source = 'yahoofinance',
+          time_interval= '1D', 
+          technical_indicator_list= TECHNICAL_INDICATORS_LIST,
+          drl_lib='elegantrl', 
+          env=env, 
+          model_name='ppo', 
+          cwd='./test_ppo',
+          erl_params=ERL_PARAMS,
+          break_step=1e5)
 
+    # demo for rllib
+    ray.shutdown() #always shutdown previous session if any
+    train(start_date = TRAIN_START_DATE, 
+          end_date = TRAIN_END_DATE,
+          ticker_list = DOW_30_TICKER, 
+          data_source = 'yahoofinance',
+          time_interval= '1D', 
+          technical_indicator_list= TECHNICAL_INDICATORS_LIST,
+          drl_lib='rllib', 
+          env=env, 
+          model_name='ppo', 
+          cwd='./test_ppo',
+          rllib_params = RLlib_PARAMS,
+          total_episodes=30)
 
+    #demo for stable-baselines3
+    train(start_date = TRAIN_START_DATE, 
+          end_date = TRAIN_END_DATE,
+          ticker_list = DOW_30_TICKER, 
+          data_source = 'yahoofinance',
+          time_interval= '1D', 
+          technical_indicator_list= TECHNICAL_INDICATORS_LIST,
+          drl_lib='stable_baselines3', 
+          env=env, 
+          model_name='sac', 
+          cwd='./test_sac',
+          agent_params = SAC_PARAMS,
+          total_timesteps=1e4)
 
