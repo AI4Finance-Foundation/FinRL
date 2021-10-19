@@ -52,7 +52,6 @@ TECHNICAL_INDICATORS_LIST = ["macd","boll_ub","boll_lb","rsi_30", "cci_30", "dx_
 
 
 
-
 ## Model Parameters
 A2C_PARAMS = {"n_steps": 5, "ent_coef": 0.01, "learning_rate": 0.0007}
 PPO_PARAMS = {
@@ -71,6 +70,9 @@ SAC_PARAMS = {
     "batch_size": 64,
     "ent_coef": "auto_0.1",
 }
+ERL_PARAMS = {"learning_rate": 3e-5,"batch_size": 2048,"gamma":  0.985,"seed":312,"net_dimension":512}
+RLlib_PARAMS = {"lr": 5e-5,"train_batch_size": 500,"gamma": 0.99}
+
 
 ########################################################
 ############## Stock Ticker Setup starts ##############
