@@ -1,18 +1,17 @@
 import pandas as pd
 import numpy as np
-#from elegantrl.agent import *
-#from elegantrl.run import *
-from finrl.apps import config
-# import DRL agents
-from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
-from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
-from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
-# import data processor
-from finrl.neo_finrl.data_processor import DataProcessor
 
 def test(start_date, end_date, ticker_list, data_source, time_interval, 
          technical_indicator_list, drl_lib, env, model_name, if_vix = True,
          **kwargs):
+    from finrl.apps import config
+    # import DRL agents
+    from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
+    from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
+    from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
+    # import data processor
+    from finrl.neo_finrl.data_processor import DataProcessor
+
     #fetch data
     DP = DataProcessor(data_source, **kwargs)
     data = DP.download_data(ticker_list, start_date, end_date, time_interval)
