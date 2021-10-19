@@ -89,6 +89,7 @@ def train(start_date, end_date, ticker_list, data_source, time_interval,
     from finrl.app.config import DOW_30_TICKER
     from finrl.app.config import TECHNICAL_INDICATORS_LIST
     from finrl.app.config import TRAIN_START_DATE
+    from finrl.app.config import TRAIN_END_DATE
     from finrl.app.config import ERL_PARAMS
     from finrl.app.config import RLlib_PARAMS
     from finrl.app.config import SAC_PARAMS
