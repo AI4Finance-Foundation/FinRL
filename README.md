@@ -55,18 +55,6 @@ FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms,
 	- [Welcome Contributions](#Call-for-Contributions)
 - [LICENSE](#LICENSE)
 
-## Publications
-
-We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) at [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ) and now arrive at this project:
-
-+ FinRL-Podracer: High performance and scalable deep reinforcement learning for quantitative finance. ACM International Conference on AI in Finance, ICAIF 2021.
-+ Explainable deep reinforcement learning for portfolio management: An empirical approach, ACM International Conference on AI in Finance, ICAIF 2021.
-+ FinRL: Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
-+ [FinRL](https://arxiv.org/abs/2011.09607): A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
-+ Deep reinforcement learning for automated stock trading: An ensemble strategy, [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996) and [codes](https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020), ACM International Conference on AI in Finance, ICAIF 2020.
-+ Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
-+ Practical deep reinforcement learning approach for stock rrading, [paper](https://arxiv.org/abs/1811.07522) and [codes](https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018), Workshop on Challenges and Opportunities for AI in Financial Services, NeurIPS 2018.
-
 ## Tutorials and News
 + [FinRL for Quantitative Finance: Install and Setup Tutorial for Beginners](https://ai4finance.medium.com/finrl-for-quantitative-finance-install-and-setup-tutorial-for-beginners-1db80ad39159)
 + [Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
@@ -249,6 +237,18 @@ The stock data we use is pulled from Yahoo Finance API (the following time windo
 - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
 - FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
 - Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
+
+## Publications
+
+We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) at [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ) and now arrive at this project:
+
++ FinRL-Podracer: High performance and scalable deep reinforcement learning for quantitative finance. ACM International Conference on AI in Finance, ICAIF 2021.
++ Explainable deep reinforcement learning for portfolio management: An empirical approach, ACM International Conference on AI in Finance, ICAIF 2021.
++ FinRL: Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
++ [FinRL](https://arxiv.org/abs/2011.09607): A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
++ Deep reinforcement learning for automated stock trading: An ensemble strategy, [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996) and [codes](https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020), ACM International Conference on AI in Finance, ICAIF 2020.
++ Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
++ Practical deep reinforcement learning approach for stock rrading, [paper](https://arxiv.org/abs/1811.07522) and [codes](https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Stock-Trading-DDPG-Algorithm-NIPS-2018), Workshop on Challenges and Opportunities for AI in Financial Services, NeurIPS 2018.
 
 ## Citing FinRL
 ```
