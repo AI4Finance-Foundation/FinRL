@@ -59,7 +59,7 @@ FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms,
 
 We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) at [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ) and now arrive at this project:
 
-+ RLOps in finance: High performance and scalable deep reinforcement learning for quantitative finance. ACM International Conference on AI in Finance, ICAIF 2021.
++ FinRL-Podracer: High performance and scalable deep reinforcement learning for quantitative finance. ACM International Conference on AI in Finance, ICAIF 2021.
 + Explainable deep reinforcement learning for portfolio management: An empirical approach, ACM International Conference on AI in Finance, ICAIF 2021.
 + FinRL: Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
 + [FinRL](https://arxiv.org/abs/2011.09607): A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
