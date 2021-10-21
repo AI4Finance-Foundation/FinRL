@@ -1,18 +1,18 @@
 # common library
-import pandas as pd
-import numpy as np
 import time
+
 import gym
+import numpy as np
+import pandas as pd
+# RL models from RLlib ray
+import ray
+from ray.rllib.agents.a3c import a2c
+from ray.rllib.agents.ddpg import ddpg, td3
+from ray.rllib.agents.ppo import ppo
+from ray.rllib.agents.sac import sac
 
 # from finrl.apps import config
 
-# RL models from RLlib ray
-import ray
-from ray.rllib.agents.ppo import ppo
-from ray.rllib.agents.ddpg import ddpg
-from ray.rllib.agents.ddpg import td3
-from ray.rllib.agents.a3c import a2c
-from ray.rllib.agents.sac import sac
 
 MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
 

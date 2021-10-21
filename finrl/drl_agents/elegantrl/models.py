@@ -1,12 +1,7 @@
 # common library
 import torch
-
 # RL models from elegantrl
-from elegantrl.agent import AgentPPO
-from elegantrl.agent import AgentTD3
-from elegantrl.agent import AgentDDPG
-from elegantrl.agent import AgentSAC
-
+from elegantrl.agent import AgentDDPG, AgentPPO, AgentSAC, AgentTD3
 from elegantrl.run import *
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}

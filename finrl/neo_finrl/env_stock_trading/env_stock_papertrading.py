@@ -1,15 +1,16 @@
 import datetime
-import threading
-from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor
-from elegantrl.run import *
-import alpaca_trade_api as tradeapi
-import time
-import pandas as pd
-import numpy as np
-import torch
-import sys
 import os
+import sys
+import threading
+import time
+
+import alpaca_trade_api as tradeapi
 import gym
+import numpy as np
+import pandas as pd
+import torch
+from elegantrl.run import *
+from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor
 
 
 class AlpacaPaperTrading:

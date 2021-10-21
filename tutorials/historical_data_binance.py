@@ -5,10 +5,11 @@ It is just modified and formatted for use
 The final dataframe generated can be directly used for FinRL environments
 """
 
-import requests
 import json
-import pandas as pd
 from datetime import datetime, timedelta
+
+import pandas as pd
+import requests
 
 
 class get_binance_data:

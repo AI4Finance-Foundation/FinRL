@@ -15,6 +15,8 @@
 import os
 import sys
 
+import sphinx_rtd_theme
+
 sys.path.insert(0, os.path.abspath("../../"))
 sys.path.insert(0, os.path.abspath(os.path.join("../..", "finrl")))  # Important
 
@@ -58,7 +60,6 @@ autodoc_mock_imports = [
 
 pygments_style = "sphinx"
 
-import sphinx_rtd_theme
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

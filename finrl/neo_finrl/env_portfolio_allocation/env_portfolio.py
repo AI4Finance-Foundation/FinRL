@@ -1,13 +1,13 @@
+import gym
+import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from gym.utils import seeding
-import gym
 from gym import spaces
-import matplotlib
+from gym.utils import seeding
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from stable_baselines3.common.vec_env import DummyVecEnv
 
 
 class StockPortfolioEnv(gym.Env):

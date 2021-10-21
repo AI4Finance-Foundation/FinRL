@@ -1,10 +1,11 @@
-from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
-from finrl.neo_finrl.data_processors.processor_wrds import WrdsProcessor as Wrds
-from finrl.neo_finrl.data_processors.processor_yahoofinance import (
-    YahooFinanceProcessor as YahooFinance,
-)
-import pandas as pd
 import numpy as np
+import pandas as pd
+from finrl.neo_finrl.data_processors.processor_alpaca import \
+    AlpacaProcessor as Alpaca
+from finrl.neo_finrl.data_processors.processor_wrds import \
+    WrdsProcessor as Wrds
+from finrl.neo_finrl.data_processors.processor_yahoofinance import \
+    YahooFinanceProcessor as YahooFinance
 
 
 class DataProcessor:

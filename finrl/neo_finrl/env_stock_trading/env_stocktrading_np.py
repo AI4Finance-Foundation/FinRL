@@ -1,6 +1,7 @@
-import numpy as np
 import os
+
 import gym
+import numpy as np
 from numpy import random as rd
 
 

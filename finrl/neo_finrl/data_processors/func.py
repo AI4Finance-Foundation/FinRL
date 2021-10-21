@@ -1,5 +1,6 @@
-import os
 import datetime
+import os
+
 
 # filename: str
 # output: stockname
