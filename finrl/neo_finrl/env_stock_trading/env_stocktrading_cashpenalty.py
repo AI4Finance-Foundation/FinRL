@@ -1,17 +1,18 @@
+import random
+import time
+from copy import deepcopy
+
+import gym
+import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import random
-from copy import deepcopy
-import gym
-import time
-from gym.utils import seeding
 from gym import spaces
-import matplotlib
+from gym.utils import seeding
+from stable_baselines3.common import logger
+from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
-from stable_baselines3.common import logger
 
 
 class StockTradingEnvCashpenalty(gym.Env):

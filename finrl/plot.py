@@ -1,14 +1,13 @@
-import pandas as pd
-import numpy as np
-
-from pyfolio import timeseries
-import pyfolio
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 from copy import deepcopy
 
-from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pyfolio
 from finrl.apps import config
+from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
+from pyfolio import timeseries
 
 
 def get_daily_return(df, value_col_name="account_value"):

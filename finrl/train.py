@@ -1,16 +1,17 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
+import ray
 #from elegantrl.agent import *
 #from elegantrl.run import *
-import torch 
-import ray
+import torch
 from finrl.apps import config
+from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
+from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
 # import DRL agents
 from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
-from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
-from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
 # import data processor
 from finrl.neo_finrl.data_processor import DataProcessor
+
 
 def train(start_date, end_date, ticker_list, data_source, time_interval, 
           technical_indicator_list, drl_lib, env, model_name, if_vix = True,
@@ -141,4 +142,3 @@ def train(start_date, end_date, ticker_list, data_source, time_interval,
           cwd='./test_sac',
           agent_params = SAC_PARAMS,
           total_timesteps=1e4)
-

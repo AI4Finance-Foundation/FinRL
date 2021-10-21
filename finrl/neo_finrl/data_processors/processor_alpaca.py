@@ -1,9 +1,9 @@
 import alpaca_trade_api as tradeapi
-import pandas as pd
 import numpy as np
-from stockstats import StockDataFrame as Sdf
-import trading_calendars as tc
+import pandas as pd
 import pytz
+import trading_calendars as tc
+from stockstats import StockDataFrame as Sdf
 
 
 class AlpacaProcessor:
