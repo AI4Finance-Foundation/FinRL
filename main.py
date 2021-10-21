@@ -34,8 +34,9 @@ def main():
 
     if options.mode == "train":
         import finrl.train
+
         finrl.train.train_stock_trading()
-        
-        
+
+
 if __name__ == "__main__":
     main()
