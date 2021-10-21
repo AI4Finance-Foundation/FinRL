@@ -1,8 +1,7 @@
-# common library
-import torch
 # RL models from elegantrl
+import torch
 from elegantrl.agent import AgentDDPG, AgentPPO, AgentSAC, AgentTD3
-from elegantrl.run import *
+from elegantrl.run import Arguments, train_and_evaluate
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
 OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]
@@ -57,7 +56,7 @@ class DRLAgent:
                 model.gamma = model_kwargs["gamma"]
                 model.seed = model_kwargs["seed"]
                 model.net_dim = model_kwargs["net_dimension"]
-            except:
+            except BaseException:
                 raise ValueError(
                     "Fail to read arguments, please check 'model_kwargs' input."
                 )
@@ -100,7 +99,7 @@ class DRLAgent:
             act = agent.act
             device = agent.device
 
-        except:
+        except BaseException:
             raise ValueError("Fail to load agent!")
 
         # test on the testing env

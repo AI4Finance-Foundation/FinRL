@@ -36,7 +36,7 @@ class StockEnvNAS100:
 
         (i0, i1) = (beg_i, mid_i) if if_eval else (mid_i, end_i)
         data_arrays = (
-            self.load_data(cwd) if cwd != None else price_ary,
+            self.load_data(cwd) if cwd is not None else price_ary,
             tech_ary,
             turbulence_ary,
         )

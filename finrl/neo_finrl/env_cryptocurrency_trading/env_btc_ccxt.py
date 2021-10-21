@@ -174,11 +174,11 @@ class BitcoinEnv:  # custom env
     def load_data(
         self, data_cwd, price_ary, tech_ary, time_frequency, start, mid1, mid2, end
     ):
-        if data_cwd != None:
+        if data_cwd is not None:
             try:
                 price_ary = np.load(f"{data_cwd}/price_ary.npy")
                 tech_ary = np.load(f"{data_cwd}/tech_ary.npy")
-            except:
+            except BaseException:
                 raise ValueError("Data files not found!")
         else:
             price_ary = price_ary

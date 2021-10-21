@@ -1,15 +1,13 @@
 import datetime
-import os
-import sys
 import threading
 import time
-
+import numpy as np
 import alpaca_trade_api as tradeapi
 import gym
-import numpy as np
 import pandas as pd
 import torch
-from elegantrl.run import *
+from elegantrl.run import Arguments
+
 from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor
 
 
@@ -55,7 +53,7 @@ class AlpacaPaperTrading:
                     agent.save_or_load_agent(cwd=cwd, if_save=False)
                     self.act = agent.act
                     self.device = agent.device
-                except:
+                except BaseException:
                     raise ValueError("Fail to load agent!")
 
             elif drl_lib == "rllib":
@@ -75,7 +73,7 @@ class AlpacaPaperTrading:
                     trainer.restore(cwd)
                     self.agent = trainer
                     print("Restoring from checkpoint path", cwd)
-                except:
+                except BaseException:
                     raise ValueError("Fail to load agent!")
 
             elif drl_lib == "stable_baselines3":
@@ -85,7 +83,7 @@ class AlpacaPaperTrading:
                     # load agent
                     self.model = PPO.load(cwd)
                     print("Successfully load model", cwd)
-                except:
+                except BaseException:
                     raise ValueError("Fail to load agent!")
 
             else:
@@ -99,7 +97,7 @@ class AlpacaPaperTrading:
         # connect to Alpaca trading API
         try:
             self.alpaca = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, "v2")
-        except:
+        except BaseException:
             raise ValueError(
                 "Fail to connect Alpaca. Please check account info and internet connection."
             )
@@ -174,24 +172,22 @@ class AlpacaPaperTrading:
                 print("Market closing soon. Stop trading.")
                 break
 
-                """# Close all positions when 1 minutes til market close.
-            print("Market closing soon.  Closing positions.")
-    
-            positions = self.alpaca.list_positions()
-            for position in positions:
-              if(position.side == 'long'):
-                orderSide = 'sell'
-              else:
-                orderSide = 'buy'
-              qty = abs(int(float(position.qty)))
-              respSO = []
-              tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
-              tSubmitOrder.start()
-              tSubmitOrder.join()
-    
-            # Run script again after market close for next trading day.
-            print("Sleeping until market close (15 minutes).")
-            time.sleep(60 * 15)"""
+                # # Close all positions when 1 minutes til market close.
+                # print("Market closing soon.  Closing positions.")
+                # positions = self.alpaca.list_positions()
+                # for position in positions:
+                #   if(position.side == 'long'):
+                #     orderSide = 'sell'
+                #   else:
+                #     orderSide = 'buy'
+                #   qty = abs(int(float(position.qty)))
+                #   respSO = []
+                #   tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
+                #   tSubmitOrder.start()
+                #   tSubmitOrder.join()
+                # # Run script again after market close for next trading day.
+                # print("Sleeping until market close (15 minutes).")
+                # time.sleep(60 * 15)
 
             else:
                 trade = threading.Thread(target=self.trade)
@@ -348,7 +344,7 @@ class AlpacaPaperTrading:
                     + " | completed."
                 )
                 resp.append(True)
-            except:
+            except BaseException:
                 print(
                     "Order of | "
                     + str(qty)

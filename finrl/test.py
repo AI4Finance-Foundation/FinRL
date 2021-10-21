@@ -1,5 +1,4 @@
-import numpy as np
-import pandas as pd
+import ray
 
 
 def test(
@@ -15,7 +14,6 @@ def test(
     if_vix=True,
     **kwargs
 ):
-    from finrl.apps import config
 
     # import DRL agents
     from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
@@ -86,9 +84,7 @@ if __name__ == "__main__":
     from finrl.app.config import TECHNICAL_INDICATORS_LIST
     from finrl.app.config import TEST_START_DATE
     from finrl.app.config import TEST_END_DATE
-    from finrl.app.config import ERL_PARAMS
     from finrl.app.config import RLlib_PARAMS
-    from finrl.app.config import SAC_PARAMS
 
     # construct environment
     from finrl.neo_finrl.env_stock_trading.env_stock_trading import StockTradingEnv

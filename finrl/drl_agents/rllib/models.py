@@ -1,17 +1,9 @@
-# common library
-import time
-
-import gym
-import numpy as np
-import pandas as pd
 # RL models from RLlib ray
 import ray
 from ray.rllib.agents.a3c import a2c
 from ray.rllib.agents.ddpg import ddpg, td3
 from ray.rllib.agents.ppo import ppo
 from ray.rllib.agents.sac import sac
-
-# from finrl.apps import config
 
 
 MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
@@ -160,7 +152,7 @@ class DRLAgent:
         try:
             trainer.restore(agent_path)
             print("Restoring from checkpoint path", agent_path)
-        except:
+        except BaseException:
             raise ValueError("Fail to load agent!")
 
         # test on the testing env

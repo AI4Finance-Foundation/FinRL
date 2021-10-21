@@ -1,20 +1,8 @@
-import datetime
-import os
-import pathlib
-
-import pandas as pd
-
-# import finrl
-
-
 # pd.options.display.max_rows = 10
 # pd.options.display.max_columns = 10
-
-
 # PACKAGE_ROOT = pathlib.Path(finrl.__file__).resolve().parent
 # PACKAGE_ROOT = pathlib.Path().resolve().parent
 
-TRAINED_MODEL_DIR = f"trained_models"
 # DATASET_DIR = PACKAGE_ROOT / "data"
 
 # data
@@ -23,12 +11,10 @@ TRAINED_MODEL_DIR = f"trained_models"
 # TESTING_DATA_FILE = "test.csv"
 
 # now = datetime.datetime.now()
-# TRAINED_MODEL_DIR = f"trained_models/{now}"
-DATA_SAVE_DIR = f"datasets"
-TRAINED_MODEL_DIR = f"trained_models"
-TENSORBOARD_LOG_DIR = f"tensorboard_log"
-RESULTS_DIR = f"results"
-# os.makedirs(TRAINED_MODEL_DIR)
+DATA_SAVE_DIR = "datasets"
+TRAINED_MODEL_DIR = "trained_models"
+TENSORBOARD_LOG_DIR = "tensorboard_log"
+RESULTS_DIR = "results"
 
 
 ## time_fmt = '%Y-%m-%d'
@@ -76,7 +62,6 @@ SAC_PARAMS = {
     "buffer_size": 100000,
     "learning_rate": 0.0001,
     "learning_starts": 100,
-    "batch_size": 64,
     "ent_coef": "auto_0.1",
 }
 ERL_PARAMS = {
@@ -1396,10 +1381,10 @@ SDAX_50_TICKER = [
     "ZO1.DE",
 ]
 
-############## Stock Ticker Setup ends ##############
+# -------------- Stock Ticker Setup ends ---------------
 
-###Jan 20,2020, added by YuQing Huang###################
-################FX Ticker Setup Start###################
+# ----------Jan 20,2020, added by YuQing Huang----------
+# ------------FX Ticker Setup Start---------------------
 FX_TICKER = [
     "AUDCAD=X",
     "AUDCHF=X",
@@ -1475,7 +1460,8 @@ FX_TICKER = [
     "ZARJPY=X",
     "EURDKK=X",
 ]
-################FX Ticker Setup End###################
+
+# -----------FX Ticker Setup End--------------
 
 # LQ45 constituents at 2021/10
 LQ45_TICKER = [
