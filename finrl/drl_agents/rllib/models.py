@@ -5,7 +5,6 @@ from ray.rllib.agents.ddpg import ddpg, td3
 from ray.rllib.agents.ppo import ppo
 from ray.rllib.agents.sac import sac
 
-
 MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
 
 # MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}

@@ -1,4 +1,5 @@
 import unittest
+
 import numpy as np
 from finrl.neo_finrl.env_stock_trading.env_stocktrading_cashpenalty import (
     StockTradingEnvCashpenalty,

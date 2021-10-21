@@ -3,11 +3,10 @@ import time
 
 import numpy as np
 import pandas as pd
-from stable_baselines3 import A2C, DDPG, TD3, SAC, PPO
-
 from finrl.apps import config
 from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.neo_finrl.preprocessor.preprocessors import data_split
+from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.noise import (
     NormalActionNoise,
