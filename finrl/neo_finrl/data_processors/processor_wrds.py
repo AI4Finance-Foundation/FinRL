@@ -58,7 +58,7 @@ class WrdsProcessor:
                 )
                 if_empty = False
                 return data, if_empty
-            except:
+            except BaseException:
                 print("Data for date: " + date + " error")
                 if_empty = True
                 return None, if_empty
@@ -112,7 +112,7 @@ class WrdsProcessor:
                 time = str(date) + " " + str(time_m)
                 try:
                     time = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
-                except:
+                except BaseException:
                     time = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
                 time_list.append(time)
             temp_df["time"] = time_list
@@ -191,7 +191,7 @@ class WrdsProcessor:
                 df.iloc[i, 4] = previous_close
         # check if nan
         ary = df[["open", "high", "low", "close", "volume"]].values
-        assert np.isnan(np.min(ary)) == False
+        assert not np.isnan(np.min(ary))
         # final preprocess
         df = df[["time", "open", "high", "low", "close", "volume", "tic"]]
         df = df.reset_index(drop=True)

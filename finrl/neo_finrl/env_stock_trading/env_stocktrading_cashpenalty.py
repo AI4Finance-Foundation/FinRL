@@ -4,11 +4,9 @@ from copy import deepcopy
 
 import gym
 import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from gym import spaces
-from gym.utils import seeding
 from stable_baselines3.common import logger
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 
@@ -325,9 +323,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             reward = self.get_reward()
             self.account_information["reward"].append(reward)
 
-            """
-            Now, let's get down to business at hand. 
-            """
+            # Now, let's get down to business at hand.
             transactions = self.get_transactions(actions)
 
             # compute our proceeds from sells, and add to cash

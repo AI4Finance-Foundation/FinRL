@@ -1,7 +1,6 @@
-from inspect import Arguments
-
 import torch
 from elegantrl.agent import AgentPPO
+from elegantrl.run import Arguments
 from ray.rllib.agents.ppo import PPOTrainer, ppo
 from stable_baselines3 import PPO
 

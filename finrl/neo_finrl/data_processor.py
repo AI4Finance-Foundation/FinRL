@@ -1,11 +1,10 @@
 import numpy as np
 import pandas as pd
-from finrl.neo_finrl.data_processors.processor_alpaca import \
-    AlpacaProcessor as Alpaca
-from finrl.neo_finrl.data_processors.processor_wrds import \
-    WrdsProcessor as Wrds
-from finrl.neo_finrl.data_processors.processor_yahoofinance import \
-    YahooFinanceProcessor as YahooFinance
+from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
+from finrl.neo_finrl.data_processors.processor_wrds import WrdsProcessor as Wrds
+from finrl.neo_finrl.data_processors.processor_yahoofinance import (
+    YahooFinanceProcessor as YahooFinance,
+)
 
 
 class DataProcessor:
@@ -18,7 +17,7 @@ class DataProcessor:
                 APCA_API_BASE_URL = kwargs.get("APCA_API_BASE_URL")
                 self.processor = Alpaca(API_KEY, API_SECRET, APCA_API_BASE_URL)
                 print("Alpaca successfully connected")
-            except:
+            except BaseException:
                 raise ValueError("Please input correct account info for alpaca!")
 
         elif data_source == "wrds":

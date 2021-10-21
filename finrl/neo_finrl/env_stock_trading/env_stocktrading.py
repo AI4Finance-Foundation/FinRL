@@ -1,5 +1,3 @@
-import pickle
-
 import gym
 import matplotlib
 import matplotlib.pyplot as plt

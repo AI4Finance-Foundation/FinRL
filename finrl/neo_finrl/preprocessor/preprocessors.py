@@ -1,4 +1,4 @@
-import itertools
+import datetime
 
 import numpy as np
 import pandas as pd
@@ -79,22 +79,22 @@ class FeatureEngineer:
         df = self.clean_data(df)
 
         # add technical indicators using stockstats
-        if self.use_technical_indicator == True:
+        if self.use_technical_indicator:
             df = self.add_technical_indicator(df)
             print("Successfully added technical indicators")
 
         # add vix for multiple stock
-        if self.use_vix == True:
+        if self.use_vix:
             df = self.add_vix(df)
             print("Successfully added vix")
 
         # add turbulence index for multiple stock
-        if self.use_turbulence == True:
+        if self.use_turbulence:
             df = self.add_turbulence(df)
             print("Successfully added turbulence index")
 
         # add user defined feature
-        if self.user_defined_feature == True:
+        if self.user_defined_feature:
             df = self.add_user_defined_feature(df)
             print("Successfully added user defined features")
 

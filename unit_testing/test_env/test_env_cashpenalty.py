@@ -1,9 +1,8 @@
 import unittest
-
 import numpy as np
-import pandas as pd
-from finrl.neo_finrl.env_stock_trading.env_stocktrading_cashpenalty import \
-    StockTradingEnvCashpenalty
+from finrl.neo_finrl.env_stock_trading.env_stocktrading_cashpenalty import (
+    StockTradingEnvCashpenalty,
+)
 from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
 
 
@@ -17,7 +16,7 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
         cls.indicators = ["open", "close", "high", "low", "volume"]
 
     def test_trivial(self):
-        print(f"got hree!")
+        print("got hree!")
         self.assertTrue(True)
 
     def test_zero_step(self):
@@ -111,11 +110,11 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
 
     def validate_caching(self):
         # prove that results with or without caching don't change anything
-
+        init_amt = 1e6
         env_uncached = StockTradingEnvCashpenalty(
             df=self.df, initial_amount=init_amt, cache_indicator_data=False
         )
-        env_cached = env = StockTradingEnvCashpenalty(
+        env_cached = StockTradingEnvCashpenalty(
             df=self.df, initial_amount=init_amt, cache_indicator_data=True
         )
         _ = env_uncached.reset()

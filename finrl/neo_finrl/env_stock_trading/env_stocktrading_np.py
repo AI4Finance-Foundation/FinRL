@@ -1,5 +1,3 @@
-import os
-
 import gym
 import numpy as np
 from numpy import random as rd
@@ -24,7 +22,6 @@ class StockTradingEnv(gym.Env):
         tech_ary = config["tech_array"]
         turbulence_ary = config["turbulence_array"]
         if_train = config["if_train"]
-        n = price_ary.shape[0]
         self.price_ary = price_ary.astype(np.float32)
         self.tech_ary = tech_ary.astype(np.float32)
         self.turbulence_ary = turbulence_ary

@@ -1,20 +1,19 @@
 # common library
 import time
 
-import gym
 import numpy as np
 import pandas as pd
+from stable_baselines3 import A2C, DDPG, TD3, SAC, PPO
+
 from finrl.apps import config
 from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
-from finrl.neo_finrl.preprocessor.preprocessors import (FeatureEngineer,
-                                                        data_split)
-from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
+from finrl.neo_finrl.preprocessor.preprocessors import data_split
 from stable_baselines3.common.callbacks import BaseCallback
-from stable_baselines3.common.noise import (NormalActionNoise,
-                                            OrnsteinUhlenbeckActionNoise)
+from stable_baselines3.common.noise import (
+    NormalActionNoise,
+    OrnsteinUhlenbeckActionNoise,
+)
 from stable_baselines3.common.vec_env import DummyVecEnv
-from stable_baselines3.ppo import MlpPolicy
-from stable_baselines3.td3.policies import MlpPolicy
 
 # RL models from stable-baselines
 
@@ -40,7 +39,7 @@ class TensorboardCallback(BaseCallback):
     def _on_step(self) -> bool:
         try:
             self.logger.record(key="train/reward", value=self.locals["rewards"][0])
-        except:
+        except BaseException:
             self.logger.record(key="train/reward", value=self.locals["reward"][0])
         return True
 
@@ -135,7 +134,7 @@ class DRLAgent:
             # load agent
             model = MODELS[model_name].load(cwd)
             print("Successfully load model", cwd)
-        except:
+        except BaseException:
             raise ValueError("Fail to load agent!")
 
         # test on the testing env
@@ -212,7 +211,7 @@ class DRLEnsembleAgent:
 
     @staticmethod
     def get_validation_sharpe(iteration, model_name):
-        ###Calculate Sharpe ratio based on validation results###
+        """Calculate Sharpe ratio based on validation results"""
         df_total_value = pd.read_csv(
             "results/account_value_validation_{}_{}.csv".format(model_name, iteration)
         )
@@ -264,7 +263,7 @@ class DRLEnsembleAgent:
         self.print_verbosity = print_verbosity
 
     def DRL_validation(self, model, test_data, test_env, test_obs):
-        ###validation process###
+        """validation process"""
         for i in range(len(test_data.index.unique())):
             action, _states = model.predict(test_obs)
             test_obs, rewards, dones, info = test_env.step(action)
@@ -272,7 +271,7 @@ class DRLEnsembleAgent:
     def DRL_prediction(
         self, model, name, last_state, iter_num, turbulence_threshold, initial
     ):
-        ### make a prediction based on trained model###
+        """make a prediction based on trained model"""
 
         ## trading env
         trade_data = data_split(
