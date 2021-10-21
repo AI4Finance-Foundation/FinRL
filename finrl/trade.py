@@ -1,6 +1,10 @@
+from inspect import Arguments
+
 import torch
-from elegantrl.agent import *
-from elegantrl.run import *
+from elegantrl.agent import AgentPPO
+from ray.rllib.agents.ppo import PPOTrainer, ppo
+from stable_baselines3 import PPO
+
 from finrl.neo_finrl.data_processor import DataProcessor
 
 
@@ -67,7 +71,7 @@ def trade(
                 act = agent.act
                 device = agent.device
 
-            except:
+            except BaseException:
                 raise ValueError("Fail to load agent!")
 
             # test on the testing env
@@ -101,8 +105,6 @@ def trade(
         # test using rllib
         elif drl_lib == "rllib":
             # load agent
-            from ray.rllib.agents import ppo
-            from ray.rllib.agents.ppo.ppo import PPOTrainer
 
             config = ppo.DEFAULT_CONFIG.copy()
             config["env"] = env
@@ -118,7 +120,7 @@ def trade(
             try:
                 trainer.restore(cwd)
                 print("Restoring from checkpoint path", cwd)
-            except:
+            except BaseException:
                 raise ValueError("Fail to load agent!")
 
             # test on the testing env
@@ -143,13 +145,12 @@ def trade(
 
             # test using stable baselines3
         elif drl_lib == "stable_baselines3":
-            from stable_baselines3 import PPO
 
             try:
                 # load agent
                 model = PPO.load(cwd)
                 print("Successfully load model", cwd)
-            except:
+            except BaseException:
                 raise ValueError("Fail to load agent!")
 
             # test on the testing env
