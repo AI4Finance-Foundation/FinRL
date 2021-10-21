@@ -9,7 +9,8 @@ from elegantrl.agent import AgentSAC
 from elegantrl.run import *
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
-
+OFF_POLICY_MODELS = ['ddpg','td3','sac']
+ON_POLICY_MODELS = ['ppo',]
 '''MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
 
 NOISE = {
@@ -50,10 +51,13 @@ class DRLAgent:
         model_kwargs
     ):
         
-        model = Arguments(if_on_policy=True)
-        
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
+            
+        if model_name in ON_POLICY_MODELS:
+            model = Arguments(if_on_policy=True)
+        else:
+            model = Arguments(if_on_policy=False)
         
         if model_kwargs is not None:
             try:
@@ -61,7 +65,7 @@ class DRLAgent:
                 model.batch_size = model_kwargs['batch_size']
                 model.gamma = model_kwargs['gamma']
                 model.seed = model_kwargs['seed']
-                model.net_dimension = model_kwargs['net_dimension']
+                model.net_dim = model_kwargs['net_dimension']
             except:
                 raise ValueError("Fail to read arguments, please check 'model_kwargs' input.")
         
