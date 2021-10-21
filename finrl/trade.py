@@ -1,10 +1,9 @@
 import torch
 from elegantrl.agent import AgentPPO
 from elegantrl.run import Arguments
+from finrl.neo_finrl.data_processor import DataProcessor
 from ray.rllib.agents.ppo import PPOTrainer, ppo
 from stable_baselines3 import PPO
-
-from finrl.neo_finrl.data_processor import DataProcessor
 
 
 def trade(
