@@ -1,19 +1,26 @@
-TRAIN_START_DATE = '2019-01-01'
-TRAIN_END_DATE = '2019-12-31'
+TRAIN_START_DATE = "2019-01-01"
+TRAIN_END_DATE = "2019-12-31"
 
-TEST_START_DATE = '2020-01-01'
-TEST_END_DATE = '2020-12-31'
+TEST_START_DATE = "2020-01-01"
+TEST_END_DATE = "2020-12-31"
 
-TRADE_START_DATE = '2021-01-01'
-TRADE_END_DATE = '2021-07-31'
+TRADE_START_DATE = "2021-01-01"
+TRADE_END_DATE = "2021-07-31"
 
-PATH_OF_DATA = 'data'
+PATH_OF_DATA = "data"
 READ_DATA_FROM_LOCAL = 1  # 0 or 1
 
-TECHNICAL_INDICATORS_LIST = ['macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30',
-                             'close_30_sma', 'close_60_sma']
+TECHNICAL_INDICATORS_LIST = [
+    "macd",
+    "boll_ub",
+    "boll_lb",
+    "rsi_30",
+    "dx_30",
+    "close_30_sma",
+    "close_60_sma",
+]
 
-FAANG_TICKER = ['FB',  'AMZN', 'AAPL', 'NFLX', 'GOOG']
+FAANG_TICKER = ["FB", "AMZN", "AAPL", "NFLX", "GOOG"]
 
 # Dow 30 constituents at 2019/01
 DOW_30_TICKER = [
@@ -657,5 +664,3 @@ SP_500_TICKER = [
     "ZION",
     "ZTS",
 ]
-
-

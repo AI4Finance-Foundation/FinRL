@@ -1,17 +1,16 @@
+import random
+import time
+from copy import deepcopy
+
+import gym
+import matplotlib
 import numpy as np
 import pandas as pd
-import random
-from copy import deepcopy
-import gym
-import time
-from gym.utils import seeding
 from gym import spaces
-import matplotlib
+from stable_baselines3.common import logger
+from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
-from stable_baselines3.common import logger
 
 
 class StockTradingEnvCashpenalty(gym.Env):
@@ -324,9 +323,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             reward = self.get_reward()
             self.account_information["reward"].append(reward)
 
-            """
-            Now, let's get down to business at hand. 
-            """
+            # Now, let's get down to business at hand.
             transactions = self.get_transactions(actions)
 
             # compute our proceeds from sells, and add to cash

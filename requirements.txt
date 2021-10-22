@@ -3,6 +3,7 @@ numpy>=1.17.3
 pandas>=1.1.5
 stockstats
 yfinance
+elegantrl
 #pyfolio
 
 # plot
@@ -31,3 +32,6 @@ pytest
 # packaging
 setuptools>=41.4.0
 wheel>=0.33.6
+
+#hooks
+pre-commit
