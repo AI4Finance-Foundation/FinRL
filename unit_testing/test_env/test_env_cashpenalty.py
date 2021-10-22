@@ -1,8 +1,10 @@
 import unittest
-from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
-from finrl.neo_finrl.env_stock_trading.env_stocktrading_cashpenalty import StockTradingEnvCashpenalty
+
 import numpy as np
-import pandas as pd
+from finrl.neo_finrl.env_stock_trading.env_stocktrading_cashpenalty import (
+    StockTradingEnvCashpenalty,
+)
+from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
 
 
 class TestStocktradingEnvCashpenalty(unittest.TestCase):
@@ -15,7 +17,7 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
         cls.indicators = ["open", "close", "high", "low", "volume"]
 
     def test_trivial(self):
-        print(f"got hree!")
+        print("got hree!")
         self.assertTrue(True)
 
     def test_zero_step(self):
@@ -43,25 +45,32 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
 
     def test_shares_increment(self):
         # Prove that we can only buy/sell multiplies of shares based on shares_increment parameter
-        aapl_first_close = self.df[self.df['tic']=='AAPL'].head(1)['close'].values[0]
+        aapl_first_close = self.df[self.df["tic"] == "AAPL"].head(1)["close"].values[0]
         init_amt = 1e6
         hmax = aapl_first_close * 100
         shares_increment = 10
-        env = StockTradingEnvCashpenalty(discrete_actions = True,
-            df=self.df, initial_amount=init_amt, hmax=hmax,
-            cache_indicator_data=False,shares_increment=shares_increment,
-            random_start=False
+        env = StockTradingEnvCashpenalty(
+            discrete_actions=True,
+            df=self.df,
+            initial_amount=init_amt,
+            hmax=hmax,
+            cache_indicator_data=False,
+            shares_increment=shares_increment,
+            random_start=False,
         )
         _ = env.reset()
 
-        actions = np.array([0.29,0.0])
+        actions = np.array([0.29, 0.0])
         next_state, _, _, _ = env.step(actions)
         holdings = next_state[1 : 1 + len(self.ticker_list)]
         self.assertEqual(holdings[0], 20.0)
         self.assertEqual(holdings[1], 0.0)
 
-        hmax_mc = self.df[self.df['tic']=='AAPL'].head(2).iloc[-1]['close'] / aapl_first_close
-        actions = np.array([-0.12 * hmax_mc,0.0])
+        hmax_mc = (
+            self.df[self.df["tic"] == "AAPL"].head(2).iloc[-1]["close"]
+            / aapl_first_close
+        )
+        actions = np.array([-0.12 * hmax_mc, 0.0])
         next_state, _, _, _ = env.step(actions)
         holdings = next_state[1 : 1 + len(self.ticker_list)]
         self.assertEqual(holdings[0], 10.0)
@@ -69,17 +78,20 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
 
     def test_patient(self):
         # Prove that we just not buying any new assets if running out of cash and the cycle is not ended
-        aapl_first_close = self.df[self.df['tic']=='AAPL'].head(1)['close'].values[0]
+        aapl_first_close = self.df[self.df["tic"] == "AAPL"].head(1)["close"].values[0]
         init_amt = aapl_first_close
         hmax = aapl_first_close * 100
         env = StockTradingEnvCashpenalty(
-            df=self.df, initial_amount=init_amt, hmax=hmax,
-            cache_indicator_data=False,patient=True,
-            random_start=False, 
+            df=self.df,
+            initial_amount=init_amt,
+            hmax=hmax,
+            cache_indicator_data=False,
+            patient=True,
+            random_start=False,
         )
         _ = env.reset()
 
-        actions = np.array([1.0,1.0])
+        actions = np.array([1.0, 1.0])
         next_state, _, is_done, _ = env.step(actions)
         holdings = next_state[1 : 1 + len(self.ticker_list)]
         self.assertEqual(False, is_done)
@@ -99,11 +111,11 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
 
     def validate_caching(self):
         # prove that results with or without caching don't change anything
-
+        init_amt = 1e6
         env_uncached = StockTradingEnvCashpenalty(
             df=self.df, initial_amount=init_amt, cache_indicator_data=False
         )
-        env_cached = env = StockTradingEnvCashpenalty(
+        env_cached = StockTradingEnvCashpenalty(
             df=self.df, initial_amount=init_amt, cache_indicator_data=True
         )
         _ = env_uncached.reset()

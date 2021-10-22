@@ -1,9 +1,5 @@
-import json
-import logging
 import os
-import time
 from argparse import ArgumentParser
-import datetime
 
 from finrl.apps import config
 
@@ -34,8 +30,9 @@ def main():
 
     if options.mode == "train":
         import finrl.train
+
         finrl.train.train_stock_trading()
-        
-        
+
+
 if __name__ == "__main__":
     main()
