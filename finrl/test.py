@@ -1,6 +1,3 @@
-import ray
-
-
 def test(
     start_date,
     end_date,
@@ -14,7 +11,8 @@ def test(
     if_vix=True,
     **kwargs
 ):
-
+    import ray
+    
     # import DRL agents
     from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
     from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
