@@ -9,17 +9,17 @@ Welcome to FinRL Library!
 =====================================================================================================
 
 .. meta::
-   :description: FinRL Library is an open source library that facilitates beginners to expose themselves to quantitative finance and to develop their own stock trading strategies using deep reinforcement learning, it collects the most practical reinforcement learning algorithms, frameworks and applications(DQN, DDPG, PPO, SAC, A2C, TD3, etc.).
+   :description: FinRL Library is an open source framework that facilitates beginners to expose themselves to quantitative finance and to develop their own stock trading strategies using deep reinforcement learning, it collects the most practical reinforcement learning algorithms, frameworks and applications(DQN, DDPG, PPO, SAC, A2C, TD3, etc.).
    :keywords: finance ai, openai, artificial intelligence in finance, machine learning, deep reinforcement learning, DRL, RL, machine learning neural networks, deep q network, multi agent reinforcement learning
 
 .. image:: image/logo_finrl.jpg
    :target:  https://github.com/AI4Finance-LLC/FinRL-Library
 
-FinRL is the open source library for practitioners. To efficiently automate trading, **AI4Finance** provides this educational resource and makes it easier to learn about **deep reinforcement learning** (DRL) in quantitative finance.
+FinRL is an open source deep reinforcement learning (DRL) framework for researchers and practitioners. To efficiently automate trading, **AI4Finance** community provides this demonstrative and educational resource.
 
 .. _FinRL: https://github.com/AI4Finance-LLC/FinRL-Library
 
-Reinforcement learning (RL) trains an agent how to solve tasks by trial and error, while DRL combines RL with deep learning. DRL balances exploration (of uncharted territory) and exploitation (of current knowledge), and has been recognized as an advantageous approach for automated trading. DRL framework is powerful in solving dynamic decision making problems by learning through interaction with an unknown environment, thus provides two major advantages: portfolio scala-bility and market model independence. In quantitative finance, automated trading is essentially making dynamic decisions, namely **to decide where to trade, at what price, and what quantity**, over a highlystochastic and complex stock market. Taking many complex financialfactors into account, DRL trading agents build a multi-factor model and provide algorithmic trading strategies, which are difficult for human traders
+Reinforcement learning (RL) trains an agent to solve tasks by trial and error, while DRL uses deep neural networks as function approximators. DRL balances exploration (of uncharted territory) and exploitation (of current knowledge), and has been recognized as a competitive edge for automated trading. DRL framework is powerful in solving dynamic decision making problems by learning through interactions with an unknown environment, thus provides two major advantages: portfolio scalability and market model independence. In quantitative finance, automated trading is essentially making dynamic decisions, namely **to decide where to trade, at what price, and what quantity**, over a highly stochastic and complex stock market. Taking many complex financial factors into account, DRL trading agents build a multi-factor model and provide algorithmic trading strategies, which are difficult for human traders.
 
 `FinRL Library`_ provides a framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.
 
