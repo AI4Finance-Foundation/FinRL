@@ -5,12 +5,14 @@ from elegantrl.agent import AgentPPO
 from elegantrl.agent import AgentTD3
 from elegantrl.agent import AgentDDPG
 from elegantrl.agent import AgentSAC
+from elegantrl.agent import AgentA2C
 
 from elegantrl.run import *
 
-MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
+MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO,
+          "a2c": AgentA2C}
 OFF_POLICY_MODELS = ['ddpg','td3','sac']
-ON_POLICY_MODELS = ['ppo',]
+ON_POLICY_MODELS = ['ppo','a2c']
 '''MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
 
 NOISE = {
