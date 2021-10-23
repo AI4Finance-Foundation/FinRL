@@ -36,16 +36,24 @@ class DRLAgent:
         self.price_array = price_array
         self.tech_array = tech_array
         self.turbulence_array = turbulence_array
-
+        
     def get_model(self, model_name, model_kwargs):
-
+        env_config = {
+            "price_array": self.price_array,
+            "tech_array": self.tech_array,
+            "turbulence_array": self.turbulence_array,
+            "if_train": True,
+        }
+        env = self.env(config=env_config)
+        env.env_num = 1
+        agent = MODELS[model_name]()
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
-
-        if model_name in ON_POLICY_MODELS:
-            model = Arguments(if_on_policy=True)
+        model = Arguments(env, agent)
+        if model_name in OFF_POLICY_MODELS:
+            model.if_off_policy = True
         else:
-            model = Arguments(if_on_policy=False)
+            model.if_off_policy = False
 
         if model_kwargs is not None:
             try:
@@ -58,15 +66,6 @@ class DRLAgent:
                 raise ValueError(
                     "Fail to read arguments, please check 'model_kwargs' input."
                 )
-
-        model.agent = MODELS[model_name]()
-        env_config = {
-            "price_array": self.price_array,
-            "tech_array": self.tech_array,
-            "turbulence_array": self.turbulence_array,
-            "if_train": True,
-        }
-        model.env = self.env(config=env_config)
         return model
 
     def train_model(self, model, cwd, total_timesteps=5000):
@@ -78,11 +77,16 @@ class DRLAgent:
     def DRL_prediction(model_name, cwd, net_dimension, environment):
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
-        model = MODELS[model_name]
-        args = Arguments(if_on_policy=True)
-        args.agent = model()
+        model = MODELS[model_name]()
+        environment.env_num = 1
+        args = Arguments(env=environment, agent=model)
+        if model_name in OFF_POLICY_MODELS:
+            args.if_off_policy = True
+        else:
+            args.if_off_policy = False
+        args.agent = model
         args.env = environment
-        args.agent.if_use_cri_target = True
+        #args.agent.if_use_cri_target = True  ##Not needed for test
 
         # load agent
         try:
