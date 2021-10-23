@@ -55,7 +55,7 @@ FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms,
 	- [Welcome Contributions](#Call-for-Contributions)
 - [LICENSE](#LICENSE)
 
-## Tutorials and News
+## Tutorials
 + [FinRL for Quantitative Finance: Install and Setup Tutorial for Beginners](https://ai4finance.medium.com/finrl-for-quantitative-finance-install-and-setup-tutorial-for-beginners-1db80ad39159)
 + [Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
