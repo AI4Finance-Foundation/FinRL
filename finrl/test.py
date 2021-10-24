@@ -1,3 +1,14 @@
+import ray
+from finrl.apps.config import (
+    DOW_30_TICKER,
+    TECHNICAL_INDICATORS_LIST,
+    TEST_END_DATE,
+    TEST_START_DATE,
+    RLlib_PARAMS,
+)
+from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
+
+
 def test(
     start_date,
     end_date,
@@ -11,8 +22,7 @@ def test(
     if_vix=True,
     **kwargs
 ):
-    import ray
-    
+
     # import DRL agents
     from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
     from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
@@ -78,14 +88,6 @@ def test(
 
 
 if __name__ == "__main__":
-    from finrl.app.config import DOW_30_TICKER
-    from finrl.app.config import TECHNICAL_INDICATORS_LIST
-    from finrl.app.config import TEST_START_DATE
-    from finrl.app.config import TEST_END_DATE
-    from finrl.app.config import RLlib_PARAMS
-
-    # construct environment
-    from finrl.neo_finrl.env_stock_trading.env_stock_trading import StockTradingEnv
 
     env = StockTradingEnv
 
