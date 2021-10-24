@@ -1,9 +1,10 @@
 FROM stablebaselines/rl-baselines3-zoo:0.11.0a4
 
+
 COPY requirements.txt /tmp/
 
 
-RUN pip install -r /tmp/requirements.txt
+RUN pip install -r  /tmp/requirements.txt -I
 
 RUN pip install jupyterlab
 

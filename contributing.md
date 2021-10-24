@@ -34,8 +34,20 @@ There are always competing priorities among the community, and we want to make s
 * Please use pre-commit hooks 
 
 
-### Using pre-commit
+## Using pre-commit
 ```
 pip install pre-commit
 pre-commit install
 ```
+
+## Running Tests
+```
+# Locally
+python3 -m unittest discover
+
+# Docker
+./docker/bin/build_container.sh
+./docker/bin/test.sh
+```
+
+
