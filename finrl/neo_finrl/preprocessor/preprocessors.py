@@ -98,7 +98,7 @@ class FeatureEngineer:
             print("Successfully added user defined features")
 
         # fill the missing values at the beginning and the end
-        df = df.fillna(method="bfill").fillna(method="ffill")
+        df = df.fillna(method="ffill").fillna(method="bfill")
         return df
     
     def clean_data(self, data):
