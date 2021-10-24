@@ -2,4 +2,4 @@
 
 
 
-docker build -f docker/Dockerfile -t finrl docker/
+docker build -f docker/Dockerfile -t finrl .
