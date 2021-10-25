@@ -266,7 +266,7 @@ class AlpacaPaperTrading():
         
         
         
-        amount = np.array(max(self.cash, 1e4) * (2 ** -12), dtype=np.float32)
+        amount = np.array(self.cash * (2 ** -12), dtype=np.float32)
         scale = np.array(2 ** -6, dtype=np.float32)
         state = np.hstack((amount,
                     turbulence,
