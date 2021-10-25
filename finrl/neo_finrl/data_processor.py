@@ -65,7 +65,7 @@ class DataProcessor:
         price_array, tech_array, turbulence_array = self.processor.df_to_array(
             df, self.tech_indicator_list, if_vix
         )
-        # fill nan with 0 for technical indicators
+        # fill nan and inf values with 0 for technical indicators
         tech_nan_positions = np.isnan(tech_array)
         tech_array[tech_nan_positions] = 0
         tech_inf_positions = np.isinf(tech_array)
