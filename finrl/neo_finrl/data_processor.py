@@ -68,5 +68,7 @@ class DataProcessor:
         # fill nan with 0 for technical indicators
         tech_nan_positions = np.isnan(tech_array)
         tech_array[tech_nan_positions] = 0
+        tech_inf_positions = np.isinf(tech_array)
+        tech_array[tech_inf_positions] = 0
 
         return price_array, tech_array, turbulence_array
