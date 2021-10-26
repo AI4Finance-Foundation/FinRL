@@ -1,4 +1,4 @@
-# Introductary**
+# Introductary
 
 # Strategy Design
 
