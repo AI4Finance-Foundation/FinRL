@@ -9,6 +9,10 @@
 
 [1] [Deep reinforcement learning for automated stock trading: an ensemble strategy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996). ACM International Conference on AI in Finance,  2020.
 
+## 
+
+NYU: Overview of Advanced Methods of Reinforcement Learning in Finance
+
 ## Github Repos
 
 
