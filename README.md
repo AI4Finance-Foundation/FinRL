@@ -139,19 +139,18 @@ We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) a
 ```
 @article{finrl2020,
     author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
-    journal = {Deep RL Workshop, NeurIPS 2020},
     title   = {FinRL: A deep reinforcement learning library for automated stock trading in quantitative finance},
-    url     = {https://arxiv.org/pdf/2011.09607.pdf},
+    journal = {Deep RL Workshop, NeurIPS 2020},
     year    = {2020}
 }
 ```
 
 ```
 @article{liu2021finrl,
-  author={Liu, Xiao-Yang and Yang, Hongyang and Gao, Jiechao and Wang, Christina Dan},
-  title={{FinRL}: Deep reinforcement learning framework to automate trading in quantitative finance},
-  journal={ACM International Conference on AI in Finance (ICAIF)},
-  year={2021}
+    author  = {Liu, Xiao-Yang and Yang, Hongyang and Gao, Jiechao and Wang, Christina Dan},
+    title   = {{FinRL}: Deep reinforcement learning framework to automate trading in quantitative finance},
+    journal = {ACM International Conference on AI in Finance (ICAIF)},
+    year    = {2021}
 }
 
 ```
