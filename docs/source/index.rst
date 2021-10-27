@@ -15,7 +15,7 @@ Welcome to FinRL Library!
 .. image:: image/logo_finrl.jpg
    :target:  https://github.com/AI4Finance-LLC/FinRL-Library
 
-FinRL is an open source deep reinforcement learning (DRL) framework for researchers and practitioners. To efficiently automate trading, **AI4Finance** community provides this demonstrative and educational resource.
+To efficiently automate trading, **AI4Finance** community provides this demonstrative and educational resource. FinRL is an open source deep reinforcement learning (DRL) framework for researchers and practitioners. 
 
 .. _FinRL: https://github.com/AI4Finance-LLC/FinRL-Library
 
