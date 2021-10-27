@@ -14,13 +14,15 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
-**News: we plan to release codes for both paper trading and live trading. Please let us know your coding needs.**
-
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
-The open-source community **AI4Finance** (efficiently automating trading) provides resources about DRL in quantitative finance. It aims to accelerate the paradigm shift from the conventional machine learning approach to **RLOps in finance**.
+**News: we plan to release codes for both paper trading and live trading. Please let us know your coding needs.**
 
-[**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is an open-source framework to help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. 
+**AI4Finance's Mission**: efficiently automate trading. We continuously develop and share tools/codes for finance. We aim to initiate a paradigm shift from the conventional trading routine, to a machine learning approach, especially **RLOps in finance**.
+
+**AI4Finance' Vision**: [**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is the first open-source framework to demonstrate the greate potential of applying deep reinforcement learning in quantitative finance. We help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. 
+
+**An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. 
 
 
 Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
