@@ -15,6 +15,8 @@ Welcome to FinRL Library!
 .. image:: image/logo_finrl.jpg
    :target:  https://github.com/AI4Finance-LLC/FinRL-Library
 
+**Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
+
 To efficiently automate trading, **AI4Finance** community provides this demonstrative and educational resource. FinRL is an open source deep reinforcement learning (DRL) framework for researchers and practitioners. 
 
 .. _FinRL: https://github.com/AI4Finance-LLC/FinRL-Library
