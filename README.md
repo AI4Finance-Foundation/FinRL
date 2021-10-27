@@ -146,6 +146,16 @@ We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) a
 }
 ```
 
+```
+@article{liu2021finrl,
+  author={Liu, Xiao-Yang and Yang, Hongyang and Gao, Jiechao and Wang, Christina Dan},
+  title={{FinRL}: Deep reinforcement learning framework to automate trading in quantitative finance},
+  journal={ACM International Conference on AI in Finance (ICAIF)},
+  year={2021}
+}
+
+```
+
 ## Call for Contributions
 
 Will maintain FinRL with the "AI4Finance" community and welcome your contributions!
