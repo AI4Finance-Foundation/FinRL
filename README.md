@@ -20,7 +20,7 @@
 
 **AI4Finance' Vision**: The AI community has accumulated an open source ocean of powerful codes over the past decade. We believe the proper usage of such intellectual and engineering properties will initiate a paradigm shift from the conventional trading routine, to a machine learning approach, even **RLOps in finance**.
 
-[**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is the first open-source framework to demonstrate the greate potential of applying deep reinforcement learning in quantitative finance. We help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. 
+[**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is the first open-source framework to demonstrate the great potential of applying deep reinforcement learning in quantitative finance. We help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. 
 
 **News: we plan to release codes for both paper trading and live trading. Please let us know your coding needs.**
 
