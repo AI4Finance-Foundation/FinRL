@@ -16,7 +16,7 @@
 
 **News: we plan to release codes for both paper trading and live trading. Please let us know your coding needs.**
 
-**Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Many platforms exist for simulated trading (paper trading) which can be used for building and developing the methods discussed. Please use common sense and always first consult a professional before trading or investing.**
+**Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
 The open-source community **AI4Finance** (efficiently automating trading) provides resources about DRL in quantitative finance. It aims to accelerate the paradigm shift from the conventional machine learning approach to **RLOps in finance**.
 
@@ -281,7 +281,7 @@ Thanks to all the people who contribute.
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
 </a>
 
-**Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Many platforms exist for simulated trading (paper trading) which can be used for building and developing the methods discussed. Please use common sense and always first consult a professional before trading or investing.**
+**Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
 ## LICENSE
 
