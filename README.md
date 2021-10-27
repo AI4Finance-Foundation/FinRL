@@ -155,15 +155,15 @@ We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) a
 
 ```
 
-## Call for Contributions
+## To Contribute
 
-Will maintain FinRL with the "AI4Finance" community and welcome your contributions!
+**AI4Finance Foundation** community will maintain FinRL and welcome you to join us!
 
 Please check the [Contributing Guidances](https://github.com/AI4Finance-LLC/FinRL/blob/master/contributing.md).
 
 ### Contributors
 
-Thanks to all the people who contribute. 
+Thanks to our contributors! 
 <a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
 </a>
