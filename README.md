@@ -28,7 +28,7 @@ Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g
 	</div>
 </a>
 
-Roadmap:
+Ecosystem of FinRL:
 
 **FinRL 1.0**: entry-level for beginners, with a demonstrative and educational purpose.
 
