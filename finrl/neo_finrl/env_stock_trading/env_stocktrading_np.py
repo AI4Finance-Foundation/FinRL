@@ -2,7 +2,6 @@ import gym
 import numpy as np
 from numpy import random as rd
 
-
 class StockTradingEnv(gym.Env):
     def __init__(
         self,
@@ -83,14 +82,14 @@ class StockTradingEnv(gym.Env):
             self.stocks = (
                 self.initial_stocks + rd.randint(0, 64, size=self.initial_stocks.shape)
             ).astype(np.float32)
-            self.stocks_cd = np.zeros_like(self.stocks)
+            self.stocks_cool_down = np.zeros_like(self.stocks)
             self.amount = (
                 self.initial_capital * rd.uniform(0.95, 1.05)
                 - (self.stocks * price).sum()
             )
         else:
             self.stocks = self.initial_stocks.astype(np.float32)
-            self.stocks_cd = np.zeros_like(self.stocks)
+            self.stocks_cool_down = np.zeros_like(self.stocks)
             self.amount = self.initial_capital
 
         self.total_asset = self.amount + (self.stocks * price).sum()
@@ -103,7 +102,7 @@ class StockTradingEnv(gym.Env):
 
         self.day += 1
         price = self.price_ary[self.day]
-        self.stocks_cd += 1
+        self.stocks_cool_down += 1
 
         if self.turbulence_bool[self.day] == 0:
             min_action = int(self.max_stock * self.min_stock_rate)  # stock_cd
@@ -114,7 +113,7 @@ class StockTradingEnv(gym.Env):
                     self.amount += (
                         price[index] * sell_num_shares * (1 - self.sell_cost_pct)
                     )
-                    self.stocks_cd[index] = 0
+                    self.stocks_cool_down[index] = 0
             for index in np.where(actions > min_action)[0]:  # buy_index:
                 if (
                     price[index] > 0
@@ -124,12 +123,12 @@ class StockTradingEnv(gym.Env):
                     self.amount -= (
                         price[index] * buy_num_shares * (1 + self.buy_cost_pct)
                     )
-                    self.stocks_cd[index] = 0
+                    self.stocks_cool_down[index] = 0
 
         else:  # sell all when turbulence
             self.amount += (self.stocks * price).sum() * (1 - self.sell_cost_pct)
             self.stocks[:] = 0
-            self.stocks_cd[:] = 0
+            self.stocks_cool_down[:] = 0
 
         state = self.get_state(price)
         total_asset = self.amount + (self.stocks * price).sum()
@@ -154,7 +153,7 @@ class StockTradingEnv(gym.Env):
                 self.turbulence_bool[self.day],
                 price * scale,
                 self.stocks * scale,
-                self.stocks_cd,
+                self.stocks_cool_down,
                 self.tech_ary[self.day],
             )
         )  # state.astype(np.float32)
