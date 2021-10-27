@@ -14,9 +14,13 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 
-**News: we plan to share our codes for both paper trading and live trading. Please share your interests.**
+**News: we plan to release codes for both paper trading and live trading. Please let us know your coding needs.**
 
-[**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is an open-source framework to help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. The open-source community **AI4Finance** (efficiently automating trading) provides resources about DRL in quantitative finance. It aims to accelerate the paradigm shift from the conventional machine learning approach to **RLOps in finance**.
+**Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Many platforms exist for simulated trading (paper trading) which can be used for building and developing the methods discussed. Please use common sense and always first consult a professional before trading or investing.**
+
+The open-source community **AI4Finance** (efficiently automating trading) provides resources about DRL in quantitative finance. It aims to accelerate the paradigm shift from the conventional machine learning approach to **RLOps in finance**.
+
+[**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is an open-source framework to help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. 
 
 
 Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
@@ -277,15 +281,9 @@ Thanks to all the people who contribute.
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
 </a>
 
-## Support various markets
-   Support more markets for users to test their stategies.
-## SOTA DRL algorithms 
-   Maintain a pool of SOTA DRL algorithms.
-## Benchmarks for typical trading tasks
-   To help quants have better evaluations, we will maintain benchmarks for many trading tasks, upon which you can improve for your own tasks.
-## Support live trading
-   Supporting live trading can close the simulation-reality gap, which allows quants to switch to the real market when they are confident with the results.
-   
+**Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Many platforms exist for simulated trading (paper trading) which can be used for building and developing the methods discussed. Please use common sense and always first consult a professional before trading or investing.**
+
 ## LICENSE
 
 MIT License
+
