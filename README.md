@@ -102,13 +102,13 @@ A video about FinRL library. The [AI4Finance Youtube Channel](https://www.youtub
 ## Status Update
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
-	
+
+* 2021-08-25
+	0.3.1: pytorch version with a three-layer architecture, apps (financial tasks), drl_agents (drl algorithms), neo_finrl (gym env)
 * 2020-12-14
   	Upgraded to **Pytorch** with stable-baselines3; Remove tensorflow 1.0 at this moment, under development to support tensorflow 2.0 
 * 2020-11-27
   	0.1: Beta version with tensorflow 1.5
-* 2021-08-25
-	0.3.1: pytorch version with a three-layer architecture, apps (financial tasks), drl_agents (drl algorithms), neo_finrl (gym env)
 </div>
 </details>
 
