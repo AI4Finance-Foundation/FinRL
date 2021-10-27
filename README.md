@@ -36,13 +36,13 @@ Ecosystem of FinRL:
 
 **FinRL 1.0**: entry-level for beginners, with a demonstrative and educational purpose.
 
-**FinRL 2.0**: intermediate-level for full-stack developers and professionals. Check out [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
+**FinRL 2.0**: intermediate-level for full-stack developers and professionals, [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
 
-**FinRL 3.0**: advanced-level for investment banks and hedge funds. Check out our cloud-native solution [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
+**FinRL 3.0**: advanced-level for investment banks and hedge funds, a cloud-native solution [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
 
 **FinRL 0.0**: hundreds of training/testing/trading environments in [NeoFinRL](https://github.com/AI4Finance-Foundation/NeoFinRL).
 
-FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms, benchmark finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
+FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms, finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading support, etc. 
 
 ## Outline
 
@@ -60,7 +60,7 @@ FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms,
 - [LICENSE](#LICENSE)
 
 ## Tutorials
-+ [FinRL for Quantitative Finance: Install and Setup Tutorial for Beginners](https://ai4finance.medium.com/finrl-for-quantitative-finance-install-and-setup-tutorial-for-beginners-1db80ad39159)
+
 + [Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
@@ -97,7 +97,7 @@ A video about FinRL library. The [AI4Finance Youtube Channel](https://www.youtub
 	
 ## DRL Algorithms 
 
-We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, etc. using PyTorch and OpenAI Gym. 
+[ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) implements Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, etc. using PyTorch. 
 
 ## Status Update
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
@@ -114,136 +114,14 @@ We implemented Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE,
 
 ## Installation
 
-### Installation (Recommend using cloud service - Google Colab or AWS EC2)
-
-Clone the repository:
-```shell
-git clone https://github.com/AI4Finance-Foundation/FinRL.git
-```
-
-Install the unstable development version of FinRL using **pip**:
-```shell
-pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
-```
-
-
-### Prerequisites
-For [OpenAI Baselines](https://github.com/openai/baselines), you'll need system packages CMake, OpenMPI and zlib. Those can be installed as follows:
-
-#### Ubuntu
-
-```bash
-sudo apt-get update && sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev libgl1-mesa-glx
-```
-
-#### Mac OS X
-Installation of system packages on Mac requires [Homebrew](https://brew.sh). With Homebrew installed, run the following:
-```bash
-brew install cmake openmpi
-```
-
-#### Windows 10
-
-To install stable-baselines on Windows, please look at the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/install.html#prerequisites).
-    
-#### Create and Activate Python Virtual-Environment (optional but highly recommended)
-cd into this repository:
-```bash
-cd FinRL
-```
-Under the root directory /FinRL, create a Python virtual-environment:
-```bash
-pip install virtualenv
-```
-Virtualenvs are essentially folders that have copies of python executable and all python packages. 
-
-**Virtualenvs can also avoid packages conflicts.**
-
-Create a virtualenv **venv** under the root directory /FinRL
-```bash
-virtualenv -p python3 venv
-```
-To activate a virtualenv:
-```
-source venv/bin/activate
-```
-To activate a virtualenv on windows:
-```
-venv\Scripts\activate
-```
-### Dependencies
-
-The script has been tested running under **Python >= 3.6.0**, with the following packages installed:
-
-```shell
-pip install -r requirements.txt
-```
-
-#### Stable-Baselines3 using Pytorch
-
-#### About [Stable-Baselines 3](https://github.com/DLR-RM/stable-baselines3)
-
-Stable-Baselines3 is a set of improved implementations of reinforcement learning algorithms in PyTorch. It is the next major version of Stable Baselines. If you have questions regarding Stable-baselines package, please refer to [Stable-baselines3 installation guide](https://stable-baselines3.readthedocs.io/en/master/guide/install.html). Install the Stable Baselines package using pip:
-
-```
-pip install stable-baselines3[extra]
-```
-A migration guide from SB2 to SB3 can be found in the [documentation](https://stable-baselines3.readthedocs.io/en/master/guide/migration.html).
-
-#### Stable-Baselines using Tensorflow 2.0
-Still [Under Development](https://github.com/Stable-Baselines-Team/stable-baselines-tf2)
-
-## Docker Installation
-
-### Option 1: Run a container via scripts
-
-```bash
-# grant access to execute scripting (read it, it's harmless)
-$ sudo chmod -R 777 docker/bin
-
-# build the container!
-$ ./docker/bin/build_container.sh
-
-# start notebook on port 8887!
-$ ./docker/bin/start_notebook.sh
-
-# proceed to party!
-```
-
-### Option 2: Run a container manually
-
-Build the container:
-```bash
-$ docker build -f docker/Dockerfile -t finrl docker/
-```
-
-Start the container:
-```bash
-$ docker run -it --rm -v ${PWD}:/home -p 8888:8888 finrl
-```
-Note: The default container run starts jupyter lab in the root directory, allowing you to run scripts, notebooks, etc.
-
-### Run 
-```shell
-python main.py --mode=train
-```
-### Backtesting
-
-Use Quantopian's [pyfolio package](https://github.com/quantopian/pyfolio) to do the backtesting.
-
-
-### Data
-The stock data we use is pulled from Yahoo Finance API (the following time windows show the data split in the paper; users can customized to new time windows).
-<div align="center">
-<img src=figs/example_data.PNG width="600">
-</div>
++ [FinRL for Quantitative Finance: Install and Setup Tutorial for Beginners](https://ai4finance.medium.com/finrl-for-quantitative-finance-install-and-setup-tutorial-for-beginners-1db80ad39159)
 
 ## Contributions
 
-- FinRL is an open source library specifically designed and implemented for quant finance. Trading environments incorporating market frictions are used and provided.
-- Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
+- FinRL is the first open source library to demonstrate the great potential of applying DRL in finance. 
+- Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible. Trading environments incorporating market frictions are used and provided.
 - FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
-- Typical use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
+- Use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
 
 ## Publications
 
