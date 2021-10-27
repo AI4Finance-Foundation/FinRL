@@ -16,14 +16,13 @@
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
-**News: we plan to release codes for both paper trading and live trading. Please let us know your coding needs.**
+**AI4Finance's Mission**: efficiently automate trading. We continuously develop and share tools/codes for finance. 
 
-**AI4Finance's Mission**: efficiently automate trading. We continuously develop and share tools/codes for finance. We aim to initiate a paradigm shift from the conventional trading routine, to a machine learning approach, especially **RLOps in finance**.
-
-**AI4Finance' Vision**:  
+**AI4Finance' Vision**: The AI community has accumulated an open source ocean of powerful codes over the past decade. We believe the proper useage of such intellectual and engineering properties will initiate a paradigm shift from the conventional trading routine, to a machine learning approach, even **RLOps in finance**.
 
 [**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is the first open-source framework to demonstrate the greate potential of applying deep reinforcement learning in quantitative finance. We help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **An agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. 
 
+**News: we plan to release codes for both paper trading and live trading. Please let us know your coding needs.**
 
 Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
 
