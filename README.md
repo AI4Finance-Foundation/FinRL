@@ -32,6 +32,10 @@ Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g
 		<img src=figs/join_slack.png width="35%"/>
 	</div>
 </a>
+<b>Follow Us on WeChat:</b>
+	<div align="center">
+		<img src=http://www.tensorlet.org/wp-content/uploads/2021/01/qrcode_for_gh_feece88824ab_258.jpg width="15%" />
+	</div>
 
 Ecosystem of FinRL:
 
