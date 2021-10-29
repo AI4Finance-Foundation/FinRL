@@ -10,7 +10,7 @@ Design Principles
 
     - **Customization**: To maintain modularity and extensibility in development by including state-of-the-art DRL algorithms and supporting design of new algorithms. The DRL algorithms can be used to construct trading strategies by simple configurations.
 
-    - **Reproducibility and hands-on-tutoring**: To provide tutorials such as step-by-step Jupyter notebooks and user guide to help users walk through the pipeline and Our library guarantees reproducibility to ensure the transparency and also provide users with confidence in what they have done.
+    - **Reproducibility and hands-on-tutoring**: To provide tutorials such as step-by-step Jupyter notebooks and user guide to help users walk through the pipeline and reproduce the use cases. Our library guarantees reproducibility to ensure the transparency and also provide users with confidence in what they have done.
 
 
 Architecture of the FinRL Library
