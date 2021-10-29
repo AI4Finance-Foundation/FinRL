@@ -8,9 +8,9 @@ Design Principles
 
     - **Full-stack framework**: To provide a full-stack DRL framework with finance-oriented optimizations, including market data APIs, data preprocessing, DRL algorithms, and automated backtesting. Users can transparently make use of such a development pipeline. 
 
-    - **Hands-on tutorials**: Our library provides beginner-friendly tutorials to help users walk through the pipeline of a strategy design while exploring the functionalities and features.
+    - **Customization**: To maintain modularity and extensibility in development by including state-of-the-art DRL algorithms and supporting design of new algorithms. The DRL algorithms can be used to construct trading strategies by simple configurations.
 
-    - **Reproducibility**: Our library guarantees reproducibility to ensure the transparency and also provide users with confidence in what they have done.
+    - **Reproducibility and hands-on-tutoring**: To provide tutorials such as step-by-step Jupyter notebooks and user guide to help users walk through the pipeline and Our library guarantees reproducibility to ensure the transparency and also provide users with confidence in what they have done.
 
 
 Architecture of the FinRL Library
