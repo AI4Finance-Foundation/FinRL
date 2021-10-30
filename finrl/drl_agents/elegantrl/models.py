@@ -62,6 +62,8 @@ class DRLAgent:
                 model.gamma = model_kwargs["gamma"]
                 model.seed = model_kwargs["seed"]
                 model.net_dim = model_kwargs["net_dimension"]
+                model.target_step = model_kwargs["target_step"]
+                model.eval_gap = model_kwargs["eval_gap"]
             except BaseException:
                 raise ValueError(
                     "Fail to read arguments, please check 'model_kwargs' input."
