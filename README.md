@@ -16,7 +16,7 @@
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
-**AI4Finance's Mission**: efficiently automate trading. We continuously develop and share tools/codes for finance. 
+**AI4Finance's Mission**: efficiently automate trading. We continuously share tools/codes for finance. 
 
 **AI4Finance' Vision**: The AI community has accumulated an open source ocean of powerful codes over the past decade. We believe the proper usage of such intellectual and engineering properties will initiate a paradigm shift from the conventional trading routine, to a machine learning approach, even **RLOps in finance**.
 
