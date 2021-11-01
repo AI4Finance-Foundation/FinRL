@@ -123,7 +123,7 @@ A video about FinRL library. The [AI4Finance Youtube Channel](https://www.youtub
 
 ## Contributions
 
-- FinRL is the first open source library to demonstrate the great potential of applying DRL in finance. 
+- FinRL is the first open source framework that demonstrate the great potential of applying DRL algorithms in quantitative finance. We build an ecosystem around the FinRL framework, which seeds the rapidly growing AI4Finance community. 
 - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible. Trading environments incorporating market frictions are used and provided.
 - FinRL has good scalability, with a broad range of fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
 - Use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
