@@ -126,7 +126,7 @@ A video about FinRL library. The [AI4Finance Youtube Channel](https://www.youtub
 - FinRL is the first open source framework that demonstrate the great potential of applying DRL algorithms in quantitative finance. We build an ecosystem around the FinRL framework, which seeds the rapidly growing AI4Finance community. 
 - The application layer provides interfaces for users to customize FinRL to their own trading tasks. Automated backtesting module and performance metrics are provided to help quantitative traders iterate trading strategies at a high turnover rate. Profitable trading strategies are reproducible and hands-on-tutorials are provided in a beginner-friendly fashion. Adjusting the trained models to the rapid changing markets is also possible. 
 - The agent layer provides state-of-the-art DRL algorithms that are adapted to finance with fine-tuned hyperparameters. Users can add new DRL algorithms. 
-- Use cases are selected and used to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
+- The environment layer includes not only a collection of historical data APIs, but also live trading APIs. They are reconfigured into standard OpenAI gym-style environments. Moreover, it incorporates market frictions and allows users to customize the trading time granularity. 
 
 ## Publications
 
