@@ -164,7 +164,7 @@ We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) a
 
 **AI4Finance Foundation** community will maintain FinRL and welcome you to join us!
 
-Please check the [Contributing Guidances](https://github.com/AI4Finance-LLC/FinRL/blob/master/contributing.md).
+Please check [Contributing Guidances](https://github.com/AI4Finance-LLC/FinRL/blob/master/contributing.md).
 
 ### Contributors
 
