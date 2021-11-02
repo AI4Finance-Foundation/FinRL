@@ -13,7 +13,9 @@
 
 NYU: Overview of Advanced Methods of Reinforcement Learning in Finance
 
-## Github Repos
+## Tools or Softwares
+
+[1] FinRL: 
 
 
 
