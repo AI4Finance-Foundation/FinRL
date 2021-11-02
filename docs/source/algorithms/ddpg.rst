@@ -3,7 +3,7 @@
 DDPG
 =======================
 
-DDPG is an actor-critic based algorithm which we use as a component in the ensemble strategy to maximize the investment return. DDPG combines the frameworks of both Q-learning and policy gradient, and uses neural networks as function approximators. In contrast with DQN that learns indirectly through Q-values tables and suffers the curse of dimensionality problem, DDPG learns directly from the observations through policy gradient. It is proposed to deterministically map states to actions to better fit the continuous action space environment.
+DDPG is an actor-critic based algorithm that combines both Q-learning and policy gradient, and uses neural networks as function approximators. In contrast with DQN that learns indirectly through Q-values and suffers the curse of dimensionality problem, DDPG learns directly from the observations through policy gradient. It is proposed to deterministically map states to actions to better fit the continuous action space environment.
 
 .. image:: ../image/ddpg.png
 
