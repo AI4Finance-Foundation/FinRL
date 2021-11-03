@@ -17,6 +17,7 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Multiple Stock Tradi
 Preparation before running this demonstration
 ---------------------------------------
 As the first step, we install the newest version of FinRL library.
+
 **FinRL installation**：
 
 .. code-block::
@@ -26,6 +27,7 @@ As the first step, we install the newest version of FinRL library.
     !pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 
 Then we import the packages needed for this demonstration.
+
 **Import packages**：
 
 .. code-block:: python
@@ -54,7 +56,8 @@ Then we import the packages needed for this demonstration.
     import itertools
 
 Finally, create folders for storage.
-**Import packages**：
+
+**Create folders**：
 
 .. code-block:: python
     :linenos:
