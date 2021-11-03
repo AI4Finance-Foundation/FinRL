@@ -14,40 +14,18 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Multiple Stock Tradi
 
 
 
-Python Package Installation
+Preparation before running this demonstration
 ---------------------------------------
-
-As a first step we check if the additional packages needed are present, if not install them.
-
-    - Yahoo Finance API
-    - pandas
-    - numpy
-    - matplotlib
-    - stockstats
-    - OpenAI gym
-    - stable-baselines
-    - tensorflow
-    - pyfolio
+As the first step, we install the newest version of FinRL library.
+**FinRL installation**ï¼š
 
 .. code-block::
     :linenos:
 
-    import pkg_resources
-    import pip
-    installedPackages = {pkg.key for pkg in pkg_resources.working_set}
-    required = {'yfinance', 'pandas','numpy', 'matplotlib', 'stockstats','stable-baselines','gym','tensorflow','pyfolio'}
-    missing = required - installedPackages
-    if missing:
-        !pip install yfinance
-        !pip install pandas
-        !pip install numpy
-        !pip install matplotlib
-        !pip install stockstats
-        !pip install gym
-        !pip install stable-baselines[mpi]
-        !pip install tensorflow==1.15.4
-        !pip install git+https://github.com/quantopian/pyfolio
+    ## install finrl library
+    !pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
 
+Then we import the packages needed for this demonstration.
 **Import packages**ï¼š
 
 .. code-block:: python
@@ -57,43 +35,54 @@ As a first step we check if the additional packages needed are present, if not i
     import numpy as np
     import matplotlib
     import matplotlib.pyplot as plt
-    matplotlib.use('Agg')
-    
-    import yfinance as yf
-    from stockstats import StockDataFrame as Sdf
-    import pyfolio
-    
-    import gym
-    from stable_baselines import PPO2, DDPG, A2C, ACKTR, TD3, TRPO
-    from stable_baselines import DDPG
-    from stable_baselines import A2C
-    from stable_baselines import SAC
-    from stable_baselines.common.vec_env import DummyVecEnv
-    from stable_baselines.common.policies import MlpPolicy
-    from stable_baselines.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise, AdaptiveParamNoiseSpec
-    
+    # matplotlib.use('Agg')
+    import datetime
 
-Download Data
----------------------------------------
+    %matplotlib inline
+    from finrl.apps import config
+    from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
+    from finrl.neo_finrl.preprocessor.preprocessors import FeatureEngineer, data_split
+    from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
+    from finrl.drl_agents.stablebaselines3.models import DRLAgent
 
-Yahoo Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free.
+    from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
+    from pprint import pprint
+
+    import sys
+    sys.path.append("../FinRL-Library")
+
+    import itertools
+
+Finally, create folders for storage.
+**Import packages**ï¼š
 
 .. code-block:: python
     :linenos:
 
-    # Dow 30 constituents at 2019/01/01
-    dow_30_ticker = ['AAPL','MSFT','JPM','V','RTX','PG','GS','NKE','DIS','AXP',
-                      'HD','INTC','WMT','IBM','MRK','UNH','KO','CAT','TRV','JNJ',
-                      'CVX','MCD','VZ','CSCO','XOM','BA','MMM','PFE','WBA','DD']
-                      
-    
-    # Download and save the data in a pandas DataFrame:
-    dow_30 = pd.DataFrame()
-    for tic in dow_30_ticker:
-        data_df = yf.download(tic, start="2009-01-01", end="2020-10-23")
-        data_df['tic'] = tic
-        dow_30=dow_30.append(data_df)
+    import os
+    if not os.path.exists("./" + config.DATA_SAVE_DIR):
+        os.makedirs("./" + config.DATA_SAVE_DIR)
+    if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
+        os.makedirs("./" + config.TRAINED_MODEL_DIR)
+    if not os.path.exists("./" + config.TENSORBOARD_LOG_DIR):
+        os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
+    if not os.path.exists("./" + config.RESULTS_DIR):
+        os.makedirs("./" + config.RESULTS_DIR)
 
+Then all the preparation work are done. We can start now!
+
+Download Data
+---------------------------------------
+Before training our DRL agent, we need to get the historical data of DOW30 stocks first. Here we use the data from Yahoo! Finance.
+Yahoo! Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free. yfinance is an open-source library that provides APIs to download data from Yahoo! Finance. We will use this package to download data here.
+
+.. code-block:: python
+    :linenos:
+
+    # Dow 30 constituents in 2021/10
+    df = YahooDownloader(start_date = config.START_DATE,
+                         end_date = config.END_DATE,
+                         ticker_list = config.DOW_30_TICKER).fetch_data()
 
 Preprocess Data
 ---------------------------------------
@@ -106,11 +95,11 @@ Data preprocessing is a crucial step for training a high quality machine learnin
 .. code-block:: python
     :linenos:
 
-    # check missing data 
+    # check missing data
     dow_30.isnull().values.any()
-    
-    
-    
+
+
+
 **Add technical indicators**
 
 In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc. In this article, we demonstrate two trend-following technical indicators: MACD and RSI.
@@ -129,10 +118,10 @@ In practical trading, various information needs to be taken into account, for ex
             stock = Sdf.retype(df.copy())
             stock['close'] = stock['adjcp']
             unique_ticker = stock.tic.unique()
-    
+
             macd = pd.DataFrame()
             rsi = pd.DataFrame()
-    
+
             #temp = stock[stock.tic == unique_ticker[0]]['macd']
             for i in range(len(unique_ticker)):
                 ## macd
@@ -143,7 +132,7 @@ In practical trading, various information needs to be taken into account, for ex
                 temp_rsi = stock[stock.tic == unique_ticker[i]]['rsi_30']
                 temp_rsi = pd.DataFrame(temp_rsi)
                 rsi = rsi.append(temp_rsi, ignore_index=True)
-    
+
             df['macd'] = macd
             df['rsi'] = rsi
             return df
@@ -168,13 +157,13 @@ To control the risk in a worst-case scenario, such as financial crisis of 2007â€
         df = df.merge(turbulence_index, on='datadate')
         df = df.sort_values(['datadate','tic']).reset_index(drop=True)
         return df
-    
-    
-    
+
+
+
     def calcualte_turbulence(df):
         """calculate turbulence index based on dow 30"""
         # can add other market assets
-        
+
         df_price_pivot=df.pivot(index='datadate', columns='tic', values='adjcp')
         unique_date = df.datadate.unique()
         # start after a year
@@ -198,8 +187,8 @@ To control the risk in a worst-case scenario, such as financial crisis of 2007â€
             else:
                 turbulence_temp=0
             turbulence_index.append(turbulence_temp)
-        
-        
+
+
         turbulence_index = pd.DataFrame({'datadate':df_price_pivot.index,
                                          'turbulence':turbulence_index})
         return turbulence_index
@@ -229,7 +218,7 @@ The action space describes the allowed actions that the agent interacts with the
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    
+
     # shares normalization factor
     # 100 shares per trade
     HMAX_NORMALIZE = 100
@@ -239,27 +228,27 @@ The action space describes the allowed actions that the agent interacts with the
     STOCK_DIM = 30
     # transaction fee: 1/1000 reasonable percentage
     TRANSACTION_FEE_PERCENT = 0.001
-    
+
     REWARD_SCALING = 1e-4
-    
-    
+
+
     class StockEnvTrain(gym.Env):
         """A stock trading environment for OpenAI gym"""
         metadata = {'render.modes': ['human']}
-    
+
         def __init__(self, df,day = 0):
             #super(StockEnv, self).__init__()
             self.day = day
             self.df = df
-    
+
             # action_space normalization and shape is STOCK_DIM
-            self.action_space = spaces.Box(low = -1, high = 1,shape = (STOCK_DIM,)) 
-            # Shape = 181: [Current Balance]+[prices 1-30]+[owned shares 1-30] 
+            self.action_space = spaces.Box(low = -1, high = 1,shape = (STOCK_DIM,))
+            # Shape = 181: [Current Balance]+[prices 1-30]+[owned shares 1-30]
             # +[macd 1-30]+ [rsi 1-30] + [cci 1-30] + [adx 1-30]
             self.observation_space = spaces.Box(low=0, high=np.inf, shape = (121,))
             # load data from a pandas dataframe
             self.data = self.df.loc[self.day,:]
-            self.terminal = False             
+            self.terminal = False
             # initalize state
             self.state = [INITIAL_ACCOUNT_BALANCE] + \
                           self.data.adjcp.values.tolist() + \
@@ -276,7 +265,7 @@ The action space describes the allowed actions that the agent interacts with the
             self.rewards_memory = []
             self.trades = 0
             self._seed()
-    
+
         def _sell_stock(self, index, action):
             # perform sell action based on the sign of the action
             if self.state[index+STOCK_DIM+1] > 0:
@@ -284,42 +273,42 @@ The action space describes the allowed actions that the agent interacts with the
                 self.state[0] += \
                 self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
                  (1- TRANSACTION_FEE_PERCENT)
-    
+
                 self.state[index+STOCK_DIM+1] -= min(abs(action), self.state[index+STOCK_DIM+1])
                 self.cost +=self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
                  TRANSACTION_FEE_PERCENT
                 self.trades+=1
             else:
                 pass
-        
+
         def _buy_stock(self, index, action):
             # perform buy action based on the sign of the action
             available_amount = self.state[0] // self.state[index+1]
             # print('available_amount:{}'.format(available_amount))
-    
+
             #update balance
             self.state[0] -= self.state[index+1]*min(available_amount, action)* \
                               (1+ TRANSACTION_FEE_PERCENT)
-    
+
             self.state[index+STOCK_DIM+1] += min(available_amount, action)
-    
+
             self.cost+=self.state[index+1]*min(available_amount, action)* \
                               TRANSACTION_FEE_PERCENT
             self.trades+=1
-            
+
         def step(self, actions):
             # print(self.day)
             self.terminal = self.day >= len(self.df.index.unique())-1
             # print(actions)
-    
+
             if self.terminal:
                 plt.plot(self.asset_memory,'r')
                 plt.savefig('account_value_train.png')
                 plt.close()
                 end_total_asset = self.state[0]+ \
                 sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):(STOCK_DIM*2+1)]))
-                print("previous_total_asset:{}".format(self.asset_memory[0]))           
-    
+                print("previous_total_asset:{}".format(self.asset_memory[0]))
+
                 print("end_total_asset:{}".format(end_total_asset))
                 df_total_value = pd.DataFrame(self.asset_memory)
                 df_total_value.to_csv('account_value_train.csv')
@@ -334,74 +323,74 @@ The action space describes the allowed actions that the agent interacts with the
                 print("=================================")
                 df_rewards = pd.DataFrame(self.rewards_memory)
                 df_rewards.to_csv('account_rewards_train.csv')
-    
+
                 return self.state, self.reward, self.terminal,{}
-    
+
             else:
                 actions = actions * HMAX_NORMALIZE
-                
+
                 begin_total_asset = self.state[0]+ \
                 sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):61]))
                 #print("begin_total_asset:{}".format(begin_total_asset))
-                
+
                 argsort_actions = np.argsort(actions)
-                
+
                 sell_index = argsort_actions[:np.where(actions < 0)[0].shape[0]]
                 buy_index = argsort_actions[::-1][:np.where(actions > 0)[0].shape[0]]
-    
+
                 for index in sell_index:
                     # print('take sell action'.format(actions[index]))
                     self._sell_stock(index, actions[index])
-    
+
                 for index in buy_index:
                     # print('take buy action: {}'.format(actions[index]))
                     self._buy_stock(index, actions[index])
-    
+
                 self.day += 1
-                self.data = self.df.loc[self.day,:]         
+                self.data = self.df.loc[self.day,:]
                 #load next state
                 # print("stock_shares:{}".format(self.state[29:]))
                 self.state =  [self.state[0]] + \
                         self.data.adjcp.values.tolist() + \
                         list(self.state[(STOCK_DIM+1):61]) + \
                         self.data.macd.values.tolist() + \
-                        self.data.rsi.values.tolist() 
-                
+                        self.data.rsi.values.tolist()
+
                 end_total_asset = self.state[0]+ \
                 sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):61]))
-                
+
                 #print("end_total_asset:{}".format(end_total_asset))
-                
-                self.reward = end_total_asset - begin_total_asset  
+
+                self.reward = end_total_asset - begin_total_asset
                 self.rewards_memory.append(self.reward)
-                
+
                 self.reward = self.reward * REWARD_SCALING
                 # print("step_reward:{}".format(self.reward))
-                
+
                 self.asset_memory.append(end_total_asset)
-    
-    
+
+
             return self.state, self.reward, self.terminal, {}
-    
+
         def reset(self):
             self.asset_memory = [INITIAL_ACCOUNT_BALANCE]
             self.day = 0
             self.data = self.df.loc[self.day,:]
             self.cost = 0
             self.trades = 0
-            self.terminal = False 
+            self.terminal = False
             self.rewards_memory = []
             #initiate state
             self.state = [INITIAL_ACCOUNT_BALANCE] + \
                           self.data.adjcp.values.tolist() + \
                           [0]*STOCK_DIM + \
                           self.data.macd.values.tolist() + \
-                          self.data.rsi.values.tolist() 
+                          self.data.rsi.values.tolist()
             return self.state
-        
+
         def render(self, mode='human'):
             return self.state
-    
+
         def _seed(self, seed=None):
             self.np_random, seed = seeding.np_random(seed)
             return [seed]
@@ -421,7 +410,7 @@ The action space describes the allowed actions that the agent interacts with the
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    
+
     # shares normalization factor
     # 100 shares per trade
     HMAX_NORMALIZE = 100
@@ -431,36 +420,36 @@ The action space describes the allowed actions that the agent interacts with the
     STOCK_DIM = 30
     # transaction fee: 1/1000 reasonable percentage
     TRANSACTION_FEE_PERCENT = 0.001
-    
+
     # turbulence index: 90-150 reasonable threshold
     #TURBULENCE_THRESHOLD = 140
     REWARD_SCALING = 1e-4
-    
+
     class StockEnvTrade(gym.Env):
         """A stock trading environment for OpenAI gym"""
         metadata = {'render.modes': ['human']}
-    
+
         def __init__(self, df,day = 0,turbulence_threshold=140):
             #super(StockEnv, self).__init__()
             #money = 10 , scope = 1
             self.day = day
             self.df = df
             # action_space normalization and shape is STOCK_DIM
-            self.action_space = spaces.Box(low = -1, high = 1,shape = (STOCK_DIM,)) 
-            # Shape = 181: [Current Balance]+[prices 1-30]+[owned shares 1-30] 
+            self.action_space = spaces.Box(low = -1, high = 1,shape = (STOCK_DIM,))
+            # Shape = 181: [Current Balance]+[prices 1-30]+[owned shares 1-30]
             # +[macd 1-30]+ [rsi 1-30] + [cci 1-30] + [adx 1-30]
             self.observation_space = spaces.Box(low=0, high=np.inf, shape = (121,))
             # load data from a pandas dataframe
             self.data = self.df.loc[self.day,:]
-            self.terminal = False     
+            self.terminal = False
             self.turbulence_threshold = turbulence_threshold
             # initalize state
             self.state = [INITIAL_ACCOUNT_BALANCE] + \
                           self.data.adjcp.values.tolist() + \
                           [0]*STOCK_DIM + \
                           self.data.macd.values.tolist() + \
-                          self.data.rsi.values.tolist() 
-    
+                          self.data.rsi.values.tolist()
+
             # initialize reward
             self.reward = 0
             self.turbulence = 0
@@ -472,8 +461,8 @@ The action space describes the allowed actions that the agent interacts with the
             self.actions_memory=[]
             self.date_memory=[]
             self._seed()
-    
-    
+
+
         def _sell_stock(self, index, action):
             # perform sell action based on the sign of the action
             if self.turbulence<self.turbulence_threshold:
@@ -482,7 +471,7 @@ The action space describes the allowed actions that the agent interacts with the
                     self.state[0] += \
                     self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
                      (1- TRANSACTION_FEE_PERCENT)
-                    
+
                     self.state[index+STOCK_DIM+1] -= min(abs(action), self.state[index+STOCK_DIM+1])
                     self.cost +=self.state[index+1]*min(abs(action),self.state[index+STOCK_DIM+1]) * \
                      TRANSACTION_FEE_PERCENT
@@ -490,7 +479,7 @@ The action space describes the allowed actions that the agent interacts with the
                 else:
                     pass
             else:
-                # if turbulence goes over threshold, just clear out all positions 
+                # if turbulence goes over threshold, just clear out all positions
                 if self.state[index+STOCK_DIM+1] > 0:
                     #update balance
                     self.state[0] += self.state[index+1]*self.state[index+STOCK_DIM+1]* \
@@ -501,104 +490,104 @@ The action space describes the allowed actions that the agent interacts with the
                     self.trades+=1
                 else:
                     pass
-        
+
         def _buy_stock(self, index, action):
             # perform buy action based on the sign of the action
             if self.turbulence< self.turbulence_threshold:
                 available_amount = self.state[0] // self.state[index+1]
                 # print('available_amount:{}'.format(available_amount))
-                
+
                 #update balance
                 self.state[0] -= self.state[index+1]*min(available_amount, action)* \
                                   (1+ TRANSACTION_FEE_PERCENT)
-    
+
                 self.state[index+STOCK_DIM+1] += min(available_amount, action)
-                
+
                 self.cost+=self.state[index+1]*min(available_amount, action)* \
                                   TRANSACTION_FEE_PERCENT
                 self.trades+=1
             else:
                 # if turbulence goes over threshold, just stop buying
                 pass
-            
+
         def step(self, actions):
             # print(self.day)
             self.terminal = self.day >= len(self.df.index.unique())-1
             # print(actions)
-    
+
             if self.terminal:
                 plt.plot(self.asset_memory,'r')
                 plt.savefig('account_value_trade.png')
                 plt.close()
-                
+
                 df_date = pd.DataFrame(self.date_memory)
                 df_date.columns = ['datadate']
                 df_date.to_csv('df_date.csv')
-                
-                
+
+
                 df_actions = pd.DataFrame(self.actions_memory)
                 df_actions.columns = self.data.tic.values
-                df_actions.index = df_date.datadate                               
+                df_actions.index = df_date.datadate
                 df_actions.to_csv('df_actions.csv')
-                
+
                 df_total_value = pd.DataFrame(self.asset_memory)
                 df_total_value.to_csv('account_value_trade.csv')
                 end_total_asset = self.state[0]+ \
                 sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):(STOCK_DIM*2+1)]))
-                print("previous_total_asset:{}".format(self.asset_memory[0]))           
-    
+                print("previous_total_asset:{}".format(self.asset_memory[0]))
+
                 print("end_total_asset:{}".format(end_total_asset))
                 print("total_reward:{}".format(self.state[0]+sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):61]))- self.asset_memory[0] ))
                 print("total_cost: ", self.cost)
                 print("total trades: ", self.trades)
-    
+
                 df_total_value.columns = ['account_value']
                 df_total_value['daily_return']=df_total_value.pct_change(1)
                 sharpe = (252**0.5)*df_total_value['daily_return'].mean()/ \
                       df_total_value['daily_return'].std()
                 print("Sharpe: ",sharpe)
-                
+
                 df_rewards = pd.DataFrame(self.rewards_memory)
                 df_rewards.to_csv('account_rewards_trade.csv')
-                
+
                 # print('total asset: {}'.format(self.state[0]+ sum(np.array(self.state[1:29])*np.array(self.state[29:]))))
-                #with open('obs.pkl', 'wb') as f:  
+                #with open('obs.pkl', 'wb') as f:
                 #    pickle.dump(self.state, f)
-                
+
                 return self.state, self.reward, self.terminal,{}
-    
+
             else:
                 # print(np.array(self.state[1:29]))
                 self.date_memory.append(self.data.datadate.unique())
-      
+
                 #print(self.data)
                 actions = actions * HMAX_NORMALIZE
                 if self.turbulence>=self.turbulence_threshold:
                     actions=np.array([-HMAX_NORMALIZE]*STOCK_DIM)
                 self.actions_memory.append(actions)
-                
+
                 #actions = (actions.astype(int))
-                
+
                 begin_total_asset = self.state[0]+ \
                 sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):(STOCK_DIM*2+1)]))
                 #print("begin_total_asset:{}".format(begin_total_asset))
-                
+
                 argsort_actions = np.argsort(actions)
                 #print(argsort_actions)
-                
+
                 sell_index = argsort_actions[:np.where(actions < 0)[0].shape[0]]
                 buy_index = argsort_actions[::-1][:np.where(actions > 0)[0].shape[0]]
-    
+
                 for index in sell_index:
                     # print('take sell action'.format(actions[index]))
                     self._sell_stock(index, actions[index])
-    
+
                 for index in buy_index:
                     # print('take buy action: {}'.format(actions[index]))
                     self._buy_stock(index, actions[index])
-    
+
                 self.day += 1
-                self.data = self.df.loc[self.day,:]         
+                self.data = self.df.loc[self.day,:]
                 self.turbulence = self.data['turbulence'].values[0]
                 #print(self.turbulence)
                 #load next state
@@ -607,30 +596,30 @@ The action space describes the allowed actions that the agent interacts with the
                         self.data.adjcp.values.tolist() + \
                         list(self.state[(STOCK_DIM+1):(STOCK_DIM*2+1)]) + \
                         self.data.macd.values.tolist() + \
-                        self.data.rsi.values.tolist() 
-                
+                        self.data.rsi.values.tolist()
+
                 end_total_asset = self.state[0]+ \
                 sum(np.array(self.state[1:(STOCK_DIM+1)])*np.array(self.state[(STOCK_DIM+1):(STOCK_DIM*2+1)]))
-                
+
                 #print("end_total_asset:{}".format(end_total_asset))
-                
-                self.reward = end_total_asset - begin_total_asset  
+
+                self.reward = end_total_asset - begin_total_asset
                 self.rewards_memory.append(self.reward)
-                
+
                 self.reward = self.reward * REWARD_SCALING
-                
+
                 self.asset_memory.append(end_total_asset)
-    
+
             return self.state, self.reward, self.terminal, {}
-    
-        def reset(self):  
+
+        def reset(self):
             self.asset_memory = [INITIAL_ACCOUNT_BALANCE]
             self.day = 0
             self.data = self.df.loc[self.day,:]
             self.turbulence = 0
             self.cost = 0
             self.trades = 0
-            self.terminal = False 
+            self.terminal = False
             #self.iteration=self.iteration
             self.rewards_memory = []
             self.actions_memory=[]
@@ -640,14 +629,14 @@ The action space describes the allowed actions that the agent interacts with the
                           self.data.adjcp.values.tolist() + \
                           [0]*STOCK_DIM + \
                           self.data.macd.values.tolist() + \
-                          self.data.rsi.values.tolist() 
-    
+                          self.data.rsi.values.tolist()
+
             return self.state
-        
+
         def render(self, mode='human',close=False):
             return self.state
-        
-    
+
+
         def _seed(self, seed=None):
             self.np_random, seed = seeding.np_random(seed)
             return [seed]
@@ -674,7 +663,7 @@ The implementation of the DRL algorithms are based on OpenAI Baselines and Stabl
         data=data.sort_values(['datadate','tic'],ignore_index=True)
         data.index = data.datadate.factorize()[0]
         return data
-        
+
 
 **Model training**: DDPG
 
@@ -686,20 +675,20 @@ The implementation of the DRL algorithms are based on OpenAI Baselines and Stabl
     n_actions = env_train.action_space.shape[-1]
     param_noise = None
     action_noise = OrnsteinUhlenbeckActionNoise(mean=np.zeros(n_actions), sigma=float(0.5) * np.ones(n_actions))
-    
+
     # model settings
-    model_ddpg = DDPG('MlpPolicy', 
+    model_ddpg = DDPG('MlpPolicy',
                        env_train,
                        batch_size=64,
                        buffer_size=100000,
-                       param_noise=param_noise, 
+                       param_noise=param_noise,
                        action_noise=action_noise,
-                       verbose=0, 
+                       verbose=0,
                        tensorboard_log="./multiple_stock_tensorboard/")
-    
+
     ## 250k timesteps: took about 20 mins to finish
     model_ddpg.learn(total_timesteps=250000, tb_log_name="DDPG_run_1")
-    
+
 
 **Trading**
 
@@ -711,10 +700,10 @@ Set the turbulence threshold to be the 99% quantile of insample turbulence data,
 
 .. code-block:: python
     :linenos:
-    
+
     insample_turbulence = dow_30[(dow_30.datadate<'2019-01-01') & (dow_30.datadate>='2009-01-01')]
     insample_turbulence = insample_turbulence.drop_duplicates(subset=['datadate'])
-    
+
 **Prepare test data and environment**
 
 .. code-block:: python
@@ -738,7 +727,7 @@ Set the turbulence threshold to be the 99% quantile of insample turbulence data,
             obs, rewards, dones, info = env.step(action)
             env.render()
 
-    
+
 Backtest Our Strategy
 ---------------------------------
 
@@ -755,7 +744,7 @@ For simplicity purposes, in the article, we just calculate the Sharpe ratio and 
         del strategy_ret['Date']
         ts = pd.Series(strategy_ret['daily_return'].values, index=strategy_ret.index)
         return ts
-        
+
 
 **Dow Jones Industrial Average**
 
@@ -768,27 +757,27 @@ For simplicity purposes, in the article, we just calculate the Sharpe ratio and 
         test['daily_return'].std()
         annual_return = ((test['daily_return'].mean()+1)**252-1)*100
         print("annual return: ", annual_return)
-    
+
         print("sharpe ratio: ", sharpe)
         #return sharpe
-    
-    
+
+
 **Our DRL trading strategy**
 
 .. code-block:: python
     :linenos:
-    
+
     def get_daily_return(df):
         df['daily_return']=df.account_value.pct_change(1)
         #df=df.dropna()
         sharpe = (252**0.5)*df['daily_return'].mean()/ \
         df['daily_return'].std()
-        
+
         annual_return = ((df['daily_return'].mean()+1)**252-1)*100
         print("annual return: ", annual_return)
-        print("sharpe ratio: ", sharpe)    
+        print("sharpe ratio: ", sharpe)
         return df
-    
+
 **Plot the results using Quantopian pyfolio**
 
 Backtesting plays a key role in evaluating the performance of a trading strategy. Automated backtesting tool is preferred because it reduces the human error. We usually use the Quantopian pyfolio package to backtest our trading strategies. It is easy to use and consists of various individual plots that provide a comprehensive image of the performance of a trading strategy.
@@ -800,4 +789,3 @@ Backtesting plays a key role in evaluating the performance of a trading strategy
     with pyfolio.plotting.plotting_context(font_scale=1.1):
         pyfolio.create_full_tear_sheet(returns = DRL_strat,
                                        benchmark_rets=dow_strat, set_context=False)
-                                       
