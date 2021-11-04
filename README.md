@@ -16,9 +16,9 @@
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
-**AI4Finance's Mission**: efficiently automate trading. We continuously share tools/codes for finance. 
+**AI4Finance's Mission**: efficiently automate trading. We continuously develop and share codes for finance. 
 
-**AI4Finance' Vision**: The AI community has accumulated an open-source ocean of powerful codes over the past decade. We believe the proper usage of such intellectual and engineering properties will initiate a paradigm shift from the conventional trading routine, to a machine learning approach, even **RLOps in finance**.
+**AI4Finance' Vision**: AI community has accumulated an open-source code ocean over the past decade. We believe proper usages of these intellectual and engineering properties will initiate a paradigm shift from the conventional trading routine, to a machine learning approach, even **RLOps in finance**.
 
 [**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is the first open-source framework to demonstrate the great potential of applying deep reinforcement learning in quantitative finance. We help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **A DRL agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. 
 
@@ -45,9 +45,9 @@ Ecosystem of FinRL:
 
 **FinRL 3.0**: advanced-level for investment banks and hedge funds, a cloud-native solution [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
 
-**FinRL 0.0**: hundreds of training/testing/trading environments in [NeoFinRL](https://github.com/AI4Finance-Foundation/NeoFinRL).
+**FinRL 0.0**: hundreds of training/testing/trading environments in [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse).
 
-FinRL provides a unified DRL framework for various markets, SOTA DRL algorithms, finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading support, etc. 
+FinRL provides a unified framework for various markets, SOTA DRL algorithms, finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading support, etc. 
 
 ## Outline
 
