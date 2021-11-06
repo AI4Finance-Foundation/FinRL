@@ -142,3 +142,5 @@ dmypy.json
 *.zip
 *.png
 finrl_test.py
+test_plugplay.py
+papertrading_test.py

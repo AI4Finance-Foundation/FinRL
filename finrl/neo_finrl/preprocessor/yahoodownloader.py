@@ -13,11 +13,11 @@ class YahooDownloader:
     Attributes
     ----------
         start_date : str
-            start date of the data (modified from config.py)
+            start date of the data (modified from neofinrl_config.py)
         end_date : str
-            end date of the data (modified from config.py)
+            end date of the data (modified from neofinrl_config.py)
         ticker_list : list
-            a list of stock tickers (modified from config.py)
+            a list of stock tickers (modified from neofinrl_config.py)
 
     Methods
     -------
@@ -79,7 +79,7 @@ class YahooDownloader:
         print("Shape of DataFrame: ", data_df.shape)
         # print("Display DataFrame: ", data_df.head())
 
-        data_df = data_df.sort_values(by=['date','tic']).reset_index(drop=True)
+        data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
 
         return data_df
 
