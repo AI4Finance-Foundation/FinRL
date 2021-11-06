@@ -31,5 +31,23 @@ There are always competing priorities among the community, and we want to make s
 * Please write detailed documentation and tests for every added piece of functionality
 * Please try to not break existing functionality, or if you need to, please plan to justify this necessity and coordinate with the collaborators
 * Please be patient and respectful with feedback
+* Please use pre-commit hooks 
+
+
+## Using pre-commit
+```
+pip install pre-commit
+pre-commit install
+```
+
+## Running Tests
+```
+# Locally
+python3 -m unittest discover
+
+# Docker
+./docker/bin/build_container.sh
+./docker/bin/test.sh
+```
 
 
