@@ -3,7 +3,7 @@ import pandas as pd
 
 class DataProcessor:
     def __init__(self, data_source, **kwargs):
-        assert data_source in ["alpaca", "wrds", "yahoofinance", "joinquant"], "Data source input is NOT supported yet."
+        assert data_source in ["alpaca", "ccxt", "joinquant", "quantconnect", "wrds", "yahoofinance", ], "Data source input is NOT supported yet."
 
     def download_data(
         self, ticker_list, start_date, end_date, time_interval
