@@ -26,6 +26,8 @@ NYU: Overview of Advanced Methods of Reinforcement Learning in Finance
 
 [1] FinRL: 
 
+[2] ElegantRL:
+
 
 
 **Feedback: If you have any ideas or you want any other content to be added to this list, feel free to contribute.**
