@@ -1,7 +1,7 @@
 # Awesome Deep Reinforcement Learning in Finance
   A curated list of awesome deep reinforcement learning strategies & tools in finance.
 
-## Introductary
+## Introductory
 [1] [Practical deep reinforcement learning approach for stock trading](https://arxiv.org/abs/1811.07522). NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
 
 [2] [FinRL](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949): Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
