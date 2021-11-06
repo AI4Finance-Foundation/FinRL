@@ -6,9 +6,9 @@ import pytz
 import trading_calendars as tc
 import yfinance as yf
 from stockstats import StockDataFrame as Sdf
+from finrl.neo_finrl.data_processor import DataProcessor
 
-
-class YahooFinanceProcessor:
+class YahooFinanceProcessor(DataProcessor):
     """Provides methods for retrieving daily stock data from
     Yahoo Finance API
     Attributes

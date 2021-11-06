@@ -6,11 +6,12 @@ import pytz
 import trading_calendars as tc
 import wrds
 from stockstats import StockDataFrame as Sdf
+from finrl.neo_finrl.data_processor import DataProcessor
 
 pd.options.mode.chained_assignment = None
 
 
-class WrdsProcessor:
+class WrdsProcessor(DataProcessor):
     def __init__(self, if_offline=False):
         if not if_offline:
             self.db = wrds.Connection()

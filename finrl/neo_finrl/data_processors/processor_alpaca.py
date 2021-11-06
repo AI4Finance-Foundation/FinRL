@@ -4,9 +4,9 @@ import pandas as pd
 import pytz
 import trading_calendars as tc
 from stockstats import StockDataFrame as Sdf
+from finrl.neo_finrl.data_processor import DataProcessor
 
-
-class AlpacaProcessor:
+class AlpacaProcessor(DataProcessor):
     def __init__(self, API_KEY=None, API_SECRET=None, APCA_API_BASE_URL=None, api=None):
         if api is None:
             try:

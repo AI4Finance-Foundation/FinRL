@@ -1,7 +1,7 @@
 import numpy as np
+from finrl.neo_finrl.data_processor import DataProcessor
 
-
-class QuantConnectEngineer:
+class QuantConnectEngineer(DataProcessor):
     def __init__(self):
         pass
 

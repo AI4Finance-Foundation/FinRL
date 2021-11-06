@@ -5,9 +5,9 @@ import ccxt
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
+from finrl.neo_finrl.data_processor import DataProcessor
 
-
-class CCXTEngineer:
+class CCXTEngineer(DataProcessor):
     def __init__(self):
         self.binance = ccxt.binance()
 

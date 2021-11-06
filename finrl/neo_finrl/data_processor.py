@@ -6,6 +6,7 @@ from finrl.neo_finrl.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
 
+from finrl.neo_finrl.data_processors.processor_joinquant import JoinquantProcessor
 
 class DataProcessor:
     def __init__(self, data_source, **kwargs):
@@ -25,6 +26,9 @@ class DataProcessor:
 
         elif data_source == "yahoofinance":
             self.processor = YahooFinance()
+
+        elif data_source == "joinquant":
+            self.processor = JoinquantProcessor()
 
         else:
             raise ValueError("Data source input is NOT supported yet.")
