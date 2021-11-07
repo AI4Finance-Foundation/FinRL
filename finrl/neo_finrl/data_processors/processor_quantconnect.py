@@ -1,7 +1,7 @@
 import numpy as np
+from basic_processor import BasicProcessor
 
-
-class QuantConnectEngineer:
+class QuantconnectEngineer(BasicProcessor):
     def __init__(self):
         pass
 
