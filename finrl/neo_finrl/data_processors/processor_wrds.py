@@ -6,11 +6,12 @@ import pytz
 import trading_calendars as tc
 import wrds
 from stockstats import StockDataFrame as Sdf
+from basic_processor import BasicProcessor
 
 pd.options.mode.chained_assignment = None
 
 
-class WrdsProcessor:
+class WrdsProcessor(BasicProcessor):
     def __init__(self, if_offline=False):
         if not if_offline:
             self.db = wrds.Connection()
