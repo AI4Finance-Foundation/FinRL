@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.neo_finrl.data_processors.processor_ccxt import CcxtProcessor
-from finrl.neo_finrl.data_processors.processor_joinquant import JoinquantEngineer
+from finrl.neo_finrl.data_processors.processor_joinquant import JoinquantProcessor
 from finrl.neo_finrl.data_processors.processor_wrds import WrdsProcessor
 from finrl.neo_finrl.data_processors.processor_yahoofinance import YahooFinanceProcessor
 
@@ -22,7 +22,7 @@ class DataProcessor:
             self.processor = CcxtProcessor()
 
         elif data_source == "joinquant":
-            self.processor = JoinquantEngineer()
+            self.processor = JoinquantProcessor()
 
         elif data_source == "wrds":
             self.processor = WrdsProcessor()
@@ -76,3 +76,33 @@ class DataProcessor:
         tech_array[tech_inf_positions] = 0
 
         return price_array, tech_array, turbulence_array
+
+if __name__ == "__main__":
+    import sys
+
+    sys.path.append("..")
+    # from finrl.neo_finrl.neofinrl_config import TRADE_START_DATE
+    # from finrl.neo_finrl.neofinrl_config import TRADE_END_DATE
+    # from finrl.neo_finrl.neofinrl_config import READ_DATA_FROM_LOCAL
+    # from finrl.neo_finrl.neofinrl_config import PATH_OF_DATA
+
+    # read_data_from_local = READ_DATA_FROM_LOCAL
+    # path_of_data = '../' + PATH_OF_DATA
+
+    path_of_data = "../" + "data"
+
+    TRADE_START_DATE = "20210901"
+    TRADE_END_DATE = "20210911"
+    READ_DATA_FROM_LOCAL = 1
+
+    e = JoinquantProcessor()
+    username = "xxx"  # should input your username
+    password = "xxx"  # should input your password
+    e.auth(username, password)
+
+    trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
+    stocknames = ["000612.XSHE", "601808.XSHG"]
+    data = e.data_fetch_for_stocks(
+        stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data
+    )
+
