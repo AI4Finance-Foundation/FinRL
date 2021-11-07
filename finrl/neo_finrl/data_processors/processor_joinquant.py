@@ -7,7 +7,7 @@ import pandas as pd
 from func import calc_all_filenames, date2str, remove_all_files
 from basic_processor import BasicProcessor
 
-class JoinquantEngineer(BasicProcessor):
+class JoinquantProcessor(BasicProcessor):
     def __init__(self):
         pass
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     TRADE_END_DATE = "20210911"
     READ_DATA_FROM_LOCAL = 1
 
-    e = JoinquantEngineer()
+    e = JoinquantProcessor()
     username = "xxx"  # should input your username
     password = "xxx"  # should input your password
     e.auth(username, password)
