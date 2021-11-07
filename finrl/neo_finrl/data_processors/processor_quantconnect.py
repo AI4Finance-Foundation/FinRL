@@ -5,7 +5,7 @@ class QuantconnectEngineer(BasicProcessor):
     def __init__(self):
         pass
 
-    def data_fetch(start_time, end_time, stock_list, resolution=Resolution.Daily):
+    def download_data(self, start_time, end_time, stock_list, resolution=Resolution.Daily):
         # resolution: Daily, Hour, Minute, Second
         qb = QuantBook()
         for stock in stock_list:

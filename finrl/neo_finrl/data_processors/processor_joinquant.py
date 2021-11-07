@@ -1,6 +1,6 @@
 import copy
 import os
-
+from typing import List
 import jqdatasdk as jq
 import numpy as np
 import pandas as pd
@@ -14,7 +14,7 @@ class JoinquantProcessor(BasicProcessor):
     def auth(self, username, password):
         jq.auth(username, password)
 
-    def data_fetch(self, stock_list, num, unit, end_dt):
+    def download_data(self, stock_list, num, unit, end_dt):
         df = jq.get_bars(
             security=stock_list,
             count=num,
@@ -39,7 +39,7 @@ class JoinquantProcessor(BasicProcessor):
     # start_day: str
     # end_day: str
     # output: list of str_of_trade_day, e.g., ['2021-09-01', '2021-09-02']
-    def calc_trade_days_by_joinquant(self, start_day, end_day):
+    def calc_trade_days_by_joinquant(self, start_day: str, end_day: str) -> List[str]:
         dates = jq.get_trade_days(start_day, end_day)
         str_dates = [date2str(dt) for dt in dates]
         return str_dates
@@ -64,7 +64,7 @@ class JoinquantProcessor(BasicProcessor):
     # end_day: str
     # read_data_from_local: if it is true, read_data_from_csv, and fetch data from joinquant otherwise.
     # output: list of dataframes, e.g., [df1, df2]
-    def data_fetch_for_stocks(
+    def download_data_for_stocks(
         self, stocknames, start_day, end_day, read_data_from_local, path_of_data
     ):
         assert read_data_from_local in [0, 1]
@@ -117,6 +117,6 @@ if __name__ == "__main__":
 
     trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
     stocknames = ["000612.XSHE", "601808.XSHG"]
-    data = e.data_fetch_for_stocks(
+    data = e.download_data_for_stocks(
         stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data
     )
