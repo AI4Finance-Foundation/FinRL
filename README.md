@@ -45,7 +45,7 @@ Ecosystem of FinRL:
 
 **FinRL 3.0**: advanced-level for investment banks and hedge funds, a cloud-native solution [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
 
-**FinRL 0.0**: hundreds of training/testing/trading environments in [FinRL-Metaverse](https://github.com/AI4Finance-Foundation/FinRL-Metaverse).
+**FinRL 0.0**: hundreds of training/testing/trading environments in [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse).
 
 FinRL provides a unified framework for various markets, SOTA DRL algorithms, finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading support, etc. 
 
