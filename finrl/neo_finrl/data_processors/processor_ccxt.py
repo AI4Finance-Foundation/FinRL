@@ -5,9 +5,9 @@ import ccxt
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
+from basic_processor import BasicProcessor
 
-
-class CCXTEngineer:
+class CcxtProcessor(BasicProcessor):
     def __init__(self):
         self.binance = ccxt.binance()
 
