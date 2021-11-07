@@ -3,7 +3,7 @@ import pandas as pd
 from typing import List
 
 class BasicProcessor:
-    def __init__(self, data_source: str, **kwargs):
+    def __init__(self, data_source: str):
         assert data_source in ["alpaca", "ccxt", "joinquant", "quantconnect", "wrds", "yahoofinance", ], "Data source input is NOT supported yet."
         self.data_source = data_source
 
