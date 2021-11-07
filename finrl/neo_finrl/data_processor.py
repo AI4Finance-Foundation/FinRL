@@ -1,30 +1,34 @@
 import numpy as np
 import pandas as pd
-from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
-from finrl.neo_finrl.data_processors.processor_wrds import WrdsProcessor as Wrds
-from finrl.neo_finrl.data_processors.processor_yahoofinance import (
-    YahooFinanceProcessor as YahooFinance,
-)
-
+from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor
+from finrl.neo_finrl.data_processors.processor_ccxt import CcxtProcessor
+from finrl.neo_finrl.data_processors.processor_joinquant import JoinquantEngineer
+from finrl.neo_finrl.data_processors.processor_wrds import WrdsProcessor
+from finrl.neo_finrl.data_processors.processor_yahoofinance import YahooFinanceProcessor
 
 class DataProcessor:
     def __init__(self, data_source, **kwargs):
         if data_source == "alpaca":
-
             try:
                 API_KEY = kwargs.get("API_KEY")
                 API_SECRET = kwargs.get("API_SECRET")
                 APCA_API_BASE_URL = kwargs.get("APCA_API_BASE_URL")
-                self.processor = Alpaca(API_KEY, API_SECRET, APCA_API_BASE_URL)
-                print("Alpaca successfully connected")
+                self.processor = AlpacaProcessor(API_KEY, API_SECRET, APCA_API_BASE_URL)
+                print("AlpacaProcessor successfully connected")
             except BaseException:
                 raise ValueError("Please input correct account info for alpaca!")
 
+        elif data_source == "ccxt":
+            self.processor = CcxtProcessor()
+
+        elif data_source == "joinquant":
+            self.processor = JoinquantEngineer()
+
         elif data_source == "wrds":
-            self.processor = Wrds()
+            self.processor = WrdsProcessor()
 
         elif data_source == "yahoofinance":
-            self.processor = YahooFinance()
+            self.processor = YahooFinanceProcessor()
 
         else:
             raise ValueError("Data source input is NOT supported yet.")
