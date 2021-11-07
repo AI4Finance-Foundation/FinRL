@@ -15,7 +15,7 @@ class BasicProcessor:
     def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         pass
 
-    def get_trading_days(self, start, end) -> List[str]:
+    def get_trading_days(self, start: str, end: str) -> List[str]:
         pass
 
     def add_technical_indicator(self, data: pd.DataFrame, tech_indicator_list: List[str]) \
@@ -65,7 +65,7 @@ class BasicProcessor:
         df = df.sort_values(["time", "tic"]).reset_index(drop=True)
         return df
 
-    def calculate_turbulence(self, data: pd.DataFrame, time_period=252) \
+    def calculate_turbulence(self, data: pd.DataFrame, time_period: int=252) \
             -> pd.DataFrame:
         """calculate turbulence index based on dow 30"""
         # can add other market assets

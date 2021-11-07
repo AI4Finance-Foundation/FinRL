@@ -78,9 +78,9 @@ class DataProcessor:
         return price_array, tech_array, turbulence_array
 
 if __name__ == "__main__":
-    import sys
-
-    sys.path.append("..")
+    # import sys
+    #
+    # sys.path.append("..")
     # from finrl.neo_finrl.neofinrl_config import TRADE_START_DATE
     # from finrl.neo_finrl.neofinrl_config import TRADE_END_DATE
     # from finrl.neo_finrl.neofinrl_config import READ_DATA_FROM_LOCAL
@@ -95,14 +95,21 @@ if __name__ == "__main__":
     TRADE_END_DATE = "20210911"
     READ_DATA_FROM_LOCAL = 1
 
-    e = JoinquantProcessor()
+    e = DataProcessor(data_source= "joinquant")
     username = "xxx"  # should input your username
     password = "xxx"  # should input your password
     e.auth(username, password)
 
     trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
     stocknames = ["000612.XSHE", "601808.XSHG"]
-    data = e.data_fetch_for_stocks(
+    data = e.download_data_for_stocks(
         stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data
     )
+
+    data2 = e.download_data(stock_list=["000612.XSHE", "601808.XSHG"], num=5, unit='dailay', end_dt=TRADE_END_DATE)
+    data3 = e.clean_data(data2)
+    data4 = e.add_technical_indicator(data3, ['macd', 'close_30_sma'])
+    data5 = e.add_vix(data4)
+    data6 = e.add_turbulence(data5)
+
 
