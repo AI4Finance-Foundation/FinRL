@@ -1,5 +1,5 @@
 import numpy as np
-from basic_processor import BasicProcessor
+from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class QuantconnectEngineer(BasicProcessor):
     def __init__(self):

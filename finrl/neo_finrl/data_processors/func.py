@@ -1,5 +1,16 @@
+import copy
 import datetime
 import os
+
+# e.g., '20210911' -> '2021-09-11'
+def add_hyphen_for_date(d: str) -> str:
+    res = d[:4] + '-' + d[4:6] + '-' + d[6:]
+    return res
+
+# e.g., '2021-09-11' -> '20210911'
+def remove_hyphen_for_date(d: str) -> str:
+    res = d[:4] + d[5:7] + '-' + d[8:]
+    return res
 
 
 # filename: str

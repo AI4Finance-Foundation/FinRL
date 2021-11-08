@@ -5,7 +5,7 @@ import ccxt
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
-from basic_processor import BasicProcessor
+from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class CcxtProcessor(BasicProcessor):
     def __init__(self):

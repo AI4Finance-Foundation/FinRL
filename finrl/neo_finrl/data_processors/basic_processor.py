@@ -7,6 +7,7 @@ class BasicProcessor:
     def __init__(self, data_source: str, **kwargs):
         assert data_source in ["alpaca", "ccxt", "joinquant", "quantconnect", "wrds", "yahoofinance", ], "Data source input is NOT supported yet."
         self.data_source = data_source
+        self.time_interval =
 
     def download_data(self, ticker_list: List[str], start_date: str, end_date: str, time_interval: str) \
             -> pd.DataFrame:
@@ -27,7 +28,9 @@ class BasicProcessor:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        df = df.sort_values(by=["tic", "time"])
+        df = df.reset_index(drop=False)
+        df = df.drop(columns=["level_1"])
+        df = df.rename(columns={"level_0": "tic", "date": "time"})
         stock = Sdf.retype(df.copy())
         unique_ticker = stock.tic.unique()
 

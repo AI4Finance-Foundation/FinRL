@@ -6,7 +6,7 @@ import pytz
 import trading_calendars as tc
 import wrds
 from stockstats import StockDataFrame as Sdf
-from basic_processor import BasicProcessor
+from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 pd.options.mode.chained_assignment = None
 

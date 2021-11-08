@@ -5,6 +5,8 @@ from finrl.neo_finrl.data_processors.processor_ccxt import CcxtProcessor
 from finrl.neo_finrl.data_processors.processor_joinquant import JoinquantProcessor
 from finrl.neo_finrl.data_processors.processor_wrds import WrdsProcessor
 from finrl.neo_finrl.data_processors.processor_yahoofinance import YahooFinanceProcessor
+from typing import List
+from finrl.neo_finrl.data_processors.func import add_hyphen_for_date
 
 class DataProcessor:
     def __init__(self, data_source, **kwargs):
@@ -19,22 +21,22 @@ class DataProcessor:
                 raise ValueError("Please input correct account info for alpaca!")
 
         elif data_source == "ccxt":
-            self.processor = CcxtProcessor()
+            self.processor = CcxtProcessor(data_source, **kwargs)
 
         elif data_source == "joinquant":
-            self.processor = JoinquantProcessor()
+            self.processor = JoinquantProcessor(data_source, **kwargs)
 
         elif data_source == "wrds":
-            self.processor = WrdsProcessor()
+            self.processor = WrdsProcessor(data_source, **kwargs)
 
         elif data_source == "yahoofinance":
-            self.processor = YahooFinanceProcessor()
+            self.processor = YahooFinanceProcessor(data_source, **kwargs)
 
         else:
             raise ValueError("Data source input is NOT supported yet.")
 
     def download_data(
-        self, ticker_list, start_date, end_date, time_interval
+        self, ticker_list: List[str], start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
         df = self.processor.download_data(
             ticker_list=ticker_list,
@@ -91,24 +93,25 @@ if __name__ == "__main__":
 
     path_of_data = "../" + "data"
 
-    TRADE_START_DATE = "20210901"
-    TRADE_END_DATE = "20210911"
+    TRADE_START_DATE = "2021-09-01"
+    TRADE_END_DATE = "2021-09-11"
     READ_DATA_FROM_LOCAL = 1
 
-    e = DataProcessor(data_source= "joinquant")
-    username = "xxx"  # should input your username
-    password = "xxx"  # should input your password
-    e.auth(username, password)
 
-    trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
-    stocknames = ["000612.XSHE", "601808.XSHG"]
-    data = e.download_data_for_stocks(
-        stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data
-    )
+    username = "18117580099"  # should input your username
+    password = "Bl2020quant"  # should input your password
+    kwargs = {'username': username, 'password': password}
+    e = DataProcessor(data_source="joinquant", **kwargs)
 
-    data2 = e.download_data(stock_list=["000612.XSHE", "601808.XSHG"], num=5, unit='dailay', end_dt=TRADE_END_DATE)
-    data3 = e.clean_data(data2)
-    data4 = e.add_technical_indicator(data3, ['macd', 'close_30_sma'])
+    # trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
+    # stocknames = ["000612.XSHE", "601808.XSHG"]
+    # data = e.download_data(
+    #     stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data
+    # )
+
+    data2 = e.download_data(ticker_list=["000612.XSHE", "601808.XSHG"], start_date=TRADE_START_DATE, end_date=TRADE_END_DATE, time_interval='1Day')
+    # data3 = e.clean_data(data2)
+    data4 = e.add_technical_indicator(data2, ['macd', 'close_30_sma'])
     data5 = e.add_vix(data4)
     data6 = e.add_turbulence(data5)
 

@@ -4,25 +4,59 @@ from typing import List
 import jqdatasdk as jq
 import numpy as np
 import pandas as pd
-from func import calc_all_filenames, date2str, remove_all_files
-from basic_processor import BasicProcessor
+from finrl.neo_finrl.data_processors.func import calc_all_filenames, date2str, remove_all_files
+from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class JoinquantProcessor(BasicProcessor):
-    def __init__(self):
-        pass
+    def __init__(self, data_source: str, **kwargs):
+        self.data_source = data_source
+        if 'username' in kwargs.keys() and 'password' in kwargs.keys():
+            jq.auth(kwargs['username'], kwargs['password'])
 
-    def auth(self, username, password):
-        jq.auth(username, password)
 
-    def download_data(self, stock_list, num, unit, end_dt):
+    def download_data(self, ticker_list: List[str], start_date: str, end_date: str, time_interval: str
+    ) -> pd.DataFrame:
+        unit = None
+        if time_interval == '1Day':
+            unit = "1d"
+        else:
+            raise ValueError('not supported currently')
+        count = len(self.calc_trade_days_by_joinquant(start_date, end_date))
         df = jq.get_bars(
-            security=stock_list,
-            count=num,
+            security=ticker_list,
+            count=count,
             unit=unit,
             fields=["date", "open", "high", "low", "close", "volume"],
-            end_dt=end_dt,
+            end_dt=end_date,
         )
+
         return df
+
+    # def download_data(
+    #     self, ticker_list, start_date, end_date, time_interval
+    # ) -> pd.DataFrame:
+    #     self.start = start_date
+    #     self.end = end_date
+    #     self.time_interval = time_interval
+    #
+    #     dfs = []
+    #     if read_data_from_local == 1:
+    #         dfs = self.read_data_from_csv(path_of_data, start_day, end_day)
+    #     else:
+    #         if os.path.exists(path_of_data) is False:
+    #             os.makedirs(path_of_data)
+    #         for stockname in stocknames:
+    #             df = jq.get_price(
+    #                 stockname,
+    #                 start_date=start_day,
+    #                 end_date=end_day,
+    #                 frequency="daily",
+    #                 fields=["open", "close", "high", "low", "volume"],
+    #             )
+    #             dfs.append(df)
+    #             df.to_csv(path_of_data + "/" + stockname + ".csv", float_format="%.4f")
+    #     return dfs
+
 
     def preprocess(df, stock_list):
         n = len(stock_list)

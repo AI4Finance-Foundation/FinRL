@@ -5,7 +5,7 @@ import pandas as pd
 import pytz
 import trading_calendars as tc
 import yfinance as yf
-from basic_processor import BasicProcessor
+from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class YahooFinanceProcessor(BasicProcessor):
     """Provides methods for retrieving daily stock data from
@@ -24,7 +24,7 @@ class YahooFinanceProcessor(BasicProcessor):
         pass
 
     def download_data(
-        self, start_date: str, end_date: str, ticker_list: list, time_interval: str
+        self, ticker_list: list, start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
         """Fetches data from Yahoo API
         Parameters

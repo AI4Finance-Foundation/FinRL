@@ -4,7 +4,7 @@ import pandas as pd
 import pytz
 import trading_calendars as tc
 from stockstats import StockDataFrame as Sdf
-from basic_processor import BasicProcessor
+from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class AlpacaProcessor(BasicProcessor):
     def __init__(self, API_KEY=None, API_SECRET=None, APCA_API_BASE_URL=None, api=None):
