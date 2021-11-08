@@ -133,7 +133,7 @@ A video about FinRL library. The [AI4Finance Youtube Channel](https://www.youtub
 We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/) at [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ) and now arrive at this project:
 
 + FinRL-Metaverse: Data-driven deep reinforcement learning in quantitative finance, Deep RL Workshop, NeurIPS 2021.
-+ Explainable deep reinforcement learning for portfolio management: An empirical approach, ACM International Conference on AI in Finance, ICAIF 2021.
++ Explainable deep reinforcement learning for portfolio management: An empirical approach. [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005) ACM International Conference on AI in Finance, ICAIF 2021.
 + FinRL-Podracer: High performance and scalable deep reinforcement learning for quantitative finance. ACM International Conference on AI in Finance, ICAIF 2021.
 + [FinRL](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949): Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
 + [FinRL](https://arxiv.org/abs/2011.09607): A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
