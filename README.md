@@ -51,17 +51,15 @@ FinRL provides a unified framework for various markets, SOTA DRL algorithms, fin
 
 ## Outline
 
-- [Prior Arts](#Prior-Arts)
-- [News](#Tutorials-and-News)
+- [Tutorials](#Tutorials)
+- [News](#News)
 - [Overview](#Overview)
 - [Status Update](#Status-Update)
 - [Installation](#Installation)
-	- [Docker Installation](#Docker-Installation)
-	- [Prerequisites](#Prerequisites)
-	- [Dependencies](#Dependencies)
 - [Contributions](#Contributions)
-	- [Citing FinRL](#Citing-FinRL)
-	- [Welcome Contributions](#Call-for-Contributions)
+- [Publications](#Publications)
+- [Citing FinRL](#Citing-FinRL)
+- [Welcome Contributions](#Call-for-Contributions)
 - [LICENSE](#LICENSE)
 
 ## Tutorials
