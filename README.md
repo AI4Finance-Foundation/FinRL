@@ -37,7 +37,7 @@ Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g
 		<img src=http://www.tensorlet.org/wp-content/uploads/2021/01/qrcode_for_gh_feece88824ab_258.jpg width="15%" />
 	</div>
 
-Ecosystem of FinRL:
+The ecosystem of FinRL:
 
 **FinRL 1.0**: entry-level for beginners, with a demonstrative and educational purpose.
 
