@@ -7,9 +7,10 @@ from finrl.neo_finrl.data_processors.processor_wrds import WrdsProcessor
 from finrl.neo_finrl.data_processors.processor_yahoofinance import YahooFinanceProcessor
 from typing import List
 from finrl.neo_finrl.data_processors.func import add_hyphen_for_date
-
+from finrl.apps.config import TIME_INTERVAL
 class DataProcessor:
     def __init__(self, data_source, **kwargs):
+        self.time_interval = TIME_INTERVAL
         if data_source == "alpaca":
             try:
                 API_KEY = kwargs.get("API_KEY")
@@ -79,27 +80,16 @@ class DataProcessor:
 
         return price_array, tech_array, turbulence_array
 
-if __name__ == "__main__":
-    # import sys
-    #
-    # sys.path.append("..")
-    # from finrl.neo_finrl.neofinrl_config import TRADE_START_DATE
-    # from finrl.neo_finrl.neofinrl_config import TRADE_END_DATE
-    # from finrl.neo_finrl.neofinrl_config import READ_DATA_FROM_LOCAL
-    # from finrl.neo_finrl.neofinrl_config import PATH_OF_DATA
 
-    # read_data_from_local = READ_DATA_FROM_LOCAL
-    # path_of_data = '../' + PATH_OF_DATA
-
+def test_joinquant():
     path_of_data = "../" + "data"
 
-    TRADE_START_DATE = "2021-09-01"
-    TRADE_END_DATE = "2021-09-11"
+    TRADE_START_DATE = "2020-08-03"
+    TRADE_END_DATE = "2021-09-10"
     READ_DATA_FROM_LOCAL = 1
 
-
-    username = "18117580099"  # should input your username
-    password = "Bl2020quant"  # should input your password
+    username = "xxx"  # should input your username
+    password = "xxx"  # should input your password
     kwargs = {'username': username, 'password': password}
     e = DataProcessor(data_source="joinquant", **kwargs)
 
@@ -109,10 +99,40 @@ if __name__ == "__main__":
     #     stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data
     # )
 
-    data2 = e.download_data(ticker_list=["000612.XSHE", "601808.XSHG"], start_date=TRADE_START_DATE, end_date=TRADE_END_DATE, time_interval='1Day')
+    data2 = e.download_data(ticker_list=["000612.XSHE", "601808.XSHG"], start_date=TRADE_START_DATE, end_date=TRADE_END_DATE, time_interval='1D')
     # data3 = e.clean_data(data2)
     data4 = e.add_technical_indicator(data2, ['macd', 'close_30_sma'])
-    data5 = e.add_vix(data4)
-    data6 = e.add_turbulence(data5)
+    # data5 = e.add_vix(data4)
+    data6 = e.add_turbulence(data4)
+    pass
+
+def test_yahoo():
+    TRADE_START_DATE = "2020-08-03"
+    TRADE_END_DATE = "2021-09-10"
+    READ_DATA_FROM_LOCAL = 1
+
+    kwargs = {}
+    e = DataProcessor(data_source="yahoofinance")
+
+    # trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
+    # stocknames = ["000612.XSHE", "601808.XSHG"]
+    # data = e.download_data(
+    #     stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data
+    # )
+
+    data2 = e.download_data(ticker_list=["AXP", "AMGN"], start_date=TRADE_START_DATE, end_date=TRADE_END_DATE, time_interval='1D')
+    # data3 = e.clean_data(data2)
+    data4 = e.add_technical_indicator(data2, ['macd', 'close_30_sma'])
+    # data5 = e.add_vix(data4)
+    data6 = e.add_turbulence(data4)
+    pass
+
+if __name__ == "__main__":
+    pass
+    test_joinquant()
+    # test_yahoo()
+
+
+
 
 

@@ -2,12 +2,12 @@ import numpy as np
 import pandas as pd
 from typing import List
 from stockstats import StockDataFrame as Sdf
-
+from finrl.apps.config import TIME_INTERVAL
 class BasicProcessor:
     def __init__(self, data_source: str, **kwargs):
         assert data_source in ["alpaca", "ccxt", "joinquant", "quantconnect", "wrds", "yahoofinance", ], "Data source input is NOT supported yet."
         self.data_source = data_source
-        self.time_interval =
+        self.time_interval = TIME_INTERVAL
 
     def download_data(self, ticker_list: List[str], start_date: str, end_date: str, time_interval: str) \
             -> pd.DataFrame:
@@ -77,7 +77,7 @@ class BasicProcessor:
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
-        unique_date = df.date.unique()
+        unique_date = df['time'].unique()
         # start after a year
         start = time_period
         turbulence_index = [0] * start

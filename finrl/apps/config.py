@@ -29,6 +29,9 @@ TEST_END_DATE = "2021-10-01"
 
 START_TRADE_DATE = "2019-01-01"
 
+# 1D, 1Min
+TIME_INTERVAL = "1D"
+
 ## dataset default columns
 DEFAULT_DATA_COLUMNS = ["date", "tic", "close"]
 

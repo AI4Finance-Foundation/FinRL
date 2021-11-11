@@ -2,8 +2,8 @@ import numpy as np
 from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class QuantconnectEngineer(BasicProcessor):
-    def __init__(self):
-        pass
+    def __init__(self, data_source: str, **kwargs):
+        BasicProcessor.__init__(self, data_source, **kwargs)
 
     def download_data(self, start_time, end_time, stock_list, resolution=Resolution.Daily):
         # resolution: Daily, Hour, Minute, Second

@@ -9,7 +9,7 @@ from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class JoinquantProcessor(BasicProcessor):
     def __init__(self, data_source: str, **kwargs):
-        self.data_source = data_source
+        BasicProcessor.__init__(self, data_source, **kwargs)
         if 'username' in kwargs.keys() and 'password' in kwargs.keys():
             jq.auth(kwargs['username'], kwargs['password'])
 
@@ -17,8 +17,11 @@ class JoinquantProcessor(BasicProcessor):
     def download_data(self, ticker_list: List[str], start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
         unit = None
-        if time_interval == '1Day':
-            unit = "1d"
+        # joinquant supports: '1m', '5m', '15m', '30m', '60m', '120m', '1d', '1w', '1M'。'1w' 表示一周，‘1M' 表示一月。
+        if time_interval == '1D':
+            unit = '1d'
+        elif time_interval == '1Min':
+            unit = '1m'
         else:
             raise ValueError('not supported currently')
         count = len(self.calc_trade_days_by_joinquant(start_date, end_date))

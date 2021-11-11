@@ -7,14 +7,17 @@ from stockstats import StockDataFrame as Sdf
 from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class AlpacaProcessor(BasicProcessor):
-    def __init__(self, API_KEY=None, API_SECRET=None, APCA_API_BASE_URL=None, api=None):
-        if api is None:
-            try:
-                self.api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, "v2")
-            except BaseException:
-                raise ValueError("Wrong Account Info!")
-        else:
-            self.api = api
+    # def __init__(self, API_KEY=None, API_SECRET=None, APCA_API_BASE_URL=None, api=None):
+    #     if api is None:
+    #         try:
+    #             self.api = tradeapi.REST(API_KEY, API_SECRET, APCA_API_BASE_URL, "v2")
+    #         except BaseException:
+    #             raise ValueError("Wrong Account Info!")
+    #     else:
+    #         self.api = api
+    def __init__(self, data_source: str, **kwargs):
+        BasicProcessor.__init__(self, data_source, **kwargs)
+
 
     def download_data(
         self, ticker_list, start_date, end_date, time_interval

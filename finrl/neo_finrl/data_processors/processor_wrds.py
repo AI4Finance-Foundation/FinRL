@@ -12,9 +12,11 @@ pd.options.mode.chained_assignment = None
 
 
 class WrdsProcessor(BasicProcessor):
-    def __init__(self, if_offline=False):
-        if not if_offline:
-            self.db = wrds.Connection()
+    # def __init__(self, if_offline=False):
+    #     if not if_offline:
+    #         self.db = wrds.Connection()
+    def __init__(self, data_source: str, **kwargs):
+        BasicProcessor.__init__(self, data_source, **kwargs)
 
     def download_data(
         self,

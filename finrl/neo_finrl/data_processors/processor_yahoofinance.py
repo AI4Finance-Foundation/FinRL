@@ -20,8 +20,8 @@ class YahooFinanceProcessor(BasicProcessor):
             a list of stock tickers (modified from neofinrl_config.py)
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, data_source: str, **kwargs):
+        BasicProcessor.__init__(self, data_source, **kwargs)
 
     def download_data(
         self, ticker_list: list, start_date: str, end_date: str, time_interval: str

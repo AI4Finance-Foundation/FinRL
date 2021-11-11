@@ -8,8 +8,10 @@ from stockstats import StockDataFrame as Sdf
 from finrl.neo_finrl.data_processors.basic_processor import BasicProcessor
 
 class CcxtProcessor(BasicProcessor):
-    def __init__(self):
-        self.binance = ccxt.binance()
+    # def __init__(self):
+    #     self.binance = ccxt.binance()
+    def __init__(self, data_source: str, **kwargs):
+        BasicProcessor.__init__(self, data_source, **kwargs)
 
     def download_data(self, start, end, pair_list=["BTC/USDT"], period="1m"):
         def min_ohlcv(dt, pair, limit):
