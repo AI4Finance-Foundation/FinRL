@@ -1,4 +1,4 @@
-# RL models from elegantrl
+# DRL models from ElegantRL: https://github.com/AI4Finance-Foundation/ElegantRL
 import torch
 from elegantrl.agent import AgentDDPG, AgentPPO, AgentSAC, AgentTD3, AgentA2C
 from elegantrl.run import Arguments, train_and_evaluate
@@ -15,7 +15,7 @@ NOISE = {
 
 
 class DRLAgent:
-    """Provides implementations for DRL algorithms
+    """Implementations of DRL algorithms
     Attributes
     ----------
         env: gym environment class
