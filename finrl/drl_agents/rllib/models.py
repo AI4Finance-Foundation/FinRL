@@ -1,4 +1,4 @@
-# RL models from RLlib ray
+# DRL models from RLlib
 import ray
 from ray.rllib.agents.a3c import a2c
 from ray.rllib.agents.ddpg import ddpg, td3
@@ -11,7 +11,7 @@ MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
 
 
 class DRLAgent:
-    """Provides implementations for DRL algorithms
+    """Implementations for DRL algorithms
 
     Attributes
     ----------
