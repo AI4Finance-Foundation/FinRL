@@ -1,4 +1,5 @@
-# common library
+# DRL models from Stable Baselines 3
+
 import time
 
 import numpy as np
@@ -14,7 +15,6 @@ from stable_baselines3.common.noise import (
 )
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-# RL models from stable-baselines
 
 
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
