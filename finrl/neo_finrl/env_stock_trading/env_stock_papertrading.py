@@ -1,14 +1,11 @@
 import datetime
 import threading
 from finrl.neo_finrl.data_processors.processor_alpaca import AlpacaProcessor
-from elegantrl.run import *
 import alpaca_trade_api as tradeapi
 import time
 import pandas as pd
 import numpy as np
 import torch
-import sys
-import os
 import gym
 
 class AlpacaPaperTrading():
@@ -21,7 +18,7 @@ class AlpacaPaperTrading():
         self.drl_lib = drl_lib
         if agent =='ppo':
             if drl_lib == 'elegantrl':              
-              from elegantrl.agent import AgentPPO
+              from elegantrl.agents.AgentPPO import AgentPPO
               #load agent
               try:
                   agent = AgentPPO()
