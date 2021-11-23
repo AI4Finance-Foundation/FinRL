@@ -56,8 +56,8 @@ class TushareDownloader :
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         for tic in  tqdm(self.ticker_list, total=len(self.ticker_list)):
-            temp_df = ts.get_hist_data(tic,start=self.start_date,end=self.end_date)
-            temp_df["tic"] = tic
+            temp_df = ts.get_hist_data(tic[0:6],start=self.start_date,end=self.end_date)
+            temp_df["tic"] = tic[0:6]
             data_df = data_df.append(temp_df)
         data_df = data_df.reset_index(level="date")
 
