@@ -3,7 +3,7 @@ import datetime
 import numpy as np
 import pandas as pd
 import pytz
-import trading_calendars as tc
+import exchange_calendars as tc
 import wrds
 from stockstats import StockDataFrame as Sdf
 
