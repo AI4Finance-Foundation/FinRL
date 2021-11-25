@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 import pytz
-import trading_calendars as tc
+import exchange_calendars as tc
 import yfinance as yf
 from stockstats import StockDataFrame as Sdf
 
