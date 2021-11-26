@@ -2,7 +2,7 @@ import ray
 from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
 from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
 from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
-from finrl.neo_finrl.data_processor import DataProcessor
+from finrl.finrl_meta.data_processor import DataProcessor
 
 
 def train(
