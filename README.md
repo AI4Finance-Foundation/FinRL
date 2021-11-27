@@ -5,10 +5,6 @@
 [1.3]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_google_22.xx_.png
 [1.4]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_linkedin_22x22.png
 
-<div align="center">
-<img align="center" src=figs/logo_transparent_background.png width="55%"/>
-</div>
-
 [1]: https://twitter.com/intent/tweet?text=FinRL-A-Deep-Reinforcement-Learning-Library-for-Quantitative-Finance%20&url=hhttps://github.com/AI4Finance-LLC/FinRL-Library&hashtags=DRL&hashtags=AI
 [2]: https://www.facebook.com/sharer.php?u=http%3A%2F%2Fgithub.com%2FAI4Finance-LLC%2FFinRL-Library
 [3]: https://plus.google.com/share?url=https://github.com/AI4Finance-LLC/FinRL-Library
@@ -21,7 +17,9 @@
 [![Documentation Status](https://readthedocs.org/projects/finrl/badge/?version=latest)](https://finrl.readthedocs.io/en/latest/?badge=latest)
 ![License](https://img.shields.io/github/license/AI4Finance-Foundation/finrl.svg?color=brightgreen)
 
-
+<div align="center">
+<img align="center" src=figs/logo_transparent_background.png width="55%"/>
+</div>
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
