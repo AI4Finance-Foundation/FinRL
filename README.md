@@ -17,7 +17,7 @@
 ![License](https://img.shields.io/github/license/AI4Finance-Foundation/finrl.svg?color=brightgreen)
 
 <div align="center">
-<img align="center" src=figs/Poster_FinRL.jpg width="600">
+<img align="center" src=figs/FINRL_logo.jpg width="600">
 </div>
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
