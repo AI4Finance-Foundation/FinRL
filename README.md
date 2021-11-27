@@ -1,7 +1,7 @@
 # FinRL: Deep Reinforcement Learning for Quantitative Finance [![twitter][1.1]][1] [![facebook][1.2]][2] [![google+][1.3]][3] [![linkedin][1.4]][4]
 
 <div align="center">
-<img align="center" src=figs/logo_size.jpg width="35%"/>
+<img align="center" src=figs/logo_transparent_background.png width="35%"/>
 </div>
 
 
