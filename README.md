@@ -98,9 +98,7 @@ FinRL provides a unified framework for various markets, SOTA DRL algorithms, fin
 
 ## Overview
 
-A video about FinRL library. The [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quantative finance.
-
-[<div align="center"><img src="http://img.youtube.com/vi/ZSGJjtM-5jA/0.jpg" width="70%"></div>](http://www.youtube.com/watch?v=ZSGJjtM-5jA)
+A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA). The [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quantative finance.
 
 <div align="center">
 <img align="center" src=figs/Poster_FinRL.jpg width="600">
