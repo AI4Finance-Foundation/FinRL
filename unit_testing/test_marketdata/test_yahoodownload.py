@@ -1,7 +1,7 @@
 import unittest
 
 import pandas as pd
-from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
+from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
 
 
 class TestDownloader(unittest.TestCase):
