@@ -102,7 +102,7 @@ A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA). The [
 
 
 <div align="center">
-<img align="center" src=figs/finrl_framework.png width="600">
+<img align="center" src=figs/finrl_framework.png>
 </div>
 
 <div align="center">
