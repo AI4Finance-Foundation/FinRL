@@ -1,4 +1,10 @@
 # FinRL: Deep Reinforcement Learning for Quantitative Finance [![twitter][1.1]][1] [![facebook][1.2]][2] [![google+][1.3]][3] [![linkedin][1.4]][4]
+
+<div align="center">
+<img align="center" src=figs/logo_size.jpg width="35%"/>
+</div>
+
+
 [1.1]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_twitter_22x22.png
 [1.2]: http://www.tensorlet.org/wp-content/uploads/2021/01/facebook-button_22x22.png
 [1.3]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_google_22.xx_.png
@@ -29,10 +35,6 @@
 **News: We will release codes for both paper trading and live trading. Please let us know your coding needs.**
 
 Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
-
-<div align="center">
-<img align="center" src=figs/logo_size.jpg width="25%"/>
-</div>
 
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
