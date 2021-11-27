@@ -31,7 +31,7 @@
 Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
 
 <div align="center">
-<img align="center" src=figs/FINRL_logo.jpg width="25%"/>
+<img align="center" src=figs/logo_size.jpg width="25%"/>
 </div>
 
 
