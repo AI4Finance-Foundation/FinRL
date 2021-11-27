@@ -17,6 +17,7 @@
 ![License](https://img.shields.io/github/license/AI4Finance-Foundation/finrl.svg?color=brightgreen)
 
 
+
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
 **Our Mission**: efficiently automate trading. We continuously develop and share codes for finance. 
@@ -28,6 +29,10 @@
 **News: We will release codes for both paper trading and live trading. Please let us know your coding needs.**
 
 Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
+
+<div align="center">
+<img align="center" src=figs/FINRL_logo.jpg width="55%"/>
+</div>
 
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
