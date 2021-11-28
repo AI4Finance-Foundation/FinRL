@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pyfolio
 from finrl.apps import config
-from finrl.neo_finrl.preprocessor.yahoodownloader import YahooDownloader
+from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
 from pyfolio import timeseries
 
 

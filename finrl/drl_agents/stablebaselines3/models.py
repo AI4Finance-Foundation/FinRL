@@ -1,11 +1,12 @@
-# common library
+# DRL models from Stable Baselines 3
+
 import time
 
 import numpy as np
 import pandas as pd
 from finrl.apps import config
-from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
-from finrl.neo_finrl.preprocessor.preprocessors import data_split
+from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
+from finrl.finrl_meta.preprocessor.preprocessors import data_split
 from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.noise import (
@@ -14,7 +15,6 @@ from stable_baselines3.common.noise import (
 )
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-# RL models from stable-baselines
 
 
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}

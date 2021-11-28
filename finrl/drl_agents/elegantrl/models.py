@@ -1,7 +1,12 @@
-# RL models from elegantrl
+# DRL models from ElegantRL: https://github.com/AI4Finance-Foundation/ElegantRL
 import torch
-from elegantrl.agent import AgentDDPG, AgentPPO, AgentSAC, AgentTD3, AgentA2C
-from elegantrl.run import Arguments, train_and_evaluate
+from elegantrl.agents.AgentDDPG import AgentDDPG
+from elegantrl.agents.AgentPPO import AgentPPO
+from elegantrl.agents.AgentSAC import AgentSAC
+from elegantrl.agents.AgentTD3 import AgentTD3
+from elegantrl.agents.AgentA2C import AgentA2C
+from elegantrl.train.config import Arguments
+from elegantrl.train.run_tutorial import train_and_evaluate
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO, "a2c": AgentA2C}
 OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]
@@ -15,7 +20,7 @@ NOISE = {
 
 
 class DRLAgent:
-    """Provides implementations for DRL algorithms
+    """Implementations of DRL algorithms
     Attributes
     ----------
         env: gym environment class

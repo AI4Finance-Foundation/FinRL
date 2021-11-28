@@ -19,7 +19,7 @@ tensorboardX
 gputil
 
 # market data & paper trading API
-trading_calendars
+exchange_calendars
 alpaca_trade_api
 ccxt
 jqdatasdk
