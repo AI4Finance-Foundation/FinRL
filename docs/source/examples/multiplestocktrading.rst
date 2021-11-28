@@ -10,7 +10,7 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Multiple Stock Tradi
 
     Run the code step by step at `Google Colab`_.
 
-    .. _Google Colab: https://colab.research.google.com/github/AI4Finance-LLC/FinRL-Library/blob/master/examples/old/DRL_multiple_stock_trading.ipynb
+    .. _Google Colab: https://colab.research.google.com/github/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb
 
 
 

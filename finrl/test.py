@@ -6,7 +6,7 @@ from finrl.apps.config import (
     TEST_START_DATE,
     RLlib_PARAMS,
 )
-from finrl.neo_finrl.env_stock_trading.env_stocktrading import StockTradingEnv
+from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
 
 
 def test(
