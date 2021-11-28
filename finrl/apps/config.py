@@ -875,6 +875,7 @@ SSE_50_TICKER = [
     "603160.XSHG",
 ]
 
+
 # CSI 300 Index constituents at 2019
 CSI_300_TICKER = [
     "600000.XSHG",
