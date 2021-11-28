@@ -805,6 +805,7 @@ HSI_50_TICKER = [
     "2313.HK",
 ]
 
+
 # www.csindex.com.cn, for SSE and CSI adjustments
 # SSE 50 Index constituents at 2019
 SSE_50_TICKER = [
@@ -1254,7 +1255,6 @@ DAX_30_TICKER = [
     "DBK.DE",
     "IFX.DE",
 ]
-
 
 # TecDAX constituents at 2021/02
 TECDAX_TICKER = [
