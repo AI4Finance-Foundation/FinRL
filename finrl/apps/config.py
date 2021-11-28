@@ -1255,6 +1255,7 @@ DAX_30_TICKER = [
     "IFX.DE",
 ]
 
+
 # TecDAX constituents at 2021/02
 TECDAX_TICKER = [
     "ADV.DE",
