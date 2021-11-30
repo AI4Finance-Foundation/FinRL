@@ -4,9 +4,7 @@
 |Title |Conference |Link|Citations|Year|
 |  ----  |  ----  |  ----  |  ----  |  ----  |  
 |FinRL-Meta: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance| Data-Centric AI Workshop, NeurIPS 2021 | paper: ;<br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta| 1| 2021| 
-
 |Explainable deep reinforcement learning for portfolio management: An empirical approach| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 1| 2021| 
-
 |FinRL-Podracer: High performance and scalable deep reinforcement learning for quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.05188;<br />code: https://github.com/AI4Finance-Foundation/FinRL_Podracer| 1| 2021| 
 |FinRL: Deep reinforcement learning framework to automate trading in quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 2| 2021| 
 |FinRL: A deep reinforcement learning library for automated stock trading in quantitative finance| Deep RL Workshop, NeurIPS 2020 | paper: https://arxiv.org/abs/2011.09607;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 12| 2020| 
