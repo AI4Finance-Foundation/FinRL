@@ -3,13 +3,10 @@
 
 |Title |Conference |Link|Citations|Year|
 |  ----  |  ----  |  ----  |  ----  |  ----  | 
+|Deep reinforcement learning for automated stock trading: An ensemble strategy| ICAIF 2020 : ACM International Conference on AI in Finance | https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996| 24| 2020| 
+|Multi-agent reinforcement learning for liquidation strategy analysis| ICML 2019 Workshop on AI in Finance: Applications and Infrastructure for Multi-Agent Learning| https://arxiv.org/abs/1906.11046| 17| 2019| 
 |Practical deep reinforcement learning approach for stock trading| NeurIPS 2018 Workshop on Challenges and Opportunities for AI in Financial Services| https://arxiv.org/abs/1811.07522| 62| 2018 | 
-|Multi-agent reinforcement learning for liquidation strategy analysis| ICML 2019 Workshop on AI in Finance: Applications and Infrastructure for Multi-Agent Learning.| https://arxiv.org/abs/1906.11046| 17| 2019| 
-|WRDS.TAQ| US Securities| 2003-now, 1ms| 5 requests each time| Intraday Trades|
-|Alpaca| US Stocks, ETFs| 2015-now, 1min| Account-specific| OHLCV|
-|RiceQuant| CN Securities| 2005-now, 1ms| Account-specific| OHLCV| 
-|JoinQuant| CN Securities| 2005-now, 1min| 3 requests each time| OHLCV|
-|QuantConnect| US Securities| 1998-now, 1s| NA| OHLCV|
+
 	
 
 
