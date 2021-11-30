@@ -29,7 +29,7 @@ def test(
     from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
 
     # import data processor
-    from finrl.neo_finrl.data_processor import DataProcessor
+    from finrl.finrl_meta.data_processor import DataProcessor
 
     # fetch data
     DP = DataProcessor(data_source, **kwargs)
