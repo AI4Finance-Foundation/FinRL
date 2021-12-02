@@ -26,7 +26,9 @@
 
 [1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) 
 
-[2] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL)
+[2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta)
+
+[3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL)
 
 
 
