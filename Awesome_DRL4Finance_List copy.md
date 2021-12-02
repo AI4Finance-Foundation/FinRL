@@ -24,9 +24,9 @@
 
 ## Tools or Softwares
 
-[1] FinRL: 
+[1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) 
 
-[2] ElegantRL:
+[2] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL)
 
 
 
