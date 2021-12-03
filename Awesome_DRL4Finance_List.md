@@ -18,6 +18,8 @@
 
 [4] Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
 
+[5] Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty. International Conference on AI in Finance (ICAIF’20), October 2020.
+
 ## Courses
 
 [Coursera](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance) Overview of Advanced Methods of Reinforcement Learning in Finance
