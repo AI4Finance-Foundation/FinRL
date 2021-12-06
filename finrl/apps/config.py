@@ -75,6 +75,15 @@ RLlib_PARAMS = {"lr": 5e-5, "train_batch_size": 500, "gamma": 0.99}
 
 
 ########################################################
+#######Possible time zones##############################
+TIME_ZONE_SHANGHAI = 'Asia/Shanghai'  ## Hang Seng HSI, SSE, CSI
+TIME_ZONE_USEASTERN = 'US/Eastern'  # Dow, Nasdaq, SP
+TIME_ZONE_PARIS = 'Europe/Paris'  # CAC,
+TIME_ZONE_BERLIN = 'Europe/Berlin'  # DAX, TECDAX, MDAX, SDAX
+TIME_ZONE_JAKARTA = 'Asia/Jakarta'  # LQ45
+TIME_ZONE_SELFDEFINED = 'xxx'  # If neither of the above is your time zone, you should define it.
+
+########################################################
 ############## Stock Ticker Setup starts ##############
 SINGLE_TICKER = ["AAPL"]
 
