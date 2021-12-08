@@ -76,6 +76,18 @@ class AlpacaProcessor:
                 tmp_df.loc[tic_df.iloc[i]["time"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
+            if str(tmp_df.iloc[0]["close"] == "nan":
+                   print('The price of the first row is NaN. It will filled with the first valid price.')
+                   for i in range(tmp_df.shape[0]):
+                   if str(tmp_df.iloc[i]["close"] != "nan":
+                          first_valid_price = tmp_df.iloc[i]["close"]
+                          break
+                   tmp_df.iloc[0] = [first_valid_price,
+                                     first_valid_price,
+                                     first_valid_price,
+                                     first_valid_price,
+                                     0.0,]
+                          
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":
                     previous_close = tmp_df.iloc[i - 1]["close"]
