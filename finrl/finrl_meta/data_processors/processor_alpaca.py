@@ -293,7 +293,7 @@ class AlpacaProcessor:
                 for i in range(tmp_df.shape[0]):
                     if str(tmp_df.iloc[i]["close"]) != "nan":
                         first_valid_close = tmp_df.iloc[i]["close"]
-
+                        break
                 tmp_df.iloc[0] = [
                     first_valid_close,
                     first_valid_close,
