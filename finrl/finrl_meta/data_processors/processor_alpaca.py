@@ -57,7 +57,7 @@ class AlpacaProcessor:
         tic_list = np.unique(df.tic.values)
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
-
+        #produce full time index
         times = []
         for day in trading_days:
             NY = "America/New_York"
@@ -65,7 +65,7 @@ class AlpacaProcessor:
             for i in range(390):
                 times.append(current_time)
                 current_time += pd.Timedelta(minutes=1)
-
+        #create a new dataframe with full time series
         new_df = pd.DataFrame()
         for tic in tic_list:
             tmp_df = pd.DataFrame(
@@ -76,10 +76,11 @@ class AlpacaProcessor:
                 tmp_df.loc[tic_df.iloc[i]["time"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
-            if str(tmp_df.iloc[0]["close"] == "nan":
-                   print('The price of the first row is NaN. It will filled with the first valid price.')
-                   for i in range(tmp_df.shape[0]):
-                   if str(tmp_df.iloc[i]["close"] != "nan":
+            #if the close price of the first row is Nan   
+            if str(tmp_df.iloc[0]["close"]) == "nan":
+               print('The price of the first row is NaN. It will filled with the first valid price.')
+               for i in range(tmp_df.shape[0]):
+                   if str(tmp_df.iloc[i]["close"]) != "nan":
                           first_valid_price = tmp_df.iloc[i]["close"]
                           break
                    tmp_df.iloc[0] = [first_valid_price,
@@ -87,7 +88,7 @@ class AlpacaProcessor:
                                      first_valid_price,
                                      first_valid_price,
                                      0.0,]
-                          
+            #forward filling row by row
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":
                     previous_close = tmp_df.iloc[i - 1]["close"]
