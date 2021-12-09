@@ -78,7 +78,7 @@ class AlpacaProcessor:
                 ]
             
             #check is all the prices are missing
-            if np.isnan(tmp_df.iloc["close"].values).all() is True:
+            if np.isnan(tmp_df["close"].values).all() is True:
                 print('Missing data for ticker: ', tic, ' . The prices are all NaN. Fill with 0.')
                 tmp_df.iloc[0] = [0.0, 0.0, 0.0, 0.0, 0.0,]
             else:
