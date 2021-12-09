@@ -79,7 +79,8 @@ class AlpacaProcessor:
             
             #if the close price of the first row is NaN
             if str(tmp_df.iloc[0]["close"]) == "nan":
-               print('The price of the first row is NaN. It will filled with the first valid price.')
+               print('The price of the first row for ticker ', tic, ' is NaN. ', 
+                     'It will filled with the first valid price.')
                for i in range(tmp_df.shape[0]):
                    if str(tmp_df.iloc[i]["close"]) != "nan":
                           first_valid_price = tmp_df.iloc[i]["close"]
