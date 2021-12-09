@@ -70,6 +70,8 @@ ERL_PARAMS = {
     "gamma": 0.985,
     "seed": 312,
     "net_dimension": 512,
+    "target_step": 5000,
+    "eval_gap": 30
 }
 RLlib_PARAMS = {"lr": 5e-5, "train_batch_size": 500, "gamma": 0.99}
 
