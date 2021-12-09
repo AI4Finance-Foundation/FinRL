@@ -77,23 +77,22 @@ class AlpacaProcessor:
                     ["open", "high", "low", "close", "volume"]
                 ]
             
-            #check is all the prices are missing
-            if np.isnan(tmp_df["close"].values).all() is True:
+            #if the close price of the first row is NaN
+            if str(tmp_df.iloc[0]["close"]) == "nan":
+               print('The price of the first row is NaN. It will filled with the first valid price.')
+               for i in range(tmp_df.shape[0]):
+                   if str(tmp_df.iloc[i]["close"]) != "nan":
+                          first_valid_price = tmp_df.iloc[i]["close"]
+                          tmp_df.iloc[0] = [first_valid_price,
+                                     first_valid_price,
+                                     first_valid_price,
+                                     first_valid_price,
+                                     0.0,]
+                          break
+            #if the close price of the first row is still NaN (All the prices are NaN in this case)
+            if str(tmp_df.iloc[0]["close"]) == "nan":
                 print('Missing data for ticker: ', tic, ' . The prices are all NaN. Fill with 0.')
                 tmp_df.iloc[0] = [0.0, 0.0, 0.0, 0.0, 0.0,]
-            else:
-                #if the close price of the first row is Nan  
-                if str(tmp_df.iloc[0]["close"]) == "nan":
-                   print('The price of the first row is NaN. It will filled with the first valid price.')
-                   for i in range(tmp_df.shape[0]):
-                       if str(tmp_df.iloc[i]["close"]) != "nan":
-                              first_valid_price = tmp_df.iloc[i]["close"]
-                              tmp_df.iloc[0] = [first_valid_price,
-                                         first_valid_price,
-                                         first_valid_price,
-                                         first_valid_price,
-                                         0.0,]
-                              break
                       
             #forward filling row by row
             for i in range(tmp_df.shape[0]):
@@ -297,10 +296,7 @@ class AlpacaProcessor:
                     ["open", "high", "low", "close", "volume"]
                 ]
             
-            if np.isnan(tmp_df.iloc["close"].values).all() is True:
-                print('Missing data for ticker: ', tic, ' . The prices are all NaN. Fill with 0.')
-                tmp_df.iloc[0] = [0.0, 0.0, 0.0, 0.0, 0.0,]
-            else:
+
                 if str(tmp_df.iloc[0]["close"]) == "nan":
                     for i in range(tmp_df.shape[0]):
                         if str(tmp_df.iloc[i]["close"]) != "nan":
@@ -313,6 +309,9 @@ class AlpacaProcessor:
                                 0.0,
                             ]
                             break
+                if str(tmp_df.iloc[0]["close"]) == "nan":
+                    print('Missing data for ticker: ', tic, ' . The prices are all NaN. Fill with 0.')
+                    tmp_df.iloc[0] = [0.0, 0.0, 0.0, 0.0, 0.0,]
         
 
             for i in range(tmp_df.shape[0]):
