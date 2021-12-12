@@ -8,6 +8,10 @@
 
 [3] [FinRL](https://arxiv.org/abs/2011.09607): A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
 
+## Survey 
+
+[1] [Recent Advances in Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3971071). 
+
 ## Strategy Design
 
 [1] [Deep reinforcement learning for automated stock trading: an ensemble strategy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996). ACM International Conference on AI in Finance, 2020.
