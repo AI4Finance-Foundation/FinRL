@@ -10,7 +10,7 @@
 
 ## Survey 
 
-[1] [Recent Advances in Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3971071). 
+[1] [Recent Advances in Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3971071). Hambly, B., Xu, R. and Yang, H., 2021.
 
 ## Strategy Design
 
