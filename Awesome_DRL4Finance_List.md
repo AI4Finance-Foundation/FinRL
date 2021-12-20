@@ -12,7 +12,7 @@
 
 [1] [Recent Advances in Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3971071). Hambly, B., Xu, R. and Yang, H., 2021.
 
-## Strategy Design
+## Strategy
 
 [1] [Deep reinforcement learning for automated stock trading: an ensemble strategy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996). ACM International Conference on AI in Finance, 2020.
 
@@ -35,6 +35,13 @@
 [2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta)
 
 [3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL)
+
+## Theoretical Foundation
+
+[1] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020. 
+
+
+## Algorithmic Foundation
 
 
 
