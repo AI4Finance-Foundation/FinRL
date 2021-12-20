@@ -36,6 +36,8 @@
 
 [3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL)
 
+[4] Stable-Baselines3: Reliable Reinforcement Learning Implementations. Journal of Machine Learning Research. Raffin, A., Hill, A., Gleave, A., Kanervisto, A., Ernestus, M. and Dormann, N., 2021. 
+
 ## Theoretical Foundation
 
 [1] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020. 
