@@ -1,5 +1,5 @@
 # FinRL Ecosystem Academic Research 
-  A list of academic research papers around FinRL.
+  A list of academic research papers around FinRL. Or, check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ).
 
 |Title |Conference |Link|Citations|Year|
 |  ----  |  ----  |  ----  |  ----  |  ----  |  
