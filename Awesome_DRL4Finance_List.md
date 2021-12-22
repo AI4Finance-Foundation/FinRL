@@ -30,7 +30,7 @@
 
 ## Courses
 
-[Coursera](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance) Overview of Advanced Methods of Reinforcement Learning in Finance
+[Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
 
 ## Tools or Softwares
 
