@@ -18,11 +18,13 @@
 
 [2] [FinRL-Podracer](https://arxiv.org/abs/2111.05188): High performance and scalable deep reinforcement learning for quantitative finance. ACM International Conference on AI in Finance, ICAIF 2021.
 
-[3] Explainable deep reinforcement learning for portfolio management: An empirical approach, ACM International Conference on AI in Finance, ICAIF 2021.
+[3] Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
 
-[4] Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
+[4] Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty. International Conference on AI in Finance (ICAIF’20), October 2020.
 
-[5] Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty. International Conference on AI in Finance (ICAIF’20), October 2020.
+## Interpretation and Explainability
+
+[1] [Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;). Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021. 
 
 ## Courses
 
@@ -32,7 +34,7 @@
 
 [1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) 
 
-[2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta)
+[2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta) FinRL-Meta: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. Workshop on Data-Centric AI, NeurIPS 2021. Liu, X.Y., Rui, J., Gao, J., Yang, L., Yang, H., Wang, Z., Wang, C.D. and Guo, J., 2021.
 
 [3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL)
 
