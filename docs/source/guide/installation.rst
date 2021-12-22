@@ -3,6 +3,8 @@
 Installation
 =======================
 
+Note: we made a tutorial for installation: [FinRL for Quantitative Finance: Install and Setup Tutorial for Beginners](https://ai4finance.medium.com/finrl-for-quantitative-finance-install-and-setup-tutorial-for-beginners-1db80ad39159).
+
 Clone this repository
 
 .. code-block:: python
