@@ -122,6 +122,7 @@ Supported Data Sources:
 |RiceQuant| CN Securities| 2005-now, 1ms| Account-specific| OHLCV| 
 |JoinQuant| CN Securities| 2005-now, 1min| 3 requests each time| OHLCV|
 |QuantConnect| US Securities| 1998-now, 1s| NA| OHLCV|
+
 OHLCV: open, high, low, close, volume
 
 ## DRL Algorithms 
