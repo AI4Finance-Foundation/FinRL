@@ -107,7 +107,6 @@ FinRL provides a unified framework for various markets, SOTA DRL algorithms, fin
 
 A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA). The [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quantative finance.
 
-
 <div align="center">
 <img align="center" src=figs/finrl_framework.png>
 </div>
@@ -127,7 +126,7 @@ OHLCV: open, high, low, and close prices; volume.
 
 ## DRL Algorithms 
 
-[ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) implements Deep Q Learning (DQN), Double DQN, DDPG, A2C, SAC, PPO, TD3, GAE, MADDPG, etc. using PyTorch. 
+[ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) provides finance-oriented optimizations of DRL algorithms using PyTorch. 
 
 ## Status Update
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
@@ -188,13 +187,13 @@ We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/), 
 
 ## To Contribute
 
-Welcome to join **AI4Finance Foundation** community!
+Welcome to the **AI4Finance Foundation** community!
 
 Please check [Contributing Guidances](https://github.com/AI4Finance-LLC/FinRL/blob/master/contributing.md).
 
 ### Contributors
 
-Thanks to our contributors! 
+Thanks! 
 <a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
 </a>
