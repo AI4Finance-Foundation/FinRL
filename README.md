@@ -44,15 +44,15 @@ Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g
 		<img src=http://www.tensorlet.org/wp-content/uploads/2021/01/qrcode_for_gh_feece88824ab_258.jpg width="15%" />
 	</div>
 
-The ecosystem of FinRL:
+The FinRL ecosystem:
 
-**FinRL 3.0 (Production)**: advanced-level for investment banks and hedge funds, a cloud-native solution [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
+**FinRL 3.0 (Production)**: advanced-level for investment banks and hedge funds. A cloud-native solution [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
 
-**FinRL 2.0 (Professional)**: intermediate-level for full-stack developers and professionals, [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
+**FinRL 2.0 (Professional)**: intermediate-level for full-stack developers and professionals. [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
 
 **FinRL 1.0 (Proof of concept)**: entry-level for beginners, with a demonstrative and educational purpose.
 
-**FinRL 0.0 (Preparation)**: hundreds of training/testing/trading environments in [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse).
+**FinRL 0.0 (Preparation)**: a universe of training/testing/trading environments in [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse).
 
 FinRL provides a unified framework for various markets, SOTA DRL algorithms, finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading support, etc. 
 
