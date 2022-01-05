@@ -38,11 +38,11 @@
 
 [1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) 
 
-[2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta) FinRL-Meta: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. Workshop on Data-Centric AI, NeurIPS 2021. Liu, X.Y., Rui, J., Gao, J., Yang, L., Yang, H., Wang, Z., Wang, C.D. and Guo, J., 2021.
+[2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance.
 
 [3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL)
 
-[4] Stable-Baselines3: Reliable Reinforcement Learning Implementations. Journal of Machine Learning Research. Raffin, A., Hill, A., Gleave, A., Kanervisto, A., Ernestus, M. and Dormann, N., 2021. 
+[4] [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3): Reliable Reinforcement Learning Implementations.
 
 ## Theoretical Foundation
 
