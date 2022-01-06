@@ -16,6 +16,8 @@
 
 [1] [Recent Advances in Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3971071). Hambly, B., Xu, R. and Yang, H., 2021.
 
+[2] [Deep Reinforcement Learning for Trading—A Critical Survey](https://www.mdpi.com/2306-5729/6/11/119). Adrian Millea, 2021.
+
 ## Strategy
 
 [1] [Deep reinforcement learning for automated stock trading: an ensemble strategy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996). ACM International Conference on AI in Finance, 2020.
@@ -24,7 +26,13 @@
 
 [3] Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
 
-[4] Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty. International Conference on AI in Finance (ICAIF’20), October 2020.
+[4] [Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty.](https://arxiv.org/abs/2006.12686) International Conference on AI in Finance (ICAIF’20), October 2020.
+
+[5] [Cryptocurrency Trading Using Machine Learning](https://www.mdpi.com/1911-8074/13/8/178). Journal of Risk and Financial Management, August 2020.
+
+[6] [Multi-Agent Reinforcement Learning in a Realistic Limit Order Book Market Simulation](https://arxiv.org/abs/2006.05574). Michaël Karpe, Jin Fang, Zhongyao Ma, Chen Wang. International Conference on AI in Finance (ICAIF’20), September 2020.
+
+[7] [Market Making via Reinforcement Learning](https://arxiv.org/abs/1804.04216). Thomas Spooner, John Fearnley, Rahul Savani, Andreas Koukorinis. AAMAS2018 Conference Proceedings
 
 ## Interpretation and Explainability
 
