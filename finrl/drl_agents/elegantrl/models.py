@@ -55,7 +55,7 @@ class DRLAgent:
         agent = MODELS[model_name]()
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
-        model = Arguments(env, agent)
+        model = Arguments(agent=agent, env=env)
         if model_name in OFF_POLICY_MODELS:
             model.if_off_policy = True
         else:
