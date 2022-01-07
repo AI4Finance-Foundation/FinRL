@@ -6,7 +6,7 @@ from elegantrl.agents.AgentSAC import AgentSAC
 from elegantrl.agents.AgentTD3 import AgentTD3
 from elegantrl.agents.AgentA2C import AgentA2C
 from elegantrl.train.config import Arguments
-from elegantrl.train.run_tutorial import train_and_evaluate
+from elegantrl.train.run import train_and_evaluate
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO, "a2c": AgentA2C}
 OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]
