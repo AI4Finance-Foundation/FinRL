@@ -51,7 +51,6 @@ class DRLAgent:
         }
         env = self.env(config=env_config)
         env.env_num = 1
-        env.max_step = int(1e5)
         agent = MODELS[model_name]()
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
