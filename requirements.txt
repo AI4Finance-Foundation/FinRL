@@ -21,7 +21,7 @@ gputil
 # market data & paper trading API
 exchange_calendars
 alpaca_trade_api
-ccxt
+ccxt>=1.66.32
 jqdatasdk
 wrds
 
