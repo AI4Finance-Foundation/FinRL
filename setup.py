@@ -29,10 +29,10 @@ setup(
     #    "elegantrl @ git+https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"
     #],
     install_requires=REQUIRES,
-    description="FinRL library, a Deep Reinforcement Learning library designed specifically for automated stock trading.",
-    long_description="FinRL is the first open-source framework to demonstrate the great potential of  \
-    applying deep reinforcement learning in quantitative finance. It is developed by `AI4Finance`_. \
-    _AI4Finance: https://github.com/AI4Finance-Foundation",
+    description="FinRL: Financial Reinforcement Learning Framework.",
+    #long_description="FinRL is the first open-source framework to demonstrate the great potential of  \
+    #applying deep reinforcement learning in quantitative finance. It is developed by `AI4Finance`_. \
+    #_AI4Finance: https://github.com/AI4Finance-Foundation",
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
