@@ -113,7 +113,7 @@ adj_close: adjusted close price
 
 ## DRL Algorithms 
 
-[ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) provides finance-oriented optimizations of DRL algorithms using PyTorch. 
+[ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) ([website](https://elegantrl.readthedocs.io/en/latest/index.html)) provides finance-oriented optimizations of DRL algorithms using PyTorch. 
 
 ## Status Update
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
