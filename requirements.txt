@@ -4,7 +4,8 @@ pandas>=1.1.5
 stockstats
 yfinance
 elegantrl
-#pyfolio
+pyfolio
+elegantrl
 # plot
 matplotlib
 
