@@ -109,6 +109,7 @@ Supported Data Sources:
 |Yahoo! Finance| US Securities| Frequency-specific, 1min| 2,000/hour| OHLCV | Prices&Indicators|
 
 OHLCV: open, high, low, and close prices; volume.
+adj_close: adjusted close price
 
 ## DRL Algorithms 
 
