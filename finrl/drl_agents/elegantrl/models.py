@@ -69,6 +69,7 @@ class DRLAgent:
                 model.net_dim = model_kwargs["net_dimension"]
                 model.target_step = model_kwargs["target_step"]
                 model.eval_gap = model_kwargs["eval_gap"]
+                model.eval_times = model_kwargs["eval_times"]
             except BaseException:
                 raise ValueError(
                     "Fail to read arguments, please check 'model_kwargs' input."
