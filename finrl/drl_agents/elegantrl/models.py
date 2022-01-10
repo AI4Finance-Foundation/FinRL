@@ -5,8 +5,7 @@ from elegantrl.agent import AgentPPO
 from elegantrl.agent import AgentSAC
 from elegantrl.agent import AgentTD3
 #from elegantrl.agent import AgentA2C
-from elegantrl.run import Arguments
-from elegantrl.run import train_and_evaluate
+from elegantrl.run import Arguments, train_and_evaluate, init_agent
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
 OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]
@@ -85,12 +84,14 @@ class DRLAgent:
     def DRL_prediction(model_name, cwd, net_dimension, environment):
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
-        agent = MODELS[model_name](net_dim = net_dimension, 
-                                   state_dim = environment.state_dim,
-                                   action_dim = environment.action_dim)
+        agent = MODELS[model_name]
         environment.env_num = 1
+        args = Arguments(agent=agent, env=environment)
+        args.cwd = cwd
+        args.net_dim = net_dimension
+        # load agent
         try:
-            agent.save_or_load_agent(cwd=cwd, if_save=False)
+            agent = init_agent(args, gpu_id = 0)
             act = agent.act
             device = agent.device
         except BaseException:
