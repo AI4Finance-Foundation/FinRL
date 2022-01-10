@@ -18,17 +18,22 @@ class AlpacaPaperTrading():
         self.drl_lib = drl_lib
         if agent =='ppo':
             if drl_lib == 'elegantrl':              
-              from elegantrl.agents.AgentPPO import AgentPPO
-              #load agent
-              try:
-                  agent = AgentPPO()
-                  agent.init(net_dim, state_dim, action_dim)
-                  agent.save_or_load_agent(cwd=cwd, if_save=False)
-                  self.act = agent.act
-                  self.device = agent.device
-              except:
-                  raise ValueError('Fail to load agent!')
-            
+                from elegantrl.agent import AgentPPO
+                from elegantrl.run import Arguments, init_agent
+                #load agent
+                config = {'state_dim':state_dim,
+                            'action_dim':action_dim,}
+                args = Arguments(agent=AgentPPO, env=StockEnvEmpty(config))
+                args.cwd = cwd
+                args.net_dim = net_dim
+                # load agent
+                try:
+                    agent = init_agent(args, gpu_id = 0)
+                    self.act = agent.act
+                    self.device = agent.device
+                except BaseException:
+                    raise ValueError("Fail to load agent!")
+                        
             elif drl_lib == 'rllib':
                 from ray.rllib.agents import ppo
                 from ray.rllib.agents.ppo.ppo import PPOTrainer
@@ -301,6 +306,13 @@ class StockEnvEmpty(gym.Env):
     def __init__(self,config):
       state_dim = config['state_dim']
       action_dim = config['action_dim']
+      self.env_num = 1
+      self.max_step = 10000
+      self.env_name = 'StockEnvEmpty'
+      self.state_dim = state_dim  
+      self.action_dim = action_dim
+      self.if_discrete = False  
+      self.target_return = 9999
       self.observation_space = gym.spaces.Box(low=-3000, high=3000, shape=(state_dim,), dtype=np.float32)
       self.action_space = gym.spaces.Box(low=-1, high=1, shape=(action_dim,), dtype=np.float32)
         
