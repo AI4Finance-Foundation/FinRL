@@ -4,13 +4,13 @@ from elegantrl.agent import AgentDDPG
 from elegantrl.agent import AgentPPO
 from elegantrl.agent import AgentSAC
 from elegantrl.agent import AgentTD3
-from elegantrl.agent import AgentA2C
+#from elegantrl.agent import AgentA2C
 from elegantrl.run import Arguments
 from elegantrl.run import train_and_evaluate
 
-MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO, "a2c": AgentA2C}
+MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
 OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]
-ON_POLICY_MODELS = ["ppo", "a2c"]
+ON_POLICY_MODELS = ["ppo"]
 """MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
 
 NOISE = {
