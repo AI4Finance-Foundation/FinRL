@@ -51,10 +51,7 @@ class DRLAgent:
         }
         env = self.env(config=env_config)
         env.env_num = 1
-        state_dim = env.state_dim
-        action_dim = env.action_dim
-        net_dim = model_kwargs["net_dimension"]
-        agent = MODELS[model_name](net_dim = net_dim, state_dim = state_dim, action_dim = action_dim)
+        agent = MODELS[model_name]
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
         model = Arguments(agent=agent, env=env)
@@ -69,6 +66,7 @@ class DRLAgent:
                 model.batch_size = model_kwargs["batch_size"]
                 model.gamma = model_kwargs["gamma"]
                 model.seed = model_kwargs["seed"]
+                model.net_dim = model_kwargs["net_dimension"]
                 model.target_step = model_kwargs["target_step"]
                 model.eval_gap = model_kwargs["eval_gap"]
             except BaseException:
