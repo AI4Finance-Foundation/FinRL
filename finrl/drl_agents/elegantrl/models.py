@@ -85,7 +85,7 @@ class DRLAgent:
     def DRL_prediction(model_name, cwd, net_dimension, environment):
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
-        model = MODELS[model_name]()
+        model = MODELS[model_name]
         environment.env_num = 1
         args = Arguments(env=environment, agent=model)
         if model_name in OFF_POLICY_MODELS:
