@@ -85,30 +85,14 @@ class DRLAgent:
     def DRL_prediction(model_name, cwd, net_dimension, environment):
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
-        model = MODELS[model_name]
+        agent = MODELS[model_name](net_dim = net_dimension, 
+                                   state_dim = environment.state_dim,
+                                   action_dim = environment.action_dim)
         environment.env_num = 1
-        args = Arguments(env=environment, agent=model)
-        if model_name in OFF_POLICY_MODELS:
-            args.if_off_policy = True
-        else:
-            args.if_off_policy = False
-        args.agent = model
-        args.env = environment
-        #args.agent.if_use_cri_target = True  ##Not needed for test
-
-        # load agent
         try:
-            state_dim = environment.state_dim
-            action_dim = environment.action_dim
-
-            agent = args.agent
-            net_dim = net_dimension
-
-            agent.init(net_dim, state_dim, action_dim)
             agent.save_or_load_agent(cwd=cwd, if_save=False)
             act = agent.act
             device = agent.device
-
         except BaseException:
             raise ValueError("Fail to load agent!")
 
