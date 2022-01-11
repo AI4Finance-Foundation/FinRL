@@ -105,10 +105,12 @@ Supported Data Sources:
 |JoinQuant| CN Securities| 2005-now, 1min| 3 requests each time| OHLCV| Prices&Indicators|
 |QuantConnect| US Securities| 1998-now, 1s| NA| OHLCV| Prices&Indicators|
 |RiceQuant| CN Securities| 2005-now, 1ms| Account-specific| OHLCV| Prices&Indicators|
+|tusharepro| CN Securities| -now, 1 min| Account-specific| OHLCV| Prices&Indicators|
 |WRDS.TAQ| US Securities| 2003-now, 1ms| 5 requests each time| Intraday Trades|Prices&Indicators|
 |Yahoo! Finance| US Securities| Frequency-specific, 1min| 2,000/hour| OHLCV | Prices&Indicators|
 
 OHLCV: open, high, low, and close prices; volume.
+
 adj_close: adjusted close price
 
 ## DRL Algorithms 
