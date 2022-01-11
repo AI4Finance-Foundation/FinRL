@@ -143,7 +143,7 @@ adj_close: adjusted close price
 
 ## Publications
 
-We published [papers in FinTech](http://tensorlet.org/projects/ai-in-finance/), check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ), resulting in this project:
+We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ), resulting in this project:
 
 + FinRL-Meta: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. Data-Centric AI Workshop, NeurIPS 2021.
 + Explainable deep reinforcement learning for portfolio management: An empirical approach. [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005) ACM International Conference on AI in Finance, ICAIF 2021.
