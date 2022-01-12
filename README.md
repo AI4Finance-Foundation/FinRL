@@ -68,6 +68,7 @@ FinRL provides a unified framework for various markets, SOTA DRL algorithms, fin
 - [News](#News)
 - [Citing FinRL](#Citing-FinRL)
 - [Welcome Contributions](#To-Contribute)
+- [Sponsorship](#Sponsorship)
 - [LICENSE](#LICENSE)
 
 ## Tutorials
@@ -204,7 +205,7 @@ Thanks!
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
 </a>
 
-##Sponsorship#
+### Sponsorship
 
 We welcome sponsors to promote the AI4Finance (non-profit and academic) community. Check the links in the right column, or use the following vemo QR codes.
 
