@@ -41,7 +41,7 @@ Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g
 </a>
 <b>Follow us on WeChat:</b>
 	<div align="center">
-		<img src=http://www.tensorlet.org/wp-content/uploads/2021/01/qrcode_for_gh_feece88824ab_258.jpg width="15%" />
+		<img src=http://www.tensorlet.org/wp-content/uploads/2021/01/qrcode_for_gh_feece88824ab_258.jpg width="25%" />
 	</div>
 </b>
 
