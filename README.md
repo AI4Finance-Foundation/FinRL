@@ -208,7 +208,7 @@ Thanks!
 
 ### Sponsorship
 
-We welcome sponsors to promote the AI4Finance (non-profit and academic) community. Check the links in the right column, or use the following vemo QR codes.
+We welcome gift fundings to promote the AI4Finance (non-profit and academic) community. Check the links in the right column, or use the following vemo QR codes.
 
 Detailed sponsorship information will be updated at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
 
