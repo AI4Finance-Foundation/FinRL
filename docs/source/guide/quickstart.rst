@@ -1,6 +1,6 @@
 :github_url: https://github.com/AI4Finance-LLC/FinRL-Library
 
-Guick Start
+Quick Start
 ==================
 
 Open ``main.py``
