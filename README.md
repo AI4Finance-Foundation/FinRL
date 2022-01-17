@@ -89,6 +89,7 @@ FinRL provides a unified framework for various markets, SOTA DRL algorithms, fin
 + [DataDrivenInvestor] [A Data Scientist’s Approach for Algorithmic Trading using Deep Reinforcement Learning: An End-to-end Tutorial for Paper Trading](https://medium.datadriveninvestor.com/a-data-scientists-approach-for-algorithmic-trading-using-deep-reinforcement-learning-an-be8da40b2230)
 + [Analytics Vidhya] [Weights and Biases-ify FinRL with Stable Baselines3 models](https://medium.com/analytics-vidhya/weights-and-biases-ify-stable-baselines-models-in-finrl-f11b67f2a6a7)
 + [Analytics Vidhya] [Hyperparameter tuning using optuna for FinRL](https://medium.com/analytics-vidhya/hyperparameter-tuning-using-optuna-for-finrl-8a49506d2741)
++ [Analytics Vidhya] [A hitchhikers guide to FinRL: A Deep Reinforcement Learning Framework for Quantitative Finance](https://medium.com/analytics-vidhya/a-hitchhikers-guide-to-finrl-a-deep-reinforcement-learning-framework-for-quantitative-finance-e624c508f763)
 + [Analyticsindiamag.com] [How To Automate Stock Market Using FinRL (Deep Reinforcement Learning Library)?](https://analyticsindiamag.com/stock-market-prediction-using-finrl/)
 
 ## Overview
