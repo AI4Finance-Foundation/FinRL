@@ -118,6 +118,9 @@ OHLCV: open, high, low, and close prices; volume.
 
 adj_close: adjusted close price
 
+Technical indicators users can add: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'
+Users also can add their features. 
+
 ## DRL Algorithms 
 
 [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) ([website](https://elegantrl.readthedocs.io/en/latest/index.html)) provides finance-oriented optimizations of DRL algorithms using PyTorch. 
