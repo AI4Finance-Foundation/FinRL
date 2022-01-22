@@ -107,14 +107,14 @@ class DRLAgent:
         return model
 
     @staticmethod
-    def DRL_prediction(model, environment):
+    def DRL_prediction(model, environment,deterministic=False):
         test_env, test_obs = environment.get_sb_env()
         """make a prediction"""
         account_memory = []
         actions_memory = []
         test_env.reset()
         for i in range(len(environment.df.index.unique())):
-            action, _states = model.predict(test_obs)
+            action, _states = model.predict(test_obs,deterministic=deterministic)
             # account_memory = test_env.env_method(method_name="save_asset_memory")
             # actions_memory = test_env.env_method(method_name="save_action_memory")
             test_obs, rewards, dones, info = test_env.step(action)
