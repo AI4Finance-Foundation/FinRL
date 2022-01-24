@@ -55,11 +55,7 @@ class DRLAgent:
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
         model = Arguments(agent=agent, env=env)
-        if model_name in OFF_POLICY_MODELS:
-            model.if_off_policy = True
-        else:
-            model.if_off_policy = False
-
+        model.if_off_policy = model_name in OFF_POLICY_MODELS
         if model_kwargs is not None:
             try:
                 model.learning_rate = model_kwargs["learning_rate"]
@@ -75,6 +71,7 @@ class DRLAgent:
                     "Fail to read arguments, please check 'model_kwargs' input."
                 )
         return model
+
 
     def train_model(self, model, cwd, total_timesteps=5000):
         model.cwd = cwd
