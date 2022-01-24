@@ -158,8 +158,7 @@ class DRLAgent:
         # test on the testing env
         state = env_instance.reset()
         episode_returns = []  # the cumulative_return / initial_account
-        episode_total_assets = []
-        episode_total_assets.append(env_instance.initial_total_asset)
+        episode_total_assets = [env_instance.initial_total_asset]
         done = False
         while not done:
             action = trainer.compute_single_action(state)
