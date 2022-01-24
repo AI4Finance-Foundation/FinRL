@@ -138,9 +138,8 @@ class DRLAgent:
 
         # test on the testing env
         state = environment.reset()
-        episode_returns = list()  # the cumulative_return / initial_account
-        episode_total_assets = list()
-        episode_total_assets.append(environment.initial_total_asset)
+        episode_returns = [] # the cumulative_return / initial_account
+        episode_total_assets = [environment.initial_total_asset]
         done = False
         while not done:
             action = model.predict(state,deterministic=deterministic)[0]
