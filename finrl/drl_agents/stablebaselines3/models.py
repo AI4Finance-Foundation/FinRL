@@ -87,7 +87,7 @@ class DRLAgent:
                 mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions)
             )
         print(model_kwargs)
-        model = MODELS[model_name](
+        return MODELS[model_name](
             policy=policy,
             env=self.env,
             tensorboard_log=tensorboard_log,
@@ -96,7 +96,6 @@ class DRLAgent:
             seed=seed,
             **model_kwargs,
         )
-        return model
 
     def train_model(self, model, tb_log_name, total_timesteps=5000):
         model = model.learn(
@@ -186,7 +185,7 @@ class DRLEnsembleAgent:
                 temp_model_kwargs["action_noise"]
             ](mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions))
         print(temp_model_kwargs)
-        model = MODELS[model_name](
+        return MODELS[model_name](
             policy=policy,
             env=env,
             tensorboard_log=f"{config.TENSORBOARD_LOG_DIR}/{model_name}",
@@ -195,7 +194,6 @@ class DRLEnsembleAgent:
             seed=seed,
             **temp_model_kwargs,
         )
-        return model
 
     @staticmethod
     def train_model(model, model_name, tb_log_name, iter_num, total_timesteps=5000):
@@ -215,12 +213,11 @@ class DRLEnsembleAgent:
         df_total_value = pd.read_csv(
             "results/account_value_validation_{}_{}.csv".format(model_name, iteration)
         )
-        sharpe = (
+        return (
             (4 ** 0.5)
             * df_total_value["daily_return"].mean()
             / df_total_value["daily_return"].std()
         )
-        return sharpe
 
     def __init__(
         self,
