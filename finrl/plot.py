@@ -82,8 +82,8 @@ def trx_plot(df_trade, df_actions, ticker_list):
     for i in range(df_trx.shape[1]):
         df_trx_temp = df_trx.iloc[:, i]
         df_trx_temp_sign = np.sign(df_trx_temp)
-        buying_signal = df_trx_temp_sign.apply(lambda x: True if x > 0 else False)
-        selling_signal = df_trx_temp_sign.apply(lambda x: True if x < 0 else False)
+        buying_signal = df_trx_temp_sign.apply(lambda x: x > 0)
+        selling_signal = df_trx_temp_sign.apply(lambda x: x < 0)
 
         tic_plot = df_trade[
             (df_trade["tic"] == df_trx_temp.name)
