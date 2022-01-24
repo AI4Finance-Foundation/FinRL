@@ -24,7 +24,7 @@ class get_binance_data:
     """
 
     def __init__(
-        self, symbol: str, interval: str, start_time: str, end_time: str, limit: str
+            self, symbol: str, interval: str, start_time: str, end_time: str, limit: str
     ):
         self.url = "https://api.binance.com/api/v3/klines"
 

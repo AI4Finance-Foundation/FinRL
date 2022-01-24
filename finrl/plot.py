@@ -5,9 +5,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import pyfolio
+from pyfolio import timeseries
+
 from finrl.apps import config
 from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
-from pyfolio import timeseries
 
 
 def get_daily_return(df, value_col_name="account_value"):
@@ -41,13 +42,12 @@ def backtest_stats(account_value, value_col_name="account_value"):
 
 
 def backtest_plot(
-    account_value,
-    baseline_start=config.START_TRADE_DATE,
-    baseline_end=config.END_DATE,
-    baseline_ticker="^DJI",
-    value_col_name="account_value",
+        account_value,
+        baseline_start=config.START_TRADE_DATE,
+        baseline_end=config.END_DATE,
+        baseline_ticker="^DJI",
+        value_col_name="account_value",
 ):
-
     df = deepcopy(account_value)
     df["date"] = pd.to_datetime(df["date"])
     test_returns = get_daily_return(df, value_col_name=value_col_name)
@@ -88,7 +88,7 @@ def trx_plot(df_trade, df_actions, ticker_list):
         tic_plot = df_trade[
             (df_trade["tic"] == df_trx_temp.name)
             & (df_trade["date"].isin(df_trx.index))
-        ]["close"]
+            ]["close"]
         tic_plot.index = df_trx_temp.index
 
         plt.figure(figsize=(10, 8))
@@ -110,7 +110,7 @@ def trx_plot(df_trade, df_actions, ticker_list):
             markevery=selling_signal,
         )
         plt.title(
-            f"{df_trx_temp.name} Num Transactions: {len(buying_signal[buying_signal==True]) + len(selling_signal[selling_signal==True])}"
+            f"{df_trx_temp.name} Num Transactions: {len(buying_signal[buying_signal == True]) + len(selling_signal[selling_signal == True])}"
         )
         plt.legend()
         plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=25))
