@@ -260,7 +260,7 @@ class DRLEnsembleAgent:
 
     def DRL_validation(self, model, test_data, test_env, test_obs):
         """validation process"""
-        for i in range(len(test_data.index.unique())):
+        for _ in range(len(test_data.index.unique())):
             action, _states = model.predict(test_obs)
             test_obs, rewards, dones, info = test_env.step(action)
 
