@@ -69,7 +69,7 @@ class get_binance_data:
         df["adj_close"] = df["close"]
 
         df["datetime"] = [datetime.fromtimestamp(x / 1000.0) for x in df.datetime]
-        df.index = [x for x in range(len(df))]
+        df.index = list(range(len(df)))
         return df
 
     def dataframe_with_limit(self):
