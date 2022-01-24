@@ -210,7 +210,7 @@ class DRLEnsembleAgent:
     def get_validation_sharpe(iteration, model_name):
         """Calculate Sharpe ratio based on validation results"""
         df_total_value = pd.read_csv(
-            "results/account_value_validation_{}_{}.csv".format(model_name, iteration)
+            f"results/account_value_validation_{model_name}_{iteration}.csv"
         )
         return (
             (4 ** 0.5)
@@ -310,7 +310,7 @@ class DRLEnsembleAgent:
 
         df_last_state = pd.DataFrame({"last_state": last_state})
         df_last_state.to_csv(
-            "results/last_state_{}_{}.csv".format(name, i), index=False
+            f"results/last_state_{name}_{i}.csv", index=False
         )
         return last_state
 
@@ -460,7 +460,7 @@ class DRLEnsembleAgent:
             model_a2c = self.train_model(
                 model_a2c,
                 "a2c",
-                tb_log_name="a2c_{}".format(i),
+                tb_log_name=f"a2c_{i}",
                 iter_num=i,
                 total_timesteps=timesteps_dict["a2c"],
             )  # 100_000
@@ -509,7 +509,7 @@ class DRLEnsembleAgent:
             model_ppo = self.train_model(
                 model_ppo,
                 "ppo",
-                tb_log_name="ppo_{}".format(i),
+                tb_log_name=f"ppo_{i}",
                 iter_num=i,
                 total_timesteps=timesteps_dict["ppo"],
             )  # 100_000
@@ -560,7 +560,7 @@ class DRLEnsembleAgent:
             model_ddpg = self.train_model(
                 model_ddpg,
                 "ddpg",
-                tb_log_name="ddpg_{}".format(i),
+                tb_log_name=f"ddpg_{i}",
                 iter_num=i,
                 total_timesteps=timesteps_dict["ddpg"],
             )  # 50_000
