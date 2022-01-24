@@ -92,7 +92,7 @@ class DRLAgent:
         elif model_name == "sac":
             trainer = model.SACTrainer(env=self.env, config=model_config)
 
-        for i in range(total_episodes):
+        for _ in range(total_episodes):
             trainer.train()
 
         ray.shutdown()
