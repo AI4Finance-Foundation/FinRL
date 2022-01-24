@@ -84,10 +84,7 @@ class DRLAgent:
         model = MODELS[model_name]()
         environment.env_num = 1
         args = Arguments(env=environment, agent=model)
-        if model_name in OFF_POLICY_MODELS:
-            args.if_off_policy = True
-        else:
-            args.if_off_policy = False
+        args.if_off_policy = model_name in OFF_POLICY_MODELS
         args.agent = model
         args.env = environment
         #args.agent.if_use_cri_target = True  ##Not needed for test
@@ -111,9 +108,8 @@ class DRLAgent:
         # test on the testing env
         _torch = torch
         state = environment.reset()
-        episode_returns = list()  # the cumulative_return / initial_account
-        episode_total_assets = list()
-        episode_total_assets.append(environment.initial_total_asset)
+        episode_returns = [] # the cumulative_return / initial_account
+        episode_total_assets = [environment.initial_total_asset]
         with _torch.no_grad():
             for i in range(environment.max_step):
                 s_tensor = _torch.as_tensor((state,), device=device)
