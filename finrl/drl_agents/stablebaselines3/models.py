@@ -33,7 +33,7 @@ class TensorboardCallback(BaseCallback):
     """
 
     def __init__(self, verbose=0):
-        super(TensorboardCallback, self).__init__(verbose)
+        super().__init__(verbose)
 
     def _on_step(self) -> bool:
         try:
