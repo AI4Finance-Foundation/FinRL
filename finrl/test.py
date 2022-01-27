@@ -1,4 +1,5 @@
 import ray
+
 from finrl.apps.config import (
     DOW_30_TICKER,
     TECHNICAL_INDICATORS_LIST,
@@ -10,19 +11,18 @@ from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
 
 
 def test(
-    start_date,
-    end_date,
-    ticker_list,
-    data_source,
-    time_interval,
-    technical_indicator_list,
-    drl_lib,
-    env,
-    model_name,
-    if_vix=True,
-    **kwargs
+        start_date,
+        end_date,
+        ticker_list,
+        data_source,
+        time_interval,
+        technical_indicator_list,
+        drl_lib,
+        env,
+        model_name,
+        if_vix=True,
+        **kwargs
 ):
-
     # import DRL agents
     from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
     from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
@@ -88,7 +88,6 @@ def test(
 
 
 if __name__ == "__main__":
-
     env = StockTradingEnv
 
     # demo for elegantrl

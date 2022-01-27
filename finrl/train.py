@@ -1,4 +1,5 @@
 import ray
+
 from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
 from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
 from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
@@ -6,19 +7,18 @@ from finrl.finrl_meta.data_processor import DataProcessor
 
 
 def train(
-    start_date,
-    end_date,
-    ticker_list,
-    data_source,
-    time_interval,
-    technical_indicator_list,
-    drl_lib,
-    env,
-    model_name,
-    if_vix=True,
-    **kwargs
+        start_date,
+        end_date,
+        ticker_list,
+        data_source,
+        time_interval,
+        technical_indicator_list,
+        drl_lib,
+        env,
+        model_name,
+        if_vix=True,
+        **kwargs
 ):
-
     # fetch data
     DP = DataProcessor(data_source, **kwargs)
     data = DP.download_data(ticker_list, start_date, end_date, time_interval)

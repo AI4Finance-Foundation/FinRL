@@ -16,7 +16,6 @@ TRAINED_MODEL_DIR = "trained_models"
 TENSORBOARD_LOG_DIR = "tensorboard_log"
 RESULTS_DIR = "results"
 
-
 ## time_fmt = '%Y-%m-%d'
 START_DATE = "2009-01-01"
 END_DATE = "2021-10-31"
@@ -74,7 +73,6 @@ ERL_PARAMS = {
     "eval_gap": 30
 }
 RLlib_PARAMS = {"lr": 5e-5, "train_batch_size": 500, "gamma": 0.99}
-
 
 ########################################################
 #######Possible time zones##############################
@@ -816,7 +814,6 @@ HSI_50_TICKER = [
     "1177.HK",
     "2313.HK",
 ]
-
 
 # www.csindex.com.cn, for SSE and CSI adjustments
 # SSE 50 Index constituents at 2019

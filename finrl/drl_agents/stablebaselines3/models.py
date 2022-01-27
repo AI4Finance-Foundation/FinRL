@@ -4,9 +4,6 @@ import time
 
 import numpy as np
 import pandas as pd
-from finrl.apps import config
-from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
-from finrl.finrl_meta.preprocessor.preprocessors import data_split
 from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.noise import (
@@ -15,7 +12,9 @@ from stable_baselines3.common.noise import (
 )
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-
+from finrl.apps import config
+from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
+from finrl.finrl_meta.preprocessor.preprocessors import data_split
 
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
 
@@ -33,7 +32,7 @@ class TensorboardCallback(BaseCallback):
     """
 
     def __init__(self, verbose=0):
-        super(TensorboardCallback, self).__init__(verbose)
+        super().__init__(verbose)
 
     def _on_step(self) -> bool:
         try:
@@ -66,14 +65,14 @@ class DRLAgent:
         self.env = env
 
     def get_model(
-        self,
-        model_name,
-        policy="MlpPolicy",
-        policy_kwargs=None,
-        model_kwargs=None,
-        verbose=1,
-        seed=None,
-        tensorboard_log=None,
+            self,
+            model_name,
+            policy="MlpPolicy",
+            policy_kwargs=None,
+            model_kwargs=None,
+            verbose=1,
+            seed=None,
+            tensorboard_log=None,
     ):
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
@@ -87,7 +86,7 @@ class DRLAgent:
                 mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions)
             )
         print(model_kwargs)
-        model = MODELS[model_name](
+        return MODELS[model_name](
             policy=policy,
             env=self.env,
             tensorboard_log=tensorboard_log,
@@ -96,7 +95,6 @@ class DRLAgent:
             seed=seed,
             **model_kwargs,
         )
-        return model
 
     def train_model(self, model, tb_log_name, total_timesteps=5000):
         model = model.learn(
@@ -107,14 +105,14 @@ class DRLAgent:
         return model
 
     @staticmethod
-    def DRL_prediction(model, environment,deterministic=False):
+    def DRL_prediction(model, environment, deterministic=False):
         test_env, test_obs = environment.get_sb_env()
         """make a prediction"""
         account_memory = []
         actions_memory = []
         test_env.reset()
         for i in range(len(environment.df.index.unique())):
-            action, _states = model.predict(test_obs,deterministic=deterministic)
+            action, _states = model.predict(test_obs, deterministic=deterministic)
             # account_memory = test_env.env_method(method_name="save_asset_memory")
             # actions_memory = test_env.env_method(method_name="save_action_memory")
             test_obs, rewards, dones, info = test_env.step(action)
@@ -139,17 +137,16 @@ class DRLAgent:
 
         # test on the testing env
         state = environment.reset()
-        episode_returns = list()  # the cumulative_return / initial_account
-        episode_total_assets = list()
-        episode_total_assets.append(environment.initial_total_asset)
+        episode_returns = []  # the cumulative_return / initial_account
+        episode_total_assets = [environment.initial_total_asset]
         done = False
         while not done:
-            action = model.predict(state,deterministic=deterministic)[0]
+            action = model.predict(state, deterministic=deterministic)[0]
             state, reward, done, _ = environment.step(action)
 
             total_asset = (
-                environment.amount
-                + (environment.price_ary[environment.day] * environment.stocks).sum()
+                    environment.amount
+                    + (environment.price_ary[environment.day] * environment.stocks).sum()
             )
             episode_total_assets.append(total_asset)
             episode_return = total_asset / environment.initial_total_asset
@@ -163,13 +160,13 @@ class DRLAgent:
 class DRLEnsembleAgent:
     @staticmethod
     def get_model(
-        model_name,
-        env,
-        policy="MlpPolicy",
-        policy_kwargs=None,
-        model_kwargs=None,
-        seed=None,
-        verbose=1,
+            model_name,
+            env,
+            policy="MlpPolicy",
+            policy_kwargs=None,
+            model_kwargs=None,
+            seed=None,
+            verbose=1,
     ):
 
         if model_name not in MODELS:
@@ -186,7 +183,7 @@ class DRLEnsembleAgent:
                 temp_model_kwargs["action_noise"]
             ](mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions))
         print(temp_model_kwargs)
-        model = MODELS[model_name](
+        return MODELS[model_name](
             policy=policy,
             env=env,
             tensorboard_log=f"{config.TENSORBOARD_LOG_DIR}/{model_name}",
@@ -195,7 +192,6 @@ class DRLEnsembleAgent:
             seed=seed,
             **temp_model_kwargs,
         )
-        return model
 
     @staticmethod
     def train_model(model, model_name, tb_log_name, iter_num, total_timesteps=5000):
@@ -205,7 +201,7 @@ class DRLEnsembleAgent:
             callback=TensorboardCallback(),
         )
         model.save(
-            f"{config.TRAINED_MODEL_DIR}/{model_name.upper()}_{total_timesteps//1000}k_{iter_num}"
+            f"{config.TRAINED_MODEL_DIR}/{model_name.upper()}_{total_timesteps // 1000}k_{iter_num}"
         )
         return model
 
@@ -213,32 +209,31 @@ class DRLEnsembleAgent:
     def get_validation_sharpe(iteration, model_name):
         """Calculate Sharpe ratio based on validation results"""
         df_total_value = pd.read_csv(
-            "results/account_value_validation_{}_{}.csv".format(model_name, iteration)
+            f"results/account_value_validation_{model_name}_{iteration}.csv"
         )
-        sharpe = (
-            (4 ** 0.5)
-            * df_total_value["daily_return"].mean()
-            / df_total_value["daily_return"].std()
+        return (
+                (4 ** 0.5)
+                * df_total_value["daily_return"].mean()
+                / df_total_value["daily_return"].std()
         )
-        return sharpe
 
     def __init__(
-        self,
-        df,
-        train_period,
-        val_test_period,
-        rebalance_window,
-        validation_window,
-        stock_dim,
-        hmax,
-        initial_amount,
-        buy_cost_pct,
-        sell_cost_pct,
-        reward_scaling,
-        state_space,
-        action_space,
-        tech_indicator_list,
-        print_verbosity,
+            self,
+            df,
+            train_period,
+            val_test_period,
+            rebalance_window,
+            validation_window,
+            stock_dim,
+            hmax,
+            initial_amount,
+            buy_cost_pct,
+            sell_cost_pct,
+            reward_scaling,
+            state_space,
+            action_space,
+            tech_indicator_list,
+            print_verbosity,
     ):
 
         self.df = df
@@ -247,7 +242,7 @@ class DRLEnsembleAgent:
 
         self.unique_trade_date = df[
             (df.date > val_test_period[0]) & (df.date <= val_test_period[1])
-        ].date.unique()
+            ].date.unique()
         self.rebalance_window = rebalance_window
         self.validation_window = validation_window
 
@@ -264,12 +259,12 @@ class DRLEnsembleAgent:
 
     def DRL_validation(self, model, test_data, test_env, test_obs):
         """validation process"""
-        for i in range(len(test_data.index.unique())):
+        for _ in range(len(test_data.index.unique())):
             action, _states = model.predict(test_obs)
             test_obs, rewards, dones, info = test_env.step(action)
 
     def DRL_prediction(
-        self, model, name, last_state, iter_num, turbulence_threshold, initial
+            self, model, name, last_state, iter_num, turbulence_threshold, initial
     ):
         """make a prediction based on trained model"""
 
@@ -314,12 +309,12 @@ class DRLEnsembleAgent:
 
         df_last_state = pd.DataFrame({"last_state": last_state})
         df_last_state.to_csv(
-            "results/last_state_{}_{}.csv".format(name, i), index=False
+            f"results/last_state_{name}_{i}.csv", index=False
         )
         return last_state
 
     def run_ensemble_strategy(
-        self, A2C_model_kwargs, PPO_model_kwargs, DDPG_model_kwargs, timesteps_dict
+            self, A2C_model_kwargs, PPO_model_kwargs, DDPG_model_kwargs, timesteps_dict
     ):
         """Ensemble Strategy that combines PPO, A2C and DDPG"""
         print("============Start Ensemble Strategy============")
@@ -339,20 +334,20 @@ class DRLEnsembleAgent:
         insample_turbulence = self.df[
             (self.df.date < self.train_period[1])
             & (self.df.date >= self.train_period[0])
-        ]
+            ]
         insample_turbulence_threshold = np.quantile(
             insample_turbulence.turbulence.values, 0.90
         )
 
         start = time.time()
         for i in range(
-            self.rebalance_window + self.validation_window,
-            len(self.unique_trade_date),
-            self.rebalance_window,
+                self.rebalance_window + self.validation_window,
+                len(self.unique_trade_date),
+                self.rebalance_window,
         ):
             validation_start_date = self.unique_trade_date[
                 i - self.rebalance_window - self.validation_window
-            ]
+                ]
             validation_end_date = self.unique_trade_date[i - self.rebalance_window]
 
             validation_start_date_list.append(validation_start_date)
@@ -374,13 +369,13 @@ class DRLEnsembleAgent:
                 self.df["date"]
                 == self.unique_trade_date[
                     i - self.rebalance_window - self.validation_window
-                ]
-            ].to_list()[-1]
+                    ]
+                ].to_list()[-1]
             start_date_index = end_date_index - 63 + 1
 
             historical_turbulence = self.df.iloc[
-                start_date_index : (end_date_index + 1), :
-            ]
+                                    start_date_index: (end_date_index + 1), :
+                                    ]
 
             historical_turbulence = historical_turbulence.drop_duplicates(
                 subset=["date"]
@@ -417,7 +412,7 @@ class DRLEnsembleAgent:
                 start=self.train_period[0],
                 end=self.unique_trade_date[
                     i - self.rebalance_window - self.validation_window
-                ],
+                    ],
             )
             self.train_env = DummyVecEnv(
                 [
@@ -441,7 +436,7 @@ class DRLEnsembleAgent:
                 self.df,
                 start=self.unique_trade_date[
                     i - self.rebalance_window - self.validation_window
-                ],
+                    ],
                 end=self.unique_trade_date[i - self.rebalance_window],
             )
             ############## Environment Setup ends ##############
@@ -453,7 +448,7 @@ class DRLEnsembleAgent:
                 "to ",
                 self.unique_trade_date[
                     i - self.rebalance_window - self.validation_window
-                ],
+                    ],
             )
             # print("training: ",len(data_split(df, start=20090000, end=test.datadate.unique()[i-rebalance_window]) ))
             # print("==============Model Training===========")
@@ -464,7 +459,7 @@ class DRLEnsembleAgent:
             model_a2c = self.train_model(
                 model_a2c,
                 "a2c",
-                tb_log_name="a2c_{}".format(i),
+                tb_log_name=f"a2c_{i}",
                 iter_num=i,
                 total_timesteps=timesteps_dict["a2c"],
             )  # 100_000
@@ -513,7 +508,7 @@ class DRLEnsembleAgent:
             model_ppo = self.train_model(
                 model_ppo,
                 "ppo",
-                tb_log_name="ppo_{}".format(i),
+                tb_log_name=f"ppo_{i}",
                 iter_num=i,
                 total_timesteps=timesteps_dict["ppo"],
             )  # 100_000
@@ -564,7 +559,7 @@ class DRLEnsembleAgent:
             model_ddpg = self.train_model(
                 model_ddpg,
                 "ddpg",
-                tb_log_name="ddpg_{}".format(i),
+                tb_log_name=f"ddpg_{i}",
                 iter_num=i,
                 total_timesteps=timesteps_dict["ddpg"],
             )  # 50_000
