@@ -1,6 +1,7 @@
 import unittest
 
 import numpy as np
+
 from finrl.finrl_meta.env_stock_trading.env_stocktrading_cashpenalty import (
     StockTradingEnvCashpenalty,
 )
@@ -30,11 +31,10 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
 
         # step with all zeros
         for i in range(2):
-
             actions = np.zeros(len(self.ticker_list))
             next_state, _, _, _ = env.step(actions)
             cash = next_state[0]
-            holdings = next_state[1 : 1 + len(self.ticker_list)]
+            holdings = next_state[1: 1 + len(self.ticker_list)]
             asset_value = env.account_information["asset_value"][-1]
             total_assets = env.account_information["total_assets"][-1]
             self.assertEqual(cash, init_amt)
@@ -62,17 +62,17 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
 
         actions = np.array([0.29, 0.0])
         next_state, _, _, _ = env.step(actions)
-        holdings = next_state[1 : 1 + len(self.ticker_list)]
+        holdings = next_state[1: 1 + len(self.ticker_list)]
         self.assertEqual(holdings[0], 20.0)
         self.assertEqual(holdings[1], 0.0)
 
         hmax_mc = (
-            self.df[self.df["tic"] == "AAPL"].head(2).iloc[-1]["close"]
-            / aapl_first_close
+                self.df[self.df["tic"] == "AAPL"].head(2).iloc[-1]["close"]
+                / aapl_first_close
         )
         actions = np.array([-0.12 * hmax_mc, 0.0])
         next_state, _, _, _ = env.step(actions)
-        holdings = next_state[1 : 1 + len(self.ticker_list)]
+        holdings = next_state[1: 1 + len(self.ticker_list)]
         self.assertEqual(holdings[0], 10.0)
         self.assertEqual(holdings[1], 0.0)
 
@@ -93,7 +93,7 @@ class TestStocktradingEnvCashpenalty(unittest.TestCase):
 
         actions = np.array([1.0, 1.0])
         next_state, _, is_done, _ = env.step(actions)
-        holdings = next_state[1 : 1 + len(self.ticker_list)]
+        holdings = next_state[1: 1 + len(self.ticker_list)]
         self.assertEqual(False, is_done)
         self.assertEqual(0.0, np.sum(holdings))
 

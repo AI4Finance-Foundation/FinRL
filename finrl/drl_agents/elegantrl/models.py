@@ -4,9 +4,9 @@ from elegantrl.agent import AgentDDPG
 from elegantrl.agent import AgentPPO
 from elegantrl.agent import AgentSAC
 from elegantrl.agent import AgentTD3
-#from elegantrl.agent import AgentA2C
-from elegantrl.run import train_and_evaluate, init_agent
 from elegantrl.config import Arguments
+# from elegantrl.agent import AgentA2C
+from elegantrl.run import train_and_evaluate, init_agent
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
 OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]
@@ -41,7 +41,7 @@ class DRLAgent:
         self.price_array = price_array
         self.tech_array = tech_array
         self.turbulence_array = turbulence_array
-        
+
     def get_model(self, model_name, model_kwargs):
         env_config = {
             "price_array": self.price_array,
@@ -55,11 +55,7 @@ class DRLAgent:
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
         model = Arguments(agent=agent, env=env)
-        if model_name in OFF_POLICY_MODELS:
-            model.if_off_policy = True
-        else:
-            model.if_off_policy = False
-
+        model.if_off_policy = model_name in OFF_POLICY_MODELS
         if model_kwargs is not None:
             try:
                 model.learning_rate = model_kwargs["learning_rate"]
@@ -92,7 +88,7 @@ class DRLAgent:
         args.net_dim = net_dimension
         # load agent
         try:
-            agent = init_agent(args, gpu_id = 0)
+            agent = init_agent(args, gpu_id=0)
             act = agent.act
             device = agent.device
         except BaseException:
@@ -101,9 +97,8 @@ class DRLAgent:
         # test on the testing env
         _torch = torch
         state = environment.reset()
-        episode_returns = list()  # the cumulative_return / initial_account
-        episode_total_assets = list()
-        episode_total_assets.append(environment.initial_total_asset)
+        episode_returns = []  # the cumulative_return / initial_account
+        episode_total_assets = [environment.initial_total_asset]
         with _torch.no_grad():
             for i in range(environment.max_step):
                 s_tensor = _torch.as_tensor((state,), device=device)
@@ -114,10 +109,10 @@ class DRLAgent:
                 state, reward, done, _ = environment.step(action)
 
                 total_asset = (
-                    environment.amount
-                    + (
-                        environment.price_ary[environment.day] * environment.stocks
-                    ).sum()
+                        environment.amount
+                        + (
+                                environment.price_ary[environment.day] * environment.stocks
+                        ).sum()
                 )
                 episode_total_assets.append(total_asset)
                 episode_return = total_asset / environment.initial_total_asset
