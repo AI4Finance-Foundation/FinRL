@@ -218,7 +218,7 @@ We welcome gift fundings to promote the AI4Finance (non-profit and academic) com
 
 Detailed sponsorship information will be updated at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
 
-<a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
+<a href="finrl.org" target="\_blank">
 	<div align="center">
 		<img src=figs/Xiao-Yang-Liu_AI4Finance_vemo.png width="35%"/>
 	</div>
