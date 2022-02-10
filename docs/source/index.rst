@@ -29,13 +29,12 @@ Reinforcement learning (RL) trains an agent to solve tasks by trial and error, w
 
 Join or discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance)。
 
-Feel free to leave us feedback: report bugs using `Github issues`_ or discuss FinRL development in the slack channel.
+Feel free to leave us feedback: report bugs using `Github issues`_ or discuss FinRL development in the `Slack Channel <https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-jyaottie-hHqU6TdvuhMHHAMXaLw_~w>`_.
 
 .. _Github issues: https://github.com/AI4Finance-LLC/FinRL-Library/issues
 
 .. image:: image/join_slack.png
    :target: https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-jyaottie-hHqU6TdvuhMHHAMXaLw_~w
-
 
 
 .. toctree::
