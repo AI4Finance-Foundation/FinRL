@@ -104,7 +104,7 @@ Supported Data Sources:
 |Data Source |Type |Range and Frequency |Request Limits|Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |
 |Alpaca| US Stocks, ETFs| 2015-now, 1min| Account-specific| OHLCV| Prices&Indicators|
-|Baostock| CN Securities| -now, 1min| Account-specific| OHLCV| Prices&Indicators|
+|Baostock| CN Securities| 1990-12-19-now, 1min| Account-specific| OHLCV| Prices&Indicators|
 |Binance| Cryptocurrency| API-specific, 1s, 1min| API-specific| Tick-level daily aggegrated trades, OHLCV| Prices&Indicators|
 |CCXT| Cryptocurrency| API-specific, 1min| API-specific| OHLCV| Prices&Indicators|
 |IEXCloud| NMS US securities|1970-now, 1 day|100 per second per IP|OHLCV| Prices&Indicators|
