@@ -122,6 +122,23 @@ adj_close: adjusted close price
 Technical indicators users can add: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'
 Users also can add their features. 
 
+## File Structure
+
++ **finrl**		# main folder
+    + ./apps        	# apps for different typles of trading
+    + ./drl_agents    	# DRL agents from ElegantRL, RLlib, Stable-Baseline 3
+    + ./finrl_meta   	# contents of child project finrl-meta
+    + train.py	 	# a collection of demos
+    + test.py 		# the evaluator class
+    + trade.py	  	# a collection of network architectures
+    + plot.py		# the buffer class
++ **tutorials**  	# tutorials for people to run and learn
+       	
++ **unit_testing**	# testing environment and market data
+    + ./test_env      	# testing environment
+    + ./test_marketdata # testing market data
++ **ready-to-run Google-Colab notebooks**
+
 ## DRL Algorithms 
 
 [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) ([website](https://elegantrl.readthedocs.io/en/latest/index.html)) provides finance-oriented optimizations of DRL algorithms using PyTorch. 
