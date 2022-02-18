@@ -36,6 +36,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
 .. image:: image/join_slack.png
    :target: https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-jyaottie-hHqU6TdvuhMHHAMXaLw_~w
    :width: 400
+   :align: center
 
 
 .. toctree::
