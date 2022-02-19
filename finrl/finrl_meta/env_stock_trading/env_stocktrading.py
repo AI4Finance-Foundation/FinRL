@@ -80,7 +80,7 @@ class StockTradingEnv(gym.Env):
         self.rewards_memory = []
         self.actions_memory = []
         self.date_memory = [self._get_date()]
-#         self.logger = Logger('results_',[CSVOutputFormat])
+#         self.logger = Logger('results',[CSVOutputFormat])
         # self.reset()
         self._seed()
 
