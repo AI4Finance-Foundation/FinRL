@@ -7,7 +7,12 @@ FinRL provides fine-tuned state-of-the-art DRL algorithms (DQN, DDPG, PPO, SAC, 
 •	QMIX, VDN; MADDPG, MAPPO, MATD3 for multi-agent environment
 
   
-2. Evolution line of DRL algorithms
+2. Single or multiple agent environment
+
+•	DDPG, TD3, SAC, PPO, PPO (GAE),REDQ, DQN, DoubleDQN, D3QN, SAC for single agent environment
+•	QMIX, VDN; MADDPG, MAPPO, MATD3 for multi-agent environment
+
+3. Evolution line of DRL algorithms
 
 DRL is always about coming up with state-of-the-art performance algorithms (DQN, DDPG, Policy Gradient, A2C, PPO, TD3, SAC, etc. the advantages and disadvantages for each algorithm, for example, if you think DQN < DDPG < TD3 < SAC)
 
