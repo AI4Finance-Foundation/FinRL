@@ -211,11 +211,14 @@ class DRLEnsembleAgent:
         df_total_value = pd.read_csv(
             f"results/account_value_validation_{model_name}_{iteration}.csv"
         )
-        return (
+        try:
+            return (
                 (4 ** 0.5)
                 * df_total_value["daily_return"].mean()
                 / df_total_value["daily_return"].std()
-        )
+            )
+        except:
+            return (0.0)
 
     def __init__(
             self,
