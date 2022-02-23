@@ -14,7 +14,7 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Multiple Stock Tradi
 
 
 
-Preparation before running this demonstration
+Step 1: Preparation before running this demonstration
 ---------------------------------------
 As the first step, we install the newest version of FinRL library.
 
@@ -74,7 +74,7 @@ Finally, create folders for storage.
 
 Then all the preparation work are done. We can start now!
 
-Download Data
+Step 2: Download Data
 ---------------------------------------
 Before training our DRL agent, we need to get the historical data of DOW30 stocks first. Here we use the data from Yahoo! Finance.
 Yahoo! Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free. yfinance is an open-source library that provides APIs to download data from Yahoo! Finance. We will use this package to download data here.
@@ -87,7 +87,7 @@ Yahoo! Finance is a website that provides stock data, financial news, financial 
                          end_date = config.END_DATE,
                          ticker_list = config.DOW_30_TICKER).fetch_data()
 
-Preprocess Data
+Step 3: Preprocess Data
 ---------------------------------------
 
 Data preprocessing is a crucial step for training a high quality machine learning model. We need to check for missing data and do feature engineering in order to convert the data into a model-ready state.
@@ -196,7 +196,7 @@ To control the risk in a worst-case scenario, such as financial crisis of 2007â€
                                          'turbulence':turbulence_index})
         return turbulence_index
 
-Design Environment
+Step 4: Design Environment
 ---------------------------------------
 
 
@@ -645,7 +645,7 @@ The action space describes the allowed actions that the agent interacts with the
             return [seed]
 
 
-Implement DRL Algorithms
+Step 5: Implement DRL Algorithms
 -------------------------------------
 
 The implementation of the DRL algorithms are based on OpenAI Baselines and Stable Baselines. Stable Baselines is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
@@ -731,7 +731,7 @@ Set the turbulence threshold to be the 99% quantile of insample turbulence data,
             env.render()
 
 
-Backtest Our Strategy
+Step 6: Backtest Our Strategy
 ---------------------------------
 
 For simplicity purposes, in the article, we just calculate the Sharpe ratio and the annual return manually.
