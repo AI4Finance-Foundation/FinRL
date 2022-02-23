@@ -27,7 +27,7 @@ Step 1. Portfolio Management Task
 
 Consider a portfolio with 𝑁 risky assets over 𝑇 time slots, the portfolio management task aims to maximize profit and minimize risk.
 
-- The price relative vector `y(𝑡) \in R^N` is defined as the element-wise division of p(𝑡) by p(𝑡-1): y(𝑡) ≜  [p1(t)p1(t-1), p2(t)p2(t-1), … , pN(t)pN(t-1)]T, 𝑡 = 1, ....𝑇 ,  where p(0) ∈ RN is the vector of opening prices at 𝑡 = 1 and  p(t)  ∈ RN denotes the closing prices of all assets at time slot 𝑡 = 1, ...,𝑇 . 
+- The price relative vector `y(𝑡) \in R^N` is defined as the element-wise division of p(𝑡) by p(𝑡-1): `y(𝑡) =  [\frac{p1(t)}{p1(t-1)}, \frac{p2(t)}{p2(t-1)}, … , \frac{pN(t)}{p_N(t-1)}]^T, 𝑡 = 1, ....𝑇 `,  where `p(0) \in R^N` is the vector of opening prices at 𝑡 = 1 and  p(t)  ∈ RN denotes the closing prices of all assets at time slot 𝑡 = 1, ...,𝑇 . 
 
 - Let w(0)  ∈ RN denotes the portfolio weights, which is updated at the beginning of time slot 𝑡. 
 
