@@ -21,7 +21,6 @@
 <img align="center" src=figs/logo_transparent_background.png width="45%"/> 
 </div>
 
-**Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
 **Our Mission**: to efficiently automate trading. We continuously develop and share codes for finance. 
 
@@ -29,7 +28,6 @@
 
 [**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is the first open-source framework to demonstrate the great potential of applying deep reinforcement learning in quantitative finance. We help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **A DRL agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**. 
 
-**News: We are maintaining codes for live trading. Let us know your needs.**
 
 Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
 
@@ -47,13 +45,13 @@ Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g
 
 The FinRL ecosystem:
 
-**FinRL 3.0 (Production)**: advanced-level for investment banks and hedge funds. A cloud-native solution [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
+**FinRL 3.0 (Production)**: advanced-level for investment banks and hedge funds. Cloud-native solutions [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
 
 **FinRL 2.0 (Professional)**: intermediate-level for full-stack developers and professionals. [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
 
 **FinRL 1.0 (Proof of concept)**: entry-level for beginners, with a demonstrative and educational purpose.
 
-**FinRL 0.0 (Preparation)**: a universe of training/testing/trading environments in [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse).
+**FinRL 0.0 (Preparation)**: a universe of simulating/training/testing/trading environments in [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse).
 
 FinRL provides a unified framework for various markets, SOTA DRL algorithms, finance tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading support, etc. 
 
@@ -233,7 +231,7 @@ Thanks!
 
 ### Sponsorship
 
-We welcome gift fundings to promote the AI4Finance (non-profit and academic) community. Check the links in the right column, or use the following vemo QR codes.
+Welcome gift fundings to promote the AI4Finance, a non-profit academic community. Use the links in the right, or scan the following vemo QR code:
 
 Detailed sponsorship information will be updated at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
 
