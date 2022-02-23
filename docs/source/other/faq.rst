@@ -40,6 +40,8 @@ Outline
 		- :ref:`Section-4-1`
 
 		- :ref:`Section-4-2`
+		
+		- :ref:`Section-4-3`
 
     - :ref:`Section-5`
 
@@ -283,7 +285,7 @@ Subsection 4.2 Papers related to the implemented DRL models
     - Schulman, J., Levine, S., Abbeel, P., Jordan, M. and Moritz, P., 2015, June. Trust region policy optimization. In International conference on machine learning (pp. 1889-1897). PMLR (:raw-html:`<font color="#A52A2A">description of the implementation of the TRPO model</font>`)
     
   
- .. _Section-4-3:
+.. _Section-4-3:
 
 Subsection 4.3 Challenges of DataOps and MLOps
 
