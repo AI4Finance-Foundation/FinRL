@@ -18,6 +18,9 @@ We propose an empirical approach to explain the strategies of DRL agents for the
 - Finally, we quantify the prediction power by calculating the linear correlations between the coefficients of a DRL agent and the reference feature weights, and similarly for conventional machine learning methods. Moreover, we consider both the single-step case and multiple-step case.
 
 
+.. image:: ../image/ExplainableFinRL-ReferenceModel.png
+
+
 Step 1. Portfolio Management Task
 ---------------------------------------
 
@@ -87,6 +90,7 @@ Step 4. The Prediction Power
 
 Both the machine learning methods and DRL agents take profits from their prediction power. We quantify the prediction power by calculating the linear correlations between the feature weights of a DRL agent and the reference feature weights and similarly for machine learning methods. Furthermore, the machine learning methods and DRL agents are different when predicting the future. The machine learning methods rely on single-step prediction to find portfolio weights. However, the DRL agents find portfolio weights with a long-term goal. Then, we compare two cases, single-step prediction and multi-step prediction.
 
+.. image:: ../image/ExplainableFinRL-ReferenceFeature.png
 
 Step 5. Experiment & Conclusions
 ---------------------------------------
@@ -101,9 +105,17 @@ We used four technical indicators as features: MACD, CCI, RSI, ADX
 
 Benchmark: Dow Jones Industrial Average (DJIA)
 
+The experiment result shows below:
+
+We firstly compare the portfolio performance among the algorithms
+
+.. image:: ../image/ExplainableFinRL-CumulativeReturn.png
+
+
+.. image:: ../image/ExplainableFinRL-PerformanceAlgs.png
 
 We find that the DRL methods performed best among all and we seek to explain this empirically using our proposed method.
 
-
+.. image:: ../image/ExplainableFinRL-SingleStepPrediction.png
 
 
