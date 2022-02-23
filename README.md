@@ -105,15 +105,15 @@ Supported Data Sources:
 |  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |
 |Alpaca| US Stocks, ETFs| 2015-now, 1min| Account-specific| OHLCV| Prices&Indicators|
 |[Baostock](http://baostock.com/baostock/index.php/Python_API%E6%96%87%E6%A1%A3)| CN Securities| 1990-12-19-now, 5min| Account-specific| OHLCV| Prices&Indicators|
-|Binance| Cryptocurrency| API-specific, 1s, 1min| API-specific| Tick-level daily aggegrated trades, OHLCV| Prices&Indicators|
-|CCXT| Cryptocurrency| API-specific, 1min| API-specific| OHLCV| Prices&Indicators|
-|IEXCloud| NMS US securities|1970-now, 1 day|100 per second per IP|OHLCV| Prices&Indicators|
+|[Binance](https://binance-docs.github.io/apidocs/spot/en/#public-api-definitions)| Cryptocurrency| API-specific, 1s, 1min| API-specific| Tick-level daily aggegrated trades, OHLCV| Prices&Indicators|
+|[CCXT](https://docs.ccxt.com/en/latest/manual.html)| Cryptocurrency| API-specific, 1min| API-specific| OHLCV| Prices&Indicators|
+|[IEXCloud](https://iexcloud.io/docs/api/)| NMS US securities|1970-now, 1 day|100 per second per IP|OHLCV| Prices&Indicators|
 |JoinQuant| CN Securities| 2005-now, 1min| 3 requests each time| OHLCV| Prices&Indicators|
 |QuantConnect| US Securities| 1998-now, 1s| NA| OHLCV| Prices&Indicators|
 |RiceQuant| CN Securities| 2005-now, 1ms| Account-specific| OHLCV| Prices&Indicators|
 |tusharepro| CN Securities, A share| -now, 1 min| Account-specific| OHLCV| Prices&Indicators|
 |WRDS.TAQ| US Securities| 2003-now, 1ms| 5 requests each time| Intraday Trades|Prices&Indicators|
-|Yahoo! Finance| US Securities| Frequency-specific, 1min| 2,000/hour| OHLCV | Prices&Indicators|
+|[Yahoo! Finance](https://pypi.org/project/yfinance/)| US Securities| Frequency-specific, 1min| 2,000/hour| OHLCV | Prices&Indicators|
 
 OHLCV: open, high, low, and close prices; volume.
 
@@ -124,14 +124,6 @@ Users also can add their features.
 
 
 Websites:
-
-Baostock http://baostock.com/baostock/index.php/Python_API%E6%96%87%E6%A1%A3
-
-Binance https://binance-docs.github.io/apidocs/spot/en/#public-api-definitions
-
-CCXT https://docs.ccxt.com/en/latest/manual.html
-
-IEXCloud https://iexcloud.io/docs/api/
 
 JoinQuant https://www.joinquant.com/
 
