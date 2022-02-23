@@ -68,6 +68,8 @@ where M(t)k:= Ni=1 IG(fk(t))i Ni=1fk(t)ii=1lE[wDRL(t+l)Ty(t+l) | sk,i(t), w(t)]f
                       =  Ni=1fk(t)ii=1lE[ck(t+l)fk(t+l)ifk(t)i | sk,i(t), w(t)]
                       
 
+$f^k_m$
+
 
 Step 3. The Feature Weights For Machine Learning Methods
 ---------------------------------------
