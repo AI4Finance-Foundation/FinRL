@@ -18,7 +18,7 @@ Step 1: Preparation before running this demonstration
 ---------------------------------------
 As the first step, we install the newest version of FinRL library.
 
-**FinRL installation**：
+**Step 1.1: FinRL installation**：
 
 .. code-block::
     :linenos:
@@ -28,7 +28,7 @@ As the first step, we install the newest version of FinRL library.
 
 Then we import the packages needed for this demonstration.
 
-**Import packages**：
+**Step 1.2: Import packages**：
 
 .. code-block:: python
     :linenos:
@@ -57,7 +57,7 @@ Then we import the packages needed for this demonstration.
 
 Finally, create folders for storage.
 
-**Create folders**：
+**Step 1.3: Create folders**：
 
 .. code-block:: python
     :linenos:
@@ -93,7 +93,7 @@ Step 3: Preprocess Data
 Data preprocessing is a crucial step for training a high quality machine learning model. We need to check for missing data and do feature engineering in order to convert the data into a model-ready state.
 
 
-**Check missing data**
+**Step 3.1: Check missing data**
 
 .. code-block:: python
     :linenos:
@@ -103,7 +103,7 @@ Data preprocessing is a crucial step for training a high quality machine learnin
 
 
 
-**Add technical indicators**
+**Step 3.2: Add technical indicators**
 
 In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc. In this article, we demonstrate two trend-following technical indicators: MACD and RSI.
 
@@ -141,7 +141,7 @@ In practical trading, various information needs to be taken into account, for ex
             return df
 
 
-**Add turbulence index**
+**Step 3.3: Add turbulence index**
 
 Risk-aversion reflects whether an investor will choose to preserve the capital. It also influences one's trading strategy when facing different market volatility level.
 
@@ -207,7 +207,7 @@ Our trading environments, based on OpenAI Gym framework, simulate live stock mar
 The action space describes the allowed actions that the agent interacts with the environment. Normally, action a includes three actions: {-1, 0, 1}, where -1, 0, 1 represent selling, holding, and buying one share. Also, an action can be carried upon multiple shares. We use an action space {-k,…,-1, 0, 1, …, k}, where k denotes the number of shares to buy and -k denotes the number of shares to sell. For example, "Buy 10 shares of AAPL" or "Sell 10 shares of AAPL" are 10 or -10, respectively. The continuous action space needs to be normalized to [-1, 1], since the policy is defined on a Gaussian distribution, which needs to be normalized and symmetric.
 
 
-**Environment for Training**
+**Step 4.1: Environment for Training**
 
 .. code-block:: python
     :linenos:
@@ -399,7 +399,7 @@ The action space describes the allowed actions that the agent interacts with the
             return [seed]
 
 
-**Environment for Trading**
+**Step 4.2: Environment for Trading**
 
 .. code-block:: python
     :linenos:
@@ -651,7 +651,7 @@ Step 5: Implement DRL Algorithms
 The implementation of the DRL algorithms are based on OpenAI Baselines and Stable Baselines. Stable Baselines is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
 
 
-**Training data split**: 2009-01-01 to 2018-12-31
+**Step 5.1: Training data split**: 2009-01-01 to 2018-12-31
 
 .. code-block:: python
     :linenos:
@@ -668,7 +668,7 @@ The implementation of the DRL algorithms are based on OpenAI Baselines and Stabl
         return data
 
 
-**Model training**: DDPG
+**Step 5.2: Model training**: DDPG
 
 .. code-block:: python
     :linenos:
@@ -693,11 +693,11 @@ The implementation of the DRL algorithms are based on OpenAI Baselines and Stabl
     model_ddpg.learn(total_timesteps=250000, tb_log_name="DDPG_run_1")
 
 
-**Trading**
+**Step 5.3: Trading**
 
 Assume that we have $1,000,000 initial capital at 2019-01-01. We use the DDPG model to trade Dow jones 30 stocks.
 
-**Set turbulence threshold**
+**Step 5.4: Set turbulence threshold**
 
 Set the turbulence threshold to be the 99% quantile of insample turbulence data, if current turbulence index is greater than the threshold, then we assume that the current market is volatile
 
@@ -707,7 +707,7 @@ Set the turbulence threshold to be the 99% quantile of insample turbulence data,
     insample_turbulence = dow_30[(dow_30.datadate<'2019-01-01') & (dow_30.datadate>='2009-01-01')]
     insample_turbulence = insample_turbulence.drop_duplicates(subset=['datadate'])
 
-**Prepare test data and environment**
+**Step 5.5: Prepare test data and environment**
 
 .. code-block:: python
     :linenos:
@@ -718,7 +718,7 @@ Set the turbulence threshold to be the 99% quantile of insample turbulence data,
     env_test = DummyVecEnv([lambda: StockEnvTrade(test, turbulence_threshold=insample_turbulence_threshold)])
     obs_test = env_test.reset()
 
-**Prediction**
+**Step 5.6: Prediction**
 
 .. code-block:: python
     :linenos:
@@ -749,7 +749,7 @@ For simplicity purposes, in the article, we just calculate the Sharpe ratio and 
         return ts
 
 
-**Dow Jones Industrial Average**
+**Step 6.1: Dow Jones Industrial Average**
 
 .. code-block:: python
     :linenos:
@@ -765,7 +765,7 @@ For simplicity purposes, in the article, we just calculate the Sharpe ratio and 
         #return sharpe
 
 
-**Our DRL trading strategy**
+**Step 6.2: Our DRL trading strategy**
 
 .. code-block:: python
     :linenos:
@@ -781,7 +781,7 @@ For simplicity purposes, in the article, we just calculate the Sharpe ratio and 
         print("sharpe ratio: ", sharpe)
         return df
 
-**Plot the results using Quantopian pyfolio**
+**Step 6.3: Plot the results using Quantopian pyfolio**
 
 Backtesting plays a key role in evaluating the performance of a trading strategy. Automated backtesting tool is preferred because it reduces the human error. We usually use the Quantopian pyfolio package to backtest our trading strategies. It is easy to use and consists of various individual plots that provide a comprehensive image of the performance of a trading strategy.
 
