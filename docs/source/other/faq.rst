@@ -211,7 +211,7 @@ Subsection 3.4 Miscellaneous
 
 	*please read* :ref:`Section-4`
 
-    - :raw-html:`<font color="#A52A2A">What new sota models will be incorporated on FinRL?  </font>`
+    - :raw-html:`<font color="#A52A2A">What new SOTA models will be incorporated on FinRL?  </font>`
 
 	*please check our development roadmap at our Github repo: https://github.com/AI4Finance-LLC/FinRL-Library*
 
@@ -281,6 +281,10 @@ Subsection 4.2 Papers related to the implemented DRL models
     - https://openai.com/blog/baselines-acktr-a2c/ (:raw-html:`<font color="#A52A2A">description of the implementation of the A2C model</font>`)
 
     - Schulman, J., Levine, S., Abbeel, P., Jordan, M. and Moritz, P., 2015, June. Trust region policy optimization. In International conference on machine learning (pp. 1889-1897). PMLR (:raw-html:`<font color="#A52A2A">description of the implementation of the TRPO model</font>`)
+    
+    Challenges of DataOps and MLOps
+    
+    - Paleyes, A., Urma, R.G. and Lawrence, N.D., 2020. Challenges in deploying machine learning: a survey of case studies. arXiv preprint arXiv:2011.09926.
 
 .. _Section-5:
     
