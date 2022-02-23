@@ -36,7 +36,7 @@ We calculate k = actions * h_max, where h_max is a predefined parameter that is 
 - Repeat this process until termination.
 
 
-Step 1: Preparation before running this demonstration
+Step 1: Preparation
 ---------------------------------------
 As the first step, we install the newest version of FinRL library.
 
