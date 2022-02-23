@@ -40,7 +40,23 @@ Step 1: Preparation before running this demonstration
 ---------------------------------------
 As the first step, we install the newest version of FinRL library.
 
-**Step 1.1: FinRL installation**：
+**Step 1.1: Problem Definition**：
+
+This problem is to design an automated solution for stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
+The algorithm is trained using Deep Reinforcement Learning (DRL) algorithms and the components of the reinforcement learning environment are:
+ 
+-Action: The action space describes the allowed actions that the agent interacts with the environment. Normally, a ∈ A includes three actions: a ∈ {−1, 0, 1}, where −1, 0, 1 represent selling, holding, and buying one stock. Also, an action can be carried upon multiple shares. We use an action space {−k, ..., −1, 0, 1, ..., k}, where k denotes the number of shares. For example, "Buy 10 shares of AAPL" or "Sell 10 shares of AAPL" are 10 or −10, respectively
+
+-Reward function: r(s, a, s′) is the incentive mechanism for an agent to learn a better action. The change of the portfolio value when action a is taken at state s and arriving at new state s', i.e., r(s, a, s′) = v′ − v, where v′ and v represent the portfolio values at state s′ and s, respectively
+
+-State: The state space describes the observations that the agent receives from the environment. Just as a human trader needs to analyze various information before executing a trade, so our trading agent observes many different features to better learn in an interactive environment.
+
+-Environment: Dow 30 constituents
+
+The data of the stocks for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
+
+
+**Step 1.2: FinRL installation**：
 
 .. code-block::
     :linenos:
@@ -50,7 +66,7 @@ As the first step, we install the newest version of FinRL library.
 
 Then we import the packages needed for this demonstration.
 
-**Step 1.2: Import packages**：
+**Step 1.3: Import packages**：
 
 .. code-block:: python
     :linenos:
@@ -79,7 +95,7 @@ Then we import the packages needed for this demonstration.
 
 Finally, create folders for storage.
 
-**Step 1.3: Create folders**：
+**Step 1.4: Create folders**：
 
 .. code-block:: python
     :linenos:
