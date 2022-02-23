@@ -1,3 +1,12 @@
+:github_url: https://github.com/AI4Finance-LLC/FinRL-Library
+
+Explainable FinRL: An Empirical Approach
+===============================
+
+
+
+
+
 First of all, our work aims to provide an empirical approach to explain the portfolio management task on the basis of FinRL settings. 
 
 We propose an empirical approach to explain the strategies of DRL agents for the portfolio management task:
@@ -10,6 +19,7 @@ We propose an empirical approach to explain the strategies of DRL agents for the
 
 
 Step 1. Portfolio Management Task
+---------------------------------------
 
 Consider a portfolio with 𝑁 risky assets over 𝑇 time slots, the portfolio management task aims to maximize profit and minimize risk.
 
@@ -24,7 +34,9 @@ Consider a portfolio with 𝑁 risky assets over 𝑇 time slots, the portfolio 
 - Our goal is to find a portfolio weight vector w*(t) ∈ RN such that 
 w*(t)  ≜argmaxw(𝑡)  w(t)Ty(t) − 𝜆 w(t)T (t)w(t), s.t.  Ni=1 wi (𝑡) = 1, wi (𝑡) ∈ [0, 1], 𝑡 = 1, ..., T, where 𝜆 is the risk aversion parameter
 
+
 Step 2. The DRL Agent Settings For Portfolio Management Task
+---------------------------------------
 
 Similar to the tutorial FinRL: Multiple Stock Trading,  we model the portfolio management process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem. The algorithm is trained using Deep Reinforcement Learning (DRL) algorithms and the components of the reinforcement learning environment are:
 
@@ -55,6 +67,8 @@ where M(t)k:= Ni=1 IG(fk(t))i Ni=1fk(t)ii=1lE[wDRL(t+l)Ty(t+l) | sk,i(t), w(t)]f
 
 
 Step 3. The Feature Weights For Machine Learning Methods
+---------------------------------------
+
 We use conventional machine learning methods as comparison. 
 
 - Firstly, it uses the features as input to predict the stock returns vector. 
@@ -69,10 +83,13 @@ wML(t)  y(t) = b0(t) [1, ..., 1]T + b1(t)f1(t) + ... + bK(t)fK(t) + (t)
 
 
 Step 4. The Prediction Power
+---------------------------------------
 
 Both the machine learning methods and DRL agents take profits from their prediction power. We quantify the prediction power by calculating the linear correlations between the feature weights of a DRL agent and the reference feature weights and similarly for machine learning methods. Furthermore, the machine learning methods and DRL agents are different when predicting the future. The machine learning methods rely on single-step prediction to find portfolio weights. However, the DRL agents find portfolio weights with a long-term goal. Then, we compare two cases, single-step prediction and multi-step prediction.
 
+
 Step 5. Experiment & Conclusions
+---------------------------------------
 
 Our experiment environment is as follows:
 
