@@ -6,15 +6,20 @@ Overview
 Design Principles
 ----------------------
 
-    - **Full-stack framework**: To provide a full-stack DRL framework with finance-oriented optimizations, including market data APIs, data preprocessing, DRL algorithms, and automated backtesting. Users can transparently make use of such a development pipeline. 
+- Plug-and-Play (PnP): Modularity; Handle different markets (say T0 vs. T+1)
+- Completeness and universal: Multiple markets; Various data sources (APIs, Excel, etc); User-friendly variables.
+- Avoid hard-coded parameters
+- Closing the sim-real gap using the “training-testing-trading” pipeline: simulation for training and connecting real-time APIs for testing/trading.
+- Efficient data sampling: accelerate the data sampling process is the key to DRL training! From the ElegantRL project. We know that multi-processing is powerful to reduce the training time (scheduling between CPU + GPU).
+- ransparency: a virtual env that is invisible to the upper layer
+- Flexibility and extensibility: Inheritance might be helpful here
 
-    - **Customization**: To maintain modularity and extensibility in development by including state-of-the-art DRL algorithms and supporting design of new algorithms. The DRL algorithms can be used to construct trading strategies by simple configurations.
-
-    - **Reproducibility and hands-on-tutoring**: To provide tutorials such as step-by-step Jupyter notebooks and user guide to help users walk through the pipeline and reproduce the use cases.
 
 
 Architecture of the FinRL Library
 ------------------------------------
+
+The features are summarized as follows: 
 
     - **Three-layer architecture**: The three layers of FinRL library are stock market environment, DRL trading agent, and stock trading applications. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
 
