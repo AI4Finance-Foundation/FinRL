@@ -71,7 +71,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    
    examples/singlestocktrading
    examples/multiplestocktrading
-   examplesExplainableFinRLAnEmpiricalApproach
+   examples/ExplainableFinRLAnEmpiricalApproach
    
 
 .. toctree::
