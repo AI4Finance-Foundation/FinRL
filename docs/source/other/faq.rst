@@ -288,6 +288,7 @@ Subsection 4.2 Papers related to the implemented DRL models
 .. _Section-4-3:
 
 Subsection 4.3 Challenges of DataOps and MLOps
+-----------------------------------------------------------------
 
  
     - Paleyes, A., Urma, R.G. and Lawrence, N.D., 2020. Challenges in deploying machine learning: a survey of case studies. arXiv preprint arXiv:2011.09926.
