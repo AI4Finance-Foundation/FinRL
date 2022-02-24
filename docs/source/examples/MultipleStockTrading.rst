@@ -1,6 +1,6 @@
 :github_url: https://github.com/AI4Finance-LLC/FinRL-Library
 
-Multiple Stocks Trading
+Multiple Stock Trading
 ===============================
 
 Deep Reinforcement Learning for Stock Trading from Scratch: Multiple Stock Trading
