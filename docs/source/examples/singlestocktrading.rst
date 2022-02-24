@@ -162,14 +162,137 @@ Perform Feature Engineering:
 
 
 
+Build Environment
+---------------------------------------
+
+Considering the stochastic and interactive nature of the automated stock trading tasks, a financial task is modeled as a Markov Decision Process (MDP) problem. The training process involves observing stock price change, taking an action and reward’s calculation to have the agent adjusting its strategy accordingly. By interacting with the environment, the trading agent will derive a trading strategy with the maximized rewards as time proceeds.
+
+Our trading environments, based on OpenAI Gym framework, simulate live stock markets with real market data according to the principle of time-driven simulation.
+
+Environment design is one of the most important part in DRL, because it varies a lot from applications to applications and from markets to markets. We can’t use an environment for stock trading to trade bitcoin, and vice versa.
+
+The action space describes the allowed actions that the agent interacts with the environment. Normally, action a includes three actions: {-1, 0, 1}, where -1, 0, 1 represent selling, holding, and buying one share. Also, an action can be carried upon multiple shares. We use an action space {-k,…,-1, 0, 1, …, k}, where k denotes the number of shares to buy and -k denotes the number of shares to sell. For example, “Buy 10 shares of AAPL” or “Sell 10 shares of AAPL” are 10 or -10, respectively. The continuous action space needs to be normalized to [-1, 1], since the policy is defined on a Gaussian distribution, which needs to be normalized and symmetric.
+
+In this article, I set k=200, the entire action space is 200*2+1 = 401 for AAPL.
+
+FinRL uses a EnvSetup_ class to setup environment.
+
+.. _EnvSetup: https://github.com/AI4Finance-LLC/FinRL-Library/blob/master/finrl/env/environment.py
+
+.. code-block:: python
+
+    class EnvSetup:
+    
+        """
+        Provides methods for retrieving daily stock data from
+        Yahoo Finance API
+        
+        Attributes
+        ----------
+            stock_dim: int
+                number of unique stocks
+            hmax : int
+                maximum number of shares to trade
+            initial_amount: int
+                start money
+            transaction_cost_pct : float
+                transaction cost percentage per trade
+            reward_scaling: float
+                scaling factor for reward, good for training
+            tech_indicator_list: list
+                a list of technical indicator names (modified from config.py)
+        Methods
+        -------
+            fetch_data()
+                Fetches data from yahoo API
+        """
 
 
-Step 4: Implement DRL Algorithms
+Initialize an environment class:
+
+.. code-block:: python
+   :linenos:
+
+    # Initialize env:
+    env_setup = EnvSetup(stock_dim = stock_dimension,
+                         state_space = state_space,
+                         hmax = 100,
+                         initial_amount = 1000000,
+                         transaction_cost_pct = 0.001,
+                         tech_indicator_list = config.TECHNICAL_INDICATORS_LIST)
+                         
+    env_train = env_setup.create_env_training(data = train, 
+                                             env_class = StockEnvTrain)
+                                             
+                                             
+
+User-defined Environment: a simulation environment class.
+
+FinRL provides blueprint for `single stock trading environment`_.
+
+.. _single stock trading environment: https://github.com/AI4Finance-LLC/FinRL-Library/blob/master/finrl/env/EnvSingleStock.py
+
+.. code-block:: python
+
+    class SingleStockEnv(gym.Env):
+        """
+        A single stock trading environment for OpenAI gym
+        
+        Attributes
+        ----------
+            df: DataFrame
+                input data
+            stock_dim : int
+                number of unique stocks
+            hmax : int
+                maximum number of shares to trade
+            initial_amount : int
+                start money
+            transaction_cost_pct: float
+                transaction cost percentage per trade
+            reward_scaling: float
+                scaling factor for reward, good for training
+            state_space: int
+                the dimension of input features
+            action_space: int
+                equals stock dimension
+            tech_indicator_list: list
+                a list of technical indicator names
+            turbulence_threshold: int
+                a threshold to control risk aversion
+            day: int
+                an increment number to control date
+                
+        Methods
+        -------
+            _sell_stock()
+                perform sell action based on the sign of the action
+            _buy_stock()
+                perform buy action based on the sign of the action
+            step()
+                at each step the agent will return actions, then 
+                we will calculate the reward, and return the next    
+                observation.
+            reset()
+                reset the environment
+            render()
+                use render to return other functions
+            save_asset_memory()
+                return account value at each time step
+            save_action_memory()
+                return actions/positions at each time step
+        """
+    
+Tutorial for how to design a customized trading environment will be pulished in the future soon.
+
+
+
+Step 5: Implement DRL Algorithms
 ---------------------------------------
 The implementation of the DRL algorithms are based on OpenAI Baselines and Stable Baselines. Stable Baselines is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
 
 
-Step 5: Model Training
+Step 6: Model Training
 ---------------------------------------
 
 Four models: PPO A2C, DDPG, TD3
@@ -250,7 +373,7 @@ Assume that we have $100,000 initial capital at 2019-01-01. We use the TD3 model
         env_test.render()
         
 
-Step 5: Backtest Our Strategy
+Step 7: Backtest Our Strategy
 ---------------------------------------
 
 For simplicity purposes, in the article, we just calculate the Sharpe ratio and the annual return manually.
