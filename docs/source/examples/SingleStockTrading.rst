@@ -13,16 +13,6 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Single Stock Trading
     .. _Google Colab: https://colab.research.google.com/github/AI4Finance-LLC/FinRL-Library/blob/master/examples/old/DRL_single_stock_trading.ipynb
 
 
-
-
-
-Step 1: Preparation
----------------------------------------
-
-
-**Step 1.1: Overview**
-
-
 As deep reinforcement learning (DRL) has been recognized as an effective approach in quantitative finance, getting hands-on experiences is attractive to beginners. However, to train a practical DRL trading agent that decides where to trade, at what price, and what quantity involves error-prone and arduous development and debugging.
 
 We introduce a DRL library FinRL that facilitates beginners to expose themselves to quantitative finance and to develop their own stock trading strategies. Along with easily-reproducible tutorials, FinRL library allows users to streamline their own developments and to compare with existing schemes easily.
@@ -42,7 +32,11 @@ We use Apple Inc. stock: AAPL as an example throughout this article, because it 
 .. image:: ../image/FinRL-Architecture.png
 
 
-**Step 1.2: Problem Definition**
+Step 1: Preparation
+---------------------------------------
+
+
+**Step 1.1: Problem Definition**
 
 
 This problem is to design an automated trading solution for single stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
@@ -61,7 +55,7 @@ The components of the reinforcement learning environment are:
 The data of the single stock that we will be using for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
 
 
-**Step 1.3: Python Package Installation**
+**Step 1.2: Python Package Installation**
 
 
 As a first step we check if the additional packages needed are present, if not install them.
@@ -91,7 +85,7 @@ As a first step we check if the additional packages needed are present, if not i
         !pip install stable-baselines[mpi]
         !pip install tensorflow==1.15.4
 
-**Step 1.4: Import packages**
+**Step 1.3: Import packages**
 
 .. code-block:: python
     :linenos:
