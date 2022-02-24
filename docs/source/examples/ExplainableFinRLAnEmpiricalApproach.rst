@@ -12,9 +12,9 @@ First of all, our work aims to provide an empirical approach to explain the port
 
 We propose an empirical approach to explain the strategies of DRL agents for the portfolio management task:
 
-- First, we study the portfolio management strategy using feature weights, which quantify the relationship between the reward (say, portfolio return) and the input (say, features). In particular, we use the coefficients of a linear model in hindsight as the reference feature weights.
+- Firstly, we study the portfolio management strategy using feature weights, which quantify the relationship between the reward (say, portfolio return) and the input (say, features). In particular, we use the coefficients of a linear model in hindsight as the reference feature weights.
 
-- Then, for the deep reinforcement learning strategy, we use integrated gradients to define the feature weights, which are the coefficients between reward and features under a linear regression model
+- Secondly, for the deep reinforcement learning strategy, we use integrated gradients to define the feature weights, which are the coefficients between reward and features under a linear regression model
 
 - Finally, we quantify the prediction power by calculating the linear correlations between the coefficients of a DRL agent and the reference feature weights, and similarly for conventional machine learning methods. Moreover, we consider both the single-step case and multiple-step case.
 
