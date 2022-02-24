@@ -16,7 +16,7 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Single Stock Trading
 Step 1: Preparation
 ---------------------------------------
 
-**Step 1.1: Problem Definition**:
+**Step 1.1: Problem Definition**
 
 
 This problem is to design an automated trading solution for single stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
@@ -35,7 +35,7 @@ The components of the reinforcement learning environment are:
 The data of the single stock that we will be using for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
 
 
-**Step 1.1: Python Package Installation**:
+**Step 1.2: Python Package Installation**
 
 
 As a first step we check if the additional packages needed are present, if not install them.
@@ -65,7 +65,7 @@ As a first step we check if the additional packages needed are present, if not i
         !pip install stable-baselines[mpi]
         !pip install tensorflow==1.15.4
 
-**Step 1.2: Import packages**:
+**Step 1.3: Import packages**
 
 .. code-block:: python
     :linenos:
@@ -107,7 +107,7 @@ Data preprocessing is a crucial step for training a high quality machine learnin
     
     - Add technical indicators. In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc.
 
-**Calculate technical indicators**:
+**Calculate technical indicators**
 
 In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc.
 
@@ -326,7 +326,7 @@ FinRL uses a DRLAgent class to implement the algorithms.
                 make a prediction in a test dataset and get results
         """
 
-**Model Training**:
+**Model Training**
 
 We use 5 DRL models in this article, namely PPO, A2C, DDPG, SAC and TD3. I introduced these models in the previous article. TD3 is an improvement over DDPG.
 
@@ -363,11 +363,11 @@ actor_loss for DDPG and policy_loss for TD3:
 .. image:: ../image/single_4.png
 
 
-**Picking models**:
+**Picking models**
 
 We pick the TD3 model, because it converges pretty fast and it’s a state of the art model over DDPG. By observing the episode_reward chart, TD3 doesn’t need to reach full 100k total_timesteps to converge.
 
-**Trading**:
+**Trading**
 
 Assume that we have $100,000 initial capital at 2019/01/01. We use the TD3 model to trade AAPL.
 
