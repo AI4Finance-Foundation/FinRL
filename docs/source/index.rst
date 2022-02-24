@@ -69,8 +69,8 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 1
    :caption: Examples
    
-   examples/singlestocktrading
-   examples/multiplestocktrading
+   examples/SingleStockTrading
+   examples/MultipleStockTrading
    examples/ExplainableFinRLAnEmpiricalApproach
    
 
