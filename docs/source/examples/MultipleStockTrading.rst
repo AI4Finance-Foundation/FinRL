@@ -145,13 +145,46 @@ Step 2: Download Data
 Before training our DRL agent, we need to get the historical data of DOW30 stocks first. Here we use the data from Yahoo! Finance.
 Yahoo! Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free. yfinance is an open-source library that provides APIs to download data from Yahoo! Finance. We will use this package to download data here.
 
-.. code-block:: python
-    :linenos:
+FinRL uses a YahooDownloader_ class to extract data.
 
-    # Dow 30 constituents in 2021/10
-    df = YahooDownloader(start_date = config.START_DATE,
-                         end_date = config.END_DATE,
-                         ticker_list = config.DOW_30_TICKER).fetch_data()
+.. _YahooDownloader: https://github.com/AI4Finance-LLC/FinRL-Library/blob/master/finrl/marketdata/yahoodownloader.py
+
+.. code-block:: python
+
+    class YahooDownloader:
+        """
+        Provides methods for retrieving daily stock data from Yahoo Finance API
+        
+        Attributes
+        ----------
+            start_date : str
+                start date of the data (modified from config.py)
+            end_date : str
+                end date of the data (modified from config.py)
+            ticker_list : list
+                a list of stock tickers (modified from config.py)
+                
+        Methods
+        -------
+            fetch_data()
+                Fetches data from yahoo API
+        """
+
+Download and save the data in a pandas DataFrame:
+
+.. code-block:: python
+   :linenos:
+
+    # Download and save the data in a pandas DataFrame:
+    df = YahooDownloader(start_date = '2009-01-01', 
+                              end_date = '2020-09-30', 
+                              ticker_list = config.DOW_30_TICKER).fetch_data()
+                              
+    print(df.sort_values(['date','tic'],ignore_index=True).head(30))
+    
+
+.. image:: ../image/multiple_3.png
+
 
 Step 3: Preprocess Data
 ---------------------------------------
@@ -261,6 +294,50 @@ To control the risk in a worst-case scenario, such as financial crisis of 2007â€
         turbulence_index = pd.DataFrame({'datadate':df_price_pivot.index,
                                          'turbulence':turbulence_index})
         return turbulence_index
+
+**Step 3.4 Feature Engineering**
+
+FinRL uses a FeatureEngineer_ class to preprocess data.
+
+.. _FeatureEngineer: https://github.com/AI4Finance-LLC/FinRL-Library/blob/master/finrl/preprocessing/preprocessors.py
+
+.. code-block: python
+
+    class FeatureEngineer:
+        """
+        Provides methods for preprocessing the stock price data
+        
+        Attributes
+        ----------
+            df: DataFrame
+                data downloaded from Yahoo API
+            feature_number : int
+                number of features we used
+            use_technical_indicator : boolean
+                we technical indicator or not
+            use_turbulence : boolean
+                use turbulence index or not
+        Methods
+        -------
+            preprocess_data()
+                main method to do the feature engineering
+        """
+
+Perform Feature Engineering:
+
+.. code-block:: python
+   :linenos:
+
+    # Perform Feature Engineering:
+    df = FeatureEngineer(df.copy(),
+                         use_technical_indicator=True,
+                         tech_indicator_list = config.TECHNICAL_INDICATORS_LIST,
+                         use_turbulence=True,
+                         user_defined_feature = False).preprocess_data()
+                         
+                         
+.. image:: ../image/multiple_4.png
+
 
 Step 4: Design Environment
 ---------------------------------------
