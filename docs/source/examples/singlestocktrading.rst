@@ -162,7 +162,7 @@ Perform Feature Engineering:
 
 
 
-Build Environment
+Step 4: Build Environment
 ---------------------------------------
 
 Considering the stochastic and interactive nature of the automated stock trading tasks, a financial task is modeled as a Markov Decision Process (MDP) problem. The training process involves observing stock price change, taking an action and reward’s calculation to have the agent adjusting its strategy accordingly. By interacting with the environment, the trading agent will derive a trading strategy with the maximized rewards as time proceeds.
@@ -289,7 +289,104 @@ Tutorial for how to design a customized trading environment will be pulished in 
 
 Step 5: Implement DRL Algorithms
 ---------------------------------------
-The implementation of the DRL algorithms are based on OpenAI Baselines and Stable Baselines. Stable Baselines is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
+
+The implementation of the DRL algorithms are based on `OpenAI Baselines`_ and Stable Baselines. `Stable Baselines`_ is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
+
+.. _OpenAI Baselines: https://github.com/openai/baselines
+.. _Stable Baselines: https://github.com/hill-a/stable-baselines
+
+.. tip::
+    FinRL library includes fine-tuned standard DRL algorithms, such as DQN, DDPG, Multi-Agent DDPG, PPO, SAC, A2C and TD3. We also allow users to design their own DRL algorithms by adapting these DRL algorithms.
+    
+.. image:: ../image/alg_compare.png
+    
+FinRL uses a DRLAgent class to implement the algorithms.
+
+.. code-block:: python
+
+    class DRLAgent:
+        """
+        Provides implementations for DRL algorithms
+        
+        Attributes
+        ----------
+            env: gym environment class
+                 user-defined class
+        Methods
+        -------
+            train_PPO()
+                the implementation for PPO algorithm
+            train_A2C()
+                the implementation for A2C algorithm
+            train_DDPG()
+                the implementation for DDPG algorithm
+            train_TD3()
+                the implementation for TD3 algorithm 
+            DRL_prediction() 
+                make a prediction in a test dataset and get results
+        """
+
+**Model Training**:
+
+We use 5 DRL models in this article, namely PPO, A2C, DDPG, SAC and TD3. I introduced these models in the previous article. TD3 is an improvement over DDPG.
+
+Tensorboard: reward and loss function plot
+We use tensorboard integration for hyperparameter tuning and model picking. Tensorboard generates nice looking charts.
+
+Once the learn function is called, you can monitor the RL agent during or after the training, with the following bash command:
+
+
+.. code-block:: python
+   :linenos:
+
+    # cd to the tensorboard_log folder, run the following command 
+    tensorboard --logdir ./A2C_20201127-19h01/
+    # you can also add past logging folder
+    tensorboard --logdir ./a2c_tensorboard/;./ppo2_tensorboard/
+    
+
+Total rewards for each of the algorithm:
+
+.. image:: ../image/single_2.png
+
+
+total_timesteps (int): the total number of samples to train on. It is one of the most important hyperparameters, there are also other important parameters such as learning rate, batch size, buffer size, etc.
+
+To compare these algorithms, I set the total_timesteps = 100k. If we set the total_timesteps too large, then we will face a risk of overfitting.
+
+By observing the episode_reward chart, we can see that these algorithms will converge to an optimal policy eventually as the step grows. TD3 converges very fast.
+
+actor_loss for DDPG and policy_loss for TD3:
+
+.. image:: ../image/single_3.png
+
+.. image:: ../image/single_4.png
+
+
+**Picking models**:
+
+We pick the TD3 model, because it converges pretty fast and it’s a state of the art model over DDPG. By observing the episode_reward chart, TD3 doesn’t need to reach full 100k total_timesteps to converge.
+
+**Trading**:
+
+Assume that we have $100,000 initial capital at 2019/01/01. We use the TD3 model to trade AAPL.
+
+.. code-block:: python
+   :linenos:
+
+    # create trading env
+    env_trade, obs_trade = env_setup.create_env_trading(data = trade,
+                                           env_class = StockEnvTrade,
+                                            turbulence_threshold=250)
+    ## make a prediction and get the account value change
+    df_account_value = DRLAgent.DRL_prediction(model=model_sac,
+                                               test_data = trade,
+                                               test_env = env_trade,
+                                               test_obs = obs_trade)
+                                               
+
+.. image:: ../image/single_5.png
+
 
 
 Step 6: Model Training
@@ -375,6 +472,9 @@ Assume that we have $100,000 initial capital at 2019-01-01. We use the TD3 model
 
 Step 7: Backtest Our Strategy
 ---------------------------------------
+
+Backtesting plays a key role in evaluating the performance of a trading strategy. Automated backtesting tool is preferred because it reduces the human error. 
+We usually use the `Quantopian pyfolio`_ package to backtest our trading strategies. It is easy to use and consists of various individual plots that provide a comprehensive image of the performance of a trading strategy.
 
 For simplicity purposes, in the article, we just calculate the Sharpe ratio and the annual return manually.
 
