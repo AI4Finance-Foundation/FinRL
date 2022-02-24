@@ -114,13 +114,59 @@ As a first step we check if the additional packages needed are present, if not i
 Step 2: Download Data
 ---------------------------------------
 
-Yahoo Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free.
+`Yahoo Finance`_ is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free. 
+
+`This Medium blog`_ explains how to use Yahoo Finance API to extract data directly in Python.
+
+.. _Yahoo Finance: https://finance.yahoo.com/
+.. _This Medium blog: https://towardsdatascience.com/free-stock-data-for-python-using-yahoo-finance-api-9dafd96cad2e
+
+    - FinRL uses a class YahooDownloader to fetch data from Yahoo Finance API
+    
+    - Call Limit: Using the Public API (without authentication), you are limited to 2,000 requests per hour per IP (or up to a total of 48,000 requests a day).
+    
+We can either download the stock data like open-high-low-close price manually by entering a stock ticker symbol like AAPL into the website search bar, or we just use Yahoo Finance API to extract data automatically.
+
+
+FinRL uses a YahooDownloader_ class to extract data.
+
+.. _YahooDownloader: https://github.com/AI4Finance-LLC/FinRL-Library/blob/master/finrl/marketdata/yahoodownloader.py
 
 .. code-block:: python
-    :linenos:
-    
+   
+    class YahooDownloader:
+        """
+        Provides methods for retrieving daily stock data from Yahoo Finance API
+        
+        Attributes
+        ----------
+            start_date : str
+                start date of the data (modified from config.py)
+            end_date : str
+                end date of the data (modified from config.py)
+            ticker_list : list
+                a list of stock tickers (modified from config.py)
+                
+        Methods
+        -------
+            fetch_data()
+                Fetches data from yahoo API
+        """
+
+Download and save the data in a pandas DataFrame:
+
+.. code-block:: python
+   :linenos:
+
     # Download and save the data in a pandas DataFrame:
-    data_df = yf.download("AAPL", start="2009-01-01", end="2020-10-23")
+    df = YahooDownloader(start_date = '2009-01-01', 
+                              end_date = '2020-09-30', 
+                              ticker_list = config.DOW_30_TICKER).fetch_data()
+                              
+    print(df.sort_values(['date','tic'],ignore_index=True).head(30))
+    
+
+.. image:: ../image/single_1.png
 
 
 
