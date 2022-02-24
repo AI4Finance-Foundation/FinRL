@@ -398,7 +398,10 @@ FinRL uses a DRLAgent class to implement the algorithms.
                 make a prediction in a test dataset and get results
         """
 
-**Model Training**
+
+
+Step 6: Model Training
+---------------------------------------
 
 We use 5 DRL models in this article, namely PPO, A2C, DDPG, SAC and TD3. I introduced these models in the previous article. TD3 is an improvement over DDPG.
 
@@ -439,30 +442,6 @@ actor_loss for DDPG and policy_loss for TD3:
 
 We pick the TD3 model, because it converges pretty fast and it’s a state of the art model over DDPG. By observing the episode_reward chart, TD3 doesn’t need to reach full 100k total_timesteps to converge.
 
-**Trading**
-
-Assume that we have $100,000 initial capital at 2019/01/01. We use the TD3 model to trade AAPL.
-
-.. code-block:: python
-   :linenos:
-
-    # create trading env
-    env_trade, obs_trade = env_setup.create_env_trading(data = trade,
-                                           env_class = StockEnvTrade,
-                                            turbulence_threshold=250)
-    ## make a prediction and get the account value change
-    df_account_value = DRLAgent.DRL_prediction(model=model_sac,
-                                               test_data = trade,
-                                               test_env = env_trade,
-                                               test_obs = obs_trade)
-                                               
-
-.. image:: ../image/single_5.png
-
-
-
-Step 6: Model Training
----------------------------------------
 
 Four models: PPO A2C, DDPG, TD3
 
@@ -541,6 +520,24 @@ Assume that we have $100,000 initial capital at 2019-01-01. We use the TD3 model
         obs_test, rewards, dones, info = env_test.step(action)
         env_test.render()
         
+        
+
+.. code-block:: python
+   :linenos:
+
+    # create trading env
+    env_trade, obs_trade = env_setup.create_env_trading(data = trade,
+                                           env_class = StockEnvTrade,
+                                            turbulence_threshold=250)
+    ## make a prediction and get the account value change
+    df_account_value = DRLAgent.DRL_prediction(model=model_sac,
+                                               test_data = trade,
+                                               test_env = env_trade,
+                                               test_obs = obs_trade)
+                                               
+
+.. image:: ../image/single_5.png
+
 
 Step 7: Backtest Our Strategy
 ---------------------------------------
