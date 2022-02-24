@@ -16,6 +16,25 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Single Stock Trading
 Step 1: Preparation
 ---------------------------------------
 
+**Step 1.1: Problem Definition**:
+
+
+This problem is to design an automated trading solution for single stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
+
+The components of the reinforcement learning environment are:
+
+    - Action: The action space describes the allowed actions that the agent interacts with the environment. Normally, a ∈ A includes three actions: a ∈ {−1, 0, 1}, where −1, 0, 1 represent selling, holding, and buying one stock. Also, an action can be carried upon multiple shares. We use an action space {−k, …, −1, 0, 1, …, k}, where k denotes the number of shares. For example, “Buy 10 shares of AAPL” or “Sell 10 shares of AAPL” are 10 or −10, respectively
+    
+    - Reward function: r(s, a, s′) is the incentive mechanism for an agent to learn a better action. The change of the portfolio value when action a is taken at state s and arriving at new state s’, i.e., r(s, a, s′) = v′ − v, where v′ and v represent the portfolio values at state s′ and s, respectively
+    
+    - State: The state space describes the observations that the agent receives from the environment. Just as a human trader needs to analyze various information before executing a trade, so our trading agent observes many different features to better learn in an interactive environment.
+    
+    - Environment: single stock trading for AAPL
+
+
+The data of the single stock that we will be using for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
+
+
 **Step 1.1: Python Package Installation**:
 
 
@@ -83,6 +102,66 @@ Step 3: Preprocess Data
 ---------------------------------------
 
 Data preprocessing is a crucial step for training a high quality machine learning model. We need to check for missing data and do feature engineering in order to convert the data into a model-ready state.
+
+    - FinRL uses a FeatureEngineer class to preprocess the data
+    
+    - Add technical indicators. In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc.
+
+**Calculate technical indicators**:
+
+In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc.
+
+    - FinRL uses stockstats to calcualte technical indicators such as Moving Average Convergence Divergence (MACD), Relative Strength Index (RSI), Average Directional Index (ADX), Commodity Channel Index (CCI) and other various indicators and stats.
+   
+    - stockstats: supplies a wrapper StockDataFrame based on the pandas.DataFrame with inline stock statistics/indicators support.
+   
+    - we store the stockstats technical indicator column names in config.py
+   
+    - config.TECHNICAL_INDICATORS_LIST = [‘macd’, ‘rsi_30’, ‘cci_30’, ‘dx_30’]
+    
+    - User can add more technical indicators, check https://github.com/jealous/stockstats for different names
+    
+FinRL uses a FeatureEngineer_ class to preprocess data.
+
+.. _FeatureEngineer: https://github.com/AI4Finance-LLC/FinRL-Library/blob/master/finrl/preprocessing/preprocessors.py
+
+.. code-block:: python
+
+    class FeatureEngineer:
+        """
+        Provides methods for preprocessing the stock price data
+        
+        Attributes
+        ----------
+            df: DataFrame
+                data downloaded from Yahoo API
+            feature_number : int
+                number of features we used
+            use_technical_indicator : boolean
+                we technical indicator or not
+            use_turbulence : boolean
+                use turbulence index or not
+                
+        Methods
+        -------
+            preprocess_data()
+                main method to do the feature engineering
+        """
+
+Perform Feature Engineering:
+
+.. code-block:: python
+   :linenos:
+
+    # Perform Feature Engineering:
+    df = FeatureEngineer(df.copy(),
+                         use_technical_indicator=True,
+                         tech_indicator_list = config.TECHNICAL_INDICATORS_LIST,
+                         use_turbulence=True,
+                         user_defined_feature = False).preprocess_data()
+
+
+
 
 
 Step 4: Implement DRL Algorithms
