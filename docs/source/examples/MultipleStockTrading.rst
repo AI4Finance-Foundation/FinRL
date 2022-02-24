@@ -13,34 +13,62 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Multiple Stock Tradi
     .. _Google Colab: https://colab.research.google.com/github/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb
 
 
-To begin with, we would like to explain the logic of stock trading using Deep Reinforcement Learning. We use Dow 30 constituents as an example throughout this tutorial, because they are popular stocks.
 
-A lot of people are terrified by the word “Deep Reinforcement Learning”, actually, you can just think of it as a “Smart AI” or “Smart Stock Trader” or “R2-D2 Trader” if you want, and just use it. Suppose that we have a well trained DRL agent “DRL Trader”, we want to use it to trade multiple stocks in our portfolio.
-
-- Assume we are at time t, at the end of day at time t, we will know the open-high-low-close price of the Dow 30 constituents stocks. We can use this information to calculate technical indicators such as MACD, RSI, CCI, ADX. In Reinforcement Learning, we call these data or features as “states”.
-We know that our portfolio value V(t) = balance (t) + dollar amount of the stocks (t).
-
-- We feed the states into our well-trained DRL Trader, the trader will output a list of actions, the action for each stock is a value within [-1, 1], we can treat this value as the trading signal, 1 means a strong buy signal, -1 means a strong sell signal.
-We calculate k = actions * h_max, where h_max is a predefined parameter that is set as the maximum amount of shares to trade. So we will have a list of shares to trade.
-
-- The dollar amount of shares = shares to trade * close price (t).
-
-- Update balance and shares. These dollar amounts of shares are the money we need to trade at time t. The updated balance = balance (t) − amount of money we pay to buy shares + amount of money we receive to sell shares. The updated shares = shares held (t) − shares to sell + shares to buy.
-
-- So we take actions to trade based on the advice of our DRL Trader at the end of day at time t (time t’s close price equals time t+1’s open price). We hope that we will benefit from these actions by the end of day at time t+1.
-
-- Take a step to time t+1, at the end of day, we will know the close price at t+1, the dollar amount of the stocks (t+1)= sum(updated shares * close price (t+1)). The portfolio value V(t+1)=balance (t+1) + dollar amount of the stocks (t+1).
-
-- So the step reward by taking the actions from the DRL Trader at time t to t+1 is r = v(t+1) − v(t). The reward can be positive or negative in the training stage. But of course, we need a positive reward in trading to say that our DRL Trader is effective.
-
-- Repeat this process until termination.
 
 
 Step 1: Preparation
 ---------------------------------------
-As the first step, we install the newest version of FinRL library.
 
-**Step 1.1: Problem Definition**：
+
+**Step 1.1: Overview**
+
+
+To begin with, I would like explain the logic of multiple stock trading using Deep Reinforcement Learning.
+
+We use Dow 30 constituents as an example throughout this article, because those are the most popular stocks.
+
+A lot of people are terrified by the word “Deep Reinforcement Learning”, actually, you can just treat it as a “Smart AI” or “Smart Stock Trader” or “R2-D2 Trader” if you want, and just use it.
+
+Suppose that we have a well trained DRL agent “DRL Trader”, we want to use it to trade multiple stocks in our portfolio.
+
+    - Assume we are at time t, at the end of day at time t, we will know the open-high-low-close price of the Dow 30 constituents stocks. We can use these information to calculate technical indicators such as MACD, RSI, CCI, ADX. In Reinforcement Learning we call these data or features as “states”.
+    
+    - We know that our portfolio value V(t) = balance (t) + dollar amount of the stocks (t).
+    
+    - We feed the states into our well trained DRL Trader, the trader will output a list of actions, the action for each stock is a value within [-1, 1], we can treat this value as the trading signal, 1 means a strong buy signal, -1 means a strong sell signal.
+   
+    - We calculate k = actions \*h_max, h_max is a predefined parameter that sets as the maximum amount of shares to trade. So we will have a list of shares to trade.
+    
+    - The dollar amount of shares = shares to trade* close price (t).
+    
+    - Update balance and shares. These dollar amount of shares are the money we need to trade at time t. The updated balance = balance (t) −amount of money we pay to buy shares +amount of money we receive to sell shares. The updated shares = shares held (t) −shares to sell +shares to buy.
+    
+    - So we take actions to trade based on the advice of our DRL Trader at the end of day at time t (time t’s close price equals time t+1’s open price). We hope that we will benefit from these actions by the end of day at time t+1.
+    
+    - Take a step to time t+1, at the end of day, we will know the close price at t+1, the dollar amount of the stocks (t+1)= sum(updated shares * close price (t+1)). The portfolio value V(t+1)=balance (t+1) + dollar amount of the stocks (t+1).
+    
+    - So the step reward by taking the actions from DRL Trader at time t to t+1 is r = v(t+1) − v(t). The reward can be positive or negative in the training stage. But of course, we need a positive reward in trading to say that our DRL Trader is effective.
+    
+    - Repeat this process until termination.
+    
+Below are the logic chart of multiple stock trading and a made-up example for demonstration purpose:
+
+.. image:: ../image/multiple_1.jpeg
+    :scale: 60%
+.. image:: ../image/multiple_2.png
+
+Multiple stock trading is different from single stock trading because as the number of stocks increase, the dimension of the data will increase, the state and action space in reinforcement learning will grow exponentially. So stability and reproducibility are very essential here.
+
+We introduce a DRL library FinRL that facilitates beginners to expose themselves to quantitative finance and to develop their own stock trading strategies.
+
+FinRL is characterized by its reproducibility, scalability, simplicity, applicability and extendibility.
+
+This article is focusing on one of the use cases in our paper: Mutiple Stock Trading. We use one Jupyter notebook to include all the necessary steps.
+
+.. image:: ../image/FinRL-Architecture.png
+
+
+**Step 1.2: Problem Definition**：
 
 This problem is to design an automated solution for stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
 The algorithm is trained using Deep Reinforcement Learning (DRL) algorithms and the components of the reinforcement learning environment are:
@@ -56,7 +84,7 @@ The algorithm is trained using Deep Reinforcement Learning (DRL) algorithms and 
 The data of the stocks for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
 
 
-**Step 1.2: FinRL installation**：
+**Step 1.3: FinRL installation**：
 
 .. code-block::
     :linenos:
@@ -66,7 +94,7 @@ The data of the stocks for this case study is obtained from Yahoo Finance API. T
 
 Then we import the packages needed for this demonstration.
 
-**Step 1.3: Import packages**：
+**Step 1.4: Import packages**：
 
 .. code-block:: python
     :linenos:
@@ -95,7 +123,7 @@ Then we import the packages needed for this demonstration.
 
 Finally, create folders for storage.
 
-**Step 1.4: Create folders**：
+**Step 1.5: Create folders**：
 
 .. code-block:: python
     :linenos:
