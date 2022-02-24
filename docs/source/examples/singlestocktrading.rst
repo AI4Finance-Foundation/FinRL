@@ -1,6 +1,6 @@
 :github_url: https://github.com/AI4Finance-LLC/FinRL-Library
 
-DRL Single Stock Trading
+Single Stock Trading
 ============================
 
 Deep Reinforcement Learning for Stock Trading from Scratch: Single Stock Trading
@@ -13,8 +13,11 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Single Stock Trading
     .. _Google Colab: https://colab.research.google.com/github/AI4Finance-LLC/FinRL-Library/blob/master/examples/old/DRL_single_stock_trading.ipynb
 
 
-Python Package Installation
+Step 1: Preparation
 ----------------------------------
+
+Step 1.1: Python Package Installation
+
 
 As a first step we check if the additional packages needed are present, if not install them.
 
@@ -43,7 +46,7 @@ As a first step we check if the additional packages needed are present, if not i
         !pip install stable-baselines[mpi]
         !pip install tensorflow==1.15.4
 
-Import packages:
+Step 1.2: Import packages:
 
 .. code-block:: python
     :linenos:
@@ -63,7 +66,7 @@ Import packages:
     from stable_baselines.common.policies import MlpPolicy
     
     
-Download Data
+Step 2: Download Data
 -------------------------------------
 
 Yahoo Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free.
@@ -76,21 +79,21 @@ Yahoo Finance is a website that provides stock data, financial news, financial r
 
 
 
-Preprocess Data
+Step 3: Preprocess Data
 -------------------------------------
 
 Data preprocessing is a crucial step for training a high quality machine learning model. We need to check for missing data and do feature engineering in order to convert the data into a model-ready state.
 
 
-Implement DRL Algorithms
+Step 4: Implement DRL Algorithms
 -------------------------------------
 The implementation of the DRL algorithms are based on OpenAI Baselines and Stable Baselines. Stable Baselines is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
 
 
-Model Training
+Step 5: Model Training
 -------------------------------------
 
-4 models: PPO A2C, DDPG, TD3
+Four models: PPO A2C, DDPG, TD3
 
 **Model 1: PPO**
 
@@ -168,7 +171,7 @@ Assume that we have $100,000 initial capital at 2019-01-01. We use the TD3 model
         env_test.render()
         
 
-Backtest Our Strategy
+Step 5: Backtest Our Strategy
 ------------------------------------
 
 For simplicity purposes, in the article, we just calculate the Sharpe ratio and the annual return manually.
