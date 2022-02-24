@@ -16,7 +16,7 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Single Stock Trading
 Step 1: Preparation
 ----------------------------------
 
-Python Package Installation
+Step 1.1: Python Package Installation
 
 
 As a first step we check if the additional packages needed are present, if not install them.
@@ -46,7 +46,7 @@ As a first step we check if the additional packages needed are present, if not i
         !pip install stable-baselines[mpi]
         !pip install tensorflow==1.15.4
 
-Import packages:
+Step 1.2: Import packages:
 
 .. code-block:: python
     :linenos:
