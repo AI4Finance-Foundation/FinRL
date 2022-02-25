@@ -122,6 +122,14 @@ Step 3. The Feature Weights Using Integrated Gradient
 
 Integrated Gradient (IG) integrates the gradient of the output with respect to input features. For an input `\mathbf{x} \in \mathbb{R}^n`, the `i`-th entry of integrated gradient is defined as
 
+
+.. math::
+\text{IG}(\mathbf{x})_i
+
+.. math::
+(\mathbf{x}_i - \mathbf{x}'_i) \times 
+
+
 .. math::
 \text{IG}(\mathbf{x})_i = (\mathbf{x}_i - \mathbf{x}'_i) \times 
 
