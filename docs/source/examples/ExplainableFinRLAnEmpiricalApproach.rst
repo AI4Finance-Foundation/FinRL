@@ -133,7 +133,7 @@ Integrated Gradient (IG) integrates the gradient of the output with respect to i
 .. math:: 
 \text{IG}(\mathbf{x})_i = (\mathbf{x}_i - \mathbf{x}'_i) \times 
 
-.. math:: 
+.. math::  
 \int_{z=0}^1 \frac{\partial F(\mathbf{x}^' + z\cdot(\mathbf{x} - \mathbf{x}'))}{\partial \mathbf{x}_i}dz,
 
 .. math:: 
