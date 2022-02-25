@@ -133,7 +133,7 @@ For a trained DRL agent,  the integrated gradient \cite{pmlr-v70-sundararajan17a
 
 .. math::
     \begin{split}
-        & IG(\mathbf{f}^{k}(t))_{i} \\
+        & \text{IG} (\mathbf{f}^{k}(t))_{i} \\
         & = (\mathbf{f}^{k}(t)_{i} - \mathbf{f}^{k^{\prime}}(t)_{i})\\
         & \times  \int_{z = 0}^{1} \frac{\partial Q^{\pi}(\mathbf{s}_{k}'(t) + z \cdot (\mathbf{s}(t) - \mathbf{s}_{k}'(t)), \mathbf{w}(t))}{\partial \mathbf{f}^{k}(t)_{i}} d z\\
         & =\mathbf{f}^{k}(t)_{i} \cdot  \frac{\partial Q^{\pi}(\mathbf{s}_{k}'(t) + z^{k,i} \cdot (\mathbf{s}(t) - \mathbf{s}_{k}'(t)), \mathbf{w}(t))}{\partial \mathbf{f}^{k}(t)_{i}} \cdot (1 - 0)\\
