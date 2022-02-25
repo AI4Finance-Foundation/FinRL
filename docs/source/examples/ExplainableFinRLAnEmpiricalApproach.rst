@@ -129,6 +129,7 @@ It integrates the gradient of the output with respect to input features. For an 
 
 .. math::
 \text{IG}(\mathbf{x})_{i} \triangleq (\mathbf{x}_{i} - \mathbf{x}^{\prime}_{i}) \times \int_{z=0}^{1}\frac{\partial F(\mathbf{x}^{\prime} + z\cdot(\mathbf{x} - \mathbf{x}^{\prime}))}{\partial \mathbf{x}_{i}}dz,
+    
 
 where `F(\cdot)` denotes a DRL model, `\mathbf{x}^{\prime}` is a perturbed version of `\mathbf{x}`, say replacing all entries with zeros. It explains the relationship between a model's predictions in terms of its features.
 
