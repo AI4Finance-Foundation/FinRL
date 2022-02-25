@@ -25,25 +25,25 @@ We propose an empirical approach to explain the strategies of DRL agents for the
 Step 1. Portfolio Management Task
 ---------------------------------------
 
-Consider a portfolio with `N` risky assets over `T` time slots, the portfolio management task aims to maximize profit and minimize risk. Let `\bm{p}(t) \in \mathbb{R}^{N}` denotes the closing prices of all assets at time slot `t = 1,..., T`. \footnote{For continuous markets, the closing prices at time slot `t` is also the opening prices for time slot `t+1`.}The \textit{price relative vector} `\bm{y}(t) \in \mathbb{R}^{N}` is defined as the element-wise division of `\bm{p}(t)` by `\bm{p}(t-1)`:
+Consider a portfolio with `N` risky assets over `T` time slots, the portfolio management task aims to maximize profit and minimize risk. Let `\mathbf{p}(t) \in \mathbb{R}^{N}` denotes the closing prices of all assets at time slot `t = 1,..., T`. \footnote{For continuous markets, the closing prices at time slot `t` is also the opening prices for time slot `t+1`.}The \textit{price relative vector} `\mathbf{y}(t) \in \mathbb{R}^{N}` is defined as the element-wise division of `\mathbf{p}(t)` by `\mathbf{p}(t-1)`:
 .. math::
-    \bm{y}(t) \triangleq \left[ \frac{\bm{p}_{1}(t)}{\bm{p}_{1} (t-1)}, \frac{\bm{p}_{2}(t)}{\bm{p}_{2}(t-1)}, ..., \frac{\bm{p}_{N}(t)}{\bm{p}_{N}(t-1)} \right]^{\top},~~ t =1, .... T,
+    \mathbf{y}(t) \triangleq \left[ \frac{\mathbf{p}_{1}(t)}{\mathbf{p}_{1} (t-1)}, \frac{\mathbf{p}_{2}(t)}{\mathbf{p}_{2}(t-1)}, ..., \frac{\mathbf{p}_{N}(t)}{\mathbf{p}_{N}(t-1)} \right]^{\top},~~ t =1, .... T,
     \label{eq:return_vector}
 
-where `\bm{p}(0) \in \mathbb{R}^{N}` is the vector of opening prices at `t = 1`.
+where `\mathbf{p}(0) \in \mathbb{R}^{N}` is the vector of opening prices at `t = 1`.
 
-Let `\bm{w}(t) \in \mathbb{R}^{N}` denotes the portfolio weights, which is updated at the beginning of time slot `t`. Let `v(t) \in \mathbb{R}` denotes the portfolio value at the beginning of time slot `t+1`. \footnote{Similarly `v(t)` is also the portfolio value at the ending of time slot `t`.}
+Let `\mathbf{w}(t) \in \mathbb{R}^{N}` denotes the portfolio weights, which is updated at the beginning of time slot `t`. Let `v(t) \in \mathbb{R}` denotes the portfolio value at the beginning of time slot `t+1`. \footnote{Similarly `v(t)` is also the portfolio value at the ending of time slot `t`.}
 Ignoring the transaction cost, we have the \textit{relative portfolio value} as the ratio between the portfolio value at the ending of time slot `t` and that at the beginning of time slot `t`,
 .. math::
-    \frac{v(t)}{v(t-1)} = \bm{w}(t)^{\top} \bm{y}(t),
+    \frac{v(t)}{v(t-1)} = \mathbf{w}(t)^{\top} \mathbf{y}(t),
 
 where `v(0)` is the initial capital. The \textit{rate of portfolio return} is
 .. math::
-    \rho(t) \triangleq \frac{v(t)}{v(t-1)} -1 = \bm{w}(t)^{\top} \bm{y}(t) - 1,
+    \rho(t) \triangleq \frac{v(t)}{v(t-1)} -1 = \mathbf{w}(t)^{\top} \mathbf{y}(t) - 1,
 
 while correspondingly the \textit{logarithmic rate of portfolio return} is
 .. math::
-    r(t) \triangleq \ln \frac{v(t)}{v(t-1)} = \ln(\bm{w}(t)^{\top}\bm{y}(t)).
+    r(t) \triangleq \ln \frac{v(t)}{v(t-1)} = \ln(\mathbf{w}(t)^{\top}\mathbf{y}(t)).
     \label{eq:reward}
 
 
@@ -51,46 +51,40 @@ while correspondingly the \textit{logarithmic rate of portfolio return} is
 The risk of a portfolio is defined as the variance of the rate of portfolio return `\rho(t)`:
 
 .. math::
-    \begin{split}
-        &\text{Risk}(t)  \triangleq \text{Var}(\rho(t)) = \text{Var}(\bm{w}(t) ^{\top}\bm{y}(t) - 1) \\
-        &= \text{Var}(\bm{w}(t) ^{\top}\bm{y}(t)) =\bm{w}(t) ^{\top}~\text{Cov}(\bm{y}(t))~\bm{w}(t)\\
-        &=\bm{w}(t)^{\top}~\bm{\Sigma}(t)~\bm{w}(t),
-    \end{split}
+        &\text{Risk}(t)  \triangleq \text{Var}(\rho(t)) = \text{Var}(\mathbf{w}(t) ^{\top}\mathbf{y}(t) - 1) \\
+        &= \text{Var}(\mathbf{w}(t) ^{\top}\mathbf{y}(t)) =\mathbf{w}(t) ^{\top}~\text{Cov}(\mathbf{y}(t))~\mathbf{w}(t)\\
+        &=\mathbf{w}(t)^{\top}~\mathbf{\Sigma}(t)~\mathbf{w}(t),
 
-where  `\bm{\Sigma}(t) = \text{Cov}(\bm{y}(t)) \in  \mathbb{R}^{N \times N}` is the covariance matrix of the stock returns at the end of time slot `t`.
+where  `\mathbf{\Sigma}(t) = \text{Cov}(\mathbf{y}(t)) \in  \mathbb{R}^{N \times N}` is the covariance matrix of the stock returns at the end of time slot `t`.
 If there is no transaction cost, the final portfolio value is
 
 .. math::
-    v(T) = v(0)~\exp\left( \sum\limits_{t=1}^{T} r(t) \right) = v(0)~ \prod\limits_{t=1}^{T} \bm{w}(t)^{\top}\bm{y}(t).
+    v(T) = v(0)~\exp\left( \sum\limits_{t=1}^{T} r(t) \right) = v(0)~ \prod\limits_{t=1}^{T} \mathbf{w}(t)^{\top}\mathbf{y}(t).
     \label{eq:portfolio_value}
 
 
 % In real world, regression models\cite{ma2021portfolio,yu2020portfolio} are used to predict the stocks returns with financial factors\cite{feng2017taming}.
 
-% Based on Capital Asset Pricing Model (CAPM) \cite{fama2004capital}, financial factors \cite{feng2017taming} are treated as features to predict stock returns with regression models, say `\widehat{\bm{y}}(t) \in \mathbb{R}^{N}` is an estimate of the return vector, `\bm{y}(t)` in (\ref{eq:return_vector}). 
+% Based on Capital Asset Pricing Model (CAPM) \cite{fama2004capital}, financial factors \cite{feng2017taming} are treated as features to predict stock returns with regression models, say `\widehat{\mathbf{y}}(t) \in \mathbb{R}^{N}` is an estimate of the return vector, `\mathbf{y}(t)` in (\ref{eq:return_vector}). 
 
-The portfolio management task \cite{boyd2017multi, enwiki:1043516653} aims to find a portfolio weight vector `\bm{w}^{*}(t) \in \mathbb{R}^{N}` such that
+The portfolio management task \cite{boyd2017multi, enwiki:1043516653} aims to find a portfolio weight vector `\mathbf{w}^{*}(t) \in \mathbb{R}^{N}` such that
 
 
 .. math::
-\begin{split}
-    \bm{w}^{*}(t) \triangleq & \text{argmax}_{\bm{w}(t)}~~~~\bm{w}^{\top}(t) ~ \bm{y}(t) - \lambda ~ \bm{w}^{\top}(t)~ \bm{{\Sigma}}(t) ~ \bm{w}(t),\\
-    & \text{s.t.}~~~ \sum_{i=1}^{N} \bm{w}_{i}(t) = 1,~~~~\bm{w}_{i}(t) \in [0, 1],~~~~~~t = 1,...,T
-\end{split}
+    \mathbf{w}^{*}(t) \triangleq & \text{argmax}_{\mathbf{w}(t)}~~~~\mathbf{w}^{\top}(t) ~ \mathbf{y}(t) - \lambda ~ \mathbf{w}^{\top}(t)~ \mathbf{{\Sigma}}(t) ~ \mathbf{w}(t),\\
+    & \text{s.t.}~~~ \sum_{i=1}^{N} \mathbf{w}_{i}(t) = 1,~~~~\mathbf{w}_{i}(t) \in [0, 1],~~~~~~t = 1,...,T
 
 where `\lambda > 0` is the risk aversion parameter. Since
-`\bm{y}(t)` and `\bm{\Sigma}(t)` are revealed at the end of time slot `t`. We estimate them at the the beginning of time slot `t`.
+`\mathbf{y}(t)` and `\mathbf{\Sigma}(t)` are revealed at the end of time slot `t`. We estimate them at the the beginning of time slot `t`.
 
-We use `\widehat{\bm{y}}(t) \in \mathbb{R}^{N}` to estimate  the price relative vector `\bm{y}(t)` in (\ref{eq:opt_problem0}) by applying a regression model on predictive financial features \cite{feng2017taming} based on  Capital Asset Pricing Model (CAPM) \cite{fama2004capital}.
-We use `\widehat{\bm{\Sigma}}(t)`, the sample covariance matrix, to  estimate covariance matrix `\bm{\Sigma}(t)` in (\ref{eq:opt_problem0}) using historical data.
+We use `\widehat{\mathbf{y}}(t) \in \mathbb{R}^{N}` to estimate  the price relative vector `\mathbf{y}(t)` in (\ref{eq:opt_problem0}) by applying a regression model on predictive financial features \cite{feng2017taming} based on  Capital Asset Pricing Model (CAPM) \cite{fama2004capital}.
+We use `\widehat{\mathbf{\Sigma}}(t)`, the sample covariance matrix, to  estimate covariance matrix `\mathbf{\Sigma}(t)` in (\ref{eq:opt_problem0}) using historical data.
 
 Then, at the beginning of time slot `t`, our goal is to find  optimal portfolio weights
 
 .. math::
-\begin{split}
-    \bm{w}^{*}(t) \triangleq & \text{argmax}_{\bm{w}(t)}~~~~\bm{w}^{\top}(t) ~ \widehat{\bm{y}}(t) - \lambda ~ \bm{w}^{\top}(t)~ \widehat{\bm{{\Sigma}}}(t) ~ \bm{w}(t),\\
-    &\text{s.t.}~~~ \sum_{i=1}^{N} \bm{w}_{i}(t) = 1,~~~~\bm{w}_{i}(t) \in [0, 1],~~~~~~t = 1,...,T.
-\end{split}
+    \mathbf{w}^{*}(t) \triangleq & \text{argmax}_{\mathbf{w}(t)}~~~~\mathbf{w}^{\top}(t) ~ \widehat{\mathbf{y}}(t) - \lambda ~ \mathbf{w}^{\top}(t)~ \widehat{\mathbf{{\Sigma}}}(t) ~ \mathbf{w}(t),\\
+    &\text{s.t.}~~~ \sum_{i=1}^{N} \mathbf{w}_{i}(t) = 1,~~~~\mathbf{w}_{i}(t) \in [0, 1],~~~~~~t = 1,...,T.
 
 
 
