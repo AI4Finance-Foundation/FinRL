@@ -116,37 +116,44 @@ The agent takes `\mathbf{s}(t)` as input at the beginning of time slot `t` and o
 - Environment: Dow Jones 30 constituent stocks during 01/01/2009 to 09/01/2021
  
 
-                      
 
-
-
-
-Step 3. The Feature Weights For Machine Learning Methods
+Step 3. The Feature Weights Using Integrated Gradient
 ---------------------------------------
 
-\textbf{Integrated Gradient (IG)}.
-It integrates the gradient of the output with respect to input features. For an input `\mathbf{x} \in \mathbb{R}^n`, the `i`-th entry of integrated gradient is defined as
+Integrated Gradient (IG) integrates the gradient of the output with respect to input features. For an input `\mathbf{x} \in \mathbb{R}^n`, the `i`-th entry of integrated gradient is defined as
 
 .. math::
 IG(\mathbf{x})_{i} \triangleq (\mathbf{x}_{i} - \mathbf{x}^{\prime}_{i}) \times \int_{z=0}^{1}\frac{\partial F(\mathbf{x}^{\prime} + z\cdot(\mathbf{x} - \mathbf{x}^{\prime}))}{\partial \mathbf{x}_{i}}dz,
     
-    
-
 where `F(\cdot)` denotes a DRL model, `\mathbf{x}^{\prime}` is a perturbed version of `\mathbf{x}`, say replacing all entries with zeros. It explains the relationship between a model's predictions in terms of its features.
 
 
+We use the integrated gradients in (\ref{eq:IG_def}) to measure the feature weights \cite{pmlr-v70-sundararajan17a, tomsett2020sanity}.
+For a trained DRL agent,  the integrated gradient \cite{pmlr-v70-sundararajan17a} under policy `\pi` for the `k`-th feature of the `i`-th asset is defined as
 
-We use conventional machine learning methods as comparison. 
+.. math::
+    \begin{split}
+        & IG(\mathbf{f}^{k}(t))_{i} \\
+        & = (\mathbf{f}^{k}(t)_{i} - \mathbf{f}^{k^{\prime}}(t)_{i})\\
+        & \times  \int_{z = 0}^{1} \frac{\partial Q^{\pi}(\mathbf{s}_{k}'(t) + z \cdot (\mathbf{s}(t) - \mathbf{s}_{k}'(t)), \mathbf{w}(t))}{\partial \mathbf{f}^{k}(t)_{i}} d z\\
+        & =\mathbf{f}^{k}(t)_{i} \cdot  \frac{\partial Q^{\pi}(\mathbf{s}_{k}'(t) + z^{k,i} \cdot (\mathbf{s}(t) - \mathbf{s}_{k}'(t)), \mathbf{w}(t))}{\partial \mathbf{f}^{k}(t)_{i}} \cdot (1 - 0)\\
+        & = \mathbf{f}^{k}(t)_{i} \\
+        & \cdot  \frac{\partial\mathbb{E}\left[\sum_{l=0}^{\infty}\gamma^{l}\cdot r(\mathbf{s}^{k,i}(t+l),\mathbf{w}(t+l),\mathbf{s}^{k,i}(t+l+1))|\mathbf{s}^{k,i}(t),\mathbf{w}(t)\right]}{\partial \mathbf{f}^{k}(t)_{i} }\\
+        & = \mathbf{f}^{k}(t)_{i} \cdot  \sum_{l=0}^{\infty} \gamma^{l}\cdot \frac{\partial\mathbb{E}\left[ \ln(\mathbf{w}^{\top}(t+l)\cdot\mathbf{y}(t+l)) |\mathbf{s}^{k,i}(t),\mathbf{w}(t)\right]}{\partial \mathbf{f}^{k}(t)_{i} }\\
+        & \approx \mathbf{f}^{k}(t)_{i} \cdot  \sum_{l=0}^{\infty} \gamma^{l}\cdot \frac{\partial\mathbb{E}\left[ \mathbf{w}^{\top}(t+l)\cdot\mathbf{y}(t+l) - 1 |\mathbf{s}^{k,i}(t),\mathbf{w}(t)\right]}{ \partial \mathbf{f}^{k}(t)_{i} }\\
+        & = \mathbf{f}^{k}(t)_{i} \cdot  \sum_{l=0}^{\infty} \gamma^{l}\cdot \frac{\partial\mathbb{E}\left[ \mathbf{w}^{\top}(t+l)\cdot\mathbf{y}(t+l)|\mathbf{s}^{k,i}(t),\mathbf{w}(t)\right]}{ \partial \mathbf{f}^{k}(t)_{i} },
+    \end{split}
 
-- Firstly, it uses the features as input to predict the stock returns vector. 
 
-- Secondly, it builds a linear regression model to find the relationship between the portfolio return vector q and features.
+where the first equality holds by definition in (\ref{eq:IG_def}), the second equality holds because of the mean value theorem \cite{enwiki:1036027918}, the third equality holds because
 
-- Lastly, it uses the regression coefficients b to define the feature weights as follows.
+.. math::
+    Q^{\pi}(\mathbf{s}(t), \mathbf{w}(t))
+    \triangleq \mathbb{E}\left[\sum_{l=0}^{\infty}\gamma^{l}\cdot r(\mathbf{s}(t+l),\mathbf{w}(t+l),\mathbf{s}(t+l+1))|\mathbf{s}(t),\mathbf{w}(t)\right],
 
-We define the feature weights for machine learning methods as 
-b(t) := [b(t)1, b(t)2, ..., b(t)K]  RK, where b(t)k = Ni=1  bk(t)fk(t)i ,  bk(t) is the coefficient in the linear model: 
-wML(t)  y(t) = b0(t) [1, ..., 1]T + b1(t)f1(t) + ... + bK(t)fK(t) + (t)
+the approximation holds because `\ln(\mathbf{w}^{\top}(t)\cdot\mathbf{y}(t)) \approx \mathbf{w}^{\top}(t)\cdot\mathbf{y}(t) - 1` when `\mathbf{w}^{\top}(t)\cdot\mathbf{y}(t)` is close to 1. `\mathbf{s}_{k}'(t) \in \mathbb{R}^{N \times  (N+K)}` is a perturbed version of `\mathbf{s}(t)` by replacing the `k`-th feature with an all-zero vector.  `\mathbf{s}^{k,i}(t)` is a linear combination of original state and perturbed state `\mathbf{s}^{k,i}(t) \triangleq \mathbf{s}_{k}'(t) + z^{k,i}  \cdot (\mathbf{s}(t) - \mathbf{s}_{k}'(t))`, where `z^{k,i} \in [0,1]`.
+
+
 
 
 Step 4. The Prediction Power
