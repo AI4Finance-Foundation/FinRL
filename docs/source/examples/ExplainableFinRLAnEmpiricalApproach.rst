@@ -65,7 +65,7 @@ If there is no transaction cost, the final portfolio value is
 
 
 
-The portfolio management task \cite{boyd2017multi, enwiki:1043516653} aims to find a portfolio weight vector `\mathbf{w}^{*}(t) \in \mathbb{R}^{N}` such that
+The portfolio management task aims to find a portfolio weight vector `\mathbf{w}^{*}(t) \in \mathbb{R}^{N}` such that
 
 
 .. math::
@@ -75,7 +75,7 @@ The portfolio management task \cite{boyd2017multi, enwiki:1043516653} aims to fi
 where `\lambda > 0` is the risk aversion parameter. Since
 `\mathbf{y}(t)` and `\mathbf{\Sigma}(t)` are revealed at the end of time slot `t`. We estimate them at the the beginning of time slot `t`.
 
-We use `\widehat{\mathbf{y}}(t) \in \mathbb{R}^{N}` to estimate  the price relative vector `\mathbf{y}(t)` by applying a regression model on predictive financial features \cite{feng2017taming} based on  Capital Asset Pricing Model (CAPM) \cite{fama2004capital}.
+We use `\widehat{\mathbf{y}}(t) \in \mathbb{R}^{N}` to estimate  the price relative vector `\mathbf{y}(t)` by applying a regression model on predictive financial features based on  Capital Asset Pricing Model (CAPM).
 We use `\widehat{\mathbf{\Sigma}}(t)`, the sample covariance matrix, to  estimate covariance matrix `\mathbf{\Sigma}(t)` using historical data.
 
 Then, at the beginning of time slot `t`, our goal is to find  optimal portfolio weights
@@ -128,8 +128,8 @@ Integrated Gradient (IG) integrates the gradient of the output with respect to i
 where `F(\cdot)` denotes a DRL model, `\mathbf{x}^{\prime}` is a perturbed version of `\mathbf{x}`, say replacing all entries with zeros. It explains the relationship between a model's predictions in terms of its features.
 
 
-We use the integrated gradients to measure the feature weights \cite{pmlr-v70-sundararajan17a, tomsett2020sanity}.
-For a trained DRL agent,  the integrated gradient \cite{pmlr-v70-sundararajan17a} under policy `\pi` for the `k`-th feature of the `i`-th asset is defined as
+We use the integrated gradients to measure the feature weights.
+For a trained DRL agent,  the integrated gradient under policy `\pi` for the `k`-th feature of the `i`-th asset is defined as
 
 .. math::
     \begin{split}
