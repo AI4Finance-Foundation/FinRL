@@ -128,7 +128,7 @@ IG(\mathbf{x})_{i} \triangleq (\mathbf{x}_{i} - \mathbf{x}^{\prime}_{i}) \times 
 where `F(\cdot)` denotes a DRL model, `\mathbf{x}^{\prime}` is a perturbed version of `\mathbf{x}`, say replacing all entries with zeros. It explains the relationship between a model's predictions in terms of its features.
 
 
-We use the integrated gradients in (\ref{eq:IG_def}) to measure the feature weights \cite{pmlr-v70-sundararajan17a, tomsett2020sanity}.
+We use the integrated gradients to measure the feature weights \cite{pmlr-v70-sundararajan17a, tomsett2020sanity}.
 For a trained DRL agent,  the integrated gradient \cite{pmlr-v70-sundararajan17a} under policy `\pi` for the `k`-th feature of the `i`-th asset is defined as
 
 .. math::
@@ -145,7 +145,7 @@ For a trained DRL agent,  the integrated gradient \cite{pmlr-v70-sundararajan17a
     \end{split}
 
 
-where the first equality holds by definition in (\ref{eq:IG_def}), the second equality holds because of the mean value theorem \cite{enwiki:1036027918}, the third equality holds because
+where the first equality holds by definition, the second equality holds because of the mean value theorem, the third equality holds because
 
 .. math::
     Q^{\pi}(\mathbf{s}(t), \mathbf{w}(t))
