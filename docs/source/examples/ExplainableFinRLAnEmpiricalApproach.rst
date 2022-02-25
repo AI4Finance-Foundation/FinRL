@@ -74,14 +74,15 @@ The portfolio management task \cite{boyd2017multi, enwiki:1043516653} aims to fi
 where `\lambda > 0` is the risk aversion parameter. Since
 `\mathbf{y}(t)` and `\mathbf{\Sigma}(t)` are revealed at the end of time slot `t`. We estimate them at the the beginning of time slot `t`.
 
-We use `\widehat{\mathbf{y}}(t) \in \mathbb{R}^{N}` to estimate  the price relative vector `\mathbf{y}(t)` in (\ref{eq:opt_problem0}) by applying a regression model on predictive financial features \cite{feng2017taming} based on  Capital Asset Pricing Model (CAPM) \cite{fama2004capital}.
-We use `\widehat{\mathbf{\Sigma}}(t)`, the sample covariance matrix, to  estimate covariance matrix `\mathbf{\Sigma}(t)` in (\ref{eq:opt_problem0}) using historical data.
+We use `\widehat{\mathbf{y}}(t) \in \mathbb{R}^{N}` to estimate  the price relative vector `\mathbf{y}(t)` by applying a regression model on predictive financial features \cite{feng2017taming} based on  Capital Asset Pricing Model (CAPM) \cite{fama2004capital}.
+We use `\widehat{\mathbf{\Sigma}}(t)`, the sample covariance matrix, to  estimate covariance matrix `\mathbf{\Sigma}(t)` using historical data.
 
 Then, at the beginning of time slot `t`, our goal is to find  optimal portfolio weights
 
 .. math::
     \mathbf{w}^{*}(t) \triangleq & \text{argmax}_{\mathbf{w}(t)}~~~~\mathbf{w}^{\top}(t) ~ \widehat{\mathbf{y}}(t) - \lambda ~ \mathbf{w}^{\top}(t)~ \widehat{\mathbf{{\Sigma}}}(t) ~ \mathbf{w}(t),\\
     &\text{s.t.}~~~ \sum_{i=1}^{N} \mathbf{w}_{i}(t) = 1,~~~~\mathbf{w}_{i}(t) \in [0, 1],~~~~~~t = 1,...,T.
+
 
 
 
