@@ -28,7 +28,6 @@ Step 1. Portfolio Management Task
 Consider a portfolio with `N` risky assets over `T` time slots, the portfolio management task aims to maximize profit and minimize risk. Let `\mathbf{p}(t) \in \mathbb{R}^{N}` denotes the closing prices of all assets at time slot `t = 1,..., T`. \footnote{For continuous markets, the closing prices at time slot `t` is also the opening prices for time slot `t+1`.}The \textit{price relative vector} `\mathbf{y}(t) \in \mathbb{R}^{N}` is defined as the element-wise division of `\mathbf{p}(t)` by `\mathbf{p}(t-1)`:
 .. math::
     \mathbf{y}(t) \triangleq \left[ \frac{\mathbf{p}_{1}(t)}{\mathbf{p}_{1} (t-1)}, \frac{\mathbf{p}_{2}(t)}{\mathbf{p}_{2}(t-1)}, ..., \frac{\mathbf{p}_{N}(t)}{\mathbf{p}_{N}(t-1)} \right]^{\top},~~ t =1, .... T,
-    \label{eq:return_vector}
 
 where `\mathbf{p}(0) \in \mathbb{R}^{N}` is the vector of opening prices at `t = 1`.
 
@@ -44,7 +43,6 @@ where `v(0)` is the initial capital. The \textit{rate of portfolio return} is
 while correspondingly the \textit{logarithmic rate of portfolio return} is
 .. math::
     r(t) \triangleq \ln \frac{v(t)}{v(t-1)} = \ln(\mathbf{w}(t)^{\top}\mathbf{y}(t)).
-    \label{eq:reward}
 
 
 
@@ -60,7 +58,6 @@ If there is no transaction cost, the final portfolio value is
 
 .. math::
     v(T) = v(0)~\exp\left( \sum\limits_{t=1}^{T} r(t) \right) = v(0)~ \prod\limits_{t=1}^{T} \mathbf{w}(t)^{\top}\mathbf{y}(t).
-    \label{eq:portfolio_value}
 
 
 % In real world, regression models\cite{ma2021portfolio,yu2020portfolio} are used to predict the stocks returns with financial factors\cite{feng2017taming}.
@@ -85,6 +82,7 @@ Then, at the beginning of time slot `t`, our goal is to find  optimal portfolio 
 .. math::
     \mathbf{w}^{*}(t) \triangleq & \text{argmax}_{\mathbf{w}(t)}~~~~\mathbf{w}^{\top}(t) ~ \widehat{\mathbf{y}}(t) - \lambda ~ \mathbf{w}^{\top}(t)~ \widehat{\mathbf{{\Sigma}}}(t) ~ \mathbf{w}(t),\\
     &\text{s.t.}~~~ \sum_{i=1}^{N} \mathbf{w}_{i}(t) = 1,~~~~\mathbf{w}_{i}(t) \in [0, 1],~~~~~~t = 1,...,T.
+
 
 
 
