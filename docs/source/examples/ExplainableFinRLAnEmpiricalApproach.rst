@@ -49,19 +49,21 @@ while correspondingly the \textit{logarithmic rate of portfolio return} is
 
 
 The risk of a portfolio is defined as the variance of the rate of portfolio return `\rho(t)`:
-\begin{equation}
+
+.. math::
     \begin{split}
         &\text{Risk}(t)  \triangleq \text{Var}(\rho(t)) = \text{Var}(\bm{w}(t) ^{\top}\bm{y}(t) - 1) \\
         &= \text{Var}(\bm{w}(t) ^{\top}\bm{y}(t)) =\bm{w}(t) ^{\top}~\text{Cov}(\bm{y}(t))~\bm{w}(t)\\
         &=\bm{w}(t)^{\top}~\bm{\Sigma}(t)~\bm{w}(t),
     \end{split}
-\end{equation}
+
 where  `\bm{\Sigma}(t) = \text{Cov}(\bm{y}(t)) \in  \mathbb{R}^{N \times N}` is the covariance matrix of the stock returns at the end of time slot `t`.
 If there is no transaction cost, the final portfolio value is
-\begin{equation}
+
+.. math::
     v(T) = v(0)~\exp\left( \sum\limits_{t=1}^{T} r(t) \right) = v(0)~ \prod\limits_{t=1}^{T} \bm{w}(t)^{\top}\bm{y}(t).
     \label{eq:portfolio_value}
-\end{equation}
+
 
 % In real world, regression models\cite{ma2021portfolio,yu2020portfolio} are used to predict the stocks returns with financial factors\cite{feng2017taming}.
 
@@ -70,12 +72,12 @@ If there is no transaction cost, the final portfolio value is
 The portfolio management task \cite{boyd2017multi, enwiki:1043516653} aims to find a portfolio weight vector `\bm{w}^{*}(t) \in \mathbb{R}^{N}` such that
 
 
-\begin{equation}\label{eq:opt_problem0}
+.. math::
 \begin{split}
     \bm{w}^{*}(t) \triangleq & \text{argmax}_{\bm{w}(t)}~~~~\bm{w}^{\top}(t) ~ \bm{y}(t) - \lambda ~ \bm{w}^{\top}(t)~ \bm{{\Sigma}}(t) ~ \bm{w}(t),\\
     & \text{s.t.}~~~ \sum_{i=1}^{N} \bm{w}_{i}(t) = 1,~~~~\bm{w}_{i}(t) \in [0, 1],~~~~~~t = 1,...,T
 \end{split}
-\end{equation}
+
 where `\lambda > 0` is the risk aversion parameter. Since
 `\bm{y}(t)` and `\bm{\Sigma}(t)` are revealed at the end of time slot `t`. We estimate them at the the beginning of time slot `t`.
 
@@ -83,12 +85,13 @@ We use `\widehat{\bm{y}}(t) \in \mathbb{R}^{N}` to estimate  the price relative 
 We use `\widehat{\bm{\Sigma}}(t)`, the sample covariance matrix, to  estimate covariance matrix `\bm{\Sigma}(t)` in (\ref{eq:opt_problem0}) using historical data.
 
 Then, at the beginning of time slot `t`, our goal is to find  optimal portfolio weights
-\begin{equation}\label{eq:opt_problem}
+
+.. math::
 \begin{split}
     \bm{w}^{*}(t) \triangleq & \text{argmax}_{\bm{w}(t)}~~~~\bm{w}^{\top}(t) ~ \widehat{\bm{y}}(t) - \lambda ~ \bm{w}^{\top}(t)~ \widehat{\bm{{\Sigma}}}(t) ~ \bm{w}(t),\\
     &\text{s.t.}~~~ \sum_{i=1}^{N} \bm{w}_{i}(t) = 1,~~~~\bm{w}_{i}(t) \in [0, 1],~~~~~~t = 1,...,T.
 \end{split}
-\end{equation}
+
 
 
 Step 2. The DRL Agent Settings For Portfolio Management Task
