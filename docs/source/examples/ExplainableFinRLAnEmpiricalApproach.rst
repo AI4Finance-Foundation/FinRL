@@ -88,34 +88,34 @@ Then, at the beginning of time slot `t`, our goal is to find  optimal portfolio 
 
 
 
-Step 2. The DRL Agent Settings For Portfolio Management Task
+Step 2. DRL Model for Portfolio Management
 ---------------------------------------
 
 Similar to the tutorial FinRL: Multiple Stock Trading,  we model the portfolio management process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem. The algorithm is trained using Deep Reinforcement Learning (DRL) algorithms and the components of the reinforcement learning environment are:
 
-- Action: The action space describes the allowed actions an agent can take at a state. In our task, the action w(t)∈ RN  corresponds to the portfolio weight vector decided at the beginning of time slot 𝑡 and should satisfy the constraints: firstly, each element is between 0 and 1, secondly the summation of all elements is 1.
+- State: `\mathcal{S}` describes an agent's perception of a market.  The state at the beginning of time slot `t` is
 
-- Reward function: The reward function 𝑟(s(t),w(t),s(t+1)) is the incentive for an agent to learn a profitable policy. We use the logarithmic rate of portfolio return: ln(w(t)Ty(t)).as the reward, where y(t) ∈ RN is the price relative vector.
+.. math::
+    \mathbf{s}(t) = [\mathbf{f}^{1}(t),  ... , \mathbf{f}^{K}(t), \widehat{\mathbf{\Sigma}}(t)] \in \mathbb{R}^{ N \times (N+K)}, ~~~~~~t = 1,...,T,
 
-- State: describes an agent’s perception of a market. The state at the beginning of time slot 𝑡 is s(t) = [f1(𝑡), ..., fK(𝑡), (t)] ∈ RN(N+K)  , 𝑡 = 1, ...,𝑇 .
+where  `\mathbf{f}^{k}(t) \in \mathbb{R}^{N}` denotes the vector for the `k`-th feature at the beginning of time slot `t`.
+
+- Action: `\mathcal{A}` describes the allowed actions an agent can take at a state. In our task, the action `\mathbf{w}(t) \in \mathbb{R}^{N}`  corresponds to  the portfolio weight vector decided at the beginning of time slot `t` and should satisfy the constraints. We use a softmax layer as the last layer to meet the constraints.
+
+- Reward function: The reward function `r(\mathbf{s}(t),\mathbf{w}(t),\mathbf{s}(t+1))` is the incentive for an agent to learn a profitable policy. We use the logarithmic rate of portfolio return in (\ref{eq:reward}) as the reward,
+
+.. math::
+    r(\mathbf{s}(t),\mathbf{w}(t),\mathbf{s}(t+1)) = \ln(\mathbf{w}^{\top}(t)\cdot\mathbf{y}(t)).
+
+The agent takes `\mathbf{s}(t)` as input at the beginning of time slot `t` and output `\mathbf{w}(t)` as the portfolio weight vector. 
+
+
 
 - DRL Algorithms: We use two popular deep reinforcement learning algorithms: Advantage Actor Critic (A2C)  and Proximal Policy Optimization (PPO).
 
 - Environment: Dow Jones 30 constituent stocks during 01/01/2009 to 09/01/2021
  
 
-DRL Agents
-
-We use integrated gradients to define the feature weights for DRL agents in portfolio management tasks.
-                              IG(x)i := (xi - x'i)  1z=0 F(x' + z (x - x'))xidz,
-where x  RN is the input and F() is the DRL model. Likewise, we use linear regression coefficients to help understand DRL agents:
-
-wDRL(t)  y(t) = c0(t) [1, ..., 1]T + c1(t)f1(t) + ... + cK(t)fK(t) + (t).
-
-Lastly, we define the feature weights of DRL agents in portfolio management task using integrated gradients and the regression coefficients.
-                                                      M(t) := [ M(t)1, ... ,M(t)K ], 
-where M(t)k:= Ni=1 IG(fk(t))i Ni=1fk(t)ii=1lE[wDRL(t+l)Ty(t+l) | sk,i(t), w(t)]fk(t)i
-                      =  Ni=1fk(t)ii=1lE[ck(t+l)fk(t+l)ifk(t)i | sk,i(t), w(t)]
                       
 
 
@@ -123,6 +123,16 @@ where M(t)k:= Ni=1 IG(fk(t))i Ni=1fk(t)ii=1lE[wDRL(t+l)Ty(t+l) | sk,i(t), w(t)]f
 
 Step 3. The Feature Weights For Machine Learning Methods
 ---------------------------------------
+
+\textbf{Integrated Gradient (IG)}.
+It integrates the gradient of the output with respect to input features. For an input `\mathbf{x} \in \mathbb{R}^n`, the `i`-th entry of integrated gradient is defined as
+
+.. math::
+\text{IG}(\mathbf{x})_{i} \triangleq (\mathbf{x}_{i} - \mathbf{x}^{\prime}_{i}) \times \int_{z=0}^{1}\frac{\partial F(\mathbf{x}^{\prime} + z\cdot(\mathbf{x} - \mathbf{x}^{\prime}))}{\partial \mathbf{x}_{i}}dz,
+
+where `F(\cdot)` denotes a DRL model, `\mathbf{x}^{\prime}` is a perturbed version of `\mathbf{x}`, say replacing all entries with zeros. It explains the relationship between a model's predictions in terms of its features.
+
+
 
 We use conventional machine learning methods as comparison. 
 
