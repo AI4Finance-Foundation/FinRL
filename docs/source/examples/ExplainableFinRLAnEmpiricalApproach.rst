@@ -122,22 +122,21 @@ Step 3. The Feature Weights Using Integrated Gradient
 
 Integrated Gradient (IG) integrates the gradient of the output with respect to input features. For an input `\mathbf{x} \in \mathbb{R}^n`, the `i`-th entry of integrated gradient is defined as
 
-
-.. math:: 
+.. math::
 \text{IG}(\mathbf{x})_i
 
-.. math:: 
-(\mathbf{x}_i - \mathbf{x}'_i) \times 
+.. math::
+(\mathbf{x}_i - \mathbf{x}'_i) \times
 
+.. math::
+\text{IG}(\mathbf{x})_i = (\mathbf{x}_i - \mathbf{x}'_i) \times
 
-.. math:: 
-\text{IG}(\mathbf{x})_i = (\mathbf{x}_i - \mathbf{x}'_i) \times 
-
-.. math::  
+.. math::
 \int_{z=0}^1 \frac{\partial F(\mathbf{x}^' + z\cdot(\mathbf{x} - \mathbf{x}'))}{\partial \mathbf{x}_i}dz,
 
-.. math:: 
+.. math::
 \int_{z=0}^1
+
 
 where `F(\cdot)` denotes a DRL model, `\mathbf{x}^{\prime}` is a perturbed version of `\mathbf{x}`, say replacing all entries with zeros. It explains the relationship between a model's predictions in terms of its features.
 
