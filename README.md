@@ -59,6 +59,7 @@ FinRL provides a unified framework for various markets, SOTA DRL algorithms, fin
 
 - [Tutorials](#Tutorials)
 - [Overview](#Overview)
+- [File Structure](#File-Structure)
 - [Status Update](#Status-Update)
 - [Installation](#Installation)
 - [Contributions](#Contributions)
