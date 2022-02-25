@@ -26,6 +26,7 @@ Step 1. Portfolio Management Task
 ---------------------------------------
 
 Consider a portfolio with `N` risky assets over `T` time slots, the portfolio management task aims to maximize profit and minimize risk. Let `\mathbf{p}(t) \in \mathbb{R}^{N}` denotes the closing prices of all assets at time slot `t = 1,..., T`. \footnote{For continuous markets, the closing prices at time slot `t` is also the opening prices for time slot `t+1`.}The \textit{price relative vector} `\mathbf{y}(t) \in \mathbb{R}^{N}` is defined as the element-wise division of `\mathbf{p}(t)` by `\mathbf{p}(t-1)`:
+
 .. math::
     \mathbf{y}(t) \triangleq \left[ \frac{\mathbf{p}_{1}(t)}{\mathbf{p}_{1} (t-1)}, \frac{\mathbf{p}_{2}(t)}{\mathbf{p}_{2}(t-1)}, ..., \frac{\mathbf{p}_{N}(t)}{\mathbf{p}_{N}(t-1)} \right]^{\top},~~ t =1, .... T,
 
@@ -33,14 +34,17 @@ where `\mathbf{p}(0) \in \mathbb{R}^{N}` is the vector of opening prices at `t =
 
 Let `\mathbf{w}(t) \in \mathbb{R}^{N}` denotes the portfolio weights, which is updated at the beginning of time slot `t`. Let `v(t) \in \mathbb{R}` denotes the portfolio value at the beginning of time slot `t+1`. \footnote{Similarly `v(t)` is also the portfolio value at the ending of time slot `t`.}
 Ignoring the transaction cost, we have the \textit{relative portfolio value} as the ratio between the portfolio value at the ending of time slot `t` and that at the beginning of time slot `t`,
+
 .. math::
     \frac{v(t)}{v(t-1)} = \mathbf{w}(t)^{\top} \mathbf{y}(t),
 
 where `v(0)` is the initial capital. The \textit{rate of portfolio return} is
+
 .. math::
     \rho(t) \triangleq \frac{v(t)}{v(t-1)} -1 = \mathbf{w}(t)^{\top} \mathbf{y}(t) - 1,
 
 while correspondingly the \textit{logarithmic rate of portfolio return} is
+
 .. math::
     r(t) \triangleq \ln \frac{v(t)}{v(t-1)} = \ln(\mathbf{w}(t)^{\top}\mathbf{y}(t)).
 
@@ -60,9 +64,6 @@ If there is no transaction cost, the final portfolio value is
     v(T) = v(0)~\exp\left( \sum\limits_{t=1}^{T} r(t) \right) = v(0)~ \prod\limits_{t=1}^{T} \mathbf{w}(t)^{\top}\mathbf{y}(t).
 
 
-% In real world, regression models\cite{ma2021portfolio,yu2020portfolio} are used to predict the stocks returns with financial factors\cite{feng2017taming}.
-
-% Based on Capital Asset Pricing Model (CAPM) \cite{fama2004capital}, financial factors \cite{feng2017taming} are treated as features to predict stock returns with regression models, say `\widehat{\mathbf{y}}(t) \in \mathbb{R}^{N}` is an estimate of the return vector, `\mathbf{y}(t)` in (\ref{eq:return_vector}). 
 
 The portfolio management task \cite{boyd2017multi, enwiki:1043516653} aims to find a portfolio weight vector `\mathbf{w}^{*}(t) \in \mathbb{R}^{N}` such that
 
