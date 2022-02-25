@@ -105,7 +105,7 @@ class DRLAgent:
         return model
 
     @staticmethod
-    def DRL_prediction(model, environment, deterministic=False):
+    def DRL_prediction(model, environment, deterministic=True):
         test_env, test_obs = environment.get_sb_env()
         """make a prediction"""
         account_memory = []
@@ -125,7 +125,7 @@ class DRLAgent:
         return account_memory[0], actions_memory[0]
 
     @staticmethod
-    def DRL_prediction_load_from_file(model_name, environment, cwd, deterministic=False):
+    def DRL_prediction_load_from_file(model_name, environment, cwd, deterministic=True):
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
         try:
