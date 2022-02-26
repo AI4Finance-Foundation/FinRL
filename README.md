@@ -223,7 +223,7 @@ We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), che
 
 Welcome to the **AI4Finance Foundation** community!
 
-Please check [Contributing Guidances](https://github.com/AI4Finance-LLC/FinRL/blob/master/contributing.md).
+Please check [Contributing Guidances](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/Contributing.md).
 
 ### Contributors
 
