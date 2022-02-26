@@ -123,24 +123,8 @@ Step 3. The Feature Weights Using Integrated Gradient
 Integrated Gradient (IG) integrates the gradient of the output with respect to input features. For an input `\mathbf{x} \in \mathbb{R}^n`, the `i`-th entry of integrated gradient is defined as
 
 .. math::
-\text{IG}(\mathbf{x})_i
-
-.. math::
-(\mathbf{x}_i - \mathbf{x}'_i) \times
-
-.. math::
-\text{IG}(\mathbf{x})_i = (\mathbf{x}_i - \mathbf{x}'_i) \times
-
-.. math::
-\int_{z=0}^1 \frac{\partial F(\mathbf{x}^' + z\cdot(\mathbf{x} - \mathbf{x}'))}{\partial \mathbf{x}_i}dz,
-
-.. math::
-\int_{z=0}^1
-
-.. math::
-    \mathbf{s}(t) = [\mathbf{f}^{1}(t),  ... , \mathbf{f}^{K}(t), \widehat{\mathbf{\Sigma}}(t)] \in \mathbb{R}^{ N \times (N+K)}, ~~~~~~t = 1,...,T,
-
-
+    \text{IG}(\bm{x})_{i} \triangleq (\bm{x}_{i} - \bm{x}^{\prime}_{i}) \times \int_{z=0}^{1}\frac{\partial F(\bm{x}^{\prime} + z\cdot(\bm{x} - \bm{x}^{\prime}))}{\partial \bm{x}_{i}}dz,
+    
 where `F(\cdot)` denotes a DRL model, `\mathbf{x}^{\prime}` is a perturbed version of `\mathbf{x}`, say replacing all entries with zeros. It explains the relationship between a model's predictions in terms of its features.
 
 
