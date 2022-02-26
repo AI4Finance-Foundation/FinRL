@@ -125,18 +125,18 @@ Users also can add their features.
 ## File Structure
 
 + **finrl**		# main folder
-    + ./apps        	# apps for different typles of trading
+    + ./apps        	# trading apps
     + ./drl_agents    	# DRL agents from ElegantRL, RLlib, Stable-Baseline 3
-    + ./finrl_meta   	# contents of child project finrl-meta
-    + train.py	 	# a collection of demos
-    + test.py 		# the evaluator class
-    + trade.py	  	# a collection of network architectures
-    + plot.py		# the buffer class
-+ **tutorials**  	# tutorials for people to run and learn
+    + ./finrl_meta   	# market env from finrl-meta
+    + train.py	 	# 
+    + test.py 		# 
+    + trade.py	  	# 
+    + plot.py		# 
++ **tutorials**  	# tutorials
        	
 + **unit_testing**	# testing environment and market data
-    + ./test_env      	# testing environment
-    + ./test_marketdata # testing market data
+    + ./test_env      	# 
+    + ./test_marketdata # 
 + **ready-to-run Google-Colab notebooks**
 
 ## DRL Algorithms 
