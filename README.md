@@ -85,6 +85,8 @@ A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA). The [
 
 ## File Structure
 
+Corresponding to three-layer structure, the main fold **finrl** has three subfolders **apps, drl_agents, finrl_meta**. Then, we employ a **train-testing-trade** pipeline.
+
 + **finrl**		# main folder
     + ./apps        	# trading apps
     + ./drl_agents    	# DRL agents from ElegantRL, RLlib, Stable-Baseline 3
