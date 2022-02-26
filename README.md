@@ -60,6 +60,7 @@ FinRL provides a unified framework for various markets, SOTA DRL algorithms, fin
 
 - [Overview](#Overview)
 - [File Structure](#File-Structure)
+- [Supported Data Sources](#Supported-Data-Sources)
 - [Status Update](#Status-Update)
 - [Installation](#Installation)
 - [Contributions](#Contributions)
@@ -82,7 +83,25 @@ A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA). The [
 <img align="center" src=figs/finrl_framework.png>
 </div>
 
-Supported Data Sources: 
+## File Structure
+
++ **finrl**		# main folder
+    + ./apps        	# trading apps
+    + ./drl_agents    	# DRL agents from ElegantRL, RLlib, Stable-Baseline 3
+    + ./finrl_meta   	# market env from finrl-meta
+    + train.py	 	# 
+    + test.py 		# 
+    + trade.py	  	# 
+    + plot.py		# 
++ **tutorials**  	# tutorials
+       	
++ **unit_testing**	# testing environment and market data
+    + ./test_env      	# 
+    + ./test_marketdata # 
++ **ready-to-run Google-Colab notebooks**
+
+## Supported Data Sources 
+
 |Data Source |Type |Range and Frequency |Request Limits|Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |
 |[Alpaca](https://alpaca.markets/docs/introduction/)| US Stocks, ETFs| 2015-now, 1min| Account-specific| OHLCV| Prices&Indicators|
@@ -105,23 +124,6 @@ Technical indicators: users can add: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx
 
 Users also can add their features. 
 
-
-## File Structure
-
-+ **finrl**		# main folder
-    + ./apps        	# trading apps
-    + ./drl_agents    	# DRL agents from ElegantRL, RLlib, Stable-Baseline 3
-    + ./finrl_meta   	# market env from finrl-meta
-    + train.py	 	# 
-    + test.py 		# 
-    + trade.py	  	# 
-    + plot.py		# 
-+ **tutorials**  	# tutorials
-       	
-+ **unit_testing**	# testing environment and market data
-    + ./test_env      	# 
-    + ./test_marketdata # 
-+ **ready-to-run Google-Colab notebooks**
 
 ## DRL Algorithms 
 
