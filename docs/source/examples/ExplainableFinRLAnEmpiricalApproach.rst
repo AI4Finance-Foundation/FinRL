@@ -137,6 +137,9 @@ Integrated Gradient (IG) integrates the gradient of the output with respect to i
 .. math::
 \int_{z=0}^1
 
+.. math::
+    \mathbf{s}(t) = [\mathbf{f}^{1}(t),  ... , \mathbf{f}^{K}(t), \widehat{\mathbf{\Sigma}}(t)] \in \mathbb{R}^{ N \times (N+K)}, ~~~~~~t = 1,...,T,
+
 
 where `F(\cdot)` denotes a DRL model, `\mathbf{x}^{\prime}` is a perturbed version of `\mathbf{x}`, say replacing all entries with zeros. It explains the relationship between a model's predictions in terms of its features.
 
