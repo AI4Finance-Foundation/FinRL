@@ -42,7 +42,7 @@ Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g
 </b>
 
 
-[**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is the first open-source framework to demonstrate the great potential of applying deep reinforcement learning in quantitative finance. We help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. **A DRL agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation**.
+[**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is the first open-source framework to demonstrate the great potential of applying deep reinforcement learning in quantitative finance. We help practitioners establish the development pipeline of trading strategies using **deep reinforcement learning (DRL)**. 
 
 The FinRL ecosystem:
 
@@ -72,6 +72,9 @@ FinRL provides a unified framework for various markets, SOTA DRL algorithms, fin
 - [LICENSE](#LICENSE)
 
 ## Overview
+
+A DRL agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation.
+
 
 A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA). The [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quantative finance.
 
