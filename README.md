@@ -79,6 +79,8 @@ A DRL agent learns by continuously interacting with an environment in a trial-an
 
 A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA). The [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quantative finance.
 
+Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) step by step for a quick start.
+
 <div align="center">
 <img align="center" src=figs/finrl_framework.png>
 </div>
