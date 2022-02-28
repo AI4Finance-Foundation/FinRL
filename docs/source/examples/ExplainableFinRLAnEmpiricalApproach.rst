@@ -157,7 +157,7 @@ the approximation holds because `\ln(\mathbf{w}^{\top}(t)\cdot\mathbf{y}(t)) \ap
 We use a linear model to find the relationship between features and portfolio return vector q
 
 .. math::
-  \mathbf{q}^{*}(t) &= b_0(t)\cdot \mathbf{1} + b_1(t)\cdot\mathbf{f}^1(t) + ... +  b_K(t)\cdot\mathbf{f}^K(t) + \mathbf{\epsilon}(t), t = 1,...,T,
+  \mathbf{q}^{*}(t) = b_0(t)\cdot \mathbf{1} + b_1(t)\cdot\mathbf{f}^1(t) + ... +  b_K(t)\cdot\mathbf{f}^K(t) + \mathbf{\epsilon}(t), t = 1,...,T,
 
 
 Lastly, we define the feature weights of DRL agents in portfolio management task using integrated gradients and the regression coefficients.
