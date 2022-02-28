@@ -117,7 +117,7 @@ The agent takes `\mathbf{s}(t)` as input at the beginning of time slot `t` and o
  
 
 
-Step 3. The Feature Weights Using Integrated Gradient
+Step 3. The Feature Weights DRL Agents
 ---------------------------------------
 
 Integrated Gradient (IG) integrates the gradient of the output with respect to input features. For an input `\mathbf{x} \in \mathbb{R}^n`, the `i`-th entry of integrated gradient is defined as
@@ -153,6 +153,11 @@ where the first equality holds by definition, the second equality holds because 
 
 the approximation holds because `\ln(\mathbf{w}^{\top}(t)\cdot\mathbf{y}(t)) \approx \mathbf{w}^{\top}(t)\cdot\mathbf{y}(t) - 1` when `\mathbf{w}^{\top}(t)\cdot\mathbf{y}(t)` is close to 1. `\mathbf{s}_{k}'(t) \in \mathbb{R}^{N \times  (N+K)}` is a perturbed version of `\mathbf{s}(t)` by replacing the `k`-th feature with an all-zero vector.  `\mathbf{s}^{k,i}(t)` is a linear combination of original state and perturbed state `\mathbf{s}^{k,i}(t) \triangleq \mathbf{s}_{k}'(t) + z^{k,i}  \cdot (\mathbf{s}(t) - \mathbf{s}_{k}'(t))`, where `z^{k,i} \in [0,1]`.
 
+
+We use a linear model to find the relationship between features and portfolio return vector q
+
+.. math::
+  \mathbf{q}^{*}(t) &= b_0(t)\cdot \mathbf{1} + b_1(t)\cdot\mathbf{f}^1(t) + ... +  b_K(t)\cdot\mathbf{f}^K(t) + \mathbf{\epsilon}(t), t = 1,...,T,
 
 
 
