@@ -117,7 +117,7 @@ The agent takes `\mathbf{s}(t)` as input at the beginning of time slot `t` and o
  
 
 
-Step 3. The Feature Weights DRL Agents
+Step 3. The Feature Weights for DRL Agents
 ---------------------------------------
 
 Integrated Gradient (IG) integrates the gradient of the output with respect to input features. For an input `\mathbf{x} \in \mathbb{R}^n`, the `i`-th entry of integrated gradient is defined as
@@ -168,6 +168,8 @@ Lastly, we define the feature weights of DRL agents in portfolio management task
   &&\approx \sum_{i=1}^{N} \mathbf{f}^{k}(t)_{i} \cdot  \sum_{l=0}^{\infty} \gamma^{l}\cdot \frac{\partial\mathbb{E}\left[ \mathbf{w}^{\top}(t+l)\cdot\mathbf{y}(t+l) ) |\mathbf{s}^{k,i}(t),\mathbf{w}(t)\right]}{\partial \mathbf{f}^{k}(t)_{i}} \\
   &&= \sum_{i=1}^{N} \mathbf{f}^{k}(t)_{i} \cdot  \sum_{l=0}^{\infty} \gamma^{l}\cdot \mathbb{E}\left[ c_{k}(t+l) \frac{\partial\mathbf{f}^{k}(t+l)_{i}}{\partial\mathbf{f}^{k}(t)_{i}}  |\mathbf{s}^{k,i}(t),\mathbf{w}(t)\right],
   \end{eqnarray}
+
+
 
 Step 4. The Prediction Power
 ---------------------------------------
