@@ -113,7 +113,7 @@ The agent takes `\mathbf{s}(t)` as input at the beginning of time slot `t` and o
 
 - DRL Algorithms: We use two popular deep reinforcement learning algorithms: Advantage Actor Critic (A2C)  and Proximal Policy Optimization (PPO).
 
-- Environment: Dow Jones 30 constituent stocks during 01/01/2009 to 09/01/2021
+- Environment: Dow Jones 30 constituent stocks from 01/01/2009 to 09/01/2021
  
 
 
