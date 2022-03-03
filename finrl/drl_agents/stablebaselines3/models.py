@@ -110,7 +110,7 @@ class DRLAgent:
         """make a prediction"""
         account_memory = []
         actions_memory = []
-        state_memory=[] #add memory pool to store states
+#         state_memory=[] #add memory pool to store states
         test_env.reset()
         for i in range(len(environment.df.index.unique())):
             action, _states = model.predict(test_obs, deterministic=deterministic)
@@ -120,7 +120,7 @@ class DRLAgent:
             if i == (len(environment.df.index.unique()) - 2):
                 account_memory = test_env.env_method(method_name="save_asset_memory")
                 actions_memory = test_env.env_method(method_name="save_action_memory")
-                state_memory=test_env.env_method(method_name="save_state_memory") # add current state to state memory
+#                 state_memory=test_env.env_method(method_name="save_state_memory") # add current state to state memory
             if dones[0]:
                 print("hit end!")
                 break
