@@ -22,7 +22,8 @@ class StockTradingEnv(gym.Env):
         df,
         stock_dim,
         hmax,
-        initial_amount,
+        initial_list,
+        # initial_amount,
         buy_cost_pct,
         sell_cost_pct,
         reward_scaling,
@@ -44,7 +45,8 @@ class StockTradingEnv(gym.Env):
         self.df = df
         self.stock_dim = stock_dim
         self.hmax = hmax
-        self.initial_amount = initial_amount
+        self.initial_list=initial_list
+        self.initial_amount = initial_list[0] # get the initial cash
         self.buy_cost_pct = buy_cost_pct
         self.sell_cost_pct = sell_cost_pct
         self.reward_scaling = reward_scaling
@@ -76,17 +78,19 @@ class StockTradingEnv(gym.Env):
         self.trades = 0
         self.episode = 0
         # memorize all the total balance change
-        self.asset_memory = [self.initial_amount]
+        self.asset_memory = [self.initial_amount+np.sum(np.array(self.initial_list[1:])*np.array(self.state[1:1+self.stock_dim]))] # the initial total asset is calculated by cash + sum (num_share_stock_i * price_stock_i)
         self.rewards_memory = []
         self.actions_memory = []
+        self.state_memory=[] # we need sometimes to preserve the state in the middle of trading process 
         self.date_memory = [self._get_date()]
-#         self.logger = Logger('results',[CSVOutputFormat])
+        #         self.logger = Logger('results',[CSVOutputFormat])
         # self.reset()
         self._seed()
 
     def _sell_stock(self, index, action):
         def _do_sell_normal():
-            if self.state[index + 1] > 0:
+            if self.state[index + 2*self.stock_dim + 1]!=True : # check if the stock is able to sell, for simlicity we just add it in techical index
+            # if self.state[index + 1] > 0: # if we use price<0 to denote a stock is unable to trade in that day, the total asset calculation may be wrong for the price is unreasonable
                 # Sell only if the price is > 0 (no missing data in this particular date)
                 # perform sell action based on the sign of the action
                 if self.state[index + self.stock_dim + 1] > 0:
@@ -97,14 +101,14 @@ class StockTradingEnv(gym.Env):
                     sell_amount = (
                         self.state[index + 1]
                         * sell_num_shares
-                        * (1 - self.sell_cost_pct)
+                        * (1 - self.sell_cost_pct[index])
                     )
                     # update balance
                     self.state[0] += sell_amount
 
                     self.state[index + self.stock_dim + 1] -= sell_num_shares
                     self.cost += (
-                        self.state[index + 1] * sell_num_shares * self.sell_cost_pct
+                        self.state[index + 1] * sell_num_shares * self.sell_cost_pct[index]
                     )
                     self.trades += 1
                 else:
@@ -126,7 +130,7 @@ class StockTradingEnv(gym.Env):
                         sell_amount = (
                             self.state[index + 1]
                             * sell_num_shares
-                            * (1 - self.sell_cost_pct)
+                            * (1 - self.sell_cost_pct[index])
                         )
                         # update balance
                         self.state[0] += sell_amount
@@ -148,21 +152,22 @@ class StockTradingEnv(gym.Env):
 
     def _buy_stock(self, index, action):
         def _do_buy():
-            if self.state[index + 1] > 0:
+            if self.state[index + 2*self.stock_dim+ 1] !=True: # check if the stock is able to buy
+            # if self.state[index + 1] >0:
                 # Buy only if the price is > 0 (no missing data in this particular date)
-                available_amount = self.state[0] // self.state[index + 1]
+                available_amount = self.state[0] / (self.state[index + 1]*(1 + self.buy_cost_pct[index])) # when buying stocks, we should consider the cost of trading when calculating available_amount, or we may be have cash<0
                 # print('available_amount:{}'.format(available_amount))
 
                 # update balance
                 buy_num_shares = min(available_amount, action)
                 buy_amount = (
-                    self.state[index + 1] * buy_num_shares * (1 + self.buy_cost_pct)
+                    self.state[index + 1] * buy_num_shares * (1 + self.buy_cost_pct[index])
                 )
                 self.state[0] -= buy_amount
 
                 self.state[index + self.stock_dim + 1] += buy_num_shares
 
-                self.cost += self.state[index + 1] * buy_num_shares * self.buy_cost_pct
+                self.cost += self.state[index + 1] * buy_num_shares * self.buy_cost_pct[index]
                 self.trades += 1
             else:
                 buy_num_shares = 0
@@ -205,8 +210,8 @@ class StockTradingEnv(gym.Env):
                         self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)]
                     )
                 )
-                - self.initial_amount
-            )
+                - self.asset_memory[0]
+            ) # initial_amount is only cash part of our initial asset
             df_total_value.columns = ["account_value"]
             df_total_value["date"] = self.date_memory
             df_total_value["daily_return"] = df_total_value["account_value"].pct_change(
@@ -261,16 +266,15 @@ class StockTradingEnv(gym.Env):
                 plt.close()
 
             # Add outputs to logger interface
-            # self.logger.record("environment/portfolio_value", end_total_asset)
-#             self.logger.record("environment/total_reward", tot_reward)
-#             self.logger.record("environment/total_reward_pct", (tot_reward / (end_total_asset - tot_reward)) * 100)
-#             self.logger.record("environment/total_cost", self.cost)
-#             self.logger.record("environment/total_trades", self.trades)
+            # logger.record("environment/portfolio_value", end_total_asset)
+            # logger.record("environment/total_reward", tot_reward)
+            # logger.record("environment/total_reward_pct", (tot_reward / (end_total_asset - tot_reward)) * 100)
+            # logger.record("environment/total_cost", self.cost)
+            # logger.record("environment/total_trades", self.trades)
 
             return self.state, self.reward, self.terminal, {}
 
         else:
-
             actions = actions * self.hmax  # actions initially is scaled between 0 to 1
             actions = actions.astype(
                 int
@@ -285,7 +289,6 @@ class StockTradingEnv(gym.Env):
             # print("begin_total_asset:{}".format(begin_total_asset))
 
             argsort_actions = np.argsort(actions)
-
             sell_index = argsort_actions[: np.where(actions < 0)[0].shape[0]]
             buy_index = argsort_actions[::-1][: np.where(actions > 0)[0].shape[0]]
 
@@ -321,6 +324,7 @@ class StockTradingEnv(gym.Env):
             self.reward = end_total_asset - begin_total_asset
             self.rewards_memory.append(self.reward)
             self.reward = self.reward * self.reward_scaling
+            self.state_memory.append(self.state) # add current state in state_recorder for each step
 
         return self.state, self.reward, self.terminal, {}
 
@@ -329,7 +333,7 @@ class StockTradingEnv(gym.Env):
         self.state = self._initiate_state()
 
         if self.initial:
-            self.asset_memory = [self.initial_amount]
+            self.asset_memory = [self.initial_amount+np.sum(np.array(self.initial_list[1:])*np.array(self.state[1:1+self.stock_dim]))]
         else:
             previous_total_asset = self.previous_state[0] + sum(
                 np.array(self.state[1 : (self.stock_dim + 1)])
@@ -365,7 +369,7 @@ class StockTradingEnv(gym.Env):
                 state = (
                     [self.initial_amount]
                     + self.data.close.values.tolist()
-                    + [0] * self.stock_dim
+                    + self.initial_list[1:]
                     + sum(
                         [
                             self.data[tech].values.tolist()
@@ -373,7 +377,7 @@ class StockTradingEnv(gym.Env):
                         ],
                         [],
                     )
-                )
+                ) # append initial stocks_share to initial state, instead of all zero 
             else:
                 # for single stock
                 state = (
@@ -445,6 +449,25 @@ class StockTradingEnv(gym.Env):
         else:
             date = self.data.date
         return date
+
+    # add save_state_memory to preserve state in the trading process 
+    def save_state_memory(self):
+        if len(self.df.tic.unique()) > 1:
+            # date and close price length must match actions length
+            date_list = self.date_memory[:-1]
+            df_date = pd.DataFrame(date_list)
+            df_date.columns = ["date"]
+
+            state_list = self.state_memory
+            df_states = pd.DataFrame(state_list,columns=['cash','Bitcoin_price','Gold_price','Bitcoin_num','Gold_num','Bitcoin_Disable','Gold_Disable'])
+            df_states.index = df_date.date
+            # df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
+        else:
+            date_list = self.date_memory[:-1]
+            state_list = self.state_memory
+            df_states = pd.DataFrame({"date": date_list, "states": state_list})
+        # print(df_states)
+        return df_states
 
     def save_asset_memory(self):
         date_list = self.date_memory
