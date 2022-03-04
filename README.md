@@ -127,21 +127,6 @@ FinRL
 └── README.md
 ```
 
-+ **finrl**		# main folder
-    + ./apps        	# trading apps
-    + ./drl_agents    	# DRL agents from ElegantRL, RLlib, Stable-Baseline 3
-    + ./finrl_meta   	# market env from finrl-meta
-    + train.py	 	# 
-    + test.py 		# 
-    + trade.py	  	# 
-    + plot.py		# 
-+ **tutorials**  	# tutorials
-       	
-+ **unit_testing**	# testing environment and market data
-    + ./test_env      	# 
-    + ./test_marketdata # 
-+ **ready-to-run Google-Colab notebooks**
-
 ## Supported Data Sources 
 
 |Data Source |Type |Range and Frequency |Request Limits|Raw Data|Preprocessed Data|
