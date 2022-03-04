@@ -204,4 +204,24 @@ We find that the DRL methods performed best among all and we seek to explain thi
 
 .. image:: ../image/ExplainableFinRL-SingleStepPrediction.png
 
+\begin{table*}[t]
+\centering
+\caption{Upper tail test table for mean correlation coefficient (single-step and multi-step) under null hypothesis: the mean correlation coefficient is of no difference than zero.}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+        & $\textbf{Z-statistics (single-step)}$ 
+        & $\textbf{Z-statistics (multi-step)}$
+        \\ \hline
+$\textbf{PPO}$    & 0.6   & $\textbf{2.16}^{***}$  \\ \hline
+$\textbf{A2C}$   & 0.51                 	                          & $\textbf{1.58}^{**}$                 	                          \\ \hline
+$\textbf{DT}$   & $\textbf{1.28}^{**}$                                   & -0.59                                                   \\ \hline
+$\textbf{LR}$   & 1.03                 	                            & -0.55                	                                    \\ \hline
+$\textbf{RF}$   & 0.98                  	                & -0.28                           	                 \\ \hline
+$\textbf{SVM}$   & 0.64                 	                           & -0.11                 	                                        \\ \hline
+%\textbf{Daily Value at Risk} & -1.1\%                     & -1.7\%                    & -1.1\%                          & -1.5\%                   & -2.2\%  & -2.5\%                   \\ \hline
+\end{tabular}
+\label{table:stat-tests-single}
+\end{table*}
+
+
 
