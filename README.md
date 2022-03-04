@@ -89,6 +89,43 @@ Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Founda
 
 Corresponding to the three-layer structure, the main fold **finrl** is organized into three subfolders **apps, drl_agents, finrl_meta**. Then, we employ a **train-test-trade** pipeline, via three files train.py, test.py and trade.py.
 
+FinRL
+├── finrl (main folder with three-layer structure)
+│   ├── apps
+│   	├── cryptocurrency_trading
+│   	├── high_frequency_trading
+│   	├── portfolio_allocation
+│   	├── stock_trading
+│   	└── config.py
+│   ├── drl_agents
+│   	├── elegantrl
+│   	├── rllib
+│   	└── stablebaseline3
+│   ├── finrl_meta
+│   	├── data_processors
+│   	├── env_cryptocurrency_trading
+│   	├── env_portfolio_allocation
+│   	├── env_stock_trading
+│   	├── preprocessor
+│   	├── data_processor.py
+│   	└── finrl_meta_config.py
+│   ├── train.py
+│   ├── test.py
+│   ├── trade.py
+│   └── plot.py
+├── tutorial (tutorial notebooks and educational files)
+├── unit_testing (make sure verified codes working on env & data)
+│   ├── test_env
+│   	└── test_env_cashpenalty.py
+│   └── test_marketdata
+│   	└── test_yahoodownload.py
+├── RL_stock.py
+├── main.py
+├── setup.cfg
+├── setup.py
+├── requirements.txt
+└── README.md
+
 + **finrl**		# main folder
     + ./apps        	# trading apps
     + ./drl_agents    	# DRL agents from ElegantRL, RLlib, Stable-Baseline 3
