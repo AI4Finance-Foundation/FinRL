@@ -88,7 +88,7 @@ Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Founda
 ## File Structure
 
 Corresponding to the three-layer structure, the main fold **finrl** is organized into three subfolders **apps, drl_agents, finrl_meta**. Then, we employ a **train-test-trade** pipeline, via three files train.py, test.py and trade.py.
-
+```
 FinRL
 ├── finrl (main folder with three-layer structure)
 │   ├── apps
@@ -125,6 +125,7 @@ FinRL
 ├── setup.py
 ├── requirements.txt
 └── README.md
+```
 
 + **finrl**		# main folder
     + ./apps        	# trading apps
