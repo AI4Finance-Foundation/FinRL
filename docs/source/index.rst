@@ -60,8 +60,8 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 1
    :caption: Tutorials
    
-   tutorial/finrl_single_stock
-   tutorial/finrl_multiple_stock
+   tutorial/SingleStockTrading
+   tutorial/MultipleStockTrading
    tutorial/finrl_portfolio_allocation
    
 
@@ -69,8 +69,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 1
    :caption: Examples
    
-   examples/SingleStockTrading
-   examples/MultipleStockTrading
+
    examples/ExplainableFinRLAnEmpiricalApproach
    
 
