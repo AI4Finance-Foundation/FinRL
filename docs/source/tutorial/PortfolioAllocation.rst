@@ -1,6 +1,6 @@
 :github_url: https://github.com/AI4Finance-LLC/FinRL-Library
 
-Tutorial for Portfolio Allocation
+Portfolio Allocation
 ===================================
 
 **Our paper**: 
