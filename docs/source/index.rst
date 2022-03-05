@@ -62,7 +62,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    
    tutorial/SingleStockTrading
    tutorial/MultipleStockTrading
-   tutorial/finrl_portfolio_allocation
+   tutorial/PortfolioAllocation
    
 
 .. toctree::
