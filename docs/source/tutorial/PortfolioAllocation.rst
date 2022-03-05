@@ -27,8 +27,8 @@ The Jupyter notebook codes are available on our Github_ and `Google Colab`_.
     
 Check our previous tutorials: `Single Stock Trading`_ and `Multiple Stock Trading`_ for detailed explanation of the FinRL architecture and modules.
 
-.. _Single Stock Trading: SingleStockTrading.rst
-.. _Multiple Stock Trading: MultipleStockTrading.rst
+.. _Single Stock Trading: https://finrl.readthedocs.io/en/latest/tutorial/SingleStockTrading.html
+.. _Multiple Stock Trading: https://finrl.readthedocs.io/en/latest/tutorial/MultipleStockTrading.html
 
 
 
