@@ -1,12 +1,16 @@
 import ray
 
 from finrl.apps.config import (
-    DOW_30_TICKER,
     TECHNICAL_INDICATORS_LIST,
     TEST_END_DATE,
     TEST_START_DATE,
     RLlib_PARAMS,
 )
+
+from finrl.apps.config_tickers import (
+    DOW_30_TICKER,
+)
+
 from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
 
 
