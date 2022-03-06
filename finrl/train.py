@@ -98,7 +98,7 @@ def train(
 
 
 if __name__ == "__main__":
-    from finrl.apps.config import DOW_30_TICKER
+    from finrl.apps.config_tickers import DOW_30_TICKER
     from finrl.apps.config import TECHNICAL_INDICATORS_LIST
     from finrl.apps.config import TRAIN_START_DATE
     from finrl.apps.config import TRAIN_END_DATE
