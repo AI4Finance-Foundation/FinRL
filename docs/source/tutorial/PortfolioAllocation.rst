@@ -582,11 +582,6 @@ The left table is the stats for backtesting performance, the right table is the 
                  
 **Plots**:
 
-.. image:: ../image/portfolio_allocation_7.png
-    :scale: 60 %
-.. image:: ../image/portfolio_allocation_8.png
-
-.. image:: ../image/portfolio_allocation_9.png
 
 
 
