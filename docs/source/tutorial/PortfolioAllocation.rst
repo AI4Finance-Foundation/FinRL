@@ -53,7 +53,6 @@ We introduce a DRL library FinRL that facilitates beginners to expose themselves
 
 This article is focusing on one of the use cases in our paper: Portfolio Allocation. We use one Jupyter notebook to include all the necessary steps.
 
-.. image:: ../image/FinRL-Architecture.png
 
 
 
@@ -491,7 +490,6 @@ User-defined Environment: a simulation environment class.The environment for por
 Implement DRL Algorithms
 --------------------------
 
-.. image:: ../image/alg_compare.png
 
 FinRL uses a DRLAgent class to implement the algorithms.
 
@@ -580,7 +578,7 @@ FinRL uses a set of functions to do the backtesting with Quantopian pyfolio.
                                            
 The left table is the stats for backtesting performance, the right table is the stats for Index (DJIA) performance.
 
-.. image:: ../image/portfolio_allocation_6.png
+
                  
 **Plots**:
 
