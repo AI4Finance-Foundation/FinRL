@@ -43,7 +43,7 @@ def backtest_stats(account_value, value_col_name="account_value"):
 
 def backtest_plot(
         account_value,
-        baseline_start=config.START_TRADE_DATE,
+        baseline_start=config.TRADE_START_DATE,
         baseline_end=config.END_DATE,
         baseline_ticker="^DJI",
         value_col_name="account_value",
