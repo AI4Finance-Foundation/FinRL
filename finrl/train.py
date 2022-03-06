@@ -1,8 +1,5 @@
 import ray
 
-from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
-from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
-from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
 from finrl.finrl_meta.data_processor import DataProcessor
 
 
@@ -39,6 +36,7 @@ def train(
     cwd = kwargs.get("cwd", "./" + str(model_name))
 
     if drl_lib == "elegantrl":
+        from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
         break_step = kwargs.get("break_step", 1e6)
         erl_params = kwargs.get("erl_params")
 
@@ -57,7 +55,7 @@ def train(
     elif drl_lib == "rllib":
         total_episodes = kwargs.get("total_episodes", 100)
         rllib_params = kwargs.get("rllib_params")
-
+        from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
         agent_rllib = DRLAgent_rllib(
             env=env,
             price_array=price_array,
@@ -83,7 +81,7 @@ def train(
     elif drl_lib == "stable_baselines3":
         total_timesteps = kwargs.get("total_timesteps", 1e6)
         agent_params = kwargs.get("agent_params")
-
+        from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
         agent = DRLAgent_sb3(env=env_instance)
 
         model = agent.get_model(model_name, model_kwargs=agent_params)
