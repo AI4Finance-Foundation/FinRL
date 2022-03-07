@@ -11,7 +11,7 @@ Then, we employ a train-test-trade pipeline, via three files:
 
 ```
 FinRL
-├── finrl (main folder with three-layer structure)
+├── finrl (this folder)
 │   ├── apps
 │   	├── cryptocurrency_trading
 │   	├── high_frequency_trading
