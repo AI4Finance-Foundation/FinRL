@@ -47,7 +47,6 @@ The FinRL ecosystem is a unified framework, including various markets, state-of-
 - [Installation](#Installation)
 - [Contributions](#Contributions)
 - [Tutorials](#Tutorials)
-- [Publications](#Publications)
 - [News](#News)
 - [Citing FinRL](#Citing-FinRL)
 - [Welcome Contributions](#To-Contribute)
@@ -186,11 +185,6 @@ Users also can add their features.
 + [Analyticsindiamag.com] [How To Automate Stock Market Using FinRL (Deep Reinforcement Learning Library)?](https://analyticsindiamag.com/stock-market-prediction-using-finrl/)
 
 
-## Publications
-
-We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ), resulting in this project. Closely related papers are given in the [list](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/FinRL_papers.md). 
-
-
 ## News
 + [央广网] [2021 IDEA大会于福田圆满落幕：群英荟萃论道AI 多项目发布亮点纷呈](http://tech.cnr.cn/techph/20211123/t20211123_525669092.shtml)
 + [央广网] [2021 IDEA大会开启AI思想盛宴 沈向洋理事长发布六大前沿产品](https://baijiahao.baidu.com/s?id=1717101783873523790&wfr=spider&for=pc)
@@ -226,6 +220,9 @@ We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), che
 }
 
 ```
+
+We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ), resulting in this project. Closely related papers are given in the [list](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/FinRL_papers.md). 
+
 
 ## Join and Contribute
 
