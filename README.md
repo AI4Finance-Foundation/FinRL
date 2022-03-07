@@ -60,9 +60,11 @@ FinRL has three layers: applications, drl agents, and market environments.
 For a trading task on the top, an agent (in the middle) interacts with an environment (at the bottom), making sequential decisions.
 
 
+
 <div align="center">
 <img align="center" src=figs/finrl_framework.png>
 </div>
+
 
 Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) step by step for a quick start.
 
