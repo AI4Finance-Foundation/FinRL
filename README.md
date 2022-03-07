@@ -28,9 +28,7 @@
 
 [**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is **the first open-source project** to explore the great potential of deep reinforcement learning in finance. We help practitioners pipeline a trading strategy using **deep reinforcement learning (DRL)**. 
 
-FinRL provides a unified framework for various markets, state-of-the-art algorithms, financial tasks (portfolio management, cryptocurrency trading, high-frequency trading), live trading, etc. 
-
-The FinRL ecosystem:
+The FinRL ecosystem is a unified framework, including various markets, state-of-the-art algorithms, financial tasks (portfolio management, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
 **FinRL 3.0 (Production)**: advanced-level for investment banks and hedge funds. Cloud-native solutions [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
 
