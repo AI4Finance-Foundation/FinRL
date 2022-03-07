@@ -43,8 +43,8 @@ The FinRL ecosystem is a unified framework, including various markets, state-of-
 - [Overview](#Overview)
 - [File Structure](#File-Structure)
 - [Supported Data Sources](#Supported-Data-Sources)
-- [Status Update](#Status-Update)
 - [Installation](#Installation)
+- [Status Update](#Status-Update)
 - [Contributions](#Contributions)
 - [Tutorials](#Tutorials)
 - [News](#News)
@@ -140,6 +140,10 @@ Technical indicators: users can add: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx
 Users also can add their features. 
 
 
+## Installation
+
++ [FinRL for Quantitative Finance: Install and Setup Tutorial for Beginners](https://ai4finance.medium.com/finrl-for-quantitative-finance-install-and-setup-tutorial-for-beginners-1db80ad39159)
+
 ## Status Update
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
@@ -152,10 +156,6 @@ Users also can add their features.
   	0.1: Beta version with tensorflow 1.5
 </div>
 </details>
-
-## Installation
-
-+ [FinRL for Quantitative Finance: Install and Setup Tutorial for Beginners](https://ai4finance.medium.com/finrl-for-quantitative-finance-install-and-setup-tutorial-for-beginners-1db80ad39159)
 
 ## Contributions
 
