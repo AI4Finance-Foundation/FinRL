@@ -56,20 +56,23 @@ The FinRL ecosystem is a unified framework, including various markets, state-of-
 
 ## Overview
 
-A DRL agent learns by continuously interacting with an environment in a trial-and-error manner, making sequential decisions under uncertainty, and achieving a balance between exploration and exploitation.
+An agent interacts with an environment, making sequential decisions, and balancing exploration and exploitation.
 
-
-A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA). The [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g) for quantative finance.
-
-Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) step by step for a quick start.
 
 <div align="center">
 <img align="center" src=figs/finrl_framework.png>
 </div>
 
+A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
+
+Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) step by step for a quick start.
+
 ## File Structure
 
-Corresponding to the three-layer structure, the main fold **finrl** is organized into three subfolders **apps, drl_agents, finrl_meta**. Then, we employ a **train-test-trade** pipeline, via three files train.py, test.py and trade.py.
+Correspondingly, the main fold **finrl** has three subfolders **apps, drl_agents, finrl_meta**. 
+
+We employ a **train-test-trade** pipeline by three files: train.py, test.py, and trade.py.
+
 ```
 FinRL
 ├── finrl (main folder with three-layer structure)
