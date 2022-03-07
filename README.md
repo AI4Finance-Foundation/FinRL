@@ -56,22 +56,22 @@ The FinRL ecosystem is a unified framework, including various markets, state-of-
 
 ## Overview
 
-FinRL has three layers: applications on the top, drl agents in the minddle, and market environments at the bottom.
+FinRL has three layers: applications, drl agents, and market environments.
 
-An agent interacts with an environment, making sequential decisions, and balancing exploration and exploitation.
+For a trading task on the top, an agent (in the middle) interacts with an environment (at the bottom), making sequential decisions.
 
 
 <div align="center">
 <img align="center" src=figs/finrl_framework.png>
 </div>
 
-A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
-
 Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) step by step for a quick start.
+
+A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
 
 ## File Structure
 
-Correspondingly, the main fold **finrl** has three subfolders **apps, drl_agents, finrl_meta**. 
+Correspondingly, the main folder **finrl** has three subfolders **apps, drl_agents, finrl_meta**. 
 
 We employ a **train-test-trade** pipeline by three files: train.py, test.py, and trade.py.
 
