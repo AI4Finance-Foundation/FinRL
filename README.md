@@ -56,6 +56,8 @@ The FinRL ecosystem is a unified framework, including various markets, state-of-
 
 ## Overview
 
+FinRL has three layers: applications on the top, drl agents in the minddle, and market environments at the bottom.
+
 An agent interacts with an environment, making sequential decisions, and balancing exploration and exploitation.
 
 
