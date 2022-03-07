@@ -134,10 +134,6 @@ Technical indicators: users can add: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx
 Users also can add their features. 
 
 
-## DRL Algorithms 
-
-[ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) ([website](https://elegantrl.readthedocs.io/en/latest/index.html)) provides finance-oriented optimizations of DRL algorithms using PyTorch. 
-
 ## Status Update
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
