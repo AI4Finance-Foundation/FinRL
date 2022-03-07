@@ -30,12 +30,12 @@
 
 The FinRL ecosystem is a unified framework, including various markets, state-of-the-art algorithms, financial tasks (portfolio management, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
-|   | level | users | example | desription | 
+| Roadmap  | Level | Users | Example | Desription | 
 |----|----|----|----|----|
-| 0.0 | prepartion | entrance | FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of simulating/training/testing/trading environments|
-| 1.0 | Proof-of-Concept | entry-level | | demonstrative and educational purpose|
-| 2.0 | Professional | intermediate-level | FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of simulating/training/testing/trading environments|
-| 3.0 | Production | advanced-level | FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of simulating/training/testing/trading environments|
+| 0.0 (prepartion) | prepartion | entrance | FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of simulating/training/testing/trading environments|
+| 1.0 (Proof-of-Concept)| Proof-of-Concept | entry-level | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | demonstrative and educational purpose|
+| 2.0 (Professional) | intermediate-level  | full-stack developers and professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | finance-oriented DRL algorithms |
+| 3.0 (Production) | advanced-level | investment banks and hedge funds | FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solution |
 
 
 **FinRL 3.0 (Production)**: advanced-level for investment banks and hedge funds. Cloud-native solutions [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
