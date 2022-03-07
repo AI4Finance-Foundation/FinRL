@@ -26,7 +26,7 @@
 
 **Our Vision**: AI community has accumulated an open-source code ocean over the past decade. We believe applying these intellectual and engineering properties to finance will initiate a paradigm shift from the conventional trading routine to an automated machine learning approach, even **RLOps in finance**. 
 
-[**FinRL**](https://finrl.readthedocs.io/en/latest/index.html) is **the first open-source project** to explore the great potential of deep reinforcement learning in finance. We help practitioners pipeline a trading strategy using **deep reinforcement learning (DRL)**. 
+**FinRL** [website](https://finrl.readthedocs.io/en/latest/index.html) is **the first open-source project** to explore the great potential of deep reinforcement learning in finance. We help practitioners pipeline a trading strategy using **deep reinforcement learning (DRL)**. 
 
 The FinRL ecosystem is a unified framework, including various markets, state-of-the-art algorithms, financial tasks (portfolio management, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
