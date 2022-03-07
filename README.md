@@ -30,13 +30,21 @@
 
 The FinRL ecosystem is a unified framework, including various markets, state-of-the-art algorithms, financial tasks (portfolio management, cryptocurrency trading, high-frequency trading), live trading, etc. 
 
+|   | level | users | example | desription | 
+|----|----|----|----|----|
+| 0.0 | prepartion | entrance | FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of simulating/training/testing/trading environments|
+| 1.0 | Proof-of-Concept | entry-level | | demonstrative and educational purpose|
+| 2.0 | Professional | intermediate-level | FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of simulating/training/testing/trading environments|
+| 3.0 | Production | advanced-level | FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of simulating/training/testing/trading environments|
+
+
 **FinRL 3.0 (Production)**: advanced-level for investment banks and hedge funds. Cloud-native solutions [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
 
 **FinRL 2.0 (Professional)**: intermediate-level for full-stack developers and professionals. [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL).  
 
 **FinRL 1.0 (Proof of concept)**: entry-level for beginners, with a demonstrative and educational purpose.
 
-**FinRL 0.0 (Preparation)**: a universe of simulating/training/testing/trading environments in [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse).
+**FinRL 0.0 (Preparation)**: 
 
 
 ## Outline
