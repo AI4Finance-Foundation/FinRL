@@ -78,7 +78,7 @@ We employ a **train-test-trade** pipeline by three files: train.py, test.py, and
 
 ```
 FinRL
-├── finrl (main folder with three-layer structure)
+├── finrl (main folder)
 │   ├── apps
 │   	├── cryptocurrency_trading
 │   	├── high_frequency_trading
