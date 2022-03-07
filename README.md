@@ -34,8 +34,8 @@ The FinRL ecosystem is a unified framework, including various markets, state-of-
 |----|----|----|----|----|
 | 0.0 (prepartion) | prepartion | practitioners of financial machine learning | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of market environments|
 | 1.0 (Proof-of-Concept)| entry-level | entry-level | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | demonstration, education |
-| 2.0 (Professional) | intermediate-level  | full-stack developers and professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | finance-oriented DRL algorithms |
-| 3.0 (Production) | advanced-level | investment banks and hedge funds | [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solution |
+| 2.0 (Professional) | intermediate-level  | full-stack developers, professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | finance-oriented DRL algorithms |
+| 3.0 (Production) | advanced-level | investment banks, hedge funds | [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solution |
 
 
 **FinRL 3.0 (Production)**: advanced-level for investment banks and hedge funds. Cloud-native solutions [FinRL-podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer). 
