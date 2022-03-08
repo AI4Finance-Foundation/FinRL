@@ -5,9 +5,8 @@
 ## File Structure
 
 + **1-Introduction**		# notebooks for beginnerings, introduce FinRL step by step
-+ **2-Advance**  	# notebooks for users interested in and would like to learn more about FinRL, contains our works based on FinRL
-+ **3-Practical**  	# notebooks for users interested in and would like to learn more about FinRL, contains our works based on FinRL
-+ **4-Optimization** # notebooks for users interested in and would like to learn more about FinRL, contains our works based on FinRL
-
++ **2-Advance**  	# notebooks for intermediate users interested in and would like to learn more about FinRL, contains our works based on FinRL
++ **3-Practical**  	# notebooks for users to explore paper trading and more financial markets
++ **4-Optimization** # notebooks for users interested in hyperparameter optimizations
 + other .ipynb notebooks
 
