@@ -1,12 +1,12 @@
 # DRL models from ElegantRL: https://github.com/AI4Finance-Foundation/ElegantRL
 import torch
-from elegantrl.agent import AgentDDPG
-from elegantrl.agent import AgentPPO
-from elegantrl.agent import AgentSAC
-from elegantrl.agent import AgentTD3
-from elegantrl.config import Arguments
-# from elegantrl.agent import AgentA2C
-from elegantrl.run import train_and_evaluate, init_agent
+from elegantrl.agents.agent import AgentDDPG
+from elegantrl.agents.agent import AgentPPO
+from elegantrl.agents.agent import AgentSAC
+from elegantrl.agents.agent import AgentTD3
+from elegantrl.train.config import Arguments
+# from elegantrl.agents.agent import AgentA2C
+from elegantrl.train.run import train_and_evaluate, init_agent
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
 OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]
