@@ -107,7 +107,7 @@ Then we import the packages needed for this demonstration.
     import datetime
 
     %matplotlib inline
-    from finrl.apps import config
+    from finrl import config
     from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
     from finrl.finrl_meta.preprocessor.preprocessors import FeatureEngineer, data_split
     from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
