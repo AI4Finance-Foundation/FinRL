@@ -104,6 +104,7 @@ Import Packages:
     import datetime
     
     from finrl.config import config
+    from finrl import config_tickers
     from finrl.marketdata.yahoodownloader import YahooDownloader
     from finrl.preprocessing.preprocessors import FeatureEngineer
     from finrl.preprocessing.data import data_split
@@ -160,7 +161,7 @@ Download and save the data in a pandas DataFrame:
     # Download and save the data in a pandas DataFrame:
     df = YahooDownloader(start_date = '2008-01-01',
                          end_date = '2020-12-01',
-                         ticker_list = config.DOW_30_TICKER).fetch_data()
+                         ticker_list = config_tickers.DOW_30_TICKER).fetch_data()
     
 
 Preprocess Data

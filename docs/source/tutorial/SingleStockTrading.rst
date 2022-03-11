@@ -158,7 +158,7 @@ Download and save the data in a pandas DataFrame:
     # Download and save the data in a pandas DataFrame:
     df = YahooDownloader(start_date = '2009-01-01', 
                               end_date = '2020-09-30', 
-                              ticker_list = config.DOW_30_TICKER).fetch_data()
+                              ticker_list = config_tickers.DOW_30_TICKER).fetch_data()
                               
     print(df.sort_values(['date','tic'],ignore_index=True).head(30))
     
