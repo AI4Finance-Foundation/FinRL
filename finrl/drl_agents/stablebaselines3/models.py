@@ -12,7 +12,7 @@ from stable_baselines3.common.noise import (
 )
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-from finrl.apps import config
+from finrl import config
 from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.finrl_meta.preprocessor.preprocessors import data_split
 
