@@ -1,7 +1,7 @@
 import os
 from argparse import ArgumentParser
 
-from finrl.apps import config
+from finrl import config
 
 
 def build_parser():

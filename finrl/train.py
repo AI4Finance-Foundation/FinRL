@@ -96,13 +96,13 @@ def train(
 
 
 if __name__ == "__main__":
-    from finrl.apps.config_tickers import DOW_30_TICKER
-    from finrl.apps.config import TECHNICAL_INDICATORS_LIST
-    from finrl.apps.config import TRAIN_START_DATE
-    from finrl.apps.config import TRAIN_END_DATE
-    from finrl.apps.config import ERL_PARAMS
-    from finrl.apps.config import RLlib_PARAMS
-    from finrl.apps.config import SAC_PARAMS
+    from finrl.config_tickers import DOW_30_TICKER
+    from finrl.config import TECHNICAL_INDICATORS_LIST
+    from finrl.config import TRAIN_START_DATE
+    from finrl.config import TRAIN_END_DATE
+    from finrl.config import ERL_PARAMS
+    from finrl.config import RLlib_PARAMS
+    from finrl.config import SAC_PARAMS
 
     # construct environment
     from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
