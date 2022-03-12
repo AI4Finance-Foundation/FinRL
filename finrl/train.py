@@ -6,7 +6,7 @@ from finrl.config import (
     TRAIN_END_DATE,
     ERL_PARAMS,
     RLlib_PARAMS,
-    SAC_PARAMS
+    SAC_PARAMS,
 )
 
 from finrl.finrl_meta.data_processor import DataProcessor
