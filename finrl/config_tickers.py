@@ -1,36 +1,5 @@
 
-########################################################
-############## Stock Ticker Setup starts ##############
 SINGLE_TICKER = ["AAPL"]
-
-# self defined
-SRI_KEHATI_TICKER = [
-    "AALI.JK",
-    "ADHI.JK",
-    "ASII.JK",
-    "BBCA.JK",
-    "BBNI.JK",
-    "BBRI.JK",
-    "BBTN.JK",
-    "BMRI.JK",
-    "BSDE.JK",
-    "INDF.JK",
-    "JPFA.JK",
-    "JSMR.JK",
-    "KLBF.JK",
-    "PGAS.JK",
-    "PJAA.JK",
-    "PPRO.JK",
-    "SIDO.JK",
-    "SMGR.JK",
-    "TINS.JK",
-    "TLKM.JK",
-    "UNTR.JK",
-    "UNVR.JK",
-    "WIKA.JK",
-    "WSKT.JK",
-    "WTON.JK",
-]
 
 # check https://wrds-www.wharton.upenn.edu/ for U.S. index constituents
 # Dow 30 constituents in 2021/10
@@ -1306,10 +1275,85 @@ SDAX_50_TICKER = [
     "ZO1.DE",
 ]
 
-# -------------- Stock Ticker Setup ends ---------------
+# LQ45 constituents at 2021/10
+LQ45_TICKER = [
+    "ACES.JK",
+    "ADRO.JK",
+    "AKRA.JK",
+    "ANTM.JK",
+    "ASII.JK",
+    "BBCA.JK",
+    "BBNI.JK",
+    "BBRI.JK",
+    "BBTN.JK",
+    "BMRI.JK",
+    "BRPT.JK",
+    "BSDE.JK",
+    "CPIN.JK",
+    "ERAA.JK",
+    "EXCL.JK",
+    "GGRM.JK",
+    "HMSP.JK",
+    "ICBP.JK",
+    "INCO.JK",
+    "INDF.JK",
+    "INKP.JK",
+    "INTP.JK",
+    "ITMG.JK",
+    "JPFA.JK",
+    "JSMR.JK",
+    "KLBF.JK",
+    "MDKA.JK",
+    "MEDC.JK",
+    "MIKA.JK",
+    "MNCN.JK",
+    "PGAS.JK",
+    "PTBA.JK",
+    "PTPP.JK",
+    "PWON.JK",
+    "SMGR.JK",
+    "SMRA.JK",
+    "TBIG.JK",
+    "TINS.JK",
+    "TKIM.JK",
+    "TLKM.JK",
+    "TOWR.JK",
+    "TPIA.JK",
+    "UNTR.JK",
+    "UNVR.JK",
+    "WIKA.JK",
+]
 
-# ----------Jan 20,2020, added by YuQing Huang----------
-# ------------FX Ticker Setup Start---------------------
+# SRI-KEHATI.JK - Sustainable Responsible Investm
+SRI_KEHATI_TICKER = [
+    "AALI.JK",
+    "ADHI.JK",
+    "ASII.JK",
+    "BBCA.JK",
+    "BBNI.JK",
+    "BBRI.JK",
+    "BBTN.JK",
+    "BMRI.JK",
+    "BSDE.JK",
+    "INDF.JK",
+    "JPFA.JK",
+    "JSMR.JK",
+    "KLBF.JK",
+    "PGAS.JK",
+    "PJAA.JK",
+    "PPRO.JK",
+    "SIDO.JK",
+    "SMGR.JK",
+    "TINS.JK",
+    "TLKM.JK",
+    "UNTR.JK",
+    "UNVR.JK",
+    "WIKA.JK",
+    "WSKT.JK",
+    "WTON.JK",
+]
+
+# FX Ticker
 FX_TICKER = [
     "AUDCAD=X",
     "AUDCHF=X",
@@ -1386,53 +1430,3 @@ FX_TICKER = [
     "EURDKK=X",
 ]
 
-# -----------FX Ticker Setup End--------------
-
-# LQ45 constituents at 2021/10
-LQ45_TICKER = [
-    "ACES.JK",
-    "ADRO.JK",
-    "AKRA.JK",
-    "ANTM.JK",
-    "ASII.JK",
-    "BBCA.JK",
-    "BBNI.JK",
-    "BBRI.JK",
-    "BBTN.JK",
-    "BMRI.JK",
-    "BRPT.JK",
-    "BSDE.JK",
-    "CPIN.JK",
-    "ERAA.JK",
-    "EXCL.JK",
-    "GGRM.JK",
-    "HMSP.JK",
-    "ICBP.JK",
-    "INCO.JK",
-    "INDF.JK",
-    "INKP.JK",
-    "INTP.JK",
-    "ITMG.JK",
-    "JPFA.JK",
-    "JSMR.JK",
-    "KLBF.JK",
-    "MDKA.JK",
-    "MEDC.JK",
-    "MIKA.JK",
-    "MNCN.JK",
-    "PGAS.JK",
-    "PTBA.JK",
-    "PTPP.JK",
-    "PWON.JK",
-    "SMGR.JK",
-    "SMRA.JK",
-    "TBIG.JK",
-    "TINS.JK",
-    "TKIM.JK",
-    "TLKM.JK",
-    "TOWR.JK",
-    "TPIA.JK",
-    "UNTR.JK",
-    "UNVR.JK",
-    "WIKA.JK",
-]
