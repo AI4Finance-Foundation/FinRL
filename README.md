@@ -83,7 +83,7 @@ FinRL
 │   	├── high_frequency_trading
 │   	├── portfolio_allocation
 │   	├── stock_trading
-│   	└── config.py
+│   	└── 
 │   ├── drl_agents
 │   	├── elegantrl
 │   	├── rllib
@@ -96,6 +96,8 @@ FinRL
 │   	├── preprocessor
 │   	├── data_processor.py
 │   	└── finrl_meta_config.py
+│   ├── config.py
+│   ├── config_tickers.py
 │   ├── train.py
 │   ├── test.py
 │   ├── trade.py
