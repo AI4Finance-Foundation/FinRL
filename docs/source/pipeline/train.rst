@@ -20,13 +20,13 @@ Train an agent
               technical_indicator_list, drl_lib, env, model_name, if_vix=True,
               **kwargs):
         # fetch data
-        DP = DataProcessor(data_source, **kwargs) #initialize NeoFinRL Data Processor (DP)
-        data = DP.download_data(ticker_list, start_date, end_date, time_interval) #download data
-        data = DP.clean_data(data) #clean data (check raw data, fill NaN data)
-        data = DP.add_technical_indicator(data, technical_indicator_list) #such as RSI, MACD, BOLL, CCI
+        dp = DataProcessor(data_source, **kwargs) #initialize NeoFinRL Data Processor (dp)
+        data = dp.download_data(ticker_list, start_date, end_date, time_interval) #download data
+        data = dp.clean_data(data) #clean data (check raw data, fill NaN data)
+        data = dp.add_technical_indicator(data, technical_indicator_list) #such as RSI, MACD, BOLL, CCI
         if if_vix: #whether to use the VIX index to control risk
-            data = DP.add_vix(data) #add VIX index
-        price_array, tech_array, turbulence_array = DP.df_to_array(data, if_vix) #transfrom pd.DataFrame into Numpy.array
+            data = dp.add_vix(data) #add VIX index
+        price_array, tech_array, turbulence_array = dp.df_to_array(data, if_vix) #transfrom pd.DataFrame into Numpy.array
         env_config = {
             "price_array": price_array,
             "tech_array": tech_array,
