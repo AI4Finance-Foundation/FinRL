@@ -1,35 +1,6 @@
 
 SINGLE_TICKER = ["AAPL"]
 
-# self defined
-SRI_KEHATI_TICKER = [
-    "AALI.JK",
-    "ADHI.JK",
-    "ASII.JK",
-    "BBCA.JK",
-    "BBNI.JK",
-    "BBRI.JK",
-    "BBTN.JK",
-    "BMRI.JK",
-    "BSDE.JK",
-    "INDF.JK",
-    "JPFA.JK",
-    "JSMR.JK",
-    "KLBF.JK",
-    "PGAS.JK",
-    "PJAA.JK",
-    "PPRO.JK",
-    "SIDO.JK",
-    "SMGR.JK",
-    "TINS.JK",
-    "TLKM.JK",
-    "UNTR.JK",
-    "UNVR.JK",
-    "WIKA.JK",
-    "WSKT.JK",
-    "WTON.JK",
-]
-
 # check https://wrds-www.wharton.upenn.edu/ for U.S. index constituents
 # Dow 30 constituents in 2021/10
 DOW_30_TICKER = [
@@ -1353,6 +1324,35 @@ LQ45_TICKER = [
     "WIKA.JK",
 ]
 
+# SRI-KEHATI.JK - Sustainable Responsible Investm
+SRI_KEHATI_TICKER = [
+    "AALI.JK",
+    "ADHI.JK",
+    "ASII.JK",
+    "BBCA.JK",
+    "BBNI.JK",
+    "BBRI.JK",
+    "BBTN.JK",
+    "BMRI.JK",
+    "BSDE.JK",
+    "INDF.JK",
+    "JPFA.JK",
+    "JSMR.JK",
+    "KLBF.JK",
+    "PGAS.JK",
+    "PJAA.JK",
+    "PPRO.JK",
+    "SIDO.JK",
+    "SMGR.JK",
+    "TINS.JK",
+    "TLKM.JK",
+    "UNTR.JK",
+    "UNVR.JK",
+    "WIKA.JK",
+    "WSKT.JK",
+    "WTON.JK",
+]
+
 # FX Ticker
 FX_TICKER = [
     "AUDCAD=X",
@@ -1429,3 +1429,4 @@ FX_TICKER = [
     "ZARJPY=X",
     "EURDKK=X",
 ]
+
