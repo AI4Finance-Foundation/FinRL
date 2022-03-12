@@ -103,7 +103,7 @@ Import Packages:
     matplotlib.use('Agg')
     import datetime
     
-    from finrl.config import config
+    from finrl import config
     from finrl import config_tickers
     from finrl.marketdata.yahoodownloader import YahooDownloader
     from finrl.preprocessing.preprocessors import FeatureEngineer
