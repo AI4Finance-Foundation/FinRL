@@ -1,6 +1,6 @@
 # import packages
 
-from finrl.apps import config
+from finrl import config
 import pandas as pd
 import numpy as np
 import matplotlib

@@ -107,7 +107,8 @@ Then we import the packages needed for this demonstration.
     import datetime
 
     %matplotlib inline
-    from finrl.apps import config
+    from finrl import config
+    from finrl import config_tickers
     from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
     from finrl.finrl_meta.preprocessor.preprocessors import FeatureEngineer, data_split
     from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
@@ -178,7 +179,7 @@ Download and save the data in a pandas DataFrame:
     # Download and save the data in a pandas DataFrame:
     df = YahooDownloader(start_date = '2009-01-01', 
                               end_date = '2020-09-30', 
-                              ticker_list = config.DOW_30_TICKER).fetch_data()
+                              ticker_list = config_tickers.DOW_30_TICKER).fetch_data()
                               
     print(df.sort_values(['date','tic'],ignore_index=True).head(30))
     
