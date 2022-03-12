@@ -26,7 +26,7 @@ TRAIN_END_DATE = "2020-07-31"
 TEST_START_DATE = "2020-08-01"
 TEST_END_DATE = "2021-10-01"
 
-TRADE_START_DATE = "2019-01-01"
+TRADE_START_DATE = "2021-11-01"
 
 ## dataset default columns
 DEFAULT_DATA_COLUMNS = ["date", "tic", "close"]
