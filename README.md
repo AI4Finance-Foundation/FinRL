@@ -98,10 +98,11 @@ FinRL
 │   	└── finrl_meta_config.py
 │   ├── config.py
 │   ├── config_tickers.py
+│   ├── plot.py
 │   ├── train.py
 │   ├── test.py
-│   ├── trade.py
-│   └── plot.py
+│   └── trade.py
+│   
 ├── tutorial (tutorial notebooks and educational files)
 ├── unit_testing (make sure verified codes working on env & data)
 │   ├── test_env
