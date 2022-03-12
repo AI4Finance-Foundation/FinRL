@@ -15,7 +15,7 @@ Open ``main.py``
     from argparse import ArgumentParser
     import datetime
     
-    from finrl.config import config
+    from finrl import config
     from finrl import config_tickers
     
     
