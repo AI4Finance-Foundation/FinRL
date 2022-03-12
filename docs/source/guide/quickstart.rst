@@ -15,7 +15,8 @@ Open ``main.py``
     from argparse import ArgumentParser
     import datetime
     
-    from finrl.config import config
+    from finrl import config
+    from finrl import config_tickers
     
     
     
@@ -49,7 +50,7 @@ Open ``main.py``
             from finrl.marketdata.yahoodownloader import YahooDownloader
             df = YahooDownloader(start_date = config.START_DATE,
                                  end_date = config.END_DATE,
-                                 ticker_list = config.DOW_30_TICKER).fetch_data()
+                                 ticker_list = config_tickers.DOW_30_TICKER).fetch_data()
             now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
             df.to_csv("./"+config.DATA_SAVE_DIR+"/"+now+'.csv')
     
