@@ -112,6 +112,7 @@ if __name__ == "__main__":
     env = StockTradingEnv
 
     # demo for elegantrl
+    kwargs = {}  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
     train(
         start_date=TRAIN_START_DATE,
         end_date=TRAIN_END_DATE,
@@ -125,6 +126,7 @@ if __name__ == "__main__":
         cwd="./test_ppo",
         erl_params=ERL_PARAMS,
         break_step=1e5,
+        kwargs=kwargs,
     )
 
     ## if users want to use rllib, or stable-baselines3, users can remove the following comments
