@@ -1,13 +1,13 @@
 import ray
 
-from finrl.apps.config import (
+from finrl.config import (
     TECHNICAL_INDICATORS_LIST,
     TEST_END_DATE,
     TEST_START_DATE,
     RLlib_PARAMS,
 )
 
-from finrl.apps.config_tickers import (
+from finrl.config_tickers import (
     DOW_30_TICKER,
 )
 
