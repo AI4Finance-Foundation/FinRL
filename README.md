@@ -32,10 +32,10 @@ The FinRL ecosystem is a unified framework, including various markets, state-of-
 
 | Roadmap  | Level | Users | Example | Desription | 
 |----|----|----|----|----|
-| 0.0 (preparation) | preparation | practitioners of financial machine learning | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of market environments|
-| 1.0 (Proof-of-Concept)| entry-level | entry-level | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | demonstration, education |
-| 2.0 (Professional) | intermediate-level  | full-stack developers, professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | finance-oriented DRL algorithms |
-| 3.0 (Production) | advanced-level | investment banks, hedge funds | [Podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solution |
+| 0.0 (Preparation) | preparation | practitioners of financial big data | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of market environments|
+| 1.0 (Proof-of-Concept)| entry-level | beginners | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | demonstration, education |
+| 2.0 (Professional) | intermediate-level  | full-stack developers, professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | financially optimized DRL algorithms |
+| 3.0 (Production) | advance-level | investment banks, hedge funds | [Podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solution |
 
 
 ## Outline
