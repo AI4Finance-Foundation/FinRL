@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-:github_url: https://github.com/AI4Finance-LLC/FinRL-Library
+:github_url: https://github.com/AI4Finance-Foundation/FinRL
 
 Welcome to FinRL Library!
 =====================================================================================================
@@ -46,50 +46,27 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    Home <self>
 
 
-
 .. toctree::
    :maxdepth: 1
-   :caption: Guide
+   :caption: Getting Started
    
-   guide/overview
-   guide/installation
-   guide/quickstart
-   
-   
-.. toctree::
-   :maxdepth: 1
-   :caption: Tutorials
-   
-   tutorial/SingleStockTrading
-   tutorial/MultipleStockTrading
-   tutorial/PortfolioAllocation
+   start/introduction
+   start/first_glance
    
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Examples
+   :maxdepth: 2
+   :caption: User Guide
    
-
-   examples/ExplainableFinRLAnEmpiricalApproach
+   user/installation
+   user/quick_start
+   user/key_concept
+   user/DRL_in_stock_trading
+   user/tutorials
    
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Algorithms
-   
-   algorithms/ppo
-   algorithms/a2c
-   algorithms/ddpg
-   algorithms/sac
-   algorithms/td3
    
 .. toctree::
    :maxdepth: 1
-   :caption: Others
-   
-   other/faq
-   
-   
+   :caption: Developer Guide
 
-
-
+   developer/structure
