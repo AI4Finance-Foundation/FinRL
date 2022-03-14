@@ -1,4 +1,4 @@
-:github_url: https://github.com/AI4Finance-LLC/FinRL-Library
+:github_url: https://github.com/AI4Finance-Foundation/FinRL
 
 Quick Start
 ==================
