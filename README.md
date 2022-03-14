@@ -98,6 +98,7 @@ FinRL
 │   	└── finrl_meta_config.py
 │   ├── config.py
 │   ├── config_tickers.py
+│   ├── main.py
 │   ├── plot.py
 │   ├── train.py
 │   ├── test.py
@@ -109,9 +110,6 @@ FinRL
 │   	└── test_env_cashpenalty.py
 │   └── test_marketdata
 │   	└── test_yahoodownload.py
-├── RL_stock.py
-├── main.py
-├── setup.cfg
 ├── setup.py
 ├── requirements.txt
 └── README.md
