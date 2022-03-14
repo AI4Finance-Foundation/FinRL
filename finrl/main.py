@@ -13,7 +13,6 @@ from finrl.config import (
     SAC_PARAMS,
 )
 
-from finrl.finrl_meta.data_processor import DataProcessor
 
 # construct environment
 from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
