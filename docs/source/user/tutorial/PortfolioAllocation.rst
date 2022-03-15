@@ -44,7 +44,7 @@ Portfolio allocation is different from multiple stock trading because we are ess
 
 The traditional and the most popular way of doing portfolio allocation is mean-variance or modern portfolio theory (MPT):
 
-.. image:: ../image/portfolio_allocation_2.png
+.. image:: ../../image/portfolio_allocation_2.png
 
 
 However, MPT performs not so well in out-of-sample data. MPT is calculated only based on stock returns, if we want to take other relevant factors into account, for example some of the technical indicators like MACD or RSI, MPT may not be able to combine these information together well.
@@ -222,7 +222,7 @@ Perform Feature Engineering: covariance matrix + technical indicators:
     df = df.sort_values(['date','tic']).reset_index(drop=True)
     df.head()    
 
-.. image:: ../image/portfolio_allocation_3.png
+.. image:: ../../image/portfolio_allocation_3.png
 
 Build Environment
 --------------------------
@@ -539,12 +539,12 @@ Trading:Assume that we have $1,000,000 initial capital at 2019/01/01. We use the
                             test_obs = obs_trade)
     
 
-.. image:: ../image/portfolio_allocation_4.png
+.. image:: ../../image/portfolio_allocation_4.png
 
 
 The output actions or the portfolio weights look like this:
 
-.. image:: ../image/portfolio_allocation_5.png
+.. image:: ../../image/portfolio_allocation_5.png
 
 
 Backtesting Performance
