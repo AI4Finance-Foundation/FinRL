@@ -27,7 +27,7 @@ def train(
         if_vix=True,
         **kwargs
 ):
-    # fetch data
+    # download data
     dp = DataProcessor(data_source, **kwargs)
     data = dp.download_data(ticker_list, start_date, end_date, time_interval)
     data = dp.clean_data(data)
