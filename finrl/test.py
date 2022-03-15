@@ -7,9 +7,8 @@ from finrl.config import (
     RLlib_PARAMS,
 )
 
-from finrl.config_tickers import (
-    DOW_30_TICKER,
-)
+from finrl.config_tickers import DOW_30_TICKER
+
 
 from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
 
