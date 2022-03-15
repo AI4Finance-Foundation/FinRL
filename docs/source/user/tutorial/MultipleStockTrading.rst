@@ -53,9 +53,9 @@ Suppose that we have a well trained DRL agent “DRL Trader”, we want to use i
     
 Below are the logic chart of multiple stock trading and a made-up example for demonstration purpose:
 
-.. image:: ../image/multiple_1.jpeg
+.. image:: ../../image/multiple_1.jpeg
     :scale: 60%
-.. image:: ../image/multiple_2.png
+.. image:: ../../image/multiple_2.png
 
 Multiple stock trading is different from single stock trading because as the number of stocks increase, the dimension of the data will increase, the state and action space in reinforcement learning will grow exponentially. So stability and reproducibility are very essential here.
 
@@ -65,7 +65,7 @@ FinRL is characterized by its reproducibility, scalability, simplicity, applicab
 
 This article is focusing on one of the use cases in our paper: Mutiple Stock Trading. We use one Jupyter notebook to include all the necessary steps.
 
-.. image:: ../image/FinRL-Architecture.png
+.. image:: ../../image/FinRL-Architecture.png
 
 
 **Step 1.2: Problem Definition**：
@@ -184,7 +184,7 @@ Download and save the data in a pandas DataFrame:
     print(df.sort_values(['date','tic'],ignore_index=True).head(30))
     
 
-.. image:: ../image/multiple_3.png
+.. image:: ../../image/multiple_3.png
 
 
 Step 3: Preprocess Data
@@ -337,7 +337,7 @@ Perform Feature Engineering:
                          user_defined_feature = False).preprocess_data()
                          
                          
-.. image:: ../image/multiple_4.png
+.. image:: ../../image/multiple_4.png
 
 
 Step 4: Design Environment
