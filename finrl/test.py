@@ -1,5 +1,3 @@
-import ray
-
 from finrl.config import (
     TECHNICAL_INDICATORS_LIST,
     TEST_END_DATE,
@@ -8,7 +6,6 @@ from finrl.config import (
 )
 
 from finrl.config_tickers import DOW_30_TICKER
-
 
 from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
 
@@ -114,6 +111,7 @@ if __name__ == "__main__":
     ## if users want to use rllib, or stable-baselines3, users can remove the following comments
 
     # # demo for rllib
+    # import ray
     # ray.shutdown()  # always shutdown previous session if any
     # account_value_rllib = test(
     #     start_date=TEST_START_DATE,
