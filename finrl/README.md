@@ -25,6 +25,7 @@ FinRL
 │   	├── preprocessor
 │   	├── data_processor.py
 │   	└── finrl_meta_config.py
+│   ├── main.py
 │   ├── train.py
 │   ├── test.py
 │   ├── trade.py
