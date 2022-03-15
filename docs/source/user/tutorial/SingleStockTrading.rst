@@ -37,7 +37,7 @@ This article is focusing on one of the use cases in our paper: Single Stock Trad
 
 We use Apple Inc. stock: AAPL as an example throughout this article, because it is one of the most popular stocks.
 
-.. image:: ../image/FinRL-Architecture.png
+.. image:: ../../image/FinRL-Architecture.png
 
 **Step 1.2: Problem Definition**
 
