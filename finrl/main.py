@@ -5,6 +5,10 @@ from finrl import config
 
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import (
+    DATA_SAVE_DIR,
+    TRAINED_MODEL_DIR,
+    TENSORBOARD_LOG_DIR,
+    RESULTS_DIR,
     TECHNICAL_INDICATORS_LIST,
     TRAIN_START_DATE,
     TRAIN_END_DATE,
@@ -32,14 +36,14 @@ def build_parser():
 def main():
     parser = build_parser()
     options = parser.parse_args()
-    if not os.path.exists("./" + config.DATA_SAVE_DIR):
-        os.makedirs("./" + config.DATA_SAVE_DIR)
-    if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
-        os.makedirs("./" + config.TRAINED_MODEL_DIR)
-    if not os.path.exists("./" + config.TENSORBOARD_LOG_DIR):
-        os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
-    if not os.path.exists("./" + config.RESULTS_DIR):
-        os.makedirs("./" + config.RESULTS_DIR)
+    if not os.path.exists("./" + DATA_SAVE_DIR):
+        os.makedirs("./" + DATA_SAVE_DIR)
+    if not os.path.exists("./" + TRAINED_MODEL_DIR):
+        os.makedirs("./" + TRAINED_MODEL_DIR)
+    if not os.path.exists("./" + TENSORBOARD_LOG_DIR):
+        os.makedirs("./" + TENSORBOARD_LOG_DIR)
+    if not os.path.exists("./" + RESULTS_DIR):
+        os.makedirs("./" + RESULTS_DIR)
 
     if options.mode == "train":
         from finrl import train
