@@ -163,7 +163,7 @@ Download and save the data in a pandas DataFrame:
     print(df.sort_values(['date','tic'],ignore_index=True).head(30))
     
 
-.. image:: ../image/single_1.png
+.. image:: ../../image/single_1.png
 
 
 
@@ -367,7 +367,7 @@ The implementation of the DRL algorithms are based on `OpenAI Baselines`_ and St
 .. tip::
     FinRL library includes fine-tuned standard DRL algorithms, such as DQN, DDPG, Multi-Agent DDPG, PPO, SAC, A2C and TD3. We also allow users to design their own DRL algorithms by adapting these DRL algorithms.
     
-.. image:: ../image/alg_compare.png
+.. image:: ../../image/alg_compare.png
     
 FinRL uses a DRLAgent class to implement the algorithms.
 
@@ -419,7 +419,7 @@ Once the learn function is called, you can monitor the RL agent during or after 
 
 Total rewards for each of the algorithm:
 
-.. image:: ../image/single_2.png
+.. image:: ../../image/single_2.png
 
 
 total_timesteps (int): the total number of samples to train on. It is one of the most important hyperparameters, there are also other important parameters such as learning rate, batch size, buffer size, etc.
@@ -430,9 +430,9 @@ By observing the episode_reward chart, we can see that these algorithms will con
 
 actor_loss for DDPG and policy_loss for TD3:
 
-.. image:: ../image/single_3.png
+.. image:: ../../image/single_3.png
 
-.. image:: ../image/single_4.png
+.. image:: ../../image/single_4.png
 
 
 **Picking models**
@@ -533,7 +533,7 @@ Assume that we have $100,000 initial capital at 2019-01-01. We use the TD3 model
                                                test_obs = obs_trade)
                                                
 
-.. image:: ../image/single_5.png
+.. image:: ../../image/single_5.png
 
 
 Step 7: Backtest Our Strategy
