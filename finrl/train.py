@@ -1,4 +1,4 @@
-import ray
+
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import (
     TECHNICAL_INDICATORS_LIST,
@@ -132,6 +132,7 @@ if __name__ == "__main__":
     ## if users want to use rllib, or stable-baselines3, users can remove the following comments
 
     # # demo for rllib
+    # import ray
     # ray.shutdown()  # always shutdown previous session if any
     # train(
     #     start_date=TRAIN_START_DATE,
