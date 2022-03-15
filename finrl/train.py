@@ -1,5 +1,3 @@
-
-from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import (
     TECHNICAL_INDICATORS_LIST,
     TRAIN_START_DATE,
@@ -8,6 +6,8 @@ from finrl.config import (
     RLlib_PARAMS,
     SAC_PARAMS,
 )
+
+from finrl.config_tickers import DOW_30_TICKER
 
 from finrl.finrl_meta.data_processor import DataProcessor
 
@@ -27,7 +27,7 @@ def train(
         if_vix=True,
         **kwargs
 ):
-    # fetch data
+    # download data
     dp = DataProcessor(data_source, **kwargs)
     data = dp.download_data(ticker_list, start_date, end_date, time_interval)
     data = dp.clean_data(data)
