@@ -16,8 +16,6 @@ TEST_END_DATE = "2021-10-01"
 
 TRADE_START_DATE = "2021-11-01"
 
-# dataset default columns
-DEFAULT_DATA_COLUMNS = ["date", "tic", "close"]
 
 # stockstats technical indicator column names
 # check https://pypi.org/project/stockstats/ for different names
