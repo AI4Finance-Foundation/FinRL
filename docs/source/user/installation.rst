@@ -40,7 +40,7 @@ Step 2: Install `Homebrew <https://brew.sh/>`_
 
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    
-Part 3: Install `OpenAI <https://github.com/openai/baselines>`_
+Step 3: Install `OpenAI <https://github.com/openai/baselines>`_
 -----------------------------------------------------------------
 
 Installation of system packages on Mac requires Homebrew. With Homebrew installed, run the following in your terminal:
@@ -49,7 +49,7 @@ Installation of system packages on Mac requires Homebrew. With Homebrew installe
 
    brew install cmake openmpi
 
-Part 4: Install `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+Step 4: Install `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Since we are still actively updating the FinRL repository, please install the unstable development version of FinRL using pip:
@@ -58,7 +58,7 @@ Since we are still actively updating the FinRL repository, please install the un
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
 
-Part 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Download the FinRL repository either use terminal:
