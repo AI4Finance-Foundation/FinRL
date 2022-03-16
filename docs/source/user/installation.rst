@@ -77,7 +77,7 @@ Open Jupyter Notebook through Anaconda Navigator and locate one of the stock tra
 Windows 10
 ==========
 
-Part 1: Install Ubuntu on Windows 10
+Step 1: Install Ubuntu on Windows 10
 --------------------------------------
 Please check this video for detailed steps:
 
@@ -85,12 +85,12 @@ Please check this video for detailed steps:
 
    <iframe width="692" height="389" src="https://www.youtube.com/embed/X-DHaQLrBi8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Part 2: Install `Anaconda <https://www.anaconda.com/products/individual>`_
+Step 2: Install `Anaconda <https://www.anaconda.com/products/individual>`_
 ----------------------------------------------------------------------------
 
 Please follow the steps in this `blog <https://linuxize.com/post/how-to-install-anaconda-on-ubuntu-18-04/>`_
 
-Part 3: Install `OpenAI <https://github.com/openai/baselines>`_
+Step 3: Install `OpenAI <https://github.com/openai/baselines>`_
 ----------------------------------------------------------------
 
 Open an ubuntu terminal and type:
@@ -99,7 +99,7 @@ Open an ubuntu terminal and type:
 
    sudo apt-get update && sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev libgl1-mesa-glx
    
-Part 4: Install `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+Step 4: Install `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Since we are still actively updating the FinRL repository, please install the unstable development version of FinRL using pip:
@@ -108,7 +108,7 @@ Since we are still actively updating the FinRL repository, please install the un
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
 
-Part 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Download the FinRL repository using terminal:
