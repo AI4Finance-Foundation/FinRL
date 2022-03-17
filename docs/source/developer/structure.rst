@@ -25,6 +25,7 @@ File Structure
     │   	├── preprocessor
     │   	├── data_processor.py
     │   	└── finrl_meta_config.py
+    │   ├── main.py
     │   ├── train.py
     │   ├── test.py
     │   ├── trade.py
@@ -36,7 +37,6 @@ File Structure
     │   └── test_marketdata
     │   	└── test_yahoodownload.py
     ├── RL_stock.py
-    ├── main.py
     ├── setup.cfg
     ├── setup.py
     ├── requirements.txt
