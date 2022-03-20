@@ -1,8 +1,6 @@
 import os
 from argparse import ArgumentParser
 
-from finrl import config
-
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import (
     DATA_SAVE_DIR,
