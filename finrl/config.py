@@ -57,6 +57,9 @@ ERL_PARAMS = {
 }
 RLlib_PARAMS = {"lr": 5e-5, "train_batch_size": 500, "gamma": 0.99}
 
+# alpaca parameters
+ALPACA_API_KEY = "xxx"  # YOUR_ALPACA_API_KEY",
+ALPACA_API_SECRET = "xxx"  #  YOUR_ALPACA_API_SECRET",
 
 # Possible time zones
 TIME_ZONE_SHANGHAI = 'Asia/Shanghai'  ## Hang Seng HSI, SSE, CSI

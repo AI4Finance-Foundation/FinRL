@@ -1,8 +1,6 @@
 import os
 from argparse import ArgumentParser
 
-from finrl import config
-
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import (
     DATA_SAVE_DIR,
@@ -12,9 +10,15 @@ from finrl.config import (
     TECHNICAL_INDICATORS_LIST,
     TRAIN_START_DATE,
     TRAIN_END_DATE,
+    TEST_START_DATE,
+    TEST_END_DATE,
+    TRADE_START_DATE,
+    TRADE_END_DATE,
     ERL_PARAMS,
     RLlib_PARAMS,
     SAC_PARAMS,
+    ALPACA_API_KEY,
+    ALPACA_API_SECRET,
 )
 
 
@@ -67,7 +71,54 @@ def main():
             break_step=1e5,
             kwargs=kwargs,
         )
+    elif options.mode == "test":
+        from finrl import test
+        env = StockTradingEnv
 
+        # demo for elegantrl
+        kwargs = {}  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
 
+        account_value_erl = test(
+            start_date=TEST_START_DATE,
+            end_date=TEST_END_DATE,
+            ticker_list=DOW_30_TICKER,
+            data_source="yahoofinance",
+            time_interval="1D",
+            technical_indicator_list=TECHNICAL_INDICATORS_LIST,
+            drl_lib="elegantrl",
+            env=env,
+            model_name="ppo",
+            cwd="./test_ppo",
+            net_dimension=512,
+            kwargs=kwargs,
+        )
+    elif options.mode == "trade":
+        from finrl import trade
+        env = StockTradingEnv
+        kwargs = {}
+        trade(
+            start_date=TRADE_START_DATE,
+            end_date=TRADE_END_DATE,
+            ticker_list=DOW_30_TICKER,
+            data_source="yahoofinance",
+            time_interval="1D",
+            technical_indicator_list=TECHNICAL_INDICATORS_LIST,
+            drl_lib="elegantrl",
+            env=env,
+            model_name="ppo",
+            API_KEY=ALPACA_API_KEY,
+            API_SECRET=ALPACA_API_SECRET,
+            APCA_API_BASE_URL='https://paper-api.alpaca.markets',
+            trade_mode='backtesting',
+            if_vix=True,
+            kwargs=kwargs,
+        )
+    else:
+        raise ValueError("Wrong mode.")
+
+### Users can input the following command in terminal
+# python main.py --mode=train
+# python main.py --mode=test
+# python main.py --mode=trade
 if __name__ == "__main__":
     main()
