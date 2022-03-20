@@ -78,13 +78,13 @@ We employ a **train-test-trade** pipeline by three files: train.py, test.py, and
 ```
 FinRL
 ├── finrl (main folder)
-│   ├── apps
+│   ├── applications
 │   	├── cryptocurrency_trading
 │   	├── high_frequency_trading
 │   	├── portfolio_allocation
 │   	├── stock_trading
 │   	└── 
-│   ├── drl_agents
+│   ├── agents
 │   	├── elegantrl
 │   	├── rllib
 │   	└── stablebaseline3
