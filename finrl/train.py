@@ -50,19 +50,16 @@ def train(
         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
         break_step = kwargs.get("break_step", 1e6)
         erl_params = kwargs.get("erl_params")
-
         agent = DRLAgent_erl(
             env=env,
             price_array=price_array,
             tech_array=tech_array,
             turbulence_array=turbulence_array,
         )
-
         model = agent.get_model(model_name, model_kwargs=erl_params)
         trained_model = agent.train_model(
             model=model, cwd=cwd, total_timesteps=break_step
         )
-
     elif drl_lib == "rllib":
         total_episodes = kwargs.get("total_episodes", 100)
         rllib_params = kwargs.get("rllib_params")
@@ -73,13 +70,10 @@ def train(
             tech_array=tech_array,
             turbulence_array=turbulence_array,
         )
-
         model, model_config = agent_rllib.get_model(model_name)
-
         model_config["lr"] = rllib_params["lr"]
         model_config["train_batch_size"] = rllib_params["train_batch_size"]
         model_config["gamma"] = rllib_params["gamma"]
-
         # ray.shutdown()
         trained_model = agent_rllib.train_model(
             model=model,
@@ -88,13 +82,11 @@ def train(
             total_episodes=total_episodes,
         )
         trained_model.save(cwd)
-
     elif drl_lib == "stable_baselines3":
         total_timesteps = kwargs.get("total_timesteps", 1e6)
         agent_params = kwargs.get("agent_params")
         from finrl.agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
         agent = DRLAgent_sb3(env=env_instance)
-
         model = agent.get_model(model_name, model_kwargs=agent_params)
         trained_model = agent.train_model(
             model=model, tb_log_name=model_name, total_timesteps=total_timesteps
