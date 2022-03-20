@@ -62,7 +62,9 @@ Run the library:
 
 .. code-block:: python
 
-    python main.py --mode=train
+    python main.py --mode=train # if train
+    python main.py --mode=test # if test
+    python main.py --mode=trade # if trade
 
 Choices for ``--mode``: start mode, train, download_data, backtest
 
