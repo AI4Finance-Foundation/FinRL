@@ -23,10 +23,6 @@ def test(
         if_vix=True,
         **kwargs
 ):
-    # import DRL agents
-    from finrl.agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
-    from finrl.agents.rllib.models import DRLAgent as DRLAgent_rllib
-    from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
 
     # import data processor
     from finrl.finrl_meta.data_processor import DataProcessor
@@ -55,17 +51,16 @@ def test(
     print("price_array: ", len(price_array))
 
     if drl_lib == "elegantrl":
+        from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
         episode_total_assets = DRLAgent_erl.DRL_prediction(
             model_name=model_name,
             cwd=cwd,
             net_dimension=net_dimension,
             environment=env_instance,
         )
-
         return episode_total_assets
-
     elif drl_lib == "rllib":
-        # load agent
+        from finrl.agents.rllib.models import DRLAgent as DRLAgent_rllib
         episode_total_assets = DRLAgent_rllib.DRL_prediction(
             model_name=model_name,
             env=env,
@@ -74,14 +69,12 @@ def test(
             turbulence_array=turbulence_array,
             agent_path=cwd,
         )
-
         return episode_total_assets
-
     elif drl_lib == "stable_baselines3":
+        from finrl.agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
         episode_total_assets = DRLAgent_sb3.DRL_prediction_load_from_file(
             model_name=model_name, environment=env_instance, cwd=cwd
         )
-
         return episode_total_assets
     else:
         raise ValueError("DRL library input is NOT supported. Please check.")
