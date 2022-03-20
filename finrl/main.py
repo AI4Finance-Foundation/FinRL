@@ -1,8 +1,6 @@
 import os
 from argparse import ArgumentParser
 
-from finrl import config
-
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import (
     DATA_SAVE_DIR,
@@ -19,7 +17,9 @@ from finrl.config import (
     ERL_PARAMS,
     RLlib_PARAMS,
     SAC_PARAMS,
-
+    ALPACA_API_KEY,
+    ALPACA_API_SECRET,
+    ALPACA_API_BASE_URL,
 )
 
 
@@ -96,6 +96,7 @@ def main():
     elif options.mode == "trade":
         from finrl import trade
         env = StockTradingEnv
+        kwargs = {}
         trade(
             start_date=TRADE_START_DATE,
             end_date=TRADE_END_DATE,
@@ -106,15 +107,19 @@ def main():
             drl_lib="elegantrl",
             env=env,
             model_name="ppo",
-            API_KEY,
-            API_SECRET,
-            APCA_API_BASE_URL,
+            API_KEY=ALPACA_API_KEY,
+            API_SECRET=ALPACA_API_SECRET,
+            API_BASE_URL=ALPACA_API_BASE_URL,
             trade_mode='backtesting',
             if_vix=True,
-            kwargs=kwargs，
+            kwargs=kwargs,
         )
+    else:
+        raise ValueError("Wrong mode.")
 
-
-
+### Users can input the following command in terminal
+# python main.py --mode=train
+# python main.py --mode=test
+# python main.py --mode=trade
 if __name__ == "__main__":
     main()

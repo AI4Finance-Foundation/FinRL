@@ -112,7 +112,7 @@ Then we import the packages needed for this demonstration.
     from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
     from finrl.finrl_meta.preprocessor.preprocessors import FeatureEngineer, data_split
     from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
-    from finrl.drl_agents.stablebaselines3.models import DRLAgent
+    from finrl.agents.stablebaselines3.models import DRLAgent
 
     from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
     from pprint import pprint
