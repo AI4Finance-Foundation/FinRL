@@ -17,7 +17,8 @@ from finrl.config import (
     ERL_PARAMS,
     RLlib_PARAMS,
     SAC_PARAMS,
-
+    ALPACA_API_KEY,
+    ALPACA_API_SECRET,
 )
 
 
@@ -105,8 +106,8 @@ def main():
             drl_lib="elegantrl",
             env=env,
             model_name="ppo",
-            API_KEY="YOUR_ALPACA_API_KEY",
-            API_SECRET="YOUR_ALPACA_API_SECRET",
+            API_KEY=ALPACA_API_KEY,
+            API_SECRET=ALPACA_API_SECRET,
             APCA_API_BASE_URL='https://paper-api.alpaca.markets',
             trade_mode='backtesting',
             if_vix=True,
