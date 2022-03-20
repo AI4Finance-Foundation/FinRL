@@ -64,7 +64,7 @@ Run the library:
 
     python main.py --mode=train # if train
     python main.py --mode=test # if test
-    python main.py --mode=trade # if trade
+    python main.py --mode=trade # if trade. Users should input your alpaca parameters in config.py
 
 Choices for ``--mode``: start mode, train, download_data, backtest
 
