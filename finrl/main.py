@@ -117,7 +117,9 @@ def main():
     else:
         raise ValueError("Wrong mode.")
 
-
-
+### Users can input the following command in terminal
+# python main.py --mode=train
+# python main.py --mode=test
+# python main.py --mode=trade
 if __name__ == "__main__":
     main()
