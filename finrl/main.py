@@ -22,9 +22,9 @@ from finrl.config import (
     ALPACA_API_BASE_URL,
 )
 
-
 # construct environment
 from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+
 
 def build_parser():
     parser = ArgumentParser()
@@ -117,7 +117,8 @@ def main():
     else:
         raise ValueError("Wrong mode.")
 
-### Users can input the following command in terminal
+
+## Users can input the following command in terminal
 # python main.py --mode=train
 # python main.py --mode=test
 # python main.py --mode=trade
