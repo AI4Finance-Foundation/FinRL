@@ -19,6 +19,7 @@ from finrl.config import (
     SAC_PARAMS,
     ALPACA_API_KEY,
     ALPACA_API_SECRET,
+    ALPACA_API_BASE_URL,
 )
 
 
@@ -108,7 +109,7 @@ def main():
             model_name="ppo",
             API_KEY=ALPACA_API_KEY,
             API_SECRET=ALPACA_API_SECRET,
-            APCA_API_BASE_URL='https://paper-api.alpaca.markets',
+            API_BASE_URL=ALPACA_API_BASE_URL,
             trade_mode='backtesting',
             if_vix=True,
             kwargs=kwargs,
