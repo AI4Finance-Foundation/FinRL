@@ -57,9 +57,6 @@ ERL_PARAMS = {
 }
 RLlib_PARAMS = {"lr": 5e-5, "train_batch_size": 500, "gamma": 0.99}
 
-# alpaca parameters
-ALPACA_API_KEY = "xxx"  # YOUR_ALPACA_API_KEY",
-ALPACA_API_SECRET = "xxx"  #  YOUR_ALPACA_API_SECRET",
 
 # Possible time zones
 TIME_ZONE_SHANGHAI = 'Asia/Shanghai'  ## Hang Seng HSI, SSE, CSI
@@ -70,6 +67,11 @@ TIME_ZONE_JAKARTA = 'Asia/Jakarta'  # LQ45
 TIME_ZONE_SELFDEFINED = 'xxx'  # If neither of the above is your time zone, you should define it, and set USE_TIME_ZONE_SELFDEFINED 1.
 USE_TIME_ZONE_SELFDEFINED = 0  # 0 (default) or 1 (use the self defined)
 
+# parameters for data_sources
+ALPACA_API_KEY = "xxx"  # your ALPACA_API_KEY
+ALPACA_API_SECRET = "xxx"  # your ALPACA_API_SECRET
+ALPACA_API_BASE_URL = 'https://paper-api.alpaca.markets'  # alpaca url
+BINANCE_BASE_URL = 'https://data.binance.vision/'  # binance url
 
 
 

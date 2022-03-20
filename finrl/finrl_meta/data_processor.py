@@ -14,8 +14,8 @@ class DataProcessor:
             try:
                 API_KEY = kwargs.get("API_KEY")
                 API_SECRET = kwargs.get("API_SECRET")
-                APCA_API_BASE_URL = kwargs.get("APCA_API_BASE_URL")
-                self.processor = Alpaca(API_KEY, API_SECRET, APCA_API_BASE_URL)
+                API_BASE_URL = kwargs.get("API_BASE_URL")
+                self.processor = Alpaca(API_KEY, API_SECRET, API_BASE_URL)
                 print("Alpaca successfully connected")
             except BaseException:
                 raise ValueError("Please input correct account info for alpaca!")
