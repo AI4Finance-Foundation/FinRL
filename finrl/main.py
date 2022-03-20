@@ -114,6 +114,8 @@ def main():
             if_vix=True,
             kwargs=kwargs,
         )
+    else:
+        raise ValueError("Wrong mode.")
 
 
 
