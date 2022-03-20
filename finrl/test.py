@@ -24,9 +24,9 @@ def test(
         **kwargs
 ):
     # import DRL agents
-    from finrl.drl_agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
-    from finrl.drl_agents.rllib.models import DRLAgent as DRLAgent_rllib
-    from finrl.drl_agents.elegantrl.models import DRLAgent as DRLAgent_erl
+    from finrl.agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
+    from finrl.agents.rllib.models import DRLAgent as DRLAgent_rllib
+    from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
 
     # import data processor
     from finrl.finrl_meta.data_processor import DataProcessor
