@@ -62,7 +62,7 @@ Run the library:
 
 .. code-block:: python
 
-    python main.py --mode=train # if train
+    python main.py --mode=train # if train. Use DOW_30_TICKER by default.
     python main.py --mode=test # if test. Use DOW_30_TICKER by default.
     python main.py --mode=trade # if trade. Users should input your alpaca parameters in config.py
 
