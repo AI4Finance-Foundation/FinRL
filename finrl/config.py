@@ -4,7 +4,7 @@ TRAINED_MODEL_DIR = "trained_models"
 TENSORBOARD_LOG_DIR = "tensorboard_log"
 RESULTS_DIR = "results"
 
-# time format: '%Y-%m-%d'
+# date format: '%Y-%m-%d'
 TRAIN_START_DATE = "2014-01-01"
 TRAIN_END_DATE = "2020-07-31"
 
