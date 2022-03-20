@@ -70,3 +70,4 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :caption: Developer Guide
 
    developer/structure
+   developer/development_setup
