@@ -96,6 +96,7 @@ def main():
     elif options.mode == "trade":
         from finrl import trade
         env = StockTradingEnv
+        kwargs = {}
         trade(
             start_date=TRADE_START_DATE,
             end_date=TRADE_END_DATE,
@@ -106,12 +107,12 @@ def main():
             drl_lib="elegantrl",
             env=env,
             model_name="ppo",
-            API_KEY,
-            API_SECRET,
-            APCA_API_BASE_URL,
+            API_KEY="YOUR_ALPACA_API_KEY",
+            API_SECRET="YOUR_ALPACA_API_SECRET",
+            APCA_API_BASE_URL='https://paper-api.alpaca.markets',
             trade_mode='backtesting',
             if_vix=True,
-            kwargs=kwargs，
+            kwargs=kwargs,
         )
 
 
