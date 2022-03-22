@@ -1,4 +1,4 @@
-# dir
+# directory
 DATA_SAVE_DIR = "datasets"
 TRAINED_MODEL_DIR = "trained_models"
 TENSORBOARD_LOG_DIR = "tensorboard_log"
@@ -16,7 +16,7 @@ TRADE_END_DATE = "2021-12-01"
 
 # stockstats technical indicator column names
 # check https://pypi.org/project/stockstats/ for different names
-TECHNICAL_INDICATORS_LIST = [
+INDICATORS = [
     "macd",
     "boll_ub",
     "boll_lb",
