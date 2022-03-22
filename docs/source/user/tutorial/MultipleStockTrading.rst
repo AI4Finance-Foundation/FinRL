@@ -332,7 +332,7 @@ Perform Feature Engineering:
     # Perform Feature Engineering:
     df = FeatureEngineer(df.copy(),
                          use_technical_indicator=True,
-                         tech_indicator_list = config.TECHNICAL_INDICATORS_LIST,
+                         tech_indicator_list = config.INDICATORS,
                          use_turbulence=True,
                          user_defined_feature = False).preprocess_data()
                          
