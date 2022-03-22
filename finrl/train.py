@@ -1,5 +1,5 @@
 from finrl.config import (
-    TECHNICAL_INDICATORS_LIST,
+    INDICATORS,
     TRAIN_START_DATE,
     TRAIN_END_DATE,
     ERL_PARAMS,
@@ -91,9 +91,9 @@ def train(
         trained_model = agent.train_model(
             model=model, tb_log_name=model_name, total_timesteps=total_timesteps
         )
-        print("Training finished!")
+        print("Training is finished!")
         trained_model.save(cwd)
-        print("Trained model saved in " + str(cwd))
+        print("Trained model is saved in " + str(cwd))
     else:
         raise ValueError("DRL library input is NOT supported. Please check.")
 
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         ticker_list=DOW_30_TICKER,
         data_source="yahoofinance",
         time_interval="1D",
-        technical_indicator_list=TECHNICAL_INDICATORS_LIST,
+        technical_indicator_list=INDICATORS,
         drl_lib="elegantrl",
         env=env,
         model_name="ppo",
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     #     ticker_list=DOW_30_TICKER,
     #     data_source="yahoofinance",
     #     time_interval="1D",
-    #     technical_indicator_list=TECHNICAL_INDICATORS_LIST,
+    #     technical_indicator_list=INDICATORS,
     #     drl_lib="rllib",
     #     env=env,
     #     model_name="ppo",
@@ -148,7 +148,7 @@ if __name__ == "__main__":
     #     ticker_list=DOW_30_TICKER,
     #     data_source="yahoofinance",
     #     time_interval="1D",
-    #     technical_indicator_list=TECHNICAL_INDICATORS_LIST,
+    #     technical_indicator_list=INDICATORS,
     #     drl_lib="stable_baselines3",
     #     env=env,
     #     model_name="sac",
