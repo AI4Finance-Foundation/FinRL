@@ -59,7 +59,7 @@ class FeatureEngineer:
     def __init__(
         self,
         use_technical_indicator=True,
-        tech_indicator_list=config.TECHNICAL_INDICATORS_LIST,
+        tech_indicator_list=config.INDICATORS,
         use_vix=False,
         use_turbulence=False,
         user_defined_feature=False,

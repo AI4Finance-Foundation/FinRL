@@ -186,7 +186,7 @@ In practical trading, various information needs to be taken into account, for ex
    
     - we store the stockstats technical indicator column names in config.py
    
-    - config.TECHNICAL_INDICATORS_LIST = [‘macd’, ‘rsi_30’, ‘cci_30’, ‘dx_30’]
+    - config.INDICATORS = [‘macd’, ‘rsi_30’, ‘cci_30’, ‘dx_30’]
     
     - User can add more technical indicators, check https://github.com/jealous/stockstats for different names
     
@@ -225,7 +225,7 @@ Perform Feature Engineering:
     # Perform Feature Engineering:
     df = FeatureEngineer(df.copy(),
                          use_technical_indicator=True,
-                         tech_indicator_list = config.TECHNICAL_INDICATORS_LIST,
+                         tech_indicator_list = config.INDICATORS,
                          use_turbulence=True,
                          user_defined_feature = False).preprocess_data()
 
@@ -288,7 +288,7 @@ Initialize an environment class:
                          hmax = 100,
                          initial_amount = 1000000,
                          transaction_cost_pct = 0.001,
-                         tech_indicator_list = config.TECHNICAL_INDICATORS_LIST)
+                         tech_indicator_list = config.INDICATORS)
                          
     env_train = env_setup.create_env_training(data = train, 
                                              env_class = StockEnvTrain)
