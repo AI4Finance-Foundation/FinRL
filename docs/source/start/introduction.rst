@@ -51,7 +51,7 @@ The application of DRL in finance is different from that in other fields, such a
 We know that users may want to train trading agents on their own data sets. FinRL library provides convenient support to user-imported data and allows users to adjust the granularity of time steps. We specify the format of the data. According to our data format instructions, users only need to pre-process their data sets.
 
 
-DRL Agents: ElegantRL
+DRL library: ElegantRL
 ------------------------------------
 
 One sentence summary of reinforcement learning (RL): in RL, an agent learns by continuously interacting with an unknown environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration (new territory) and exploitation (using knowledge learned from experiences).
