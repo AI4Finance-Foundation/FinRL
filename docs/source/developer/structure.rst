@@ -25,6 +25,7 @@ File Structure
     │   	├── preprocessor
     │   	├── data_processor.py
     │   	└── finrl_meta_config.py
+    │   ├── config.py
     │   ├── main.py
     │   ├── train.py
     │   ├── test.py
