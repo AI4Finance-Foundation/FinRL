@@ -26,6 +26,7 @@ File Structure
     │   	├── data_processor.py
     │   	└── finrl_meta_config.py
     │   ├── config.py
+    │   ├── config_tickers.py
     │   ├── main.py
     │   ├── train.py
     │   ├── test.py
