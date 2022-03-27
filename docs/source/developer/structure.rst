@@ -7,13 +7,13 @@ File Structure
     
     FinRL
     ├── finrl (main folder)
-    │   ├── apps
+    │   ├── applications
     │   	├── cryptocurrency_trading
     │   	├── high_frequency_trading
     │   	├── portfolio_allocation
     │   	├── stock_trading
     │   	└── config.py
-    │   ├── drl_agents
+    │   ├── agents
     │   	├── elegantrl
     │   	├── rllib
     │   	└── stablebaseline3
@@ -25,6 +25,8 @@ File Structure
     │   	├── preprocessor
     │   	├── data_processor.py
     │   	└── finrl_meta_config.py
+    │   ├── config.py
+    │   ├── config_tickers.py
     │   ├── main.py
     │   ├── train.py
     │   ├── test.py
