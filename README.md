@@ -22,7 +22,9 @@
 </div>
 
 
-*I visualise a time when we will be to robots what dogs are to humans, and I’m rooting for the machines*.   — Claude Shannon
+"*I visualise a time when we will be to robots what dogs are to humans, and I’m rooting for the machines*."   — Claude Shannon
+
+"*We can only see a short distance ahead, but we can see plenty there that needs to be done."*   -Alan Turing
 
 **Our Mission**: to efficiently automate trading. We continuously develop and share codes for finance. 
 
