@@ -7,7 +7,7 @@ File Structure
     
     FinRL
     ├── finrl (main folder)
-    │   ├── apps
+    │   ├── applications
     │   	├── cryptocurrency_trading
     │   	├── high_frequency_trading
     │   	├── portfolio_allocation
