@@ -13,7 +13,7 @@ File Structure
     │   	├── portfolio_allocation
     │   	├── stock_trading
     │   	└── config.py
-    │   ├── drl_agents
+    │   ├── agents
     │   	├── elegantrl
     │   	├── rllib
     │   	└── stablebaseline3
