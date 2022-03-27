@@ -270,7 +270,7 @@ def download_data(
 
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            barset = self.api.get_barse([tic], time_interval, limit=limit).df[tic]
+            barset = self.api.get_bars([tic], time_interval, limit=limit).df[tic]
             barset["tic"] = tic
             barset = barset.reset_index()
             data_df = data_df.append(barset)
@@ -342,6 +342,6 @@ def download_data(
         )
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
-        turb_df = self.api.get_barse(["VIXY"], time_interval, limit=1).df["VIXY"]
+        turb_df = self.api.get_bars(["VIXY"], time_interval, limit=1).df["VIXY"]
         latest_turb = turb_df["close"].values
         return latest_price, latest_tech, latest_turb
