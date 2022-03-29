@@ -32,7 +32,7 @@ class StockTradingEnv(gym.Env):
         tech_indicator_list: List[str],
         turbulence_threshold=None,
         risk_indicator_col="turbulence",
-        make_plots=False,
+        make_plots: bool =False,
         print_verbosity=10,
         day=0,
         initial=True,
