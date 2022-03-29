@@ -73,6 +73,12 @@ Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Founda
 
 A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
 
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=AI4Finance-Foundation/FinRL&type=Date)](https://star-history.com/#AI4Finance-Foundation/FinRL&Date)
+
+
 ## File Structure
 
 Correspondingly, the main folder **finrl** has three subfolders **apps, drl_agents, finrl_meta**. 
