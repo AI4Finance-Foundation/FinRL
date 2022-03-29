@@ -97,7 +97,11 @@ pygments_style = None
 
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-html_logo = "../img/logo.jpg"
+html_logo = "./image/logo_transparent_background.png"
+html_theme_options = {
+    'logo_only': True,
+    'display_version': False,
+}
 
 
 # Theme options are theme-specific and customize the look and feel of a theme
