@@ -6,7 +6,7 @@ import pandas as pd
 from gym import spaces
 from gym.utils import seeding
 from stable_baselines3.common.vec_env import DummyVecEnv
-
+from typing import List
 matplotlib.use("Agg")
 
 # from stable_baselines3.common.logger import Logger, KVWriter, CSVOutputFormat
@@ -19,17 +19,17 @@ class StockTradingEnv(gym.Env):
 
     def __init__(
         self,
-        df,
-        stock_dim,
-        hmax,
-        initial_amount,
-        num_stock_shares,
-        buy_cost_pct,
-        sell_cost_pct,
-        reward_scaling,
-        state_space,
-        action_space,
-        tech_indicator_list,
+        df: pd.DataFrame,
+        stock_dim: int,
+        hmax: int,
+        initial_amount: int,
+        num_stock_shares: List[int],
+        buy_cost_pct: List[float],
+        sell_cost_pct: List[float],
+        reward_scaling: float,
+        state_space: int,
+        action_space: int,
+        tech_indicator_list: List[str],
         turbulence_threshold=None,
         risk_indicator_col="turbulence",
         make_plots=False,
