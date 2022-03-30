@@ -16,7 +16,7 @@ Design Principles
 
 
 
-Architecture of the FinRL Library
+Architecture
 ------------------------------------
 
 The features are summarized as follows: 
