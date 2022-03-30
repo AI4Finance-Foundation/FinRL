@@ -68,7 +68,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
 
 .. toctree::
    :maxdepth: 2
-   :caption: Key Concept
+   :caption: Turorial
 
    tutorial/totorials
    
