@@ -11,8 +11,7 @@ File Structure
     │   	├── cryptocurrency_trading
     │   	├── high_frequency_trading
     │   	├── portfolio_allocation
-    │   	├── stock_trading
-    │   	└── config.py
+    │   	└── stock_trading
     │   ├── agents
     │   	├── elegantrl
     │   	├── rllib
@@ -38,7 +37,6 @@ File Structure
     │   	└── test_env_cashpenalty.py
     │   └── test_marketdata
     │   	└── test_yahoodownload.py
-    ├── setup.cfg
     ├── setup.py
     ├── requirements.txt
     └── README.md
