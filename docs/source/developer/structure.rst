@@ -11,8 +11,7 @@ File Structure
     │   	├── cryptocurrency_trading
     │   	├── high_frequency_trading
     │   	├── portfolio_allocation
-    │   	├── stock_trading
-    │   	└── config.py
+    │   	└── stock_trading
     │   ├── agents
     │   	├── elegantrl
     │   	├── rllib
