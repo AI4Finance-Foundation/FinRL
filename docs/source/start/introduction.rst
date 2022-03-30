@@ -67,6 +67,7 @@ Implemented Algorithms
 
 .. image:: ../image/alg_compare.png
 
+
 Contributions of FinRL
 ------------------------------------
 
