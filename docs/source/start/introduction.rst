@@ -16,7 +16,7 @@ Design Principles
 
 
 
-Architecture
+Features
 ------------------------------------
 
 The features are summarized as follows: 
