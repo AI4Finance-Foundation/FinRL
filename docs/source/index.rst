@@ -52,17 +52,25 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    
    start/introduction
    start/first_glance
+   start/installation
+   start/quick_start
    
 
 .. toctree::
    :maxdepth: 2
-   :caption: User Guide
+   :caption: Key Concept
    
-   user/installation
-   user/quick_start
-   user/key_concept
-   user/DRL_in_stock_trading
-   user/tutorials
+   keyc/three_layer
+   keyc/envs
+   keyc/agents
+   keyc/apps
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Key Concept
+
+   tutorial/totorials
    
    
 .. toctree::
