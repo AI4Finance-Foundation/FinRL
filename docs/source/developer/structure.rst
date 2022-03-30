@@ -38,7 +38,6 @@ File Structure
     │   	└── test_env_cashpenalty.py
     │   └── test_marketdata
     │   	└── test_yahoodownload.py
-    ├── setup.cfg
     ├── setup.py
     ├── requirements.txt
     └── README.md
