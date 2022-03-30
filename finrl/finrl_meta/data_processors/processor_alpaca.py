@@ -16,42 +16,42 @@ class AlpacaProcessor:
         else:
             self.api = api
 
-def download_data(
-        self, ticker_list, start_date, end_date, time_interval
-) -> pd.DataFrame:
+    def download_data(
+            self, ticker_list, start_date, end_date, time_interval
+    ) -> pd.DataFrame:
 
-    self.start = start_date
-    self.end = end_date
-    self.time_interval = time_interval
+        self.start = start_date
+        self.end = end_date
+        self.time_interval = time_interval
 
-    NY = "America/New_York"
-    start_date = pd.Timestamp(start_date, tz=NY)
-    end_date = pd.Timestamp(end_date, tz=NY) + pd.Timedelta(days=1)
-    date = start_date
-    data_df = pd.DataFrame()
-    while date != end_date:
-        start_time = (date + pd.Timedelta("09:30:00")).isoformat()
-        end_time = (date + pd.Timedelta("15:59:00")).isoformat()
-        for tic in ticker_list:
-            barset = self.api.get_bars(
-                tic, time_interval, start=start_time, end=end_time, limit=500
-            ).df
-            barset["tic"] = tic
-            barset = barset.reset_index()
-            data_df = data_df.append(barset)
-        print(("Data before ") + end_time + " is successfully fetched")
-        # print(data_df.head())
-        date = date + pd.Timedelta(days=1)
-        if date.isoformat()[-14:-6] == "01:00:00":
-            date = date - pd.Timedelta("01:00:00")
-        elif date.isoformat()[-14:-6] == "23:00:00":
-            date = date + pd.Timedelta("01:00:00")
-        if date.isoformat()[-14:-6] != "00:00:00":
-            raise ValueError("Timezone Error")
+        NY = "America/New_York"
+        start_date = pd.Timestamp(start_date, tz=NY)
+        end_date = pd.Timestamp(end_date, tz=NY) + pd.Timedelta(days=1)
+        date = start_date
+        data_df = pd.DataFrame()
+        while date != end_date:
+            start_time = (date + pd.Timedelta("09:30:00")).isoformat()
+            end_time = (date + pd.Timedelta("15:59:00")).isoformat()
+            for tic in ticker_list:
+                barset = self.api.get_bars(
+                    tic, time_interval, start=start_time, end=end_time, limit=500
+                ).df
+                barset["tic"] = tic
+                barset = barset.reset_index()
+                data_df = data_df.append(barset)
+            print(("Data before ") + end_time + " is successfully fetched")
+            # print(data_df.head())
+            date = date + pd.Timedelta(days=1)
+            if date.isoformat()[-14:-6] == "01:00:00":
+                date = date - pd.Timedelta("01:00:00")
+            elif date.isoformat()[-14:-6] == "23:00:00":
+                date = date + pd.Timedelta("01:00:00")
+            if date.isoformat()[-14:-6] != "00:00:00":
+                raise ValueError("Timezone Error")
 
-    data_df['time'] = data_df['timestamp'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
+        data_df['time'] = data_df['timestamp'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
 
-    return data_df
+        return data_df
 
     def clean_data(self, df):
         tic_list = np.unique(df.tic.values)
