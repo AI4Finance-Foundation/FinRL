@@ -21,5 +21,6 @@ class TestAlpacaDownload(unittest.TestCase):
                            APCA_API_BASE_URL=APCA_API_BASE_URL)
 
         data = DP.download_data(start_date="2019-01-01", end_date="2019-02-01", ticker_list=self.ticker_list, time_interval='1Min')
-
+        data = DP.clean_data(data)
+        data = DP.add_technical_indicator(data, ['macd', 'rsi_30'])
         self.assertIsInstance(data, pd.DataFrame)
