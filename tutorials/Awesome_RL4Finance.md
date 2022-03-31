@@ -26,7 +26,9 @@
 
 [1] [Deep Reinforcement Learning: An Overview](https://arxiv.org/abs/1701.07274) Li, Yuxi. arXiv preprint arXiv:1701.07274 (2017).
 
-[2] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020. 
+[2] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020.
+
+[3] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
 
 ## Strategy
 
