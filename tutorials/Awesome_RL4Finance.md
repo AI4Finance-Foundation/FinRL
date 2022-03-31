@@ -10,13 +10,19 @@
 
 [2] [Deep Reinforcement Learning for Trading](https://arxiv.org/abs/1911.10107). Zhang, Zihao, Stefan Zohren, and Stephen Roberts. The Journal of Financial Data Science 2, no. 2 (2020): 25-40.
 
+[3] [A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem](https://arxiv.org/abs/1706.10059). Jiang, Zhengyao, Dixing Xu, and Jinjun Liang. arXiv preprint arXiv:1706.10059 (2017).
+
 ## Algorithmic Resources
 
+[1] [Documentation of ElegentRL](https://elegantrl.readthedocs.io) by AI4Finance Foundation.
 
+[2] [Spinning Up in Deep RL](https://spinningup.openai.com/) by OpenAI. 
 
 ## Theoretical Resources
 
-[1] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020. 
+[1] [Deep Reinforcement Learning: An Overview](https://arxiv.org/abs/1701.07274) Li, Yuxi. arXiv preprint arXiv:1701.07274 (2017).
+
+[2] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020. 
 
 ## Strategy
 
