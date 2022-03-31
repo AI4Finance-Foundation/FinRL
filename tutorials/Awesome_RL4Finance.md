@@ -53,12 +53,15 @@
 
 [4] [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3): Reliable Reinforcement Learning Implementations.
 
+
+## Algorithmic Resources
+
+
 ## Theoretical Resources
 
 [1] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020. 
 
 
-## Algorithmic Resources
 
 
 **Feedback: If you have any ideas or you want any other content to be added to this list, feel free to contribute.**
