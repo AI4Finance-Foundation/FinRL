@@ -3,15 +3,16 @@
   A curated list of awesome deep reinforcement learning strategies & tools for finance.
   
   Welcome your inputs!
+  
+## Proof-of-concept
 
-## Introductory
 [1] [Practical deep reinforcement learning approach for stock trading](https://arxiv.org/abs/1811.07522). NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
 
-[2] [FinRL](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949): Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
 
-[3] [FinRL](https://arxiv.org/abs/2011.09607): A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
+## Introductory Resource
 
-[4] [FinRL-Meta](https://arxiv.org/abs/2112.06753): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. NeurIPS 2021 Data-Centric AI Workshop
+
+
 
 ## Algorithmic Resources
 
@@ -45,6 +46,12 @@
 [Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
 
 ## Tools or Softwares
+
+[2] [FinRL](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949): Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
+
+[3] [FinRL](https://arxiv.org/abs/2011.09607): A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
+
+[4] [FinRL-Meta](https://arxiv.org/abs/2112.06753): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. NeurIPS 2021 Data-Centric AI Workshop
 
 [1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) 
 
