@@ -6,11 +6,15 @@
   
 ## Proof-of-concept
 
-[1] [Practical deep reinforcement learning approach for stock trading](https://arxiv.org/abs/1811.07522). NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
+[1] [FinRL: Deep Reinforcement Learning Framework to Automate Trading in Quantitative Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949) Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021. 
 
-[2] [Deep Reinforcement Learning for Trading](https://arxiv.org/abs/1911.10107). Zhang, Zihao, Stefan Zohren, and Stephen Roberts. The Journal of Financial Data Science 2, no. 2 (2020): 25-40.
+[2] [FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance](https://arxiv.org/abs/2011.09607) A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
 
-[3] [A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem](https://arxiv.org/abs/1706.10059). Jiang, Zhengyao, Dixing Xu, and Jinjun Liang. arXiv preprint arXiv:1706.10059 (2017).
+[2] [Practical deep reinforcement learning approach for stock trading](https://arxiv.org/abs/1811.07522). NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
+
+[3] [Deep Reinforcement Learning for Trading](https://arxiv.org/abs/1911.10107). Zhang, Zihao, Stefan Zohren, and Stephen Roberts. The Journal of Financial Data Science 2, no. 2 (2020): 25-40.
+
+[4] [A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem](https://arxiv.org/abs/1706.10059). Jiang, Zhengyao, Dixing Xu, and Jinjun Liang. arXiv preprint arXiv:1706.10059 (2017).
 
 ## Algorithmic Resources
 
@@ -44,19 +48,11 @@
 
 [1] [Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;). Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021. 
 
-## Courses
-
-[Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
-
 ## Tools or Softwares
-
-[2] [FinRL](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949): Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
-
-[3] [FinRL](https://arxiv.org/abs/2011.09607): A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
 
 [4] [FinRL-Meta](https://arxiv.org/abs/2112.06753): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. NeurIPS 2021 Data-Centric AI Workshop
 
-[1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) 
+[1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) by AI4Foundation
 
 [2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance.
 
@@ -71,5 +67,9 @@
 [2] [Deep Reinforcement Learning for Trading—A Critical Survey](https://www.mdpi.com/2306-5729/6/11/119). Adrian Millea, 2021.
 
 [3] [Modern Perspectives on Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3449401) Kolm, Petter N. and Ritter, Gordon. The Journal of Machine Learning in Finance, Vol. 1, No. 1, 2020.
+
+## Courses
+
+[Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
 
 **Feedback: If you have any ideas or you want any other content to be added to this list, feel free to contribute.**
