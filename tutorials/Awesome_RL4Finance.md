@@ -1,7 +1,8 @@
 # Awesome Financial Reinforcement Learning
-  A curated list of awesome deep reinforcement learning strategies & tools in finance.
+
+  A curated list of awesome deep reinforcement learning strategies & tools for finance.
   
-  Welcome your inputs.
+  Welcome your inputs!
 
 ## Introductory
 [1] [Practical deep reinforcement learning approach for stock trading](https://arxiv.org/abs/1811.07522). NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
