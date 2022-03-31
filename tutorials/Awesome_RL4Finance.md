@@ -54,11 +54,11 @@
 
 ## Tools or Softwares
 
-[1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) by AI4Foundation
+[1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) by AI4Finance Foundation.
 
-[2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance.
+[2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance, by AI4Finance Foundation.
 
-[3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL)
+[3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) by AI4Finance Foundation.
 
 [4] [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3): Reliable Reinforcement Learning Implementations.
 
