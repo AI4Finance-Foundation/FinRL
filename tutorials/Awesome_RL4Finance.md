@@ -8,13 +8,10 @@
 
 [1] [Practical deep reinforcement learning approach for stock trading](https://arxiv.org/abs/1811.07522). NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
 
-
-## Introductory Resource
-
-
-
+[2] [Deep Reinforcement Learning for Trading](https://arxiv.org/abs/1911.10107). Zhang, Zihao, Stefan Zohren, and Stephen Roberts. The Journal of Financial Data Science 2, no. 2 (2020): 25-40.
 
 ## Algorithmic Resources
+
 
 
 ## Theoretical Resources
@@ -67,6 +64,6 @@
 
 [2] [Deep Reinforcement Learning for Trading—A Critical Survey](https://www.mdpi.com/2306-5729/6/11/119). Adrian Millea, 2021.
 
-
+[3] [Modern Perspectives on Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3449401) Kolm, Petter N. and Ritter, Gordon. The Journal of Machine Learning in Finance, Vol. 1, No. 1, 2020.
 
 **Feedback: If you have any ideas or you want any other content to be added to this list, feel free to contribute.**
