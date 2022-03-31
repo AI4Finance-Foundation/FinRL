@@ -25,7 +25,7 @@ It means that your Python interpreter path has been pinned to Anaconda’s pytho
 
 .. code-block:: bash
    
-   /Users/your_user_name/anaconda3/bin/python
+   /Users/your_user_name/opt/anaconda3/bin/python
 
 It means that you still use the default python path, you either fix it and pin it to the anaconda path (`try this blog <https://towardsdatascience.com/how-to-successfully-install-anaconda-on-a-mac-and-actually-get-it-to-work-53ce18025f97>`_), or you can use Anaconda Navigator to open a terminal manually.
 
