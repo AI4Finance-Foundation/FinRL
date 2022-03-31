@@ -72,6 +72,10 @@
 
 [3] [Modern Perspectives on Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3449401) Kolm, Petter N. and Ritter, Gordon. The Journal of Machine Learning in Finance, Vol. 1, No. 1, 2020.
 
+[4] [Reinforcement Learning in Economics and Finance](https://arxiv.org/abs/2003.10014) Charpentier, Arthur, Romuald Elie, and Carl Remlinger.  Computational Economics (2021): 1-38.
+
+[5] [Comprehensive Review of Deep Reinforcement Learning Methods and Applications in Economics](https://www.mdpi.com/2227-7390/8/10/1640) Mosavi, Amirhosein, Yaser Faghan, Pedram Ghamisi, Puhong Duan, Sina Faizollahzadeh Ardabili, Ely Salwana, and Shahab S. Band. Mathematics 8, no. 10 (2020): 1640.
+
 ## Educate
 
 [1] [Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
