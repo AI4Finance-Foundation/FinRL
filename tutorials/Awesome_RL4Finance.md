@@ -46,6 +46,10 @@
 
 [7] [Market Making via Reinforcement Learning](https://arxiv.org/abs/1804.04216). Thomas Spooner, John Fearnley, Rahul Savani, Andreas Koukorinis. AAMAS2018 Conference Proceedings
 
+[8] [Financial Trading as a Game: A Deep Reinforcement Learning Approach](https://arxiv.org/abs/1807.02787) Huang, Chien Yi. arXiv preprint arXiv:1807.02787 (2018).
+
+[9] [Deep Hedging: Hedging Derivatives Under Generic Market Frictions Using Reinforcement Learning](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3355706) Buehler, Hans, Lukas Gonon, Josef Teichmann, Ben Wood, Baranidharan Mohan, and Jonathan Kochems. Swiss Finance Institute Research Paper 19-80 (2019).
+
 ## Financial Big Data
 
 [1] [FinRL-Meta](https://arxiv.org/abs/2112.06753): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. NeurIPS 2021 Data-Centric AI Workshop
