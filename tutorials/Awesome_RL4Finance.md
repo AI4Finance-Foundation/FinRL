@@ -13,11 +13,12 @@
 
 [4] [FinRL-Meta](https://arxiv.org/abs/2112.06753): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. NeurIPS 2021 Data-Centric AI Workshop
 
-## Survey 
+## Algorithmic Resources
 
-[1] [Recent Advances in Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3971071). Hambly, B., Xu, R. and Yang, H., 2021.
 
-[2] [Deep Reinforcement Learning for Trading—A Critical Survey](https://www.mdpi.com/2306-5729/6/11/119). Adrian Millea, 2021.
+## Theoretical Resources
+
+[1] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020. 
 
 ## Strategy
 
@@ -53,17 +54,12 @@
 
 [4] [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3): Reliable Reinforcement Learning Implementations.
 
+## Survey 
 
-## Algorithmic Resources
+[1] [Recent Advances in Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3971071). Hambly, B., Xu, R. and Yang, H., 2021.
 
-
-## Theoretical Resources
-
-[1] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020. 
-
+[2] [Deep Reinforcement Learning for Trading—A Critical Survey](https://www.mdpi.com/2306-5729/6/11/119). Adrian Millea, 2021.
 
 
 
 **Feedback: If you have any ideas or you want any other content to be added to this list, feel free to contribute.**
-
-
