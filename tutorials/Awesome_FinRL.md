@@ -1,6 +1,6 @@
 # Awesome Financial Reinforcement Learning
 
-  A curated list of awesome deep reinforcement learning strategies & tools for finance.
+  Awesome deep reinforcement learning strategies & tools for finance.
   
   Welcome your inputs!
   
