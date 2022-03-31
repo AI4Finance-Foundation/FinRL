@@ -80,10 +80,10 @@
 
 [5] [Comprehensive Review of Deep Reinforcement Learning Methods and Applications in Economics](https://www.mdpi.com/2227-7390/8/10/1640) Mosavi, Amirhosein, Yaser Faghan, Pedram Ghamisi, Puhong Duan, Sina Faizollahzadeh Ardabili, Ely Salwana, and Shahab S. Band. Mathematics 8, no. 10 (2020): 1640.
 
-## Educate
+## Education
 
 [1] [Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
 
-[2] [*foundations of reinforcement learning with applications in finance*](https://stanford.edu/~ashlearn/RLForFinanceBook/book.pdf) by Ashwin Rao, Tikhon Jelvis, Stanford University
+[2] [*Foundations of reinforcement learning with applications in finance*](https://stanford.edu/~ashlearn/RLForFinanceBook/book.pdf) by Ashwin Rao, Tikhon Jelvis, Stanford University
 
 **Feedback: If you have any ideas or you want any other content to be added to this list, feel free to contribute.**
