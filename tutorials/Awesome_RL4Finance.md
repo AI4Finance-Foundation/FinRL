@@ -72,8 +72,10 @@
 
 [3] [Modern Perspectives on Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3449401) Kolm, Petter N. and Ritter, Gordon. The Journal of Machine Learning in Finance, Vol. 1, No. 1, 2020.
 
-## Courses
+## Educate
 
-[Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
+[1] [Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
+
+[2] [*foundations of reinforcement learning with applications in finance*](https://stanford.edu/~ashlearn/RLForFinanceBook/book.pdf)
 
 **Feedback: If you have any ideas or you want any other content to be added to this list, feel free to contribute.**
