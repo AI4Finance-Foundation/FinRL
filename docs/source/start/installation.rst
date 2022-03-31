@@ -19,7 +19,7 @@ Step 1: Install `Anaconda <https://www.anaconda.com/products/individual>`_
 
 .. code-block:: bash
    
-   /Users/your_user_name/anaconda3/bin/python
+   /Users/your_user_name/opt/anaconda3/bin/python
    
 It means that your Python interpreter path has been pinned to Anaconda’s python version. If it shows something like this:
 
