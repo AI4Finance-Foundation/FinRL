@@ -76,6 +76,6 @@
 
 [1] [Coursera] [Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
 
-[2] [*foundations of reinforcement learning with applications in finance*](https://stanford.edu/~ashlearn/RLForFinanceBook/book.pdf)
+[2] [*foundations of reinforcement learning with applications in finance*](https://stanford.edu/~ashlearn/RLForFinanceBook/book.pdf) by Ashwin Rao, Tikhon Jelvis, Stanford University
 
 **Feedback: If you have any ideas or you want any other content to be added to this list, feel free to contribute.**
