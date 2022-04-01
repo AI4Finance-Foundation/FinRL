@@ -92,8 +92,7 @@ FinRL
 │   	├── cryptocurrency_trading
 │   	├── high_frequency_trading
 │   	├── portfolio_allocation
-│   	├── stock_trading
-│   	└── 
+│   	└── stock_trading
 │   ├── agents
 │   	├── elegantrl
 │   	├── rllib
