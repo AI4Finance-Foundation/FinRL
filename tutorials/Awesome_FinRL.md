@@ -30,7 +30,7 @@
 
 [3] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
 
-## Strategy
+## Strategies
 
 [1] [Deep reinforcement learning for automated stock trading: an ensemble strategy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996). ACM International Conference on AI in Finance, 2020.
 
