@@ -21,7 +21,7 @@ Features
 
 The features are summarized as follows: 
 
-    - **Three-layer architecture**: The three layers of FinRL library are stock market environment, DRL trading agent, and stock trading applications. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
+    - **Three-layer architecture**: The three layers of FinRL library are stock market environment (FinRL-Meta), DRL trading agent, and stock trading applications. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
 
     - **Modularity**: Each layer includes several modules and each module defines a separate function. One can select certain modules from any layer to implement his/her stock trading task. Furthermore, updating existing modules is possible.
 
@@ -33,7 +33,7 @@ The features are summarized as follows:
 
 
 
-Environment: Market Simulator
+FinRL-Meta: Market Simulator
 ------------------------------------
 
 Due to the stochastic and interactive nature of the automated trading tasks, a financial task is modeled as a Markov Decision Process (MDP) problem. The training process involves observing price change, taking action, and calculating the reward to have the agent adjust its strategy accordingly. The trading agent will derive a trading strategy with the maximized rewards as time proceeds by interacting with the market environment. 
