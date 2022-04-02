@@ -74,6 +74,11 @@ or download it manually
 Open Jupyter Notebook through Anaconda Navigator and locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
 
 
+Ubuntu
+=======
+
+
+
 Windows 10
 ==========
 
@@ -121,5 +126,4 @@ Open Jupyter Notebook by typing 'jupyter notebook' in your ubuntu terminal.
 
 Locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
 
-Ubuntu
-=======
+
