@@ -76,6 +76,7 @@ Open Jupyter Notebook through Anaconda Navigator and locate one of the stock tra
 
 Ubuntu
 =======
+
 Step 1: Install `Anaconda <https://www.anaconda.com/products/individual>`_
 ----------------------------------------------------------------------------
 
