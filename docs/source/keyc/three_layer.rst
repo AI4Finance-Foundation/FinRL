@@ -4,7 +4,7 @@
 Three-layer architecture
 ================
 
-FinRL library consists of three layers: **stock market environment**, **DRL trading agent** and **stock trading applications**. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior workingwell decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
+FinRL library consists of three layers: **stock market environment (FinRL**, **DRL trading agent** and **stock trading applications**. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior workingwell decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
 
 .. image:: ../image/FinRL-Architecture.png
    :width: 80%
