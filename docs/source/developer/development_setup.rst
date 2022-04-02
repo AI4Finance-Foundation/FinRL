@@ -6,7 +6,7 @@ Development setup with PyCharm
 
 This setup makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo's and creating PR's.
 
-Download 
+Download Softwares
 =======
 
 -Download and install `Anaconda <https://www.anaconda.com/>`_.
