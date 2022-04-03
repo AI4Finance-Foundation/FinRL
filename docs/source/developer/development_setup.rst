@@ -67,7 +67,7 @@ Step 4: Configure a PyCharm project
 
 -Once you run a .py file, you will notice that you may still have some missing packages.  In that case, simply pip install them.
 
-Step 5: Creating Commits and PRs
+Step 5: Creating commits and PRs
 =======
 
 -Create your commits as you usually do through PyCharm.
