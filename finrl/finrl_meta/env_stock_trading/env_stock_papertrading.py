@@ -18,7 +18,7 @@ class AlpacaPaperTrading():
         self.drl_lib = drl_lib
         if agent =='ppo':
             if drl_lib == 'elegantrl':              
-                from elegantrl.agents.agent import AgentPPO
+                from elegantrl.agents import AgentPPO
                 from elegantrl.train.run import Arguments, init_agent
                 #load agent
                 config = {'state_dim':state_dim,
