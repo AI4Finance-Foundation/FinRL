@@ -158,7 +158,7 @@ Download the FinRL repository using terminal:
 
    git clone https://github.com/AI4Finance-Foundation/FinRL.git
 
-Open Jupyter Notebook by typing 'jupyter notebook' in your ubuntu terminal. Please see `jupyter notebook<https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html>`_
+Open Jupyter Notebook by typing 'jupyter notebook' in your ubuntu terminal. Please see `jupyter notebook <https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html>`_
 
 Locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
 
