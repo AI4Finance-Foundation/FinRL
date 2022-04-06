@@ -4,7 +4,7 @@ Tutorials
 ============
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    tutorial/SingleStockTrading
    tutorial/MultipleStockTrading

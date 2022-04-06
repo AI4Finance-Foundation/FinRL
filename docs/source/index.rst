@@ -58,19 +58,17 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
 
 .. toctree::
    :maxdepth: 2
-   :caption: Key Concept
+   :caption: Architecture
    
-   keyc/three_layer
-   keyc/envs
-   keyc/agents
-   keyc/apps
+   arch/three_layer
+   arch/file
 
 
 .. toctree::
    :maxdepth: 2
    :caption: Turorial
 
-   tutorial/totorials
+   tutorial/tutorials
    
    
 .. toctree::
