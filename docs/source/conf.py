@@ -47,6 +47,7 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
+    "sphinx.ext.autosectionlabel",
 ]
 
 autodoc_mock_imports = [
