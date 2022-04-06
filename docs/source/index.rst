@@ -75,5 +75,4 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 1
    :caption: Developer Guide
 
-   developer/structure
    developer/development_setup
