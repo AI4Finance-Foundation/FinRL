@@ -1,5 +1,5 @@
 :github_url: https://github.com/AI4Finance-Foundation/FinRL
 
-DRL Agents
+2 DRL Agents
 ============================
 
