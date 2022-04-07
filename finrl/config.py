@@ -1,3 +1,6 @@
+
+SELECT_REGION = 0  # 0: use DOW_30_TICKER (US), 1: use CSI_300_TICKER (CHINA),
+
 # directory
 DATA_SAVE_DIR = "datasets"
 TRAINED_MODEL_DIR = "trained_models"
