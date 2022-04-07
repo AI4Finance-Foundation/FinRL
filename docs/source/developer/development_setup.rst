@@ -70,6 +70,16 @@ Step 4: Configure a PyCharm project
 
 -Once you run a .py file, you will notice that you may still have some missing packages.  In that case, simply pip install them.
 
+For example, we will revise FinRL.
+.. code-block:: bash
+
+    cd ~/AI4Finance
+    cd ./FinRL
+    git checkout -b select_region 
+
+where select_region is a new branch name.
+
+
 Step 5: Creating commits and PRs
 =======
 
