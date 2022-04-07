@@ -56,6 +56,8 @@ Step 4: Configure a PyCharm project
 
 -File > Open > [AI4Finance project folder]
 
+.. image:: ../image/pycharm_status_bar.png
+
 -At the bottom right of the status bar, change the interpreter to the ai4finance conda environment.
 
 -At the left of the screen, in the project file tree:
