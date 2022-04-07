@@ -6,13 +6,12 @@ Development setup with PyCharm
 
 This setup makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo's and creating PR's.
 
-Step 1: Download softwares
+Step 1: Download software
 =======
 
 -Download and install `Anaconda <https://www.anaconda.com/>`_.
 
--Download and install `PyCharm <https://www.jetbrains.com/pycharm/>`_.  The Community Edition (free version) offers
-everything you need except running Jupyter notebooks. The Professional Edition offers everything. A workaround to run existing notebooks in the Community edition is to copy all notebook cells into .py files.
+-Download and install `PyCharm <https://www.jetbrains.com/pycharm/>`_.  The Community Edition (free version) offers everything you need except running Jupyter notebooks. The Full-fledged Professional Edition offers everything. A workaround to run existing notebooks in the Community edition is to copy all notebook cells into .py files.
 For notebook support, you can consider PyCharm Professional Edition.
 
 -On GitHub, fork `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_ to your private Github repo.
