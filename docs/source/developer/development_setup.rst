@@ -75,3 +75,6 @@ Step 5: Creating commits and PRs
 
 -When you do a Git Push, PyCharm will ask you to which of the 3 repo's you want to push.
 
+
+Creating a pull request, please refer to `PR <https://www.jetbrains.com/pycharm/>`_.
+
