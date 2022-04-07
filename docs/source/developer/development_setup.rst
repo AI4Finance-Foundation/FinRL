@@ -87,8 +87,9 @@ Step 5: Creating commits and PRs
 
 -Make sure each commit covers only 1 of the 3 repo's. For example, don't create a commit that spans both FinRL and ElegantRL.
 
+.. image:: ../image/pycharm_push_PR.png
 
--When you do a Git Push, PyCharm will ask you to which of the 3 repo's you want to push.
+-When you do a Git Push, PyCharm will ask you to which of the 3 repo's you want to push. Just like the above figure, we selected FinRL. 
 
 
 With respect to creating a pull request (PR), please refer to `Create a PR <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request>`_ or `Opensource Create a PR <https://opensource.com/article/19/7/create-pull-request-github>`_.
