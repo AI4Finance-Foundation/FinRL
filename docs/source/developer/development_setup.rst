@@ -77,7 +77,7 @@ For example, we will revise FinRL.
     cd ./FinRL
     git checkout -b select_region 
 
-where select_region is a new branch name.
+where select_region is a new branch name. In this branch, we revised config.py. 
 
 
 Step 5: Creating commits and PRs
@@ -86,6 +86,7 @@ Step 5: Creating commits and PRs
 -Create your commits as you usually do through PyCharm.
 
 -Make sure each commit covers only 1 of the 3 repo's. For example, don't create a commit that spans both FinRL and ElegantRL.
+
 
 -When you do a Git Push, PyCharm will ask you to which of the 3 repo's you want to push.
 
