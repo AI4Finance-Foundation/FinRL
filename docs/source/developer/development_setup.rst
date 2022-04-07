@@ -71,6 +71,7 @@ Step 4: Configure a PyCharm project
 -Once you run a .py file, you will notice that you may still have some missing packages.  In that case, simply pip install them.
 
 For example, we will revise FinRL.
+
 .. code-block:: bash
 
     cd ~/AI4Finance
@@ -89,7 +90,7 @@ Step 5: Creating commits and PRs
 
 .. image:: ../image/pycharm_push_PR.png
 
--When you do a Git Push, PyCharm will ask you to which of the 3 repo's you want to push. Just like the above figure, we selected FinRL. 
+-When you do a Git Push, PyCharm will ask you to which of the 3 repo's you want to push. Just like the above figure, we selected the repo FinRL. 
 
 
 With respect to creating a pull request (PR), please refer to `Create a PR <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request>`_ or `Opensource Create a PR <https://opensource.com/article/19/7/create-pull-request-github>`_.
