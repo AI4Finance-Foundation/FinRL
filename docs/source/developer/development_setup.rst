@@ -60,6 +60,8 @@ Step 4: Configure a PyCharm project
 
 -At the bottom right of the status bar, change the interpreter to the ai4finance conda environment.
 
+.. image:: ../image/pycharm_MarkDirectoryAsSourcesRoot.png
+
 -At the left of the screen, in the project file tree:
 
     - Right-click on the FinRL folder > Mark Directory as > Sources Root
