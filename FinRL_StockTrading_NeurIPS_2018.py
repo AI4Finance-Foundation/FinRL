@@ -16,34 +16,40 @@
 
 #%% md
 
-# * [1. Problem Definition](#0)
-# * [2. Getting Started - Load Python packages](#1)
-#     * [2.1. Install Packages](#1.1)
-#     * [2.2. Check Additional Packages](#1.2)
-#     * [2.3. Import Packages](#1.3)
-#     * [2.4. Create Folders](#1.4)
-# * [3. Download Data](#2)
-# * [4. Preprocess Data](#3)
-#     * [4.1. Technical Indicators](#3.1)
-#     * [4.2. Perform Feature Engineering](#3.2)
-# * [5.Build Environment](#4)
-#     * [5.1. Training & Trade Data Split](#4.1)
-#     * [5.2. User-defined Environment](#4.2)
-#     * [5.3. Initialize Environment](#4.3)
-# * [6.Implement DRL Algorithms](#5)
-# * [7.Backtesting Performance](#6)
-#     * [7.1. BackTestStats](#6.1)
-#     * [7.2. BackTestPlot](#6.2)
-#     * [7.3. Baseline Stats](#6.3)
-#     * [7.3. Compare to Stock Market Index](#6.4)
-# * [RLlib Section](#7)
-#
+'''
+Outline
+
+* [1. Problem Definition](#0)
+* [2. Getting Started - Load Python packages](#1)
+    * [2.1. Install Packages](#1.1)
+    * [2.2. Check Additional Packages](#1.2)
+    * [2.3. Import Packages](#1.3)
+    * [2.4. Create Folders](#1.4)
+* [3. Download Data](#2)
+* [4. Preprocess Data](#3)
+    * [4.1. Technical Indicators](#3.1)
+    * [4.2. Perform Feature Engineering](#3.2)
+* [5.Build Environment](#4)
+    * [5.1. Training & Trade Data Split](#4.1)
+    * [5.2. User-defined Environment](#4.2)
+    * [5.3. Initialize Environment](#4.3)
+* [6.Implement DRL Algorithms](#5)
+* [7.Backtesting Performance](#6)
+    * [7.1. BackTestStats](#6.1)
+    * [7.2. BackTestPlot](#6.2)
+    * [7.3. Baseline Stats](#6.3)
+    * [7.3. Compare to Stock Market Index](#6.4)
+* [RLlib Section](#7)
+'''
+
 # #%% md
 #
 # <a id='0'></a>
 # # Part 1. Problem Definition
 #
 # #%% md
+
+
 '''
 This problem is to design an automated trading solution for single stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
 
@@ -68,23 +74,10 @@ our trading agent observes many different features to better learn in an interac
 The data of the single stock that we will be using for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
 
 
-#%% md
+'''
 
-<a id='1'></a>
-# Part 2. Getting Started- Load Python Packages
-
-#%% md
-
-<a id='1.1'></a>
-## 2.1. Install all the packages through FinRL library
-
-
-#%%
-
-## install finrl library
-!pip install git+https://github.com/AI4Finance-LLC/FinRL-Library.git
-
-#%%
+'''
+import libraries
 '''
 
 from finrl import config
@@ -107,7 +100,7 @@ Use check_make_directories() to replace the following
 '''
 
 check_make_directories()
-#%% md
+
 
 
 # ## 2.3. Import Packages
