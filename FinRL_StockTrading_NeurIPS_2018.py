@@ -266,15 +266,15 @@ print(f"len(trade): {len(trade)}")
 
 #%%
 
-train.tail()
+print(f"train.tail(): {train.tail()}")
 
 #%%
 
-trade.head()
+print(f"trade.head(): {trade.head()}")
 
 #%%
 
-config.INDICATORS
+print(f"config.INDICATORS: {config.INDICATORS}")
 
 #%%
 
@@ -474,7 +474,7 @@ e_trade_gym = StockTradingEnv(df = trade, turbulence_threshold = 70,risk_indicat
 
 #%%
 
-trade.head()
+print(f"trade.head(): {trade.head()}")
 
 #%%
 
@@ -484,15 +484,15 @@ df_account_value, df_actions = DRLAgent.DRL_prediction(
 
 #%%
 
-df_account_value.shape
+print(f"df_account_value.shape: {df_account_value.shape}")
 
 #%%
 
-df_account_value.tail()
+print(f"df_account_value.tail(): {df_account_value.tail()}")
 
 #%%
 
-df_actions.head()
+print(f"df_actions.head(): {df_actions.head()}")
 
 #%% md
 
