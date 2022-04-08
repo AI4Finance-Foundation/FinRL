@@ -127,22 +127,12 @@ check_make_directories()
 
 
 '''
-%% md
-
-<a id='1.4'></a>
-## 2.4. Create Folders
-
-#%% md
 
 <a id='2'></a>
 # Part 3. Download Data
 Yahoo Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free.
 * FinRL uses a class **YahooDownloader** to fetch data from Yahoo Finance API
 * Call Limit: Using the Public API (without authentication), you are limited to 2,000 requests per hour per IP (or up to a total of 48,000 requests a day).
-
-
-#%% md
-
 
 # -----
 class YahooDownloader:
@@ -181,27 +171,21 @@ df = YahooDownloader(start_date = '2009-01-01',
                      end_date = '2021-10-31',
                      ticker_list = config_tickers.DOW_30_TICKER).fetch_data()
 
-#%%
 
 print(f"config_tickers.DOW_30_TICKER: {config_tickers.DOW_30_TICKER}")
 
-#%%
 
 print(f"df.shape: {df.shape}")
 
-#%%
 
 df.sort_values(['date','tic'],ignore_index=True).head()
 
-#%% md
 
 '''
 # Part 4: Preprocess Data
 Data preprocessing is a crucial step for training a high quality machine learning model. We need to check for missing data and do feature engineering in order to convert the data into a model-ready state.
 * Add technical indicators. In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc. In this article, we demonstrate two trend-following technical indicators: MACD and RSI.
 * Add turbulence index. Risk-aversion reflects whether an investor will choose to preserve the capital. It also influences one's trading strategy when facing different market volatility level. To control the risk in a worst-case scenario, such as financial crisis of 2007–2008, FinRL employs the financial turbulence index that measures extreme asset price fluctuation.
-
-#%%
 '''
 
 fe = FeatureEngineer(
@@ -213,7 +197,6 @@ fe = FeatureEngineer(
 
 processed = fe.preprocess_data(df)
 
-#%%
 
 list_ticker = processed["tic"].unique().tolist()
 list_date = list(pd.date_range(processed['date'].min(),processed['date'].max()).astype(str))
@@ -225,7 +208,6 @@ processed_full = processed_full.sort_values(['date','tic'])
 
 processed_full = processed_full.fillna(0)
 
-#%%
 
 processed_full.sort_values(['date','tic'],ignore_index=True).head(10)
 
@@ -236,8 +218,6 @@ Considering the stochastic and interactive nature of the automated stock trading
 Our trading environments, based on OpenAI Gym framework, simulate live stock markets with real market data according to the principle of time-driven simulation.
 
 The action space describes the allowed actions that the agent interacts with the environment. Normally, action a includes three actions: {-1, 0, 1}, where -1, 0, 1 represent selling, holding, and buying one share. Also, an action can be carried upon multiple shares. We use an action space {-k,…,-1, 0, 1, …, k}, where k denotes the number of shares to buy and -k denotes the number of shares to sell. For example, "Buy 10 shares of AAPL" or "Sell 10 shares of AAPL" are 10 or -10, respectively. The continuous action space needs to be normalized to [-1, 1], since the policy is defined on a Gaussian distribution, which needs to be normalized and symmetric.
-
-%% md
 
 # Training data split: 2009-01-01 to 2020-07-01
 # Trade data split: 2020-07-01 to 2021-10-31
@@ -313,13 +293,10 @@ design their own DRL algorithms by adapting these DRL algorithms.
 
 agent = DRLAgent(env = env_train)
 
-#%% md
 
 '''
 Model Training: 5 models, A2C DDPG, PPO, TD3, SAC
 '''
-
-#%% md
 
 ### Model 1: A2C
 
@@ -335,7 +312,6 @@ trained_a2c = agent.train_model(model=model_a2c,
                              tb_log_name='a2c',
                              total_timesteps=50000)
 
-#%% md
 
 ### Model 2: DDPG
 
@@ -350,11 +326,8 @@ trained_ddpg = agent.train_model(model=model_ddpg,
                              tb_log_name='ddpg',
                              total_timesteps=50000)
 
-#%% md
-
 ### Model 3: PPO
 
-#%%
 
 agent = DRLAgent(env = env_train)
 PPO_PARAMS = {
