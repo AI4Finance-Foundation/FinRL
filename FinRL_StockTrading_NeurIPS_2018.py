@@ -93,6 +93,8 @@ from finrl.main import check_make_directories
 import os
 
 '''
+Use check_make_directories() to replace the following
+
 # if not os.path.exists("./" + config.DATA_SAVE_DIR):
 #     os.makedirs("./" + config.DATA_SAVE_DIR)
 # if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
@@ -101,11 +103,11 @@ import os
 #     os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
 # if not os.path.exists("./" + config.RESULTS_DIR):
 #     os.makedirs("./" + config.RESULTS_DIR)
+
 '''
 
 check_make_directories()
 #%% md
-
 
 
 # ## 2.3. Import Packages
