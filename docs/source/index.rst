@@ -60,8 +60,8 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 2
    :caption: Architecture
    
-   arch/three_layer
-   arch/file
+   architecture/three_layer
+   architecture/file_architecture
 
 
 .. toctree::
