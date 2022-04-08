@@ -13,3 +13,7 @@ This is how we use Deep Reinforcement Learning for Stock Trading from scratch.
     Run the code step by step at `Google Colab`_.
     
     .. _Google Colab: https://colab.research.google.com/github/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb
+
+.. image:: ../image/result_NeurIPS.png
+   :width: 80%
+   :align: center
