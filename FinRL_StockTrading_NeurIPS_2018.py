@@ -89,16 +89,21 @@ The data of the single stock that we will be using for this case study is obtain
 
 from finrl import config
 from finrl import config_tickers
+from finrl.main import check_make_directories
 import os
-if not os.path.exists("./" + config.DATA_SAVE_DIR):
-    os.makedirs("./" + config.DATA_SAVE_DIR)
-if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
-    os.makedirs("./" + config.TRAINED_MODEL_DIR)
-if not os.path.exists("./" + config.TENSORBOARD_LOG_DIR):
-    os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
-if not os.path.exists("./" + config.RESULTS_DIR):
-    os.makedirs("./" + config.RESULTS_DIR)
 
+'''
+# if not os.path.exists("./" + config.DATA_SAVE_DIR):
+#     os.makedirs("./" + config.DATA_SAVE_DIR)
+# if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
+#     os.makedirs("./" + config.TRAINED_MODEL_DIR)
+# if not os.path.exists("./" + config.TENSORBOARD_LOG_DIR):
+#     os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
+# if not os.path.exists("./" + config.RESULTS_DIR):
+#     os.makedirs("./" + config.RESULTS_DIR)
+'''
+
+check_make_directories()
 #%% md
 
 
