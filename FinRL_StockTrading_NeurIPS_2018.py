@@ -42,19 +42,13 @@ Outline
 * [RLlib Section](#7)
 '''
 
-# #%% md
-#
-# <a id='0'></a>
-# # Part 1. Problem Definition
-#
-# #%% md
-
 
 '''
+Part 1. Problem Definition
+
 This problem is to design an automated trading solution for single stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
 
 The algorithm is trained using Deep Reinforcement Learning (DRL) algorithms and the components of the reinforcement learning environment are:
-
 
 * Action: The action space describes the allowed actions that the agent interacts with the
 environment. Normally, a ∈ A includes three actions: a ∈ {−1, 0, 1}, where −1, 0, 1 represent
@@ -344,11 +338,10 @@ trained_ppo = agent.train_model(model=model_ppo,
                              tb_log_name='ppo',
                              total_timesteps=50000)
 
-#%% md
+
 
 ### Model 4: TD3
 
-#%%
 
 agent = DRLAgent(env = env_train)
 TD3_PARAMS = {"batch_size": 100,
@@ -363,11 +356,9 @@ trained_td3 = agent.train_model(model=model_td3,
                              tb_log_name='td3',
                              total_timesteps=30000)
 
-#%% md
 
 ### Model 5: SAC
 
-#%%
 
 agent = DRLAgent(env = env_train)
 SAC_PARAMS = {
@@ -380,13 +371,11 @@ SAC_PARAMS = {
 
 model_sac = agent.get_model("sac",model_kwargs = SAC_PARAMS)
 
-#%%
 
 trained_sac = agent.train_model(model=model_sac,
                              tb_log_name='sac',
                              total_timesteps=60000)
 
-#%% md
 
 '''
 ## Trading
@@ -402,53 +391,43 @@ Set the turbulence threshold to be greater than the maximum of insample turbulen
 data_risk_indicator = processed_full[(processed_full.date<'2020-07-01') & (processed_full.date>='2009-01-01')]
 insample_risk_indicator = data_risk_indicator.drop_duplicates(subset=['date'])
 
-#%%
 
 insample_risk_indicator.vix.describe()
 
-#%%
 
 insample_risk_indicator.vix.quantile(0.996)
 
-#%%
 
 insample_risk_indicator.turbulence.describe()
 
-#%%
 
 insample_risk_indicator.turbulence.quantile(0.996)
 
-#%% md
 
 '''
-# ### Trade
-#
-# DRL model needs to update periodically in order to take full advantage of the data, ideally we need to retrain our model yearly, quarterly, or monthly. We also need to tune the parameters along the way, in this notebook I only use the in-sample data from 2009-01 to 2020-07 to tune the parameters once, so there is some alpha decay here as the length of trade date extends.
-#
-# Numerous hyperparameters – e.g. the learning rate, the total number of samples to train on – influence the learning process and are usually determined by testing some variations.
-#
-# #%%
+### Trade
+
+DRL model needs to update periodically in order to take full advantage of the data, ideally we need to retrain our model yearly, quarterly, or monthly. We also need to tune the parameters along the way, in this notebook I only use the in-sample data from 2009-01 to 2020-07 to tune the parameters once, so there is some alpha decay here as the length of trade date extends.
+
+Numerous hyperparameters – e.g. the learning rate, the total number of samples to train on – influence the learning process and are usually determined by testing some variations.
+
 '''
 
 #trade = data_split(processed_full, '2020-07-01','2021-10-31')
 e_trade_gym = StockTradingEnv(df = trade, turbulence_threshold = 70,risk_indicator_col='vix', **env_kwargs)
 # env_trade, obs_trade = e_trade_gym.get_sb_env()
 
-#%%
 
 print(f"trade.head(): {trade.head()}")
 
-#%%
 
 df_account_value, df_actions = DRLAgent.DRL_prediction(
     model=trained_sac,
     environment = e_trade_gym)
 
-#%%
 
 print(f"df_account_value.shape: {df_account_value.shape}")
 
-#%%
 
 print(f"df_account_value.tail(): {df_account_value.tail()}")
 
