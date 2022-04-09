@@ -122,6 +122,7 @@ if not os.path.exists("./" + config.RESULTS_DIR):
 
 '''
 
+check_and_make_directories([DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR])
 
 
 
