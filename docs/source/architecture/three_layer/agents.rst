@@ -10,4 +10,4 @@ The supported algorithms include: DQN, DDPG, Multi-Agent DDPG, PPO, SAC, A2C and
 .. image:: ../../image/alg_compare.png
    :align: center
 
-Users are able to choose the DRL agent they want to use before training. Different DRL agents might have different performance in various tasks.
+Users are able to choose their favorite DRL agent before training. Different DRL agents might have different performance in various tasks.
