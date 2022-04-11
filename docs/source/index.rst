@@ -61,7 +61,6 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :caption: Architecture
    
    architecture/three_layer
-   architecture/file_architecture
 
 
 .. toctree::
@@ -75,4 +74,11 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 1
    :caption: Developer Guide
 
+   developer_guide/file_architecture
    developer_guide/development_setup
+
+.. toctree::
+   :maxdepth: 2
+   :caption: FAQ
+
+   faq
