@@ -81,7 +81,7 @@ For example, we will revise FinRL.
 where select_region is a new branch name. In this branch, we revised config.py. 
 
 
-Step 5: Creating Commits and PRs
+Step 5: Creating Commits and PRs/MRs
 =======
 
 -Create your commits as you usually do through PyCharm.
