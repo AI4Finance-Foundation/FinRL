@@ -6,7 +6,7 @@ Development setup with PyCharm
 
 This setup makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo's and creating PR's.
 
-Step 1: Download software
+Step 1: Download Software
 =======
 
 -Download and install `Anaconda <https://www.anaconda.com/>`_.
@@ -22,7 +22,7 @@ For notebook support, you can consider PyCharm Professional Edition.
 
 -All next steps happen on your local machine.
 
-Step 2: Git clone
+Step 2: Git Clone
 =======
 
 .. code-block:: bash
@@ -34,7 +34,7 @@ Step 2: Git clone
     git clone https://github.com/[your_github_username]/FinRL-Meta.git
 
 
-Step 3: Create a Conda environment
+Step 3: Create a Conda Environment
 ======
 
 .. code-block:: bash
@@ -49,7 +49,7 @@ Step 3: Create a Conda environment
 ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a text editor and pip install anything you can find under 'install_requires'
 
 
-Step 4: Configure a PyCharm project
+Step 4: Configure a PyCharm Project
 ======
 
 -Launch PyCharm
