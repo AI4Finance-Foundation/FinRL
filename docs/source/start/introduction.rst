@@ -46,18 +46,11 @@ In the *Three-Layer Architecture* section, there will be detailed explanation ab
 ElegantRL: DRL library
 ------------------------------------
 
-One sentence summary of reinforcement learning (RL): in RL, an agent learns by continuously interacting with an unknown environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration (new territory) and exploitation (using knowledge learned from experiences).
+FinRL contains fine-tuned standard DRL algorithms in ElegantRL, Stable Baseline 3, and RLlib.
 
-Deep reinforcement learning (DRL) has great potential to solve real-world problems that are challenging to humans, such as self-driving cars, gaming, natural language processing (NLP), and financial trading. Starting from the success of AlphaGo, various DRL algorithms and applications are emerging in a disruptive manner. The ElegantRL library enables researchers and practitioners to pipeline the disruptive “design, development and deployment” of DRL technology.
+ElegantRL is a scalable and elastic DRL library that maintained by AI4Finance, with faster and more stable performance than Stable Baseline 3 and RLlib. In the *Three-Layer Architecture* section, there will be detailed explanation about how ElegantRL accomplish its role in FinRL perfectly. If interested, please refer to ElegantRL's `GitHub page <https://github.com/AI4Finance-Foundation/ElegantRL>`_ or `documentation <https://elegantrl.readthedocs.io>`_.
 
-The library to be presented is featured with “elegant” in the following aspects:
-
-    - Lightweight: core codes have less than 1,000 lines, e.g., helloworld.
-    - Efficient: the performance is comparable with Ray RLlib.
-    - Stable: more stable than Stable Baseline 3.
-
-ElegantRL supports state-of-the-art DRL algorithms, including discrete and continuous ones, and provides user-friendly tutorials in Jupyter notebooks. The ElegantRL implements DRL algorithms under the Actor-Critic framework, where an Agent (a.k.a, a DRL algorithm) consists of an Actor network and a Critic network. Due to the completeness and simplicity of code structure, users are able to easily customize their own agents.
-
+With those three powerful DRL libraries, FinRL provides the following algorithms for users:
 
 Implemented Algorithms
 
