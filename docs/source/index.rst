@@ -52,15 +52,9 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    
    start/introduction
    start/first_glance
+   start/three_layer
    start/installation
    start/quick_start
-   
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Architecture
-   
-   architecture/three_layer
 
 
 .. toctree::
