@@ -28,7 +28,7 @@ The features are summarized as follows:
 Unique three-layer architecture
 ------------------------------------
 
-    - **Three-layer architecture**: The three layers of FinRL library are **stock market environment (FinRL-Meta)**, **DRL trading agent**, and **stock trading applications**. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
+- **Three-layer architecture**: The three layers of FinRL library are **stock market environment (FinRL-Meta)**, **DRL trading agent**, and **stock trading applications**. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
 
 .. image:: ../image/finrl_framework.png
 
@@ -36,7 +36,9 @@ Unique three-layer architecture
 FinRL-Meta: Market Simulator
 ------------------------------------
 
-For data processing and building environment for DRL in finance, AI4Finance has maintained another project: `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`.
+For data processing and building environment for DRL in finance, AI4Finance has maintained another project: `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`_.
+
+In the *Three-Layer Architecture* section, there will be detailed explanation about how FinRL-Meta works.
 
 
 ElegantRL: DRL library
