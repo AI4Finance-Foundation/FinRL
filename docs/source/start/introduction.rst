@@ -52,8 +52,6 @@ ElegantRL is a scalable and elastic DRL library that maintained by AI4Finance, w
 
 With those three powerful DRL libraries, FinRL provides the following algorithms for users:
 
-Implemented Algorithms
-
 .. image:: ../image/alg_compare.png
 
 
