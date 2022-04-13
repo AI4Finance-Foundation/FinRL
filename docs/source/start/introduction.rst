@@ -1,10 +1,14 @@
 :github_url: https://github.com/AI4Finance-Foundation/FinRL
 
+=======================
 Introduction
 =======================
 
+.. contents:: Table of Contents
+    :depth: 3
+
 Design Principles
-----------------------
+=======================
 
 - Plug-and-Play (PnP): Modularity; Handle different markets (say T0 vs. T+1)
 - Completeness and universal: Multiple markets; Various data sources (APIs, Excel, etc); User-friendly variables.
@@ -17,34 +21,22 @@ Design Principles
 
 
 Features
-------------------------------------
+=======================
 
 The features are summarized as follows: 
 
-    - **Three-layer architecture**: The three layers of FinRL library are stock market environment (FinRL-Meta), DRL trading agent, and stock trading applications. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
+Unique three-layer architecture
+------------------------------------
 
-    - **Modularity**: Each layer includes several modules and each module defines a separate function. One can select certain modules from any layer to implement his/her stock trading task. Furthermore, updating existing modules is possible.
+    - **Three-layer architecture**: The three layers of FinRL library are **stock market environment (FinRL-Meta)**, **DRL trading agent**, and **stock trading applications**. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer.
 
-    - **Simplicity, Applicability and Extendibility**: Specifically designed for automated stock trading, FinRL presents DRL algorithms as modules. In this way, FinRL is made accessible yet not demanding. FinRL provides three trading tasks as use cases that can be easily reproduced. Each layer includes reserved interfaces that allow users to develop new modules.
-
-    - **Better Market Environment Modeling**: We build a trading simulator that replicates live stock market and provides backtesting support that incorporates important market frictions such as transaction cost, market liquidity and the investor’s degree of risk-aversion. All of those are crucial among key determinants of net returns.
-
-.. image:: ../image/FinRL-Architecture.png
-
+.. image:: ../image/finrl_framework.png
 
 
 FinRL-Meta: Market Simulator
 ------------------------------------
 
-Due to the stochastic and interactive nature of the automated trading tasks, a financial task is modeled as a Markov Decision Process (MDP) problem. The training process involves observing price change, taking action, and calculating the reward to have the agent adjust its strategy accordingly. The trading agent will derive a trading strategy with the maximized rewards as time proceeds by interacting with the market environment. 
-
-Our trading environments, based on OpenAI Gym, simulate the markets with real market data, using time-driven simulation. FinRL library strives to provide trading environments constructed by datasets across many stock exchanges. 
-
-In the Tutorials and Examples section, we will illustrate the detailed MDP formulation with the components of the reinforcement learning environment.
-Standard and User-Imported Datasets 
-
-The application of DRL in finance is different from that in other fields, such as playing chess and card games; the latter inherently have clearly defined rules for environments. Various finance markets require different DRL algorithms to get the most appropriate automated trading agent. Realizing that setting up a training environment is time-consuming and laborious work, FinRL provides market environments based on representative listings, including NASDAQ-100, DJIA, S&P 500, SSE 50, CSI 300, and HSI, plus a user-defined environment. Thus, this library frees users from tedious and time-consuming data pre-processing workload. 
-We know that users may want to train trading agents on their own data sets. FinRL library provides convenient support to user-imported data and allows users to adjust the granularity of time steps. We specify the format of the data. According to our data format instructions, users only need to pre-process their data sets.
+For data processing and building environment for DRL in finance, AI4Finance has maintained another project: `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`.
 
 
 ElegantRL: DRL library
@@ -69,7 +61,7 @@ Implemented Algorithms
 
 
 Contributions of FinRL
-------------------------------------
+=======================
 
     - FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided. 
     - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
