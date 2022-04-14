@@ -1,0 +1,4 @@
+{
+    "esbonio.server.enabled": true,
+    "esbonio.sphinx.confDir": ""
+}
