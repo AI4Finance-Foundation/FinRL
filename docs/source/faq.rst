@@ -298,4 +298,4 @@ Subsection 4.3 Challenges of DataOps and MLOps
 Section 5  Common issues/bugs
 ====================================
 - Package trading_calendars reports errors in Windows system:\
-    Trading_calendars is not maintained now. It may report erros in Windows system (python>=3.7). These are two possible solutions: 1.Use python=3.6 environment 2.Replace trading_calendars with exchange_caldenars.
+    Trading_calendars is not maintained now. It may report erros in Windows system (python>=3.7). These are two possible solutions: 1).Use python=3.6 environment. 2).Replace trading_calendars with exchange_caldenars.
