@@ -13,7 +13,6 @@ The supported algorithms include: DQN, DDPG, Multi-Agent DDPG, PPO, SAC, A2C and
 Users are able to choose their favorite DRL agents for training. Different DRL agents might have different performance in various tasks.
 
 ElegantRL: DRL library
-------------------------------------
 
 One sentence summary of reinforcement learning (RL): in RL, an agent learns by continuously interacting with an unknown environment, in a trial-and-error manner, making sequential decisions under uncertainty and achieving a balance between exploration (new territory) and exploitation (using knowledge learned from experiences).
 
