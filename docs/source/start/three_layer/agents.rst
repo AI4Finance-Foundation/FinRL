@@ -16,7 +16,7 @@ ElegantRL: DRL library
 ------------------------
 
 .. image:: ../../image/ElegantRL_icon.jpeg
-    :width: 60%
+    :width: 30%
     :align: center
     :target: https://github.com/AI4Finance-Foundation/ElegantRL
 
