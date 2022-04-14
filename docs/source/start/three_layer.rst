@@ -20,6 +20,12 @@ Our construction has following advantages:
 
 **Better Market Environment Modeling**: We build a trading simulator that replicates live stock markets and provides backtesting support that incorporates important market frictions such as transaction cost, market liquidity and the investor’s degree of risk-aversion. All of those are crucial among key determinants of net returns.
 
+A high level view of how FinRL construct the problem in DRL:
+
+.. image:: ../image/finrl_overview_drl.png
+   :width: 80%
+   :align: center
+
 Please refer to the following pages for more specific explanation:
 
 .. toctree::
