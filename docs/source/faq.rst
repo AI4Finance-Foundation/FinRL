@@ -219,7 +219,7 @@ Subsection 3.4 Miscellaneous
 
 .. _Section-4:
 
-Section 4 References for diving deep into Deep Reinforcement Learning (DRL)
+Section 4 References for diving deep into DRL
 ==========================================================================================
 
 .. _Section-4-1:
