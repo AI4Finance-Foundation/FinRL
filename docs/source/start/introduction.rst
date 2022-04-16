@@ -55,7 +55,7 @@ With those three powerful DRL libraries, FinRL provides the following algorithms
 .. image:: ../image/alg_compare.png
 
 
-Contributions of FinRL
+Contributions
 =======================
 
     - FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided. 
