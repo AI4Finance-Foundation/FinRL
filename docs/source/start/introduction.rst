@@ -35,8 +35,7 @@ Three-layer architecture
     :align: center
 
 
-FinRL-Meta: Market Simulator
-------------------------------------
+**FinRL-Meta: Market Simulator**
 
 For data processing and building environment for DRL in finance, AI4Finance has maintained another project: `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`_.
 
