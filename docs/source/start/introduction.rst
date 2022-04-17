@@ -42,8 +42,8 @@ For data processing and building environment for DRL in finance, AI4Finance has 
 In the *Three-Layer Architecture* section, there will be detailed explanation about how FinRL-Meta works.
 
 
-ElegantRL: DRL library
-------------------------------------
+**ElegantRL: DRL library**
+
 
 FinRL contains fine-tuned standard DRL algorithms in ElegantRL, Stable Baseline 3, and RLlib.
 
