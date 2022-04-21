@@ -37,43 +37,43 @@ Algorithmic Resources
 Strategies
 -----------------
 
-[1] [Deep reinforcement learning for automated stock trading: an ensemble strategy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996). ACM International Conference on AI in Finance, 2020.
+[1] `Deep reinforcement learning for automated stock trading: an ensemble strategy <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996>`_. ACM International Conference on AI in Finance, 2020.
 
-[2] [FinRL-Podracer](https://arxiv.org/abs/2111.05188): High performance and scalable deep reinforcement learning for quantitative finance. ACM International Conference on AI in Finance, ICAIF 2021.
+[2] `FinRL-Podracer <https://arxiv.org/abs/2111.05188>`_: High performance and scalable deep reinforcement learning for quantitative finance. ACM International Conference on AI in Finance, ICAIF 2021.
 
-[3] Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
+[3] Multi-agent reinforcement learning for liquidation strategy analysis, `paper <https://arxiv.org/abs/1906.11046>`_ and `codes <https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation>`_. Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
 
-[4] [Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty.](https://arxiv.org/abs/2006.12686) International Conference on AI in Finance (ICAIF’20), October 2020.
+[4] `Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty. <https://arxiv.org/abs/2006.12686>`_ International Conference on AI in Finance (ICAIF’20), October 2020.
 
-[5] [Cryptocurrency Trading Using Machine Learning](https://www.mdpi.com/1911-8074/13/8/178). Journal of Risk and Financial Management, August 2020.
+[5] `Cryptocurrency Trading Using Machine Learning <https://www.mdpi.com/1911-8074/13/8/178>`_. Journal of Risk and Financial Management, August 2020.
 
-[6] [Multi-Agent Reinforcement Learning in a Realistic Limit Order Book Market Simulation](https://arxiv.org/abs/2006.05574). Michaël Karpe, Jin Fang, Zhongyao Ma, Chen Wang. International Conference on AI in Finance (ICAIF’20), September 2020.
+[6] `Multi-Agent Reinforcement Learning in a Realistic Limit Order Book Market Simulation <https://arxiv.org/abs/2006.05574>`_. Michaël Karpe, Jin Fang, Zhongyao Ma, Chen Wang. International Conference on AI in Finance (ICAIF’20), September 2020.
 
-[7] [Market Making via Reinforcement Learning](https://arxiv.org/abs/1804.04216). Thomas Spooner, John Fearnley, Rahul Savani, Andreas Koukorinis. AAMAS2018 Conference Proceedings
+[7] `Market Making via Reinforcement Learning <https://arxiv.org/abs/1804.04216>`_. Thomas Spooner, John Fearnley, Rahul Savani, Andreas Koukorinis. AAMAS2018 Conference Proceedings
 
-[8] [Financial Trading as a Game: A Deep Reinforcement Learning Approach](https://arxiv.org/abs/1807.02787) Huang, Chien Yi. arXiv preprint arXiv:1807.02787 (2018).
+[8] `Financial Trading as a Game: A Deep Reinforcement Learning Approach <https://arxiv.org/abs/1807.02787>`_ Huang, Chien Yi. arXiv preprint arXiv:1807.02787 (2018).
 
-[9] [Deep Hedging: Hedging Derivatives Under Generic Market Frictions Using Reinforcement Learning](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3355706) Buehler, Hans, Lukas Gonon, Josef Teichmann, Ben Wood, Baranidharan Mohan, and Jonathan Kochems. Swiss Finance Institute Research Paper 19-80 (2019).
+[9] `Deep Hedging: Hedging Derivatives Under Generic Market Frictions Using Reinforcement Learning <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3355706>`_ Buehler, Hans, Lukas Gonon, Josef Teichmann, Ben Wood, Baranidharan Mohan, and Jonathan Kochems. Swiss Finance Institute Research Paper 19-80 (2019).
 
 Financial Big Data
 ------------------
 
-[1] [FinRL-Meta](https://arxiv.org/abs/2112.06753): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. NeurIPS 2021 Data-Centric AI Workshop
+[1] `FinRL-Meta <https://arxiv.org/abs/2112.06753>`_: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. NeurIPS 2021 Data-Centric AI Workshop
 
 ## Interpretation and Explainability
 
-[1] [Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;). Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021. 
+[1] `Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;>`_. Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021. 
 
 Tools or Softwares
 ------------------
 
-[1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) by AI4Finance Foundation.
+[1] `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_ by AI4Finance Foundation.
 
-[2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance, by AI4Finance Foundation.
+[2] `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`_: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance, by AI4Finance Foundation.
 
-[3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) by AI4Finance Foundation.
+[3] `ElegantRL <https://github.com/AI4Finance-Foundation/ElegantRL>`_ by AI4Finance Foundation.
 
-[4] [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3): Reliable Reinforcement Learning Implementations.
+[4] `Stable-Baselines3 <https://github.com/DLR-RM/stable-baselines3>`_: Reliable Reinforcement Learning Implementations.
 
 Survey 
 -----------------
