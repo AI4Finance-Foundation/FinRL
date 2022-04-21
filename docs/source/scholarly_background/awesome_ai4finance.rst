@@ -13,7 +13,7 @@ Proof-of-concept
 
 [2] `FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance <https://arxiv.org/abs/2011.09607>`_ A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
 
-[3] [Practical deep reinforcement learning approach for stock trading](https://arxiv.org/abs/1811.07522). NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
+[3] `Practical deep reinforcement learning approach for stock trading <https://arxiv.org/abs/1811.07522>`. NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
 
 [4] [Deep Reinforcement Learning for Trading](https://arxiv.org/abs/1911.10107). Zhang, Zihao, Stefan Zohren, and Stephen Roberts. The Journal of Financial Data Science 2, no. 2 (2020): 25-40.
 
