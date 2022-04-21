@@ -15,9 +15,9 @@ Proof-of-concept
 
 [3] `Practical deep reinforcement learning approach for stock trading <https://arxiv.org/abs/1811.07522>`_. NeurIPS Workshop on Challenges and Opportunities for AI in Financial Services: the Impact of Fairness, Explainability, Accuracy, and Privacy, 2018.
 
-[4] [Deep Reinforcement Learning for Trading](https://arxiv.org/abs/1911.10107). Zhang, Zihao, Stefan Zohren, and Stephen Roberts. The Journal of Financial Data Science 2, no. 2 (2020): 25-40.
+[4] `Deep Reinforcement Learning for Trading <https://arxiv.org/abs/1911.10107>`_. Zhang, Zihao, Stefan Zohren, and Stephen Roberts. The Journal of Financial Data Science 2, no. 2 (2020): 25-40.
 
-[5] [A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem](https://arxiv.org/abs/1706.10059). Jiang, Zhengyao, Dixing Xu, and Jinjun Liang. arXiv preprint arXiv:1706.10059 (2017).
+[5] `A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem <https://arxiv.org/abs/1706.10059>`_. Jiang, Zhengyao, Dixing Xu, and Jinjun Liang. arXiv preprint arXiv:1706.10059 (2017).
 
 Algorithmic Resources
 ----------------------------------
