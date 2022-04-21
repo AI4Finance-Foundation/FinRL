@@ -22,17 +22,17 @@ Proof-of-concept
 Algorithmic Resources
 ----------------------------------
 
-[1] [Documentation of ElegentRL](https://elegantrl.readthedocs.io) by AI4Finance Foundation.
+[1] `Documentation of ElegentRL <https://elegantrl.readthedocs.io>`_ by AI4Finance Foundation.
 
-[2] [Spinning Up in Deep RL](https://spinningup.openai.com/) by OpenAI. 
+[2] `Spinning Up in Deep RL <https://spinningup.openai.com/>`_ by OpenAI. 
 
 ## Theoretical Resources
 
-[1] [Deep Reinforcement Learning: An Overview](https://arxiv.org/abs/1701.07274) Li, Yuxi. arXiv preprint arXiv:1701.07274 (2017).
+[1] `Deep Reinforcement Learning: An Overview <https://arxiv.org/abs/1701.07274>`_ Li, Yuxi. arXiv preprint arXiv:1701.07274 (2017).
 
 [2] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020.
 
-[3] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
+[3] `ICAIF <https://ai-finance.org>`_ International Conference on AI in Finance.
 
 Strategies
 -----------------
