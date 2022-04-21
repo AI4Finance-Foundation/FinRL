@@ -73,6 +73,15 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    developer_guide/file_architecture
    developer_guide/development_setup
 
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Scholarly Background
+
+   scholarly_background/finrl_ecosystem_papers
+   scholarly_background/awesome_ai4finance
+
+
 .. toctree::
    :maxdepth: 2
    :caption: FAQ
