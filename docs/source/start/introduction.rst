@@ -20,12 +20,6 @@ Design Principles
 
 
 
-
-
-
-
-
-
 Contributions
 =======================
 
