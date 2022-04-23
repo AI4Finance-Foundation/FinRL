@@ -28,3 +28,5 @@ We follow the DataOps paradigm in the data layer.
 .. image:: ../../image/timeline.png
    :width: 80%
    :align: center
+   
+For data processing and building environment for DRL in finance, AI4Finance has maintained another project: `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`_.
