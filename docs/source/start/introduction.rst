@@ -20,33 +20,10 @@ Design Principles
 
 
 
-Features
-=======================
-
-**Overview**
-
-The three layers of FinRL library are **stock market environment (FinRL-Meta)**, **DRL trading agent**, and **stock trading applications**. The lower layer provides APIs for the upper layer, making the lower layer transparent to the upper layer. The agent layer interacts with the environment layer in an exploration-exploitation manner, whether to repeat prior working-well decisions or to make new actions hoping to get greater rewards. 
-
-.. image:: ../image/finrl_framework.png
-    :width: 80%
-    :align: center
 
 
-**FinRL-Meta: Market Simulator**
-
-For data processing and building environment for DRL in finance, AI4Finance has maintained another project: `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`_.
-
-In the *Three-Layer Architecture* section, there will be detailed explanation about how FinRL-Meta works.
 
 
-**ElegantRL: DRL library**
-
-
-FinRL contains fine-tuned standard DRL algorithms in ElegantRL, Stable Baseline 3, and RLlib. ElegantRL is a scalable and elastic DRL library that maintained by AI4Finance, with faster and more stable performance than Stable Baseline 3 and RLlib. In the *Three-Layer Architecture* section, there will be detailed explanation about how ElegantRL accomplish its role in FinRL perfectly. If interested, please refer to ElegantRL's `GitHub page <https://github.com/AI4Finance-Foundation/ElegantRL>`_ or `documentation <https://elegantrl.readthedocs.io>`_.
-
-With those three powerful DRL libraries, FinRL provides the following algorithms for users:
-
-.. image:: ../image/alg_compare.png
 
 
 Contributions
