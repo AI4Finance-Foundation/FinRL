@@ -20,7 +20,7 @@ Design Principles
 
 
 
-Features
+Three-layer architecture
 =======================
 
 
