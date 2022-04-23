@@ -34,7 +34,6 @@ Please refer to the following pages for more specific explanation:
 .. toctree::
    :maxdepth: 1
 
-   three_layer/overview
    three_layer/environments
    three_layer/agents
    three_layer/applications
