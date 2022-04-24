@@ -7,7 +7,7 @@ Introduction
 .. contents:: Table of Contents
     :depth: 3
 
-Design Principles
+**Design Principles**
 =======================
 
 - Plug-and-Play (PnP): Modularity; Handle different markets (say T0 vs. T+1)
