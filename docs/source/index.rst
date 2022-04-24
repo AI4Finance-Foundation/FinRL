@@ -58,12 +58,15 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Tutorials
 
-   tutorial/SingleStockTrading
-   tutorial/MultipleStockTrading
-   tutorial/PortfolioAllocation
+   tutorial/Guide
+   tutorial/Introduction
+   tutorial/Advance
+   tutorial/Practical
+   tutorial/Optimization
+   tutorial/Others
    
    
 .. toctree::
