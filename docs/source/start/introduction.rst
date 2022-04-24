@@ -8,7 +8,6 @@ Introduction
     :depth: 3
 
 **Design Principles**
-=======================
 
 - Plug-and-Play (PnP): Modularity; Handle different markets (say T0 vs. T+1)
 - Completeness and universal: Multiple markets; Various data sources (APIs, Excel, etc); User-friendly variables.
