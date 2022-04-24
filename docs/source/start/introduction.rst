@@ -28,5 +28,5 @@ Contributions
     - FinRL has good scalability, with fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported. 
     - Typical use cases are selected to establish a benchmark for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
 
-With FinRL library, the implementation of powerful DRL driven trading strategies is more accessible, efficient and delightful.
+With FinRL library, the implementation of powerful DRL driven trading strategies becomes more accessible, efficient and delightful.
 
