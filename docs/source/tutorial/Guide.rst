@@ -12,8 +12,8 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
 .. toctree::
    :maxdepth: 1
 
-   Introduction
-   Advance
-   Practical
-   Optimization
-   Others
+   1-Introduction
+   2-Advance
+   3Practical
+   4-Optimization
+   5-Others
