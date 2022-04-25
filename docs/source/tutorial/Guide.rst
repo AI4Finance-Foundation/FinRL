@@ -14,6 +14,6 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
 
    1-Introduction
    2-Advance
-   3Practical
+   3-Practical
    4-Optimization
    5-Others
