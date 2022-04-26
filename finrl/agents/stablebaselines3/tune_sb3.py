@@ -11,10 +11,10 @@ from main import check_and_make_directories
 import hyperparams_opt as hpt
 from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 from finrl.plot import backtest_plot, backtest_stats, get_baseline, get_daily_return
-
+from typing import Union, Tuple
 
 class LoggingCallback:
-    def __init__(self, threshold, trial_number, patience):
+    def __init__(self, threshold:int, trial_number:int, patience:int):
         """
       threshold:int tolerance for increase in sharpe ratio
       trial_number: int Prune after minimum number of trials
@@ -162,7 +162,7 @@ class TuneSB3Optuna:
         joblib.dump(study, f"{self.model_name}_study.pkl")
         return study
 
-    def backtest(self, final_study: optuna.Study):
+    def backtest(self, final_study: optuna.Study) -> Tuple[pd.DataFrame,pd.DataFrame,pd.DataFrame]:
         print("Hyperparameters after tuning", final_study.best_params)
         print("Best Trial", final_study.best_trial)
 
