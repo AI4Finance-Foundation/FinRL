@@ -6,7 +6,7 @@ Development setup with PyCharm
 
 This setup makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo's and creating PR's.
 
-Step 1: Download software
+Step 1: Download Software
 =======
 
 -Download and install `Anaconda <https://www.anaconda.com/>`_.
@@ -22,7 +22,7 @@ For notebook support, you can consider PyCharm Professional Edition.
 
 -All next steps happen on your local machine.
 
-Step 2: Git clone
+Step 2: Git Clone
 =======
 
 .. code-block:: bash
@@ -34,7 +34,7 @@ Step 2: Git clone
     git clone https://github.com/[your_github_username]/FinRL-Meta.git
 
 
-Step 3: Create a Conda environment
+Step 3: Create a Conda Environment
 ======
 
 .. code-block:: bash
@@ -49,7 +49,7 @@ Step 3: Create a Conda environment
 ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a text editor and pip install anything you can find under 'install_requires'
 
 
-Step 4: Configure a PyCharm project
+Step 4: Configure a PyCharm Project
 ======
 
 -Launch PyCharm
@@ -81,7 +81,7 @@ For example, we will revise FinRL.
 where select_region is a new branch name. In this branch, we revised config.py. 
 
 
-Step 5: Creating commits and PRs
+Step 5: Creating Commits and PRs/MRs
 =======
 
 -Create your commits as you usually do through PyCharm.
@@ -93,5 +93,5 @@ Step 5: Creating commits and PRs
 -When you do a Git Push, PyCharm will ask you to which of the 3 repo's you want to push. Just like the above figure, we selected the repo FinRL. 
 
 
-With respect to creating a pull request (PR), please refer to `Create a PR <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request>`_ or `Opensource Create a PR <https://opensource.com/article/19/7/create-pull-request-github>`_.
+With respect to creating a pull request (PR) or merge quest (MR), please refer to `Create a PR <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request>`_ or `Opensource Create a PR <https://opensource.com/article/19/7/create-pull-request-github>`_.
 
