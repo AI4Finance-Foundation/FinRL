@@ -81,7 +81,7 @@ A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the
 
 ## File Structure
 
-Correspondingly, the main folder **finrl** has three subfolders **applicationss, drl_agents, finrl_meta**. 
+Correspondingly, the main folder **finrl** has three subfolders **applicationss, agents, finrl_meta**. 
 
 We employ a **train-test-trade** pipeline by three files: train.py, test.py, and trade.py.
 
