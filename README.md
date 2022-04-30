@@ -81,7 +81,7 @@ A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the
 
 ## File Structure
 
-Correspondingly, the main folder **finrl** has three subfolders **apps, drl_agents, finrl_meta**. 
+Correspondingly, the main folder **finrl** has three subfolders **applicationss, drl_agents, finrl_meta**. 
 
 We employ a **train-test-trade** pipeline by three files: train.py, test.py, and trade.py.
 
@@ -140,9 +140,9 @@ FinRL
 |[WRDS](https://wrds-www.wharton.upenn.edu/pages/about/data-vendors/nyse-trade-and-quote-taq/)| US Securities| 2003-now, 1ms| 5 requests each time| Intraday Trades|Prices&Indicators|
 |[YahooFinance](https://pypi.org/project/yfinance/)| US Securities| Frequency-specific, 1min| 2,000/hour| OHLCV | Prices&Indicators|
 
-OHLCV: open, high, low, and close prices; volume.   adjusted_close: adjusted close price
+OHLCV: open, high, low, and close prices; volume. adjusted_close: adjusted close price
 
-Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'.  Users also can add new features. 
+Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'. Users also can add new features. 
 
 
 ## Installation
