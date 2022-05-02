@@ -49,6 +49,8 @@ Step 3: Create a Conda Environment
 ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a text editor and pip install anything you can find under 'install_requires'
 .. code-block:: bash
     "gym"
+    "matplotlib"
+
 
 Step 4: Configure a PyCharm Project
 ======
