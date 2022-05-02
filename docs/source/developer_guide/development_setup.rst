@@ -51,6 +51,9 @@ ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a t
     "gym"
     "matplotlib"
     "numpy"
+    "pybullet"
+    "torch"
+
 
 
 
