@@ -54,8 +54,7 @@ ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a t
     "pybullet"
     "torch"
     "opencv-python"
-
-
+    "box2d-py"
 
 
 Step 4: Configure a PyCharm Project
