@@ -18,7 +18,7 @@ For notebook support, you can consider PyCharm Professional Edition.
 
 -On GitHub, fork `ElegantRL <https://github.com/AI4Finance-Foundation/ElegantRL>`_ to your private Github repo.
 
--On GitHub, fork `FinrRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`_ to your private Github repo.
+-On GitHub, fork `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`_ to your private Github repo.
 
 -All next steps happen on your local machine.
 
