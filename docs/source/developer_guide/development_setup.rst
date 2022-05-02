@@ -50,6 +50,8 @@ ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a t
 .. code-block:: bash
     "gym"
     "matplotlib"
+    "numpy"
+
 
 
 Step 4: Configure a PyCharm Project
