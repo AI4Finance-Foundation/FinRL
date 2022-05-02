@@ -53,6 +53,7 @@ ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a t
     "numpy"
     "pybullet"
     "torch"
+    "opencv-python"
 
 
 
