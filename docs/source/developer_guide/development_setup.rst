@@ -46,15 +46,7 @@ Step 3: Create a Conda Environment
     cd FinRL
     pip install -r requirements.txt
 
-ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a text editor and pip install anything you can find under 'install_requires'
-.. code-block:: bash
-    "gym"
-    "matplotlib"
-    "numpy"
-    "pybullet"
-    "torch"
-    "opencv-python"
-    "box2d-py"
+ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a text editor and pip install anything you can find under install_requires: gym, matplotlib, numpy, pybullet, torch, opencv-python, box2d-py
 
 
 Step 4: Configure a PyCharm Project
@@ -66,7 +58,7 @@ Step 4: Configure a PyCharm Project
 
 .. image:: ../image/pycharm_status_bar.png
 
--At the bottom right of the status bar, change the interpreter to the ai4finance conda environment.
+-At the bottom right of the status bar, change or add the interpreter to the ai4finance conda environment. Make sure when you click the "terminal" bar at the bottom left, it shows (ai4finance).
 
 .. image:: ../image/pycharm_MarkDirectoryAsSourcesRoot.png
 
