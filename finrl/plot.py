@@ -49,12 +49,42 @@ def backtest_plot(
 ):
 
     df = deepcopy(account_value)
+    df["date"] = pd.to_datetime(df["date"])
     test_returns = get_daily_return(df, value_col_name=value_col_name)
+    if baseline_ticker=='000300':
+        pass
+        try:
+            import baostock as bs
+            
+        except:
+            print('pip install baostock')
+        import quantzsl as qz
+        
+        lg = bs.login()
+        rs = bs.query_history_k_data_plus("sh."+baseline_ticker,
+        "date,code,open,high,low,close,preclose,volume,amount,pctChg",
+        start_date=baseline_start, end_date=baseline_end, frequency="d")
+        data_list = []
+        while (rs.error_code == '0') & rs.next():
+            # 获取一条记录，将记录合并在一起
+            data_list.append(rs.get_row_data())
+        res = pd.DataFrame(data_list, columns=rs.fields)
+        for i in res.columns:
+            pass
+            try:
+                res[i]=res[i].apply(float)
+            except:
+                pass
+        baseline_df=res
 
-    baseline_df = get_baseline(
-        ticker=baseline_ticker, start=baseline_start, end=baseline_end
-    )
+    else:
+        baseline_df =YahooDownloader(
+            ticker=baseline_ticker, start=baseline_start, end=baseline_end
+        )
 
+    baseline_df["date"] = pd.to_datetime(baseline_df["date"], format="%Y-%m-%d")
+    baseline_df = pd.merge(df[["date"]], baseline_df, how="left", on="date")
+    baseline_df = baseline_df.fillna(method="ffill").fillna(method="bfill")
     baseline_returns = get_daily_return(baseline_df, value_col_name="close")
     with pyfolio.plotting.plotting_context(font_scale=1.1):
         pyfolio.create_full_tear_sheet(
