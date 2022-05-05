@@ -39,7 +39,7 @@ Step 3: Create a Conda Environment
 
 .. code-block:: bash
 
-    cd ~/AI4Finance
+    cd ~/ai4finance
     conda create --name ai4finance python=3.8
     conda activate ai4finance
 
