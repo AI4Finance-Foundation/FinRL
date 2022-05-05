@@ -27,7 +27,7 @@ Step 2: Git Clone
 
 .. code-block:: bash
 
-    mkdir ~/AI4Finance
+    mkdir ~/ai4finance
     cd ~/AI4Finance
     git clone https://github.com/[your_github_username]/FinRL.git
     git clone https://github.com/[your_github_username]/ElegantRL.git
