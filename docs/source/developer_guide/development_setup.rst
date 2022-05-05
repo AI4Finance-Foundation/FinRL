@@ -74,11 +74,11 @@ For example, we will revise FinRL.
 
 .. code-block:: bash
 
-    cd ~/AI4Finance
+    cd ~/ai4finance
     cd ./FinRL
-    git checkout -b select_region 
+    git checkout -b branch_xxx
 
-where select_region is a new branch name. In this branch, we revised config.py. 
+where branch_xxx is a new branch name. In this branch, we revised config.py. 
 
 
 Step 5: Creating Commits and PRs/MRs
