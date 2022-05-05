@@ -54,7 +54,7 @@ Step 4: Configure a PyCharm Project
 
 -Launch PyCharm
 
--File > Open > [AI4Finance project folder]
+-File > Open > [ai4finance project folder]
 
 .. image:: ../image/pycharm_status_bar.png
 
