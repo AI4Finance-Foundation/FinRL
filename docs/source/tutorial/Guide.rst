@@ -9,6 +9,16 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
    :align: center
    :target:  https://github.com/AI4Finance-Foundation/FinRL/tree/master/tutorials
 
+1-Introduction: basic demos for beginners.
+
+2-Advance: advanced demos, e.g., ensemble stock trading.
+
+3-Practical: paper trading and live trading (To Do).
+
+4-Optimization: hyperparameter tuning.
+
+5-Others: other demos.
+
 .. toctree::
    :maxdepth: 1
 
@@ -17,3 +27,4 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
    3-Practical
    4-Optimization
    5-Others
+
