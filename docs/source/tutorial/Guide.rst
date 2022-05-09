@@ -15,7 +15,7 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
 
 2-Advance: advanced demos, e.g., ensemble stock trading.
 
-3-Practical: paper trading and live trading (To Do).
+3-Practical: paper trading and live trading.
 
 4-Optimization: hyperparameter tuning.
 
