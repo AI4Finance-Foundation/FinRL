@@ -9,7 +9,7 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
    :align: center
    :target:  https://github.com/AI4Finance-Foundation/FinRL/tree/master/tutorials
 
-Mission: provide user-friendly demos. 
+Mission: provide user-friendly demos in notebooks. 
 
 ## File Structure
 
