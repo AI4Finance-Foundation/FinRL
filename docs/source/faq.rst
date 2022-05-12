@@ -216,6 +216,10 @@ Subsection 3.4 Miscellaneous
     - :raw-html:`<font color="#A52A2A">What new SOTA models will be incorporated on FinRL?  </font>`
 
 	*please check our development roadmap at our Github repo: https://github.com/AI4Finance-LLC/FinRL-Library*
+	
+    - :raw-html:`<font color="#A52A2A">What's the main difference between FinRL and FinRL-Meta?  </font>`
+
+	*FinRL is the project of financial RL for education and demonstration purpose, while FinRL-Meta is aim for financial big data and metaverse for data driven financial RL.*
 
 .. _Section-4:
 
