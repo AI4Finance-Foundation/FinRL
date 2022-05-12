@@ -78,7 +78,7 @@ Section 2 What to do when you experience problems?
 
 .. _Section-3:
 
-Section 3 Most frequently asked questions related to the FinRL Library
+Section 3 FinRL Usage
 ========================================================================
 
 .. _Section-3-1:
