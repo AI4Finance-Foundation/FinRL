@@ -57,7 +57,7 @@ Section 1  Where to start?
 
     - Install the library following the instructions at the official Github repo: https://github.com/AI4Finance-Foundation/FinRL
 
-    - Run the Jupyter notebooks related to the type of environment you want to work on notebooks folder of the library https://github.com/AI4Finance-LLC/FinRL-Library/tree/master/notebooks
+    - Run the Jupyter notebooks related to the environment you want to work on in the library https://github.com/AI4Finance-LLC/FinRL-Library/tree/master/notebooks
 
     - Enter on the AI4Finance slack: https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-kq0c9het-FCSU6Y986OnSw6Wb5EkEYw
 
@@ -71,7 +71,7 @@ Section 2 What to do when you experience problems?
 
         - Check if it is not already answered on this FAQ
 
-        - Check if it is not posted on the Github repo issues:https://github.com/AI4Finance-LLC/FinRL-Library/issues
+        - Check if it is not posted on the Github repo issues: https://github.com/AI4Finance-LLC/FinRL-Library/issues
 
         - Use the correct slack channel on the AI4Finance slack.
 
