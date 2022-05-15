@@ -117,9 +117,9 @@ Windows 10
 ======================
 Prepare for install
 --------------------------------------------------------------------------
-1. vpn is need in china for github pull code and yahoo datasource (pyfolio, elegantrl pip dependencies need pull code, yahoo api access ban china ip)
+1. vpn is needed in china for github pull code if using Yahoo datasource (pyfolio, elegantRL pip dependencies need pull code, Yahoo has stopped the service in china)
 2. python version >=3.7
-3. pip remove zipline, if your system installed zipline, zipline conflict with master branch FinRL
+3. pip remove zipline, if your system has installed zipline, zipline conflict with master branch FinRL
 
 Step1: Clone `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
@@ -134,7 +134,7 @@ Step2: install dependencies
     cd FinRL
     pip install .
 
-Step3:  test install (this test is use yahoo api datasource vpn is need if in china)
+Step3:  test install (this test is use Yahoo api datasource vpn is need if in china)
 -------------------------------------------------------------------------------------
 .. code-block:: bash
 
@@ -148,7 +148,7 @@ the following outputs appears, take it easy, install is successful
 1. UserWarning: Module "zipline.assets" not found; multipliers will not be applied to position notionals. Module "zipline.assets" not found; multipliers will not be applied'
 
 
-if following outputs appears, please ensure your vpn enable for yahooo api fetch data
+if following outputs appears, please ensure your vpn enable for Yahooo api fetch data
 
 1. Failed download: xxxx: No data found for this date range, symbol may be delisted
 
