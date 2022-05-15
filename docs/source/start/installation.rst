@@ -115,7 +115,7 @@ Locate one of the stock trading notebook in FinRL/tutorials you just downloaded.
 
 
 
-Windows 10
+Windows 10 (Method 1)
 ==========
 
 Step 1: Install Ubuntu on Windows 10
@@ -161,5 +161,10 @@ Download the FinRL repository using terminal:
 Open Jupyter Notebook by typing 'jupyter notebook' in your ubuntu terminal. Please see `jupyter notebook <https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html>`_
 
 Locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
+
+
+Windows 10 (Method 2)
+==========
+
 
 
