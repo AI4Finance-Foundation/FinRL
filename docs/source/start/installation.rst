@@ -113,10 +113,48 @@ Open Jupyter Notebook by typing 'jupyter notebook' in your ubuntu terminal.
 
 Locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
 
+Windows 10
+======================
+Prepare for install
+--------------------------------------------------------------------------
+1. vpn is need in china for github pull code and yahoo datasource (pyfolio, elegantrl pip dependencies need pull code, yahoo api access ban china ip)
+2. python version >=3.7
+3. pip remove zipline, if your system installed zipline, zipline conflict with master branch FinRL
+
+Step1: Clone `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+--------------------------------------------------------------------------
+.. code-block:: bash
+
+   git clone https://github.com/AI4Finance-Foundation/FinRL.git
+
+Step2: install dependencies
+--------------------------------------------------------------------------
+.. code-block:: bash
+
+    cd FinRL
+    pip install .
+
+Step3:  test install (this test is use yahoo api datasource vpn is need if in china)
+-------------------------------------------------------------------------------------
+.. code-block:: bash
+
+    python FinRL_StockTrading_NeurIPS_2018.py
+
+Tips for running error
+--------------------------------------------------------------------------
+
+the following outputs appears, take it easy, install is successful
+
+1. UserWarning: Module "zipline.assets" not found; multipliers will not be applied to position notionals. Module "zipline.assets" not found; multipliers will not be applied'
 
 
-Windows 10 (Method 1)
-==========
+if following outputs appears, please ensure your vpn enable for yahooo api fetch data
+
+1. Failed download: xxxx: No data found for this date range, symbol may be delisted
+
+
+Windows 10 (wsl install)
+=========================
 
 Step 1: Install Ubuntu on Windows 10
 --------------------------------------
@@ -139,7 +177,7 @@ Open an ubuntu terminal and type:
 .. code-block:: bash
 
    sudo apt-get update && sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev libgl1-mesa-glx
-   
+
 Step 4: Install `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
@@ -162,9 +200,6 @@ Open Jupyter Notebook by typing 'jupyter notebook' in your ubuntu terminal. Plea
 
 Locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
 
-
-Windows 10 (Method 2)
-==========
 
 
 
