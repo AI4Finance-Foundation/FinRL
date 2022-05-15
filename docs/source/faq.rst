@@ -71,9 +71,11 @@ Section 2 What to do when you experience problems?
 
         - Check if it is not already answered on this FAQ
 
-        - Check if it is not posted on the Github repo issues: https://github.com/AI4Finance-LLC/FinRL-Library/issues
+        - Check if it is not posted on the GitHub repo issues: https://github.com/AI4Finance-LLC/FinRL-Library/issues
+	
+	- If not, welcome to submit an issue on GitHub
 
-        - Use the correct slack channel on the AI4Finance slack.
+        - Or use the correct channel on the AI4Finance slack or Wechat group.
 
 
 .. _Section-3:
