@@ -146,7 +146,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 
 
 ## Installation
-+ [simple install for all system](./Install.md)
++ [install description for all system](./docs/source/start/installation.rst)
 + [FinRL for Quantitative Finance: Install and Setup Tutorial for Beginners](https://ai4finance.medium.com/finrl-for-quantitative-finance-install-and-setup-tutorial-for-beginners-1db80ad39159)
 
 ## Status Update
