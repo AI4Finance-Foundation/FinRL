@@ -150,7 +150,7 @@ If the following outputs appear, take it easy, since installation is still succe
 
 If following outputs appear, please ensure that VPN helps to access the Yahooo API
 
-1. Failed download: xxxx: No data found for this date range, symbol may be delisted
+1. Failed download: xxxx: No data found for this date range, the stock may be delisted, or the value is missing.
 
 
 Windows 10 (wsl install)
