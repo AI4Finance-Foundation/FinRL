@@ -117,9 +117,9 @@ Windows 10
 ======================
 Prepare for install
 --------------------------------------------------------------------------
-1. VPN is needed in china for github pull code if using Yahoo datasource (pyfolio, elegantRL pip dependencies need pull code, Yahoo has stopped the service in china)
+1. VPN is needed in china for github pull code if using Yahoo data source (pyfolio, elegantRL pip dependencies need pull code, Yahoo has stopped the service in china)
 2. python version >=3.7
-3. pip remove zipline, if your system has installed zipline, zipline has conflicts with the FinRL master branch.
+3. pip remove zipline, if your system has installed zipline, zipline has conflicts with the FinRL.
 
 Step1: Clone `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
