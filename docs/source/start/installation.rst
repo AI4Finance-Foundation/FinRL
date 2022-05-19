@@ -143,7 +143,7 @@ Step3:  test (If using Yahoo API datasource in China, VPN is needed)
 Tips for running error
 --------------------------------------------------------------------------
 
-If the following outputs appear, take it easy, installation is still successful.
+If the following outputs appear, take it easy, since installation is still successful.
 
 1. UserWarning: Module "zipline.assets" not found; multipliers will not be applied to position notionals. Module "zipline.assets" not found; multipliers will not be applied'
 
