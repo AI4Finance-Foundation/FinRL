@@ -4,9 +4,9 @@
 FAQ
 =============================
 
-:Version: 0.1
-:Date: 02-06-2021
-:Contributors: Roberto Fray da Silva, Xiao-Yang Liu
+:Version: 0.2
+:Date: 05-20-2022
+:Contributors: Roberto Fray da Silva, Xiao-Yang Liu, Ziyi Xia, Ming Zhu
 
 
 
