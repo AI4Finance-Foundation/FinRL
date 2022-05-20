@@ -4,9 +4,9 @@
 FAQ
 =============================
 
-:Version: 0.1
-:Date: 02-06-2021
-:Contributors: Roberto Fray da Silva, Xiao-Yang Liu
+:Version: 0.2
+:Date: 05-20-2022
+:Contributors: Roberto Fray da Silva, Xiao-Yang Liu, Ziyi Xia, Ming Zhu
 
 
 
@@ -57,7 +57,7 @@ Section 1  Where to start?
 
     - Install the library following the instructions at the official Github repo: https://github.com/AI4Finance-Foundation/FinRL
 
-    - Run the Jupyter notebooks related to the type of environment you want to work on notebooks folder of the library https://github.com/AI4Finance-LLC/FinRL-Library/tree/master/notebooks
+    - Run the Jupyter notebooks related to the environment you want to work on in the library https://github.com/AI4Finance-LLC/FinRL-Library/tree/master/notebooks
 
     - Enter on the AI4Finance slack: https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-kq0c9het-FCSU6Y986OnSw6Wb5EkEYw
 
@@ -71,14 +71,16 @@ Section 2 What to do when you experience problems?
 
         - Check if it is not already answered on this FAQ
 
-        - Check if it is not posted on the Github repo issues:https://github.com/AI4Finance-LLC/FinRL-Library/issues
+        - Check if it is not posted on the GitHub repo issues: https://github.com/AI4Finance-LLC/FinRL-Library/issues
+	
+	- If not, welcome to submit an issue on GitHub
 
-        - Use the correct slack channel on the AI4Finance slack.
+        - Or use the correct channel on the AI4Finance slack or Wechat group.
 
 
 .. _Section-3:
 
-Section 3 Most frequently asked questions related to the FinRL Library
+Section 3 FinRL Usage
 ========================================================================
 
 .. _Section-3-1:
@@ -216,6 +218,10 @@ Subsection 3.4 Miscellaneous
     - :raw-html:`<font color="#A52A2A">What new SOTA models will be incorporated on FinRL?  </font>`
 
 	*please check our development roadmap at our Github repo: https://github.com/AI4Finance-LLC/FinRL-Library*
+	
+    - :raw-html:`<font color="#A52A2A">What's the main difference between FinRL and FinRL-Meta?  </font>`
+
+	*FinRL is the project of financial RL for education and demonstration purpose, while FinRL-Meta is aim for financial big data and metaverse for data driven financial RL.*
 
 .. _Section-4:
 
