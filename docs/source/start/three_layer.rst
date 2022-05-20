@@ -4,7 +4,7 @@
 Three-layer Architecture
 ===========================
 
-After the first glance of how FinRL established our task on stock trading using DRL, know we are introducing the most central idea of FinRL.
+After the first glance of how to establish our task on stock trading using DRL, know we are introducing the most central idea of FinRL.
 
 
 

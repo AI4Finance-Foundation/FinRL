@@ -1,6 +1,6 @@
 :github_url: https://github.com/AI4Finance-Foundation/FinRL
 
-FinRL Ecosystem: Papers
+Published Papers
 ========================
 
 Papers by the Columbia research team can be found at `Google Scholar <https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ>`_.

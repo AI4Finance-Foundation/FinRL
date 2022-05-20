@@ -17,13 +17,9 @@ The Jupyter notebook codes are available on our Github_ and `Google Colab`_.
 
 .. tip::
 
-    - FinRL `Single Stock Trading`_ at Google Colab.
+    - FinRL `Single Stock Trading <https://colab.research.google.com/github/AI4Finance-LLC/FinRL-Library/blob/master/FinRL_single_stock_trading.ipynb>`_ at Google Colab.
     
-    .. _Single Stock Trading: https://colab.research.google.com/github/AI4Finance-LLC/FinRL-Library/blob/master/FinRL_single_stock_trading.ipynb
-    
-    - FinRL `Multiple Stocks Trading`_ at Google Colab: 
-
-    .. _Multiple Stocks Trading: https://colab.research.google.com/github/AI4Finance-LLC/FinRL-Library/blob/master/FinRL_multiple_stock_trading.ipynb
+    - FinRL `Multiple Stocks Trading <https://colab.research.google.com/github/AI4Finance-LLC/FinRL-Library/blob/master/FinRL_multiple_stock_trading.ipynb>`_ at Google Colab: 
     
 Check our previous tutorials: `Single Stock Trading <https://finrl.readthedocs.io/en/latest/tutorial/SingleStockTrading.html>`_ and `Multiple Stock Trading <https://finrl.readthedocs.io/en/latest/tutorial/MultipleStockTrading.html>`_ for detailed explanation of the FinRL architecture and modules.
 
