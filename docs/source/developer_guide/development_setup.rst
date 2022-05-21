@@ -4,7 +4,7 @@
 Development setup with PyCharm
 ============================
 
-This setup makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo's and creating PRs/MRs.
+This setup makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo and creating PRs/MRs.
 
 Step 1: Download Software
 =======
@@ -20,7 +20,7 @@ For notebook support, you can consider PyCharm Professional Edition.
 
 -On GitHub, fork `FinRL-Meta <https://github.com/AI4Finance-Foundation/FinRL-Meta>`_ to your private Github repo.
 
--All next steps happen on your local machine.
+-All next steps happen on your local computer.
 
 Step 2: Git Clone
 =======
@@ -46,7 +46,7 @@ Step 3: Create a Conda Environment
     cd FinRL
     pip install -r requirements.txt
 
-ElegantRL does not contain a requirements.txt, so open ElegantRL/setup.py in a text editor and pip install anything you can find under install_requires: gym, matplotlib, numpy, pybullet, torch, opencv-python, box2d-py
+Install ElegantRL using requirements.txt, or open ElegantRL/setup.py in a text editor and pip install anything you can find under install_requires: gym, matplotlib, numpy, pybullet, torch, opencv-python, box2d-py
 
 
 Step 4: Configure a PyCharm Project
