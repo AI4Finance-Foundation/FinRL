@@ -46,7 +46,7 @@ Step 3: Create a Conda Environment
     cd FinRL
     pip install -r requirements.txt
 
-Install ElegantRL using requirements.txt, or open ElegantRL/setup.py in a text editor and pip install anything you can find under install_requires: gym, matplotlib, numpy, pybullet, torch, opencv-python, box2d-py
+Install ElegantRL using requirements.txt, or open ElegantRL/setup.py in a text editor and pip install anything you can find: gym, matplotlib, numpy, pybullet, torch, opencv-python, and box2d-py.
 
 
 Step 4: Configure a PyCharm Project
