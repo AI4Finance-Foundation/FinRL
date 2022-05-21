@@ -84,9 +84,9 @@ where branch_xxx is a new branch name. In this branch, we revised config.py.
 Step 5: Creating Commits and PRs/MRs
 =======
 
--Create your commits as you usually do through PyCharm.
+-Create commits as you usually do through PyCharm.
 
--Make sure each commit covers only 1 of the 3 repo's. Don't create a commit that spans more than two repos, e.g., FinRL and ElegantRL.
+-Make sure that each commit covers only 1 of the 3 repo's. Don't create a commit that spans more than one repos, e.g., FinRL and ElegantRL.
 
 .. image:: ../image/pycharm_push_PR.png
 
