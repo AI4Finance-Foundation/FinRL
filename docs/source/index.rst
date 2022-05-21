@@ -57,16 +57,23 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    start/quick_start
 
 
+.. toctree:: 
+   :maxdepth: 1
+   :caption: FinRL-Meta
+
+   finrl_meta/overview
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Tutorials
 
    tutorial/Guide
-   tutorial/Introduction
-   tutorial/Advance
-   tutorial/Practical
-   tutorial/Optimization
-   tutorial/Others
+   tutorial/1-Introduction
+   tutorial/2-Advance
+   tutorial/3-Practical
+   tutorial/4-Optimization
+   tutorial/5-Others
    
    
 .. toctree::
