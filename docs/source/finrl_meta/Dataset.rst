@@ -9,6 +9,11 @@ Data layer
 
 In the data layer, we used a unified data processor to access data, clean data, and extract features.
 
+.. image:: ../image/finrl-meta_data_layer.png
+    :width: 60%
+    :align: center
+
+
 Data Accessing
 --------------
 
