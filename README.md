@@ -145,40 +145,40 @@ OHLCV: open, high, low, and close prices; volume. adjusted_close: adjusted close
 
 Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'. Users also can add new features. 
 
-<!-- |Data Source |Type |Max Frequency |Raw Data|Preprocessed Data|
+|Data Source |Type |Max Frequency |Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |
 |    Alpaca |  US Stocks, ETFs |  1 min |  OHLCV |  Prices, indicators |
 |    Baostock |  CN Securities |  5 min |  OHLCV |  Prices, indicators |
 |    Binance |  Cryptocurrency |  1 s |  OHLCV |  Prices, indicators |
-    CCXT &  Cryptocurrency &  1 min  &  OHLCV &  Prices, indicators \\
-    IEXCloud &  NMS US securities & 1 day  & OHLCV &  Prices, indicators \\
-    JoinQuant &  CN Securities &  1 min  &  OHLCV &  Prices, indicators \\
-    QuantConnect &  US Securities &  1 s &  OHLCV &  Prices, indicators \\
-    RiceQuant &  CN Securities &  1 ms  &  OHLCV &  Prices, indicators \\
-    Tushare &  CN Securities & 1 min  &  OHLCV &  Prices, indicators \\
-    WRDS &  US Securities &  1 ms  &  Intraday Trades & Prices, indicators \\
-    YahooFinance &  US Securities & 1 min  &  OHLCV  &  Prices, indicators \\
-    AkShare &  CN Securities & 1 day  &  OHLCV &  Prices, indicators \\
-    findatapy &  CN Securities & 1 day  &  OHLCV &  Prices, indicators \\
-    pandas\_datareader &  US Securities &  1 day &  OHLCV & Prices, indicators \\
-    pandas-finance &  US Securities &  1 day  &  OHLCV  & Prices, indicators \\
-    ystockquote &  US Securities &  1 day  &  OHLCV & Prices, indicators \\
-    Marketstack & 50+ countries &  1 day  &  OHLCV & Prices, indicators \\
-    finnhub & US Stocks, currencies, crypto &   1 day &  OHLCV  & Prices, indicators \\
-    Financial Modeling prep & US stocks, currencies, crypto &  1 min &  OHLCV  & Prices, indicators \\
-    EOD Historical Data &  US stocks, and ETFs &  1 day  &  OHLCV  & Prices, indicators \\
-    Alpha Vantage & Stock, ETF, forex, crypto, technical indicators &  1 min &  OHLCV  & Prices, indicators \\
-    Tiingo & Stocks, crypto &  1 day  &  OHLCV  & Prices, indicators \\
-    Quandl & 250+ sources &  1 day  &  OHLCV  & Prices, indicators \\
-    Polygon &  US Securities &  1 day  &  OHLCV  & Prices, indicators \\
-    fixer &  Exchange rate &  1 day &  Exchange rate & Exchange rate, indicators \\
-    Exchangerates &  Exchange rate &  1 day  &  Exchange rate & Exchange rate, indicators \\
-    Fixer &  Exchange rate &  1 day  &  Exchange rate & Exchange rate, indicators \\
-    currencylayer &  Exchange rate & 1 day  &  Exchange rate & Exchange rate, indicators \\
-    currencyapi &  Exchange rate & 1 day &  Exchange rate & Exchange rate, indicators \\
-    Open Exchange Rates &  Exchange rate &  1 day  &  Exchange rate & Exchange rate, indicators \\
-    XE &  Exchange rate &  1 day  &  Exchange rate & Exchange rate, indicators \\
-    Xignite &  Exchange rate &  1 day  &  Exchange rate & Exchange rate, indicators \\ -->
+|    CCXT |  Cryptocurrency |  1 min  |  OHLCV |  Prices, indicators |
+|    IEXCloud |  NMS US securities | 1 day  | OHLCV |  Prices, indicators |
+|    JoinQuant |  CN Securities |  1 min  |  OHLCV |  Prices, indicators |
+|    QuantConnect |  US Securities |  1 s |  OHLCV |  Prices, indicators |
+|    RiceQuant |  CN Securities |  1 ms  |  OHLCV |  Prices, indicators |
+|    Tushare |  CN Securities | 1 min  |  OHLCV |  Prices, indicators |
+|    WRDS |  US Securities |  1 ms  |  Intraday Trades | Prices, indicators |
+|    YahooFinance |  US Securities | 1 min  |  OHLCV  |  Prices, indicators |
+|    AkShare |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
+|    findatapy |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
+|    pandas\_datareader |  US Securities |  1 day |  OHLCV | Prices, indicators |
+|    pandas-finance |  US Securities |  1 day  |  OHLCV  & Prices, indicators |
+|    ystockquote |  US Securities |  1 day  |  OHLCV | Prices, indicators |
+|    Marketstack | 50+ countries |  1 day  |  OHLCV | Prices, indicators |
+|    finnhub | US Stocks, currencies, crypto |   1 day |  OHLCV  | Prices, indicators |
+|    Financial Modeling prep | US stocks, currencies, crypto |  1 min |  OHLCV  | Prices, indicators |
+|    EOD Historical Data | US stocks, and ETFs |  1 day  |  OHLCV  | Prices, indicators |
+|    Alpha Vantage | Stock, ETF, forex, crypto, technical indicators | 1 min |  OHLCV  & Prices, indicators |
+|    Tiingo | Stocks, crypto |  1 day  |  OHLCV  | Prices, indicators |
+|    Quandl | 250+ sources |  1 day  |  OHLCV  | Prices, indicators |
+|    Polygon |  US Securities |  1 day  |  OHLCV  | Prices, indicators |
+|    fixer |  Exchange rate |  1 day |  Exchange rate | Exchange rate, indicators |
+|    Exchangerates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    Fixer |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    currencylayer |  Exchange rate | 1 day  |  Exchange rate | Exchange rate, indicators |
+|    currencyapi |  Exchange rate | 1 day |  Exchange rate | Exchange rate, indicators |
+|    Open Exchange Rates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    XE |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 
 
 ## Installation
