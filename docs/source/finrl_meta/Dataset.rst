@@ -14,10 +14,10 @@ In the data layer, we used a unified data processor to access data, clean data, 
     :align: center
 
 
-Data Accessing
+Data accessing
 --------------
 
-We connect data APIs of different platforms and unify them in the FinRL-­Meta data processor. Users can access data from various sources given the start date, end date, stock list, time frequency, and so on.
+We connect data APIs of different platforms and unify them in a FinRL-Meta data processor. Users can access data from various sources given the start date, end date, stock list, time frequency, and so on.
 
 Data Cleaning
 --------------
