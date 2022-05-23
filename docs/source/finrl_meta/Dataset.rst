@@ -4,7 +4,7 @@
 Dataset
 =============================
 
-Data layer
+Data Layer
 ==========
 
 In the data layer, we used a unified data processor to access data, clean data, and extract features.
@@ -14,7 +14,7 @@ In the data layer, we used a unified data processor to access data, clean data, 
     :align: center
 
 
-Data accessing
+Data Accessing
 --------------
 
 We connect data APIs of different platforms and unify them in a FinRL-Meta data processor. Users can access data from various sources given the start date, end date, stock list, time frequency, and so on.
@@ -22,7 +22,7 @@ We connect data APIs of different platforms and unify them in a FinRL-Meta data 
 Data Cleaning
 --------------
 
-Raw data retrieved from different data sources are usually of various formats and have erroneous or NaN data (missing data) to different extents, making data cleaning highly time-consuming. In the FinRL-­Meta data processor, we automate the data cleaning process.
+Raw data retrieved from different data sources are usually of various formats and have erroneous or NaN data (missing data) to different extents, making data cleaning highly time-consuming. In the FinRL-Meta data processor, we automate the data cleaning process.
 
 Feature Engineering
 -------------------
