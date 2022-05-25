@@ -103,7 +103,7 @@ Since we are still actively updating the FinRL repository, please install the un
 Step 4: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
-Download the FinRL repository using terminal:
+Download the FinRL repository in terminal:
 
 .. code-block:: bash
 
@@ -190,7 +190,7 @@ Since we are still actively updating the FinRL repository, please install the un
 Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
-Download the FinRL repository using terminal:
+Download the FinRL repository in terminal:
 
 .. code-block:: bash
 
