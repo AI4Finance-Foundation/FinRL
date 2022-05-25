@@ -18,4 +18,4 @@ In academia, scholors use financial big data to explore more complex and precise
 Dataset & Benchmark
 ====================
 
-With increasing intesests and demand, FinRL-Meta provides datasets and benchmarks for financial reinforcement learning. 
+With increasing intesests and demand, FinRL-Meta provides a lot of datasets and benchmarks for financial reinforcement learning. 
