@@ -1,8 +1,6 @@
 ## Reference
 Papers by the Columbia research team can be found at [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ).
 
-Papers by the AI4Finance community are listed as follows:
-
 |Title |Conference |Link|Citations|Year|
 |  ----  |  ----  |  ----  |  ----  |  ----  |  
 |**FinRL-Meta**: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance| NeurIPS 2021 Data-Centric AI Workshop| [paper](https://arxiv.org/abs/2112.06753) ;<br />[code](https://github.com/AI4Finance-Foundation/FinRL-Meta)| 2| 2021| 
