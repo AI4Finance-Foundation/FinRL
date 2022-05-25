@@ -13,7 +13,7 @@ FAQ
 Description
 ==================
 
-This document contains the most frequently asked questions related to the FinRL Library, based on questions posted on the slack channels and Github_ issues.
+This document contains the most frequently asked questions related to the FinRL Library, which are based on questions posted on the slack channels and Github_ issues.
 
 .. _Github: https://github.com/AI4Finance-Foundation/FinRL
 
