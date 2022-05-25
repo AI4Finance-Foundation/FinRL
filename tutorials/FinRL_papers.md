@@ -1,5 +1,5 @@
 ## FinRL Ecosystem: papers 
-# Papers by the Columbia research team can be found at [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ).
+Papers by the Columbia research team can be found at [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ).
 ## Papers by the AI4Finance community are listed as follows:
 
 |Title |Conference |Link|Citations|Year|
