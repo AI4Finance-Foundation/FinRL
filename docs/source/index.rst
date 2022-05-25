@@ -90,8 +90,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 1
    :caption: Scholarly Background
 
-   scholarly_background/finrl_ecosystem_papers
-   scholarly_background/awesome_ai4finance
+   scholarly_background/reference.md
 
 
 .. toctree::
