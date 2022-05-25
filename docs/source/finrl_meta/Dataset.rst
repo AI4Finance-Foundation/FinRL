@@ -17,7 +17,7 @@ In the data layer, we used a unified data processor to access data, clean data, 
 Data Accessing
 --------------
 
-We connect data APIs of different platforms and unify them using a FinRL-Meta data processor. Users can access data from various sources given the start date, end date, stock list, time frequency, and so on.
+We connect data APIs of different platforms and unify them using a FinRL-Meta data processor. Users can access data from various sources given the start date, end date, stock list, time interval, and so on.
 
 Data Cleaning
 --------------
