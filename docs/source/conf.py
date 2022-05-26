@@ -49,7 +49,7 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx.ext.autosectionlabel",
     'recommonmark',   # for including markdown
-    'sphinx_markdown_tables'  # Support rendering tables in markdown
+#     'sphinx_markdown_tables'  # Support rendering tables in markdown
 ]
 
 autodoc_mock_imports = [
