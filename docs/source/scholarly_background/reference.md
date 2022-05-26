@@ -1,4 +1,4 @@
-## Reference
+# Reference
 Papers by the Columbia research team can be found at [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ).
 
 |Title |Conference |Link|Citations|Year|
@@ -15,8 +15,7 @@ Papers by the Columbia research team can be found at [Google Scholar](https://sc
 
 The following contents are resources collected and referred by AI4Finance community during the development of FinRL and related projects. Some are educational and relatively easy while some are professional and need advanced knowledge. We appreciate and respect the effort of all these contents' authors and developers.
 
-Proof-of-concept
------------------
+## Proof-of-concept
 
 [1] [FinRL: Deep Reinforcement Learning Framework to Automate Trading in Quantitative Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949) Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021. 
 
@@ -28,8 +27,7 @@ Proof-of-concept
 
 [5] [A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem](https://arxiv.org/abs/1706.10059). Jiang, Zhengyao, Dixing Xu, and Jinjun Liang. arXiv preprint arXiv:1706.10059 (2017).
 
-Algorithmic Resources
-----------------------------------
+## Algorithmic Resources
 
 [1] [Documentation of ElegentRL](https://elegantrl.readthedocs.io) by AI4Finance Foundation.
 
@@ -43,8 +41,7 @@ Algorithmic Resources
 
 [3] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
 
-Strategies
------------------
+## Strategies
 
 [1] [Deep reinforcement learning for automated stock trading: an ensemble strategy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996). ACM International Conference on AI in Finance, 2020.
 
@@ -64,8 +61,7 @@ Strategies
 
 [9] [Deep Hedging: Hedging Derivatives Under Generic Market Frictions Using Reinforcement Learning](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3355706) Buehler, Hans, Lukas Gonon, Josef Teichmann, Ben Wood, Baranidharan Mohan, and Jonathan Kochems. Swiss Finance Institute Research Paper 19-80 (2019).
 
-Financial Big Data
-------------------
+## Financial Big Data
 
 [1] [FinRL-Meta](https://arxiv.org/abs/2112.06753): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance. NeurIPS 2021 Data-Centric AI Workshop
 
@@ -73,8 +69,7 @@ Financial Big Data
 
 [1] [Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;). Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021. 
 
-Tools or Softwares
-------------------
+## Tools or Softwares
 
 [1] [FinRL](https://github.com/AI4Finance-Foundation/FinRL) by AI4Finance Foundation.
 
@@ -84,8 +79,7 @@ Tools or Softwares
 
 [4] [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3): Reliable Reinforcement Learning Implementations.
 
-Survey 
------------------
+## Survey
 
 [1] [Recent Advances in Reinforcement Learning in Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3971071). Hambly, B., Xu, R. and Yang, H., 2021.
 
@@ -97,8 +91,7 @@ Survey
 
 [5] [Comprehensive Review of Deep Reinforcement Learning Methods and Applications in Economics](https://www.mdpi.com/2227-7390/8/10/1640) Mosavi, Amirhosein, Yaser Faghan, Pedram Ghamisi, Puhong Duan, Sina Faizollahzadeh Ardabili, Ely Salwana, and Shahab S. Band. Mathematics 8, no. 10 (2020): 1640.
 
-Education
------------------
+## Education
 
 [1] [Coursera Overview of Advanced Methods of Reinforcement Learning in Finance](https://www.coursera.org/learn/advanced-methods-reinforcement-learning-finance). By Igor Halperin, at NYU.
 
