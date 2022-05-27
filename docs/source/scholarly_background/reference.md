@@ -30,7 +30,7 @@ The following contents are resources collected and referred by AI4Finance commun
 
 [5] [A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem](https://arxiv.org/abs/1706.10059). Jiang, Zhengyao, Dixing Xu, and Jinjun Liang. arXiv preprint arXiv:1706.10059 (2017).
 
-## Algorithmic Resources
+## DRL Algorithmic Resources
 
 [1] [Documentation of ElegentRL](https://elegantrl.readthedocs.io) by AI4Finance Foundation.
 
