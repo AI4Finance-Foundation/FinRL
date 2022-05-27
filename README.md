@@ -127,7 +127,7 @@ FinRL
 
 ## Supported Data Sources 
 
-<!-- |Data Source |Type |Range and Frequency |Request Limits|Raw Data|Preprocessed Data|
+|Data Source |Type |Range and Frequency |Request Limits|Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |
 |[Alpaca](https://alpaca.markets/docs/introduction/)| US Stocks, ETFs| 2015-now, 1min| Account-specific| OHLCV| Prices&Indicators|
 |[Baostock](http://baostock.com/baostock/index.php/Python_API%E6%96%87%E6%A1%A3)| CN Securities| 1990-12-19-now, 5min| Account-specific| OHLCV| Prices&Indicators|
@@ -139,10 +139,10 @@ FinRL
 |[RiceQuant](https://www.ricequant.com/doc/rqdata/python/)| CN Securities| 2005-now, 1ms| Account-specific| OHLCV| Prices&Indicators|
 |[Tushare](https://tushare.pro/document/1?doc_id=131)| CN Securities, A share| -now, 1 min| Account-specific| OHLCV| Prices&Indicators|
 |[WRDS](https://wrds-www.wharton.upenn.edu/pages/about/data-vendors/nyse-trade-and-quote-taq/)| US Securities| 2003-now, 1ms| 5 requests each time| Intraday Trades|Prices&Indicators|
-|[YahooFinance](https://pypi.org/project/yfinance/)| US Securities| Frequency-specific, 1min| 2,000/hour| OHLCV | Prices&Indicators| -->
+|[YahooFinance](https://pypi.org/project/yfinance/)| US Securities| Frequency-specific, 1min| 2,000/hour| OHLCV | Prices&Indicators|
 
 
-|Data Source |Type |Max Frequency |Raw Data|Preprocessed Data|
+<!-- |Data Source |Type |Max Frequency |Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |
 |    Alpaca |  US Stocks, ETFs |  1 min |  OHLCV |  Prices, indicators |
 |    Baostock |  CN Securities |  5 min |  OHLCV |  Prices, indicators |
@@ -175,7 +175,7 @@ FinRL
 |    currencyapi |  Exchange rate | 1 day |  Exchange rate | Exchange rate, indicators |
 |    Open Exchange Rates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 |    XE |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
-|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators | -->
 
 OHLCV: open, high, low, and close prices; volume. adjusted_close: adjusted close price
 
