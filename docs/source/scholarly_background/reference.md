@@ -44,7 +44,7 @@ The following contents are resources collected and referred by AI4Finance commun
 
 [3] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
 
-## Strategies
+## Trading Strategies
 
 [1] [Deep reinforcement learning for automated stock trading: an ensemble strategy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996). ACM International Conference on AI in Finance, 2020.
 
