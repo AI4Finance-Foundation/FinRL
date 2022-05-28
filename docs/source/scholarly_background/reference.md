@@ -36,7 +36,7 @@ The following contents are resources collected and referred by AI4Finance commun
 
 [2] [Spinning Up in Deep RL](https://spinningup.openai.com/) by OpenAI. 
 
-## Theoretical Resources
+## Theory
 
 [1] [Deep Reinforcement Learning: An Overview](https://arxiv.org/abs/1701.07274) Li, Yuxi. arXiv preprint arXiv:1701.07274 (2017).
 
