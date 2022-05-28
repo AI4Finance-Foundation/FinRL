@@ -134,7 +134,7 @@ Step2: install dependencies
     cd FinRL
     pip install .
 
-Step3:  test (If using Yahoo datasource in China, VPN is needed)
+Step3:  test (If using YahooFinance in China, VPN is needed)
 -------------------------------------------------------------------------------------
 .. code-block:: bash
 
@@ -148,7 +148,7 @@ If the following outputs appear, take it easy, since installation is still succe
 1. UserWarning: Module "zipline.assets" not found; multipliers will not be applied to position notionals. Module "zipline.assets" not found; multipliers will not be applied'
 
 
-If following outputs appear, please ensure that VPN helps to access the Yahooo
+If following outputs appear, please ensure that VPN helps to access the YahooFinance
 
 1. Failed download: xxxx: No data found for this date range, the stock may be delisted, or the value is missing.
 
