@@ -88,9 +88,10 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
 
 .. toctree::
    :maxdepth: 1
-   :caption: Scholarly Background
+   :caption: Reference
 
-   scholarly_background/reference.md
+   reference/publication.md
+   reference/reference.md
 
 
 .. toctree::
