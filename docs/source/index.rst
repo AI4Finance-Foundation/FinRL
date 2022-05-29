@@ -90,7 +90,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 1
    :caption: Reference
 
-   reference/publication.md
+   reference/publication
    reference/reference.md
 
 
