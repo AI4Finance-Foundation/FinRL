@@ -30,17 +30,17 @@ Papers by the Columbia research team can be found at `Google Scholar <https://sc
    * - **FinRL**: Deep reinforcement learning framework to automate trading in quantitative finance
      - ICAIF 2021: ACM International Conference on AI in Finance
      - `paper <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949>`_, `code <https://github.com/AI4Finance-Foundation/FinRL>`_
-     - 4
+     - 7
      - 2021
    * - **FinRL**: A deep reinforcement learning library for automated stock trading in quantitative finance
      - NeurIPS 2020 Deep RL Workshop
      - `paper <https://arxiv.org/abs/2011.09607>`_, `code <https://github.com/AI4Finance-Foundation/FinRL>`_
-     - 20
+     - 25
      - 2020
    * - Deep reinforcement learning for automated stock trading: An ensemble strategy
      - ICAIF 2020: ACM International Conference on AI in Finance
      - `paper <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996>`_, `code <https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020>`_
-     - 37
+     - 44
      - 2020
    * - Multi-agent reinforcement learning for liquidation strategy analysis
      - ICML 2019 Workshop on AI in Finance: Applications and Infrastructure for Multi-Agent Learning
@@ -50,5 +50,5 @@ Papers by the Columbia research team can be found at `Google Scholar <https://sc
    * - Practical deep reinforcement learning approach for stock trading
      - NeurIPS 2018 Workshop on Challenges and Opportunities for AI in Financial Services
      - `paper <https://arxiv.org/abs/1811.07522>`_, `code <https://github.com/AI4Finance-Foundation/DQN-DDPG_Stock_Trading>`_
-     - 81
+     - 86
      - 2018
