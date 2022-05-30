@@ -33,6 +33,3 @@ Feature Engineering
 
 Feature Engineering is the last part of the data layer. We automate the calculation of technical indicators by connecting the Stockstats or TAlib library with our data processor. Users can quickly add indicators using libraries or add user-defined features. Users can add their features by two ways: 1) Write user-defined feature extraction functions directly. The returned features will be added to a feature array. 2) Store the features in a file, and move it to a specified folder. Then, these features will be obtained by reading from the specified file.
 
-Environment Layer
-=================
-

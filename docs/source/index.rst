@@ -62,7 +62,8 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :caption: FinRL-Meta
 
    finrl_meta/overview
-   finrl_meta/Dataset
+   finrl_meta/Data_layer
+   finrl_meta/Environment_layer
    finrl_meta/Benchmark
 
 

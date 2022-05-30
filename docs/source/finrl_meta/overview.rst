@@ -18,8 +18,21 @@ In academia, scholors use financial big data to explore more complex and precise
 Dataset & Benchmark
 ====================
 
+.. image:: ../image/finrl-meta_overview.png
+    :width: 80%
+    :align: center
+
 With increasing intesests and demand, FinRL-Meta provides multiple datasets and benchmarks for financial reinforcement learning.
 
 For datasets, FinRL-Meta has standardized flow of data extraction and cleaning for more than 30 different data sources. The purpose of providing the data pulling tool instead of a fixed dataset is better corresponding to the fast updating property of financial market. The dynamic construction can help users grip data according to their own requirement.
 
 FinRL-Meta benchmarks works in famous papers and projects, covering stock trading, cyptocurrency trading, portfolio allocation, hyper-parameter tuning, etc. Along with that, there are Jupyter/Python demos that help users to design new strategies.
+
+
+DataOps
+=======
+DataOps is a series of principles and practices to improve the quality and reduce the cycle time of data science. It inherits the ideas of Agile development, DevOps, and lean manufacturing and applies them to the data science and machine learning field. FinRL-Meta follows the DataOps paradigm.
+
+.. image:: ../image/finrl_meta_dataops.png
+    :width: 80%
+    :align: center
