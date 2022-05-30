@@ -11,7 +11,8 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
 
 Mission: provide user-friendly demos in notebooks. 
 
-## File Structure
+File Structure
+=======
 
 1-Introduction: basic demos for beginners.
 
