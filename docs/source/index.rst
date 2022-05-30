@@ -61,6 +61,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :maxdepth: 1
    :caption: FinRL-Meta
 
+   finrl_meta/background
    finrl_meta/overview
    finrl_meta/Data_layer
    finrl_meta/Environment_layer
