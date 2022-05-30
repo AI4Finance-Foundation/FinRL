@@ -4,35 +4,35 @@
 Overview
 =============================
 
+Following the *de facto* standard of OpenAI Gym, we build a universe of market environments for data-driven financial reinforcement learning, namely, FinRL-Meta. We keep the following design principles when building the FinRL-Meta library
 
-Financial Big Data
-===================
+1. Supported trading tasks:
+===========================
+We have supported and achieved satisfactory trading performance for trading tasks such as stock trading, cryptocurrency trading, and portfolio allocation. Derivatives such as futures and forex are also supported. Besides, we have supported multi-agent simulation and execution optimizing tasks by reproducing the experiment in other published papers.
 
-Stepping into the era of internet, the speed of information exchange has an exponential increment. Along with that, the amount of data also explodes into an incredible number, which generates the new concept "big data".
-
-As its data refreshing minute-to-second, finance is one of the most typical domains that big data imbeded in. Financial big data, as a new popular field, gets more and more attention by economists, data scientists, and computer scientists.
-
-In academia, scholors use financial big data to explore more complex and precise understanding of market and economics. While industries use financial big data to refine their analytical strategies and strengthen their prediction models. Realizing the potential of this solid background, AI4Finance community started FinRL-Meta to serve for various needs by researchers and industries.
-
-
-Dataset & Benchmark
-====================
-
-.. image:: ../image/finrl-meta_overview.png
+2. Training-testing-trading pipeline:
+=====================================
+.. image:: ../image/timeline.png
     :width: 80%
     :align: center
 
-With increasing intesests and demand, FinRL-Meta provides multiple datasets and benchmarks for financial reinforcement learning.
+We employ a training-testing-trading pipeline. The DRL agent first learns from the training environment and is then validated in the validation environment for further adjustment. Then the validated agent is tested on historical datasets. Finally, the tested agent will be deployed in paper trading or live trading markets. First, this pipeline solves the information leakage problem because the trading data are generated yet when adjusting agents. Second, a unified pipeline allows fair comparisons among different trading strategies.
 
-For datasets, FinRL-Meta has standardized flow of data extraction and cleaning for more than 30 different data sources. The purpose of providing the data pulling tool instead of a fixed dataset is better corresponding to the fast updating property of financial market. The dynamic construction can help users grip data according to their own requirement.
-
-FinRL-Meta benchmarks works in famous papers and projects, covering stock trading, cyptocurrency trading, portfolio allocation, hyper-parameter tuning, etc. Along with that, there are Jupyter/Python demos that help users to design new strategies.
-
-
-DataOps
-=======
-DataOps is a series of principles and practices to improve the quality and reduce the cycle time of data science. It inherits the ideas of Agile development, DevOps, and lean manufacturing and applies them to the data science and machine learning field. FinRL-Meta follows the DataOps paradigm.
+3. DataOps for data-driven financial reinforcement leanring
+===========================================================
 
 .. image:: ../image/finrl_meta_dataops.png
     :width: 80%
     :align: center
+
+We follow the DataOps paradigm in the data layer, as shown in the figure above. First, we establish a standard pipeline for financial data engineering, ensuring data of different formats from different sources can be incorporated in a unified RL framework. Second, we automate this pipeline with a data processor, which can access data, clean data and extract features from various data sources with high quality and efficiency. Our data layer provides agility to model deployment. 
+
+4. Layered structure and extensibility
+======================================
+
+We adopt a layered structure for RL in finance, which consists of three layers: data layer, environment layer, and agent layer. Each layer executes its functions and is relatively independent. Meanwhile, layers interact through end-to-end interfaces to implement the complete workflow of algorithm trading, achieving high extensibility. For updates and substitutes inside the layer, this structure minimizes the impact on the whole system. Moreover, user-defined functions are easy to extend, and algorithms can be updated fast to keep high performance. 
+
+5. Plug-and-play
+================
+
+In the development pipeline, we separate market environments from the data layer and the agent layer. Any DRL agent can be directly plugged into our environments, then trained and tested. Different agents can run on the same benchmark environment for fair comparison.
