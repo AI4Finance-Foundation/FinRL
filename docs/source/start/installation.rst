@@ -32,7 +32,7 @@ It means that you still use the default python path, you either fix it and pin i
 Step 2: Install `Homebrew <https://brew.sh/>`_
 ---------------------------------------------------------------------
 
--Open a terminal and make sure that you have Anaconda.
+-Open a terminal and make sure that you have installed Anaconda.
 
 -Install Homebrew:
 
