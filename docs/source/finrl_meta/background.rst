@@ -19,7 +19,6 @@ Dataset & Benchmark
 ====================
 
 .. image:: ../image/finrl-meta_overview.png
-    :width: 80%
     :align: center
 
 With increasing intesests and demand, FinRL-Meta provides multiple datasets and benchmarks for financial reinforcement learning.
