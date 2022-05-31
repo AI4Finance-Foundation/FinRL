@@ -12,7 +12,7 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
 Mission: provide user-friendly demos in notebook or python. 
 
 
-File Structure
+Outline
 
 1-Introduction: basic demos for beginners.
 
