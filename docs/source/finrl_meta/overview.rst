@@ -32,6 +32,10 @@ We follow the DataOps paradigm in the data layer, as shown in the figure above. 
 
 We adopt a layered structure for RL in finance, which consists of three layers: data layer, environment layer, and agent layer. Each layer executes its functions and is relatively independent. Meanwhile, layers interact through end-to-end interfaces to implement the complete workflow of algorithm trading, achieving high extensibility. For updates and substitutes inside the layer, this structure minimizes the impact on the whole system. Moreover, user-defined functions are easy to extend, and algorithms can be updated fast to keep high performance. 
 
+.. image:: ../image/FinRL-Meta-Data-layer.png
+    :width: 80%
+    :align: center
+
 5. Plug-and-play
 ================
 
