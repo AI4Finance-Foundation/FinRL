@@ -62,7 +62,7 @@ The following contents are resources collected and referred by AI4Finance commun
 
 [2] [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta): A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance, by AI4Finance Foundation.
 
-[3] [ElegantRL] (https://github.com/AI4Finance-Foundation/ElegantRL) a DRL library developed by AI4Finance Foundation.
+[3] [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL): a DRL library developed by AI4Finance Foundation.
 
 [4] [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3): Reliable Reinforcement Learning Implementations.
 
