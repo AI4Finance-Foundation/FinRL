@@ -1,6 +1,6 @@
 # External Sources
 
-The following contents are collected and referred by AI4Finance community during the development of FinRL and related projects. Some of them are educational and relatively easy while some are professional and need advanced knowledge. We appreciate and respect the effort of all these contents' authors and developers.
+The following contents are collected and referred by AI4Finance community during the development of FinRL and related projects. Some of them are educational and relatively easy while some others are professional and need advanced knowledge. We appreciate and respect the effort of all these contents' authors and developers.
 
 ## Proof-of-concept
 
