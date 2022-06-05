@@ -276,7 +276,7 @@ We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), che
 
 ## Join and Contribute
 
-Welcome to the **AI4Finance Foundation** community!
+Welcome to **AI4Finance** community!
 
 Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
 
@@ -304,7 +304,7 @@ Thanks!
 
 ### Sponsorship
 
-Welcome gift money to support AI4Finance, a non-profit academic community. Use the links in the right, or scan the following vemo QR code:
+Welcome gift money to support AI4Finance, a non-profit community. Use the links in the right, or scan the following vemo QR code:
 
 Detailed sponsorship records can be found at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
 
