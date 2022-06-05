@@ -74,9 +74,9 @@ A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the
 
 ## File Structure
 
-Correspondingly, the main folder **finrl** has three subfolders **applications, agents, finrl_meta**. 
+The main folder **finrl** has three subfolders **applications, agents, finrl_meta**. 
 
-We employ a **train-test-trade** pipeline by three files: train.py, test.py, and trade.py.
+We employ a **train-test-trade** pipeline with three files: train.py, test.py, and trade.py.
 
 ```
 FinRL
@@ -193,7 +193,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 
 ## Contributions
 
-- FinRL is the first open-source framework to demonstrate the great potential of applying DRL algorithms in quantitative finance. We build an ecosystem around the FinRL framework, which seeds the rapidly growing AI4Finance community. 
+- FinRL is the first open-source framework to demonstrate the great potential of applying DRL algorithms in quantitative finance. We build an ecosystem around the FinRL framework. 
 - The application layer provides interfaces for users to customize FinRL to their own trading tasks. Automated backtesting tool and performance metrics are provided to help quantitative traders iterate trading strategies at a high turnover rate. Profitable trading strategies are reproducible and hands-on tutorials are provided in a beginner-friendly fashion. Adjusting the trained models to the rapidly changing markets is also possible. 
 - The agent layer provides state-of-the-art DRL algorithms that are adapted to finance with fine-tuned hyperparameters. Users can add new DRL algorithms. 
 - The environment layer includes not only a collection of historical data APIs, but also live trading APIs. They are reconfigured into standard OpenAI gym-style environments. Moreover, it incorporates market frictions and allows users to customize the trading time granularity. 
@@ -278,7 +278,7 @@ We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), che
 
 Welcome to **AI4Finance** community!
 
-Join to discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
+Discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
 
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
@@ -306,7 +306,7 @@ Thanks!
 
 Welcome gift money to support AI4Finance, a non-profit community. Use the links in the right, or scan the following vemo QR code:
 
-Detailed sponsorship records can be found at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
+Detailed sponsorship records at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
 
 <a target="\_blank">
 	<div align="center">
