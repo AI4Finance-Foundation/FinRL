@@ -116,9 +116,9 @@ Outline
 
     *1. Check if it is not already answered on this FAQ 2. Check if it is posted on the GitHub repo* `issues <https://github.com/AI4Finance-LLC/FinRL-Library/issues>`_. If not, welcome to submit an issue on GitHub 3. Use the correct channel on the AI4Finance slack or Wechat group.*
 
-   - :raw-html: `<font color="#A52A2A">Does anyone know if there is a trading environment for a single stock? There is one in the docs, but the collab link seems to be broken. ? </font>`
+    - :raw-html: `<font color="#A52A2A">Does anyone know if there is a trading environment for a single stock? There is one in the docs, but the collab link seems to be broken. </font>`
 
-      * We did not update the single stock for long time. The performance for single stock is not very good, since the state space is too small so that the agent extract little information from the environment. Please use the multi stock environment, and after training only use the single stock to trade.*
+        *We did not update the single stock for long time. The performance for single stock is not very good, since the state space is too small so that the agent extract little information from the environment. Please use the multi stock environment, and after training only use the single stock to trade.*
 
 
 .. _Section-3:
