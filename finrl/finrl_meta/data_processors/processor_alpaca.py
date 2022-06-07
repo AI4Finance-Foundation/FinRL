@@ -49,7 +49,7 @@ class AlpacaProcessor:
             if date.isoformat()[-14:-6] != "00:00:00":
                 raise ValueError("Timezone Error")
 
-        data_df['time'] = data_df['timestamp'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
+        data_df['timestamp'] = data_df['timestamp'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
 
         return data_df
 
@@ -57,7 +57,7 @@ class AlpacaProcessor:
         tic_list = np.unique(df.tic.values)
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
-        #produce full time index
+        #produce full timestamp index
         times = []
         for day in trading_days:
             NY = "America/New_York"
@@ -65,7 +65,7 @@ class AlpacaProcessor:
             for i in range(390):
                 times.append(current_time)
                 current_time += pd.Timedelta(minutes=1)
-        #create a new dataframe with full time series
+        #create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
             tmp_df = pd.DataFrame(
@@ -73,13 +73,13 @@ class AlpacaProcessor:
             )
             tic_df = df[df.tic == tic]
             for i in range(tic_df.shape[0]):
-                tmp_df.loc[tic_df.iloc[i]["time"]] = tic_df.iloc[i][
+                tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
-            
+
             #if the close price of the first row is NaN
             if str(tmp_df.iloc[0]["close"]) == "nan":
-               print('The price of the first row for ticker ', tic, ' is NaN. ', 
+               print('The price of the first row for ticker ', tic, ' is NaN. ',
                      'It will filled with the first valid price.')
                for i in range(tmp_df.shape[0]):
                    if str(tmp_df.iloc[i]["close"]) != "nan":
@@ -94,7 +94,7 @@ class AlpacaProcessor:
             if str(tmp_df.iloc[0]["close"]) == "nan":
                 print('Missing data for ticker: ', tic, ' . The prices are all NaN. Fill with 0.')
                 tmp_df.iloc[0] = [0.0, 0.0, 0.0, 0.0, 0.0,]
-                      
+
             #forward filling row by row
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":
@@ -113,7 +113,7 @@ class AlpacaProcessor:
             new_df = new_df.append(tmp_df)
 
         new_df = new_df.reset_index()
-        new_df = new_df.rename(columns={"index": "time"})
+        new_df = new_df.rename(columns={"index": "timestamp"})
 
         print("Data clean finished!")
 
@@ -132,7 +132,7 @@ class AlpacaProcessor:
             "close_60_sma",
         ],
     ):
-        df = df.rename(columns={"time": "date"})
+        df = df.rename(columns={"timestamp": "date"})
         df = df.copy()
         df = df.sort_values(by=["tic", "date"])
         stock = Sdf.retype(df.copy())
@@ -155,19 +155,19 @@ class AlpacaProcessor:
                 indicator_df[["tic", "date", indicator]], on=["tic", "date"], how="left"
             )
         df = df.sort_values(by=["date", "tic"])
-        df = df.rename(columns={"date": "time"})
+        df = df.rename(columns={"date": "timestamp"})
         print("Succesfully add technical indicators")
         return df
 
     def add_vix(self, data):
         vix_df = self.download_data(["VIXY"], self.start, self.end, self.time_interval)
         cleaned_vix = self.clean_data(vix_df)
-        vix = cleaned_vix[["time", "close"]]
+        vix = cleaned_vix[["timestamp", "close"]]
         vix = vix.rename(columns={"close": "VIXY"})
 
         df = data.copy()
-        df = df.merge(vix, on="time")
-        df = df.sort_values(["time", "tic"]).reset_index(drop=True)
+        df = df.merge(vix, on="timestamp")
+        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
     def calculate_turbulence(self, data, time_period=252):
@@ -178,7 +178,7 @@ class AlpacaProcessor:
         df_price_pivot = df_price_pivot.pct_change()
 
         unique_date = df.date.unique()
-        # start after a fixed time period
+        # start after a fixed timestamp period
         start = time_period
         turbulence_index = [0] * start
         # turbulence_index = [0]
@@ -270,14 +270,14 @@ class AlpacaProcessor:
 
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            barset = self.api.get_bars([tic], time_interval, limit=limit).df[tic]
+            barset = self.api.get_bars([tic], time_interval, limit=limit).df#[tic]
             barset["tic"] = tic
             barset = barset.reset_index()
             data_df = data_df.append(barset)
 
         data_df = data_df.reset_index(drop=True)
-        start_time = data_df.time.min()
-        end_time = data_df.time.max()
+        start_time = data_df.timestamp.min()
+        end_time = data_df.timestamp.max()
         times = []
         current_time = start_time
         end = end_time + pd.Timedelta(minutes=1)
@@ -293,10 +293,10 @@ class AlpacaProcessor:
             )
             tic_df = df[df.tic == tic]
             for i in range(tic_df.shape[0]):
-                tmp_df.loc[tic_df.iloc[i]["time"]] = tic_df.iloc[i][
+                tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
-            
+
 
                 if str(tmp_df.iloc[0]["close"]) == "nan":
                     for i in range(tmp_df.shape[0]):
@@ -313,7 +313,7 @@ class AlpacaProcessor:
                 if str(tmp_df.iloc[0]["close"]) == "nan":
                     print('Missing data for ticker: ', tic, ' . The prices are all NaN. Fill with 0.')
                     tmp_df.iloc[0] = [0.0, 0.0, 0.0, 0.0, 0.0,]
-        
+
 
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":
@@ -332,7 +332,7 @@ class AlpacaProcessor:
             new_df = new_df.append(tmp_df)
 
         new_df = new_df.reset_index()
-        new_df = new_df.rename(columns={"index": "time"})
+        new_df = new_df.rename(columns={"index": "timestamp"})
 
         df = self.add_technical_indicator(new_df, tech_indicator_list)
         df["VIXY"] = 0
@@ -342,6 +342,6 @@ class AlpacaProcessor:
         )
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
-        turb_df = self.api.get_bars(["VIXY"], time_interval, limit=1).df["VIXY"]
+        turb_df = self.api.get_bars(["VIXY"], time_interval, limit=1).df
         latest_turb = turb_df["close"].values
         return latest_price, latest_tech, latest_turb
