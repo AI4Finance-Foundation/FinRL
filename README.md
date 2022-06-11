@@ -314,6 +314,7 @@ Detailed sponsorship records at [Issue #425](https://github.com/AI4Finance-Found
 	</div>
 </a>
 
+Network: USDT-TRC20
 
 <a target="\_blank">
 	<div align="center">
