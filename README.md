@@ -315,6 +315,16 @@ Detailed sponsorship records at [Issue #425](https://github.com/AI4Finance-Found
 </a>
 
 
+<a target="\_blank">
+	<div align="center">
+		<img src=figs/okx_donation.jpeg width="35%"/>
+	</div>
+</a>
+
+
+
+
+
 ## LICENSE
 
 MIT License
