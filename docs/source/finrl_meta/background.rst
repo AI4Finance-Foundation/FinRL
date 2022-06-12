@@ -37,5 +37,7 @@ Many implementations of DataOps have been developed in companies and organizatio
 
 However, the methodology of DataOps has not been applied to DRL researches in quantitative finance. Most researchers in financial DRL access data, clean data, and extract factors in a case-by-case manner, which involves heavy manual work and may not guarantee the data quality.
 
+We follow the DataOps paradigm in the data layer.
+
 
 
