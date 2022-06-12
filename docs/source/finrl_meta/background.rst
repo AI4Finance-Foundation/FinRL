@@ -39,5 +39,6 @@ However, the methodology of DataOps has not been applied to DRL researches in qu
 
 We follow the DataOps paradigm in the data layer.
 
+1. we establish a standard pipeline for financial data engineering in RL, ensuring data of different formats from different sources can be incorporated in a unified framework.
 
 
