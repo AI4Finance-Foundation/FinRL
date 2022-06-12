@@ -35,5 +35,7 @@ DataOps is a series of principles and practices to improve the quality and reduc
 
 Many implementations of DataOps have been developed in companies and organizations to improve the quality and efficiency of data analytics. These implementations consolidate various data sources, unify and automate the pipeline of data analytics, including data accessing, cleaning, analysis, visualization, and governance with a control system orchestrating, monitoring, and testing the data analytics pipeline. 
 
-However, the methodology of DataOps has not been applied to DRL researches in quantitative finance. 
+However, the methodology of DataOps has not been applied to DRL researches in quantitative finance. Most researchers in financial DRL access data, clean data, and extract factors in a case-by-case manner, which involves heavy manual work and may not guarantee the data quality.
+
+
 
