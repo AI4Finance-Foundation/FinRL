@@ -179,11 +179,11 @@ Outline
 	
     - :raw-html:`<font color="#A52A2A">What's the main difference between FinRL and FinRL-Meta?  </font>`
 
-	*FinRL is the project of financial RL for education and demonstration purpose, while FinRL-Meta is aim for financial big data and metaverse for data driven financial RL.*
+	*FinRL is the project of financial RL for education and demonstration purpose, while FinRL-Meta is with aim for financial big data and metaverse for data driven financial RL.*
 
 .. _Section-5:
     
 5-Common issues/bugs
 ====================================
 - Package trading_calendars reports errors in Windows system:\
-    Trading_calendars is not maintained now. It may report erros in Windows system (python>=3.7). These are two possible solutions: 1).Use python=3.6 environment. 2).Replace trading_calendars with exchange_caldenars.
+    Trading_calendars is not maintained now. It may report errors in Windows system (python>=3.7). These are two possible solutions: 1).Use python=3.6 environment. 2).Replace trading_calendars with exchange_caldenars.
