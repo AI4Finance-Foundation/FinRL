@@ -90,7 +90,7 @@ Outline
 
     - :raw-html:`<font color="#A52A2A">Are there different reward functions available? </font>`
 
-	*not yet, but we're working on providing different reward functions and an easy way to code your own reward function*
+	*not yet, but we're working on providing different reward functions and an easy way to set your own reward function*
 
     - :raw-html:`<font color="#A52A2A">Can I use a pre-trained model?  </font>`
 
