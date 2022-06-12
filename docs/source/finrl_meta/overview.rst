@@ -4,7 +4,7 @@
 Overview
 =============================
 
-Following the *de facto* standard of OpenAI Gym, we build a universe of market environments for data-driven financial reinforcement learning, namely, FinRL-Meta. We keep the following design principles when building the FinRL-Meta library
+Following the *de facto* standard of OpenAI Gym, we build a universe of market environments for data-driven financial reinforcement learning, namely, FinRL-Meta. We keep the following design principles.
 
 1. Supported trading tasks:
 ===========================
@@ -39,4 +39,4 @@ We adopt a layered structure for RL in finance, which consists of three layers: 
 5. Plug-and-play
 ================
 
-In the development pipeline, we separate market environments from the data layer and the agent layer. Any DRL agent can be directly plugged into our environments, then trained and tested. Different agents can run on the same benchmark environment for fair comparison.
+In the development pipeline, we separate market environments from the data layer and the agent layer. Any DRL agent can be directly plugged into our environments, then will be trained and tested. Different agents can run on the same benchmark environment for fair comparisons. Several popular DRL libraries are supported, including ElegantRL
