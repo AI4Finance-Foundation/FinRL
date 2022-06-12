@@ -34,3 +34,6 @@ DataOps
 DataOps is a series of principles and practices to improve the quality and reduce the cycle time of data analytics. It inherits the ideas of Agile development, DevOps, and lean manufacturing and applies them to the data analytics field. 
 
 Many implementations of DataOps have been developed in companies and organizations to improve the quality and efficiency of data analytics. These implementations consolidate various data sources, unify and automate the pipeline of data analytics, including data accessing, cleaning, analysis, visualization, and governance with a control system orchestrating, monitoring, and testing the data analytics pipeline. 
+
+However, the methodology of DataOps has not been applied to DRL researches in quantitative finance. 
+
