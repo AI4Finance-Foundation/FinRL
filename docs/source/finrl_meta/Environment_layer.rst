@@ -4,3 +4,6 @@ Environment Layer
 =================
 
 As the most popular open source library that shows how to build well designed environments for different reinforcement learning (RL) tasks, OpenAI gym is the standard of after coming libraries that building RL environments. FinRL-Meta strictly follows OpenAI gym's way to produce market environments by using the well cleaned data from data layer.
+
+Users can build their environments based on FinRL-Meta environments easily, share their results and compare the strategies' performance. We will add more environments for convenience in the future.
+
