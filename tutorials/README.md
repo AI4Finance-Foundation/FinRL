@@ -16,8 +16,9 @@
 + **FinRL_Compare_ElegantRL_RLlib_Stablebaseline3:** this notebook compare the most popular DRL libraries namely ElegantRL, RLlib and Stablebaseline in FinRL to do trading.
 + **FinRL_Ensemble_StockTrading_ICAIF_2020:** this notebook uses an ensemble strategy to combine multiple DRL agents to form an adaptive one to improve the robustness.
 
-
 ### **3-Practical**  	# notebooks for users to explore paper trading and more financial markets
++ **FinRL_PaperTrading_Demo:** 
+
 ### **4-Optimization** # notebooks for users interested in hyperparameter optimizations 
 ### **5-Others** other notebooks
 
