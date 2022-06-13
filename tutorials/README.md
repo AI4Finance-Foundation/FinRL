@@ -12,7 +12,7 @@
 + **FinRL_StockTrading_Fundamental:** the notebook to merge fundamental indicators in earnings report such as 'ROA', 'ROE', 'PE' with technical indicators to trade using FinRL.
 
 ### **2-Advance**  	# notebooks for intermediate users to learn more about FinRL
-+ **FinRL_PortfolioAllocation_Explainable_DRL:** this notebook uses an empirical approach to explain the strategies of DRL agents for the portfolio management task. 1) it uses feature weights of a trained DRL agent. 2) histogram of correlation coefficient
++ **FinRL_PortfolioAllocation_Explainable_DRL:** this notebook uses an empirical approach to explain the strategies of DRL agents for the portfolio management task. 1) it uses feature weights of a trained DRL agent, 2) histogram of correlation coefficient, 3) Z-statistics to explain the strategies.
 
 
 ### **3-Practical**  	# notebooks for users to explore paper trading and more financial markets
