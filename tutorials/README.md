@@ -12,6 +12,9 @@
 + **FinRL_StockTrading_Fundamental:** the notebook to merge fundamental indicators in earnings report such as 'ROA', 'ROE', 'PE' with technical indicators to trade using FinRL
 
 ### **2-Advance**  	# notebooks for intermediate users to learn more about FinRL
++ **FinRL_PortfolioAllocation_Explainable_DRL:** 
+
+
 ### **3-Practical**  	# notebooks for users to explore paper trading and more financial markets
 ### **4-Optimization** # notebooks for users interested in hyperparameter optimizations 
 ### **5-Others** other notebooks
