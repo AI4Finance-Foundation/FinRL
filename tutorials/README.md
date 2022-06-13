@@ -7,7 +7,9 @@
 ## File Structure
 
 ### **1-Introduction**		# notebooks for beginners, introduce FinRL step-by-step
-+ **FinRL_StockTrading_NeurIPS_2018: **
++ **FinRL_StockTrading_NeurIPS_2018:**
++ **FinRL_PortfolioAllocation_NeurIPS_2020:**
+
 ### **2-Advance**  	# notebooks for intermediate users to learn more about FinRL
 ### **3-Practical**  	# notebooks for users to explore paper trading and more financial markets
 ### **4-Optimization** # notebooks for users interested in hyperparameter optimizations 
