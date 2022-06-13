@@ -13,7 +13,7 @@
 
 ### **2-Advance**  	# notebooks for intermediate users to learn more about FinRL
 + **FinRL_PortfolioAllocation_Explainable_DRL:** this notebook uses an empirical approach to explain the strategies of DRL agents for the portfolio management task. 1) it uses feature weights of a trained DRL agent, 2) histogram of correlation coefficient, 3) Z-statistics to explain the strategies.
-+ **FinRL_Compare_ElegantRL_RLlib_Stablebaseline3:**
++ **FinRL_Compare_ElegantRL_RLlib_Stablebaseline3:** this notebook compare the most popular DRL libraries namely ElegantRL, RLlib and Stablebaseline in FinRL to do trading.
 
 ### **3-Practical**  	# notebooks for users to explore paper trading and more financial markets
 ### **4-Optimization** # notebooks for users interested in hyperparameter optimizations 
