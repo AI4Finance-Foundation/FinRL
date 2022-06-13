@@ -19,6 +19,7 @@
 ### **3-Practical**  	# notebooks for users to explore paper trading and more financial markets
 + **FinRL_PaperTrading_Demo:** the notebook to show paper trading using FinRL step-by-step through Alpaca
 + **FinRL_MultiCrypto_Trading:** example of top 10 market cap cryptocurrencies trading using FinRL.
++ **FinRL_China_A_Share_Market:**
 
 ### **4-Optimization** # notebooks for users interested in hyperparameter optimizations 
 ### **5-Others** other notebooks
