@@ -9,6 +9,8 @@
 ### **1-Introduction**		# notebooks for beginners, introduce FinRL step-by-step
 + **FinRL_StockTrading_NeurIPS_2018:**
 + **FinRL_PortfolioAllocation_NeurIPS_2020:**
++ **FinRL_StockTrading_Fundamental:**
+
 
 ### **2-Advance**  	# notebooks for intermediate users to learn more about FinRL
 ### **3-Practical**  	# notebooks for users to explore paper trading and more financial markets
