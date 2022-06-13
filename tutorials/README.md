@@ -7,7 +7,7 @@
 ## File Structure
 
 ### **1-Introduction**		# notebooks for beginners, introduce FinRL step-by-step
-+ **FinRL_StockTrading_NeurIPS_2018:**
++ **FinRL_StockTrading_NeurIPS_2018:** the very frist tutorial notebook to show beginners how to use FinRL to trade Dow 30 using 5 DRL algorithms.
 + **FinRL_PortfolioAllocation_NeurIPS_2020:**
 + **FinRL_StockTrading_Fundamental:**
 
