@@ -22,7 +22,7 @@ We connect data APIs of different platforms and unify them using a FinRL-Meta da
 Data Cleaning
 --------------
 
-Raw data retrieved from different data sources are usually of various formats and have erroneous or NaN data (missing data) to different extents, making data cleaning highly time-consuming. In the FinRL-Meta data processor, we automate the data cleaning process.
+Raw data retrieved from different data sources are usually of various formats and have erroneous or NaN data (missing data) to different extents, making data cleaning highly time-consuming. In FinRL-Meta, we automate the data cleaning process.
 
 The cleaning processes of NaN data are usually different for various time frequencies. For Low-frequency data, except few stocks with extremely low liquidity, the few NaN values usually mean suspension during that time interval. While for high-frequency data, NaN values are pervasive, which usually means no transaction during that time interval. To reduce the simulation-to-reality gap considering data efficiency, we provide different solutions for these two cases.
 
