@@ -1,0 +1,16 @@
+Package: ta-lib
+Version: @VERSION@
+Section: dev-libs
+Priority: optional
+Architecture: i686
+Essential: no
+Depends: 
+Pre-Depends:
+Recommends: 
+Suggests: 
+Installed-Size: 3700000
+Maintainer: Mario Fortier [mfortier@ta-lib.org]
+Conflicts: 
+Replaces: 
+Provides: 
+Description: TA-Lib provides common functions for the technical analysis of stock/future/commodity market data.

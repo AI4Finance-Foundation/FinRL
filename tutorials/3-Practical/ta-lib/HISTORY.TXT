@@ -1,0 +1,115 @@
+V0.4 (September 2007)
+  - Java TA-Abstract interface.
+  - MAVP, COS, SIN, TAN, COSH, SINH, TANH, ACOS, ASIN, ATAN.
+  - ADD, DIV, SUB, MULT, CEIL, FLOOR, EXP, SQRT, LN, LOG10.
+  - UpperLimit/LowerLimit flags for BBANDS.
+  - Automatic benchmarking by ta_regtest (WIN32 only).
+  - Fix #1656623,1660327,1727704
+
+V0.3 (January 2007)
+  - New .NET and Java naming convention.
+  - XML interface description (See TA_FunctionDescription).
+  - Volume amd open interest now of double type.
+  - Add: BETA, MINMAX, MINMAXINDEX, MININDEX, MAXINDEX.
+  - New RPM, Debian, JAR and unmanaged library with VS2005. 
+  - Fix #1526632,1544555
+
+V0.2 (June 2006)
+  - Many bug fix for Java.
+  - New ULTOSC and NATR functions.
+  - Major clean-up. Removal of TA-PM and TA-Data.
+  - Fix #1434450
+  
+V0.1.5 (January 2006)
+  - Java ports of all TA functions.
+  - New BOP, CMO and Hikkake functions.
+  - .NET assembly now verifiable.  
+  - Support for end-of-period.
+  - Portable random generator.
+  - Fix #1117656,1117866,1199526,1200995,1229243,1238365,1241498
+  - Fix #1293953,1359452,1365319,1367155,1367269
+  
+V0.1.4 (April 2005)
+  - 64 bits support.
+  - Partial Python support.
+  - New TA_DISABLE_PRICE_VALIDATION flag.
+  - 26 new candlestick functions.
+  - Fix #1117866,1117656
+
+V0.1.3 (January 2005)
+  - 12 new candlestick functions.
+  - Excel now handles default values.
+  - Add Visual Studio 2005 support.
+  - Fix #1090231,1089506,1072276,1023151
+
+V0.1.2 (November 2004)
+  - New: Perl interface, candlestick functions.
+  - New: price bar validation and intraday conversion.
+  - Add TA_YAHOO_ONE_SYMBOL, CSI and CSIM data source.
+  - Add MacOS X and FreeBSD support.
+  - Fix #927808,917085,888470,881950,873879,960230,965557,978056
+  - Fix #1039601,1042729
+
+V0.1.1 (January 2004)
+  - New SQL/ODBC and MySQL data source.
+  - Add: TA_CORREL, TA_STOCHRSI, TA_SAREXT
+  - Add split/dividend adjustment for Yahoo!
+  - Add CygWin support
+
+V0.1.0 (September 2003)
+  - New .NET/Mono interface (Core namespace)
+  - TA functions now accept single precision inputs.
+  - Add: TSF, LINEARREG, LINEARREG_INTERCEPT
+  - Add: LINEARREG_ANGLE, LINEARREG_SLOPE
+  - Now do intra-day conversion to daily, weekly etc...
+  - Add TA-PM trade-by-trade report.
+  - Fix #724662,731857,736095,736196,748163,767653,792298
+
+V0.0.8 (April 2003)
+  - Add: AD,ADOSC,AROON,AROONOSC,KAMA,T3,HT_TRENDLINE,MAMA
+  - Add: HT_DCPHASE,HT_PHASOR,HT_SINE,HT_TRENDMODE,HT_DCPERIOD
+  - Fix #701060
+
+V0.0.7 (January 2003)
+  - Excel Add-In implemented.
+  - Add: MFI,MIDPRICE,MIDPOINT,TRIMA,MACDEXT,ROCP,STOCHF,AVGPRICE
+  - Fix #660248,660250,660449,644512
+
+V0.0.6 (October 2002)
+  - Add Functions: SAR,ADX,ADXR,DX,+DI,-DI,+DM,-DM
+  - Add many european Yahoo! data source.
+  - Fix#609753 for Yahoo! data source.
+  - STDDEV,VAR,BBANDS speed optimization
+
+V0.0.5 (June 2002)
+  - Add: OBV + performance measurement infrastructure.
+  - Fix #537806 + some Yahoo! data source fix.
+
+V0.0.4 (March 2002)
+  - Add: TEMA, DEMA, TRIX
+  - Interface changes to all the TA functions:
+    1) nbInputElement has been removed.
+    2) startIdx and endIdx cannot be -1 anymore.
+    3) only one outBegIdx and outNbElement output per function.
+  - A "Lookback" function is now provided for each TA function.
+  - Improve ta_regtest + Make better HTML parsing in gen_rdata.
+
+V0.0.3 (December 2001)
+  - Port to Linux/g++ completed.
+  - Add: BBANDS,WMA,MOM,ROC,ROCR,STDDEV,VAR,STOCH
+  - Add TA_SetUnstablePeriod.
+  - Code and MSVC project clean-up.
+
+V0.0.2 (October 2001)
+  - Add: EMA,SMA,APO,MACD,PPO,RSI,ATR,TRANGE,WCLPRICE
+  - Add: MEDPRICE,TYPPRICE
+  - Add compatibility flag + some Win32 binaries.
+  - Add support for US/CAN indices to the Yahoo! data source.
+
+V0.0.1 (September 2001)
+  - Alpha Release on Windows.
+  - Include ta_yahoo.exe demo application.  
+
+Info:  http://ta-lib.org
+Forum: http://tadoc.org/forum
+

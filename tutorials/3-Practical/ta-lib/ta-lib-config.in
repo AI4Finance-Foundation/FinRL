@@ -1,0 +1,28 @@
+#!/bin/sh
+
+usage="\
+Usage: ta-lib-config [--version] [--libs] [--cflags]"
+
+if test $# -eq 0; then
+      echo "${usage}" 1>&2
+      exit 1
+fi
+
+while test $# -gt 0; do
+  case $1 in
+    --version)
+      echo @VERSION@
+      ;;
+    --cflags)
+      echo -I@includedir@/ta-lib @DEFS@
+      ;;
+    --libs)
+      echo -L@libdir@ @LIBS@ 
+      ;;
+    *)
+      echo "${usage}" 1>&2
+      exit 1
+      ;;
+  esac
+  shift
+done
