@@ -15,8 +15,12 @@ We have supported and achieved satisfactory trading performance for trading task
 .. image:: ../image/timeline.png
     :width: 80%
     :align: center
+    
+We employ a training-testing-trading pipeline that the DRL approach follows a standard end-to-end pipeline. The DRL agent is first trained in a training environment and then fined-tuned (adjusting hyperparameters) in a validation environment. Then the validated agent is tested on historical datasets (backtesting). Finally, the tested agent will be de- ployed in paper trading or live trading markets.
 
-We employ a training-testing-trading pipeline. The DRL agent first learns from the training environment and is then validated in the validation environment for further adjustment. Then the validated agent is tested on historical datasets. Finally, the tested agent will be deployed in paper trading or live trading markets. First, this pipeline solves the information leakage problem because the trading data are generated yet when adjusting agents. Second, a unified pipeline allows fair comparisons among different trading strategies.
+This pipeline solves the information leakage problem because the trading data are never leaked when training/tuning the agents.
+
+Such a unified pipeline allows fair comparisons among different algorithms and strategies.
 
 3. DataOps for data-driven financial reinforcement leanring
 ===========================================================
