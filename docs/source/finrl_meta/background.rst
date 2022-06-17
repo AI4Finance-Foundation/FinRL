@@ -30,12 +30,11 @@ FinRL-Meta benchmarks work in famous papers and projects, covering stock trading
 
 DataOps
 =======
+DataOps applies the ideas of lean development and DevOps to the data analytics field. DataOps practices have been developed in companies and organizations to improve the quality of and efficiency of data analytics. These implementations consolidate various data sources, unify and automate the pipeline of data analytics, including data accessing, cleaning, analysis, and visualization.
 
-DataOps is a series of principles and practices to improve the quality and reduce the cycle time of data analytics. It inherits the ideas of Agile development, DevOps, and lean manufacturing and applies them to the data analytics field. 
+However, the DataOps methodology has not been applied to financial reinforcement learning researches. Most researchers access data, clean data, and extract technical indicators (features) in a case-by-case manner, which involves heavy manual work and may not guarantee the data quality.
 
-Many implementations of DataOps have been developed in companies and organizations to improve the quality and efficiency of data analytics. These implementations consolidate various data sources, unify and automate the pipeline of data analytics, including data accessing, cleaning, analysis, visualization, and governance with a control system orchestrating, monitoring, and testing the data analytics pipeline. 
-
-However, the methodology of DataOps has not been applied to DRL researches in quantitative finance. Most researchers in financial DRL access data, clean data, and extract factors in a case-by-case manner, which involves heavy manual work and may not guarantee the data quality.
+To deal with financial big data (usually unstructured), we follow the DataOps paradigm and implement an automatic pipeline in the following figure: task planning, data processing, training-testing-trading, and monitoring agents’ performance. Through this pipeline, we continuously produce DRL benchmarks on dynamic market datasets.
 
 We follow the DataOps paradigm in the data layer.
 
