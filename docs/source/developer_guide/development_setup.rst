@@ -58,7 +58,7 @@ Step 4: Configure a PyCharm Project
 
 .. image:: ../image/pycharm_status_bar.png
 
--At the bottom right of the status bar, change or add the interpreter to the ai4finance conda environment. Make sure when you click the "terminal" bar at the bottom left, it shows (ai4finance).
+-At the bottom right of the status bar, change or add the interpreter to the ai4finance conda environment. Make sure when you click the "terminal" bar at the bottom left, it shows ai4finance.
 
 .. image:: ../image/pycharm_MarkDirectoryAsSourcesRoot.png
 
