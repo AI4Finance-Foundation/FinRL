@@ -70,7 +70,7 @@ Step 4: Configure a PyCharm Project
 
 -Once you run a .py file, you will notice that you may still have some missing packages.  In that case, simply pip install them.
 
-For example, we will revise FinRL.
+For example, we revise FinRL.
 
 .. code-block:: bash
 
@@ -78,7 +78,7 @@ For example, we will revise FinRL.
     cd ./FinRL
     git checkout -b branch_xxx
 
-where branch_xxx is a new branch name. In this branch, we revised config.py. 
+where branch_xxx is a new branch name. In this branch, we revise config.py. 
 
 
 Step 5: Creating Commits and PRs/MRs
