@@ -9,23 +9,23 @@ Welcome to FinRL Library!
 =====================================================================================================
 
 .. meta::
-   :description: FinRL Library is an open source framework that facilitates beginners to expose themselves to quantitative finance and to develop their own stock trading strategies using deep reinforcement learning, it collects the most practical reinforcement learning algorithms, frameworks and applications(DQN, DDPG, PPO, SAC, A2C, TD3, etc.).
-   :keywords: finance ai, openai, artificial intelligence in finance, machine learning, deep reinforcement learning, DRL, RL, machine learning neural networks, deep q network, multi agent reinforcement learning
+   :description: FinRL is the first open source framework for financial reinforcement learning. It facilitates beginners to expose themselves to quantitative finance and to develop stock trading strategies using deep reinforcement learning. It provides fine-tuned deep reinforcement learning algorithms, including DQN, DDPG, PPO, SAC, A2C, TD3, etc.
+   :keywords: finance AI, OpenAI, artificial intelligence in finance, machine learning, deep reinforcement learning, DRL, RL, neural networks, deep q network, multi agent reinforcement learning
 
 .. image:: image/logo_transparent_background.png
    :target:  https://github.com/AI4Finance-Foundation/FinRL
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
-To efficiently automate trading, **AI4Finance** community provides this demonstrative and educational resource. FinRL is an open source deep reinforcement learning (DRL) framework for researchers and practitioners. 
+**AI4Finance** community provides this demonstrative and educational resource, in order to efficiently automate trading. FinRL is the first open source framework for financial reinforcement learning. 
 
 .. _FinRL: https://github.com/AI4Finance-Foundation/FinRL
 
-Reinforcement learning (RL) trains an agent to solve tasks by trial and error, while DRL uses deep neural networks as function approximators. DRL balances exploration (of uncharted territory) and exploitation (of current knowledge), and has been recognized as a competitive edge for automated trading. DRL framework is powerful in solving dynamic decision making problems by learning through interactions with an unknown environment, thus provides two major advantages: portfolio scalability and market model independence. In quantitative finance, automated trading is essentially making dynamic decisions, namely **to decide where to trade, at what price, and what quantity**, over a highly stochastic and complex stock market. Taking many complex financial factors into account, DRL trading agents build a multi-factor model and provide algorithmic trading strategies, which are difficult for human traders.
+Reinforcement learning (RL) trains an agent to solve tasks by trial and error, while DRL uses deep neural networks as function approximators. DRL balances exploration (of uncharted territory) and exploitation (of current knowledge), and has been recognized as a competitive edge for automated trading. DRL framework is powerful in solving dynamic decision making problems by learning through interactions with an unknown environment, thus exhibiting two major advantages: portfolio scalability and market model independence. Automated trading is essentially making dynamic decisions, namely **to decide where to trade, at what price, and what quantity**, over a highly stochastic and complex stock market. Taking many complex financial factors into account, DRL trading agents build a multi-factor model and provide algorithmic trading strategies, which are difficult for human traders.
 
-`FinRL Library`_ provides a framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.
+`FinRL`_ provides a framework that supports various markets, SOTA DRL algorithms, benchmarks of many quant finance tasks, live trading, etc.
 
-.. _FinRL Library: https://github.com/AI4Finance-Foundation/FinRL
+.. _FinRL: https://github.com/AI4Finance-Foundation/FinRL
 
 Join or discuss FinRL: `AI4Finance mailing list <https://groups.google.com/u/1/g/ai4finance>`_.
 
