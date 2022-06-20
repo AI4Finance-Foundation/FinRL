@@ -155,7 +155,7 @@ class StockTradingEnv(gym.Env):
             if self.state[index + 2*self.stock_dim+ 1] !=True: # check if the stock is able to buy
             # if self.state[index + 1] >0:
                 # Buy only if the price is > 0 (no missing data in this particular date)
-                available_amount = self.state[0] / (self.state[index + 1]*(1 + self.buy_cost_pct[index])) # when buying stocks, we should consider the cost of trading when calculating available_amount, or we may be have cash<0
+                available_amount = self.state[0] // (self.state[index + 1]*(1 + self.buy_cost_pct[index])) # when buying stocks, we should consider the cost of trading when calculating available_amount, or we may be have cash<0
                 # print('available_amount:{}'.format(available_amount))
 
                 # update balance
