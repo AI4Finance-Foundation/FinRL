@@ -3,7 +3,7 @@
 Data Layer
 ==========
 
-In the data layer, we use a unified data processor to access data, clean data, and extract features, etc.
+In the data layer, we use a unified data processor to access data, clean data, and extract features.
 
 .. image:: ../image/finrl-meta_data_layer.png
     :width: 60%
