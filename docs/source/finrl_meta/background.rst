@@ -8,6 +8,8 @@ Background
 Dataset: Financial Big Data
 ===================
 
+FinRL-Meta provides multiple datasets for financial reinforcement learning.
+
 Stepping into the era of internet, the speed of information exchange has an exponential increment. Along with that, the amount of data also explodes into an incredible number, which generates the new concept "big data".
 
 As its data refreshing minute-to-second, finance is one of the most typical domains that big data imbeded in. Financial big data, as a new popular field, gets more and more attention by economists, data scientists, and computer scientists.
@@ -21,7 +23,7 @@ Benchmark
 .. image:: ../image/finrl-meta_overview.png
     :align: center
 
-With increasing intesests and demand, FinRL-Meta provides multiple datasets and benchmarks for financial reinforcement learning.
+FinRL-Meta provides multiple benchmarks for financial reinforcement learning.
 
 For datasets, FinRL-Meta has standardized flow of data extraction and cleaning for more than 30 different data sources. The purpose of providing the data pulling tool instead of a fixed dataset is better corresponding to the fast updating property of financial market. The dynamic construction can help users grip data according to their own requirement.
 
