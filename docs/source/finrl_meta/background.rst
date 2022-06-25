@@ -5,7 +5,7 @@ Background
 =============================
 
 
-Financial Big Data
+Dataset: Financial Big Data
 ===================
 
 Stepping into the era of internet, the speed of information exchange has an exponential increment. Along with that, the amount of data also explodes into an incredible number, which generates the new concept "big data".
@@ -15,7 +15,7 @@ As its data refreshing minute-to-second, finance is one of the most typical doma
 In academia, scholors use financial big data to explore more complex and precise understanding of market and economics. While industries use financial big data to refine their analytical strategies and strengthen their prediction models. Realizing the potential of this solid background, AI4Finance community started FinRL-Meta to serve for various needs by researchers and industries.
 
 
-Dataset & Benchmark
+Benchmark
 ====================
 
 .. image:: ../image/finrl-meta_overview.png
