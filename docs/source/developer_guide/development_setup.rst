@@ -4,7 +4,7 @@
 Development setup with PyCharm
 ============================
 
-This setup makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo and creating PRs/MRs.
+This setup with pycharm makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo and creating PRs/MRs.
 
 Step 1: Download Software
 =======
