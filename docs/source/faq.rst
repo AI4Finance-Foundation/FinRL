@@ -179,7 +179,7 @@ Outline
 	
     - :raw-html:`<font color="#A52A2A">What's the main difference between FinRL and FinRL-Meta?  </font>`
 
-	*FinRL is for the purpose of education and demonstration, while FinRL-Meta aims for building financial big data and a metaverse of data-driven financial RL.*
+	*FinRL aims for education and demonstration, while FinRL-Meta aims for building financial big data and a metaverse of data-driven financial RL.*
 
 .. _Section-5:
     
