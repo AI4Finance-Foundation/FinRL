@@ -25,7 +25,7 @@ Benchmark
 FinRL-Meta provides multiple benchmarks for financial reinforcement learning.
 
 
-FinRL-Meta benchmarks work in famous papers and projects, covering stock trading, cyptocurrency trading, portfolio allocation, hyper-parameter tuning, etc. Along with that, there are Jupyter/Python demos that help users to design new strategies.
+FinRL-Meta benchmarks work in famous papers and projects, covering stock trading, cyptocurrency trading, portfolio allocation, hyper-parameter tuning, etc. Along with that, there are Jupyter/Python demos that help users to test or design new strategies.
 
 
 DataOps
