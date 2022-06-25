@@ -26,7 +26,9 @@ The following contents are collected and referred by AI4Finance community during
 
 [2] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020.
 
-[3] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
+[3] Mao Guan and Xiao-Yang Liu. Explainable deep reinforcement learning for portfolio man- agement: An empirical approach. ACM International Conference on AI in Finance, ICAIF 2021.
+
+[4] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
 
 ## Trading Strategies
 
@@ -36,7 +38,7 @@ The following contents are collected and referred by AI4Finance community during
 
 [3] Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
 
-[4] [Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty.](https://arxiv.org/abs/2006.12686) International Conference on AI in Finance (ICAIF’20), October 2020.
+[4] [Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty.](https://arxiv.org/abs/2006.12686) International Conference on AI in Finance, ICAIF 2020.
 
 [5] [Cryptocurrency Trading Using Machine Learning](https://www.mdpi.com/1911-8074/13/8/178). Journal of Risk and Financial Management, August 2020.
 
