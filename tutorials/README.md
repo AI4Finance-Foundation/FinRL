@@ -2,7 +2,9 @@
 <img align="center" src=https://github.com/AI4Finance-Foundation/FinRL/blob/master/figs/FinRL_Tutorials.png>
 </div>
 
-**Mission**: provide user-friendly demos using notebooks. 
+**Mission**: provide user-friendly demos using notebooks.
+
+Note that we are merging the tutorials from [FinRL-meta](https://github.com/AI4Finance-Foundation/FinRL-Meta/tree/master/tutorials). 
 
 ## File Structure
 
