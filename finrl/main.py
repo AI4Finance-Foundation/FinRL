@@ -3,6 +3,7 @@ from typing import List
 from argparse import ArgumentParser
 from finrl import config
 from finrl.config_tickers import DOW_30_TICKER
+from finrl.config_private import (ALPACA_API_KEY,ALPACA_API_SECRET)
 from finrl.config import (
     DATA_SAVE_DIR,
     TRAINED_MODEL_DIR,
@@ -18,8 +19,6 @@ from finrl.config import (
     ERL_PARAMS,
     RLlib_PARAMS,
     SAC_PARAMS,
-    ALPACA_API_KEY,
-    ALPACA_API_SECRET,
     ALPACA_API_BASE_URL,
 )
 
