@@ -12,7 +12,7 @@ gym.logger.set_level(
 class StockEnvNAS100:
     def __init__(
         self,
-        cwd="./data/nas100",
+        cwd='./data/nas100',
         price_ary=None,
         tech_ary=None,
         turbulence_ary=None,
@@ -24,7 +24,7 @@ class StockEnvNAS100:
         buy_cost_pct=1e-3,
         sell_cost_pct=1e-3,
         data_gap=4,
-        reward_scaling=2 ** -11,
+        reward_scaling=2**-11,
         ticker_list=None,
         tech_indicator_list=None,
         initial_stocks=None,
@@ -48,10 +48,10 @@ class StockEnvNAS100:
             ]
         self.price_ary, self.tech_ary, turbulence_ary = data_arrays
 
-        self.tech_ary = self.tech_ary * 2 ** -7
+        self.tech_ary = self.tech_ary * 2**-7
         self.turbulence_bool = (turbulence_ary > turbulence_thresh).astype(np.float32)
         self.turbulence_ary = (
-            self.sigmoid_sign(turbulence_ary, turbulence_thresh) * 2 ** -5
+            self.sigmoid_sign(turbulence_ary, turbulence_thresh) * 2**-5
         ).astype(np.float32)
 
         stock_dim = self.price_ary.shape[1]
@@ -76,7 +76,7 @@ class StockEnvNAS100:
         self.initial_total_asset = None
 
         # environment information
-        self.env_name = "StockEnvNAS"
+        self.env_name = 'StockEnvNAS'
         # self.state_dim = 1 + 2 + 2 * stock_dim + self.tech_ary.shape[1]
         # # amount + (turbulence, turbulence_bool) + (price, stock) * stock_dim + tech_dim
         self.state_dim = 1 + 2 + 3 * stock_dim + self.tech_ary.shape[1]
@@ -152,8 +152,8 @@ class StockEnvNAS100:
         return state, reward, done, dict()
 
     def get_state(self, price):
-        amount = np.array(max(self.amount, 1e4) * (2 ** -12), dtype=np.float32)
-        scale = np.array(2 ** -6, dtype=np.float32)
+        amount = np.array(max(self.amount, 1e4) * (2**-12), dtype=np.float32)
+        scale = np.array(2**-6, dtype=np.float32)
         return np.hstack(
             (
                 amount,
@@ -167,9 +167,9 @@ class StockEnvNAS100:
         )  # state.astype(np.float32)
 
     def load_data(self, cwd):
-        data_path_price_array = f"{cwd}/price_ary.npy"
-        data_path_tech_array = f"{cwd}/tech_ary.npy"
-        data_path_turb_array = f"{cwd}/turb_ary.npy"
+        data_path_price_array = f'{cwd}/price_ary.npy'
+        data_path_tech_array = f'{cwd}/tech_ary.npy'
+        data_path_turb_array = f'{cwd}/turb_ary.npy'
 
         turbulence_ary = np.load(
             data_path_turb_array
@@ -220,11 +220,11 @@ class StockEnvNAS100:
 
         plt.plot(episode_returns)
         plt.grid()
-        plt.title("cumulative return")
-        plt.xlabel("day")
-        plt.xlabel("multiple of initial_account")
-        plt.savefig(f"{cwd}/cumulative_return.jpg")
-        print(f"| draw_cumulative_return: save in {cwd}/cumulative_return.jpg")
+        plt.title('cumulative return')
+        plt.xlabel('day')
+        plt.xlabel('multiple of initial_account')
+        plt.savefig(f'{cwd}/cumulative_return.jpg')
+        print(f'| draw_cumulative_return: save in {cwd}/cumulative_return.jpg')
         return episode_returns
 
     @staticmethod

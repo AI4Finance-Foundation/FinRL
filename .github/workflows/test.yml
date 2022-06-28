@@ -20,6 +20,6 @@ jobs:
       # Runs the Super-Linter action
       - name: Build Container
         run: bash docker/bin/build_container.sh
-      
+
       - name: Run Tests
         run: bash docker/bin/test.sh

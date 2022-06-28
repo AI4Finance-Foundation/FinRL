@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+
 from finrl.finrl_meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
 from finrl.finrl_meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.finrl_meta.data_processors.processor_yahoofinance import (
@@ -9,25 +10,25 @@ from finrl.finrl_meta.data_processors.processor_yahoofinance import (
 
 class DataProcessor:
     def __init__(self, data_source, **kwargs):
-        if data_source == "alpaca":
+        if data_source == 'alpaca':
 
             try:
-                API_KEY = kwargs.get("API_KEY")
-                API_SECRET = kwargs.get("API_SECRET")
-                API_BASE_URL = kwargs.get("API_BASE_URL")
+                API_KEY = kwargs.get('API_KEY')
+                API_SECRET = kwargs.get('API_SECRET')
+                API_BASE_URL = kwargs.get('API_BASE_URL')
                 self.processor = Alpaca(API_KEY, API_SECRET, API_BASE_URL)
-                print("Alpaca successfully connected")
+                print('Alpaca successfully connected')
             except BaseException:
-                raise ValueError("Please input correct account info for alpaca!")
+                raise ValueError('Please input correct account info for alpaca!')
 
-        elif data_source == "wrds":
+        elif data_source == 'wrds':
             self.processor = Wrds()
 
-        elif data_source == "yahoofinance":
+        elif data_source == 'yahoofinance':
             self.processor = YahooFinance()
 
         else:
-            raise ValueError("Data source input is NOT supported yet.")
+            raise ValueError('Data source input is NOT supported yet.')
 
     def download_data(
         self, ticker_list, start_date, end_date, time_interval

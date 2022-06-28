@@ -4,7 +4,9 @@ import os
 import jqdatasdk as jq
 import numpy as np
 import pandas as pd
-from func import calc_all_filenames, date2str, remove_all_files
+from func import calc_all_filenames
+from func import date2str
+from func import remove_all_files
 
 
 class JoinQuantEngineer:
@@ -19,7 +21,7 @@ class JoinQuantEngineer:
             security=stock_list,
             count=num,
             unit=unit,
-            fields=["date", "open", "high", "low", "close", "volume"],
+            fields=['date', 'open', 'high', 'low', 'close', 'volume'],
             end_dt=end_dt,
         )
         return df
@@ -84,18 +86,18 @@ class JoinQuantEngineer:
                     stockname,
                     start_date=start_day,
                     end_date=end_day,
-                    frequency="daily",
-                    fields=["open", "close", "high", "low", "volume"],
+                    frequency='daily',
+                    fields=['open', 'close', 'high', 'low', 'volume'],
                 )
                 dfs.append(df)
-                df.to_csv(path_of_data + "/" + stockname + ".csv", float_format="%.4f")
+                df.to_csv(path_of_data + '/' + stockname + '.csv', float_format='%.4f')
         return dfs
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
 
-    sys.path.append("..")
+    sys.path.append('..')
     # from finrl.neo_finrl.neofinrl_config import TRADE_START_DATE
     # from finrl.neo_finrl.neofinrl_config import TRADE_END_DATE
     # from finrl.neo_finrl.neofinrl_config import READ_DATA_FROM_LOCAL
@@ -104,19 +106,19 @@ if __name__ == "__main__":
     # read_data_from_local = READ_DATA_FROM_LOCAL
     # path_of_data = '../' + PATH_OF_DATA
 
-    path_of_data = "../" + "data"
+    path_of_data = '../' + 'data'
 
-    TRADE_START_DATE = "20210901"
-    TRADE_END_DATE = "20210911"
+    TRADE_START_DATE = '20210901'
+    TRADE_END_DATE = '20210911'
     READ_DATA_FROM_LOCAL = 1
 
     e = JoinQuantEngineer()
-    username = "xxx"  # should input your username
-    password = "xxx"  # should input your password
+    username = 'xxx'  # should input your username
+    password = 'xxx'  # should input your password
     e.auth(username, password)
 
     trade_days = e.calc_trade_days_by_joinquant(TRADE_START_DATE, TRADE_END_DATE)
-    stocknames = ["000612.XSHE", "601808.XSHG"]
+    stocknames = ['000612.XSHE', '601808.XSHG']
     data = e.data_fetch_for_stocks(
         stocknames, trade_days[0], trade_days[-1], READ_DATA_FROM_LOCAL, path_of_data
     )

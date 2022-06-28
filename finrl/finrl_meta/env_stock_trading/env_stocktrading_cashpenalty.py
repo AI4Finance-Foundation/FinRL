@@ -8,9 +8,10 @@ import numpy as np
 import pandas as pd
 from gym import spaces
 from stable_baselines3.common import logger
-from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.vec_env import SubprocVecEnv
 
-matplotlib.use("Agg")
+matplotlib.use('Agg')
 
 
 class StockTradingEnvCashpenalty(gym.Env):
@@ -44,29 +45,29 @@ class StockTradingEnvCashpenalty(gym.Env):
         Document tests
     """
 
-    metadata = {"render.modes": ["human"]}
+    metadata = {'render.modes': ['human']}
 
     def __init__(
         self,
         df,
         buy_cost_pct=3e-3,
         sell_cost_pct=3e-3,
-        date_col_name="date",
+        date_col_name='date',
         hmax=10,
         discrete_actions=False,
         shares_increment=1,
         turbulence_threshold=None,
         print_verbosity=10,
         initial_amount=1e6,
-        daily_information_cols=["open", "close", "high", "low", "volume"],
+        daily_information_cols=['open', 'close', 'high', 'low', 'volume'],
         cache_indicator_data=True,
         cash_penalty_proportion=0.1,
         random_start=True,
         patient=False,
-        currency="$",
+        currency='$',
     ):
         self.df = df
-        self.stock_col = "tic"
+        self.stock_col = 'tic'
         self.assets = df[self.stock_col].unique()
         self.dates = df[date_col_name].sort_values().unique()
         self.random_start = random_start
@@ -97,11 +98,11 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.cached_data = None
         self.cash_penalty_proportion = cash_penalty_proportion
         if self.cache_indicator_data:
-            print("caching data")
+            print('caching data')
             self.cached_data = [
                 self.get_date_vector(i) for i, _ in enumerate(self.dates)
             ]
-            print("data cached!")
+            print('data cached!')
 
     def seed(self, seed=None):
         if seed is None:
@@ -124,7 +125,7 @@ class StockTradingEnvCashpenalty(gym.Env):
 
     @property
     def closings(self):
-        return np.array(self.get_date_vector(self.date_index, cols=["close"]))
+        return np.array(self.get_date_vector(self.date_index, cols=['close']))
 
     def reset(self):
         self.seed()
@@ -141,10 +142,10 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.transaction_memory = []
         self.state_memory = []
         self.account_information = {
-            "cash": [],
-            "asset_value": [],
-            "total_assets": [],
-            "reward": [],
+            'cash': [],
+            'asset_value': [],
+            'total_assets': [],
+            'reward': [],
         }
         init_state = np.array(
             [self.initial_amount]
@@ -169,73 +170,73 @@ class StockTradingEnvCashpenalty(gym.Env):
             assert len(v) == len(self.assets) * len(cols)
             return v
 
-    def return_terminal(self, reason="Last Date", reward=0):
+    def return_terminal(self, reason='Last Date', reward=0):
         state = self.state_memory[-1]
         self.log_step(reason=reason, terminal_reward=reward)
         # Add outputs to logger interface
-        gl_pct = self.account_information["total_assets"][-1] / self.initial_amount
-        logger.record("environment/GainLoss_pct", (gl_pct - 1) * 100)
+        gl_pct = self.account_information['total_assets'][-1] / self.initial_amount
+        logger.record('environment/GainLoss_pct', (gl_pct - 1) * 100)
         logger.record(
-            "environment/total_assets",
-            int(self.account_information["total_assets"][-1]),
+            'environment/total_assets',
+            int(self.account_information['total_assets'][-1]),
         )
-        reward_pct = self.account_information["total_assets"][-1] / self.initial_amount
-        logger.record("environment/total_reward_pct", (reward_pct - 1) * 100)
-        logger.record("environment/total_trades", self.sum_trades)
+        reward_pct = self.account_information['total_assets'][-1] / self.initial_amount
+        logger.record('environment/total_reward_pct', (reward_pct - 1) * 100)
+        logger.record('environment/total_trades', self.sum_trades)
         logger.record(
-            "environment/avg_daily_trades",
+            'environment/avg_daily_trades',
             self.sum_trades / (self.current_step),
         )
         logger.record(
-            "environment/avg_daily_trades_per_asset",
+            'environment/avg_daily_trades_per_asset',
             self.sum_trades / (self.current_step) / len(self.assets),
         )
-        logger.record("environment/completed_steps", self.current_step)
+        logger.record('environment/completed_steps', self.current_step)
         logger.record(
-            "environment/sum_rewards", np.sum(self.account_information["reward"])
+            'environment/sum_rewards', np.sum(self.account_information['reward'])
         )
         logger.record(
-            "environment/cash_proportion",
-            self.account_information["cash"][-1]
-            / self.account_information["total_assets"][-1],
+            'environment/cash_proportion',
+            self.account_information['cash'][-1]
+            / self.account_information['total_assets'][-1],
         )
         return state, reward, True, {}
 
     def log_step(self, reason, terminal_reward=None):
 
         if terminal_reward is None:
-            terminal_reward = self.account_information["reward"][-1]
+            terminal_reward = self.account_information['reward'][-1]
         cash_pct = (
-            self.account_information["cash"][-1]
-            / self.account_information["total_assets"][-1]
+            self.account_information['cash'][-1]
+            / self.account_information['total_assets'][-1]
         )
-        gl_pct = self.account_information["total_assets"][-1] / self.initial_amount
+        gl_pct = self.account_information['total_assets'][-1] / self.initial_amount
         rec = [
             self.episode,
             self.date_index - self.starting_point,
             reason,
             f"{self.currency}{'{:0,.0f}'.format(float(self.account_information['cash'][-1]))}",
             f"{self.currency}{'{:0,.0f}'.format(float(self.account_information['total_assets'][-1]))}",
-            f"{terminal_reward*100:0.5f}%",
-            f"{(gl_pct - 1)*100:0.5f}%",
-            f"{cash_pct*100:0.2f}%",
+            f'{terminal_reward*100:0.5f}%',
+            f'{(gl_pct - 1)*100:0.5f}%',
+            f'{cash_pct*100:0.2f}%',
         ]
         self.episode_history.append(rec)
         print(self.template.format(*rec))
 
     def log_header(self):
         if self.printed_header is False:
-            self.template = "{0:4}|{1:4}|{2:15}|{3:15}|{4:15}|{5:10}|{6:10}|{7:10}"  # column widths: 8, 10, 15, 7, 10
+            self.template = '{0:4}|{1:4}|{2:15}|{3:15}|{4:15}|{5:10}|{6:10}|{7:10}'  # column widths: 8, 10, 15, 7, 10
             print(
                 self.template.format(
-                    "EPISODE",
-                    "STEPS",
-                    "TERMINAL_REASON",
-                    "CASH",
-                    "TOT_ASSETS",
-                    "TERMINAL_REWARD_unsc",
-                    "GAINLOSS_PCT",
-                    "CASH_PROPORTION",
+                    'EPISODE',
+                    'STEPS',
+                    'TERMINAL_REASON',
+                    'CASH',
+                    'TOT_ASSETS',
+                    'TERMINAL_REWARD_unsc',
+                    'GAINLOSS_PCT',
+                    'CASH_PROPORTION',
                 )
             )
             self.printed_header = True
@@ -244,8 +245,8 @@ class StockTradingEnvCashpenalty(gym.Env):
         if self.current_step == 0:
             return 0
         else:
-            assets = self.account_information["total_assets"][-1]
-            cash = self.account_information["cash"][-1]
+            assets = self.account_information['total_assets'][-1]
+            cash = self.account_information['cash'][-1]
             cash_penalty = max(0, (assets * self.cash_penalty_proportion - cash))
             assets -= cash_penalty
             reward = (assets / self.initial_amount) - 1
@@ -290,7 +291,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             # if turbulence goes over threshold, just clear out all positions
             if self.turbulence >= self.turbulence_threshold:
                 actions = -(np.array(self.holdings))
-                self.log_step(reason="TURBULENCE")
+                self.log_step(reason='TURBULENCE')
 
         return actions
 
@@ -300,7 +301,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         self.log_header()
         # print if it's time.
         if (self.current_step + 1) % self.print_verbosity == 0:
-            self.log_step(reason="update")
+            self.log_step(reason='update')
         # if we're at the end
         if self.date_index == len(self.dates) - 1:
             # if we hit the end, set reward to total gains (or losses)
@@ -315,13 +316,13 @@ class StockTradingEnvCashpenalty(gym.Env):
             assert min(self.holdings) >= 0
             asset_value = np.dot(self.holdings, self.closings)
             # log the values of cash, assets, and total assets
-            self.account_information["cash"].append(begin_cash)
-            self.account_information["asset_value"].append(asset_value)
-            self.account_information["total_assets"].append(begin_cash + asset_value)
+            self.account_information['cash'].append(begin_cash)
+            self.account_information['asset_value'].append(asset_value)
+            self.account_information['total_assets'].append(begin_cash + asset_value)
 
             # compute reward once we've computed the value of things!
             reward = self.get_reward()
-            self.account_information["reward"].append(reward)
+            self.account_information['reward'].append(reward)
 
             # Now, let's get down to business at hand.
             transactions = self.get_transactions(actions)
@@ -339,14 +340,14 @@ class StockTradingEnvCashpenalty(gym.Env):
             if (spend + costs) > coh:
                 if self.patient:
                     # ... just don't buy anything until we got additional cash
-                    self.log_step(reason="CASH SHORTAGE")
+                    self.log_step(reason='CASH SHORTAGE')
                     transactions = np.where(transactions > 0, 0, transactions)
                     spend = 0
                     costs = 0
                 else:
                     # ... end the cycle and penalize
                     return self.return_terminal(
-                        reason="CASH SHORTAGE", reward=self.get_reward()
+                        reason='CASH SHORTAGE', reward=self.get_reward()
                     )
             self.transaction_memory.append(
                 transactions
@@ -359,7 +360,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.date_index += 1
             if self.turbulence_threshold is not None:
                 self.turbulence = self.get_date_vector(
-                    self.date_index, cols=["turbulence"]
+                    self.date_index, cols=['turbulence']
                 )[0]
             # Update State
             state = (
@@ -380,7 +381,7 @@ class StockTradingEnvCashpenalty(gym.Env):
         def get_self():
             return deepcopy(self)
 
-        e = SubprocVecEnv([get_self for _ in range(n)], start_method="fork")
+        e = SubprocVecEnv([get_self for _ in range(n)], start_method='fork')
         obs = e.reset()
         return e, obs
 
@@ -388,8 +389,8 @@ class StockTradingEnvCashpenalty(gym.Env):
         if self.current_step == 0:
             return None
         else:
-            self.account_information["date"] = self.dates[
-                -len(self.account_information["cash"]) :
+            self.account_information['date'] = self.dates[
+                -len(self.account_information['cash']) :
             ]
             return pd.DataFrame(self.account_information)
 
@@ -399,8 +400,8 @@ class StockTradingEnvCashpenalty(gym.Env):
         else:
             return pd.DataFrame(
                 {
-                    "date": self.dates[-len(self.account_information["cash"]) :],
-                    "actions": self.actions_memory,
-                    "transactions": self.transaction_memory,
+                    'date': self.dates[-len(self.account_information['cash']) :],
+                    'actions': self.actions_memory,
+                    'transactions': self.transaction_memory,
                 }
             )

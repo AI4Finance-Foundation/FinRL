@@ -7,7 +7,7 @@ from gym import spaces
 from gym.utils import seeding
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-matplotlib.use("Agg")
+matplotlib.use('Agg')
 
 
 class StockPortfolioEnv(gym.Env):
@@ -59,7 +59,7 @@ class StockPortfolioEnv(gym.Env):
 
     """
 
-    metadata = {"render.modes": ["human"]}
+    metadata = {'render.modes': ['human']}
 
     def __init__(
         self,
@@ -102,7 +102,7 @@ class StockPortfolioEnv(gym.Env):
 
         # load data from a pandas dataframe
         self.data = self.df.loc[self.day, :]
-        self.covs = self.data["cov_list"].values[0]
+        self.covs = self.data['cov_list'].values[0]
         self.state = np.append(
             np.array(self.covs),
             [self.data[tech].values.tolist() for tech in self.tech_indicator_list],
@@ -127,29 +127,29 @@ class StockPortfolioEnv(gym.Env):
 
         if self.terminal:
             df = pd.DataFrame(self.portfolio_return_memory)
-            df.columns = ["daily_return"]
-            plt.plot(df.daily_return.cumsum(), "r")
-            plt.savefig("results/cumulative_reward.png")
+            df.columns = ['daily_return']
+            plt.plot(df.daily_return.cumsum(), 'r')
+            plt.savefig('results/cumulative_reward.png')
             plt.close()
 
-            plt.plot(self.portfolio_return_memory, "r")
-            plt.savefig("results/rewards.png")
+            plt.plot(self.portfolio_return_memory, 'r')
+            plt.savefig('results/rewards.png')
             plt.close()
 
-            print("=================================")
-            print("begin_total_asset:{}".format(self.asset_memory[0]))
-            print("end_total_asset:{}".format(self.portfolio_value))
+            print('=================================')
+            print(f'begin_total_asset:{self.asset_memory[0]}')
+            print(f'end_total_asset:{self.portfolio_value}')
 
             df_daily_return = pd.DataFrame(self.portfolio_return_memory)
-            df_daily_return.columns = ["daily_return"]
-            if df_daily_return["daily_return"].std() != 0:
+            df_daily_return.columns = ['daily_return']
+            if df_daily_return['daily_return'].std() != 0:
                 sharpe = (
-                    (252 ** 0.5)
-                    * df_daily_return["daily_return"].mean()
-                    / df_daily_return["daily_return"].std()
+                    (252**0.5)
+                    * df_daily_return['daily_return'].mean()
+                    / df_daily_return['daily_return'].std()
                 )
-                print("Sharpe: ", sharpe)
-            print("=================================")
+                print('Sharpe: ', sharpe)
+            print('=================================')
 
             return self.state, self.reward, self.terminal, {}
 
@@ -158,9 +158,9 @@ class StockPortfolioEnv(gym.Env):
             # actions are the portfolio weight
             # normalize to sum of 1
             # if (np.array(actions) - np.array(actions).min()).sum() != 0:
-            #  norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
+            # norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
             # else:
-            #  norm_actions = actions
+            # norm_actions = actions
             weights = self.softmax_normalization(actions)
             # print("Normalized actions: ", weights)
             self.actions_memory.append(weights)
@@ -169,7 +169,7 @@ class StockPortfolioEnv(gym.Env):
             # load next state
             self.day += 1
             self.data = self.df.loc[self.day, :]
-            self.covs = self.data["cov_list"].values[0]
+            self.covs = self.data['cov_list'].values[0]
             self.state = np.append(
                 np.array(self.covs),
                 [self.data[tech].values.tolist() for tech in self.tech_indicator_list],
@@ -202,7 +202,7 @@ class StockPortfolioEnv(gym.Env):
         self.day = 0
         self.data = self.df.loc[self.day, :]
         # load states
-        self.covs = self.data["cov_list"].values[0]
+        self.covs = self.data['cov_list'].values[0]
         self.state = np.append(
             np.array(self.covs),
             [self.data[tech].values.tolist() for tech in self.tech_indicator_list],
@@ -217,7 +217,7 @@ class StockPortfolioEnv(gym.Env):
         self.date_memory = [self.data.date.unique()[0]]
         return self.state
 
-    def render(self, mode="human"):
+    def render(self, mode='human'):
         return self.state
 
     def softmax_normalization(self, actions):
@@ -232,7 +232,7 @@ class StockPortfolioEnv(gym.Env):
         # print(len(date_list))
         # print(len(asset_list))
         df_account_value = pd.DataFrame(
-            {"date": date_list, "daily_return": portfolio_return}
+            {'date': date_list, 'daily_return': portfolio_return}
         )
         return df_account_value
 
@@ -240,7 +240,7 @@ class StockPortfolioEnv(gym.Env):
         # date and close price length must match actions length
         date_list = self.date_memory
         df_date = pd.DataFrame(date_list)
-        df_date.columns = ["date"]
+        df_date.columns = ['date']
 
         action_list = self.actions_memory
         df_actions = pd.DataFrame(action_list)

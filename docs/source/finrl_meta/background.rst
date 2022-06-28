@@ -44,6 +44,4 @@ We follow the DataOps paradigm in the data layer.
 
 .. image:: ../image/finrl_meta_dataops.png
     :width: 80%
-    :align: center 
-
-
+    :align: center

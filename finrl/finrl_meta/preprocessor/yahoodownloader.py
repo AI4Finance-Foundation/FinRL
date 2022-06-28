@@ -1,7 +1,6 @@
 """Contains methods and classes to collect data from
 Yahoo Finance API
 """
-
 import pandas as pd
 import yfinance as yf
 
@@ -46,47 +45,49 @@ class YahooDownloader:
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         for tic in self.ticker_list:
-            temp_df = yf.download(tic, start=self.start_date, end=self.end_date, proxy=proxy)
-            temp_df["tic"] = tic
+            temp_df = yf.download(
+                tic, start=self.start_date, end=self.end_date, proxy=proxy
+            )
+            temp_df['tic'] = tic
             data_df = data_df.append(temp_df)
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:
             # convert the column names to standardized names
             data_df.columns = [
-                "date",
-                "open",
-                "high",
-                "low",
-                "close",
-                "adjcp",
-                "volume",
-                "tic",
+                'date',
+                'open',
+                'high',
+                'low',
+                'close',
+                'adjcp',
+                'volume',
+                'tic',
             ]
             # use adjusted close price instead of close price
-            data_df["close"] = data_df["adjcp"]
+            data_df['close'] = data_df['adjcp']
             # drop the adjusted close price column
-            data_df = data_df.drop(labels="adjcp", axis=1)
+            data_df = data_df.drop(labels='adjcp', axis=1)
         except NotImplementedError:
-            print("the features are not supported currently")
+            print('the features are not supported currently')
         # create day of the week column (monday = 0)
-        data_df["day"] = data_df["date"].dt.dayofweek
+        data_df['day'] = data_df['date'].dt.dayofweek
         # convert date to standard string format, easy to filter
-        data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))
+        data_df['date'] = data_df.date.apply(lambda x: x.strftime('%Y-%m-%d'))
         # drop missing data
         data_df = data_df.dropna()
         data_df = data_df.reset_index(drop=True)
-        print("Shape of DataFrame: ", data_df.shape)
+        print('Shape of DataFrame: ', data_df.shape)
         # print("Display DataFrame: ", data_df.head())
 
-        data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
+        data_df = data_df.sort_values(by=['date', 'tic']).reset_index(drop=True)
 
         return data_df
 
     def select_equal_rows_stock(self, df):
         df_check = df.tic.value_counts()
         df_check = pd.DataFrame(df_check).reset_index()
-        df_check.columns = ["tic", "counts"]
+        df_check.columns = ['tic', 'counts']
         mean_df = df_check.counts.mean()
         equal_list = list(df.tic.value_counts() >= mean_df)
         names = df.tic.value_counts().index

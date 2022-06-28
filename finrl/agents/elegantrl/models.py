@@ -5,12 +5,14 @@ from elegantrl.agents import AgentPPO
 from elegantrl.agents import AgentSAC
 from elegantrl.agents import AgentTD3
 from elegantrl.train.config import Arguments
-# from elegantrl.agents import AgentA2C
-from elegantrl.train.run import train_and_evaluate, init_agent
+from elegantrl.train.run import init_agent
+from elegantrl.train.run import train_and_evaluate
 
-MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
-OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]
-ON_POLICY_MODELS = ["ppo"]
+# from elegantrl.agents import AgentA2C
+
+MODELS = {'ddpg': AgentDDPG, 'td3': AgentTD3, 'sac': AgentSAC, 'ppo': AgentPPO}
+OFF_POLICY_MODELS = ['ddpg', 'td3', 'sac']
+ON_POLICY_MODELS = ['ppo']
 """MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
 
 NOISE = {
@@ -44,28 +46,28 @@ class DRLAgent:
 
     def get_model(self, model_name, model_kwargs):
         env_config = {
-            "price_array": self.price_array,
-            "tech_array": self.tech_array,
-            "turbulence_array": self.turbulence_array,
-            "if_train": True,
+            'price_array': self.price_array,
+            'tech_array': self.tech_array,
+            'turbulence_array': self.turbulence_array,
+            'if_train': True,
         }
         env = self.env(config=env_config)
         env.env_num = 1
         agent = MODELS[model_name]
         if model_name not in MODELS:
-            raise NotImplementedError("NotImplementedError")
+            raise NotImplementedError('NotImplementedError')
         model = Arguments(agent=agent, env=env)
         model.if_off_policy = model_name in OFF_POLICY_MODELS
         if model_kwargs is not None:
             try:
-                model.learning_rate = model_kwargs["learning_rate"]
-                model.batch_size = model_kwargs["batch_size"]
-                model.gamma = model_kwargs["gamma"]
-                model.seed = model_kwargs["seed"]
-                model.net_dim = model_kwargs["net_dimension"]
-                model.target_step = model_kwargs["target_step"]
-                model.eval_gap = model_kwargs["eval_gap"]
-                model.eval_times = model_kwargs["eval_times"]
+                model.learning_rate = model_kwargs['learning_rate']
+                model.batch_size = model_kwargs['batch_size']
+                model.gamma = model_kwargs['gamma']
+                model.seed = model_kwargs['seed']
+                model.net_dim = model_kwargs['net_dimension']
+                model.target_step = model_kwargs['target_step']
+                model.eval_gap = model_kwargs['eval_gap']
+                model.eval_times = model_kwargs['eval_times']
             except BaseException:
                 raise ValueError(
                     "Fail to read arguments, please check 'model_kwargs' input."
@@ -80,7 +82,7 @@ class DRLAgent:
     @staticmethod
     def DRL_prediction(model_name, cwd, net_dimension, environment):
         if model_name not in MODELS:
-            raise NotImplementedError("NotImplementedError")
+            raise NotImplementedError('NotImplementedError')
         agent = MODELS[model_name]
         environment.env_num = 1
         args = Arguments(agent=agent, env=environment)
@@ -92,7 +94,7 @@ class DRLAgent:
             act = agent.act
             device = agent.device
         except BaseException:
-            raise ValueError("Fail to load agent!")
+            raise ValueError('Fail to load agent!')
 
         # test on the testing env
         _torch = torch
@@ -109,17 +111,17 @@ class DRLAgent:
                 state, reward, done, _ = environment.step(action)
 
                 total_asset = (
-                        environment.amount
-                        + (
-                                environment.price_ary[environment.day] * environment.stocks
-                        ).sum()
+                    environment.amount
+                    + (
+                        environment.price_ary[environment.day] * environment.stocks
+                    ).sum()
                 )
                 episode_total_assets.append(total_asset)
                 episode_return = total_asset / environment.initial_total_asset
                 episode_returns.append(episode_return)
                 if done:
                     break
-        print("Test Finished!")
+        print('Test Finished!')
         # return episode total_assets on testing data
-        print("episode_return", episode_return)
+        print('episode_return', episode_return)
         return episode_total_assets

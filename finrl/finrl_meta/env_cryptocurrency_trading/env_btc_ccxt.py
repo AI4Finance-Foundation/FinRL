@@ -15,7 +15,7 @@ class BitcoinEnv:  # custom env
         initial_account=1e6,
         max_stock=1e2,
         transaction_fee_percent=1e-3,
-        mode="train",
+        mode='train',
         gamma=0.99,
     ):
         self.stock_dim = 1
@@ -41,7 +41,7 @@ class BitcoinEnv:  # custom env
         self.gamma_return = 0.0
 
         """env information"""
-        self.env_name = "BitcoinEnv4"
+        self.env_name = 'BitcoinEnv4'
         self.state_dim = 1 + 1 + self.price_ary.shape[1] + self.tech_ary.shape[1]
         self.action_dim = 1
         self.if_discrete = False
@@ -58,20 +58,20 @@ class BitcoinEnv:  # custom env
         self.total_asset = self.account + self.day_price[0] * self.stocks
 
         normalized_tech = [
-            self.day_tech[0] * 2 ** -1,
-            self.day_tech[1] * 2 ** -15,
-            self.day_tech[2] * 2 ** -15,
-            self.day_tech[3] * 2 ** -6,
-            self.day_tech[4] * 2 ** -6,
-            self.day_tech[5] * 2 ** -15,
-            self.day_tech[6] * 2 ** -15,
+            self.day_tech[0] * 2**-1,
+            self.day_tech[1] * 2**-15,
+            self.day_tech[2] * 2**-15,
+            self.day_tech[3] * 2**-6,
+            self.day_tech[4] * 2**-6,
+            self.day_tech[5] * 2**-15,
+            self.day_tech[6] * 2**-15,
         ]
         state = np.hstack(
             (
-                self.account * 2 ** -18,
-                self.day_price * 2 ** -15,
+                self.account * 2**-18,
+                self.day_price * 2**-15,
                 normalized_tech,
-                self.stocks * 2 ** -4,
+                self.stocks * 2**-4,
             )
         ).astype(np.float32)
         return state
@@ -98,25 +98,25 @@ class BitcoinEnv:  # custom env
         self.day_tech = self.tech_ary[self.day]
         done = (self.day + 1) == self.max_step
         normalized_tech = [
-            self.day_tech[0] * 2 ** -1,
-            self.day_tech[1] * 2 ** -15,
-            self.day_tech[2] * 2 ** -15,
-            self.day_tech[3] * 2 ** -6,
-            self.day_tech[4] * 2 ** -6,
-            self.day_tech[5] * 2 ** -15,
-            self.day_tech[6] * 2 ** -15,
+            self.day_tech[0] * 2**-1,
+            self.day_tech[1] * 2**-15,
+            self.day_tech[2] * 2**-15,
+            self.day_tech[3] * 2**-6,
+            self.day_tech[4] * 2**-6,
+            self.day_tech[5] * 2**-15,
+            self.day_tech[6] * 2**-15,
         ]
         state = np.hstack(
             (
-                self.account * 2 ** -18,
-                self.day_price * 2 ** -15,
+                self.account * 2**-18,
+                self.day_price * 2**-15,
                 normalized_tech,
-                self.stocks * 2 ** -4,
+                self.stocks * 2**-4,
             )
         ).astype(np.float32)
 
         next_total_asset = self.account + self.day_price[0] * self.stocks
-        reward = (next_total_asset - self.total_asset) * 2 ** -16
+        reward = (next_total_asset - self.total_asset) * 2**-16
         self.total_asset = next_total_asset
 
         self.gamma_return = self.gamma_return * self.gamma + reward
@@ -161,14 +161,14 @@ class BitcoinEnv:  # custom env
 
         import matplotlib.pyplot as plt
 
-        plt.plot(episode_returns, label="agent return")
-        plt.plot(btc_returns, color="yellow", label="BTC return")
+        plt.plot(episode_returns, label='agent return')
+        plt.plot(btc_returns, color='yellow', label='BTC return')
         plt.grid()
-        plt.title("cumulative return")
-        plt.xlabel("day")
-        plt.xlabel("multiple of initial_account")
+        plt.title('cumulative return')
+        plt.xlabel('day')
+        plt.xlabel('multiple of initial_account')
         plt.legend()
-        plt.savefig(f"{cwd}/cumulative_return.jpg")
+        plt.savefig(f'{cwd}/cumulative_return.jpg')
         return episode_returns, btc_returns
 
     def load_data(
@@ -176,16 +176,16 @@ class BitcoinEnv:  # custom env
     ):
         if data_cwd is not None:
             try:
-                price_ary = np.load(f"{data_cwd}/price_ary.npy")
-                tech_ary = np.load(f"{data_cwd}/tech_ary.npy")
+                price_ary = np.load(f'{data_cwd}/price_ary.npy')
+                tech_ary = np.load(f'{data_cwd}/tech_ary.npy')
             except BaseException:
-                raise ValueError("Data files not found!")
+                raise ValueError('Data files not found!')
         else:
             price_ary = price_ary
             tech_ary = tech_ary
 
         n = price_ary.shape[0]
-        if self.mode == "train":
+        if self.mode == 'train':
             self.price_ary = price_ary[start:mid1]
             self.tech_ary = tech_ary[start:mid1]
             n = self.price_ary.shape[0]
@@ -193,7 +193,7 @@ class BitcoinEnv:  # custom env
             ind = [int(time_frequency) * i for i in range(x)]
             self.price_ary = self.price_ary[ind]
             self.tech_ary = self.tech_ary[ind]
-        elif self.mode == "test":
+        elif self.mode == 'test':
             self.price_ary = price_ary[mid1:mid2]
             self.tech_ary = tech_ary[mid1:mid2]
             n = self.price_ary.shape[0]
@@ -201,7 +201,7 @@ class BitcoinEnv:  # custom env
             ind = [int(time_frequency) * i for i in range(x)]
             self.price_ary = self.price_ary[ind]
             self.tech_ary = self.tech_ary[ind]
-        elif self.mode == "trade":
+        elif self.mode == 'trade':
             self.price_ary = price_ary[mid2:end]
             self.tech_ary = tech_ary[mid2:end]
             n = self.price_ary.shape[0]
@@ -210,4 +210,4 @@ class BitcoinEnv:  # custom env
             self.price_ary = self.price_ary[ind]
             self.tech_ary = self.tech_ary[ind]
         else:
-            raise ValueError("Invalid Mode!")
+            raise ValueError('Invalid Mode!')
