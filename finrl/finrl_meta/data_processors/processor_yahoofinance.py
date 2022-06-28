@@ -48,7 +48,7 @@ class YahooFinanceProcessor:
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            temp_df = yf.download(tic, start=start_date, end=end_date)
+            temp_df = yf.download(tic, start=start_date, end=end_date, interval=self.time_interval) #bug fix: add interval for download
             temp_df["tic"] = tic
             data_df = data_df.append(temp_df)
         # reset the index, we want to use numbers as index instead of dates
