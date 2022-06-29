@@ -48,7 +48,7 @@ def trade(
             )
 
         # initialize paper trading env
-        AlpacaPaperTrading(
+        paper_trading = AlpacaPaperTrading(
             ticker_list,
             time_interval,
             drl_lib,
@@ -66,7 +66,7 @@ def trade(
             latency=None,
         )
 
-        AlpacaPaperTrading.run()  # run paper trading
+        paper_trading.run()
 
     else:
         raise ValueError(
