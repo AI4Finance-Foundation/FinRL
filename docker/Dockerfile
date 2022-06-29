@@ -12,6 +12,10 @@ RUN pip install jupyterlab
 ENV TINI_VERSION v0.6.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
 RUN chmod +x /usr/bin/tini
+
+# copy the code instead of mounting
+COPY . .
+
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["jupyter", "lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--NotebookApp.token=''","--NotebookApp.password=''","--allow-root"]
