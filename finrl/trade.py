@@ -66,7 +66,9 @@ def trade(
             latency=None,
         )
 
+        # AlpacaPaperTrading.run()  # run paper trading
         paper_trading.run()
+        # bug fix run is a instance function not static
 
     else:
         raise ValueError(
