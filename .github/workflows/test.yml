@@ -12,7 +12,7 @@ jobs:
       - uses: docker/setup-buildx-action@v2
         id: buildx
         with:
-          diver-opts: --load
+          driver-opts: --load
           install: true
 
       - name: build container # use docker buildkit for caching?
