@@ -121,8 +121,11 @@ def main() -> int:
             trade_mode='paper_trading',
             if_vix=True,
             kwargs=kwargs,
-            state_dim=len(DOW_30_TICKER) * (len(INDICATORS) + 3) + 3,#bug fix: for ppo add dimension of state/observations space =  len(stocks)* len(INDICATORS) + 3+ 3*len(stocks)
-            action_dim=len(DOW_30_TICKER)#bug fix: for ppo add dimension of action space = len(stocks)
+            state_dim=len(DOW_30_TICKER) * (len(INDICATORS) + 3)
+            + 3,  # bug fix: for ppo add dimension of state/observations space =  len(stocks)* len(INDICATORS) + 3+ 3*len(stocks)
+            action_dim=len(
+                DOW_30_TICKER
+            ),  # bug fix: for ppo add dimension of action space = len(stocks)
         )
     else:
         raise ValueError('Wrong mode.')

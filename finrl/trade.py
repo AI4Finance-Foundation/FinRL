@@ -48,14 +48,27 @@ def trade(
             )
 
         # initialize paper trading env
-        paper_trading = AlpacaPaperTrading(ticker_list, time_interval, drl_lib, model_name,
-                           cwd, net_dim, state_dim, action_dim,
-                           API_KEY, API_SECRET, API_BASE_URL,
-                           technical_indicator_list, turbulence_thresh=30,
-                           max_stock=1e2, latency=None)
+        paper_trading = AlpacaPaperTrading(
+            ticker_list,
+            time_interval,
+            drl_lib,
+            model_name,
+            cwd,
+            net_dim,
+            state_dim,
+            action_dim,
+            API_KEY,
+            API_SECRET,
+            API_BASE_URL,
+            technical_indicator_list,
+            turbulence_thresh=30,
+            max_stock=1e2,
+            latency=None,
+        )
 
         # AlpacaPaperTrading.run()  # run paper trading
-        paper_trading.run();#bug fix run is a instance function not static
+        paper_trading.run()
+        # bug fix run is a instance function not static
 
     else:
         raise ValueError(
