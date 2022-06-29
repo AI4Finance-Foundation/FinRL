@@ -1,6 +1,3 @@
 #!/bin/bash
 
-
-docker run \
-    --rm \
-    -v "${PWD}":/home finrl python3 -m unittest discover
+docker run --rm finrl python3 -m pytest . -v

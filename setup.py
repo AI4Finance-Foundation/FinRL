@@ -24,10 +24,10 @@ setup(
     license="MIT",
     packages=find_packages(),
     install_requires=REQUIRES
-                     + ["pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2"]
-                     + [
-                         "elegantrl @ git+https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"
-                     ],
+    + ["pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2"]
+    + [
+        "elegantrl @ git+https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"
+    ],
     # install_requires=REQUIRES,
     description="FinRL: Financial Reinforcement Learning Framework.",
     # long_description="FinRL is the first open-source framework to demonstrate the great potential of  \
@@ -39,8 +39,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: Implementation :: CPython",
@@ -48,5 +46,5 @@ setup(
     ],
     keywords="Reinforcement Learning, Finance",
     platform=["any"],
-    python_requires=">=3.6",
+    python_requires=">=3.8",
 )
