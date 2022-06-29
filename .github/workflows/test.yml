@@ -6,7 +6,7 @@ on: [push, pull_request]
 jobs:
   # Set the job key. The key is displayed as the job name
   # when a job name is not provided
-  unittest:
+  tests:
     # Name the Job
     name: Test the code
     # Set the type of machine to run on
