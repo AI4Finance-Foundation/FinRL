@@ -9,8 +9,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: docker/setup-buildx-action@v2
+        id: buildx
+        with:
+          diver-opts: --load
+          install: true
 
-      - name: build container # use docker buildx for caching?
+      - name: build container # use docker buildkit for caching?
         run: bash docker/bin/build_container.sh
 
       - name: Run Tests
