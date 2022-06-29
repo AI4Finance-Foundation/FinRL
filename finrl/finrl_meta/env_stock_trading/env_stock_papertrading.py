@@ -20,7 +20,7 @@ class AlpacaPaperTrading():
             if drl_lib == 'elegantrl':              
                 from elegantrl.agents import AgentPPO
                 from elegantrl.train.run import init_agent
-                from elegantrl.run import Arguments
+                from elegantrl.train.config import Arguments #bug fix:ModuleNotFoundError: No module named 'elegantrl.run'
                 #load agent
                 config = {'state_dim':state_dim,
                             'action_dim':action_dim,}
@@ -88,6 +88,8 @@ class AlpacaPaperTrading():
             self.time_interval = 60 * 5
         elif time_interval == '15Min':
             self.time_interval = 60 * 15
+        elif time_interval == '1D': #bug fix:1D ValueError: Time interval input is NOT supported yet. Maybe any other better ways
+            self.time_interval = 24*60*60
         else:
             raise ValueError('Time interval input is NOT supported yet.')
         
