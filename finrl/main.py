@@ -86,9 +86,8 @@ def main() -> int:
         env = StockTradingEnv
 
         # demo for elegantrl
-        kwargs = (
-            {}
-        )  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        kwargs = {}
 
         account_value_erl = test(  # noqa
             start_date=TEST_START_DATE,
