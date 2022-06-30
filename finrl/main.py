@@ -1,29 +1,33 @@
 import os
-from typing import List
 from argparse import ArgumentParser
-from finrl import config
-from finrl.config_tickers import DOW_30_TICKER
-from finrl.config_private import (ALPACA_API_KEY,ALPACA_API_SECRET)
+from typing import List
+
 from finrl.config import (
-    DATA_SAVE_DIR,
-    TRAINED_MODEL_DIR,
-    TENSORBOARD_LOG_DIR,
-    RESULTS_DIR,
-    INDICATORS,
-    TRAIN_START_DATE,
-    TRAIN_END_DATE,
-    TEST_START_DATE,
-    TEST_END_DATE,
-    TRADE_START_DATE,
-    TRADE_END_DATE,
-    ERL_PARAMS,
-    RLlib_PARAMS,
-    SAC_PARAMS,
     ALPACA_API_BASE_URL,
+    DATA_SAVE_DIR,
+    ERL_PARAMS,
+    INDICATORS,
+    RESULTS_DIR,
+    TENSORBOARD_LOG_DIR,
+    TEST_END_DATE,
+    TEST_START_DATE,
+    TRADE_END_DATE,
+    TRADE_START_DATE,
+    TRAIN_END_DATE,
+    TRAIN_START_DATE,
+    TRAINED_MODEL_DIR,
 )
+from finrl.config_tickers import DOW_30_TICKER
 
 # construct environment
 from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+
+try:
+    from finrl.config_private import ALPACA_API_KEY, ALPACA_API_SECRET
+except ImportError:
+    raise FileNotFoundError(
+        "Please set your own ALPACA_API_KEY and ALPACA_API_SECRET in config_private.py"
+    )
 
 
 def build_parser():
@@ -45,11 +49,12 @@ def check_and_make_directories(directories: List[str]):
             os.makedirs("./" + directory)
 
 
-
-def main():
+def main() -> int:
     parser = build_parser()
     options = parser.parse_args()
-    check_and_make_directories([DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR])
+    check_and_make_directories(
+        [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
+    )
 
     if options.mode == "train":
         from finrl import train
@@ -57,7 +62,9 @@ def main():
         env = StockTradingEnv
 
         # demo for elegantrl
-        kwargs = {}  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        kwargs = (
+            {}
+        )  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         train(
             start_date=TRAIN_START_DATE,
             end_date=TRAIN_END_DATE,
@@ -75,12 +82,15 @@ def main():
         )
     elif options.mode == "test":
         from finrl import test
+
         env = StockTradingEnv
 
         # demo for elegantrl
-        kwargs = {}  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        kwargs = (
+            {}
+        )  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
 
-        account_value_erl = test(
+        account_value_erl = test(  # noqa
             start_date=TEST_START_DATE,
             end_date=TEST_END_DATE,
             ticker_list=DOW_30_TICKER,
@@ -96,6 +106,7 @@ def main():
         )
     elif options.mode == "trade":
         from finrl import trade
+
         env = StockTradingEnv
         kwargs = {}
         trade(
@@ -111,19 +122,23 @@ def main():
             API_KEY=ALPACA_API_KEY,
             API_SECRET=ALPACA_API_SECRET,
             API_BASE_URL=ALPACA_API_BASE_URL,
-            trade_mode='paper_trading',
+            trade_mode="paper_trading",
             if_vix=True,
             kwargs=kwargs,
-            state_dim=len(DOW_30_TICKER) * (len(INDICATORS) + 3) + 3,#bug fix: for ppo add dimension of state/observations space =  len(stocks)* len(INDICATORS) + 3+ 3*len(stocks)
-            action_dim=len(DOW_30_TICKER)#bug fix: for ppo add dimension of action space = len(stocks)
+            state_dim=len(DOW_30_TICKER) * (len(INDICATORS) + 3)
+            + 3,  # bug fix: for ppo add dimension of state/observations space =  len(stocks)* len(INDICATORS) + 3+ 3*len(stocks)
+            action_dim=len(
+                DOW_30_TICKER
+            ),  # bug fix: for ppo add dimension of action space = len(stocks)
         )
     else:
         raise ValueError("Wrong mode.")
+    return 0
 
 
-## Users can input the following command in terminal
-# python main.py --mode=train
+# Users can input the following command in terminal
+# python main.py --mode=traind
 # python main.py --mode=test
 # python main.py --mode=trade
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
