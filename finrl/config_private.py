@@ -1,0 +1,2 @@
+ALPACA_API_KEY = 'xxx'
+ALPACA_API_SECRET = 'xxx'
