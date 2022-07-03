@@ -15,7 +15,7 @@ Data Accessing
 
 We connect data APIs of different platforms and unify them using a FinRL-Meta data processor. Users can access data from various sources given the start date, end date, stock list, time interval, and kwargs.
 
-.. image:: ../image/finrl-meta_data_source.png
+.. image:: ../image/FinRL-Meta-Data-layer.png
     :width: 80%
     :align: center
 
