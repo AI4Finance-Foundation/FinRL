@@ -8,7 +8,7 @@ Following the *de facto* standard of OpenAI Gym, we build a universe of market e
 
 1. Layered structure
 ======================================
-.. image:: ../image/FinRL-Meta-Data-layer.png
+.. image:: ../image/finrl-meta_overview.png
     :width: 80%
     :align: center
 
