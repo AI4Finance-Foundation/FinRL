@@ -2,7 +2,7 @@ import os
 from argparse import ArgumentParser
 from typing import List
 
-from config import (
+from finrl.config import (
     ALPACA_API_BASE_URL,
     DATA_SAVE_DIR,
     ERL_PARAMS,
@@ -17,13 +17,13 @@ from config import (
     TRAIN_START_DATE,
     TRAINED_MODEL_DIR,
 )
-from config_tickers import DOW_30_TICKER
+from finrl.config_tickers import DOW_30_TICKER
 
 # construct environment
-from finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
 try:
-    from config_private import ALPACA_API_KEY, ALPACA_API_SECRET
+    from finrl.config_private import ALPACA_API_KEY, ALPACA_API_SECRET
 except ImportError:
     raise FileNotFoundError(
         "Please set your own ALPACA_API_KEY and ALPACA_API_SECRET in config_private.py"
@@ -57,7 +57,7 @@ def main() -> int:
     )
 
     if options.mode == "train":
-        from train import train
+        from finrl import train
 
         env = StockTradingEnv
 

@@ -1,4 +1,4 @@
-from config import (
+from finrl.config import (
     INDICATORS,
     TRAIN_START_DATE,
     TRAIN_END_DATE,
@@ -7,12 +7,12 @@ from config import (
     SAC_PARAMS,
 )
 
-from config_tickers import DOW_30_TICKER
+from finrl.config_tickers import DOW_30_TICKER
 
-from finrl_meta.data_processor import DataProcessor
+from finrl.finrl_meta.data_processor import DataProcessor
 
 # construct environment
-from finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
 def train(
         start_date,
@@ -47,7 +47,7 @@ def train(
     cwd = kwargs.get("cwd", "./" + str(model_name))
 
     if drl_lib == "elegantrl":
-        from agents.elegantrl.models import DRLAgent as DRLAgent_erl
+        from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
         break_step = kwargs.get("break_step", 1e6)
         erl_params = kwargs.get("erl_params")
         agent = DRLAgent_erl(
@@ -63,7 +63,7 @@ def train(
     elif drl_lib == "rllib":
         total_episodes = kwargs.get("total_episodes", 100)
         rllib_params = kwargs.get("rllib_params")
-        from agents.rllib.models import DRLAgent as DRLAgent_rllib
+        from finrl.agents.rllib.models import DRLAgent as DRLAgent_rllib
         agent_rllib = DRLAgent_rllib(
             env=env,
             price_array=price_array,
@@ -85,7 +85,7 @@ def train(
     elif drl_lib == "stable_baselines3":
         total_timesteps = kwargs.get("total_timesteps", 1e6)
         agent_params = kwargs.get("agent_params")
-        from agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
+        from finrl.agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
         agent = DRLAgent_sb3(env=env_instance)
         model = agent.get_model(model_name, model_kwargs=agent_params)
         trained_model = agent.train_model(
