@@ -31,7 +31,7 @@ def indicators():
 
 @pytest.fixture(scope="session")
 def start_date():
-    return "2009-01-01"
+    return "2021-01-01"
 
 @pytest.fixture(scope="session")
 def end_date():
@@ -42,26 +42,12 @@ def test_check_and_make_directories(DIRS):
     for dir in DIRS:
         assert os.path.exists(dir)
 
-
-def test_download_small(ticker_list_small):
-    df = YahooDownloader(start_date = '2009-01-01',
-                     end_date = '2009-01-02',
-                     ticker_list = ticker_list_small).fetch_data()
-    assert isinstance(df, pd.DataFrame)
-
-
-def test_download_small_size(ticker_list_small):
-    df = YahooDownloader(start_date = '2009-01-01',
-                     end_date = '2009-01-02',
-                     ticker_list = ticker_list_small).fetch_data()
-    assert df.shape == (2, 8)
-
-
 def test_download_large(ticker_list, start_date, end_date):
     df = YahooDownloader(start_date = start_date,
                      end_date = end_date,
                      ticker_list = ticker_list).fetch_data()
-    assert df.shape == (94360, 8)
+    assert isinstance(df, pd.DataFrame)
+    assert df.shape == (6300, 8)
 
 
 def test_feature_engineer(ticker_list, indicators):
