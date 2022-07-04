@@ -63,6 +63,26 @@ def test_download_large(ticker_list, start_date, end_date):
     assert isinstance(df, pd.DataFrame)
     assert df.shape == (6300, 8) or df.shape == (6270, 8)
 
+def test_feature_engineer_no_turbulence(ticker_list, indicators, start_date, end_date):
+    """
+    Tests the feature_engineer function - WIP
+    """
+    assert isinstance(ticker_list, list)
+    assert isinstance(indicators, list)
+
+    df = YahooDownloader(
+        start_date=start_date, end_date=end_date, ticker_list=ticker_list
+    ).fetch_data()
+    fe = FeatureEngineer(
+        use_technical_indicator=True,
+        tech_indicator_list=indicators,
+        use_vix=True,
+        use_turbulence=False,
+        user_defined_feature=False,
+    )
+    processed = fe.preprocess_data(df)
+    # to be continued
+
 
 def test_feature_engineer(ticker_list, indicators, start_date, end_date):
     """
