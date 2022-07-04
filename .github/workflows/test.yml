@@ -1,6 +1,8 @@
 name: Run Tests!
 
-on: [push, pull_request]
+on:
+  schedule:
+    - 0 6 * * *
 
 jobs:
   tests:
