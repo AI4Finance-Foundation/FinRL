@@ -1,12 +1,14 @@
 """Contains methods and classes to collect data from
 tushare API
 """
+from __future__ import annotations
 
 import pandas as pd
 import tushare as ts
 from tqdm import tqdm
 
-class TushareDownloader :
+
+class TushareDownloader:
     """Provides methods for retrieving daily stock data from
     tushare API
     Attributes
@@ -42,7 +44,7 @@ class TushareDownloader :
         self.start_date = start_date
         self.end_date = end_date
         self.ticker_list = ticker_list
-        
+
     def fetch_data(self) -> pd.DataFrame:
         """Fetches data from Yahoo API
         Parameters
@@ -55,17 +57,31 @@ class TushareDownloader :
         """
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
-        for tic in  tqdm(self.ticker_list, total=len(self.ticker_list)):
-            temp_df = ts.get_hist_data(tic[0:6],start=self.start_date,end=self.end_date)
+        for tic in tqdm(self.ticker_list, total=len(self.ticker_list)):
+            temp_df = ts.get_hist_data(
+                tic[0:6], start=self.start_date, end=self.end_date
+            )
             temp_df["tic"] = tic[0:6]
             data_df = data_df.append(temp_df)
         data_df = data_df.reset_index(level="date")
 
         # create day of the week column (monday = 0)
-        data_df = data_df.drop(["price_change","p_change","ma5","ma10","ma20","v_ma5","v_ma10","v_ma20"], 1)
-        data_df["day"] =  pd.to_datetime(data_df["date"]).dt.dayofweek
-        #rank desc
-        data_df = data_df.sort_index(axis=0,ascending=False)
+        data_df = data_df.drop(
+            [
+                "price_change",
+                "p_change",
+                "ma5",
+                "ma10",
+                "ma20",
+                "v_ma5",
+                "v_ma10",
+                "v_ma20",
+            ],
+            1,
+        )
+        data_df["day"] = pd.to_datetime(data_df["date"]).dt.dayofweek
+        # rank desc
+        data_df = data_df.sort_index(axis=0, ascending=False)
         data_df = data_df.reset_index(drop=True)
         # convert date to standard string format, easy to filter
         data_df["date"] = pd.to_datetime(data_df["date"])
@@ -75,7 +91,7 @@ class TushareDownloader :
         print("Shape of DataFrame: ", data_df.shape)
         # print("Display DataFrame: ", data_df.head())
         print(data_df)
-        data_df = data_df.sort_values(by=['date','tic']).reset_index(drop=True)
+        data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
         return data_df
 
     def select_equal_rows_stock(self, df):

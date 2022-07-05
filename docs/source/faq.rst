@@ -176,13 +176,13 @@ Outline
     - :raw-html:`<font color="#A52A2A">What new SOTA models will be incorporated on FinRL?  </font>`
 
 	*Please check our development roadmap at our Github repo: https://github.com/AI4Finance-LLC/FinRL-Library*
-	
+
     - :raw-html:`<font color="#A52A2A">What's the main difference between FinRL and FinRL-Meta?  </font>`
 
 	*FinRL aims for education and demonstration, while FinRL-Meta aims for building financial big data and a metaverse of data-driven financial RL.*
 
 .. _Section-5:
-    
+
 5-Common issues/bugs
 ====================================
 - Package trading_calendars reports errors in Windows system:\

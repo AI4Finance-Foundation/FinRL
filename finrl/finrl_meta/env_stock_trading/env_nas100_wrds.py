@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 
 import gym
@@ -24,7 +26,7 @@ class StockEnvNAS100:
         buy_cost_pct=1e-3,
         sell_cost_pct=1e-3,
         data_gap=4,
-        reward_scaling=2 ** -11,
+        reward_scaling=2**-11,
         ticker_list=None,
         tech_indicator_list=None,
         initial_stocks=None,
@@ -48,10 +50,10 @@ class StockEnvNAS100:
             ]
         self.price_ary, self.tech_ary, turbulence_ary = data_arrays
 
-        self.tech_ary = self.tech_ary * 2 ** -7
+        self.tech_ary = self.tech_ary * 2**-7
         self.turbulence_bool = (turbulence_ary > turbulence_thresh).astype(np.float32)
         self.turbulence_ary = (
-            self.sigmoid_sign(turbulence_ary, turbulence_thresh) * 2 ** -5
+            self.sigmoid_sign(turbulence_ary, turbulence_thresh) * 2**-5
         ).astype(np.float32)
 
         stock_dim = self.price_ary.shape[1]
@@ -152,8 +154,8 @@ class StockEnvNAS100:
         return state, reward, done, dict()
 
     def get_state(self, price):
-        amount = np.array(max(self.amount, 1e4) * (2 ** -12), dtype=np.float32)
-        scale = np.array(2 ** -6, dtype=np.float32)
+        amount = np.array(max(self.amount, 1e4) * (2**-12), dtype=np.float32)
+        scale = np.array(2**-6, dtype=np.float32)
         return np.hstack(
             (
                 amount,

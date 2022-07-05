@@ -22,10 +22,9 @@ Introduction
 **Contributions**
 
 
-    - FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided. 
+    - FinRL is an open source library specifically designed and implemented for quantitative finance. Trading environments incorporating market frictions are used and provided.
     - Trading tasks accompanied by hands-on tutorials with built-in DRL agents are available in a beginner-friendly and reproducible fashion using Jupyter notebook. Customization of trading time steps is feasible.
-    - FinRL has good scalability, with fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported. 
-    - Typical use cases are selected to establish benchmarks for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation. 
+    - FinRL has good scalability, with fine-tuned state-of-the-art DRL algorithms. Adjusting the implementations to the rapid changing stock market is well supported.
+    - Typical use cases are selected to establish benchmarks for the quantitative finance community. Standard backtesting and evaluation metrics are also provided for easy and effective performance evaluation.
 
 With FinRL library, the implementation of powerful DRL trading strategies becomes more accessible, efficient and delightful.
-

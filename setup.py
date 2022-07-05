@@ -1,4 +1,7 @@
-from setuptools import find_packages, setup
+from __future__ import annotations
+
+from setuptools import find_packages
+from setuptools import setup
 
 # Read requirements.txt, ignore comments
 try:

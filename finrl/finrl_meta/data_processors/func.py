@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import os
 
@@ -40,7 +42,7 @@ def remove_all_files(remove, path_of_data):
 
     if remove == 1:
         if len(dir_list) == 0:
-            print("dir_list: {}. Right.".format(dir_list))
+            print(f"dir_list: {dir_list}. Right.")
         else:
             print(
                 "dir_list: {}. Wrong. You should remove all files by hands.".format(
@@ -50,9 +52,9 @@ def remove_all_files(remove, path_of_data):
         assert len(dir_list) == 0
     else:
         if len(dir_list) == 0:
-            print("dir_list: {}. Wrong. There is not data.".format(dir_list))
+            print(f"dir_list: {dir_list}. Wrong. There is not data.")
         else:
-            print("dir_list: {}. Right.".format(dir_list))
+            print(f"dir_list: {dir_list}. Right.")
         assert len(dir_list) > 0
 
 
