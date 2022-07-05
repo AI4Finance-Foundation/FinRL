@@ -1,6 +1,7 @@
-'''
+"""
 DRL models from ElegantRL: https://github.com/AI4Finance-Foundation/ElegantRL
-'''
+"""
+from __future__ import annotations
 
 import torch
 from elegantrl.agents import AgentDDPG
@@ -8,9 +9,10 @@ from elegantrl.agents import AgentPPO
 from elegantrl.agents import AgentSAC
 from elegantrl.agents import AgentTD3
 from elegantrl.train.config import Arguments
+from elegantrl.train.run import init_agent
+from elegantrl.train.run import train_and_evaluate
 
 # from elegantrl.agents import AgentA2C
-from elegantrl.train.run import train_and_evaluate, init_agent
 
 MODELS = {"ddpg": AgentDDPG, "td3": AgentTD3, "sac": AgentSAC, "ppo": AgentPPO}
 OFF_POLICY_MODELS = ["ddpg", "td3", "sac"]

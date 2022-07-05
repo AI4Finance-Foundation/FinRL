@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from copy import deepcopy
 
 import matplotlib.dates as mdates
@@ -42,11 +44,11 @@ def backtest_stats(account_value, value_col_name="account_value"):
 
 
 def backtest_plot(
-        account_value,
-        baseline_start=config.TRADE_START_DATE,
-        baseline_end=config.TRADE_END_DATE,
-        baseline_ticker="^DJI",
-        value_col_name="account_value",
+    account_value,
+    baseline_start=config.TRADE_START_DATE,
+    baseline_end=config.TRADE_END_DATE,
+    baseline_ticker="^DJI",
+    value_col_name="account_value",
 ):
     df = deepcopy(account_value)
     df["date"] = pd.to_datetime(df["date"])
@@ -88,7 +90,7 @@ def trx_plot(df_trade, df_actions, ticker_list):
         tic_plot = df_trade[
             (df_trade["tic"] == df_trx_temp.name)
             & (df_trade["date"].isin(df_trx.index))
-            ]["close"]
+        ]["close"]
         tic_plot.index = df_trx_temp.index
 
         plt.figure(figsize=(10, 8))

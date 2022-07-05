@@ -17,7 +17,7 @@ Welcome to FinRL Library!
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
 
-**AI4Finance** community provides this demonstrative and educational resource, in order to efficiently automate trading. FinRL is the first open source framework for financial reinforcement learning. 
+**AI4Finance** community provides this demonstrative and educational resource, in order to efficiently automate trading. FinRL is the first open source framework for financial reinforcement learning.
 
 .. _FinRL: https://github.com/AI4Finance-Foundation/FinRL
 
@@ -42,14 +42,14 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
 .. toctree::
    :maxdepth: 1
    :hidden:
-   
+
    Home <self>
 
 
 .. toctree::
    :maxdepth: 1
    :caption: Getting Started
-   
+
    start/introduction
    start/first_glance
    start/three_layer
@@ -57,7 +57,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    start/quick_start
 
 
-.. toctree:: 
+.. toctree::
    :maxdepth: 1
    :caption: FinRL-Meta
 
@@ -78,8 +78,8 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    tutorial/3-Practical
    tutorial/4-Optimization
    tutorial/5-Others
-   
-   
+
+
 .. toctree::
    :maxdepth: 1
    :caption: Developer Guide

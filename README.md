@@ -1,5 +1,5 @@
 # FinRL: Financial Reinforcement Learning [![twitter][1.1]][1] [![facebook][1.2]][2] [![google+][1.3]][3] [![linkedin][1.4]][4]
- 
+
 [1.1]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_twitter_22x22.png
 [1.2]: http://www.tensorlet.org/wp-content/uploads/2021/01/facebook-button_22x22.png
 [1.3]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_google_22.xx_.png
@@ -20,15 +20,15 @@
 ![License](https://img.shields.io/github/license/AI4Finance-Foundation/finrl.svg?color=brightgreen)
 
 <div align="center">
-<img align="center" src=figs/logo_transparent_background.png width="45%"/> 
+<img align="center" src=figs/logo_transparent_background.png width="45%"/>
 </div>
- 
+
 
 **FinRL** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source project** to show the great potential of deep reinforcement learning in finance.
 
-The FinRL ecosystem is a unified framework, including various financial markets, state-of-the-art algorithms, financial tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
+The FinRL ecosystem is a unified framework, including various financial markets, state-of-the-art algorithms, financial tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc.
 
-| Roadmap  | Level | Users | Example | Desription | 
+| Roadmap  | Level | Users | Example | Desription |
 |----|----|----|----|----|
 | 0.0 (Preparation) | preparation | practitioners of financial big data | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of market environments|
 | 1.0 (Proof-of-Concept)| entry-level | beginners | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | demonstration, education |
@@ -76,7 +76,7 @@ A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the
 
 ## File Structure
 
-The main folder **finrl** has three subfolders **applications, agents, finrl_meta**. 
+The main folder **finrl** has three subfolders **applications, agents, finrl_meta**.
 
 We employ a **train-test-trade** pipeline with three files: train.py, test.py, and trade.py.
 
@@ -107,7 +107,7 @@ FinRL
 │   ├── train.py
 │   ├── test.py
 │   └── trade.py
-│   
+│
 ├── tutorial (tutorial notebooks and educational files)
 ├── unit_testing (make sure verified codes working on env & data)
 │   ├── test_env
@@ -119,7 +119,7 @@ FinRL
 └── README.md
 ```
 
-## Supported Data Sources 
+## Supported Data Sources
 
 |Data Source |Type |Range and Frequency |Request Limits|Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |
@@ -173,7 +173,7 @@ FinRL
 
 OHLCV: open, high, low, and close prices; volume. adjusted_close: adjusted close price
 
-Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'. Users also can add new features. 
+Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'. Users also can add new features.
 
 
 ## Installation
@@ -187,7 +187,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 * 2021-08-25
 	0.3.1: pytorch version with a three-layer architecture, apps (financial tasks), drl_agents (drl algorithms), neo_finrl (gym env)
 * 2020-12-14
-  	Upgraded to **Pytorch** with stable-baselines3; Remove tensorflow 1.0 at this moment, under development to support tensorflow 2.0 
+  	Upgraded to **Pytorch** with stable-baselines3; Remove tensorflow 1.0 at this moment, under development to support tensorflow 2.0
 * 2020-11-27
   	0.1: Beta version with tensorflow 1.5
 </div>
@@ -195,10 +195,10 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 
 ## Contributions
 
-- FinRL is the first open-source framework to demonstrate the great potential of applying DRL algorithms in quantitative finance. We build an ecosystem around the FinRL framework. 
-- The application layer provides interfaces for users to customize FinRL to their own trading tasks. Automated backtesting tool and performance metrics are provided to help quantitative traders iterate trading strategies at a high turnover rate. Profitable trading strategies are reproducible and hands-on tutorials are provided in a beginner-friendly fashion. Adjusting the trained models to the rapidly changing markets is also possible. 
-- The agent layer provides state-of-the-art DRL algorithms that are adapted to finance with fine-tuned hyperparameters. Users can add new DRL algorithms. 
-- The environment layer includes not only a collection of historical data APIs, but also live trading APIs. They are reconfigured into standard OpenAI gym-style environments. Moreover, it incorporates market frictions and allows users to customize the trading time granularity. 
+- FinRL is the first open-source framework to demonstrate the great potential of applying DRL algorithms in quantitative finance. We build an ecosystem around the FinRL framework.
+- The application layer provides interfaces for users to customize FinRL to their own trading tasks. Automated backtesting tool and performance metrics are provided to help quantitative traders iterate trading strategies at a high turnover rate. Profitable trading strategies are reproducible and hands-on tutorials are provided in a beginner-friendly fashion. Adjusting the trained models to the rapidly changing markets is also possible.
+- The agent layer provides state-of-the-art DRL algorithms that are adapted to finance with fine-tuned hyperparameters. Users can add new DRL algorithms.
+- The environment layer includes not only a collection of historical data APIs, but also live trading APIs. They are reconfigured into standard OpenAI gym-style environments. Moreover, it incorporates market frictions and allows users to customize the trading time granularity.
 
 
 ## Tutorials
@@ -226,15 +226,15 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 ## Publications
 
 |Title |Conference |Link|Citations|Year|
-|  ----  |  ----  |  ----  |  ----  |  ----  |  
-|**FinRL-Meta**: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance| NeurIPS 2021 Data-Centric AI Workshop| paper: https://arxiv.org/abs/2112.06753 ;<br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta| 2| 2021| 
-|Explainable deep reinforcement learning for portfolio management: An empirical approach| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.03995;<br />code: [https://github.com/AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_PortfolioAllocation_Explainable_DRL/FinRL_PortfolioAllocation_Explainable_DRL.py)| 1| 2021| 
-|**FinRL-Podracer**: High performance and scalable deep reinforcement learning for quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.05188;<br />code: https://github.com/AI4Finance-Foundation/FinRL_Podracer| 2 | 2021| 
-|**FinRL**: Deep reinforcement learning framework to automate trading in quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 7 | 2021| 
-|**FinRL**: A deep reinforcement learning library for automated stock trading in quantitative finance| NeurIPS 2020 Deep RL Workshop  | paper: https://arxiv.org/abs/2011.09607;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 25 | 2020| 
-|Deep reinforcement learning for automated stock trading: An ensemble strategy| ICAIF 2020 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996;<br />repo: https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020; <br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_Ensemble_StockTrading_ICAIF_2020/FinRL_Ensemble_StockTrading_ICAIF_2020.ipynb| 46 | 2020| 
-|Multi-agent reinforcement learning for liquidation strategy analysis| ICML 2019 Workshop on AI in Finance: Applications and Infrastructure for Multi-Agent Learning| paper: https://arxiv.org/abs/1906.11046; <br />repo: https://github.com/AI4Finance-Foundation/Liquidation-Analysis-using-Multi-Agent-Reinforcement-Learning-ICML-2019; <br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/execution_optimizing/execution_optimizing.ipynb| 19 | 2019| 
-|Practical deep reinforcement learning approach for stock trading| NeurIPS 2018 Workshop on Challenges and Opportunities for AI in Financial Services| paper: https://arxiv.org/abs/1811.07522; <br />code: https://github.com/AI4Finance-Foundation/DQN-DDPG_Stock_Trading| 87 | 2018 | 
+|  ----  |  ----  |  ----  |  ----  |  ----  |
+|**FinRL-Meta**: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance| NeurIPS 2021 Data-Centric AI Workshop| paper: https://arxiv.org/abs/2112.06753 ;<br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta| 2| 2021|
+|Explainable deep reinforcement learning for portfolio management: An empirical approach| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.03995;<br />code: [https://github.com/AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_PortfolioAllocation_Explainable_DRL/FinRL_PortfolioAllocation_Explainable_DRL.py)| 1| 2021|
+|**FinRL-Podracer**: High performance and scalable deep reinforcement learning for quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.05188;<br />code: https://github.com/AI4Finance-Foundation/FinRL_Podracer| 2 | 2021|
+|**FinRL**: Deep reinforcement learning framework to automate trading in quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 7 | 2021|
+|**FinRL**: A deep reinforcement learning library for automated stock trading in quantitative finance| NeurIPS 2020 Deep RL Workshop  | paper: https://arxiv.org/abs/2011.09607;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 25 | 2020|
+|Deep reinforcement learning for automated stock trading: An ensemble strategy| ICAIF 2020 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996;<br />repo: https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020; <br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_Ensemble_StockTrading_ICAIF_2020/FinRL_Ensemble_StockTrading_ICAIF_2020.ipynb| 46 | 2020|
+|Multi-agent reinforcement learning for liquidation strategy analysis| ICML 2019 Workshop on AI in Finance: Applications and Infrastructure for Multi-Agent Learning| paper: https://arxiv.org/abs/1906.11046; <br />repo: https://github.com/AI4Finance-Foundation/Liquidation-Analysis-using-Multi-Agent-Reinforcement-Learning-ICML-2019; <br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/execution_optimizing/execution_optimizing.ipynb| 19 | 2019|
+|Practical deep reinforcement learning approach for stock trading| NeurIPS 2018 Workshop on Challenges and Opportunities for AI in Financial Services| paper: https://arxiv.org/abs/1811.07522; <br />code: https://github.com/AI4Finance-Foundation/DQN-DDPG_Stock_Trading| 87 | 2018 |
 
 
 ## News
@@ -273,7 +273,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 
 ```
 
-We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ), resulting in this project. Closely related papers are given in the [list](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/FinRL_papers.md). 
+We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ), resulting in this project. Closely related papers are given in the [list](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/FinRL_papers.md).
 
 
 ## Join and Contribute
@@ -298,7 +298,7 @@ Please check [Contributing Guidances](https://github.com/AI4Finance-Foundation/F
 
 ### Contributors
 
-Thanks! 
+Thanks!
 
 <a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
@@ -333,4 +333,3 @@ Network: USDT-TRC20
 MIT License
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
-

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 
 
@@ -58,20 +60,20 @@ class BitcoinEnv:  # custom env
         self.total_asset = self.account + self.day_price[0] * self.stocks
 
         normalized_tech = [
-            self.day_tech[0] * 2 ** -1,
-            self.day_tech[1] * 2 ** -15,
-            self.day_tech[2] * 2 ** -15,
-            self.day_tech[3] * 2 ** -6,
-            self.day_tech[4] * 2 ** -6,
-            self.day_tech[5] * 2 ** -15,
-            self.day_tech[6] * 2 ** -15,
+            self.day_tech[0] * 2**-1,
+            self.day_tech[1] * 2**-15,
+            self.day_tech[2] * 2**-15,
+            self.day_tech[3] * 2**-6,
+            self.day_tech[4] * 2**-6,
+            self.day_tech[5] * 2**-15,
+            self.day_tech[6] * 2**-15,
         ]
         state = np.hstack(
             (
-                self.account * 2 ** -18,
-                self.day_price * 2 ** -15,
+                self.account * 2**-18,
+                self.day_price * 2**-15,
                 normalized_tech,
-                self.stocks * 2 ** -4,
+                self.stocks * 2**-4,
             )
         ).astype(np.float32)
         return state
@@ -98,25 +100,25 @@ class BitcoinEnv:  # custom env
         self.day_tech = self.tech_ary[self.day]
         done = (self.day + 1) == self.max_step
         normalized_tech = [
-            self.day_tech[0] * 2 ** -1,
-            self.day_tech[1] * 2 ** -15,
-            self.day_tech[2] * 2 ** -15,
-            self.day_tech[3] * 2 ** -6,
-            self.day_tech[4] * 2 ** -6,
-            self.day_tech[5] * 2 ** -15,
-            self.day_tech[6] * 2 ** -15,
+            self.day_tech[0] * 2**-1,
+            self.day_tech[1] * 2**-15,
+            self.day_tech[2] * 2**-15,
+            self.day_tech[3] * 2**-6,
+            self.day_tech[4] * 2**-6,
+            self.day_tech[5] * 2**-15,
+            self.day_tech[6] * 2**-15,
         ]
         state = np.hstack(
             (
-                self.account * 2 ** -18,
-                self.day_price * 2 ** -15,
+                self.account * 2**-18,
+                self.day_price * 2**-15,
                 normalized_tech,
-                self.stocks * 2 ** -4,
+                self.stocks * 2**-4,
             )
         ).astype(np.float32)
 
         next_total_asset = self.account + self.day_price[0] * self.stocks
-        reward = (next_total_asset - self.total_asset) * 2 ** -16
+        reward = (next_total_asset - self.total_asset) * 2**-16
         self.total_asset = next_total_asset
 
         self.gamma_return = self.gamma_return * self.gamma + reward

@@ -1,9 +1,10 @@
 """Reference: https://github.com/AI4Finance-LLC/FinRL"""
+from __future__ import annotations
 
+import exchange_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
-import exchange_calendars as tc
 import yfinance as yf
 from stockstats import StockDataFrame as Sdf
 
@@ -48,7 +49,9 @@ class YahooFinanceProcessor:
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            temp_df = yf.download(tic, start=start_date, end=end_date, interval=self.time_interval) #bug fix: add interval for download
+            temp_df = yf.download(
+                tic, start=start_date, end=end_date, interval=self.time_interval
+            )  # bug fix: add interval for download
             temp_df["tic"] = tic
             data_df = data_df.append(temp_df)
         # reset the index, we want to use numbers as index instead of dates
@@ -320,7 +323,10 @@ class YahooFinanceProcessor:
         nyse = tc.get_calendar("NYSE")
         df = nyse.sessions_in_range(
             # pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
-            pd.Timestamp(start), pd.Timestamp(end) #bug fix:ValueError: Parameter `start` received with timezone defined as 'UTC' although a Date must be timezone naive.
+            pd.Timestamp(start),
+            pd.Timestamp(
+                end
+            ),  # bug fix:ValueError: Parameter `start` received with timezone defined as 'UTC' although a Date must be timezone naive.
         )
         trading_days = []
         for day in df:
