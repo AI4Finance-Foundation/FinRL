@@ -105,6 +105,7 @@ def main() -> int:
         )
     elif options.mode == "trade":
         from finrl import trade
+
         try:
             from finrl.config_private import ALPACA_API_KEY, ALPACA_API_SECRET
         except ImportError:
