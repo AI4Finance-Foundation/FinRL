@@ -1,4 +1,5 @@
 import datetime
+from multiprocessing.sharedctypes import Value
 
 import numpy as np
 import pandas as pd
@@ -254,8 +255,10 @@ class FeatureEngineer:
             else:
                 turbulence_temp = 0
             turbulence_index.append(turbulence_temp)
-
-        turbulence_index = pd.DataFrame(
-            {"date": df_price_pivot.index, "turbulence": turbulence_index}
-        )
+        try:
+            turbulence_index = pd.DataFrame(
+                {"date": df_price_pivot.index, "turbulence": turbulence_index}
+            )
+        except ValueError:
+            raise Exception("Turbulence information could not be added.")
         return turbulence_index
