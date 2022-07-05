@@ -22,12 +22,12 @@ from finrl.config_tickers import DOW_30_TICKER
 # construct environment
 from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
-try:
-    from finrl.config_private import ALPACA_API_KEY, ALPACA_API_SECRET
-except ImportError:
-    raise FileNotFoundError(
-        "Please set your own ALPACA_API_KEY and ALPACA_API_SECRET in config_private.py"
-    )
+# try:
+#     from finrl.config_private import ALPACA_API_KEY, ALPACA_API_SECRET
+# except ImportError:
+#     raise FileNotFoundError(
+#         "Please set your own ALPACA_API_KEY and ALPACA_API_SECRET in config_private.py"
+#     )
 
 
 def build_parser():
