@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import numpy as np
 import pytest
+
 from finrl.finrl_meta.env_stock_trading.env_stocktrading_cashpenalty import (
     StockTradingEnvCashpenalty,
 )

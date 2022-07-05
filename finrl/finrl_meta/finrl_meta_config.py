@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 TRAIN_START_DATE = "2019-01-01"
 TRAIN_END_DATE = "2019-12-31"
 

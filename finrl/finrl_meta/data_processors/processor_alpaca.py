@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import alpaca_trade_api as tradeapi
+import exchange_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
-import exchange_calendars as tc
 from stockstats import StockDataFrame as Sdf
 
 
@@ -17,7 +19,7 @@ class AlpacaProcessor:
             self.api = api
 
     def download_data(
-            self, ticker_list, start_date, end_date, time_interval
+        self, ticker_list, start_date, end_date, time_interval
     ) -> pd.DataFrame:
 
         self.start = start_date
@@ -49,7 +51,9 @@ class AlpacaProcessor:
             if date.isoformat()[-14:-6] != "00:00:00":
                 raise ValueError("Timezone Error")
 
-        data_df['timestamp'] = data_df['timestamp'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
+        data_df["timestamp"] = data_df["timestamp"].apply(
+            lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
+        )
 
         return data_df
 
@@ -57,7 +61,7 @@ class AlpacaProcessor:
         tic_list = np.unique(df.tic.values)
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
-        #produce full timestamp index
+        # produce full timestamp index
         times = []
         for day in trading_days:
             NY = "America/New_York"
@@ -65,7 +69,7 @@ class AlpacaProcessor:
             for i in range(390):
                 times.append(current_time)
                 current_time += pd.Timedelta(minutes=1)
-        #create a new dataframe with full timestamp series
+        # create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
             tmp_df = pd.DataFrame(
@@ -77,25 +81,41 @@ class AlpacaProcessor:
                     ["open", "high", "low", "close", "volume"]
                 ]
 
-            #if the close price of the first row is NaN
+            # if the close price of the first row is NaN
             if str(tmp_df.iloc[0]["close"]) == "nan":
-               print('The price of the first row for ticker ', tic, ' is NaN. ',
-                     'It will filled with the first valid price.')
-               for i in range(tmp_df.shape[0]):
-                   if str(tmp_df.iloc[i]["close"]) != "nan":
-                          first_valid_price = tmp_df.iloc[i]["close"]
-                          tmp_df.iloc[0] = [first_valid_price,
-                                     first_valid_price,
-                                     first_valid_price,
-                                     first_valid_price,
-                                     0.0,]
-                          break
-            #if the close price of the first row is still NaN (All the prices are NaN in this case)
+                print(
+                    "The price of the first row for ticker ",
+                    tic,
+                    " is NaN. ",
+                    "It will filled with the first valid price.",
+                )
+                for i in range(tmp_df.shape[0]):
+                    if str(tmp_df.iloc[i]["close"]) != "nan":
+                        first_valid_price = tmp_df.iloc[i]["close"]
+                        tmp_df.iloc[0] = [
+                            first_valid_price,
+                            first_valid_price,
+                            first_valid_price,
+                            first_valid_price,
+                            0.0,
+                        ]
+                        break
+            # if the close price of the first row is still NaN (All the prices are NaN in this case)
             if str(tmp_df.iloc[0]["close"]) == "nan":
-                print('Missing data for ticker: ', tic, ' . The prices are all NaN. Fill with 0.')
-                tmp_df.iloc[0] = [0.0, 0.0, 0.0, 0.0, 0.0,]
+                print(
+                    "Missing data for ticker: ",
+                    tic,
+                    " . The prices are all NaN. Fill with 0.",
+                )
+                tmp_df.iloc[0] = [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                ]
 
-            #forward filling row by row
+            # forward filling row by row
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":
                     previous_close = tmp_df.iloc[i - 1]["close"]
@@ -270,7 +290,7 @@ class AlpacaProcessor:
 
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            barset = self.api.get_bars([tic], time_interval, limit=limit).df#[tic]
+            barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic]
             barset["tic"] = tic
             barset = barset.reset_index()
             data_df = data_df.append(barset)
@@ -297,7 +317,6 @@ class AlpacaProcessor:
                     ["open", "high", "low", "close", "volume"]
                 ]
 
-
                 if str(tmp_df.iloc[0]["close"]) == "nan":
                     for i in range(tmp_df.shape[0]):
                         if str(tmp_df.iloc[i]["close"]) != "nan":
@@ -311,9 +330,18 @@ class AlpacaProcessor:
                             ]
                             break
                 if str(tmp_df.iloc[0]["close"]) == "nan":
-                    print('Missing data for ticker: ', tic, ' . The prices are all NaN. Fill with 0.')
-                    tmp_df.iloc[0] = [0.0, 0.0, 0.0, 0.0, 0.0,]
-
+                    print(
+                        "Missing data for ticker: ",
+                        tic,
+                        " . The prices are all NaN. Fill with 0.",
+                    )
+                    tmp_df.iloc[0] = [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                    ]
 
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":

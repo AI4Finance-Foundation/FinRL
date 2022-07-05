@@ -1,5 +1,5 @@
-This folder has three subfolders: 
-+ applications: trading tasks, 
+This folder has three subfolders:
++ applications: trading tasks,
 + agents: DRL algorithms, from ElegantRL, RLlib, or Stable Baselines 3 (SB3). Users can plug in any DRL lib and play.
 + finrl_meta: market environments, we merge the stable ones from the active [FinRL-Meta repo](https://github.com/AI4Finance-Foundation/FinRL-Meta).
 

@@ -1,17 +1,17 @@
-from typing import Any, Dict
+from __future__ import annotations
+
+from typing import Any
+from typing import Dict
 
 import numpy as np
 import optuna
-from stable_baselines3.common.noise import (
-    NormalActionNoise,
-    OrnsteinUhlenbeckActionNoise,
-)
+from stable_baselines3.common.noise import NormalActionNoise
+from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 from torch import nn as nn
-
 from utils import linear_schedule
 
 
-def sample_ppo_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_ppo_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for PPO hyperparams.
 
@@ -92,7 +92,7 @@ def sample_ppo_params(trial: optuna.Trial) -> Dict[str, Any]:
     }
 
 
-def sample_trpo_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_trpo_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for TRPO hyperparams.
 
@@ -175,7 +175,7 @@ def sample_trpo_params(trial: optuna.Trial) -> Dict[str, Any]:
     }
 
 
-def sample_a2c_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_a2c_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for A2C hyperparams.
 
@@ -254,7 +254,7 @@ def sample_a2c_params(trial: optuna.Trial) -> Dict[str, Any]:
     }
 
 
-def sample_sac_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_sac_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for SAC hyperparams.
 
@@ -325,7 +325,7 @@ def sample_sac_params(trial: optuna.Trial) -> Dict[str, Any]:
     return hyperparams
 
 
-def sample_td3_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_td3_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for TD3 hyperparams.
 
@@ -393,7 +393,7 @@ def sample_td3_params(trial: optuna.Trial) -> Dict[str, Any]:
     return hyperparams
 
 
-def sample_ddpg_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_ddpg_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for DDPG hyperparams.
 
@@ -455,7 +455,7 @@ def sample_ddpg_params(trial: optuna.Trial) -> Dict[str, Any]:
     return hyperparams
 
 
-def sample_dqn_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_dqn_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for DQN hyperparams.
 
@@ -510,8 +510,8 @@ def sample_dqn_params(trial: optuna.Trial) -> Dict[str, Any]:
 
 
 def sample_her_params(
-    trial: optuna.Trial, hyperparams: Dict[str, Any]
-) -> Dict[str, Any]:
+    trial: optuna.Trial, hyperparams: dict[str, Any]
+) -> dict[str, Any]:
     """
     Sampler for HerReplayBuffer hyperparams.
 
@@ -531,7 +531,7 @@ def sample_her_params(
     return hyperparams
 
 
-def sample_tqc_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_tqc_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for TQC hyperparams.
 
@@ -552,7 +552,7 @@ def sample_tqc_params(trial: optuna.Trial) -> Dict[str, Any]:
     return hyperparams
 
 
-def sample_qrdqn_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_qrdqn_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for QR-DQN hyperparams.
 
@@ -568,7 +568,7 @@ def sample_qrdqn_params(trial: optuna.Trial) -> Dict[str, Any]:
     return hyperparams
 
 
-def sample_ars_params(trial: optuna.Trial) -> Dict[str, Any]:
+def sample_ars_params(trial: optuna.Trial) -> dict[str, Any]:
     """
     Sampler for ARS hyperparams.
     :param trial:
