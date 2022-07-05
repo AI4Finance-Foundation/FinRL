@@ -1,15 +1,17 @@
+from __future__ import annotations
+
 import os
 from typing import List
 
 import pandas as pd
 import pytest
-from finrl import config, config_tickers
-from finrl.config import (
-    DATA_SAVE_DIR,
-    RESULTS_DIR,
-    TENSORBOARD_LOG_DIR,
-    TRAINED_MODEL_DIR,
-)
+
+from finrl import config
+from finrl import config_tickers
+from finrl.config import DATA_SAVE_DIR
+from finrl.config import RESULTS_DIR
+from finrl.config import TENSORBOARD_LOG_DIR
+from finrl.config import TRAINED_MODEL_DIR
 from finrl.finrl_meta.preprocessor.preprocessors import FeatureEngineer
 from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
 from finrl.main import check_and_make_directories
@@ -50,7 +52,7 @@ def end_date():
     return "2021-10-31"
 
 
-def test_check_and_make_directories(DIRS: List[str]) -> None:
+def test_check_and_make_directories(DIRS: list[str]) -> None:
     """
     Tests the creation of directories
     parameters:
@@ -63,9 +65,7 @@ def test_check_and_make_directories(DIRS: List[str]) -> None:
         assert os.path.exists(dir)
 
 
-def test_download_large(
-    ticker_list: List[str], start_date: str, end_date: str
-) -> None:
+def test_download_large(ticker_list: list[str], start_date: str, end_date: str) -> None:
     """
     Tests the Yahoo Downloader and the returned data shape
     """
@@ -82,8 +82,8 @@ def test_download_large(
 
 
 def test_feature_engineer_no_turbulence(
-    ticker_list: List[str],
-    indicators: List[str],
+    ticker_list: list[str],
+    indicators: list[str],
     start_date: str,
     end_date: str,
 ) -> None:
@@ -112,8 +112,8 @@ def test_feature_engineer_no_turbulence(
 
 
 def test_feature_engineer_turbulence_less_than_a_year(
-    ticker_list: List[str],
-    indicators: List[str],
+    ticker_list: list[str],
+    indicators: list[str],
     start_date: str,
     end_date: str,
 ) -> None:
@@ -146,8 +146,8 @@ def test_feature_engineer_turbulence_less_than_a_year(
 
 
 def test_feature_engineer_turbulence_more_than_a_year(
-    ticker_list: List[str],
-    indicators: List[str],
+    ticker_list: list[str],
+    indicators: list[str],
     old_start_date: str,
     end_date: str,
 ) -> None:

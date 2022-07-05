@@ -78,7 +78,7 @@ For example, we revise FinRL.
     cd ./FinRL
     git checkout -b branch_xxx
 
-where branch_xxx is a new branch name. In this branch, we revise config.py. 
+where branch_xxx is a new branch name. In this branch, we revise config.py.
 
 
 Step 5: Creating Commits and PRs/MRs
@@ -90,8 +90,7 @@ Step 5: Creating Commits and PRs/MRs
 
 .. image:: ../image/pycharm_push_PR.png
 
--When you do a Git Push, PyCharm will ask you to which of the 3 repos you want to push. Just like the above figure, we select the repo "FinRL". 
+-When you do a Git Push, PyCharm will ask you to which of the 3 repos you want to push. Just like the above figure, we select the repo "FinRL".
 
 
 With respect to creating a pull request (PR) or merge quest (MR), please refer to `Create a PR <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request>`_ or `Opensource Create a PR <https://opensource.com/article/19/7/create-pull-request-github>`_.
-

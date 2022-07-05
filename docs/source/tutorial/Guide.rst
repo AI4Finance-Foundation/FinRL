@@ -9,10 +9,10 @@ Welcome to FinRL's tutorial! In this section, you can walk through the tutorial 
    :align: center
    :target:  https://github.com/AI4Finance-Foundation/FinRL/tree/master/tutorials
 
-Mission: provide user-friendly demos in notebook or python. 
+Mission: provide user-friendly demos in notebook or python.
 
 
- 
+
 
 Outline
 
@@ -35,4 +35,3 @@ Outline
    3-Practical
    4-Optimization
    5-Others
-

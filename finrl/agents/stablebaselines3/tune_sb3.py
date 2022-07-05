@@ -1,25 +1,37 @@
+from __future__ import annotations
+
 import datetime
 import sys
 from pprint import pprint
+from typing import Tuple
+from typing import Union
 
+import hyperparams_opt as hpt
 import joblib
 import optuna
 import pandas as pd
-from finrl.agents.stablebaselines3.models import DRLAgent
-from finrl import config
 from main import check_and_make_directories
-import hyperparams_opt as hpt
-from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
-from finrl.plot import backtest_plot, backtest_stats, get_baseline, get_daily_return
-from typing import Union, Tuple
+from stable_baselines3 import A2C
+from stable_baselines3 import DDPG
+from stable_baselines3 import PPO
+from stable_baselines3 import SAC
+from stable_baselines3 import TD3
+
+from finrl import config
+from finrl.agents.stablebaselines3.models import DRLAgent
+from finrl.plot import backtest_plot
+from finrl.plot import backtest_stats
+from finrl.plot import get_baseline
+from finrl.plot import get_daily_return
+
 
 class LoggingCallback:
-    def __init__(self, threshold:int, trial_number:int, patience:int):
+    def __init__(self, threshold: int, trial_number: int, patience: int):
         """
-      threshold:int tolerance for increase in sharpe ratio
-      trial_number: int Prune after minimum number of trials
-      patience: int patience for the threshold
-      """
+        threshold:int tolerance for increase in sharpe ratio
+        trial_number: int Prune after minimum number of trials
+        patience: int patience for the threshold
+        """
         self.threshold = threshold
         self.trial_number = trial_number
         self.patience = patience
@@ -56,22 +68,22 @@ class LoggingCallback:
 
 class TuneSB3Optuna:
     """
-  Hyperparameter tuning of SB3 agents using Optuna
+    Hyperparameter tuning of SB3 agents using Optuna
 
-  Attributes
-  ---------- 
-    env_train: Training environment for SB3
-    model_name: str
-    env_trade: testing environment
-    logging_callback: callback for tuning
-    total_timesteps: int
-    n_trials: number of hyperparameter configurations
-  
-  Note:
-    The default sampler and pruner are used are
-    Tree Parzen Estimator and Hyperband Scheduler
-    respectively.
-  """
+    Attributes
+    ----------
+      env_train: Training environment for SB3
+      model_name: str
+      env_trade: testing environment
+      logging_callback: callback for tuning
+      total_timesteps: int
+      n_trials: number of hyperparameter configurations
+
+    Note:
+      The default sampler and pruner are used are
+      Tree Parzen Estimator and Hyperband Scheduler
+      respectively.
+    """
 
     def __init__(
         self,
@@ -116,7 +128,7 @@ class TuneSB3Optuna:
     def calculate_sharpe(self, df: pd.DataFrame):
         df["daily_return"] = df["account_value"].pct_change(1)
         if df["daily_return"].std() != 0:
-            sharpe = (252 ** 0.5) * df["daily_return"].mean() / df["daily_return"].std()
+            sharpe = (252**0.5) * df["daily_return"].mean() / df["daily_return"].std()
             return sharpe
         else:
             return 0
@@ -162,7 +174,9 @@ class TuneSB3Optuna:
         joblib.dump(study, f"{self.model_name}_study.pkl")
         return study
 
-    def backtest(self, final_study: optuna.Study) -> Tuple[pd.DataFrame,pd.DataFrame,pd.DataFrame]:
+    def backtest(
+        self, final_study: optuna.Study
+    ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         print("Hyperparameters after tuning", final_study.best_params)
         print("Best Trial", final_study.best_trial)
 

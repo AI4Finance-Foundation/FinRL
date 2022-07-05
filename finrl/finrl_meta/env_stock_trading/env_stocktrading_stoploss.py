@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import random
 import time
 from copy import deepcopy
@@ -8,7 +10,8 @@ import numpy as np
 import pandas as pd
 from gym import spaces
 from stable_baselines3.common import logger
-from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.vec_env import SubprocVecEnv
 
 matplotlib.use("Agg")
 

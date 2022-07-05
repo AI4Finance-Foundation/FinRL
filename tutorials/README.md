@@ -4,7 +4,7 @@
 
 **Mission**: provide user-friendly demos using notebooks.
 
-Note that we are merging the tutorials from [FinRL-meta](https://github.com/AI4Finance-Foundation/FinRL-Meta/tree/master/tutorials). 
+Note that we are merging the tutorials from [FinRL-meta](https://github.com/AI4Finance-Foundation/FinRL-Meta/tree/master/tutorials).
 
 ## File Structure
 
@@ -23,6 +23,5 @@ Note that we are merging the tutorials from [FinRL-meta](https://github.com/AI4F
 + **FinRL_MultiCrypto_Trading:** example of top 10 market cap cryptocurrencies trading using FinRL.
 + **FinRL_China_A_Share_Market:** example of China A Share market trading using FinRL.
 
-### **4-Optimization** # notebooks for users interested in hyperparameter optimizations 
+### **4-Optimization** # notebooks for users interested in hyperparameter optimizations
 ### **5-Others** other notebooks
-

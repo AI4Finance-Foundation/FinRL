@@ -4,7 +4,7 @@ The following contents are collected and referred by AI4Finance community during
 
 ## Proof-of-concept
 
-[1] [FinRL: Deep Reinforcement Learning Framework to Automate Trading in Quantitative Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949) Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021. 
+[1] [FinRL: Deep Reinforcement Learning Framework to Automate Trading in Quantitative Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949) Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
 
 [2] [FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance](https://arxiv.org/abs/2011.09607) A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
 
@@ -18,7 +18,7 @@ The following contents are collected and referred by AI4Finance community during
 
 [1] [Documentation of ElegentRL](https://elegantrl.readthedocs.io) by AI4Finance Foundation.
 
-[2] [Spinning Up in Deep RL](https://spinningup.openai.com/) by OpenAI. 
+[2] [Spinning Up in Deep RL](https://spinningup.openai.com/) by OpenAI.
 
 ## Theory
 
@@ -56,7 +56,7 @@ The following contents are collected and referred by AI4Finance community during
 
 ## Interpretation and Explainability
 
-[1] [Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;). Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021. 
+[1] [Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;). Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021.
 
 ## Tools or Softwares
 
