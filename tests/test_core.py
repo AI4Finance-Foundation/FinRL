@@ -80,13 +80,12 @@ def test_feature_engineer_no_turbulence(ticker_list, indicators, start_date, end
         use_turbulence=False,
         user_defined_feature=False,
     )
-    processed = fe.preprocess_data(df)
-    # to be continued
-
+    assert isinstance(fe.preprocess_data(df), pd.DataFrame)
 
 def test_feature_engineer(ticker_list, indicators, start_date, end_date):
     """
-    Tests the feature_engineer function - WIP
+    Tests the feature_engineer function - with turbulence, ensuring
+    that the returned 
     """
     assert isinstance(ticker_list, list)
     assert isinstance(indicators, list)
@@ -101,5 +100,6 @@ def test_feature_engineer(ticker_list, indicators, start_date, end_date):
         use_turbulence=True,
         user_defined_feature=False,
     )
-    processed = fe.preprocess_data(df)
-    # to be continued
+    assert isinstance(fe.preprocess_data(df), pd.DataFrame)
+
+test_feature_engineer(["APPL"], ["macd"], "2021-01-01", "2021-01-02")
