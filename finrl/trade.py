@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from finrl.finrl_meta.env_stock_trading.env_stock_papertrading import AlpacaPaperTrading
+from finrl.meta.env_stock_trading.env_stock_papertrading import AlpacaPaperTrading
 from finrl.test import test
 
 
