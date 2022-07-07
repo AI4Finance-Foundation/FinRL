@@ -5,7 +5,7 @@ from finrl.config import RLlib_PARAMS
 from finrl.config import TEST_END_DATE
 from finrl.config import TEST_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
-from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
+from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 
 
 def test(
@@ -23,7 +23,7 @@ def test(
 ):
 
     # import data processor
-    from finrl.finrl_meta.data_processor import DataProcessor
+    from finrl.meta.data_processor import DataProcessor
 
     # fetch data
     dp = DataProcessor(data_source, **kwargs)
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     # demo for elegantrl
     kwargs = (
         {}
-    )  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+    )  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
 
     account_value_erl = test(
         start_date=TEST_START_DATE,
