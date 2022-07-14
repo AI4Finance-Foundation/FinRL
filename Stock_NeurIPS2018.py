@@ -252,6 +252,9 @@ print(f"Stock Dimension: {stock_dimension}, State Space: {state_space}")
 
 #%%
 
+# buy_cost_list = sell_cost_list = [0.001] * stock_dimension
+# num_stock_shares = [0] * stock_dimension
+
 buy_cost_list = sell_cost_list = [0.001] * stock_dimension
 num_stock_shares = [0] * stock_dimension
 
