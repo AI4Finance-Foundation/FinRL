@@ -299,7 +299,7 @@ Please check [Contributing Guidances](https://github.com/AI4Finance-Foundation/F
 
 ### Contributors
 
-Thanks!
+Thank you!
 
 <a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
