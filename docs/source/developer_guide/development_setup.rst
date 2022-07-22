@@ -80,10 +80,10 @@ For example, we revise FinRL.
 
 where branch_xxx is a new branch name. In this branch, we revise config.py.
 
-Step 5: Checkout a Branch
+Step 5: New a Branch
 =======
 
-Please a new branch based on "staging", which is for all developers. DO NOT directly push codes to the branchg "staging" or "master".
+Please new a new branch based on branch "staging", which is for all developers. DO NOT directly push codes to the branch "staging" or "master".
 
 
 Step 6: Creating Commits and PRs/MRs
@@ -108,6 +108,6 @@ When submiting PRs/MRs, please choose the branch "staging", NOT "master".
 Step 8: Merge "staging" to "master"
 =======
 
-If the branch "staging" is stable, and works successfully, the managers of this repo will merge it to the branch "master" every several weeks.
+This step is for managers. If the branch "staging" is stable and works successfully after a series of tests, the managers of this repo will merge it to the branch "master" every 2-4 weeks. 
 
 
