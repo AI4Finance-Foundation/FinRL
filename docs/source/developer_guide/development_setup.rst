@@ -80,8 +80,13 @@ For example, we revise FinRL.
 
 where branch_xxx is a new branch name. In this branch, we revise config.py.
 
+Step 5: Checkout a Branch
+=======
 
-Step 5: Creating Commits and PRs/MRs
+Please a new branch based on "staging", which is for all developers. DO NOT directly push codes to the branchg "staging" or "master".
+
+
+Step 6: Creating Commits and PRs/MRs
 =======
 
 -Create commits as you usually do through PyCharm.
@@ -94,3 +99,15 @@ Step 5: Creating Commits and PRs/MRs
 
 
 With respect to creating a pull request (PR) or merge quest (MR), please refer to `Create a PR <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request>`_ or `Opensource Create a PR <https://opensource.com/article/19/7/create-pull-request-github>`_.
+
+Step 7: Submit PRs/MRs
+=======
+
+When submiting PRs/MRs, please choose the branch "staging", NOT "master". 
+
+Step 8: Merge "staging" to "master"
+=======
+
+If the branch "staging" is stable, and works successfully, the managers of this repo will merge it to the branch "master" every several weeks.
+
+
