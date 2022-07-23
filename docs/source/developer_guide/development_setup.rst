@@ -1,10 +1,10 @@
 :github_url: https://github.com/AI4Finance-Foundation/FinRL
 
 ============================
-Development setup with PyCharm
+Development Guide
 ============================
 
-This setup with pycharm makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo and creating PRs/MRs.
+Git is a commonly used tool in software engineering. PyCharm is a popular IDE for Python, and developers can also choose other IDEs as they like. Now, we take PyCharm as an example. This setup with PyCharm makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo and creating PRs/MRs. 
 
 Step 1: Download Software
 =======
@@ -83,7 +83,7 @@ where branch_xxx is a new branch name. In this branch, we revise config.py.
 Step 5: New a Branch
 =======
 
-Please new a new branch based on branch "staging", which is for all developers. DO NOT directly push codes to the branch "staging" or "master".
+Please new a new branch based on branch "staging" (NOT "master"), which is for all developers. DO NOT directly push codes to the branch "staging" or "master".
 
 
 Step 6: Creating Commits and PRs/MRs
@@ -108,6 +108,8 @@ When submiting PRs/MRs, please choose the branch "staging", NOT "master".
 Step 8: Merge "staging" to "master"
 =======
 
-This step is for managers. If the branch "staging" is stable and works successfully after a series of tests, the managers of this repo will merge it to the branch "master" every 2-4 weeks. 
+This step is for managers. If the branch "staging" is stable and works successfully after a series of tests, the managers of this repo will merge it to the branch "master" every 2-4 weeks. To avoid any risk, we hope managers download the "master" branch locally before merging. 
+
+
 
 
