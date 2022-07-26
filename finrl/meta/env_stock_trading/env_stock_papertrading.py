@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import torch
 
-from finrl.finrl_meta.data_processors.processor_alpaca import AlpacaProcessor
+from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 
 
 class AlpacaPaperTrading:

@@ -18,7 +18,7 @@ from finrl.config import TRAIN_END_DATE
 from finrl.config import TRAIN_START_DATE
 from finrl.config import TRAINED_MODEL_DIR
 from finrl.config_tickers import DOW_30_TICKER
-from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
 # construct environment
 
@@ -64,7 +64,7 @@ def main() -> int:
         # demo for elegantrl
         kwargs = (
             {}
-        )  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        )  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         train(
             start_date=TRAIN_START_DATE,
             end_date=TRAIN_END_DATE,
@@ -86,7 +86,7 @@ def main() -> int:
         env = StockTradingEnv
 
         # demo for elegantrl
-        # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         kwargs = {}
 
         account_value_erl = test(  # noqa
