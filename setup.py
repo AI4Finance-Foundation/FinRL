@@ -31,10 +31,10 @@ setup(
     + [
         "elegantrl @ git+https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"
     ],
-    #install_requires=REQUIRES,
+    # install_requires=REQUIRES,
     description="FinRL: Financial Reinforcement Learning Framework.",
     long_description="Version 0.3.5 notes: stable version, code refactoring, more tutorials, clear documentation",
-    #It is developed by `AI4Finance`_. \
+    # It is developed by `AI4Finance`_. \
     # _AI4Finance: https://github.com/AI4Finance-Foundation",
     classifiers=[
         # Trove classifiers
