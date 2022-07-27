@@ -1,10 +1,10 @@
 :github_url: https://github.com/AI4Finance-Foundation/FinRL
 
 ============================
-Development setup with PyCharm
+Development Guide
 ============================
 
-This setup with pycharm makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo and creating PRs/MRs.
+Git is a commonly used tool in software engineering. PyCharm is a popular IDE for Python, and developers can also choose other IDEs as they like. Now, we take PyCharm as an example. This setup with PyCharm makes it easy to work on all of AI4Finance-Foundation's repositories simultaneously, while allowing easy debugging, committing to the respective repo and creating PRs/MRs.
 
 Step 1: Download Software
 =======
@@ -80,8 +80,13 @@ For example, we revise FinRL.
 
 where branch_xxx is a new branch name. In this branch, we revise config.py.
 
+Step 5: New a Branch
+=======
 
-Step 5: Creating Commits and PRs/MRs
+Please new a new branch based on branch "staging" (NOT "master"), which is for all developers. DO NOT directly push codes to the branch "staging" or "master".
+
+
+Step 6: Creating Commits and PRs/MRs
 =======
 
 -Create commits as you usually do through PyCharm.
@@ -94,3 +99,13 @@ Step 5: Creating Commits and PRs/MRs
 
 
 With respect to creating a pull request (PR) or merge quest (MR), please refer to `Create a PR <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request>`_ or `Opensource Create a PR <https://opensource.com/article/19/7/create-pull-request-github>`_.
+
+Step 7: Submit PRs/MRs
+=======
+
+When submiting PRs/MRs, please choose the branch "staging", NOT "master".
+
+Step 8: Merge "staging" to "master"
+=======
+
+This step is for managers. If the branch "staging" is stable and works successfully after a series of tests, the managers of this repo will merge it to the branch "master" every 2-4 weeks. To avoid any risk, we hope managers download the "master" branch locally before merging.
