@@ -5,9 +5,6 @@
 [1.3]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_google_22.xx_.png
 [1.4]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_linkedin_22x22.png
 
-[![Run Tests!](https://github.com/RefactorFinRL/FinRL/actions/workflows/test.yml/badge.svg)](https://github.com/RefactorFinRL/FinRL/actions/workflows/test.yml)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/AI4Finance-Foundation/FinRL/master.svg)](https://results.pre-commit.ci/latest/github/AI4Finance-Foundation/FinRL/master)
-
 [1]: https://twitter.com/intent/tweet?text=FinRL-Financial-Deep-Reinforcement-Learning%20&url=https://github.com/AI4Finance-Foundation/FinRL&hashtags=DRL&hashtags=AI
 [2]: https://www.facebook.com/sharer.php?u=http%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL
 [3]: https://plus.google.com/share?url=https://github.com/AI4Finance-Foundation/FinRL
