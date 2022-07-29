@@ -22,16 +22,16 @@
 </div>
 
 
-**FinRL** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source project** to show the great potential of deep reinforcement learning in finance.
+**FinRL** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to show the great potential of financial reinforcement learning.
 
-The FinRL ecosystem is a unified framework, including various financial markets, state-of-the-art algorithms, financial tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc.
+FinRL has evolving into an ecosystem, including hundreds of financial markets, state-of-the-art algorithms, financial applications (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, cloud deployment, etc.
 
-| Roadmap  | Level | Users | Example | Desription |
+| Roadmap  | Level | Target Users | Example | Desription |
 |----|----|----|----|----|
-| 0.0 (Preparation) | preparation | practitioners of financial big data | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of market environments|
+| 0.0 (Preparation) | preparation | practitioners | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a playground |
 | 1.0 (Proof-of-Concept)| entry-level | beginners | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | demonstration, education |
 | 2.0 (Professional) | intermediate-level  | full-stack developers, professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | financially optimized DRL algorithms |
-| 3.0 (Production) | advance-level | investment banks, hedge funds | [Podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solution |
+| 3.0 (Production) | advance-level | investment banks, hedge funds | [Podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solutions |
 
 
 ## Outline
@@ -52,9 +52,9 @@ The FinRL ecosystem is a unified framework, including various financial markets,
 
 ## Overview
 
-FinRL has three layers: market environments, agents, and applications.
+FinRL framework has three layers: market environments, agents, and applications.
 
-For a trading task (on the top), an agent (in the middle) interacts with an environment (at the bottom), making sequential decisions.
+For a trading task (on the top), an agent (in the middle) interacts with a market environment (at the bottom), making sequential decisions.
 
 
 <div align="center">
@@ -62,9 +62,9 @@ For a trading task (on the top), an agent (in the middle) interacts with an envi
 </div>
 
 
-Run [Stock_NeurIPS2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) step by step for a quick start.
+Run [Stock_NeurIPS2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) for a quick start.
 
-A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
+A video [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
 
 
 ## Star History
@@ -74,7 +74,7 @@ A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the
 
 ## File Structure
 
-The main folder **finrl** has three subfolders **applications, agents, finrl_meta**.
+The main folder **finrl** has three subfolders **applications, agents, meta**.
 
 We employ a **train-test-trade** pipeline with three files: train.py, test.py, and trade.py.
 
@@ -90,7 +90,7 @@ FinRL
 │   	├── elegantrl
 │   	├── rllib
 │   	└── stablebaseline3
-│   ├── finrl_meta
+│   ├── meta
 │   	├── data_processors
 │   	├── env_cryptocurrency_trading
 │   	├── env_portfolio_allocation
@@ -106,11 +106,11 @@ FinRL
 │   ├── test.py
 │   └── trade.py
 │
-├── tutorial (tutorial notebooks and educational files)
-├── unit_testing (make sure verified codes working on env & data)
-│   ├── test_env
+├── tutorials (notebooks and educational files)
+├── tests (unit tests to verify codes on env & data)
+│   ├── environments
 │   	└── test_env_cashpenalty.py
-│   └── test_marketdata
+│   └── downloaders
 │   	└── test_yahoodownload.py
 ├── setup.py
 ├── requirements.txt
@@ -193,7 +193,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 
 ## Contributions
 
-- FinRL is the first open-source framework to demonstrate the great potential of applying DRL algorithms in quantitative finance. We build an ecosystem around the FinRL framework.
+- FinRL is the first open-source framework to demonstrate the great potential of financial reinforcement learning. It has evolved into an ecosystem.
 - The application layer provides interfaces for users to customize FinRL to their own trading tasks. Automated backtesting tool and performance metrics are provided to help quantitative traders iterate trading strategies at a high turnover rate. Profitable trading strategies are reproducible and hands-on tutorials are provided in a beginner-friendly fashion. Adjusting the trained models to the rapidly changing markets is also possible.
 - The agent layer provides state-of-the-art DRL algorithms that are adapted to finance with fine-tuned hyperparameters. Users can add new DRL algorithms.
 - The environment layer includes not only a collection of historical data APIs, but also live trading APIs. They are reconfigured into standard OpenAI gym-style environments. Moreover, it incorporates market frictions and allows users to customize the trading time granularity.
@@ -271,14 +271,14 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 
 ```
 
-We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ), resulting in this project. Closely related papers are given in the [list](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/FinRL_papers.md).
+We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/). Please check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ). Closely related papers are given in the [list](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/FinRL_papers.md).
 
 
 ## Join and Contribute
 
 Welcome to **AI4Finance** community!
 
-Discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
+Discuss FinRL via [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance) and AI4Finance Slack channel:
 
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
@@ -304,9 +304,9 @@ Thank you!
 
 ### Sponsorship
 
-Welcome gift money to support AI4Finance, a non-profit community. Use the links in the right, or scan the following vemo QR code:
+Welcome gift money to support AI4Finance, a non-profit community. Use the links on the right column, or scan the following vemo QR code:
 
-Detailed sponsorship records at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
+Sponsorship records at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
 
 <a target="\_blank">
 	<div align="center">
@@ -321,8 +321,6 @@ Network: USDT-TRC20
 		<img src=figs/okx.jpeg width="35%"/>
 	</div>
 </a>
-
-
 
 
 
