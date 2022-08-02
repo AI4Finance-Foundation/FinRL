@@ -138,7 +138,7 @@ Step3:  test (If using YahooFinance in China, VPN is needed)
 -------------------------------------------------------------------------------------
 .. code-block:: bash
 
-    python FinRL_StockTrading_NeurIPS_2018.py
+    python Stock_NeurIPS2018.py
 
 Tips for running error
 --------------------------------------------------------------------------
