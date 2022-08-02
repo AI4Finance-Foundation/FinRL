@@ -5,7 +5,7 @@
 
 This section provideds examples of hyperperameter tuning and connecting cloud platform.
 
-Notebooks in this section includes: 
+Notebooks in this section includes:
 
 `FinRL_HyperparameterTuning_Optuna.ipynb <https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/4-Optimization/FinRL_HyperparameterTuning_Optuna.ipynb>`_,
 

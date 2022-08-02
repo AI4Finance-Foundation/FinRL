@@ -5,7 +5,7 @@
 
 This section collects uncategorized notebooks such as those made by community members or for some specific usage.
 
-Notebooks in this section includes: 
+Notebooks in this section includes:
 
 `FinRL_demo_docker.ipynb <https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/5-Others/FinRL_demo_docker.ipynb>`_,
 
