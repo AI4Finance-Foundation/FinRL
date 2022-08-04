@@ -60,7 +60,7 @@ class DRLAgent:
         agent = MODELS[model_name]
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
-        model = Arguments(agent=agent, env=env)
+        model = Arguments(agent_class=agent, env=env)
         model.if_off_policy = model_name in OFF_POLICY_MODELS
         if model_kwargs is not None:
             try:
@@ -89,7 +89,7 @@ class DRLAgent:
             raise NotImplementedError("NotImplementedError")
         agent = MODELS[model_name]
         environment.env_num = 1
-        args = Arguments(agent=agent, env=environment)
+        args = Arguments(agent_class=agent, env=environment)
         args.cwd = cwd
         args.net_dim = net_dimension
         # load agent

@@ -109,9 +109,9 @@ Then we import the packages needed for this demonstration.
     %matplotlib inline
     from finrl import config
     from finrl import config_tickers
-    from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
-    from finrl.finrl_meta.preprocessor.preprocessors import FeatureEngineer, data_split
-    from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
+    from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
+    from finrl.meta.preprocessor.preprocessors import FeatureEngineer, data_split
+    from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
     from finrl.agents.stablebaselines3.models import DRLAgent
 
     from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
