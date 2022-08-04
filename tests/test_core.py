@@ -12,8 +12,8 @@ from finrl.config import DATA_SAVE_DIR
 from finrl.config import RESULTS_DIR
 from finrl.config import TENSORBOARD_LOG_DIR
 from finrl.config import TRAINED_MODEL_DIR
-from finrl.finrl_meta.preprocessor.preprocessors import FeatureEngineer
-from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
+from finrl.meta.preprocessor.preprocessors import FeatureEngineer
+from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 from finrl.main import check_and_make_directories
 
 
