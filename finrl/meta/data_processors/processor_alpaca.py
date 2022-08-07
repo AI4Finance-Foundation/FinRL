@@ -21,40 +21,36 @@ class AlpacaProcessor:
     def download_data(
         self, ticker_list, start_date, end_date, time_interval
     ) -> pd.DataFrame:
+        '''
+        ticker_list : list string of ticket
+        time_interval: time interval
+        start_date : start date of America/New_York time
+        end_date : end date of America/New_York time
 
+        The function tries to retrieve the data of the opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm), between the start date and the end date, from the Alpaca server.
+        '''
         self.start = start_date
         self.end = end_date
         self.time_interval = time_interval
 
+        # download
         NY = "America/New_York"
         start_date = pd.Timestamp(start_date, tz=NY)
-        end_date = pd.Timestamp(end_date, tz=NY) + pd.Timedelta(days=1)
-        date = start_date
-        data_df = pd.DataFrame()
-        while date != end_date:
-            start_time = (date + pd.Timedelta("09:30:00")).isoformat()
-            end_time = (date + pd.Timedelta("15:59:00")).isoformat()
-            for tic in ticker_list:
-                barset = self.api.get_bars(
-                    tic, time_interval, start=start_time, end=end_time, limit=500
+        end_date = pd.Timestamp(end_date, tz=NY)
+        start_time = (start_date + pd.Timedelta("09:30:00")).isoformat()
+        end_time = (end_date + pd.Timedelta("15:59:00")).isoformat()
+        barset = self.api.get_bars(
+                ticker_list, time_interval, start=start_time,       end=end_time
                 ).df
-                barset["tic"] = tic
-                barset = barset.reset_index()
-                data_df = data_df.append(barset)
-            print(("Data before ") + end_time + " is successfully fetched")
-            # print(data_df.head())
-            date = date + pd.Timedelta(days=1)
-            if date.isoformat()[-14:-6] == "01:00:00":
-                date = date - pd.Timedelta("01:00:00")
-            elif date.isoformat()[-14:-6] == "23:00:00":
-                date = date + pd.Timedelta("01:00:00")
-            if date.isoformat()[-14:-6] != "00:00:00":
-                raise ValueError("Timezone Error")
+
+        # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm)
+        NYSE_open_hour = '13:30' # in UTC
+        NYSE_close_hour = '19:59' # in UTC
+        data_df = barset.between_time(NYSE_open_hour,       NYSE_close_hour).reset_index()
 
         data_df["timestamp"] = data_df["timestamp"].apply(
             lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
         )
-
         return data_df
 
     def clean_data(self, df):
