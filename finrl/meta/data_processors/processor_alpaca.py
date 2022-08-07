@@ -40,14 +40,16 @@ class AlpacaProcessor:
         start_time = (start_date + pd.Timedelta("09:30:00")).isoformat()
         end_time = (end_date + pd.Timedelta("15:59:00")).isoformat()
         barset = self.api.get_bars(
-                ticker_list, time_interval, start=start_time,       end=end_time
+                ticker_list, time_interval, start=start_time, end=end_time
                 ).df
 
         # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm)
         NYSE_open_hour = '13:30' # in UTC
         NYSE_close_hour = '19:59' # in UTC
-        data_df = barset.between_time(NYSE_open_hour,       NYSE_close_hour).reset_index()
+        data_df = barset.between_time(NYSE_open_hour,       NYSE_close_hour)
 
+        # reformat
+        data_df = data_df.reset_index().rename(columns = {'symbol' : 'tic'})
         data_df["timestamp"] = data_df["timestamp"].apply(
             lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
         )
