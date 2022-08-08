@@ -33,15 +33,15 @@ def test_intraDayBar_download(ticker_list):
                         end_date = end_date,
                         ticker_list = ticker_list,
                         time_interval= time_interval)
-
+    actual_head_1 = data[data['tic'] == 'GOOG'].head(1).reset_index(drop=True)
     # Then
-    expected_shape = (24,9)
+    expected_shape = (12,9)
     expected_head_1 = pd.DataFrame([['2021-07-29 14:00:00', 2732.41, 2740.0, 2724.11, 2734.7525,
             120896, 8650, 2731.626021, 'GOOG']],columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'trade_count',
            'vwap', 'tic'])
 
     assert data.shape == expected_shape
-    assert (data[data['tic'] == 'GOOG'].head(1) == expected_head_1).all(axis=None)
+    assert (actual_head_1 == expected_head_1).all(axis=None)
 
 def test_dayBar_download(ticker_list):
     # Given
@@ -72,4 +72,4 @@ def test_dayBar_download(ticker_list):
         1192648, 55739, 2704.685882, 'GOOG']],columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'trade_count',
        'vwap', 'tic'])
 
-    assert data == expected
+    assert (data == expected).all(axis=None)
