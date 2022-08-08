@@ -21,7 +21,7 @@ class AlpacaProcessor:
     def download_data(
         self, ticker_list, start_date, end_date, time_interval
     ) -> pd.DataFrame:
-        '''
+        """
         ticker_list : list string of ticket
         time_interval: time interval
         start_date : start date of America/New_York time
@@ -30,7 +30,7 @@ class AlpacaProcessor:
         The function tries to retrieve the data, between the start date and the end date, from the Alpaca server.
         if time_interval < 1D: period of data retrieved is the opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm), in UTC offset zone.
         if time_interval >= 1D: each bar is the midnight of the day in America/New_York time, in UTC offset zone.
-        '''
+        """
         self.start = start_date
         self.end = end_date
         self.time_interval = time_interval
@@ -41,22 +41,23 @@ class AlpacaProcessor:
         end_date = pd.Timestamp(end_date, tz=NY)
 
         barset = self.api.get_bars(
-            ticker_list, time_interval,
+            ticker_list,
+            time_interval,
             start=start_date.isoformat(),
-            end=end_date.isoformat()
+            end=end_date.isoformat(),
         ).df
         # from trepan.api import debug;debug()
         # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm) if time_interval < 1D
-        day_delta = 86400000000000 # pd.Timedelta('1D').delta == 86400000000000
+        day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000
         if pd.Timedelta(time_interval).delta < day_delta:
-            NYSE_open_hour = '13:30' # in UTC
-            NYSE_close_hour = '19:59' # in UTC
+            NYSE_open_hour = "13:30"  # in UTC
+            NYSE_close_hour = "19:59"  # in UTC
             data_df = barset.between_time(NYSE_open_hour, NYSE_close_hour)
         else:
             data_df = barset
 
         # reformat to finrl expected schema
-        data_df = data_df.reset_index().rename(columns = {'symbol' : 'tic'})
+        data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
         data_df["timestamp"] = data_df["timestamp"].apply(
             lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
         )
