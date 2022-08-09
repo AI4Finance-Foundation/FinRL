@@ -97,7 +97,7 @@ FinRL
 │   	├── env_stock_trading
 │   	├── preprocessor
 │   	├── data_processor.py
-│   	└── finrl_meta_config.py
+│   	└── meta_config.py
 │   ├── config.py
 │   ├── config_tickers.py
 │   ├── main.py
@@ -106,12 +106,13 @@ FinRL
 │   ├── test.py
 │   └── trade.py
 │
-├── tutorials (notebooks and educational files)
+├── tutorials (educational notebook files)
 ├── tests (unit tests to verify codes on env & data)
 │   ├── environments
 │   	└── test_env_cashpenalty.py
 │   └── downloaders
-│   	└── test_yahoodownload.py
+│   	├── test_yahoodownload.py
+│   	└── test_alpaca_downloader.py
 ├── setup.py
 ├── requirements.txt
 └── README.md
