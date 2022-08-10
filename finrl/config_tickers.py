@@ -1,3 +1,4 @@
+from __future__ import annotations
 
 SINGLE_TICKER = ["AAPL"]
 
@@ -33,7 +34,7 @@ DOW_30_TICKER = [
     "WBA",
     "WMT",
     "DIS",
-    "DOW"
+    "DOW",
 ]
 
 # Nasdaq 100 constituents at 2019/01
@@ -1429,4 +1430,3 @@ FX_TICKER = [
     "ZARJPY=X",
     "EURDKK=X",
 ]
-

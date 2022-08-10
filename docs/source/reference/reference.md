@@ -1,10 +1,10 @@
 # External Sources
 
-The following contents are resources collected and referred by AI4Finance community during the development of FinRL and related projects. Some are educational and relatively easy while some are professional and need advanced knowledge. We appreciate and respect the effort of all these contents' authors and developers.
+The following contents are collected and referred by AI4Finance community during the development of FinRL and related projects. Some of them are educational and relatively easy while some others are professional and need advanced knowledge. We appreciate and respect the effort of all these contents' authors and developers.
 
 ## Proof-of-concept
 
-[1] [FinRL: Deep Reinforcement Learning Framework to Automate Trading in Quantitative Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949) Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021. 
+[1] [FinRL: Deep Reinforcement Learning Framework to Automate Trading in Quantitative Finance](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949) Deep reinforcement learning framework to automate trading in quantitative finance, ACM International Conference on AI in Finance, ICAIF 2021.
 
 [2] [FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance](https://arxiv.org/abs/2011.09607) A deep reinforcement learning library for automated stock trading in quantitative finance, Deep RL Workshop, NeurIPS 2020.
 
@@ -14,11 +14,11 @@ The following contents are resources collected and referred by AI4Finance commun
 
 [5] [A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem](https://arxiv.org/abs/1706.10059). Jiang, Zhengyao, Dixing Xu, and Jinjun Liang. arXiv preprint arXiv:1706.10059 (2017).
 
-## DRL Algorithms
+## DRL Algorithms/Libraries
 
 [1] [Documentation of ElegentRL](https://elegantrl.readthedocs.io) by AI4Finance Foundation.
 
-[2] [Spinning Up in Deep RL](https://spinningup.openai.com/) by OpenAI. 
+[2] [Spinning Up in Deep RL](https://spinningup.openai.com/) by OpenAI.
 
 ## Theory
 
@@ -26,7 +26,9 @@ The following contents are resources collected and referred by AI4Finance commun
 
 [2] Continuous‐time mean–variance portfolio selection: A reinforcement learning framework. Mathematical Finance, 30(4), pp.1273-1308. Wang, H. and Zhou, X.Y., 2020.
 
-[3] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
+[3] Mao Guan and Xiao-Yang Liu. Explainable deep reinforcement learning for portfolio man- agement: An empirical approach. ACM International Conference on AI in Finance, ICAIF 2021.
+
+[4] [ICAIF](https://ai-finance.org) International Conference on AI in Finance.
 
 ## Trading Strategies
 
@@ -36,7 +38,7 @@ The following contents are resources collected and referred by AI4Finance commun
 
 [3] Multi-agent reinforcement learning for liquidation strategy analysis, [paper](https://arxiv.org/abs/1906.11046) and [codes](https://github.com/WenhangBao/Multi-Agent-RL-for-Liquidation). Workshop on Applications and Infrastructure for Multi-Agent Learning, ICML 2019.
 
-[4] [Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty.](https://arxiv.org/abs/2006.12686) International Conference on AI in Finance (ICAIF’20), October 2020.
+[4] [Risk-Sensitive Reinforcement Learning: a Martingale Approach to Reward Uncertainty.](https://arxiv.org/abs/2006.12686) International Conference on AI in Finance, ICAIF 2020.
 
 [5] [Cryptocurrency Trading Using Machine Learning](https://www.mdpi.com/1911-8074/13/8/178). Journal of Risk and Financial Management, August 2020.
 
@@ -54,7 +56,7 @@ The following contents are resources collected and referred by AI4Finance commun
 
 ## Interpretation and Explainability
 
-[1] [Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;). Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021. 
+[1] [Explainable Deep Reinforcement Learning for Portfolio Management: An Empirical Approach](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3958005;). Guan, M. and Liu, X.Y.. ACM International Conference on AI in Finance, 2021.
 
 ## Tools or Softwares
 
