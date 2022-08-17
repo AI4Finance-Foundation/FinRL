@@ -10,16 +10,18 @@
 [3]: https://plus.google.com/share?url=https://github.com/AI4Finance-Foundation/FinRL
 [4]: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL
 
-[![Downloads](https://pepy.tech/badge/finrl)](https://pepy.tech/project/finrl)
-[![Downloads](https://pepy.tech/badge/finrl/week)](https://pepy.tech/project/finrl)
-[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
-[![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
-[![Documentation Status](https://readthedocs.org/projects/finrl/badge/?version=latest)](https://finrl.readthedocs.io/en/latest/?badge=latest)
+<div align="center">
+<img align="center" src=figs/logo_transparent_background.png width="55%"/>
+</div>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+![Downloads](https://pepy.tech/badge/finrl)](https://pepy.tech/project/finrl)
+![Downloads](https://pepy.tech/badge/finrl/week)](https://pepy.tech/project/finrl)
+![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
+![Documentation Status](https://readthedocs.org/projects/finrl/badge/?version=latest)](https://finrl.readthedocs.io/en/latest/?badge=latest)
 ![License](https://img.shields.io/github/license/AI4Finance-Foundation/finrl.svg?color=brightgreen)
 
-<div align="center">
-<img align="center" src=figs/logo_transparent_background.png width="45%"/>
-</div>
 
 
 **FinRL** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to show the great potential of financial reinforcement learning.
