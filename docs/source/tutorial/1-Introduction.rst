@@ -3,9 +3,14 @@
 1-Introduction
 ========================
 
-.. toctree::
-   :maxdepth: 1
-
-   Introduction/SingleStockTrading
-   Introduction/MultipleStockTrading
-   Introduction/PortfolioAllocation
+This section is recommend for new comers of FinRL. Users could better learn FinRL in the meantime of running these notebooks.
+   
+`Stock_NeurIPS2018.ipynb <https://github.com/AI4Finance-Foundation/FinRL/blob/master/Stock_NeurIPS2018.ipynb>`_,
+This is the notebook we recommend new users run first. It goes through a full process of DRL for stock trading using FinRL.
+   
+   
+`China_A_share_market_tushare.ipynb <https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/1-Introduction/China_A_share_market_tushare.ipynb>`_
+This notebook demonstrate using FinRL to connect Tushare, using its data of China A share market.
+   
+`FinRL_PortfolioAllocation_NeurIPS_2020.ipynb <https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/1-Introduction/FinRL_PortfolioAllocation_NeurIPS_2020.ipynb>`_
+This notebook demonstrate using FinRL to do portfolio allocation.
