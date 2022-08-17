@@ -146,7 +146,6 @@ FinRL
 |    CCXT |  Cryptocurrency |  1 min  |  OHLCV |  Prices, indicators |
 |    currencyapi |  Exchange rate | 1 day |  Exchange rate | Exchange rate, indicators |
 |    currencylayer |  Exchange rate | 1 day  |  Exchange rate | Exchange rate, indicators |
-
 |    EOD Historical Data | US stocks, and ETFs |  1 day  |  OHLCV  | Prices, indicators |
 |    Exchangerates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 |    findatapy |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
@@ -169,7 +168,7 @@ FinRL
 |    XE |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 |    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators | 
 |    YahooFinance |  US Securities | 1 min  |  OHLCV  |  Prices, indicators |
-|    ystockquote |  US Securities |  1 day  |  OHLCV | Prices, indicators |
+|    ystockquote |  US Securities |  1 day  |  OHLCV | Prices, indicators | -->
 
 
 
