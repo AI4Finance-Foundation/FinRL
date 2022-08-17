@@ -14,7 +14,7 @@
 <img align="center" src=figs/logo_transparent_background.png width="55%"/>
 </div>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![Downloads](https://pepy.tech/badge/finrl)](https://pepy.tech/project/finrl)
 [![Downloads](https://pepy.tech/badge/finrl/week)](https://pepy.tech/project/finrl)
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
@@ -67,11 +67,6 @@ For a trading task (on the top), an agent (in the middle) interacts with a marke
 Run [Stock_NeurIPS2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) for a quick start.
 
 A video [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
-
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=AI4Finance-Foundation/FinRL&type=Date)](https://star-history.com/#AI4Finance-Foundation/FinRL&Date)
 
 
 ## File Structure
