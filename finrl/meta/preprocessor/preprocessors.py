@@ -51,7 +51,7 @@ class FeatureEngineer:
         use_turbulence : boolean
             use turbulence index or not
         user_defined_feature:boolean
-            user user defined features or not
+            use user defined features or not
 
     Methods
     -------
