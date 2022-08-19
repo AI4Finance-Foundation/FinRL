@@ -163,7 +163,7 @@ FinRL
 |    Tushare |  CN Securities | 1 min  |  OHLCV |  Prices, indicators |
 |    WRDS |  US Securities |  1 ms  |  Intraday Trades | Prices, indicators |
 |    XE |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
-|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators | 
+|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 |    YahooFinance |  US Securities | 1 min  |  OHLCV  |  Prices, indicators |
 |    ystockquote |  US Securities |  1 day  |  OHLCV | Prices, indicators | -->
 
