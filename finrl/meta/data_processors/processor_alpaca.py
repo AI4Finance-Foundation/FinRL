@@ -63,6 +63,14 @@ class AlpacaProcessor:
         )
         return data_df
 
+    def set_meta_data(self, start_date=None, end_date=None, time_interval=None):
+        if start_date is not None:
+            self.start = start_date
+        if end_date is not None:
+            self.end = end_date
+        if time_interval is not None:
+            self.time_interval = time_interval
+
     def clean_data(self, df):
         tic_list = np.unique(df.tic.values)
 

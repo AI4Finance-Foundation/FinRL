@@ -43,6 +43,10 @@ class DataProcessor:
         )
         return df
 
+    def set_meta_data(self, start_date, end_date, time_interval, tech_indicator_list):
+        self.processor.set_meta_data(start_date, end_date, time_interval)
+        self.tech_indicator_list = tech_indicator_list
+
     def clean_data(self, df) -> pd.DataFrame:
         df = self.processor.clean_data(df)
 

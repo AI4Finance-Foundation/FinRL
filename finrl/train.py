@@ -12,6 +12,48 @@ from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
 # construct environment
 
+def download_data(    
+        start_date,
+        end_date,
+        ticker_list,
+        data_source,
+        time_interval,
+        technical_indicator_list,
+        if_vix=True,
+        **kwargs
+        ):
+
+    data_path = 'data/'
+    data_file_name = f'{data_source}_{start_date}_{end_date}.pkl'
+    file_name = data_path + data_file_name
+    dp = DataProcessor(data_source, **kwargs)
+    import pandas as pd
+    import os
+    if os.path.isfile(file_name):
+        # load if exist
+        data = pd.read_pickle(file_name)
+        dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
+        print(f"Load data from {file_name}")
+    else:
+        # download data
+        data = dp.download_data(ticker_list, start_date, end_date, time_interval)
+        data = dp.clean_data(data)
+        data = dp.add_technical_indicator(data, technical_indicator_list)
+        if if_vix:
+            data = dp.add_vix(data)
+
+        # save data
+        os.makedirs(data_path, exist_ok=True)
+        data.to_pickle(file_name) 
+        
+    price_array, tech_array, turbulence_array = dp.df_to_array(data, if_vix)
+    env_config = {
+        "price_array": price_array,
+        "tech_array": tech_array,
+        "turbulence_array": turbulence_array,
+        "if_train": True,
+    }
+    return env_config
 
 def train(
     start_date,
@@ -26,20 +68,19 @@ def train(
     if_vix=True,
     **kwargs,
 ):
-    # download data
-    dp = DataProcessor(data_source, **kwargs)
-    data = dp.download_data(ticker_list, start_date, end_date, time_interval)
-    data = dp.clean_data(data)
-    data = dp.add_technical_indicator(data, technical_indicator_list)
-    if if_vix:
-        data = dp.add_vix(data)
-    price_array, tech_array, turbulence_array = dp.df_to_array(data, if_vix)
-    env_config = {
-        "price_array": price_array,
-        "tech_array": tech_array,
-        "turbulence_array": turbulence_array,
-        "if_train": True,
-    }
+    env_config = download_data(    
+        start_date,
+        end_date,
+        ticker_list,
+        data_source,
+        time_interval,
+        technical_indicator_list,
+        if_vix,
+        **kwargs)
+    price_array = env_config["price_array"]
+    tech_array = env_config["tech_array"]
+    turbulence_array = env_config["turbulence_array"]
+
     env_instance = env(config=env_config)
 
     # read parameters

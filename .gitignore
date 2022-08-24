@@ -1,5 +1,6 @@
 # Custom config
 #results/
+*.pkl
 
 # remove DS_Store
 **/.DS_Store
