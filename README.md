@@ -10,6 +10,11 @@
 [3]: https://plus.google.com/share?url=https://github.com/AI4Finance-Foundation/FinRL
 [4]: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL
 
+<div align="center">
+<img align="center" src=figs/logo_transparent_background.png width="55%"/>
+</div>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![Downloads](https://pepy.tech/badge/finrl)](https://pepy.tech/project/finrl)
 [![Downloads](https://pepy.tech/badge/finrl/week)](https://pepy.tech/project/finrl)
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
@@ -17,9 +22,6 @@
 [![Documentation Status](https://readthedocs.org/projects/finrl/badge/?version=latest)](https://finrl.readthedocs.io/en/latest/?badge=latest)
 ![License](https://img.shields.io/github/license/AI4Finance-Foundation/finrl.svg?color=brightgreen)
 
-<div align="center">
-<img align="center" src=figs/logo_transparent_background.png width="45%"/>
-</div>
 
 
 **FinRL** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to show the great potential of financial reinforcement learning.
@@ -67,11 +69,6 @@ Run [Stock_NeurIPS2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blo
 A video [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
 
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=AI4Finance-Foundation/FinRL&type=Date)](https://star-history.com/#AI4Finance-Foundation/FinRL&Date)
-
-
 ## File Structure
 
 The main folder **finrl** has three subfolders **applications, agents, meta**.
@@ -97,6 +94,7 @@ FinRL
 │   	├── env_stock_trading
 │   	├── preprocessor
 │   	├── data_processor.py
+│       ├── meta_config_tickers.py
 │   	└── meta_config.py
 │   ├── config.py
 │   ├── config_tickers.py
@@ -137,38 +135,39 @@ FinRL
 
 <!-- |Data Source |Type |Max Frequency |Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |
+|    AkShare |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
 |    Alpaca |  US Stocks, ETFs |  1 min |  OHLCV |  Prices, indicators |
+|    Alpha Vantage | Stock, ETF, forex, crypto, technical indicators | 1 min |  OHLCV  & Prices, indicators |
 |    Baostock |  CN Securities |  5 min |  OHLCV |  Prices, indicators |
 |    Binance |  Cryptocurrency |  1 s |  OHLCV |  Prices, indicators |
 |    CCXT |  Cryptocurrency |  1 min  |  OHLCV |  Prices, indicators |
+|    currencyapi |  Exchange rate | 1 day |  Exchange rate | Exchange rate, indicators |
+|    currencylayer |  Exchange rate | 1 day  |  Exchange rate | Exchange rate, indicators |
+|    EOD Historical Data | US stocks, and ETFs |  1 day  |  OHLCV  | Prices, indicators |
+|    Exchangerates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    findatapy |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
+|    Financial Modeling prep | US stocks, currencies, crypto |  1 min |  OHLCV  | Prices, indicators |
+|    finnhub | US Stocks, currencies, crypto |   1 day |  OHLCV  | Prices, indicators |
+|    Fixer |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 |    IEXCloud |  NMS US securities | 1 day  | OHLCV |  Prices, indicators |
 |    JoinQuant |  CN Securities |  1 min  |  OHLCV |  Prices, indicators |
-|    QuantConnect |  US Securities |  1 s |  OHLCV |  Prices, indicators |
-|    RiceQuant |  CN Securities |  1 ms  |  OHLCV |  Prices, indicators |
-|    Tushare |  CN Securities | 1 min  |  OHLCV |  Prices, indicators |
-|    WRDS |  US Securities |  1 ms  |  Intraday Trades | Prices, indicators |
-|    YahooFinance |  US Securities | 1 min  |  OHLCV  |  Prices, indicators |
-|    AkShare |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
-|    findatapy |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
+|    Marketstack | 50+ countries |  1 day  |  OHLCV | Prices, indicators |
+|    Open Exchange Rates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 |    pandas\_datareader |  US Securities |  1 day |  OHLCV | Prices, indicators |
 |    pandas-finance |  US Securities |  1 day  |  OHLCV  & Prices, indicators |
-|    ystockquote |  US Securities |  1 day  |  OHLCV | Prices, indicators |
-|    Marketstack | 50+ countries |  1 day  |  OHLCV | Prices, indicators |
-|    finnhub | US Stocks, currencies, crypto |   1 day |  OHLCV  | Prices, indicators |
-|    Financial Modeling prep | US stocks, currencies, crypto |  1 min |  OHLCV  | Prices, indicators |
-|    EOD Historical Data | US stocks, and ETFs |  1 day  |  OHLCV  | Prices, indicators |
-|    Alpha Vantage | Stock, ETF, forex, crypto, technical indicators | 1 min |  OHLCV  & Prices, indicators |
-|    Tiingo | Stocks, crypto |  1 day  |  OHLCV  | Prices, indicators |
-|    Quandl | 250+ sources |  1 day  |  OHLCV  | Prices, indicators |
 |    Polygon |  US Securities |  1 day  |  OHLCV  | Prices, indicators |
-|    fixer |  Exchange rate |  1 day |  Exchange rate | Exchange rate, indicators |
-|    Exchangerates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
-|    Fixer |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
-|    currencylayer |  Exchange rate | 1 day  |  Exchange rate | Exchange rate, indicators |
-|    currencyapi |  Exchange rate | 1 day |  Exchange rate | Exchange rate, indicators |
-|    Open Exchange Rates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    Quandl | 250+ sources |  1 day  |  OHLCV  | Prices, indicators |
+|    QuantConnect |  US Securities |  1 s |  OHLCV |  Prices, indicators |
+|    RiceQuant |  CN Securities |  1 ms  |  OHLCV |  Prices, indicators |
+|    Tiingo | Stocks, crypto |  1 day  |  OHLCV  | Prices, indicators |
+|    Tushare |  CN Securities | 1 min  |  OHLCV |  Prices, indicators |
+|    WRDS |  US Securities |  1 ms  |  Intraday Trades | Prices, indicators |
 |    XE |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
-|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators | -->
+|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    YahooFinance |  US Securities | 1 min  |  OHLCV  |  Prices, indicators |
+|    ystockquote |  US Securities |  1 day  |  OHLCV | Prices, indicators | -->
+
+
 
 OHLCV: open, high, low, and close prices; volume. adjusted_close: adjusted close price
 
@@ -203,6 +202,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 ## Tutorials
 
 + [Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
++ [Alpaca][DataDrivenInvestor] [A Data Scientist’s Approach for Algorithmic Trading using Deep Reinforcement Learning: An End-to-end Tutorial for Paper Trading](https://alpaca.markets/learn/data-scientists-approach-algorithmic-trading-using-deep-reinforcement-learning/)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Single Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-single-stock-trading-37d6d7c30aac)
@@ -215,7 +215,6 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 + [MLearning.ai] [ElegantRL Demo: Stock Trading Using DDPG (Part I)](https://elegantrl.medium.com/elegantrl-demo-stock-trading-using-ddpg-part-i-e77d7dc9d208)
 + [MLearning.ai] [ElegantRL Demo: Stock Trading Using DDPG (Part II)](https://medium.com/mlearning-ai/elegantrl-demo-stock-trading-using-ddpg-part-ii-d3d97e01999f)
 + [DataDrivenInvestor] [FinRL-Meta: A Universe of Near Real-Market En­vironments for Data­-Driven Financial Reinforcement Learning](https://medium.datadriveninvestor.com/finrl-meta-a-universe-of-near-real-market-en-vironments-for-data-driven-financial-reinforcement-e1894e1ebfbd)
-+ [DataDrivenInvestor] [A Data Scientist’s Approach for Algorithmic Trading using Deep Reinforcement Learning: An End-to-end Tutorial for Paper Trading](https://medium.datadriveninvestor.com/a-data-scientists-approach-for-algorithmic-trading-using-deep-reinforcement-learning-an-be8da40b2230)
 + [Analytics Vidhya] [Weights and Biases-ify FinRL with Stable Baselines3 models](https://medium.com/analytics-vidhya/weights-and-biases-ify-stable-baselines-models-in-finrl-f11b67f2a6a7)
 + [Analytics Vidhya] [Hyperparameter tuning using optuna for FinRL](https://medium.com/analytics-vidhya/hyperparameter-tuning-using-optuna-for-finrl-8a49506d2741)
 + [Analytics Vidhya] [A hitchhikers guide to FinRL: A Deep Reinforcement Learning Framework for Quantitative Finance](https://medium.com/analytics-vidhya/a-hitchhikers-guide-to-finrl-a-deep-reinforcement-learning-framework-for-quantitative-finance-e624c508f763)

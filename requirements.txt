@@ -3,7 +3,7 @@ ccxt==1.66.32  # make sure that >=1.66.32
 elegantrl
 
 # market data & paper trading API
-exchange_calendars
+exchange_calendars==3.6.3 # because raise exception with 4.1.1, success tested with 3.6.3
 gputil
 gym>=0.17
 jqdatasdk
