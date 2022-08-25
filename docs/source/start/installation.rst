@@ -64,15 +64,17 @@ Step 5: Install box2d (if using box2d)
 Users can try:
 
 .. code-block:: bash
-brew install swig
-pip install box2d-py
-pip install box2d
-pip install Box2D
+
+  brew install swig
+  pip install box2d-py
+  pip install box2d
+  pip install Box2D
 
 If it raises errors "AttributeError: module '_Box2D' has no attribute 'RAND_LIMIT_swigconstant' ", users can try:
 
 .. code-block:: bash
-pip install box2d box2d-kengz
+
+  pip install box2d box2d-kengz
 
 
 Step 6: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
@@ -116,8 +118,14 @@ Since we are still actively updating the FinRL repository, please install the un
 .. code-block:: bash
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
+   
+   
+Step 4: Install box2d (if using box2d)
+--------------------------------------------------------------------------
 
-Step 4: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+
+
+Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Download the FinRL repository in terminal:
@@ -138,20 +146,25 @@ Prepare for install
 2. python version >=3.7
 3. pip remove zipline, if your system has installed zipline, zipline has conflicts with the FinRL.
 
-Step1: Clone `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+Step 1: Clone `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 .. code-block:: bash
 
    git clone https://github.com/AI4Finance-Foundation/FinRL.git
 
-Step2: install dependencies
+Step 2: install dependencies
 --------------------------------------------------------------------------
 .. code-block:: bash
 
     cd FinRL
     pip install .
 
-Step3:  test (If using YahooFinance in China, VPN is needed)
+
+Step 3: Install box2d (if using box2d)
+--------------------------------------------------------------------------
+
+
+Step 4:  test (If using YahooFinance in China, VPN is needed)
 -------------------------------------------------------------------------------------
 .. code-block:: bash
 
@@ -204,7 +217,11 @@ Since we are still actively updating the FinRL repository, please install the un
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
 
-Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+
+Step 5: Install box2d (if using box2d)
+--------------------------------------------------------------------------
+
+Step 6: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Download the FinRL repository in terminal:
