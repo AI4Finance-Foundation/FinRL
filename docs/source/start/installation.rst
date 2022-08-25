@@ -57,8 +57,25 @@ Since we are still actively updating the FinRL repository, please install the un
 .. code-block:: bash
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
+   
+   
+Step 5: Install  box2d
+--------------------------------------------------------------------------
+Users should try:
 
-Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+.. code-block:: bash
+brew install swig
+pip install box2d-py
+pip install box2d
+pip install Box2D
+
+If it raises erros "AttributeError: module '_Box2D' has no attribute 'RAND_LIMIT_swigconstant' ", users can try:
+
+.. code-block:: bash
+pip3 install box2d box2d-kengz
+
+
+Step 6: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Download the FinRL repository either use terminal:
