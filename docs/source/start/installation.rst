@@ -57,8 +57,8 @@ Since we are still actively updating the FinRL repository, please install the un
 .. code-block:: bash
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
-   
-   
+
+
 Step 5: Install box2d (if using box2d)
 --------------------------------------------------------------------------
 Users can try:
@@ -118,8 +118,8 @@ Since we are still actively updating the FinRL repository, please install the un
 .. code-block:: bash
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
-   
-   
+
+
 Step 4: Install box2d (if using box2d)
 --------------------------------------------------------------------------
 
