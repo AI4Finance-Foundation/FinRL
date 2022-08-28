@@ -37,9 +37,8 @@ class AlpacaProcessor:
 
         # download
         NY = "America/New_York"
-        start_date = pd.Timestamp(start_date, tz=NY)
-        end_date = pd.Timestamp(end_date, tz=NY)
-
+        start_date = pd.Timestamp(start_date+' 09:30:00', tz=NY)
+        end_date = pd.Timestamp(end_date+' 15:59:00', tz=NY)
         barset = self.api.get_bars(
             ticker_list,
             time_interval,
@@ -59,7 +58,7 @@ class AlpacaProcessor:
         # reformat to finrl expected schema
         data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
         data_df["timestamp"] = data_df["timestamp"].apply(
-            lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
+            lambda x: x.tz_convert(NY)
         )
         return data_df
 
