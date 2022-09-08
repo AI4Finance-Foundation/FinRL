@@ -24,7 +24,7 @@ class AlpacaPaperTrading():
                 #load agent
                 config = {'state_dim':state_dim,
                             'action_dim':action_dim,}
-                args = Arguments(agent=AgentPPO, env=StockEnvEmpty(config))
+                args = Arguments(agent_class=AgentPPO, env=StockEnvEmpty(config))
                 args.cwd = cwd
                 args.net_dim = net_dim
                 # load agent

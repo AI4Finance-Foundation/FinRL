@@ -9,6 +9,7 @@ from finrl.config import TRAIN_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.data_processor import DataProcessor
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+from finrl.wandb import init_wandb
 
 # construct environment
 
@@ -86,9 +87,18 @@ def train(
     # read parameters
     cwd = kwargs.get("cwd", "./" + str(model_name))
 
+    args={
+            'wandb_project': 'FinRL',
+            'wandb_group': '',
+            'wandb_entity': 'quantumiracle',            
+            'wandb_name': str(cwd),
+    }
+    init_wandb(args)
+
     if drl_lib == "elegantrl":
         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
-
+        import numpy as np
+        # turbulence_array = np.expand_dims(turbulence_array, axis=-1)
         break_step = kwargs.get("break_step", 1e6)
         erl_params = kwargs.get("erl_params")
         agent = DRLAgent_erl(

@@ -1,0 +1,57 @@
+diff --git a/finrl/train.py b/finrl/train.py
+index bd9191d..2f9d358 100644
+--- a/finrl/train.py
++++ b/finrl/train.py
+@@ -9,6 +9,7 @@ from finrl.config import TRAIN_START_DATE
+ from finrl.config_tickers import DOW_30_TICKER
+ from finrl.meta.data_processor import DataProcessor
+ from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
++from finrl.wandb import init_wandb
+ 
+ # construct environment
+ 
+@@ -86,9 +87,18 @@ def train(
+     # read parameters
+     cwd = kwargs.get("cwd", "./" + str(model_name))
+ 
++    args={
++            'wandb_project': 'FinRL',
++            'wandb_group': '',
++            'wandb_entity': 'quantumiracle',            
++            'wandb_name': str(cwd),
++    }
++    init_wandb(args)
++
+     if drl_lib == "elegantrl":
+         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
+-
++        import numpy as np
++        # turbulence_array = np.expand_dims(turbulence_array, axis=-1)
+         break_step = kwargs.get("break_step", 1e6)
+         erl_params = kwargs.get("erl_params")
+         agent = DRLAgent_erl(
+diff --git a/tutorials/3-Practical/alpaca_trade.py b/tutorials/3-Practical/alpaca_trade.py
+index f58e2d4..7eeed85 100644
+--- a/tutorials/3-Practical/alpaca_trade.py
++++ b/tutorials/3-Practical/alpaca_trade.py
+@@ -24,7 +24,7 @@ class AlpacaPaperTrading():
+                 #load agent
+                 config = {'state_dim':state_dim,
+                             'action_dim':action_dim,}
+-                args = Arguments(agent=AgentPPO, env=StockEnvEmpty(config))
++                args = Arguments(agent_class=AgentPPO, env=StockEnvEmpty(config))
+                 args.cwd = cwd
+                 args.net_dim = net_dim
+                 # load agent
+diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
+index c12fd46..8737e28 100644
+--- a/tutorials/3-Practical/train_alpaca.py
++++ b/tutorials/3-Practical/train_alpaca.py
+@@ -26,6 +26,7 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048,"gamma":  0.985,
+ #if you want to use larger datasets (change to longer period), and it raises error, 
+ #please try to increase "target_step". It should be larger than the episode steps. 
+ 
++
+ train(start_date = '2021-8-11', 
+       end_date = '2021-10-15',
+       ticker_list = ticker_list, 

@@ -1,0 +1,22 @@
+{
+    "os": "Linux-5.15.0-46-generic-x86_64-with-debian-bullseye-sid",
+    "python": "3.7.0",
+    "heartbeatAt": "2022-09-05T14:11:52.249155",
+    "startedAt": "2022-09-05T14:11:51.862990",
+    "docker": null,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "train_alpaca.py",
+    "codePath": "tutorials/3-Practical/train_alpaca.py",
+    "git": {
+        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
+        "commit": "4390111cb2b63a958b4189febd7c5fae1ff614fd"
+    },
+    "email": "zhding@mail.ustc.edu.cn",
+    "root": "/home/quantumiracle/research/FinRL",
+    "host": "quantumiracle-XPS-8940",
+    "username": "quantumiracle",
+    "executable": "/home/quantumiracle/anaconda3/envs/x/bin/python"
+}
