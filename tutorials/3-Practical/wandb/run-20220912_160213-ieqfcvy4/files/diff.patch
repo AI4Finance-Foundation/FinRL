@@ -1,0 +1,126 @@
+diff --git a/finrl/meta/env_stock_trading/env_stocktrading_np.py b/finrl/meta/env_stock_trading/env_stocktrading_np.py
+index 185f767..c6efabb 100644
+--- a/finrl/meta/env_stock_trading/env_stocktrading_np.py
++++ b/finrl/meta/env_stock_trading/env_stocktrading_np.py
+@@ -14,7 +14,7 @@ class StockTradingEnv(gym.Env):
+         turbulence_thresh=99,
+         min_stock_rate=0.1,
+         max_stock=1e2,
+-        initial_capital=1e6,
++        initial_capital=1e5,
+         buy_cost_pct=1e-3,
+         sell_cost_pct=1e-3,
+         reward_scaling=2**-11,
+diff --git a/tutorials/3-Practical/common.py b/tutorials/3-Practical/common.py
+index c35ba47..c7963fb 100644
+--- a/tutorials/3-Practical/common.py
++++ b/tutorials/3-Practical/common.py
+@@ -1,4 +1,4 @@
+-API_KEY = "PKC45PE857XWAGUVR7WK"
+-API_SECRET = "e8v8RrHpZK4ZHhyyh9OfeNygu9FjAizJRVai93Oh"
++API_KEY = "PK2HDBUKKT0NNI734B27"
++API_SECRET = "WSLt7jJA6ecqNgwAWmRQ5FwmLkgBZsaaOFdM5M5U"
+ API_BASE_URL = 'https://paper-api.alpaca.markets'
+ data_url = 'wss://data.alpaca.markets'
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/deploy_alpaca.py b/tutorials/3-Practical/deploy_alpaca.py
+index 8cdcc76..3fbe16f 100644
+--- a/tutorials/3-Practical/deploy_alpaca.py
++++ b/tutorials/3-Practical/deploy_alpaca.py
+@@ -17,14 +17,6 @@ action_dim = len(DOW_30_TICKER)
+ state_dim = 1 + 2 + 3 * action_dim + len(INDICATORS) * action_dim
+ candle_time_interval = '15Min'  # '1Min'
+ 
+-env = StockTradingEnv
+-
+-ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048,"gamma":  0.985,
+-        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
+-        "eval_times":1} 
+-#if you want to use larger datasets (change to longer period), and it raises error, 
+-#please try to increase "target_step". It should be larger than the episode steps. 
+-
+ paper_trading_erl = AlpacaPaperTrading(ticker_list = DOW_30_TICKER, 
+                                        time_interval = candle_time_interval, 
+                                        drl_lib = 'elegantrl', 
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000023675_-0026.962.pth b/tutorials/3-Practical/papertrading_erl/actor__000000023675_-0026.962.pth
+deleted file mode 100644
+index f339351..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000023675_-0026.962.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000047350_00006.597.pth b/tutorials/3-Practical/papertrading_erl/actor__000000047350_00006.597.pth
+deleted file mode 100644
+index ea01a65..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000047350_00006.597.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000118375_00037.841.pth b/tutorials/3-Practical/papertrading_erl/actor__000000118375_00037.841.pth
+deleted file mode 100644
+index 1d1fa53..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000118375_00037.841.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000189400_00044.034.pth b/tutorials/3-Practical/papertrading_erl/actor__000000189400_00044.034.pth
+deleted file mode 100644
+index fe8d025..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000189400_00044.034.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000804950_00044.199.pth b/tutorials/3-Practical/papertrading_erl/actor__000000804950_00044.199.pth
+deleted file mode 100644
+index 1473a00..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000804950_00044.199.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000001491525_00050.451.pth b/tutorials/3-Practical/papertrading_erl/actor__000001491525_00050.451.pth
+deleted file mode 100644
+index 0d48fac..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000001491525_00050.451.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000002272800_00053.537.pth b/tutorials/3-Practical/papertrading_erl/actor__000002272800_00053.537.pth
+deleted file mode 100644
+index be7c666..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000002272800_00053.537.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/plot_learning_curve.jpg b/tutorials/3-Practical/papertrading_erl/plot_learning_curve.jpg
+deleted file mode 100644
+index 395cfce..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/plot_learning_curve.jpg and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/recorder.npy b/tutorials/3-Practical/papertrading_erl/recorder.npy
+deleted file mode 100644
+index 6f16bcf..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/recorder.npy and /dev/null differ
+diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
+index 1fbd361..f2e368b 100644
+--- a/tutorials/3-Practical/train_alpaca.py
++++ b/tutorials/3-Practical/train_alpaca.py
+@@ -6,18 +6,15 @@ from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+ from finrl.meta.env_stock_trading.env_stock_papertrading import AlpacaPaperTrading
+ from finrl.meta.data_processor import DataProcessor
+ from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
++from common import *
+ 
+ import numpy as np
+ import pandas as pd
+ 
+ ticker_list = DOW_30_TICKER
+ action_dim = len(DOW_30_TICKER)
+-candle_time_interval = '15Min'  # '1Min'
++candle_time_interval = '1Min'  # '1Min'
+ 
+-API_KEY = "PKC45PE857XWAGUVR7WK"
+-API_SECRET = "e8v8RrHpZK4ZHhyyh9OfeNygu9FjAizJRVai93Oh"
+-API_BASE_URL = 'https://paper-api.alpaca.markets'
+-data_url = 'wss://data.alpaca.markets'
+ env = StockTradingEnv
+ 
+ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048,"gamma":  0.985,
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index 71c7e48..2972e39 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20220912_131955-196l7cy0
+\ No newline at end of file
++run-20220912_160213-ieqfcvy4
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20220912_131955-196l7cy0/files/wandb-summary.json b/tutorials/3-Practical/wandb/run-20220912_131955-196l7cy0/files/wandb-summary.json
+index 7fc231c..2b60bf2 100644
+--- a/tutorials/3-Practical/wandb/run-20220912_131955-196l7cy0/files/wandb-summary.json
++++ b/tutorials/3-Practical/wandb/run-20220912_131955-196l7cy0/files/wandb-summary.json
+@@ -1 +1 @@
+-{"global_step": 4332525, "_timestamp": 1663011071.9661155, "info/r_max": 53.53657150268555, "info/r_avg": 5.700323581695557, "info/r_std": 0.0, "info/s_avg": 23675.0, "info/s_std": 0.0, "info/used_time": 0.0, "info/r_exp": 0.0, "_runtime": 7876, "_step": 182}
+\ No newline at end of file
++{"global_step": 4711325, "_timestamp": 1663011784.2799313, "info/r_max": 53.53657150268555, "info/r_avg": 8.01111125946045, "info/r_std": 0.0, "info/s_avg": 23675.0, "info/s_std": 0.0, "info/used_time": 0.0, "info/r_exp": 0.0, "_runtime": 8589, "_step": 198}
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20220912_131955-196l7cy0/run-196l7cy0.wandb b/tutorials/3-Practical/wandb/run-20220912_131955-196l7cy0/run-196l7cy0.wandb
+index 3c1bbf2..d27690d 100644
+Binary files a/tutorials/3-Practical/wandb/run-20220912_131955-196l7cy0/run-196l7cy0.wandb and b/tutorials/3-Practical/wandb/run-20220912_131955-196l7cy0/run-196l7cy0.wandb differ

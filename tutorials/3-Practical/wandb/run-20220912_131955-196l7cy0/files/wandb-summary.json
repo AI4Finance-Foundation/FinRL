@@ -1,1 +1,1 @@
-{"global_step": 4332525, "_timestamp": 1663011071.9661155, "info/r_max": 53.53657150268555, "info/r_avg": 5.700323581695557, "info/r_std": 0.0, "info/s_avg": 23675.0, "info/s_std": 0.0, "info/used_time": 0.0, "info/r_exp": 0.0, "_runtime": 7876, "_step": 182}
+{"global_step": 4711325, "_timestamp": 1663011784.2799313, "info/r_max": 53.53657150268555, "info/r_avg": 8.01111125946045, "info/r_std": 0.0, "info/s_avg": 23675.0, "info/s_std": 0.0, "info/used_time": 0.0, "info/r_exp": 0.0, "_runtime": 8589, "_step": 198}

@@ -1,0 +1,38 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.12.11
+    code_path: code/tutorials/3-Practical/train_alpaca.py
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.7.10
+    start_time: 1663012934
+    t:
+      1:
+      - 1
+      - 2
+      - 3
+      - 5
+      3:
+      - 13
+      - 16
+      - 35
+      4: 3.7.10
+      5: 0.12.11
+      8:
+      - 5
+wandb_entity:
+  desc: null
+  value: quantumiracle
+wandb_group:
+  desc: null
+  value: ''
+wandb_name:
+  desc: null
+  value: ./papertrading_erl
+wandb_project:
+  desc: null
+  value: FinRL

@@ -17,14 +17,6 @@ action_dim = len(DOW_30_TICKER)
 state_dim = 1 + 2 + 3 * action_dim + len(INDICATORS) * action_dim
 candle_time_interval = '15Min'  # '1Min'
 
-env = StockTradingEnv
-
-ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048,"gamma":  0.985,
-        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
-        "eval_times":1} 
-#if you want to use larger datasets (change to longer period), and it raises error, 
-#please try to increase "target_step". It should be larger than the episode steps. 
-
 paper_trading_erl = AlpacaPaperTrading(ticker_list = DOW_30_TICKER, 
                                        time_interval = candle_time_interval, 
                                        drl_lib = 'elegantrl', 
