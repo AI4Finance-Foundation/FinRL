@@ -1,0 +1,93 @@
+diff --git a/finrl/meta/env_stock_trading/env_stocktrading_np.py b/finrl/meta/env_stock_trading/env_stocktrading_np.py
+index 34118ca..185f767 100644
+--- a/finrl/meta/env_stock_trading/env_stocktrading_np.py
++++ b/finrl/meta/env_stock_trading/env_stocktrading_np.py
+@@ -67,7 +67,7 @@ class StockTradingEnv(gym.Env):
+         self.max_step = self.price_ary.shape[0] - 1
+         self.if_train = if_train
+         self.if_discrete = False
+-        self.target_return = 10.0
++        self.target_return = 100.0  # this determines the stopping criterion for training
+         self.episode_return = 0.0
+ 
+         self.observation_space = gym.spaces.Box(
+diff --git a/tutorials/3-Practical/papertrading_erl/act_optimizer.pth b/tutorials/3-Practical/papertrading_erl/act_optimizer.pth
+index e3b9a3a..6d22be7 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/act_optimizer.pth and b/tutorials/3-Practical/papertrading_erl/act_optimizer.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/act_target.pth b/tutorials/3-Practical/papertrading_erl/act_target.pth
+index 14190ce..1d1fa53 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/act_target.pth and b/tutorials/3-Practical/papertrading_erl/act_target.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor.pth b/tutorials/3-Practical/papertrading_erl/actor.pth
+index 14190ce..1d1fa53 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/actor.pth and b/tutorials/3-Practical/papertrading_erl/actor.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000019515_-0006.506.pth b/tutorials/3-Practical/papertrading_erl/actor__000000019515_-0006.506.pth
+deleted file mode 100644
+index 0b1be72..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000019515_-0006.506.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000136605_-0004.604.pth b/tutorials/3-Practical/papertrading_erl/actor__000000136605_-0004.604.pth
+deleted file mode 100644
+index 103f5ce..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000136605_-0004.604.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000234180_-0004.359.pth b/tutorials/3-Practical/papertrading_erl/actor__000000234180_-0004.359.pth
+deleted file mode 100644
+index 128053d..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000234180_-0004.359.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000000878175_-0000.126.pth b/tutorials/3-Practical/papertrading_erl/actor__000000878175_-0000.126.pth
+deleted file mode 100644
+index 09cbc68..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000000878175_-0000.126.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000001678290_00000.161.pth b/tutorials/3-Practical/papertrading_erl/actor__000001678290_00000.161.pth
+deleted file mode 100644
+index 42cd42d..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000001678290_00000.161.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000002595495_00000.787.pth b/tutorials/3-Practical/papertrading_erl/actor__000002595495_00000.787.pth
+deleted file mode 100644
+index 95b0591..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000002595495_00000.787.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000007552305_00001.129.pth b/tutorials/3-Practical/papertrading_erl/actor__000007552305_00001.129.pth
+deleted file mode 100644
+index 2cc862a..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000007552305_00001.129.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/actor__000008079210_00005.089.pth b/tutorials/3-Practical/papertrading_erl/actor__000008079210_00005.089.pth
+deleted file mode 100644
+index 140d0f7..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/actor__000008079210_00005.089.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/cri_optimizer.pth b/tutorials/3-Practical/papertrading_erl/cri_optimizer.pth
+index 59f5b03..c401e44 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/cri_optimizer.pth and b/tutorials/3-Practical/papertrading_erl/cri_optimizer.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/cri_target.pth b/tutorials/3-Practical/papertrading_erl/cri_target.pth
+index cd832a6..0b4cbce 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/cri_target.pth and b/tutorials/3-Practical/papertrading_erl/cri_target.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/critic.pth b/tutorials/3-Practical/papertrading_erl/critic.pth
+index cd832a6..0b4cbce 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/critic.pth and b/tutorials/3-Practical/papertrading_erl/critic.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/plot_learning_curve.jpg b/tutorials/3-Practical/papertrading_erl/plot_learning_curve.jpg
+index 9c26941..4558167 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/plot_learning_curve.jpg and b/tutorials/3-Practical/papertrading_erl/plot_learning_curve.jpg differ
+diff --git a/tutorials/3-Practical/papertrading_erl/recorder.npy b/tutorials/3-Practical/papertrading_erl/recorder.npy
+index f02acc5..29fd87c 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/recorder.npy and b/tutorials/3-Practical/papertrading_erl/recorder.npy differ
+diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
+index 8737e28..1fbd361 100644
+--- a/tutorials/3-Practical/train_alpaca.py
++++ b/tutorials/3-Practical/train_alpaca.py
+@@ -27,8 +27,8 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048,"gamma":  0.985,
+ #please try to increase "target_step". It should be larger than the episode steps. 
+ 
+ 
+-train(start_date = '2021-8-11', 
+-      end_date = '2021-10-15',
++train(start_date = '2022-6-11', 
++      end_date = '2022-9-1',
+       ticker_list = ticker_list, 
+       data_source = 'alpaca',
+       time_interval= candle_time_interval, 
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index f2434b5..71c7e48 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20220905_101151-1np6avsn
+\ No newline at end of file
++run-20220912_131955-196l7cy0
+\ No newline at end of file

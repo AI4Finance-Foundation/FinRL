@@ -9,7 +9,7 @@ from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 from finrl.meta.env_stock_trading.env_stock_papertrading import AlpacaPaperTrading
 from finrl.meta.data_processor import DataProcessor
 from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
-from alpaca_trade import AlpacaPaperTrading
+# from alpaca_trade import AlpacaPaperTrading
 from common import *
 
 ticker_list = DOW_30_TICKER
@@ -29,7 +29,8 @@ paper_trading_erl = AlpacaPaperTrading(ticker_list = DOW_30_TICKER,
                                        time_interval = candle_time_interval, 
                                        drl_lib = 'elegantrl', 
                                        agent = 'ppo', 
-                                       cwd = './papertrading_erl_retrain', 
+                                #        cwd = './papertrading_erl_retrain', 
+                                       cwd = './papertrading_erl', 
                                        net_dim = 512, 
                                        state_dim = state_dim, 
                                        action_dim= action_dim, 
