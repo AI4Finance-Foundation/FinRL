@@ -67,7 +67,7 @@ class StockTradingEnv(gym.Env):
         self.max_step = self.price_ary.shape[0] - 1
         self.if_train = if_train
         self.if_discrete = False
-        self.target_return = 10.0
+        self.target_return = 100.0  # this determines the stopping criterion for training
         self.episode_return = 0.0
 
         self.observation_space = gym.spaces.Box(
