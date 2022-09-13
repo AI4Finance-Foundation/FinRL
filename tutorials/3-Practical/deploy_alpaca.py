@@ -15,7 +15,7 @@ from common import *
 ticker_list = DOW_30_TICKER
 action_dim = len(DOW_30_TICKER)
 state_dim = 1 + 2 + 3 * action_dim + len(INDICATORS) * action_dim
-candle_time_interval = '15Min'  # '1Min'
+candle_time_interval = '1Min'  # '1Min'
 
 paper_trading_erl = AlpacaPaperTrading(ticker_list = DOW_30_TICKER, 
                                        time_interval = candle_time_interval, 
