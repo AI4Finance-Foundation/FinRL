@@ -29,6 +29,7 @@ def test(
         time_interval,
         technical_indicator_list,
         if_vix,
+        if_train=False,
         **kwargs)
     price_array = env_config["price_array"]
     tech_array = env_config["tech_array"]

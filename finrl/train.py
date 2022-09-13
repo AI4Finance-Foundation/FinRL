@@ -21,6 +21,7 @@ def download_data(
         time_interval,
         technical_indicator_list,
         if_vix=True,
+        if_train=False,
         **kwargs
         ):
 
@@ -52,7 +53,7 @@ def download_data(
         "price_array": price_array,
         "tech_array": tech_array,
         "turbulence_array": turbulence_array,
-        "if_train": True,
+        "if_train": if_train,
     }
     return env_config
 
@@ -77,6 +78,7 @@ def train(
         time_interval,
         technical_indicator_list,
         if_vix,
+        if_train=True
         **kwargs)
     price_array = env_config["price_array"]
     tech_array = env_config["tech_array"]
