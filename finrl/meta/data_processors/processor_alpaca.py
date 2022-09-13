@@ -350,7 +350,7 @@ class AlpacaProcessor:
                 if str(tmp_df.iloc[i]["close"]) == "nan":
                     previous_close = tmp_df.iloc[i - 1]["close"]
                     if str(previous_close) == "nan":
-                        raise ValueError
+                        previous_close = 0.0
                     tmp_df.iloc[i] = [
                         previous_close,
                         previous_close,
