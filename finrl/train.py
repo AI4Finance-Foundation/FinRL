@@ -20,8 +20,8 @@ def download_data(
         data_source,
         time_interval,
         technical_indicator_list,
-        if_train=False,
         if_vix=True,
+        if_train=False,
         **kwargs
         ):
 
