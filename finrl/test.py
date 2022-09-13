@@ -6,7 +6,7 @@ from finrl.config import TEST_END_DATE
 from finrl.config import TEST_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
-
+from finrl.train import download_data
 
 def test(
     start_date,
@@ -21,26 +21,20 @@ def test(
     if_vix=True,
     **kwargs,
 ):
+    env_config = download_data(    
+        start_date,
+        end_date,
+        ticker_list,
+        data_source,
+        time_interval,
+        technical_indicator_list,
+        if_vix,
+        **kwargs)
+    price_array = env_config["price_array"]
+    tech_array = env_config["tech_array"]
+    turbulence_array = env_config["turbulence_array"]
+    print(env_config)
 
-    # import data processor
-    from finrl.meta.data_processor import DataProcessor
-
-    # fetch data
-    dp = DataProcessor(data_source, **kwargs)
-    data = dp.download_data(ticker_list, start_date, end_date, time_interval)
-    data = dp.clean_data(data)
-    data = dp.add_technical_indicator(data, technical_indicator_list)
-
-    if if_vix:
-        data = dp.add_vix(data)
-    price_array, tech_array, turbulence_array = dp.df_to_array(data, if_vix)
-
-    env_config = {
-        "price_array": price_array,
-        "tech_array": tech_array,
-        "turbulence_array": turbulence_array,
-        "if_train": False,
-    }
     env_instance = env(config=env_config)
 
     # load elegantrl needs state dim, action dim and net dim
