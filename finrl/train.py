@@ -47,7 +47,8 @@ def download_data(
         # save data
         os.makedirs(data_path, exist_ok=True)
         data.to_pickle(file_name) 
-        
+
+    print('The data looks like: \n', data.head(40))  # display the data
     price_array, tech_array, turbulence_array = dp.df_to_array(data, if_vix)
     env_config = {
         "price_array": price_array,
@@ -78,7 +79,7 @@ def train(
         time_interval,
         technical_indicator_list,
         if_vix,
-        if_train=True
+        if_train=True,
         **kwargs)
     price_array = env_config["price_array"]
     tech_array = env_config["tech_array"]
