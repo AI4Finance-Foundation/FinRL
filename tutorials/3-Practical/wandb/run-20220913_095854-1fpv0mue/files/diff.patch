@@ -1,0 +1,34 @@
+diff --git a/finrl/meta/env_stock_trading/env_stock_papertrading.py b/finrl/meta/env_stock_trading/env_stock_papertrading.py
+index 02df201..268c7bf 100644
+--- a/finrl/meta/env_stock_trading/env_stock_papertrading.py
++++ b/finrl/meta/env_stock_trading/env_stock_papertrading.py
+@@ -335,7 +335,7 @@ class AlpacaPaperTrading:
+                 tech,
+             )
+         ).astype(np.float32)
+-        print(len(self.stockUniverse))
++        # print(len(self.stockUniverse))
+         return state
+ 
+     def submitOrder(self, qty, stock, side, resp):
+diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
+index f2e368b..96aa302 100644
+--- a/tutorials/3-Practical/train_alpaca.py
++++ b/tutorials/3-Practical/train_alpaca.py
+@@ -37,6 +37,6 @@ train(start_date = '2022-6-11',
+       API_SECRET = API_SECRET, 
+       API_BASE_URL = API_BASE_URL,
+       erl_params=ERL_PARAMS,
+-      cwd='./papertrading_erl', #current_working_dir
++      cwd='./papertrading_erl_test', #current_working_dir
+       break_step=1e7)
+ 
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index 2972e39..7abd308 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20220912_160213-ieqfcvy4
+\ No newline at end of file
++run-20220913_095854-1fpv0mue
+\ No newline at end of file

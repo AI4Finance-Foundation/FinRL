@@ -244,8 +244,13 @@ class AlpacaPaperTrading:
         self.stocks_cd += 1
         if self.turbulence_bool == 0:
             min_action = 10  # stock_cd
+            action_range = 10000 # max buy/sell shares of stocks
+            action = np.clip(action, -action_range, action_range)
             for index in np.where(action < -min_action)[0]:  # sell_index:
                 sell_num_shares = min(self.stocks[index], -action[index])
+                # Here is a numerical issue, if action is int64 type of -9223372036854775808, 
+                # -action will still be the same value, which will lead to inexecutable selling order.
+                # To solve this, add a action range clip in front.
                 qty = abs(int(sell_num_shares))
                 respSO = []
                 tSubmitOrder = threading.Thread(
@@ -286,6 +291,7 @@ class AlpacaPaperTrading:
                 else:
                     orderSide = "buy"
                 qty = abs(int(float(position.qty)))
+                print('turb: ', qty)
                 respSO = []
                 tSubmitOrder = threading.Thread(
                     target=self.submitOrder(qty, position.symbol, orderSide, respSO)
@@ -335,7 +341,7 @@ class AlpacaPaperTrading:
                 tech,
             )
         ).astype(np.float32)
-        print(len(self.stockUniverse))
+        # print(len(self.stockUniverse))
         return state
 
     def submitOrder(self, qty, stock, side, resp):

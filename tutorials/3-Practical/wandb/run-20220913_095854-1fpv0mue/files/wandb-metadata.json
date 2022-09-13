@@ -1,0 +1,24 @@
+{
+    "os": "Linux-5.4.0-125-generic-x86_64-with-debian-bullseye-sid",
+    "python": "3.7.10",
+    "heartbeatAt": "2022-09-13T13:58:56.974694",
+    "startedAt": "2022-09-13T13:58:54.295874",
+    "docker": null,
+    "gpu": "NVIDIA TITAN RTX",
+    "gpu_count": 2,
+    "cpu_count": 32,
+    "cuda": "11.0.207",
+    "args": [],
+    "state": "running",
+    "program": "train_alpaca.py",
+    "codePath": "tutorials/3-Practical/train_alpaca.py",
+    "git": {
+        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
+        "commit": "5b14c36a07bab80e9edaf428f5493249c622831a"
+    },
+    "email": "zhding@mail.ustc.edu.cn",
+    "root": "/home/zihan/research/FinRL",
+    "host": "e900-rbtg",
+    "username": "zihan",
+    "executable": "/home/zihan/anaconda3/envs/x/bin/python"
+}
