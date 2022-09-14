@@ -8,9 +8,6 @@ from finrl.meta.data_processor import DataProcessor
 from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
 from common import *
 
-import numpy as np
-import pandas as pd
-
 ticker_list = DOW_30_TICKER
 action_dim = len(DOW_30_TICKER)
 candle_time_interval = '1Min'  # '1Min'
@@ -34,6 +31,7 @@ account_value = test(start_date = start_date,
       API_BASE_URL = API_BASE_URL,
 #       erl_params=ERL_PARAMS,
       cwd='./papertrading_erl', #current_working_dir
+      if_plot=True, # to return a dataframe for backtest_plot
       break_step=1e7)
 
 #baseline stats

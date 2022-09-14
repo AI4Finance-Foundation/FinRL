@@ -91,10 +91,11 @@ class AlpacaProcessor:
             )
             tic_df = df[df.tic == tic]
             for i in range(tic_df.shape[0]):
-                tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
-                    ["open", "high", "low", "close", "volume"]
+                # tmp_df.iloc[i] = tic_df.iloc[i][
+                NY_timestamp = pd.Timestamp(tic_df.iloc[i]["timestamp"])-pd.Timedelta(hours=4) # # utc to ny; str to Timestamp
+                tmp_df.loc[NY_timestamp] = tic_df.iloc[i][
+                        ["open", "high", "low", "close", "volume"]
                 ]
-
             # if the close price of the first row is NaN
             if str(tmp_df.iloc[0]["close"]) == "nan":
                 print(
@@ -278,20 +279,35 @@ class AlpacaProcessor:
                     turbulence_array = df[df.tic == tic]["turbulence"].values
                 if_first_time = False
             else:
-                price_array = np.hstack(
-                    [price_array, df[df.tic == tic][["close"]].values]
-                )
-                tech_array = np.hstack(
-                    [tech_array, df[df.tic == tic][tech_indicator_list].values]
-                )
+                # handle the dirty data, different ticker stock has different numbers of rows
+                if price_array.shape[0] != df[df.tic == tic][["close"]].values.shape[0]:
+                    cat_len = price_array.shape[0] - df[df.tic == tic][["close"]].values.shape[0]
+                    cat_values = cat_len*[df[df.tic == tic][["close"]].values[-1]] # cat replicate final values
+                    price_array = np.hstack(
+                        [price_array, np.concatenate((df[df.tic == tic][["close"]].values, cat_values))]
+                    )
+                else:
+                    price_array = np.hstack(
+                        [price_array, df[df.tic == tic][["close"]].values]
+                    )
+                if tech_array.shape[0] != df[df.tic == tic][tech_indicator_list].values.shape[0]:
+                    cat_len = tech_array.shape[0] - df[df.tic == tic][tech_indicator_list].values.shape[0]
+                    cat_values = cat_len*[df[df.tic == tic][tech_indicator_list].values[-1]] # cat replicate final values
+                    tech_array = np.hstack(
+                        [tech_array, np.concatenate((df[df.tic == tic][tech_indicator_list].values, cat_values))]
+                    )     
+                else:           
+                    tech_array = np.hstack(
+                        [tech_array, df[df.tic == tic][tech_indicator_list].values]
+                    )
         print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
     def get_trading_days(self, start, end):
         nyse = tc.get_calendar("NYSE")
         df = nyse.sessions_in_range(
-            pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
-        )
+            pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)-pd.Timedelta(days=1)
+        )  # the end day should not be included, so minus one day
         trading_days = []
         for day in df:
             trading_days.append(str(day)[:10])

@@ -33,9 +33,12 @@ def download_data(
     import os
     if os.path.isfile(file_name):
         # load if exist
-        data = pd.read_pickle(file_name)
-        dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
-        print(f"Load data from {file_name}")
+        try:
+            data = pd.read_pickle(file_name)
+            dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
+            print(f"Load data from {file_name}")
+        except:
+            print(f"Failed to load data from {file_name}")
     else:
         # download data
         data = dp.download_data(ticker_list, start_date, end_date, time_interval)
@@ -49,12 +52,14 @@ def download_data(
         data.to_pickle(file_name) 
 
     print('The data looks like: \n', data.head(40))  # display the data
+    print(f'Full data shape: {data.shape}')
     price_array, tech_array, turbulence_array = dp.df_to_array(data, if_vix)
     env_config = {
         "price_array": price_array,
         "tech_array": tech_array,
         "turbulence_array": turbulence_array,
         "if_train": if_train,
+        "date_array": pd.to_datetime(data['timestamp']+pd.Timedelta(hours=4))  # ny to utc by default
     }
     return env_config
 

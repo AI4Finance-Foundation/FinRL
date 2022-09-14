@@ -18,6 +18,7 @@ def get_daily_return(df, value_col_name="account_value"):
     df["daily_return"] = df[value_col_name].pct_change(1)
     df["date"] = pd.to_datetime(df["date"])
     df.set_index("date", inplace=True, drop=True)
+    
     df.index = df.index.tz_localize("UTC")
     return pd.Series(df["daily_return"], index=df.index)
 
@@ -51,6 +52,7 @@ def backtest_plot(
     value_col_name="account_value",
 ):
     df = deepcopy(account_value)
+    print('date', len(df))
     df["date"] = pd.to_datetime(df["date"])
     test_returns = get_daily_return(df, value_col_name=value_col_name)
 

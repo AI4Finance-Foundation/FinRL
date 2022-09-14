@@ -3,13 +3,14 @@ from __future__ import annotations
 import gym
 import numpy as np
 from numpy import random as rd
+import pandas as pd
 
 
 class StockTradingEnv(gym.Env):
     def __init__(
         self,
         config,
-        initial_account=1e5,
+        # initial_account=1e6,
         gamma=0.99,
         turbulence_thresh=99,
         min_stock_rate=0.1,
@@ -98,6 +99,7 @@ class StockTradingEnv(gym.Env):
         self.total_asset = self.amount + (self.stocks * price).sum()
         self.initial_total_asset = self.total_asset
         self.gamma_reward = 0.0
+
         return self.get_state(price)  # state
 
     def step(self, actions):
@@ -167,3 +169,4 @@ class StockTradingEnv(gym.Env):
             return 1 / (1 + np.exp(-x * np.e)) - 0.5
 
         return sigmoid(ary / thresh) * thresh
+

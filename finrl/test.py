@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+import pandas as pd
 from finrl.config import INDICATORS
 from finrl.config import RLlib_PARAMS
 from finrl.config import TEST_END_DATE
@@ -7,6 +7,7 @@ from finrl.config import TEST_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.train import download_data
+from collections import defaultdict
 
 def test(
     start_date,
@@ -19,6 +20,7 @@ def test(
     env,
     model_name,
     if_vix=True,
+    if_plot=False,
     **kwargs,
 ):
     env_config = download_data(    
@@ -34,14 +36,12 @@ def test(
     price_array = env_config["price_array"]
     tech_array = env_config["tech_array"]
     turbulence_array = env_config["turbulence_array"]
-    print(env_config)
 
     env_instance = env(config=env_config)
 
     # load elegantrl needs state dim, action dim and net dim
     net_dimension = kwargs.get("net_dimension", 2**7)
     cwd = kwargs.get("cwd", "./" + str(model_name))
-    print("price_array: ", len(price_array))
 
     if drl_lib == "elegantrl":
         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
@@ -52,7 +52,6 @@ def test(
             net_dimension=net_dimension,
             environment=env_instance,
         )
-        return episode_total_assets
     elif drl_lib == "rllib":
         from finrl.agents.rllib.models import DRLAgent as DRLAgent_rllib
 
@@ -64,16 +63,48 @@ def test(
             turbulence_array=turbulence_array,
             agent_path=cwd,
         )
-        return episode_total_assets
     elif drl_lib == "stable_baselines3":
         from finrl.agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
 
         episode_total_assets = DRLAgent_sb3.DRL_prediction_load_from_file(
             model_name=model_name, environment=env_instance, cwd=cwd
         )
-        return episode_total_assets
     else:
         raise ValueError("DRL library input is NOT supported. Please check.")
+
+    if if_plot:
+        # print(env_config['date_array'].unique()[-1000:])
+        unique_dates = env_config['date_array'].unique() # get unique dates (year-month-day hour-minute-second), 
+        list_myd = []
+        list_hms = []
+        for d in unique_dates:
+            [myd, ms] = str(d).split(' ')  # separate year-month-day hour-minute-second
+            list_myd.append(myd)
+            list_hms.append(ms)
+        # print(list_myd, list_ms)
+
+        # get last minute data as the data for a day
+        def list_duplicates(seq):
+            tally = defaultdict(list)
+            for i,item in enumerate(seq):
+                tally[item].append(i)
+            return ((key,locs) for key,locs in tally.items() 
+                                    if len(locs)>1)
+
+        dates = []  # year-month-day only date tag
+        values = [] # asset value at the end of each day
+        for dup in sorted(list_duplicates(list_myd)):
+            dates.append(dup[0])
+            values.append(episode_total_assets[dup[1][-1]])
+        # print(dates, values)
+
+        df_account_value = pd.DataFrame(
+            {"date": dates, "account_value": values}
+            )
+        return df_account_value
+    else:
+        return episode_total_assets
+
 
 
 if __name__ == "__main__":
