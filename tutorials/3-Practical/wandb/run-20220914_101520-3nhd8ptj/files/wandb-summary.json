@@ -1,0 +1,1 @@
+{"global_step": 9914906, "_timestamp": 1663174395.7685914, "info/r_max": 12.496358871459961, "info/r_avg": 5.7783989906311035, "info/r_std": 0.0, "info/s_avg": 21839.0, "info/s_std": 0.0, "info/used_time": 0.0, "info/r_exp": 0.0, "_runtime": 9475, "_step": 244, "_wandb": {"runtime": 9560}}

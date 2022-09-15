@@ -10,7 +10,6 @@ class StockTradingEnv(gym.Env):
     def __init__(
         self,
         config,
-        # initial_account=1e6,
         gamma=0.99,
         turbulence_thresh=99,
         min_stock_rate=0.1,
