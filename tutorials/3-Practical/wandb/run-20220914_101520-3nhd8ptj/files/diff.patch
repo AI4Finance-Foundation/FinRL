@@ -1,0 +1,9 @@
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index 7abd308..cd14832 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20220913_095854-1fpv0mue
+\ No newline at end of file
++run-20220914_101520-3nhd8ptj
+\ No newline at end of file
