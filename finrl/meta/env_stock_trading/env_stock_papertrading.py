@@ -173,38 +173,53 @@ class AlpacaPaperTrading:
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
             self.timeToClose = closingTime - currTime
 
+            # if self.timeToClose < (60):
+            #     # Close all positions when 1 minutes til market close.
+            #     print("Market closing soon. Stop trading.")
+            #     break
+
+            #     """# Close all positions when 1 minutes til market close.
+            # print("Market closing soon.  Closing positions.")
+
+            # positions = self.alpaca.list_positions()
+            # for position in positions:
+            #   if(position.side == 'long'):
+            #     orderSide = 'sell'
+            #   else:
+            #     orderSide = 'buy'
+            #   qty = abs(int(float(position.qty)))
+            #   respSO = []
+            #   tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
+            #   tSubmitOrder.start()
+            #   tSubmitOrder.join()
+
+            # # Run script again after market close for next trading day.
+            # print("Sleeping until market close (15 minutes).")
+            # time.sleep(60 * 15)"""
+
+            # else:
+            #     trade = threading.Thread(target=self.trade)
+            #     trade.start()
+            #     trade.join()
+            #     last_equity = float(self.alpaca.get_account().last_equity)
+            #     cur_time = time.time()
+            #     self.equities.append([cur_time, last_equity])
+            #     time.sleep(self.time_interval)
+
+            # a non-stop across days version
             if self.timeToClose < (60):
                 # Close all positions when 1 minutes til market close.
                 print("Market closing soon. Stop trading.")
-                break
+                tAMO = threading.Thread(target=self.awaitMarketOpen)
 
-                """# Close all positions when 1 minutes til market close.
-            print("Market closing soon.  Closing positions.")
+            trade = threading.Thread(target=self.trade)
+            trade.start()
+            trade.join()
+            last_equity = float(self.alpaca.get_account().last_equity)
+            cur_time = time.time()
+            self.equities.append([cur_time, last_equity])
+            time.sleep(self.time_interval)
 
-            positions = self.alpaca.list_positions()
-            for position in positions:
-              if(position.side == 'long'):
-                orderSide = 'sell'
-              else:
-                orderSide = 'buy'
-              qty = abs(int(float(position.qty)))
-              respSO = []
-              tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
-              tSubmitOrder.start()
-              tSubmitOrder.join()
-
-            # Run script again after market close for next trading day.
-            print("Sleeping until market close (15 minutes).")
-            time.sleep(60 * 15)"""
-
-            else:
-                trade = threading.Thread(target=self.trade)
-                trade.start()
-                trade.join()
-                last_equity = float(self.alpaca.get_account().last_equity)
-                cur_time = time.time()
-                self.equities.append([cur_time, last_equity])
-                time.sleep(self.time_interval)
 
     def awaitMarketOpen(self):
         isOpen = self.alpaca.get_clock().is_open
