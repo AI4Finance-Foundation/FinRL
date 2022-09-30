@@ -1,4 +1,7 @@
-from setuptools import find_packages, setup
+from __future__ import annotations
+
+from setuptools import find_packages
+from setuptools import setup
 
 # Read requirements.txt, ignore comments
 try:
@@ -30,8 +33,8 @@ setup(
     ],
     # install_requires=REQUIRES,
     description="FinRL: Financial Reinforcement Learning Framework.",
-    # long_description="FinRL is the first open-source framework to demonstrate the great potential of  \
-    # applying deep reinforcement learning in quantitative finance. It is developed by `AI4Finance`_. \
+    long_description="Version 0.3.5 notes: stable version, code refactoring, more tutorials, clear documentation",
+    # It is developed by `AI4Finance`_. \
     # _AI4Finance: https://github.com/AI4Finance-Foundation",
     classifiers=[
         # Trove classifiers
@@ -39,6 +42,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: Implementation :: CPython",

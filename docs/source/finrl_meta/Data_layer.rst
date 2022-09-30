@@ -15,7 +15,7 @@ Data Accessing
 
 We connect data APIs of different platforms and unify them using a FinRL-Meta data processor. Users can access data from various sources given the start date, end date, stock list, time interval, and kwargs.
 
-.. image:: ../image/finrl-meta_data_source.png
+.. image:: ../image/FinRL-Meta-Data-layer.png
     :width: 80%
     :align: center
 
@@ -40,4 +40,3 @@ Feature Engineering
 Feature engineering is the last part of the data layer. We automate the calculation of technical indicators by connecting the Stockstats or TAlib library in our data processor. Common technical indicators including Moving Average Convergence Divergence (MACD), Relative Strength Index (RSI), Average Directional Index (ADX), and Commodity Channel Index (CCI), and so on, are supported. Users can also quickly add indicators from other libraries, or add the user-defined features directly.
 
 Users can add their features by two ways: 1) Write user-defined feature extraction functions directly. The returned features will be added to a feature array. 2) Store the features in a file, and move it to a specified folder. Then, these features will be obtained by reading from the specified file.
-

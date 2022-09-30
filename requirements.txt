@@ -1,37 +1,37 @@
-# data handling
-numpy>=1.17.3
-pandas>=1.1.5
-stockstats>=0.4.0
-yfinance
+alpaca_trade_api>=2.1.0
+ccxt==1.66.32  # make sure that >=1.66.32
 elegantrl
+
+# market data & paper trading API
+exchange_calendars==3.6.3 # because raise exception with 4.1.1, success tested with 3.6.3
+gputil
+gym>=0.17
+jqdatasdk
+lz4
 #pyfolio
 # plot
 matplotlib
+# data handling
+numpy>=1.17.3
+pandas>=1.1.5
 
-# Model Building Requirements
-scikit-learn>=0.21.0
-gym>=0.17
-stable-baselines3[extra]
-ray[default]
-ray[tune]
-lz4
-tensorboardX
-gputil
-
-# market data & paper trading API
-exchange_calendars
-alpaca_trade_api>=2.1.0
-ccxt==1.66.32  # make sure that >=1.66.32  
-jqdatasdk
-wrds
+#hooks
+pre-commit
 
 # testing requirements
 pytest
+ray[default]
+ray[tune]
+
+# Model Building Requirements
+scikit-learn>=0.21.0
 
 # packaging
 #setuptools>=41.4.0
 setuptools==59.5.0
+stable-baselines3[extra]
+stockstats>=0.4.0
+tensorboardX
 wheel>=0.33.6
-
-#hooks
-pre-commit
+wrds
+yfinance

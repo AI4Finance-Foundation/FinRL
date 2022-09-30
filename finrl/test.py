@@ -1,31 +1,29 @@
-from finrl.config import (
-    INDICATORS,
-    TEST_END_DATE,
-    TEST_START_DATE,
-    RLlib_PARAMS,
-)
+from __future__ import annotations
 
+from finrl.config import INDICATORS
+from finrl.config import RLlib_PARAMS
+from finrl.config import TEST_END_DATE
+from finrl.config import TEST_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
-
-from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
+from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 
 
 def test(
-        start_date,
-        end_date,
-        ticker_list,
-        data_source,
-        time_interval,
-        technical_indicator_list,
-        drl_lib,
-        env,
-        model_name,
-        if_vix=True,
-        **kwargs
+    start_date,
+    end_date,
+    ticker_list,
+    data_source,
+    time_interval,
+    technical_indicator_list,
+    drl_lib,
+    env,
+    model_name,
+    if_vix=True,
+    **kwargs,
 ):
 
     # import data processor
-    from finrl.finrl_meta.data_processor import DataProcessor
+    from finrl.meta.data_processor import DataProcessor
 
     # fetch data
     dp = DataProcessor(data_source, **kwargs)
@@ -46,12 +44,13 @@ def test(
     env_instance = env(config=env_config)
 
     # load elegantrl needs state dim, action dim and net dim
-    net_dimension = kwargs.get("net_dimension", 2 ** 7)
+    net_dimension = kwargs.get("net_dimension", 2**7)
     cwd = kwargs.get("cwd", "./" + str(model_name))
     print("price_array: ", len(price_array))
 
     if drl_lib == "elegantrl":
         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
+
         episode_total_assets = DRLAgent_erl.DRL_prediction(
             model_name=model_name,
             cwd=cwd,
@@ -61,6 +60,7 @@ def test(
         return episode_total_assets
     elif drl_lib == "rllib":
         from finrl.agents.rllib.models import DRLAgent as DRLAgent_rllib
+
         episode_total_assets = DRLAgent_rllib.DRL_prediction(
             model_name=model_name,
             env=env,
@@ -72,6 +72,7 @@ def test(
         return episode_total_assets
     elif drl_lib == "stable_baselines3":
         from finrl.agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
+
         episode_total_assets = DRLAgent_sb3.DRL_prediction_load_from_file(
             model_name=model_name, environment=env_instance, cwd=cwd
         )
@@ -84,7 +85,9 @@ if __name__ == "__main__":
     env = StockTradingEnv
 
     # demo for elegantrl
-    kwargs = {}  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+    kwargs = (
+        {}
+    )  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
 
     account_value_erl = test(
         start_date=TEST_START_DATE,

@@ -1,31 +1,30 @@
-from finrl.config import (
-    INDICATORS,
-    TRAIN_START_DATE,
-    TRAIN_END_DATE,
-    ERL_PARAMS,
-    RLlib_PARAMS,
-    SAC_PARAMS,
-)
+from __future__ import annotations
 
+from finrl.config import ERL_PARAMS
+from finrl.config import INDICATORS
+from finrl.config import RLlib_PARAMS
+from finrl.config import SAC_PARAMS
+from finrl.config import TRAIN_END_DATE
+from finrl.config import TRAIN_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
-
-from finrl.finrl_meta.data_processor import DataProcessor
+from finrl.meta.data_processor import DataProcessor
+from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
 # construct environment
-from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+
 
 def train(
-        start_date,
-        end_date,
-        ticker_list,
-        data_source,
-        time_interval,
-        technical_indicator_list,
-        drl_lib,
-        env,
-        model_name,
-        if_vix=True,
-        **kwargs
+    start_date,
+    end_date,
+    ticker_list,
+    data_source,
+    time_interval,
+    technical_indicator_list,
+    drl_lib,
+    env,
+    model_name,
+    if_vix=True,
+    **kwargs,
 ):
     # download data
     dp = DataProcessor(data_source, **kwargs)
@@ -48,6 +47,7 @@ def train(
 
     if drl_lib == "elegantrl":
         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
+
         break_step = kwargs.get("break_step", 1e6)
         erl_params = kwargs.get("erl_params")
         agent = DRLAgent_erl(
@@ -64,6 +64,7 @@ def train(
         total_episodes = kwargs.get("total_episodes", 100)
         rllib_params = kwargs.get("rllib_params")
         from finrl.agents.rllib.models import DRLAgent as DRLAgent_rllib
+
         agent_rllib = DRLAgent_rllib(
             env=env,
             price_array=price_array,
@@ -86,6 +87,7 @@ def train(
         total_timesteps = kwargs.get("total_timesteps", 1e6)
         agent_params = kwargs.get("agent_params")
         from finrl.agents.stablebaselines3.models import DRLAgent as DRLAgent_sb3
+
         agent = DRLAgent_sb3(env=env_instance)
         model = agent.get_model(model_name, model_kwargs=agent_params)
         trained_model = agent.train_model(
@@ -100,11 +102,12 @@ def train(
 
 if __name__ == "__main__":
 
-
     env = StockTradingEnv
 
     # demo for elegantrl
-    kwargs = {}  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+    kwargs = (
+        {}
+    )  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
     train(
         start_date=TRAIN_START_DATE,
         end_date=TRAIN_END_DATE,
