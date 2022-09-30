@@ -18,13 +18,13 @@ Step 1: Install `Anaconda <https://www.anaconda.com/products/individual>`_
 -Open your terminal and type: *'which python'*, it should show:
 
 .. code-block:: bash
-   
+
    /Users/your_user_name/opt/anaconda3/bin/python
-   
+
 It means that your Python interpreter path has been pinned to Anaconda’s python version. If it shows something like this:
 
 .. code-block:: bash
-   
+
    /Users/your_user_name/opt/anaconda3/bin/python
 
 It means that you still use the default python path, you either fix it and pin it to the anaconda path (`try this blog <https://towardsdatascience.com/how-to-successfully-install-anaconda-on-a-mac-and-actually-get-it-to-work-53ce18025f97>`_), or you can use Anaconda Navigator to open a terminal manually.
@@ -39,7 +39,7 @@ Step 2: Install `Homebrew <https://brew.sh/>`_
 .. code-block:: bash
 
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   
+
 Step 3: Install `OpenAI <https://github.com/openai/baselines>`_
 -----------------------------------------------------------------
 
@@ -58,7 +58,26 @@ Since we are still actively updating the FinRL repository, please install the un
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
 
-Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+
+Step 5: Install box2d (if using box2d)
+--------------------------------------------------------------------------
+Users can try:
+
+.. code-block:: bash
+
+  brew install swig
+  pip install box2d-py
+  pip install box2d
+  pip install Box2D
+
+If it raises errors "AttributeError: module '_Box2D' has no attribute 'RAND_LIMIT_swigconstant' ", users can try:
+
+.. code-block:: bash
+
+  pip install box2d box2d-kengz
+
+
+Step 6: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Download the FinRL repository either use terminal:
@@ -89,8 +108,8 @@ Open an ubuntu terminal and type:
 
 .. code-block:: bash
 
-   sudo apt-get update && sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev libgl1-mesa-glx
-   
+   sudo apt-get update && sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev libgl1-mesa-glx swig
+
 Step 3: Install `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
@@ -100,7 +119,13 @@ Since we are still actively updating the FinRL repository, please install the un
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
 
-Step 4: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+
+Step 4: Install box2d (if using box2d)
+--------------------------------------------------------------------------
+
+
+
+Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Download the FinRL repository in terminal:
@@ -117,28 +142,33 @@ Windows 10
 ======================
 Prepare for install
 --------------------------------------------------------------------------
-1. VPN is needed if using YahooFinance in china (pyfolio, elegantRL pip dependencies need pull code, YahooFinance has stopped the service in china). Othewise, please ignore it. 
+1. VPN is needed if using YahooFinance in china (pyfolio, elegantRL pip dependencies need pull code, YahooFinance has stopped the service in china). Othewise, please ignore it.
 2. python version >=3.7
 3. pip remove zipline, if your system has installed zipline, zipline has conflicts with the FinRL.
 
-Step1: Clone `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+Step 1: Clone `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 .. code-block:: bash
 
    git clone https://github.com/AI4Finance-Foundation/FinRL.git
 
-Step2: install dependencies
+Step 2: install dependencies
 --------------------------------------------------------------------------
 .. code-block:: bash
 
     cd FinRL
     pip install .
 
-Step3:  test (If using YahooFinance in China, VPN is needed)
+
+Step 3: Install box2d (if using box2d)
+--------------------------------------------------------------------------
+
+
+Step 4:  test (If using YahooFinance in China, VPN is needed)
 -------------------------------------------------------------------------------------
 .. code-block:: bash
 
-    python FinRL_StockTrading_NeurIPS_2018.py
+    python Stock_NeurIPS2018.py
 
 Tips for running error
 --------------------------------------------------------------------------
@@ -187,7 +217,11 @@ Since we are still actively updating the FinRL repository, please install the un
 
    pip install git+https://github.com/AI4Finance-Foundation/FinRL.git
 
-Step 5: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
+
+Step 5: Install box2d (if using box2d)
+--------------------------------------------------------------------------
+
+Step 6: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
 Download the FinRL repository in terminal:
@@ -199,7 +233,3 @@ Download the FinRL repository in terminal:
 Open Jupyter Notebook by typing 'jupyter notebook' in your ubuntu terminal. Please see `jupyter notebook <https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html>`_
 
 Locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
-
-
-
-

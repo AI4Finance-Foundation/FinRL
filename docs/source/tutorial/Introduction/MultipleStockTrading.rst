@@ -32,25 +32,25 @@ A lot of people are terrified by the word “Deep Reinforcement Learning”, act
 Suppose that we have a well trained DRL agent “DRL Trader”, we want to use it to trade multiple stocks in our portfolio.
 
     - Assume we are at time t, at the end of day at time t, we will know the open-high-low-close price of the Dow 30 constituents stocks. We can use these information to calculate technical indicators such as MACD, RSI, CCI, ADX. In Reinforcement Learning we call these data or features as “states”.
-    
+
     - We know that our portfolio value V(t) = balance (t) + dollar amount of the stocks (t).
-    
+
     - We feed the states into our well trained DRL Trader, the trader will output a list of actions, the action for each stock is a value within [-1, 1], we can treat this value as the trading signal, 1 means a strong buy signal, -1 means a strong sell signal.
-   
+
     - We calculate k = actions \*h_max, h_max is a predefined parameter that sets as the maximum amount of shares to trade. So we will have a list of shares to trade.
-    
+
     - The dollar amount of shares = shares to trade* close price (t).
-    
+
     - Update balance and shares. These dollar amount of shares are the money we need to trade at time t. The updated balance = balance (t) −amount of money we pay to buy shares +amount of money we receive to sell shares. The updated shares = shares held (t) −shares to sell +shares to buy.
-    
+
     - So we take actions to trade based on the advice of our DRL Trader at the end of day at time t (time t’s close price equals time t+1’s open price). We hope that we will benefit from these actions by the end of day at time t+1.
-    
+
     - Take a step to time t+1, at the end of day, we will know the close price at t+1, the dollar amount of the stocks (t+1)= sum(updated shares * close price (t+1)). The portfolio value V(t+1)=balance (t+1) + dollar amount of the stocks (t+1).
-    
+
     - So the step reward by taking the actions from DRL Trader at time t to t+1 is r = v(t+1) − v(t). The reward can be positive or negative in the training stage. But of course, we need a positive reward in trading to say that our DRL Trader is effective.
-    
+
     - Repeat this process until termination.
-    
+
 Below are the logic chart of multiple stock trading and a made-up example for demonstration purpose:
 
 .. image:: ../../image/multiple_1.jpeg
@@ -72,7 +72,7 @@ This article is focusing on one of the use cases in our paper: Mutiple Stock Tra
 
 This problem is to design an automated solution for stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
 The algorithm is trained using Deep Reinforcement Learning (DRL) algorithms and the components of the reinforcement learning environment are:
- 
+
 - Action: The action space describes the allowed actions that the agent interacts with the environment. Normally, a ∈ A includes three actions: a ∈ {−1, 0, 1}, where −1, 0, 1 represent selling, holding, and buying one stock. Also, an action can be carried upon multiple shares. We use an action space {−k, ..., −1, 0, 1, ..., k}, where k denotes the number of shares. For example, "Buy 10 shares of AAPL" or "Sell 10 shares of AAPL" are 10 or −10, respectively
 
 - Reward function: r(s, a, s′) is the incentive mechanism for an agent to learn a better action. The change of the portfolio value when action a is taken at state s and arriving at new state s', i.e., r(s, a, s′) = v′ − v, where v′ and v represent the portfolio values at state s′ and s, respectively
@@ -109,9 +109,9 @@ Then we import the packages needed for this demonstration.
     %matplotlib inline
     from finrl import config
     from finrl import config_tickers
-    from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
-    from finrl.finrl_meta.preprocessor.preprocessors import FeatureEngineer, data_split
-    from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
+    from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
+    from finrl.meta.preprocessor.preprocessors import FeatureEngineer, data_split
+    from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
     from finrl.agents.stablebaselines3.models import DRLAgent
 
     from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
@@ -155,7 +155,7 @@ FinRL uses a YahooDownloader_ class to extract data.
     class YahooDownloader:
         """
         Provides methods for retrieving daily stock data from Yahoo Finance API
-        
+
         Attributes
         ----------
             start_date : str
@@ -164,7 +164,7 @@ FinRL uses a YahooDownloader_ class to extract data.
                 end date of the data (modified from config.py)
             ticker_list : list
                 a list of stock tickers (modified from config.py)
-                
+
         Methods
         -------
             fetch_data()
@@ -177,12 +177,12 @@ Download and save the data in a pandas DataFrame:
    :linenos:
 
     # Download and save the data in a pandas DataFrame:
-    df = YahooDownloader(start_date = '2009-01-01', 
-                              end_date = '2020-09-30', 
+    df = YahooDownloader(start_date = '2009-01-01',
+                              end_date = '2020-09-30',
                               ticker_list = config_tickers.DOW_30_TICKER).fetch_data()
-                              
+
     print(df.sort_values(['date','tic'],ignore_index=True).head(30))
-    
+
 
 .. image:: ../../image/multiple_3.png
 
@@ -307,7 +307,7 @@ FinRL uses a FeatureEngineer_ class to preprocess data.
     class FeatureEngineer:
         """
         Provides methods for preprocessing the stock price data
-        
+
         Attributes
         ----------
             df: DataFrame
@@ -335,8 +335,8 @@ Perform Feature Engineering:
                          tech_indicator_list = config.INDICATORS,
                          use_turbulence=True,
                          user_defined_feature = False).preprocess_data()
-                         
-                         
+
+
 .. image:: ../../image/multiple_4.png
 
 

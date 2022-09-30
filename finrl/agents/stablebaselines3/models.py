@@ -1,20 +1,23 @@
 # DRL models from Stable Baselines 3
+from __future__ import annotations
 
 import time
 
 import numpy as np
 import pandas as pd
-from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
+from stable_baselines3 import A2C
+from stable_baselines3 import DDPG
+from stable_baselines3 import PPO
+from stable_baselines3 import SAC
+from stable_baselines3 import TD3
 from stable_baselines3.common.callbacks import BaseCallback
-from stable_baselines3.common.noise import (
-    NormalActionNoise,
-    OrnsteinUhlenbeckActionNoise,
-)
+from stable_baselines3.common.noise import NormalActionNoise
+from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 from finrl import config
-from finrl.finrl_meta.env_stock_trading.env_stocktrading import StockTradingEnv
-from finrl.finrl_meta.preprocessor.preprocessors import data_split
+from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
+from finrl.meta.preprocessor.preprocessors import data_split
 
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
 
@@ -65,14 +68,14 @@ class DRLAgent:
         self.env = env
 
     def get_model(
-            self,
-            model_name,
-            policy="MlpPolicy",
-            policy_kwargs=None,
-            model_kwargs=None,
-            verbose=1,
-            seed=None,
-            tensorboard_log=None,
+        self,
+        model_name,
+        policy="MlpPolicy",
+        policy_kwargs=None,
+        model_kwargs=None,
+        verbose=1,
+        seed=None,
+        tensorboard_log=None,
     ):
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
@@ -110,7 +113,7 @@ class DRLAgent:
         """make a prediction"""
         account_memory = []
         actions_memory = []
-#         state_memory=[] #add memory pool to store states
+        #         state_memory=[] #add memory pool to store states
         test_env.reset()
         for i in range(len(environment.df.index.unique())):
             action, _states = model.predict(test_obs, deterministic=deterministic)
@@ -120,7 +123,7 @@ class DRLAgent:
             if i == (len(environment.df.index.unique()) - 2):
                 account_memory = test_env.env_method(method_name="save_asset_memory")
                 actions_memory = test_env.env_method(method_name="save_action_memory")
-#                 state_memory=test_env.env_method(method_name="save_state_memory") # add current state to state memory
+            #                 state_memory=test_env.env_method(method_name="save_state_memory") # add current state to state memory
             if dones[0]:
                 print("hit end!")
                 break
@@ -147,8 +150,8 @@ class DRLAgent:
             state, reward, done, _ = environment.step(action)
 
             total_asset = (
-                    environment.amount
-                    + (environment.price_ary[environment.day] * environment.stocks).sum()
+                environment.amount
+                + (environment.price_ary[environment.day] * environment.stocks).sum()
             )
             episode_total_assets.append(total_asset)
             episode_return = total_asset / environment.initial_total_asset
@@ -162,13 +165,13 @@ class DRLAgent:
 class DRLEnsembleAgent:
     @staticmethod
     def get_model(
-            model_name,
-            env,
-            policy="MlpPolicy",
-            policy_kwargs=None,
-            model_kwargs=None,
-            seed=None,
-            verbose=1,
+        model_name,
+        env,
+        policy="MlpPolicy",
+        policy_kwargs=None,
+        model_kwargs=None,
+        seed=None,
+        verbose=1,
     ):
 
         if model_name not in MODELS:
@@ -213,35 +216,36 @@ class DRLEnsembleAgent:
         df_total_value = pd.read_csv(
             f"results/account_value_validation_{model_name}_{iteration}.csv"
         )
-        # If the agent did not make any transaction 
-        if df_total_value["daily_return"].var()==0:
-            if df_total_value["daily_return"].mean()>0:
-                return (np.inf)
+        # If the agent did not make any transaction
+        if df_total_value["daily_return"].var() == 0:
+            if df_total_value["daily_return"].mean() > 0:
+                return np.inf
             else:
-                return (0.0)
+                return 0.0
         else:
             return (
-                    (4 ** 0.5)
-                    * df_total_value["daily_return"].mean()
-                    / df_total_value["daily_return"].std()
+                (4**0.5)
+                * df_total_value["daily_return"].mean()
+                / df_total_value["daily_return"].std()
             )
+
     def __init__(
-            self,
-            df,
-            train_period,
-            val_test_period,
-            rebalance_window,
-            validation_window,
-            stock_dim,
-            hmax,
-            initial_amount,
-            buy_cost_pct,
-            sell_cost_pct,
-            reward_scaling,
-            state_space,
-            action_space,
-            tech_indicator_list,
-            print_verbosity,
+        self,
+        df,
+        train_period,
+        val_test_period,
+        rebalance_window,
+        validation_window,
+        stock_dim,
+        hmax,
+        initial_amount,
+        buy_cost_pct,
+        sell_cost_pct,
+        reward_scaling,
+        state_space,
+        action_space,
+        tech_indicator_list,
+        print_verbosity,
     ):
 
         self.df = df
@@ -250,7 +254,7 @@ class DRLEnsembleAgent:
 
         self.unique_trade_date = df[
             (df.date > val_test_period[0]) & (df.date <= val_test_period[1])
-            ].date.unique()
+        ].date.unique()
         self.rebalance_window = rebalance_window
         self.validation_window = validation_window
 
@@ -272,7 +276,7 @@ class DRLEnsembleAgent:
             test_obs, rewards, dones, info = test_env.step(action)
 
     def DRL_prediction(
-            self, model, name, last_state, iter_num, turbulence_threshold, initial
+        self, model, name, last_state, iter_num, turbulence_threshold, initial
     ):
         """make a prediction based on trained model"""
 
@@ -289,9 +293,9 @@ class DRLEnsembleAgent:
                     stock_dim=self.stock_dim,
                     hmax=self.hmax,
                     initial_amount=self.initial_amount,
-                    num_stock_shares=[0]*self.stock_dim,
-                    buy_cost_pct=[self.buy_cost_pct]*self.stock_dim,
-                    sell_cost_pct=[self.sell_cost_pct]*self.stock_dim,
+                    num_stock_shares=[0] * self.stock_dim,
+                    buy_cost_pct=[self.buy_cost_pct] * self.stock_dim,
+                    sell_cost_pct=[self.sell_cost_pct] * self.stock_dim,
                     reward_scaling=self.reward_scaling,
                     state_space=self.state_space,
                     action_space=self.action_space,
@@ -317,13 +321,11 @@ class DRLEnsembleAgent:
                 last_state = trade_env.render()
 
         df_last_state = pd.DataFrame({"last_state": last_state})
-        df_last_state.to_csv(
-            f"results/last_state_{name}_{i}.csv", index=False
-        )
+        df_last_state.to_csv(f"results/last_state_{name}_{i}.csv", index=False)
         return last_state
 
     def run_ensemble_strategy(
-            self, A2C_model_kwargs, PPO_model_kwargs, DDPG_model_kwargs, timesteps_dict
+        self, A2C_model_kwargs, PPO_model_kwargs, DDPG_model_kwargs, timesteps_dict
     ):
         """Ensemble Strategy that combines PPO, A2C and DDPG"""
         print("============Start Ensemble Strategy============")
@@ -343,20 +345,20 @@ class DRLEnsembleAgent:
         insample_turbulence = self.df[
             (self.df.date < self.train_period[1])
             & (self.df.date >= self.train_period[0])
-            ]
+        ]
         insample_turbulence_threshold = np.quantile(
             insample_turbulence.turbulence.values, 0.90
         )
 
         start = time.time()
         for i in range(
-                self.rebalance_window + self.validation_window,
-                len(self.unique_trade_date),
-                self.rebalance_window,
+            self.rebalance_window + self.validation_window,
+            len(self.unique_trade_date),
+            self.rebalance_window,
         ):
             validation_start_date = self.unique_trade_date[
                 i - self.rebalance_window - self.validation_window
-                ]
+            ]
             validation_end_date = self.unique_trade_date[i - self.rebalance_window]
 
             validation_start_date_list.append(validation_start_date)
@@ -378,13 +380,13 @@ class DRLEnsembleAgent:
                 self.df["date"]
                 == self.unique_trade_date[
                     i - self.rebalance_window - self.validation_window
-                    ]
-                ].to_list()[-1]
+                ]
+            ].to_list()[-1]
             start_date_index = end_date_index - 63 + 1
 
             historical_turbulence = self.df.iloc[
-                                    start_date_index: (end_date_index + 1), :
-                                    ]
+                start_date_index : (end_date_index + 1), :
+            ]
 
             historical_turbulence = historical_turbulence.drop_duplicates(
                 subset=["date"]
@@ -421,7 +423,7 @@ class DRLEnsembleAgent:
                 start=self.train_period[0],
                 end=self.unique_trade_date[
                     i - self.rebalance_window - self.validation_window
-                    ],
+                ],
             )
             self.train_env = DummyVecEnv(
                 [
@@ -430,9 +432,9 @@ class DRLEnsembleAgent:
                         stock_dim=self.stock_dim,
                         hmax=self.hmax,
                         initial_amount=self.initial_amount,
-                        num_stock_shares=[0]*self.stock_dim,
-                        buy_cost_pct=[self.buy_cost_pct]*self.stock_dim,
-                        sell_cost_pct=[self.sell_cost_pct]*self.stock_dim,
+                        num_stock_shares=[0] * self.stock_dim,
+                        buy_cost_pct=[self.buy_cost_pct] * self.stock_dim,
+                        sell_cost_pct=[self.sell_cost_pct] * self.stock_dim,
                         reward_scaling=self.reward_scaling,
                         state_space=self.state_space,
                         action_space=self.action_space,
@@ -446,7 +448,7 @@ class DRLEnsembleAgent:
                 self.df,
                 start=self.unique_trade_date[
                     i - self.rebalance_window - self.validation_window
-                    ],
+                ],
                 end=self.unique_trade_date[i - self.rebalance_window],
             )
             ############## Environment Setup ends ##############
@@ -458,7 +460,7 @@ class DRLEnsembleAgent:
                 "to ",
                 self.unique_trade_date[
                     i - self.rebalance_window - self.validation_window
-                    ],
+                ],
             )
             # print("training: ",len(data_split(df, start=20090000, end=test.datadate.unique()[i-rebalance_window]) ))
             # print("==============Model Training===========")
@@ -487,9 +489,9 @@ class DRLEnsembleAgent:
                         stock_dim=self.stock_dim,
                         hmax=self.hmax,
                         initial_amount=self.initial_amount,
-                        num_stock_shares=[0]*self.stock_dim,
-                        buy_cost_pct=[self.buy_cost_pct]*self.stock_dim,
-                        sell_cost_pct=[self.sell_cost_pct]*self.stock_dim,
+                        num_stock_shares=[0] * self.stock_dim,
+                        buy_cost_pct=[self.buy_cost_pct] * self.stock_dim,
+                        sell_cost_pct=[self.sell_cost_pct] * self.stock_dim,
                         reward_scaling=self.reward_scaling,
                         state_space=self.state_space,
                         action_space=self.action_space,
@@ -536,9 +538,9 @@ class DRLEnsembleAgent:
                         stock_dim=self.stock_dim,
                         hmax=self.hmax,
                         initial_amount=self.initial_amount,
-                        num_stock_shares=[0]*self.stock_dim,
-                        buy_cost_pct=[self.buy_cost_pct]*self.stock_dim,
-                        sell_cost_pct=[self.sell_cost_pct]*self.stock_dim,
+                        num_stock_shares=[0] * self.stock_dim,
+                        buy_cost_pct=[self.buy_cost_pct] * self.stock_dim,
+                        sell_cost_pct=[self.sell_cost_pct] * self.stock_dim,
                         reward_scaling=self.reward_scaling,
                         state_space=self.state_space,
                         action_space=self.action_space,
@@ -588,9 +590,9 @@ class DRLEnsembleAgent:
                         stock_dim=self.stock_dim,
                         hmax=self.hmax,
                         initial_amount=self.initial_amount,
-                        num_stock_shares=[0]*self.stock_dim,
-                        buy_cost_pct=[self.buy_cost_pct]*self.stock_dim,
-                        sell_cost_pct=[self.sell_cost_pct]*self.stock_dim,
+                        num_stock_shares=[0] * self.stock_dim,
+                        buy_cost_pct=[self.buy_cost_pct] * self.stock_dim,
+                        sell_cost_pct=[self.sell_cost_pct] * self.stock_dim,
                         reward_scaling=self.reward_scaling,
                         state_space=self.state_space,
                         action_space=self.action_space,

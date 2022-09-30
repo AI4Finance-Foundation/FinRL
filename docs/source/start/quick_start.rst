@@ -34,7 +34,7 @@ from finrl.config import (
 )
 
 # construct environment
-from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
 
 def build_parser():
@@ -68,7 +68,7 @@ def main():
         env = StockTradingEnv
 
         # demo for elegantrl
-        kwargs = {}  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        kwargs = {}  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         train(
             start_date=TRAIN_START_DATE,
             end_date=TRAIN_END_DATE,
@@ -89,7 +89,7 @@ def main():
         env = StockTradingEnv
 
         # demo for elegantrl
-        kwargs = {}  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        kwargs = {}  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
 
         account_value_erl = test(
             start_date=TEST_START_DATE,
@@ -147,7 +147,3 @@ Run the library:
     python main.py --mode=trade # if trade. Users should input your alpaca parameters in config.py
 
 Choices for ``--mode``: start mode, train, download_data, backtest
-
-
-
-

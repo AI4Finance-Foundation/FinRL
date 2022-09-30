@@ -1,5 +1,5 @@
 # FinRL: Financial Reinforcement Learning [![twitter][1.1]][1] [![facebook][1.2]][2] [![google+][1.3]][3] [![linkedin][1.4]][4]
- 
+
 [1.1]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_twitter_22x22.png
 [1.2]: http://www.tensorlet.org/wp-content/uploads/2021/01/facebook-button_22x22.png
 [1.3]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_google_22.xx_.png
@@ -10,6 +10,11 @@
 [3]: https://plus.google.com/share?url=https://github.com/AI4Finance-Foundation/FinRL
 [4]: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL
 
+<div align="center">
+<img align="center" src=figs/logo_transparent_background.png width="55%"/>
+</div>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![Downloads](https://pepy.tech/badge/finrl)](https://pepy.tech/project/finrl)
 [![Downloads](https://pepy.tech/badge/finrl/week)](https://pepy.tech/project/finrl)
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
@@ -17,21 +22,18 @@
 [![Documentation Status](https://readthedocs.org/projects/finrl/badge/?version=latest)](https://finrl.readthedocs.io/en/latest/?badge=latest)
 ![License](https://img.shields.io/github/license/AI4Finance-Foundation/finrl.svg?color=brightgreen)
 
-<div align="center">
-<img align="center" src=figs/logo_transparent_background.png width="45%"/> 
-</div>
- 
 
-**FinRL** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source project** to show the great potential of deep reinforcement learning in finance.
 
-The FinRL ecosystem is a unified framework, including various financial markets, state-of-the-art algorithms, financial tasks (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, etc. 
+**FinRL** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to show the great potential of financial reinforcement learning.
 
-| Roadmap  | Level | Users | Example | Desription | 
+FinRL has evolving into an ecosystem, including hundreds of financial markets, state-of-the-art algorithms, financial applications (portfolio allocation, cryptocurrency trading, high-frequency trading), live trading, cloud deployment, etc.
+
+| Roadmap  | Level | Target Users | Example | Desription |
 |----|----|----|----|----|
-| 0.0 (Preparation) | preparation | practitioners of financial big data | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a universe of market environments|
+| 0.0 (Preparation) | preparation | practitioners | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a playground |
 | 1.0 (Proof-of-Concept)| entry-level | beginners | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | demonstration, education |
 | 2.0 (Professional) | intermediate-level  | full-stack developers, professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | financially optimized DRL algorithms |
-| 3.0 (Production) | advance-level | investment banks, hedge funds | [Podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solution |
+| 3.0 (Production) | advance-level | investment banks, hedge funds | [Podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solutions |
 
 
 ## Outline
@@ -52,9 +54,9 @@ The FinRL ecosystem is a unified framework, including various financial markets,
 
 ## Overview
 
-FinRL has three layers: market environments, agents, and applications.
+FinRL framework has three layers: market environments, agents, and applications.
 
-For a trading task (on the top), an agent (in the middle) interacts with an environment (at the bottom), making sequential decisions.
+For a trading task (on the top), an agent (in the middle) interacts with a market environment (at the bottom), making sequential decisions.
 
 
 <div align="center">
@@ -62,19 +64,14 @@ For a trading task (on the top), an agent (in the middle) interacts with an envi
 </div>
 
 
-Run [FinRL_StockTrading_NeurIPS_2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) step by step for a quick start.
+Run [Stock_NeurIPS2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) for a quick start.
 
-A video about [FinRL library](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
-
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=AI4Finance-Foundation/FinRL&type=Date)](https://star-history.com/#AI4Finance-Foundation/FinRL&Date)
+A video [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
 
 
 ## File Structure
 
-The main folder **finrl** has three subfolders **applications, agents, finrl_meta**. 
+The main folder **finrl** has three subfolders **applications, agents, meta**.
 
 We employ a **train-test-trade** pipeline with three files: train.py, test.py, and trade.py.
 
@@ -90,14 +87,15 @@ FinRL
 │   	├── elegantrl
 │   	├── rllib
 │   	└── stablebaseline3
-│   ├── finrl_meta
+│   ├── meta
 │   	├── data_processors
 │   	├── env_cryptocurrency_trading
 │   	├── env_portfolio_allocation
 │   	├── env_stock_trading
 │   	├── preprocessor
 │   	├── data_processor.py
-│   	└── finrl_meta_config.py
+│       ├── meta_config_tickers.py
+│   	└── meta_config.py
 │   ├── config.py
 │   ├── config_tickers.py
 │   ├── main.py
@@ -105,19 +103,20 @@ FinRL
 │   ├── train.py
 │   ├── test.py
 │   └── trade.py
-│   
-├── tutorial (tutorial notebooks and educational files)
-├── unit_testing (make sure verified codes working on env & data)
-│   ├── test_env
+│
+├── tutorials (educational notebook files)
+├── tests (unit tests to verify codes on env & data)
+│   ├── environments
 │   	└── test_env_cashpenalty.py
-│   └── test_marketdata
-│   	└── test_yahoodownload.py
+│   └── downloaders
+│   	├── test_yahoodownload.py
+│   	└── test_alpaca_downloader.py
 ├── setup.py
 ├── requirements.txt
 └── README.md
 ```
 
-## Supported Data Sources 
+## Supported Data Sources
 
 |Data Source |Type |Range and Frequency |Request Limits|Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |  ----  |
@@ -136,42 +135,43 @@ FinRL
 
 <!-- |Data Source |Type |Max Frequency |Raw Data|Preprocessed Data|
 |  ----  |  ----  |  ----  |  ----  |  ----  |
+|    AkShare |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
 |    Alpaca |  US Stocks, ETFs |  1 min |  OHLCV |  Prices, indicators |
+|    Alpha Vantage | Stock, ETF, forex, crypto, technical indicators | 1 min |  OHLCV  & Prices, indicators |
 |    Baostock |  CN Securities |  5 min |  OHLCV |  Prices, indicators |
 |    Binance |  Cryptocurrency |  1 s |  OHLCV |  Prices, indicators |
 |    CCXT |  Cryptocurrency |  1 min  |  OHLCV |  Prices, indicators |
+|    currencyapi |  Exchange rate | 1 day |  Exchange rate | Exchange rate, indicators |
+|    currencylayer |  Exchange rate | 1 day  |  Exchange rate | Exchange rate, indicators |
+|    EOD Historical Data | US stocks, and ETFs |  1 day  |  OHLCV  | Prices, indicators |
+|    Exchangerates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    findatapy |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
+|    Financial Modeling prep | US stocks, currencies, crypto |  1 min |  OHLCV  | Prices, indicators |
+|    finnhub | US Stocks, currencies, crypto |   1 day |  OHLCV  | Prices, indicators |
+|    Fixer |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 |    IEXCloud |  NMS US securities | 1 day  | OHLCV |  Prices, indicators |
 |    JoinQuant |  CN Securities |  1 min  |  OHLCV |  Prices, indicators |
-|    QuantConnect |  US Securities |  1 s |  OHLCV |  Prices, indicators |
-|    RiceQuant |  CN Securities |  1 ms  |  OHLCV |  Prices, indicators |
-|    Tushare |  CN Securities | 1 min  |  OHLCV |  Prices, indicators |
-|    WRDS |  US Securities |  1 ms  |  Intraday Trades | Prices, indicators |
-|    YahooFinance |  US Securities | 1 min  |  OHLCV  |  Prices, indicators |
-|    AkShare |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
-|    findatapy |  CN Securities | 1 day  |  OHLCV |  Prices, indicators |
+|    Marketstack | 50+ countries |  1 day  |  OHLCV | Prices, indicators |
+|    Open Exchange Rates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
 |    pandas\_datareader |  US Securities |  1 day |  OHLCV | Prices, indicators |
 |    pandas-finance |  US Securities |  1 day  |  OHLCV  & Prices, indicators |
-|    ystockquote |  US Securities |  1 day  |  OHLCV | Prices, indicators |
-|    Marketstack | 50+ countries |  1 day  |  OHLCV | Prices, indicators |
-|    finnhub | US Stocks, currencies, crypto |   1 day |  OHLCV  | Prices, indicators |
-|    Financial Modeling prep | US stocks, currencies, crypto |  1 min |  OHLCV  | Prices, indicators |
-|    EOD Historical Data | US stocks, and ETFs |  1 day  |  OHLCV  | Prices, indicators |
-|    Alpha Vantage | Stock, ETF, forex, crypto, technical indicators | 1 min |  OHLCV  & Prices, indicators |
-|    Tiingo | Stocks, crypto |  1 day  |  OHLCV  | Prices, indicators |
-|    Quandl | 250+ sources |  1 day  |  OHLCV  | Prices, indicators |
 |    Polygon |  US Securities |  1 day  |  OHLCV  | Prices, indicators |
-|    fixer |  Exchange rate |  1 day |  Exchange rate | Exchange rate, indicators |
-|    Exchangerates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
-|    Fixer |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
-|    currencylayer |  Exchange rate | 1 day  |  Exchange rate | Exchange rate, indicators |
-|    currencyapi |  Exchange rate | 1 day |  Exchange rate | Exchange rate, indicators |
-|    Open Exchange Rates |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    Quandl | 250+ sources |  1 day  |  OHLCV  | Prices, indicators |
+|    QuantConnect |  US Securities |  1 s |  OHLCV |  Prices, indicators |
+|    RiceQuant |  CN Securities |  1 ms  |  OHLCV |  Prices, indicators |
+|    Tiingo | Stocks, crypto |  1 day  |  OHLCV  | Prices, indicators |
+|    Tushare |  CN Securities | 1 min  |  OHLCV |  Prices, indicators |
+|    WRDS |  US Securities |  1 ms  |  Intraday Trades | Prices, indicators |
 |    XE |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
-|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators | -->
+|    Xignite |  Exchange rate |  1 day  |  Exchange rate | Exchange rate, indicators |
+|    YahooFinance |  US Securities | 1 min  |  OHLCV  |  Prices, indicators |
+|    ystockquote |  US Securities |  1 day  |  OHLCV | Prices, indicators | -->
+
+
 
 OHLCV: open, high, low, and close prices; volume. adjusted_close: adjusted close price
 
-Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'. Users also can add new features. 
+Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'. Users also can add new features.
 
 
 ## Installation
@@ -185,7 +185,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 * 2021-08-25
 	0.3.1: pytorch version with a three-layer architecture, apps (financial tasks), drl_agents (drl algorithms), neo_finrl (gym env)
 * 2020-12-14
-  	Upgraded to **Pytorch** with stable-baselines3; Remove tensorflow 1.0 at this moment, under development to support tensorflow 2.0 
+  	Upgraded to **Pytorch** with stable-baselines3; Remove tensorflow 1.0 at this moment, under development to support tensorflow 2.0
 * 2020-11-27
   	0.1: Beta version with tensorflow 1.5
 </div>
@@ -193,15 +193,16 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 
 ## Contributions
 
-- FinRL is the first open-source framework to demonstrate the great potential of applying DRL algorithms in quantitative finance. We build an ecosystem around the FinRL framework. 
-- The application layer provides interfaces for users to customize FinRL to their own trading tasks. Automated backtesting tool and performance metrics are provided to help quantitative traders iterate trading strategies at a high turnover rate. Profitable trading strategies are reproducible and hands-on tutorials are provided in a beginner-friendly fashion. Adjusting the trained models to the rapidly changing markets is also possible. 
-- The agent layer provides state-of-the-art DRL algorithms that are adapted to finance with fine-tuned hyperparameters. Users can add new DRL algorithms. 
-- The environment layer includes not only a collection of historical data APIs, but also live trading APIs. They are reconfigured into standard OpenAI gym-style environments. Moreover, it incorporates market frictions and allows users to customize the trading time granularity. 
+- FinRL is the first open-source framework to demonstrate the great potential of financial reinforcement learning. It has evolved into an ecosystem.
+- The application layer provides interfaces for users to customize FinRL to their own trading tasks. Automated backtesting tool and performance metrics are provided to help quantitative traders iterate trading strategies at a high turnover rate. Profitable trading strategies are reproducible and hands-on tutorials are provided in a beginner-friendly fashion. Adjusting the trained models to the rapidly changing markets is also possible.
+- The agent layer provides state-of-the-art DRL algorithms that are adapted to finance with fine-tuned hyperparameters. Users can add new DRL algorithms.
+- The environment layer includes not only a collection of historical data APIs, but also live trading APIs. They are reconfigured into standard OpenAI gym-style environments. Moreover, it incorporates market frictions and allows users to customize the trading time granularity.
 
 
 ## Tutorials
 
 + [Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
++ [Alpaca][DataDrivenInvestor] [A Data Scientist’s Approach for Algorithmic Trading using Deep Reinforcement Learning: An End-to-end Tutorial for Paper Trading](https://alpaca.markets/learn/data-scientists-approach-algorithmic-trading-using-deep-reinforcement-learning/)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Multiple Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Portfolio Allocation](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-portfolio-allocation-9b417660c7cd)
 + [Towardsdatascience] [FinRL for Quantitative Finance: Tutorial for Single Stock Trading](https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-single-stock-trading-37d6d7c30aac)
@@ -214,7 +215,6 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 + [MLearning.ai] [ElegantRL Demo: Stock Trading Using DDPG (Part I)](https://elegantrl.medium.com/elegantrl-demo-stock-trading-using-ddpg-part-i-e77d7dc9d208)
 + [MLearning.ai] [ElegantRL Demo: Stock Trading Using DDPG (Part II)](https://medium.com/mlearning-ai/elegantrl-demo-stock-trading-using-ddpg-part-ii-d3d97e01999f)
 + [DataDrivenInvestor] [FinRL-Meta: A Universe of Near Real-Market En­vironments for Data­-Driven Financial Reinforcement Learning](https://medium.datadriveninvestor.com/finrl-meta-a-universe-of-near-real-market-en-vironments-for-data-driven-financial-reinforcement-e1894e1ebfbd)
-+ [DataDrivenInvestor] [A Data Scientist’s Approach for Algorithmic Trading using Deep Reinforcement Learning: An End-to-end Tutorial for Paper Trading](https://medium.datadriveninvestor.com/a-data-scientists-approach-for-algorithmic-trading-using-deep-reinforcement-learning-an-be8da40b2230)
 + [Analytics Vidhya] [Weights and Biases-ify FinRL with Stable Baselines3 models](https://medium.com/analytics-vidhya/weights-and-biases-ify-stable-baselines-models-in-finrl-f11b67f2a6a7)
 + [Analytics Vidhya] [Hyperparameter tuning using optuna for FinRL](https://medium.com/analytics-vidhya/hyperparameter-tuning-using-optuna-for-finrl-8a49506d2741)
 + [Analytics Vidhya] [A hitchhikers guide to FinRL: A Deep Reinforcement Learning Framework for Quantitative Finance](https://medium.com/analytics-vidhya/a-hitchhikers-guide-to-finrl-a-deep-reinforcement-learning-framework-for-quantitative-finance-e624c508f763)
@@ -224,15 +224,15 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 ## Publications
 
 |Title |Conference |Link|Citations|Year|
-|  ----  |  ----  |  ----  |  ----  |  ----  |  
-|**FinRL-Meta**: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance| NeurIPS 2021 Data-Centric AI Workshop| paper: https://arxiv.org/abs/2112.06753 ;<br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta| 2| 2021| 
-|Explainable deep reinforcement learning for portfolio management: An empirical approach| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.03995;<br />code: [https://github.com/AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_PortfolioAllocation_Explainable_DRL/FinRL_PortfolioAllocation_Explainable_DRL.py)| 1| 2021| 
-|**FinRL-Podracer**: High performance and scalable deep reinforcement learning for quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.05188;<br />code: https://github.com/AI4Finance-Foundation/FinRL_Podracer| 2 | 2021| 
-|**FinRL**: Deep reinforcement learning framework to automate trading in quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 7 | 2021| 
-|**FinRL**: A deep reinforcement learning library for automated stock trading in quantitative finance| NeurIPS 2020 Deep RL Workshop  | paper: https://arxiv.org/abs/2011.09607;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 25 | 2020| 
-|Deep reinforcement learning for automated stock trading: An ensemble strategy| ICAIF 2020 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996;<br />repo: https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020; <br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_Ensemble_StockTrading_ICAIF_2020/FinRL_Ensemble_StockTrading_ICAIF_2020.ipynb| 46 | 2020| 
-|Multi-agent reinforcement learning for liquidation strategy analysis| ICML 2019 Workshop on AI in Finance: Applications and Infrastructure for Multi-Agent Learning| paper: https://arxiv.org/abs/1906.11046; <br />repo: https://github.com/AI4Finance-Foundation/Liquidation-Analysis-using-Multi-Agent-Reinforcement-Learning-ICML-2019; <br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/execution_optimizing/execution_optimizing.ipynb| 19 | 2019| 
-|Practical deep reinforcement learning approach for stock trading| NeurIPS 2018 Workshop on Challenges and Opportunities for AI in Financial Services| paper: https://arxiv.org/abs/1811.07522; <br />code: https://github.com/AI4Finance-Foundation/DQN-DDPG_Stock_Trading| 87 | 2018 | 
+|  ----  |  ----  |  ----  |  ----  |  ----  |
+|**FinRL-Meta**: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance| NeurIPS 2021 Data-Centric AI Workshop| paper: https://arxiv.org/abs/2112.06753 ;<br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta| 2| 2021|
+|Explainable deep reinforcement learning for portfolio management: An empirical approach| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.03995;<br />code: [https://github.com/AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_PortfolioAllocation_Explainable_DRL/FinRL_PortfolioAllocation_Explainable_DRL.py)| 1| 2021|
+|**FinRL-Podracer**: High performance and scalable deep reinforcement learning for quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.05188;<br />code: https://github.com/AI4Finance-Foundation/FinRL_Podracer| 2 | 2021|
+|**FinRL**: Deep reinforcement learning framework to automate trading in quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 7 | 2021|
+|**FinRL**: A deep reinforcement learning library for automated stock trading in quantitative finance| NeurIPS 2020 Deep RL Workshop  | paper: https://arxiv.org/abs/2011.09607;<br />code: https://github.com/AI4Finance-Foundation/FinRL| 25 | 2020|
+|Deep reinforcement learning for automated stock trading: An ensemble strategy| ICAIF 2020 : ACM International Conference on AI in Finance | paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3690996;<br />repo: https://github.com/AI4Finance-Foundation/Deep-Reinforcement-Learning-for-Automated-Stock-Trading-Ensemble-Strategy-ICAIF-2020; <br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_Ensemble_StockTrading_ICAIF_2020/FinRL_Ensemble_StockTrading_ICAIF_2020.ipynb| 46 | 2020|
+|Multi-agent reinforcement learning for liquidation strategy analysis| ICML 2019 Workshop on AI in Finance: Applications and Infrastructure for Multi-Agent Learning| paper: https://arxiv.org/abs/1906.11046; <br />repo: https://github.com/AI4Finance-Foundation/Liquidation-Analysis-using-Multi-Agent-Reinforcement-Learning-ICML-2019; <br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/execution_optimizing/execution_optimizing.ipynb| 19 | 2019|
+|Practical deep reinforcement learning approach for stock trading| NeurIPS 2018 Workshop on Challenges and Opportunities for AI in Financial Services| paper: https://arxiv.org/abs/1811.07522; <br />code: https://github.com/AI4Finance-Foundation/DQN-DDPG_Stock_Trading| 87 | 2018 |
 
 
 ## News
@@ -271,14 +271,14 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 
 ```
 
-We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/), check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ), resulting in this project. Closely related papers are given in the [list](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/FinRL_papers.md). 
+We published [FinTech papers](http://tensorlet.org/projects/ai-in-finance/). Please check [Google Scholar](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=XsdPXocAAAAJ). Closely related papers are given in the [list](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/FinRL_papers.md).
 
 
 ## Join and Contribute
 
 Welcome to **AI4Finance** community!
 
-Discuss FinRL: [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance), AI4Finance Slack channel:
+Discuss FinRL via [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance) and AI4Finance Slack channel:
 
 
 <a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
@@ -296,7 +296,7 @@ Please check [Contributing Guidances](https://github.com/AI4Finance-Foundation/F
 
 ### Contributors
 
-Thanks! 
+Thank you!
 
 <a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
@@ -304,9 +304,9 @@ Thanks!
 
 ### Sponsorship
 
-Welcome gift money to support AI4Finance, a non-profit community. Use the links in the right, or scan the following vemo QR code:
+Welcome gift money to support AI4Finance, a non-profit community. Use the links on the right column, or scan the following vemo QR code:
 
-Detailed sponsorship records at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
+Sponsorship records at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
 
 <a target="\_blank">
 	<div align="center">
@@ -324,11 +324,8 @@ Network: USDT-TRC20
 
 
 
-
-
 ## LICENSE
 
 MIT License
 
 **Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
-

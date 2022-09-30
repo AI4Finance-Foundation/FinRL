@@ -1,33 +1,33 @@
+from __future__ import annotations
+
 import os
 from argparse import ArgumentParser
 from typing import List
 
-from finrl.config import (
-    ALPACA_API_BASE_URL,
-    DATA_SAVE_DIR,
-    ERL_PARAMS,
-    INDICATORS,
-    RESULTS_DIR,
-    TENSORBOARD_LOG_DIR,
-    TEST_END_DATE,
-    TEST_START_DATE,
-    TRADE_END_DATE,
-    TRADE_START_DATE,
-    TRAIN_END_DATE,
-    TRAIN_START_DATE,
-    TRAINED_MODEL_DIR,
-)
+from finrl.config import ALPACA_API_BASE_URL
+from finrl.config import DATA_SAVE_DIR
+from finrl.config import ERL_PARAMS
+from finrl.config import INDICATORS
+from finrl.config import RESULTS_DIR
+from finrl.config import TENSORBOARD_LOG_DIR
+from finrl.config import TEST_END_DATE
+from finrl.config import TEST_START_DATE
+from finrl.config import TRADE_END_DATE
+from finrl.config import TRADE_START_DATE
+from finrl.config import TRAIN_END_DATE
+from finrl.config import TRAIN_START_DATE
+from finrl.config import TRAINED_MODEL_DIR
 from finrl.config_tickers import DOW_30_TICKER
+from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
 # construct environment
-from finrl.finrl_meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
-try:
-    from finrl.config_private import ALPACA_API_KEY, ALPACA_API_SECRET
-except ImportError:
-    raise FileNotFoundError(
-        "Please set your own ALPACA_API_KEY and ALPACA_API_SECRET in config_private.py"
-    )
+# try:
+#     from finrl.config_private import ALPACA_API_KEY, ALPACA_API_SECRET
+# except ImportError:
+#     raise FileNotFoundError(
+#         "Please set your own ALPACA_API_KEY and ALPACA_API_SECRET in config_private.py"
+#     )
 
 
 def build_parser():
@@ -43,7 +43,7 @@ def build_parser():
 
 
 # "./" will be added in front of each directory
-def check_and_make_directories(directories: List[str]):
+def check_and_make_directories(directories: list[str]):
     for directory in directories:
         if not os.path.exists("./" + directory):
             os.makedirs("./" + directory)
@@ -64,7 +64,7 @@ def main() -> int:
         # demo for elegantrl
         kwargs = (
             {}
-        )  # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        )  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         train(
             start_date=TRAIN_START_DATE,
             end_date=TRAIN_END_DATE,
@@ -86,7 +86,7 @@ def main() -> int:
         env = StockTradingEnv
 
         # demo for elegantrl
-        # in current finrl_meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         kwargs = {}
 
         account_value_erl = test(  # noqa
@@ -106,6 +106,12 @@ def main() -> int:
     elif options.mode == "trade":
         from finrl import trade
 
+        try:
+            from finrl.config_private import ALPACA_API_KEY, ALPACA_API_SECRET
+        except ImportError:
+            raise FileNotFoundError(
+                "Please set your own ALPACA_API_KEY and ALPACA_API_SECRET in config_private.py"
+            )
         env = StockTradingEnv
         kwargs = {}
         trade(

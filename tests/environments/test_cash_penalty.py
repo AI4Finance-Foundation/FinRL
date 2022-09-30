@@ -1,8 +1,12 @@
+from __future__ import annotations
+
 import numpy as np
 import pytest
-from finrl.finrl_meta.env_stock_trading.env_stocktrading_cashpenalty import \
-    StockTradingEnvCashpenalty
-from finrl.finrl_meta.preprocessor.yahoodownloader import YahooDownloader
+
+from finrl.meta.env_stock_trading.env_stocktrading_cashpenalty import (
+    StockTradingEnvCashpenalty,
+)
+from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 
 
 @pytest.fixture(scope="session")

@@ -1,17 +1,16 @@
-# -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
 #
 # This file does only contain a selection of the most common options. For a
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
-
 # -- Path setup --------------------------------------------------------------
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+from __future__ import annotations
+
 import os
 import sys
 
@@ -23,14 +22,14 @@ sys.path.insert(0, os.path.abspath(os.path.join("../..", "finrl")))  # Important
 
 # -- Project information -----------------------------------------------------
 
-project = u"FinRL"
-copyright = u"2021, FinRL"
-author = u"FinRL"
+project = "FinRL"
+copyright = "2021, FinRL"
+author = "FinRL"
 
 # The short X.Y version
-version = u""
+version = ""
 # The full version, including alpha/beta/rc tags
-release = u"0.3.1"
+release = "0.3.1"
 
 
 # -- General configuration ---------------------------------------------------
@@ -48,8 +47,8 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
     "sphinx.ext.autosectionlabel",
-    'recommonmark',   # for including markdown
-#     'sphinx_markdown_tables'  # Support rendering tables in markdown
+    "recommonmark",  # for including markdown
+    #     'sphinx_markdown_tables'  # Support rendering tables in markdown
 ]
 
 autodoc_mock_imports = [
@@ -102,8 +101,8 @@ html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_logo = "./image/logo_transparent_background.png"
 html_theme_options = {
-    'logo_only': True,
-    'display_version': False,
+    "logo_only": True,
+    "display_version": False,
 }
 
 
@@ -156,7 +155,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "FinRL.tex", u"FinRL Documentation", u"FinRL", "manual"),
+    (master_doc, "FinRL.tex", "FinRL Documentation", "FinRL", "manual"),
 ]
 
 
@@ -164,7 +163,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "finrl", u"FinRL Documentation", [author], 1)]
+man_pages = [(master_doc, "finrl", "FinRL Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -176,7 +175,7 @@ texinfo_documents = [
     (
         master_doc,
         "FinRL",
-        u"FinRL Documentation",
+        "FinRL Documentation",
         author,
         "FinRL",
         "One line description of project.",
