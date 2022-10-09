@@ -1,3 +1,4 @@
+importlib-metadata==4.13.0
 alpaca_trade_api>=2.1.0
 ccxt==1.66.32  # make sure that >=1.66.32
 elegantrl
