@@ -6,6 +6,7 @@ elegantrl
 exchange_calendars==3.6.3 # because raise exception with 4.1.1, success tested with 3.6.3
 gputil
 gym>=0.17
+importlib-metadata==4.13.0
 jqdatasdk
 lz4
 #pyfolio
