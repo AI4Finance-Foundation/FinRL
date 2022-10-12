@@ -480,7 +480,6 @@ stats = backtest_stats(baseline_df, value_col_name="close")
 df_account_value.loc[0, "date"]
 
 #%%
-
 df_account_value.loc[len(df_account_value) - 1, "date"]
 
 #%% md
