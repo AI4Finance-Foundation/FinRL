@@ -278,7 +278,6 @@ env_train, _ = e_train_gym.get_sb_env()
 print(f"type(env_train): {type(env_train)}")
 
 #%% md
-
 # """
 # # Part 6: Implement DRL Algorithms
 # * The implementation of the DRL algorithms are based on **OpenAI Baselines** and **Stable Baselines**. Stable Baselines is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
