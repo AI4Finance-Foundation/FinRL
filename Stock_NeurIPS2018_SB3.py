@@ -54,9 +54,10 @@ our trading agent observes many different features to better learn in an interac
 
 
 The data of the single stock that we will be using for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
-
-import libraries
 """
+
+# import libraries
+
 from __future__ import annotations
 
 import datetime
@@ -102,19 +103,17 @@ from finrl.config import (
     TRADE_END_DATE,
 )
 
-"""
-Use check_and_make_directories() to replace the following
 
-if not os.path.exists('/' + config.DATA_SAVE_DIR):
-    os.makedirs('./' + config.DATA_SAVE_DIR)
-if not os.path.exists('./' + config.TRAINED_MODEL_DIR):
-    os.makedirs('./' + config.TRAINED_MODEL_DIR)
-if not os.path.exists('./' + config.TENSORBOARD_LOG_DIR):
-    os.makedirs('./' + config.TENSORBOARD_LOG_DIR)
-if not os.path.exists('./' + config.RESULTS_DIR):
-    os.makedirs('./' + config.RESULTS_DIR)
-
-"""
+# Use check_and_make_directories() to replace the following
+# 
+# if not os.path.exists("./" + config.DATA_SAVE_DIR):
+#     os.makedirs("./" + config.DATA_SAVE_DIR)
+# if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
+#     os.makedirs("./" + config.TRAINED_MODEL_DIR)
+# if not os.path.exists("./" + config.TENSORBOARD_LOG_DIR):
+#     os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
+# if not os.path.exists("./" + config.RESULTS_DIR):
+#     os.makedirs("./" + config.RESULTS_DIR)
 
 check_and_make_directories(
     [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
