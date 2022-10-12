@@ -118,18 +118,18 @@ check_and_make_directories(
 )
 
 # """
-# 
+#
 # <a id='2'></a>
 # # Part 3. Download Data
 # Yahoo Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free.
 # * FinRL uses a class **YahooDownloader** to fetch data from Yahoo Finance API
 # * Call Limit: Using the Public API (without authentication), you are limited to 2,000 requests per hour per IP (or up to a total of 48,000 requests a day).
-# 
+#
 # # -----
 # class YahooDownloader:
 #     Provides methods for retrieving daily stock data from
 #     Yahoo Finance API
-# 
+#
 #     Attributes
 #     ----------
 #         start_date : str
@@ -138,23 +138,23 @@ check_and_make_directories(
 #             end date of the data (modified from config.py)
 #         ticker_list : list
 #             a list of stock tickers (modified from config.py)
-# 
+#
 #     Methods
 #     -------
 #     fetch_data()
 #         Fetches data from yahoo API
-# 
-# 
+#
+#
 # %%
-# 
+#
 # # from config.py TRAIN_START_DATE is a string
 # config.TRAIN_START_DATE
-# 
+#
 # #%%
-# 
+#
 # # from config.py TRAIN_END_DATE is a string
 # config.TRAIN_END_DATE
-# 
+#
 # #%%
 # """
 
@@ -212,11 +212,11 @@ processed_full.sort_values(["date", "tic"], ignore_index=True).head(10)
 # """
 # # Part 5. Design Environment
 # Considering the stochastic and interactive nature of the automated stock trading tasks, a financial task is modeled as a **Markov Decision Process (MDP)** problem. The training process involves observing stock price change, taking an action and reward's calculation to have the agent adjusting its strategy accordingly. By interacting with the environment, the trading agent will derive a trading strategy with the maximized rewards as time proceeds.
-# 
+#
 # Our trading environments, based on OpenAI Gym framework, simulate live stock markets with real market data according to the principle of time-driven simulation.
-# 
+#
 # The action space describes the allowed actions that the agent interacts with the environment. Normally, action a includes three actions: {-1, 0, 1}, where -1, 0, 1 represent selling, holding, and buying one share. Also, an action can be carried upon multiple shares. We use an action space {-k,…,-1, 0, 1, …, k}, where k denotes the number of shares to buy and -k denotes the number of shares to sell. For example, "Buy 10 shares of AAPL" or "Sell 10 shares of AAPL" are 10 or -10, respectively. The continuous action space needs to be normalized to [-1, 1], since the policy is defined on a Gaussian distribution, which needs to be normalized and symmetric.
-# 
+#
 # # Training data split: 2009-01-01 to 2020-07-01
 # # Trade data split: 2020-07-01 to 2021-10-31
 # """
@@ -379,9 +379,9 @@ trained_sac = agent.train_model(
 # """
 # ## Trading
 # Assume that we have $1,000,000 initial capital at 2020-07-01. We use the DDPG model to trade Dow jones 30 stocks.
-# 
+#
 # #%% md
-# 
+#
 # ### Set turbulence threshold
 # Set the turbulence threshold to be greater than the maximum of insample turbulence data, if current turbulence index is greater than the threshold, then we assume that the current market is volatile
 # """
@@ -407,11 +407,11 @@ insample_risk_indicator.turbulence.quantile(0.996)
 
 # """
 # ### Trade
-# 
+#
 # DRL model needs to update periodically in order to take full advantage of the data, ideally we need to retrain our model yearly, quarterly, or monthly. We also need to tune the parameters along the way, in this notebook I only use the in-sample data from 2009-01 to 2020-07 to tune the parameters once, so there is some alpha decay here as the length of trade date extends.
-# 
+#
 # Numerous hyperparameters – e.g. the learning rate, the total number of samples to train on – influence the learning process and are usually determined by testing some variations.
-# 
+#
 # """
 
 # trade = data_split(processed_full, '2020-07-01','2021-10-31')
@@ -444,7 +444,7 @@ print(f"df_actions.head(): {df_actions.head()}")
 # """
 # # # Part 7: Backtest Our Strategy
 # Backtesting plays a key role in evaluating the performance of a trading strategy. Automated backtesting tool is preferred because it reduces the human error. We usually use the Quantopian pyfolio package to backtest our trading strategies. It is easy to use and consists of various individual plots that provide a comprehensive image of the performance of a trading strategy.
-# 
+#
 # #%% md
 # """
 
