@@ -30,8 +30,8 @@ Outline
     * [7.3. Baseline Stats](#6.3)
     * [7.3. Compare to Stock Market Index](#6.4)
 * [RLlib Section](#7)
-"""
-"""
+
+
 Part 1. Problem Definition
 
 This problem is to design an automated trading solution for single stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
@@ -55,9 +55,6 @@ our trading agent observes many different features to better learn in an interac
 
 The data of the single stock that we will be using for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
 
-
-"""
-"""
 import libraries
 """
 from __future__ import annotations
