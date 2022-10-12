@@ -19,36 +19,50 @@ from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 
 @pytest.fixture(scope="session")
 def DIRS():
+    """ Fixture Directories
+    """    
     return [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
 
 
 @pytest.fixture(scope="session")
 def ticker_list():
+    """ Fixture list  Dow Jowns 30 tickers
+    """    
     return config_tickers.DOW_30_TICKER
 
 
 @pytest.fixture(scope="session")
 def ticker_list_small():
+    """ Fixture for testig 2 tickers
+    """    
     return ["AAPL", "GOOG"]
 
 
 @pytest.fixture(scope="session")
 def indicators():
+    """ Fixture with indicators
+    """    
     return config.INDICATORS
 
 
 @pytest.fixture(scope="session")
 def old_start_date():
+    """ Fixture Old start date
+    """    
     return "2009-01-01"
 
 
 @pytest.fixture(scope="session")
 def start_date():
+    """ Fixture start date
+    """
     return "2021-01-01"
 
 
 @pytest.fixture(scope="session")
 def end_date():
+    """ Fixture end date
+    """    
     return "2021-10-31"
 
 
@@ -70,7 +84,7 @@ def test_download_large(ticker_list: list[str], start_date: str, end_date: str) 
     Tests the Yahoo Downloader and the returned data shape
     """
     assert isinstance(ticker_list, list)
-    assert len(ticker_list > 0)
+    assert len(ticker_list) > 0
     assert isinstance(ticker_list[0], str)
     assert isinstance(start_date, str)
     assert isinstance(end_date, str)
@@ -91,7 +105,7 @@ def test_feature_engineer_no_turbulence(
     Tests the feature_engineer function - WIP
     """
     assert isinstance(ticker_list, list)
-    assert len(ticker_list > 0)
+    assert len(ticker_list) > 0
     assert isinstance(ticker_list[0], str)
     assert isinstance(start_date, str)
     assert isinstance(end_date, str)
@@ -123,7 +137,7 @@ def test_feature_engineer_turbulence_less_than_a_year(
     the code should raise an error
     """
     assert isinstance(ticker_list, list)
-    assert len(ticker_list > 0)
+    assert len(ticker_list) > 0
     assert isinstance(ticker_list[0], str)
     assert isinstance(start_date, str)
     assert isinstance(end_date, str)
@@ -157,9 +171,8 @@ def test_feature_engineer_turbulence_more_than_a_year(
     the code should raise an error
     """
     assert isinstance(ticker_list, list)
-    assert len(ticker_list > 0)
+    assert len(ticker_list) > 0
     assert isinstance(ticker_list[0], str)
-    assert isinstance(start_date, str)
     assert isinstance(end_date, str)
     assert isinstance(indicators, list)
     assert isinstance(indicators[0], str)
