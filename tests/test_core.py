@@ -70,7 +70,7 @@ def test_download_large(ticker_list: list[str], start_date: str, end_date: str) 
     Tests the Yahoo Downloader and the returned data shape
     """
     assert isinstance(ticker_list, list)
-    assert len(ticker_list > 0)
+    assert len(ticker_list) > 0
     assert isinstance(ticker_list[0], str)
     assert isinstance(start_date, str)
     assert isinstance(end_date, str)
@@ -91,7 +91,7 @@ def test_feature_engineer_no_turbulence(
     Tests the feature_engineer function - WIP
     """
     assert isinstance(ticker_list, list)
-    assert len(ticker_list > 0)
+    assert len(ticker_list) > 0
     assert isinstance(ticker_list[0], str)
     assert isinstance(start_date, str)
     assert isinstance(end_date, str)
@@ -123,7 +123,7 @@ def test_feature_engineer_turbulence_less_than_a_year(
     the code should raise an error
     """
     assert isinstance(ticker_list, list)
-    assert len(ticker_list > 0)
+    assert len(ticker_list) > 0
     assert isinstance(ticker_list[0], str)
     assert isinstance(start_date, str)
     assert isinstance(end_date, str)
@@ -157,9 +157,8 @@ def test_feature_engineer_turbulence_more_than_a_year(
     the code should raise an error
     """
     assert isinstance(ticker_list, list)
-    assert len(ticker_list > 0)
+    assert len(ticker_list) > 0
     assert isinstance(ticker_list[0], str)
-    assert isinstance(start_date, str)
     assert isinstance(end_date, str)
     assert isinstance(indicators, list)
     assert isinstance(indicators[0], str)
