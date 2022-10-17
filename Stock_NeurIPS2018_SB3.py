@@ -30,8 +30,8 @@ Outline
     * [7.3. Baseline Stats](#6.3)
     * [7.3. Compare to Stock Market Index](#6.4)
 * [RLlib Section](#7)
-"""
-"""
+
+
 Part 1. Problem Definition
 
 This problem is to design an automated trading solution for single stock trading. We model the stock trading process as a Markov Decision Process (MDP). We then formulate our trading goal as a maximization problem.
@@ -54,12 +54,8 @@ our trading agent observes many different features to better learn in an interac
 
 
 The data of the single stock that we will be using for this case study is obtained from Yahoo Finance API. The data contains Open-High-Low-Close price and volume.
-
-
 """
-"""
-import libraries
-"""
+# import libraries
 from __future__ import annotations
 
 import datetime
@@ -105,65 +101,62 @@ from finrl.config import (
     TRADE_END_DATE,
 )
 
-"""
-Use check_and_make_directories() to replace the following
 
-if not os.path.exists("./" + config.DATA_SAVE_DIR):
-    os.makedirs("./" + config.DATA_SAVE_DIR)
-if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
-    os.makedirs("./" + config.TRAINED_MODEL_DIR)
-if not os.path.exists("./" + config.TENSORBOARD_LOG_DIR):
-    os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
-if not os.path.exists("./" + config.RESULTS_DIR):
-    os.makedirs("./" + config.RESULTS_DIR)
-
-"""
+# Use check_and_make_directories() to replace the following
+#
+# if not os.path.exists("./" + config.DATA_SAVE_DIR):
+#     os.makedirs("./" + config.DATA_SAVE_DIR)
+# if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
+#     os.makedirs("./" + config.TRAINED_MODEL_DIR)
+# if not os.path.exists("./" + config.TENSORBOARD_LOG_DIR):
+#     os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
+# if not os.path.exists("./" + config.RESULTS_DIR):
+#     os.makedirs("./" + config.RESULTS_DIR)
 
 check_and_make_directories(
     [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
 )
 
-
-"""
-
-<a id='2'></a>
-# Part 3. Download Data
-Yahoo Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free.
-* FinRL uses a class **YahooDownloader** to fetch data from Yahoo Finance API
-* Call Limit: Using the Public API (without authentication), you are limited to 2,000 requests per hour per IP (or up to a total of 48,000 requests a day).
-
-# -----
-class YahooDownloader:
-    Provides methods for retrieving daily stock data from
-    Yahoo Finance API
-
-    Attributes
-    ----------
-        start_date : str
-            start date of the data (modified from config.py)
-        end_date : str
-            end date of the data (modified from config.py)
-        ticker_list : list
-            a list of stock tickers (modified from config.py)
-
-    Methods
-    -------
-    fetch_data()
-        Fetches data from yahoo API
-
-
-%%
-
-# from config.py TRAIN_START_DATE is a string
-config.TRAIN_START_DATE
-
-#%%
-
-# from config.py TRAIN_END_DATE is a string
-config.TRAIN_END_DATE
-
-#%%
-"""
+# """
+#
+# <a id='2'></a>
+# # Part 3. Download Data
+# Yahoo Finance is a website that provides stock data, financial news, financial reports, etc. All the data provided by Yahoo Finance is free.
+# * FinRL uses a class **YahooDownloader** to fetch data from Yahoo Finance API
+# * Call Limit: Using the Public API (without authentication), you are limited to 2,000 requests per hour per IP (or up to a total of 48,000 requests a day).
+#
+# # -----
+# class YahooDownloader:
+#     Provides methods for retrieving daily stock data from
+#     Yahoo Finance API
+#
+#     Attributes
+#     ----------
+#         start_date : str
+#             start date of the data (modified from config.py)
+#         end_date : str
+#             end date of the data (modified from config.py)
+#         ticker_list : list
+#             a list of stock tickers (modified from config.py)
+#
+#     Methods
+#     -------
+#     fetch_data()
+#         Fetches data from yahoo API
+#
+#
+# %%
+#
+# # from config.py TRAIN_START_DATE is a string
+# config.TRAIN_START_DATE
+#
+# #%%
+#
+# # from config.py TRAIN_END_DATE is a string
+# config.TRAIN_END_DATE
+#
+# #%%
+# """
 
 df = YahooDownloader(
     start_date="2009-01-01",
@@ -181,12 +174,12 @@ print(f"df.shape: {df.shape}")
 df.sort_values(["date", "tic"], ignore_index=True).head()
 
 
-"""
-# Part 4: Preprocess Data
-Data preprocessing is a crucial step for training a high quality machine learning model. We need to check for missing data and do feature engineering in order to convert the data into a model-ready state.
-* Add technical indicators. In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc. In this article, we demonstrate two trend-following technical indicators: MACD and RSI.
-* Add turbulence index. Risk-aversion reflects whether an investor will choose to preserve the capital. It also influences one's trading strategy when facing different market volatility level. To control the risk in a worst-case scenario, such as financial crisis of 2007–2008, FinRL employs the financial turbulence index that measures extreme asset price fluctuation.
-"""
+# """
+# # Part 4: Preprocess Data
+# Data preprocessing is a crucial step for training a high quality machine learning model. We need to check for missing data and do feature engineering in order to convert the data into a model-ready state.
+# * Add technical indicators. In practical trading, various information needs to be taken into account, for example the historical stock prices, current holding shares, technical indicators, etc. In this article, we demonstrate two trend-following technical indicators: MACD and RSI.
+# * Add turbulence index. Risk-aversion reflects whether an investor will choose to preserve the capital. It also influences one's trading strategy when facing different market volatility level. To control the risk in a worst-case scenario, such as financial crisis of 2007–2008, FinRL employs the financial turbulence index that measures extreme asset price fluctuation.
+# """
 
 fe = FeatureEngineer(
     use_technical_indicator=True,
@@ -216,17 +209,17 @@ processed_full = processed_full.fillna(0)
 
 processed_full.sort_values(["date", "tic"], ignore_index=True).head(10)
 
-"""
-# Part 5. Design Environment
-Considering the stochastic and interactive nature of the automated stock trading tasks, a financial task is modeled as a **Markov Decision Process (MDP)** problem. The training process involves observing stock price change, taking an action and reward's calculation to have the agent adjusting its strategy accordingly. By interacting with the environment, the trading agent will derive a trading strategy with the maximized rewards as time proceeds.
-
-Our trading environments, based on OpenAI Gym framework, simulate live stock markets with real market data according to the principle of time-driven simulation.
-
-The action space describes the allowed actions that the agent interacts with the environment. Normally, action a includes three actions: {-1, 0, 1}, where -1, 0, 1 represent selling, holding, and buying one share. Also, an action can be carried upon multiple shares. We use an action space {-k,…,-1, 0, 1, …, k}, where k denotes the number of shares to buy and -k denotes the number of shares to sell. For example, "Buy 10 shares of AAPL" or "Sell 10 shares of AAPL" are 10 or -10, respectively. The continuous action space needs to be normalized to [-1, 1], since the policy is defined on a Gaussian distribution, which needs to be normalized and symmetric.
-
-# Training data split: 2009-01-01 to 2020-07-01
-# Trade data split: 2020-07-01 to 2021-10-31
-"""
+# """
+# # Part 5. Design Environment
+# Considering the stochastic and interactive nature of the automated stock trading tasks, a financial task is modeled as a **Markov Decision Process (MDP)** problem. The training process involves observing stock price change, taking an action and reward's calculation to have the agent adjusting its strategy accordingly. By interacting with the environment, the trading agent will derive a trading strategy with the maximized rewards as time proceeds.
+#
+# Our trading environments, based on OpenAI Gym framework, simulate live stock markets with real market data according to the principle of time-driven simulation.
+#
+# The action space describes the allowed actions that the agent interacts with the environment. Normally, action a includes three actions: {-1, 0, 1}, where -1, 0, 1 represent selling, holding, and buying one share. Also, an action can be carried upon multiple shares. We use an action space {-k,…,-1, 0, 1, …, k}, where k denotes the number of shares to buy and -k denotes the number of shares to sell. For example, "Buy 10 shares of AAPL" or "Sell 10 shares of AAPL" are 10 or -10, respectively. The continuous action space needs to be normalized to [-1, 1], since the policy is defined on a Gaussian distribution, which needs to be normalized and symmetric.
+#
+# # Training data split: 2009-01-01 to 2020-07-01
+# # Trade data split: 2020-07-01 to 2021-10-31
+# """
 
 
 train = data_split(processed_full, "2009-01-01", "2020-07-01")
@@ -285,22 +278,21 @@ env_train, _ = e_train_gym.get_sb_env()
 print(f"type(env_train): {type(env_train)}")
 
 #%% md
-
-"""
-# Part 6: Implement DRL Algorithms
-* The implementation of the DRL algorithms are based on **OpenAI Baselines** and **Stable Baselines**. Stable Baselines is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
-* FinRL library includes fine-tuned standard DRL algorithms, such as DQN, DDPG,
-Multi-Agent DDPG, PPO, SAC, A2C and TD3. We also allow users to
-design their own DRL algorithms by adapting these DRL algorithms.
-"""
+# """
+# # Part 6: Implement DRL Algorithms
+# * The implementation of the DRL algorithms are based on **OpenAI Baselines** and **Stable Baselines**. Stable Baselines is a fork of OpenAI Baselines, with a major structural refactoring, and code cleanups.
+# * FinRL library includes fine-tuned standard DRL algorithms, such as DQN, DDPG,
+# Multi-Agent DDPG, PPO, SAC, A2C and TD3. We also allow users to
+# design their own DRL algorithms by adapting these DRL algorithms.
+# """
 
 
 agent = DRLAgent(env=env_train)
 
 
-"""
-Model Training: 5 models, A2C DDPG, PPO, TD3, SAC
-"""
+# """
+# Model Training: 5 models, A2C DDPG, PPO, TD3, SAC
+# """
 
 ### Model 1: A2C
 
@@ -384,15 +376,15 @@ trained_sac = agent.train_model(
 )
 
 
-"""
-## Trading
-Assume that we have $1,000,000 initial capital at 2020-07-01. We use the DDPG model to trade Dow jones 30 stocks.
-
-#%% md
-
-### Set turbulence threshold
-Set the turbulence threshold to be greater than the maximum of insample turbulence data, if current turbulence index is greater than the threshold, then we assume that the current market is volatile
-"""
+# """
+# ## Trading
+# Assume that we have $1,000,000 initial capital at 2020-07-01. We use the DDPG model to trade Dow jones 30 stocks.
+#
+# #%% md
+#
+# ### Set turbulence threshold
+# Set the turbulence threshold to be greater than the maximum of insample turbulence data, if current turbulence index is greater than the threshold, then we assume that the current market is volatile
+# """
 
 
 data_risk_indicator = processed_full[
@@ -413,14 +405,14 @@ insample_risk_indicator.turbulence.describe()
 insample_risk_indicator.turbulence.quantile(0.996)
 
 
-"""
-### Trade
-
-DRL model needs to update periodically in order to take full advantage of the data, ideally we need to retrain our model yearly, quarterly, or monthly. We also need to tune the parameters along the way, in this notebook I only use the in-sample data from 2009-01 to 2020-07 to tune the parameters once, so there is some alpha decay here as the length of trade date extends.
-
-Numerous hyperparameters – e.g. the learning rate, the total number of samples to train on – influence the learning process and are usually determined by testing some variations.
-
-"""
+# """
+# ### Trade
+#
+# DRL model needs to update periodically in order to take full advantage of the data, ideally we need to retrain our model yearly, quarterly, or monthly. We also need to tune the parameters along the way, in this notebook I only use the in-sample data from 2009-01 to 2020-07 to tune the parameters once, so there is some alpha decay here as the length of trade date extends.
+#
+# Numerous hyperparameters – e.g. the learning rate, the total number of samples to train on – influence the learning process and are usually determined by testing some variations.
+#
+# """
 
 # trade = data_split(processed_full, '2020-07-01','2021-10-31')
 e_trade_gym = StockTradingEnv(
@@ -449,17 +441,17 @@ print(f"df_actions.head(): {df_actions.head()}")
 #%% md
 
 
-"""
-# # Part 7: Backtest Our Strategy
-Backtesting plays a key role in evaluating the performance of a trading strategy. Automated backtesting tool is preferred because it reduces the human error. We usually use the Quantopian pyfolio package to backtest our trading strategies. It is easy to use and consists of various individual plots that provide a comprehensive image of the performance of a trading strategy.
+# """
+# # # Part 7: Backtest Our Strategy
+# Backtesting plays a key role in evaluating the performance of a trading strategy. Automated backtesting tool is preferred because it reduces the human error. We usually use the Quantopian pyfolio package to backtest our trading strategies. It is easy to use and consists of various individual plots that provide a comprehensive image of the performance of a trading strategy.
+#
+# #%% md
+# """
 
-#%% md
-"""
-
-"""
-# 7.1 BackTestStats
-pass in df_account_value, this information is stored in env class
-"""
+# """
+# # 7.1 BackTestStats
+# pass in df_account_value, this information is stored in env class
+# """
 
 #%%
 
@@ -488,7 +480,6 @@ stats = backtest_stats(baseline_df, value_col_name="close")
 df_account_value.loc[0, "date"]
 
 #%%
-
 df_account_value.loc[len(df_account_value) - 1, "date"]
 
 #%% md
