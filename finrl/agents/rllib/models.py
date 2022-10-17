@@ -2,11 +2,11 @@
 from __future__ import annotations
 
 import ray
-from ray.rllib.agents.a3c import a2c
-from ray.rllib.agents.ddpg import ddpg
-from ray.rllib.agents.ddpg import td3
-from ray.rllib.agents.ppo import ppo
-from ray.rllib.agents.sac import sac
+from ray.rllib.algorithms.a2c import a2c
+from ray.rllib.algorithms.ddpg import ddpg
+from ray.rllib.algorithms.td3 import td3
+from ray.rllib.algorithms.ppo import ppo
+from ray.rllib.algorithms.sac import sac
 
 MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
 
