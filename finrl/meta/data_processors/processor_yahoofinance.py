@@ -53,7 +53,8 @@ class YahooFinanceProcessor:
                 tic, start=start_date, end=end_date, interval=self.time_interval
             )  # bug fix: add interval for download
             temp_df["tic"] = tic
-            data_df = data_df.append(temp_df)
+            # data_df = data_df.append(temp_df)
+            data_df = pd.concat([data_df, temp_df], axis=0)
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:
@@ -162,7 +163,8 @@ class YahooFinanceProcessor:
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
-            new_df = new_df.append(tmp_df)
+            # new_df = new_df.append(tmp_df)
+            new_df = pd.concat([new_df, tmp_df], axis=0)
 
             print(("Data clean for ") + tic + (" is finished."))
 
@@ -196,9 +198,10 @@ class YahooFinanceProcessor:
                     temp_indicator["time"] = df[df.tic == unique_ticker[i]][
                         "time"
                     ].to_list()
-                    indicator_df = indicator_df.append(
-                        temp_indicator, ignore_index=True
-                    )
+                    # indicator_df = indicator_df.append(
+                    #     temp_indicator, ignore_index=True
+                    # )
+                    indicator_df =pd.concat([indicator_df, temp_indicator], axis=0, ignore_index=True)
                 except Exception as e:
                     print(e)
             df = df.merge(
