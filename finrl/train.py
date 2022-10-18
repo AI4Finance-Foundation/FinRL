@@ -43,12 +43,13 @@ def train(
     env_instance = env(config=env_config)
 
     # read parameters
-    cwd = kwargs.get("cwd", "./" + str(model_name))
+    cwd = kwargs.get("cwd", f"./{str(model_name)}")
 
     if drl_lib == "elegantrl":
         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
 
         break_step = kwargs.get("break_step", 1e6)
+        break_step = int(break_step)
         erl_params = kwargs.get("erl_params")
         agent = DRLAgent_erl(
             env=env,
@@ -95,7 +96,7 @@ def train(
         )
         print("Training is finished!")
         trained_model.save(cwd)
-        print("Trained model is saved in " + str(cwd))
+        print(f"Trained model is saved in {str(cwd)}")
     else:
         raise ValueError("DRL library input is NOT supported. Please check.")
 
@@ -108,21 +109,21 @@ if __name__ == "__main__":
     kwargs = (
         {}
     )  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
-    train(
-        start_date=TRAIN_START_DATE,
-        end_date=TRAIN_END_DATE,
-        ticker_list=DOW_30_TICKER,
-        data_source="yahoofinance",
-        time_interval="1D",
-        technical_indicator_list=INDICATORS,
-        drl_lib="elegantrl",
-        env=env,
-        model_name="ppo",
-        cwd="./test_ppo",
-        erl_params=ERL_PARAMS,
-        break_step=1e5,
-        kwargs=kwargs,
-    )
+    # train(
+    #     start_date=TRAIN_START_DATE,
+    #     end_date=TRAIN_END_DATE,
+    #     ticker_list=DOW_30_TICKER,
+    #     data_source="yahoofinance",
+    #     time_interval="1D",
+    #     technical_indicator_list=INDICATORS,
+    #     drl_lib="elegantrl",
+    #     env=env,
+    #     model_name="ppo",
+    #     cwd="./test_ppo",
+    #     erl_params=ERL_PARAMS,
+    #     break_step=1e5,
+    #     kwargs=kwargs,
+    # )
 
     ## if users want to use rllib, or stable-baselines3, users can remove the following comments
 
@@ -145,17 +146,17 @@ if __name__ == "__main__":
     # )
     #
     # # demo for stable-baselines3
-    # train(
-    #     start_date=TRAIN_START_DATE,
-    #     end_date=TRAIN_END_DATE,
-    #     ticker_list=DOW_30_TICKER,
-    #     data_source="yahoofinance",
-    #     time_interval="1D",
-    #     technical_indicator_list=INDICATORS,
-    #     drl_lib="stable_baselines3",
-    #     env=env,
-    #     model_name="sac",
-    #     cwd="./test_sac",
-    #     agent_params=SAC_PARAMS,
-    #     total_timesteps=1e4,
-    # )
+    train(
+        start_date=TRAIN_START_DATE,
+        end_date=TRAIN_END_DATE,
+        ticker_list=DOW_30_TICKER,
+        data_source="yahoofinance",
+        time_interval="1D",
+        technical_indicator_list=INDICATORS,
+        drl_lib="stable_baselines3",
+        env=env,
+        model_name="sac",
+        cwd="./test_sac",
+        agent_params=SAC_PARAMS,
+        total_timesteps=1e4,
+    )
