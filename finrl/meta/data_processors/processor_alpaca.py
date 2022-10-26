@@ -133,8 +133,7 @@ class AlpacaProcessor:
                     ]
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
-            new_df = new_df.append(tmp_df)
-
+            new_df = pd.concat([new_df, tmp_df])
         new_df = new_df.reset_index()
         new_df = new_df.rename(columns={"index": "timestamp"})
 
@@ -173,13 +172,13 @@ class AlpacaProcessor:
                 temp_indicator["date"] = df[df.tic == unique_ticker[i]][
                     "date"
                 ].to_list()
-                indicator_df = indicator_df.append(temp_indicator, ignore_index=True)
+                indicator_df = pd.concat([indicator_df, temp_indicator], ignore_index=True)
             df = df.merge(
                 indicator_df[["tic", "date", indicator]], on=["tic", "date"], how="left"
             )
         df = df.sort_values(by=["date", "tic"])
         df = df.rename(columns={"date": "timestamp"})
-        print("Succesfully add technical indicators")
+#        print("Succesfully add technical indicators")
         return df
 
     def add_vix(self, data):
@@ -273,7 +272,7 @@ class AlpacaProcessor:
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-        print("Successfully transformed into array")
+#        print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
     def get_trading_days(self, start, end):
@@ -296,7 +295,7 @@ class AlpacaProcessor:
             barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic]
             barset["tic"] = tic
             barset = barset.reset_index()
-            data_df = data_df.append(barset)
+            data_df = pd.concat([data_df, barset])
 
         data_df = data_df.reset_index(drop=True)
         start_time = data_df.timestamp.min()
@@ -360,7 +359,7 @@ class AlpacaProcessor:
                     ]
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
-            new_df = new_df.append(tmp_df)
+            new_df = pd.concat([new_df, tmp_df])
 
         new_df = new_df.reset_index()
         new_df = new_df.rename(columns={"index": "timestamp"})
