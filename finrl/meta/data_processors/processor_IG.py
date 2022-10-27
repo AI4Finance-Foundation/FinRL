@@ -12,7 +12,7 @@ class IGProcessor:
     def __init__(self, username=None, password=None, api_key=None, acc_type=None, acc_number=None, api=None):
         if api is None:
             try:
-                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+#                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
                 ig_rest_service = tradeapi.IGService(username, password, api_key, acc_type, acc_number=acc_number)
                 ig_rest_service.create_session()
                 
