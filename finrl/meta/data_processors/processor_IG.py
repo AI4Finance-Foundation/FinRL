@@ -13,9 +13,8 @@ class IGProcessor:
         if api is None:
             try:
 #                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
-                ig_rest_service = tradeapi.IGService(username, password, api_key, acc_type, acc_number=acc_number)
-                ig_rest_service.create_session()
-                
+                self.api = tradeapi.IGService(username, password, api_key, acc_type, acc_number=acc_number)
+                self.api.create_session()               
             except BaseException:
                 raise ValueError("Wrong Account Info!")
         else:
@@ -30,37 +29,35 @@ class IGProcessor:
         start_date : start date of America/New_York time
         end_date : end date of America/New_York time
 
-        The function tries to retrieve the data, between the start date and the end date, from the Alpaca server.
-        if time_interval < 1D: period of data retrieved is the opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm), in UTC offset zone.
-        if time_interval >= 1D: each bar is the midnight of the day in America/New_York time, in UTC offset zone.
+        The function tries to retrieve the data, between the start date and the end date, from the IG server.
+        if time_interval < 1D: period of data retrieved is the trading time of the London Stock Exchange (LSE) (from 8:00 am to 4:30 pm), in UTC offset zone.
+        if time_interval >= 1D: each bar is the midnight of the day in UK/London time, in UTC offset zone.
         """
         self.start = start_date
         self.end = end_date
         self.time_interval = time_interval
 
         # download
-        NY = "America/New_York"
-        start_date = pd.Timestamp(start_date + " 09:30:00", tz=NY)
-        end_date = pd.Timestamp(end_date + " 15:59:00", tz=NY)
-        barset = self.api.get_bars(
-            ticker_list,
-            time_interval,
-            start=start_date.isoformat(),
-            end=end_date.isoformat(),
-        ).df
+        LON = "Europe/London"
+        start_date = pd.Timestamp(start_date + " 09:30:00", tz=LON)
+        end_date = pd.Timestamp(end_date + " 15:59:00", tz=LON)
+        for tic in ticker_list:
+            response = self.api.fetch_historical_prices_by_epic_and_date_range(tic, time_interval, start_date.isoformat(), end_date.isoformat())
+            barset = barset.append(response)
+
         # from trepan.api import debug;debug()
-        # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm) if time_interval < 1D
+        # filter opening time of the London Stock Exchange (LSE) (from 8:00 am to 4:30 pm) if time_interval < 1D
         day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000
         if pd.Timedelta(time_interval).delta < day_delta:
-            NYSE_open_hour = "13:30"  # in UTC
-            NYSE_close_hour = "19:59"  # in UTC
-            data_df = barset.between_time(NYSE_open_hour, NYSE_close_hour)
+            LSE_open_hour = "08:00"  # in UTC
+            LSE_close_hour = "16:29"  # in UTC
+            data_df = barset.between_time(LSE_open_hour, LSE_close_hour)
         else:
             data_df = barset
 
         # reformat to finrl expected schema
         data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
-        data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(NY))
+        data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(LON))
         return data_df
 
     def clean_data(self, df):
@@ -70,8 +67,8 @@ class IGProcessor:
         # produce full timestamp index
         times = []
         for day in trading_days:
-            NY = "America/New_York"
-            current_time = pd.Timestamp(day + " 09:30:00").tz_localize(NY)
+            LON = "Europe/London"
+            current_time = pd.Timestamp(day + " 09:30:00").tz_localize(LON)
             for i in range(390):
                 times.append(current_time)
                 current_time += pd.Timedelta(minutes=1)
