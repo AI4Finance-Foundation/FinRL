@@ -8,7 +8,7 @@ from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
-
+from finrl.meta.data_processors.processor_IG import IGProcessor as IG
 
 class DataProcessor:
     def __init__(self, data_source, **kwargs):
@@ -28,7 +28,17 @@ class DataProcessor:
 
         elif data_source == "yahoofinance":
             self.processor = YahooFinance()
-
+        elif data_source == "IG":
+            try:
+                username = kwargs.get("username")
+                password = kwargs.get("password")
+                api_key = kwargs.get("API_KEY")
+                acc_type = kwargs.get("account_type")
+                acc_number = kwargs.get("account_no")
+                self.processor = IG(username, password, api_key, acc_type, acc_number=acc_number)
+                print("IG successfully connected")
+            except BaseException:
+                raise ValueError("Please input correct account info for IG!")
         else:
             raise ValueError("Data source input is NOT supported yet.")
 
