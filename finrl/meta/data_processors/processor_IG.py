@@ -39,8 +39,8 @@ class IGProcessor:
 
         # download
         LON = "Europe/London"
-        start_date = pd.Timestamp(start_date + " 09:30:00", tz=LON)
-        end_date = pd.Timestamp(end_date + " 15:59:00", tz=LON)
+        start_date = pd.Timestamp(start_date + " 08:00:00", tz=LON)
+        end_date = pd.Timestamp(end_date + " 16:29:00", tz=LON)
         for tic in ticker_list:
             response = self.api.fetch_historical_prices_by_epic_and_date_range(tic, time_interval, start_date.isoformat(), end_date.isoformat())
             barset = barset.append(response)
