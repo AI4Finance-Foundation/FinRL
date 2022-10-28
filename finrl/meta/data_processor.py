@@ -32,9 +32,9 @@ class DataProcessor:
             try:
                 username = kwargs.get("username")
                 password = kwargs.get("password")
-                api_key = kwargs.get("API_KEY")
-                acc_type = kwargs.get("account_type")
-                acc_number = kwargs.get("account_no")
+                api_key = kwargs.get("api_key")
+                acc_type = kwargs.get("acc_type")
+                acc_number = kwargs.get("acc_number")
                 self.processor = IG(username, password, api_key, acc_type, acc_number=acc_number)
                 print("IG successfully connected")
             except BaseException:

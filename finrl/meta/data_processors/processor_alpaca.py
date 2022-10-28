@@ -45,6 +45,7 @@ class AlpacaProcessor:
             start=start_date.isoformat(),
             end=end_date.isoformat(),
         ).df
+        print("got here")
         # from trepan.api import debug;debug()
         # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm) if time_interval < 1D
         day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000

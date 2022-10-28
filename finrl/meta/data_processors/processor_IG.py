@@ -26,8 +26,8 @@ class IGProcessor:
         """
         ticker_list : list string of ticket
         time_interval: time interval
-        start_date : start date of America/New_York time
-        end_date : end date of America/New_York time
+        start_date : start date of Europe/London time
+        end_date : end date of Europe/London time
 
         The function tries to retrieve the data, between the start date and the end date, from the IG server.
         if time_interval < 1D: period of data retrieved is the trading time of the London Stock Exchange (LSE) (from 8:00 am to 4:30 pm), in UTC offset zone.
@@ -42,12 +42,12 @@ class IGProcessor:
         start_date = pd.Timestamp(start_date + " 08:00:00", tz=LON)
         end_date = pd.Timestamp(end_date + " 16:29:00", tz=LON)
         for tic in ticker_list:
-            response = self.api.fetch_historical_prices_by_epic_and_date_range(tic, time_interval, start_date.isoformat(), end_date.isoformat())
+            response = self.api.fetch_historical_prices_by_epic_and_date_range(tic, time_interval, start_date, end_date)
             barset = barset.append(response)
 
         # from trepan.api import debug;debug()
         # filter opening time of the London Stock Exchange (LSE) (from 8:00 am to 4:30 pm) if time_interval < 1D
-        day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000
+        day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86,400,000,000,000
         if pd.Timedelta(time_interval).delta < day_delta:
             LSE_open_hour = "08:00"  # in UTC
             LSE_close_hour = "16:29"  # in UTC
