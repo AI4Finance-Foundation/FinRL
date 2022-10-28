@@ -112,18 +112,14 @@ class YahooFinanceProcessor:
         return data_df
 
     def clean_data(self, data) -> pd.DataFrame:
-
-        df = data.copy()
-        df = df.rename(columns={"date": "timestamp"})
-        time_interval = self.time_interval
-        # get ticker list
         tic_list = np.unique(df.tic.values)
 
-        # get complete time index
         trading_days = self.get_trading_days(start=self.start, end=self.end)
-        if time_interval == "1d":
+        # produce full timestamp index
+
+        if self.time_interval == "1d":
             times = trading_days
-        elif time_interval == "1m":
+        elif self.time_interval == "1m":
             times = []
             for day in trading_days:
                 NY = "America/New_York"
@@ -136,10 +132,12 @@ class YahooFinanceProcessor:
                 "Data clean at given time interval is not supported for YahooFinance data."
             )
 
-        # create empty DataFrame using complete time index
+        df = data.copy()
+        df = df.rename(columns={"date": "timestamp"})
+
+        # create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
-            # create empty DataFrame using complete time index
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
@@ -147,12 +145,14 @@ class YahooFinanceProcessor:
             print("tmp_df\n", tmp_df)
             tic_df = df[df.tic == tic]
             print("tic_df\n", tic_df)
+            print("tic_df.shape[0]\n", tic_df.shape[0])            
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using orginal data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
+            print("tmp_df.loc\n", tmp_df.loc[tic_df.iloc[i]["timestamp"]]) #print last one
 
-            print("yf tmp_df\n", tmp_df)
+        print("yf tmp_df\n", tmp_df)
 
             # if close on start date is NaN, fill data with first valid close
             # and set volume to 0.
