@@ -108,7 +108,7 @@ class YahooFinanceProcessor:
         # print("Display DataFrame: ", data_df.head())
 
         data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
-
+        print(data_df)
         return data_df
 
     def clean_data(self, data) -> pd.DataFrame:
