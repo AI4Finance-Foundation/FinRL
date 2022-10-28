@@ -59,6 +59,7 @@ class AlpacaProcessor:
         # reformat to finrl expected schema
         data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
         data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(NY))
+        print("data_df <= alpaca.download", data_df)
         return data_df
 
     def clean_data(self, df):

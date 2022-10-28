@@ -81,7 +81,7 @@ class YahooFinanceProcessor:
             )  # bug fix: add interval for download
             temp_df["tic"] = tic
             data_df = pd.concat([data_df, temp_df])
-        print("data_df <= yf.download()\n", data_df)
+        print("raw data_df <= yf.download()\n", data_df)
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:
