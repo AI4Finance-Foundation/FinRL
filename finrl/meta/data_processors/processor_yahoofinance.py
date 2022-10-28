@@ -41,6 +41,33 @@ class YahooFinanceProcessor:
             7 columns: A date, open, high, low, close, volume and tick symbol
             for the specified stock ticker
         """
+        # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+        if (time_interval == '1Min'):
+            time_interval = '1m'
+        elif (time_interval == '2Min'):
+            time_interval = '2m'
+        elif (time_interval == '5Min'):
+            time_interval = '5m'
+        elif (time_interval == '15Min'):
+            time_interval = '15m'
+        elif (time_interval == '30Min'):
+            time_interval = '30m'
+        elif (time_interval == '60Min'):
+            time_interval = '60m'
+        elif (time_interval == '90Min'):
+            time_interval = '90m'
+        elif (time_interval == '1H'):
+            time_interval = '1h'
+        elif (time_interval == '1D'):
+            time_interval = '1d'
+        elif (time_interval == '5D'):
+            time_interval = '5d'
+        elif (time_interval == '1W'):
+            time_interval = '1wk'
+        elif (time_interval == '1M'):
+            time_interval = '1mo'
+        elif (time_interval == '3M'):
+            time_interval = '3mo'
 
         self.start = start_date
         self.end = end_date
@@ -94,9 +121,9 @@ class YahooFinanceProcessor:
 
         # get complete time index
         trading_days = self.get_trading_days(start=self.start, end=self.end)
-        if time_interval == "1D":
+        if time_interval == "1d":
             times = trading_days
-        elif time_interval == "1Min":
+        elif time_interval == "1m":
             times = []
             for day in trading_days:
                 NY = "America/New_York"

@@ -32,7 +32,14 @@ class IGProcessor:
         The function tries to retrieve the data, between the start date and the end date, from the IG server.
         if time_interval < 1D: period of data retrieved is the trading time of the London Stock Exchange (LSE) (from 8:00 am to 4:30 pm), in UTC offset zone.
         if time_interval >= 1D: each bar is the midnight of the day in UK/London time, in UTC offset zone.
+                
+        IG resolution expected values
+            are 1Min, 2Min, 3Min, 5Min, 10Min, 15Min, 30Min, 1H, 2H, 3H, 4H, D,
+            W, M. Default is 1Min
+
         """
+
+
         self.start = start_date
         self.end = end_date
         self.time_interval = time_interval
