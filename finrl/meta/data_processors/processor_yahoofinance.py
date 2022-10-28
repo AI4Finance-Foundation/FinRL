@@ -132,7 +132,6 @@ class YahooFinanceProcessor:
                 "Data clean at given time interval is not supported for YahooFinance data."
             )
 
-        df = data.copy()
         df = df.rename(columns={"date": "timestamp"})
 
         # create a new dataframe with full timestamp series
