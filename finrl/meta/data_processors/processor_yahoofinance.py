@@ -143,7 +143,10 @@ class YahooFinanceProcessor:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
+            print("tic\n", tic)
+            print("tmp_df\n", tmp_df)
             tic_df = df[df.tic == tic]
+            print("tic_df\n", tic_df)
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using orginal data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
