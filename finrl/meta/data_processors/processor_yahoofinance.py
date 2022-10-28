@@ -198,7 +198,8 @@ class YahooFinanceProcessor:
         new_df = new_df.rename(columns={"index": "time"})
 
         print("Data clean all finished!")
-
+        print("clean_data: new_df\n", new_df)
+        
         return new_df
 
     def add_technical_indicator(self, data, tech_indicator_list):
