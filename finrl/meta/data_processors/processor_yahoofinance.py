@@ -111,7 +111,7 @@ class YahooFinanceProcessor:
         print(data_df)
         return data_df
 
-    def clean_data(self, data) -> pd.DataFrame:
+    def clean_data(self, df) -> pd.DataFrame:
         tic_list = np.unique(df.tic.values)
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
