@@ -136,6 +136,8 @@ class YahooFinanceProcessor:
                 "Data clean at given time interval is not supported for YahooFinance data."
             )
 
+        print("yf times\n", times)
+
         # create empty DataFrame using complete time index
         new_df = pd.DataFrame()
         for tic in tic_list:
@@ -148,6 +150,8 @@ class YahooFinanceProcessor:
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
+
+            print("yf tmp_df\n", tmp_df)
 
             # if close on start date is NaN, fill data with first valid close
             # and set volume to 0.
@@ -164,6 +168,8 @@ class YahooFinanceProcessor:
                             0.0,
                         ]
 
+                print("yf tmp_df(1)\n", tmp_df)
+
             # fill NaN data with previous close and set volume to 0.
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":
@@ -179,17 +185,24 @@ class YahooFinanceProcessor:
                         0.0,
                     ]
 
+            print("yf tmp_df(3)\n", tmp_df)
+
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
+            print("tmp_df(4)\n", tmp_df)
             tmp_df["tic"] = tic
+            print("tmp_df(5)\n", tmp_df)
             new_df = new_df.append(tmp_df)
+            print("new_df(1)\n", new_df)
 
             print(("Data clean for ") + tic + (" is finished."))
 
         # reset index and rename columns
         new_df = new_df.reset_index()
+        print("new_df(2)\n", new_df)
         new_df = new_df.rename(columns={"index": "timestamp"})
-
+        print("new_df(3)\n", new_df)
+        
         print("Data clean all finished!")
         print("clean_data: new_df\n", new_df)
 
