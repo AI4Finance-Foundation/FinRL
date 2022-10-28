@@ -113,7 +113,6 @@ class AlpacaProcessor:
                             0.0,
                         ]
                         break
-
                 print("tmp_df(1)\n", tmp_df)
 
             # if the close price of the first row is still NaN (All the prices are NaN in this case)
@@ -130,7 +129,6 @@ class AlpacaProcessor:
                     0.0,
                     0.0,
                 ]
-
                 print("tmp_df(2)\n", tmp_df)
 
             # forward filling row by row
@@ -146,8 +144,7 @@ class AlpacaProcessor:
                         previous_close,
                         0.0,
                     ]
-
-            print("tmp_df(3)\n", tmp_df)
+                print("tmp_df(3)\n", tmp_df)
 
             tmp_df = tmp_df.astype(float)
             print("tmp_df(4)\n", tmp_df)
