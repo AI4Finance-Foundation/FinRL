@@ -88,8 +88,8 @@ class AlpacaProcessor:
             for i in range(tic_df.shape[0]):
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
-                print("tmp_df.loc\n", tmp_df.loc[tic_df.iloc[i]["timestamp"]])
                 ]
+                print("tmp_df.loc\n", tmp_df.loc[tic_df.iloc[i]["timestamp"]])
             
             print("tmp_df\n", tmp_df)
 
