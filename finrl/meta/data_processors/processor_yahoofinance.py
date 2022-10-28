@@ -152,7 +152,7 @@ class YahooFinanceProcessor:
                 ]
             print("tmp_df.loc\n", tmp_df.loc[tic_df.iloc[i]["timestamp"]]) #print last one
 
-        print("yf tmp_df\n", tmp_df)
+            print("yf tmp_df\n", tmp_df)
 
             # if close on start date is NaN, fill data with first valid close
             # and set volume to 0.
