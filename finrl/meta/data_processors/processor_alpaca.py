@@ -73,6 +73,9 @@ class AlpacaProcessor:
             for i in range(390):
                 times.append(current_time)
                 current_time += pd.Timedelta(minutes=1)
+
+        print("times\n", times)
+
         # create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
@@ -84,6 +87,8 @@ class AlpacaProcessor:
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
+            
+            print("tmp_df\n", tmp_df)
 
             # if the close price of the first row is NaN
             if str(tmp_df.iloc[0]["close"]) == "nan":
@@ -104,6 +109,9 @@ class AlpacaProcessor:
                             0.0,
                         ]
                         break
+
+                print("tmp_df(1)\n", tmp_df)
+
             # if the close price of the first row is still NaN (All the prices are NaN in this case)
             if str(tmp_df.iloc[0]["close"]) == "nan":
                 print(
@@ -119,6 +127,8 @@ class AlpacaProcessor:
                     0.0,
                 ]
 
+                print("tmp_df(2)\n", tmp_df)
+
             # forward filling row by row
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":
@@ -132,11 +142,21 @@ class AlpacaProcessor:
                         previous_close,
                         0.0,
                     ]
+
+            print("tmp_df(3)\n", tmp_df)
+
             tmp_df = tmp_df.astype(float)
+            print("tmp_df(4)\n", tmp_df)
             tmp_df["tic"] = tic
+            print("tmp_df(5)\n", tmp_df)
             new_df = pd.concat([new_df, tmp_df])
+            print("new_df(1)\n", new_df)
+
+
         new_df = new_df.reset_index()
+        print("new_df(2)\n", new_df)
         new_df = new_df.rename(columns={"index": "timestamp"})
+        print("new_df(3)\n", new_df)
 
         print("Data clean finished!")
         print("clean_data: new_df\n", new_df)
