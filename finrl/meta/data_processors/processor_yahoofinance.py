@@ -114,7 +114,7 @@ class YahooFinanceProcessor:
     def clean_data(self, data) -> pd.DataFrame:
 
         df = data.copy()
-        df = df.rename(columns={"date": "time"})
+        df = df.rename(columns={"date": "timestamp"})
         time_interval = self.time_interval
         # get ticker list
         tic_list = np.unique(df.tic.values)
@@ -136,20 +136,16 @@ class YahooFinanceProcessor:
                 "Data clean at given time interval is not supported for YahooFinance data."
             )
 
-        # fill NaN data
+        # create empty DataFrame using complete time index
         new_df = pd.DataFrame()
         for tic in tic_list:
-            print(("Clean data for ") + tic)
             # create empty DataFrame using complete time index
             tmp_df = pd.DataFrame(
-                columns=["open", "high", "low", "close", "adjcp", "volume"], index=times
+                columns=["open", "high", "low", "close", "volume"], index=times
             )
-            # get data for current ticker
-            tic_df = df[df.tic == tic]
-            # fill empty DataFrame using orginal data
-            for i in range(tic_df.shape[0]):
-                tmp_df.loc[tic_df.iloc[i]["time"]] = tic_df.iloc[i][
-                    ["open", "high", "low", "close", "adjcp", "volume"]
+            for i in range(tic_df.shape[0]):      # fill empty DataFrame using orginal data
+                tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
+                    ["open", "high", "low", "close", "volume"]
                 ]
 
             # if close on start date is NaN, fill data with first valid close
@@ -159,16 +155,13 @@ class YahooFinanceProcessor:
                 for i in range(tmp_df.shape[0]):
                     if str(tmp_df.iloc[i]["close"]) != "nan":
                         first_valid_close = tmp_df.iloc[i]["close"]
-                        first_valid_adjclose = tmp_df.iloc[i]["adjcp"]
-
-                tmp_df.iloc[0] = [
-                    first_valid_close,
-                    first_valid_close,
-                    first_valid_close,
-                    first_valid_close,
-                    first_valid_adjclose,
-                    0.0,
-                ]
+                        tmp_df.iloc[0] = [
+                            first_valid_close,
+                            first_valid_close,
+                            first_valid_close,
+                            first_valid_close,
+                            0.0,
+                        ]
 
             # fill NaN data with previous close and set volume to 0.
             for i in range(tmp_df.shape[0]):
@@ -182,7 +175,6 @@ class YahooFinanceProcessor:
                         previous_close,
                         previous_close,
                         previous_close,
-                        previous_adjcp,
                         0.0,
                     ]
 
@@ -195,11 +187,11 @@ class YahooFinanceProcessor:
 
         # reset index and rename columns
         new_df = new_df.reset_index()
-        new_df = new_df.rename(columns={"index": "time"})
+        new_df = new_df.rename(columns={"index": "timestamp"})
 
         print("Data clean all finished!")
         print("clean_data: new_df\n", new_df)
-        
+
         return new_df
 
     def add_technical_indicator(self, data, tech_indicator_list):
