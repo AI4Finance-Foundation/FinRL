@@ -74,15 +74,16 @@ class AlpacaProcessor:
                 times.append(current_time)
                 current_time += pd.Timedelta(minutes=1)
 
-        print("times\n", times)
-
         # create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
+            print("tic\n", tic)
+            print("tmp_df\n", tmp_df)
             tic_df = df[df.tic == tic]
+            print("tic_df\n", tic_df)
             for i in range(tic_df.shape[0]):
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]

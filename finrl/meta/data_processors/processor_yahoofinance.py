@@ -136,8 +136,6 @@ class YahooFinanceProcessor:
                 "Data clean at given time interval is not supported for YahooFinance data."
             )
 
-        print("yf times\n", times)
-
         # create empty DataFrame using complete time index
         new_df = pd.DataFrame()
         for tic in tic_list:
@@ -202,7 +200,7 @@ class YahooFinanceProcessor:
         print("new_df(2)\n", new_df)
         new_df = new_df.rename(columns={"index": "timestamp"})
         print("new_df(3)\n", new_df)
-        
+
         print("Data clean all finished!")
         print("clean_data: new_df\n", new_df)
 
