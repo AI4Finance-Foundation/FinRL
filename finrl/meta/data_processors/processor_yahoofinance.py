@@ -241,28 +241,31 @@ class YahooFinanceProcessor:
         df = df.sort_values(by=["timestamp", "tic"])
         return df
 
-    def add_turbulence(self, data):
+    def add_vix(self, data):
         """
-        add turbulence index from a precalcualted dataframe
+        add vix from yahoo finance
         :param data: (df) pandas dataframe
         :return: (df) pandas dataframe
         """
+        vix_df = self.download_data(["VIXY"], self.start, self.end, self.time_interval)
+        cleaned_vix = self.clean_data(vix_df)
+        vix = cleaned_vix[["timestamp", "close"]]
+        vix = vix.rename(columns={"close": "VIXY"})
+
         df = data.copy()
-        turbulence_index = self.calculate_turbulence(df)
-        df = df.merge(turbulence_index, on="time")
-        df = df.sort_values(["time", "tic"]).reset_index(drop=True)
+        df = df.merge(vix, on="timestamp")
+        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-    def calculate_turbulence(self, data, time_period=252):
-        """calculate turbulence index based on dow 30"""
+     def calculate_turbulence(self, data, time_period=252):
         # can add other market assets
         df = data.copy()
-        df_price_pivot = df.pivot(index="time", columns="tic", values="close")
+        df_price_pivot = df.pivot(index="date", columns="tic", values="close")
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
         unique_date = df.date.unique()
-        # start after a year
+        # start after a fixed timestamp period
         start = time_period
         turbulence_index = [0] * start
         # turbulence_index = [0]
@@ -283,9 +286,6 @@ class YahooFinanceProcessor:
             current_temp = current_price[[x for x in filtered_hist_price]] - np.mean(
                 filtered_hist_price, axis=0
             )
-            # cov_temp = hist_price.cov()
-            # current_temp=(current_price - np.mean(hist_price,axis=0))
-
             temp = current_temp.values.dot(np.linalg.pinv(cov_temp)).dot(
                 current_temp.values.T
             )
@@ -301,64 +301,142 @@ class YahooFinanceProcessor:
             turbulence_index.append(turbulence_temp)
 
         turbulence_index = pd.DataFrame(
-            {"time": df_price_pivot.index, "turbulence": turbulence_index}
+            {"date": df_price_pivot.index, "turbulence": turbulence_index}
         )
         return turbulence_index
 
-    def add_vix(self, data):
+    def add_turbulence(self, data, time_period=252):
         """
-        add vix from yahoo finance
+        add turbulence index from a precalcualted dataframe
         :param data: (df) pandas dataframe
         :return: (df) pandas dataframe
         """
-        vix_df = self.download_data(["VIXY"], self.start, self.end, self.time_interval)
-        cleaned_vix = self.clean_data(vix_df)
-        vix = cleaned_vix[["timestamp", "close"]]
-        vix = vix.rename(columns={"close": "VIXY"})
-
         df = data.copy()
-        df = df.merge(vix, on="timestamp")
-        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
+        turbulence_index = self.calculate_turbulence(df, time_period=time_period)
+        df = df.merge(turbulence_index, on="date")
+        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
         return df
 
     def df_to_array(self, df, tech_indicator_list, if_vix):
-        """transform final df to numpy arrays"""
+        df = df.copy()
         unique_ticker = df.tic.unique()
-        print(unique_ticker)
         if_first_time = True
         for tic in unique_ticker:
             if if_first_time:
-                price_array = df[df.tic == tic][["adjcp"]].values
-                # price_ary = df[df.tic==tic]['close'].values
+                price_array = df[df.tic == tic][["close"]].values
                 tech_array = df[df.tic == tic][tech_indicator_list].values
                 if if_vix:
-                    turbulence_array = df[df.tic == tic]["vix"].values
+                    turbulence_array = df[df.tic == tic]["VIXY"].values
                 else:
                     turbulence_array = df[df.tic == tic]["turbulence"].values
                 if_first_time = False
             else:
                 price_array = np.hstack(
-                    [price_array, df[df.tic == tic][["adjcp"]].values]
+                    [price_array, df[df.tic == tic][["close"]].values]
                 )
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-        assert price_array.shape[0] == tech_array.shape[0]
-        assert tech_array.shape[0] == turbulence_array.shape[0]
-        print("Successfully transformed into array")
+#        print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
     def get_trading_days(self, start, end):
         nyse = tc.get_calendar("NYSE")
         df = nyse.sessions_in_range(
-            # pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
-            pd.Timestamp(start),
-            pd.Timestamp(
-                end
-            ),  # bug fix:ValueError: Parameter `start` received with timezone defined as 'UTC' although a Date must be timezone naive.
+            pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
         )
         trading_days = []
         for day in df:
             trading_days.append(str(day)[:10])
 
         return trading_days
+
+    def fetch_latest_data(
+        self, ticker_list, time_interval, tech_indicator_list, limit=100
+    ) -> pd.DataFrame:
+
+        data_df = pd.DataFrame()
+        for tic in ticker_list:
+            barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic]
+            barset["tic"] = tic
+            barset = barset.reset_index()
+            data_df = pd.concat([data_df, barset])
+
+        data_df = data_df.reset_index(drop=True)
+        start_time = data_df.timestamp.min()
+        end_time = data_df.timestamp.max()
+        times = []
+        current_time = start_time
+        end = end_time + pd.Timedelta(minutes=1)
+        while current_time != end:
+            times.append(current_time)
+            current_time += pd.Timedelta(minutes=1)
+
+        df = data_df.copy()
+        new_df = pd.DataFrame()
+        for tic in ticker_list:
+            tmp_df = pd.DataFrame(
+                columns=["open", "high", "low", "close", "volume"], index=times
+            )
+            tic_df = df[df.tic == tic]
+            for i in range(tic_df.shape[0]):
+                tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
+                    ["open", "high", "low", "close", "volume"]
+                ]
+
+                if str(tmp_df.iloc[0]["close"]) == "nan":
+                    for i in range(tmp_df.shape[0]):
+                        if str(tmp_df.iloc[i]["close"]) != "nan":
+                            first_valid_close = tmp_df.iloc[i]["close"]
+                            tmp_df.iloc[0] = [
+                                first_valid_close,
+                                first_valid_close,
+                                first_valid_close,
+                                first_valid_close,
+                                0.0,
+                            ]
+                            break
+                if str(tmp_df.iloc[0]["close"]) == "nan":
+                    print(
+                        "Missing data for ticker: ",
+                        tic,
+                        " . The prices are all NaN. Fill with 0.",
+                    )
+                    tmp_df.iloc[0] = [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                    ]
+
+            for i in range(tmp_df.shape[0]):
+                if str(tmp_df.iloc[i]["close"]) == "nan":
+                    previous_close = tmp_df.iloc[i - 1]["close"]
+                    if str(previous_close) == "nan":
+                        previous_close = 0.0
+                    tmp_df.iloc[i] = [
+                        previous_close,
+                        previous_close,
+                        previous_close,
+                        previous_close,
+                        0.0,
+                    ]
+            tmp_df = tmp_df.astype(float)
+            tmp_df["tic"] = tic
+            new_df = pd.concat([new_df, tmp_df])
+
+        new_df = new_df.reset_index()
+        new_df = new_df.rename(columns={"index": "timestamp"})
+
+        df = self.add_technical_indicator(new_df, tech_indicator_list)
+        df["VIXY"] = 0
+
+        price_array, tech_array, turbulence_array = self.df_to_array(
+            df, tech_indicator_list, if_vix=True
+        )
+        latest_price = price_array[-1]
+        latest_tech = tech_array[-1]
+        turb_df = self.api.get_bars(["VIXY"], time_interval, limit=1).df
+        latest_turb = turb_df["close"].values
+        return latest_price, latest_tech, latest_turb
