@@ -143,7 +143,7 @@ class YahooFinanceProcessor:
                     ["open", "high", "low", "close", "volume"]
                 ]
 
-            print("(9) tmp_df\n", tmp_df)
+            print("(9) tmp_df\n", tmp_df.to_string())
 
             # if close on start date is NaN, fill data with first valid close
             # and set volume to 0.
@@ -211,8 +211,6 @@ class YahooFinanceProcessor:
 
         print("Data clean all finished!")
         print("(17) new_df\n", new_df)
-        print("complete display of datafram new_df")
-        print(new_df.to_string())
 
         return new_df
 
