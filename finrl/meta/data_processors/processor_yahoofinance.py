@@ -99,7 +99,7 @@ class YahooFinanceProcessor:
                 temp_df = yf.download(
                     tic,
                     start = pd.Timestamp(start_date + " 08:00:00", tz=LSE),
-                    end = pd.Timestamp(start_date + " 16:29:00", tz=LSE)
+                    end = pd.Timestamp(start_date + " 16:29:00", tz=LSE),
                     interval = self.time_interval
                 )
                 temp_df["tic"] = tic
