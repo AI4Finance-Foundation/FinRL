@@ -143,7 +143,7 @@ class YahooFinanceProcessor:
                     ["open", "high", "low", "close", "volume"]
                 ]
 
-            print("(9) tmp_df\n", tmp_df.to_string())
+            #print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
 
             # if close on start date is NaN, fill data with first valid close
             # and set volume to 0.
@@ -222,7 +222,7 @@ class YahooFinanceProcessor:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        df = df.sort_values(by=["tic", "time"])
+        df = df.sort_values(by=["tic", "timestamp"])
         stock = Sdf.retype(df.copy())
         unique_ticker = stock.tic.unique()
 
@@ -233,18 +233,15 @@ class YahooFinanceProcessor:
                     temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
                     temp_indicator = pd.DataFrame(temp_indicator)
                     temp_indicator["tic"] = unique_ticker[i]
-                    temp_indicator["time"] = df[df.tic == unique_ticker[i]][
-                        "time"
+                    temp_indicator["timestamp"] = df[df.tic == unique_ticker[i]][
+                        "timestamp"
                     ].to_list()
-                    indicator_df = indicator_df.append(
-                        temp_indicator, ignore_index=True
-                    )
+                    indicator_df = pd.concat([indicator_df, temp_indicator], ignore_index=True)
                 except Exception as e:
                     print(e)
             df = df.merge(
-                indicator_df[["tic", "time", indicator]], on=["tic", "time"], how="left"
-            )
-        df = df.sort_values(by=["time", "tic"])
+                indicator_df[["tic", "timestamp", indicator]], on=["tic", "timestamp"], how="left")
+        df = df.sort_values(by=["timestamp", "tic"])
         return df
 
     def add_turbulence(self, data):
