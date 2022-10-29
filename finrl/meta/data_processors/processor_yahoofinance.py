@@ -82,6 +82,7 @@ class YahooFinanceProcessor:
             temp_df["tic"] = tic
             data_df = pd.concat([data_df, temp_df])
         print("raw data_df <= yf.download()\n", data_df)
+        # Note: LSE Open from 08:00-16:30
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:
@@ -109,7 +110,7 @@ class YahooFinanceProcessor:
         # print("Display DataFrame: ", data_df.head())
 
         data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
-        #print(data_df)
+        print("data_df <= yf.download()\n", data_df)
         return data_df
 
     def clean_data(self, df) -> pd.DataFrame:
@@ -141,7 +142,7 @@ class YahooFinanceProcessor:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
-            print("tic\n", tic)
+            print("tic:", tic)
             print("tmp_df\n", tmp_df)
             tic_df = df[df.tic == tic]
             print("tic_df\n", tic_df)
