@@ -90,11 +90,11 @@ class YahooFinanceProcessor:
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
-        print("(1)data_df <= yf.download()\n", data_df)
+        print("(1) data_df\n", data_df)
 
         data_df = data_df.reset_index()
-        data_df.drop(columns=['Adj Close'])
-        print("(2)data_df <= yf.download()\n", data_df)
+        data_df = data_df.drop(columns=['Adj Close'])
+        print("(2) data_df\n", data_df)
         try:
             # convert the column names to match processor_alpacay.py as far as poss
             data_df.columns = [
@@ -109,7 +109,7 @@ class YahooFinanceProcessor:
         except NotImplementedError:
             print("the features are not supported currently")
 
-        print("(3)data_df <= yf.download()\n", data_df)
+        print("(3) data_df\n", data_df)
         return data_df
 
     def clean_data(self, df) -> pd.DataFrame:
