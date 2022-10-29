@@ -82,9 +82,10 @@ class YahooFinanceProcessor:
         '''
         self.time_interval = time_interval
 
-        LSE = "Europe/London"
-        start_date = pd.Timestamp(start_date + " 08:00:00", tz=LSE)
-        end_date = pd.Timestamp(end_date + " 16:29:00", tz=LSE)
+        #LSE = "Europe/London"
+        NY = "America/New_York"
+        start_date = pd.Timestamp(start_date + " 08:00:00", tz=NY)
+        end_date = pd.Timestamp(end_date + " 16:29:00", tz=NY)
         print("start_date: ", start_date)
         print("end_date: ", end_date)
 
