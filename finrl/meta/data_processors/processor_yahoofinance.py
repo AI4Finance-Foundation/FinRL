@@ -89,9 +89,11 @@ class YahooFinanceProcessor:
                 )
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
-        print("raw data_df <= yf.download()\n", data_df)
+        print("(1)data_df <= yf.download()\n", data_df)
 
+        data_df = data_df.reset_index()
         data_df.drop(columns=['Adj Close'])
+        print("(2)data_df <= yf.download()\n", data_df)
         try:
             # convert the column names to match processor_alpacay.py as far as poss
             data_df.columns = [
@@ -106,11 +108,7 @@ class YahooFinanceProcessor:
         except NotImplementedError:
             print("the features are not supported currently")
 
-        # drop missing data
-        data_df = data_df.dropna()
-        data_df = data_df.reset_index(drop=True)
-
-        print("data_df <= yf.download()\n", data_df)
+        print("(3)data_df <= yf.download()\n", data_df)
         return data_df
 
     def clean_data(self, df) -> pd.DataFrame:
