@@ -86,30 +86,30 @@ class YahooFinanceProcessor:
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:
-            # convert the column names to standardized names
+            # convert the column names to match processor_alpacay.py as far as poss
             data_df.columns = [
-                "date",
+                "timestamp",
                 "open",
                 "high",
                 "low",
                 "close",
-                "adjcp",
+                "Adj Close",
                 "volume",
                 "tic",
             ]
         except NotImplementedError:
             print("the features are not supported currently")
         # create day of the week column (monday = 0)
-        data_df["day"] = data_df["date"].dt.dayofweek
+        #data_df["day"] = data_df["date"].dt.dayofweek
         # convert date to standard string format, easy to filter
-        data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))
+        #data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))
         # drop missing data
-        data_df = data_df.dropna()
-        data_df = data_df.reset_index(drop=True)
+        #data_df = data_df.dropna()
+        #data_df = data_df.reset_index(drop=True)
         # print("Shape of DataFrame: ", data_df.shape)
         # print("Display DataFrame: ", data_df.head())
 
-        data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
+        #data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
         print("data_df <= yf.download()\n", data_df)
         return data_df
 
@@ -124,9 +124,9 @@ class YahooFinanceProcessor:
         elif self.time_interval == "1m":
             times = []
             for day in trading_days:
-                NY = "America/New_York"
-                current_time = pd.Timestamp(day + " 09:30:00").tz_localize(NY)
-                for i in range(390):
+                LSE = "Europe/London"
+                current_time = pd.Timestamp(day + " 08:00:00").tz_localize(LSE)
+                for i in range(8):
                     times.append(current_time)
                     current_time += pd.Timedelta(minutes=1)
         else:
