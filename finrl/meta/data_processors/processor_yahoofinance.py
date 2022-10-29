@@ -212,7 +212,7 @@ class YahooFinanceProcessor:
         print("Data clean all finished!")
         print("(17) new_df\n", new_df)
         print("complete display of datafram new_df")
-        display(new_df.to_string())
+        print(new_df.to_string())
 
         return new_df
 
