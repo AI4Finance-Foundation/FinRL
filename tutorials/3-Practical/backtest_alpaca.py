@@ -7,6 +7,7 @@ from finrl.meta.env_stock_trading.env_stock_papertrading import AlpacaPaperTradi
 from finrl.meta.data_processor import DataProcessor
 from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
 from common import *
+from train_alpaca import MODEL_IDX
 
 ticker_list = DOW_30_TICKER
 action_dim = len(DOW_30_TICKER)
@@ -25,12 +26,12 @@ account_value = test(start_date = start_date,
       technical_indicator_list= INDICATORS,
       drl_lib='elegantrl', 
       env=env,
-      model_name='ppo', 
+      model_name='td3', 
       API_KEY = API_KEY, 
       API_SECRET = API_SECRET, 
       API_BASE_URL = API_BASE_URL,
 #       erl_params=ERL_PARAMS,
-      cwd='./papertrading_erl', #current_working_dir
+      cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
       if_plot=True, # to return a dataframe for backtest_plot
       break_step=1e7)
 
