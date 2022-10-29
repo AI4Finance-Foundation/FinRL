@@ -72,25 +72,7 @@ class YahooFinanceProcessor:
 
         self.start = start_date
         self.end = end_date
-        '''
-        print("self.start: ", self.start)
-        print("asked for end: ", end_date)
-        # Yfinance end_date means download up to end of last day
-        enddate = pd.to_datetime(end_date) + pd.DateOffset(days=1)
-        end_date = enddate.strftime('%Y-%m-%d')
-        self.end = end_date
-        print("adjusted self.end: ", self.end)
-        '''
         self.time_interval = time_interval
-
-        LSE = "Europe/London"
-        #start_date = pd.Timestamp(start_date + " 08:00:00", tz=LSE)
-        #end_date = pd.Timestamp(end_date + " 16:29:00", tz=LSE)
-        #NY = "America/New_York"
-        #start_date = pd.Timestamp(start_date + " 09:30:00", tz=NY)
-        #end_date = pd.Timestamp(end_date + " 15:59:00", tz=NY)
-        print("start_date: ", start_date)
-        print("end_date: ", end_date)
 
         # Download and save the data in a pandas DataFrame:
         start_date = pd.Timestamp(start_date)
@@ -105,14 +87,11 @@ class YahooFinanceProcessor:
                     end = start_date + delta,
                     interval = self.time_interval
                 )
-                temp_df["tic"] = tic
-                print("temp_df\n", temp_df)
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
         print("raw data_df <= yf.download()\n", data_df)
-        # Note: LSE Open from 08:00-16:30
-        # reset the index, we want to use numbers as index instead of dates
-        data_df = data_df.reset_index()
+
+        data_df.drop(columns=['Adj Close'])
         try:
             # convert the column names to match processor_alpacay.py as far as poss
             data_df.columns = [
@@ -121,23 +100,16 @@ class YahooFinanceProcessor:
                 "high",
                 "low",
                 "close",
-                "Adj Close",
                 "volume",
                 "tic",
             ]
         except NotImplementedError:
             print("the features are not supported currently")
-        # create day of the week column (monday = 0)
-        #data_df["day"] = data_df["date"].dt.dayofweek
-        # convert date to standard string format, easy to filter
-        #data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))
-        # drop missing data
-        #data_df = data_df.dropna()
-        #data_df = data_df.reset_index(drop=True)
-        # print("Shape of DataFrame: ", data_df.shape)
-        # print("Display DataFrame: ", data_df.head())
 
-        #data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
+        # drop missing data
+        data_df = data_df.dropna()
+        data_df = data_df.reset_index(drop=True)
+
         print("data_df <= yf.download()\n", data_df)
         return data_df
 
@@ -175,7 +147,7 @@ class YahooFinanceProcessor:
             tic_df = df[df.tic == tic]
             print("tic_df\n", tic_df)
             print("tic_df.shape[0]\n", tic_df.shape[0])            
-            for i in range(tic_df.shape[0]):      # fill empty DataFrame using orginal data
+            for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
