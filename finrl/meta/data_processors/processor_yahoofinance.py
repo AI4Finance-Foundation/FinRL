@@ -7,6 +7,7 @@ import pandas as pd
 import pytz
 import yfinance as yf
 from stockstats import StockDataFrame as Sdf
+from datetime import date, timedelta
 
 
 class YahooFinanceProcessor:
