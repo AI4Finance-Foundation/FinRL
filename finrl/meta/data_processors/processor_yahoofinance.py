@@ -257,7 +257,7 @@ class YahooFinanceProcessor:
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-     def calculate_turbulence(self, data, time_period=252):
+    def calculate_turbulence(self, data, time_period=252):
         # can add other market assets
         df = data.copy()
         df_price_pivot = df.pivot(index="date", columns="tic", values="close")
