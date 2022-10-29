@@ -120,7 +120,7 @@ class YahooFinanceProcessor:
             for day in trading_days:
                 LSE = "Europe/London"
                 current_time = pd.Timestamp(day + " 08:00:00").tz_localize(LSE)
-                for i in range(510):
+                for i in range(510):    # 510 minutes between 08:00:00 and 16:30:00
                     times.append(current_time)
                     current_time += pd.Timedelta(minutes=1)
         else:
@@ -128,7 +128,6 @@ class YahooFinanceProcessor:
                 "Data clean at given time interval is not supported for YahooFinance data."
             )
 
-        print("clean_data()):\n", times)
         # create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
@@ -137,14 +136,12 @@ class YahooFinanceProcessor:
             )
             print("(4) tic: ", tic)
             print("(5) tmp_df\n", tmp_df)
-            tic_df = df[df.tic == tic]
-            print("(6) tic_df\n", tic_df)
-            print("(7) tic_df.shape[0]\n", tic_df.shape[0])            
+            tic_df = df[df.tic == tic]  # extract just the rows from downloaded data relating to this tic
+            print("(6) tic_df\n", tic_df)          
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
-            print("(8) tmp_df.loc\n", tmp_df.loc[tic_df.iloc[i]["timestamp"]]) #print last one
 
             print("(9) tmp_df\n", tmp_df)
 
@@ -162,14 +159,29 @@ class YahooFinanceProcessor:
                             first_valid_close,
                             0.0,
                         ]
-
+                        break
                 print("(10) tmp_df\n", tmp_df)
+
+            # if the close price of the first row is still NaN (All the prices are NaN in this case)
+            if str(tmp_df.iloc[0]["close"]) == "nan":
+                print(
+                    "Missing data for ticker: ",
+                    tic,
+                    " . The prices are all NaN. Fill with 0.",
+                )
+                tmp_df.iloc[0] = [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                ]
+                print("(11) tmp_df\n", tmp_df)
 
             # fill NaN data with previous close and set volume to 0.
             for i in range(tmp_df.shape[0]):
                 if str(tmp_df.iloc[i]["close"]) == "nan":
                     previous_close = tmp_df.iloc[i - 1]["close"]
-                    previous_adjcp = tmp_df.iloc[i - 1]["adjcp"]
                     if str(previous_close) == "nan":
                         raise ValueError
                     tmp_df.iloc[i] = [
@@ -179,16 +191,15 @@ class YahooFinanceProcessor:
                         previous_close,
                         0.0,
                     ]
-
-            print("(11) tmp_df\n", tmp_df)
+            print("(12) tmp_df\n", tmp_df)
 
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
-            print("(12) tmp_df\n", tmp_df)
-            tmp_df["tic"] = tic
             print("(13) tmp_df\n", tmp_df)
-            new_df = new_df.append(tmp_df)
-            print("(14) new_df\n", new_df)
+            tmp_df["tic"] = tic
+            print("(14) tmp_df\n", tmp_df)
+            new_df = pd.concat([new_df, tmp_df])
+            print("(15) new_df\n", new_df)
 
             print(("Data clean for ") + tic + (" is finished."))
 
@@ -200,6 +211,8 @@ class YahooFinanceProcessor:
 
         print("Data clean all finished!")
         print("(17) new_df\n", new_df)
+        print("complete display of datafram new_df")
+        display(new_df.to_string())
 
         return new_df
 
