@@ -85,6 +85,8 @@ class YahooFinanceProcessor:
         LSE = "Europe/London"
         start_date = pd.Timestamp(start_date + " 08:00:00", tz=LSE)
         end_date = pd.Timestamp(end_date + " 16:29:00", tz=LSE)
+        print("start_date: ", start_date)
+        print("end_date: ", end_date)
 
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
