@@ -81,7 +81,7 @@ class AlpacaProcessor:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
-            print("tic\n", tic)
+            print("tic:", tic)
             print("tmp_df\n", tmp_df)
             tic_df = df[df.tic == tic]
             print("tic_df\n", tic_df)
