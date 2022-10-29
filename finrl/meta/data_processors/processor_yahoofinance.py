@@ -31,7 +31,7 @@ class YahooFinanceProcessor:
         pass
 
     def download_data(
-        self, start_date: str, end_date: str, ticker_list: list, time_interval: str
+        self, ticker_list: list, start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
         """Fetches data from Yahoo API
         Parameters
@@ -233,14 +233,11 @@ class YahooFinanceProcessor:
                     temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
                     temp_indicator = pd.DataFrame(temp_indicator)
                     temp_indicator["tic"] = unique_ticker[i]
-                    temp_indicator["timestamp"] = df[df.tic == unique_ticker[i]][
-                        "timestamp"
-                    ].to_list()
+                    temp_indicator["timestamp"] = df[df.tic == unique_ticker[i]]["timestamp"].to_list()
                     indicator_df = pd.concat([indicator_df, temp_indicator], ignore_index=True)
                 except Exception as e:
                     print(e)
-            df = df.merge(
-                indicator_df[["tic", "timestamp", indicator]], on=["tic", "timestamp"], how="left")
+            df = df.merge(indicator_df[["tic", "timestamp", indicator]], on=["tic", "timestamp"], how="left")
         df = df.sort_values(by=["timestamp", "tic"])
         return df
 
@@ -314,19 +311,14 @@ class YahooFinanceProcessor:
         :param data: (df) pandas dataframe
         :return: (df) pandas dataframe
         """
-        df = data.copy()
-        df_vix = self.download_data(
-            start_date=df.time.min(),
-            end_date=df.time.max(),
-            ticker_list=["^VIX"],
-            time_interval=self.time_interval,
-        )
-        df_vix = self.clean_data(df_vix)
-        vix = df_vix[["time", "adjcp"]]
-        vix.columns = ["time", "vix"]
+        vix_df = self.download_data(["VIXY"], self.start, self.end, self.time_interval)
+        cleaned_vix = self.clean_data(vix_df)
+        vix = cleaned_vix[["timestamp", "close"]]
+        vix = vix.rename(columns={"close": "VIXY"})
 
-        df = df.merge(vix, on="time")
-        df = df.sort_values(["time", "tic"]).reset_index(drop=True)
+        df = data.copy()
+        df = df.merge(vix, on="timestamp")
+        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
     def df_to_array(self, df, tech_indicator_list, if_vix):
