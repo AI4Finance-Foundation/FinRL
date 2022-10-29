@@ -74,13 +74,13 @@ class YahooFinanceProcessor:
         self.end = end_date
         self.time_interval = time_interval
 
-        # Download and save the data in a pandas DataFrame:
+        # Download and save the data in a pandas DataFrame
         start_date = pd.Timestamp(start_date)
         end_date = pd.Timestamp(end_date)
         delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            while start_date <= end_date:
+            while start_date <= end_date:   # downloading daily to workaround yfinance only allowing  max 7 calendar days of 1 min data per single download
                 temp_df = yf.download(
                     tic,
                     start = start_date,
@@ -92,22 +92,18 @@ class YahooFinanceProcessor:
                 start_date += delta
         print("(1) data_df\n", data_df)
 
-        data_df = data_df.reset_index()
-        data_df = data_df.drop(columns=['Adj Close'])
+        data_df = data_df.reset_index().drop(columns=['Adj Close'])
         print("(2) data_df\n", data_df)
-        try:
-            # convert the column names to match processor_alpacay.py as far as poss
-            data_df.columns = [
-                "timestamp",
-                "open",
-                "high",
-                "low",
-                "close",
-                "volume",
-                "tic",
-            ]
-        except NotImplementedError:
-            print("the features are not supported currently")
+        # convert the column names to match processor_alpacay.py as far as poss
+        data_df.columns = [
+            "timestamp",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "tic",
+        ]
 
         print("(3) data_df\n", data_df)
         return data_df
@@ -117,7 +113,6 @@ class YahooFinanceProcessor:
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
         # produce full timestamp index
-
         if self.time_interval == "1d":
             times = trading_days
         elif self.time_interval == "1m":
@@ -125,7 +120,7 @@ class YahooFinanceProcessor:
             for day in trading_days:
                 LSE = "Europe/London"
                 current_time = pd.Timestamp(day + " 08:00:00").tz_localize(LSE)
-                for i in range(8):
+                for i in range(510):
                     times.append(current_time)
                     current_time += pd.Timedelta(minutes=1)
         else:
@@ -133,26 +128,25 @@ class YahooFinanceProcessor:
                 "Data clean at given time interval is not supported for YahooFinance data."
             )
 
-        df = df.rename(columns={"date": "timestamp"})
-
+        print("clean_data()):\n", times)
         # create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
-            print("tic:", tic)
-            print("tmp_df\n", tmp_df)
+            print("(4) tic: ", tic)
+            print("(5) tmp_df\n", tmp_df)
             tic_df = df[df.tic == tic]
-            print("tic_df\n", tic_df)
-            print("tic_df.shape[0]\n", tic_df.shape[0])            
+            print("(6) tic_df\n", tic_df)
+            print("(7) tic_df.shape[0]\n", tic_df.shape[0])            
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
-            print("tmp_df.loc\n", tmp_df.loc[tic_df.iloc[i]["timestamp"]]) #print last one
+            print("(8) tmp_df.loc\n", tmp_df.loc[tic_df.iloc[i]["timestamp"]]) #print last one
 
-            print("yf tmp_df\n", tmp_df)
+            print("(9) tmp_df\n", tmp_df)
 
             # if close on start date is NaN, fill data with first valid close
             # and set volume to 0.
@@ -169,7 +163,7 @@ class YahooFinanceProcessor:
                             0.0,
                         ]
 
-                print("yf tmp_df(1)\n", tmp_df)
+                print("(10) tmp_df\n", tmp_df)
 
             # fill NaN data with previous close and set volume to 0.
             for i in range(tmp_df.shape[0]):
@@ -186,26 +180,26 @@ class YahooFinanceProcessor:
                         0.0,
                     ]
 
-            print("yf tmp_df(3)\n", tmp_df)
+            print("(11) tmp_df\n", tmp_df)
 
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
-            print("tmp_df(4)\n", tmp_df)
+            print("(12) tmp_df\n", tmp_df)
             tmp_df["tic"] = tic
-            print("tmp_df(5)\n", tmp_df)
+            print("(13) tmp_df\n", tmp_df)
             new_df = new_df.append(tmp_df)
-            print("new_df(1)\n", new_df)
+            print("(14) new_df\n", new_df)
 
             print(("Data clean for ") + tic + (" is finished."))
 
         # reset index and rename columns
         new_df = new_df.reset_index()
-        print("new_df(2)\n", new_df)
+        print("(15) new_df\n", new_df)
         new_df = new_df.rename(columns={"index": "timestamp"})
-        print("new_df(3)\n", new_df)
+        print("(16) new_df\n", new_df)
 
         print("Data clean all finished!")
-        print("clean_data: new_df\n", new_df)
+        print("(17) new_df\n", new_df)
 
         return new_df
 
