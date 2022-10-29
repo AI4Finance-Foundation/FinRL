@@ -70,15 +70,21 @@ class YahooFinanceProcessor:
             time_interval = '3mo'
 
         self.start = start_date
-
+        self.end = end_date
+        '''
+        print("self.start: ", self.start)
         print("asked for end: ", end_date)
         # Yfinance end_date means download up to end of last day
         enddate = pd.to_datetime(end_date) + pd.DateOffset(days=1)
         end_date = enddate.strftime('%Y-%m-%d')
         self.end = end_date
         print("adjusted self.end: ", self.end)
-
+        '''
         self.time_interval = time_interval
+
+        LSE = "Europe/London"
+        start_date = pd.Timestamp(start_date + " 08:00:00", tz=LSE)
+        end_date = pd.Timestamp(end_date + " 16:29:00", tz=LSE)
 
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
