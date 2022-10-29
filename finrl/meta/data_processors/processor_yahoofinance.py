@@ -93,8 +93,8 @@ class YahooFinanceProcessor:
         print("end_date: ", end_date)
 
         # Download and save the data in a pandas DataFrame:
-        start_date = date(start_date)
-        end_date = date(end_date)
+        start_date = pd.Timestamp(start_date)
+        end_date = pd.Timestamp(end_date)
         delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
