@@ -83,8 +83,8 @@ class YahooFinanceProcessor:
         self.time_interval = time_interval
 
         LSE = "Europe/London"
-        start_date = pd.Timestamp(start_date + " 08:00:00", tz=LSE)
-        end_date = pd.Timestamp(end_date + " 16:29:00", tz=LSE)
+        #start_date = pd.Timestamp(start_date + " 08:00:00", tz=LSE)
+        #end_date = pd.Timestamp(end_date + " 16:29:00", tz=LSE)
         #NY = "America/New_York"
         #start_date = pd.Timestamp(start_date + " 09:30:00", tz=NY)
         #end_date = pd.Timestamp(end_date + " 15:59:00", tz=NY)
@@ -92,13 +92,20 @@ class YahooFinanceProcessor:
         print("end_date: ", end_date)
 
         # Download and save the data in a pandas DataFrame:
+        delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            temp_df = yf.download(
-                tic, start=start_date, end=end_date, interval=self.time_interval
-            )  # bug fix: add interval for download
-            temp_df["tic"] = tic
-            data_df = pd.concat([data_df, temp_df])
+            while start_date <= end_date:
+                temp_df = yf.download(
+                    tic,
+                    start = pd.Timestamp(start_date + " 08:00:00", tz=LSE),
+                    end = pd.Timestamp(start_date + " 16:29:00", tz=LSE)
+                    interval = self.time_interval
+                )
+                temp_df["tic"] = tic
+                print("temp_df\n", temp_df)
+                data_df = pd.concat([data_df, temp_df])
+                start_date += delta
         print("raw data_df <= yf.download()\n", data_df)
         # Note: LSE Open from 08:00-16:30
         # reset the index, we want to use numbers as index instead of dates
