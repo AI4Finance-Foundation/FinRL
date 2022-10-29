@@ -87,6 +87,7 @@ class YahooFinanceProcessor:
                     end = start_date + delta,
                     interval = self.time_interval
                 )
+                temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
         print("(1)data_df <= yf.download()\n", data_df)
