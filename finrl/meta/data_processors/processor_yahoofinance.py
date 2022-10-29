@@ -70,6 +70,7 @@ class YahooFinanceProcessor:
             time_interval = '3mo'
 
         self.start = start_date
+        end_date = '2022-10-27'
         self.end = end_date
         '''
         print("self.start: ", self.start)
