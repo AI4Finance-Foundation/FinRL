@@ -249,10 +249,14 @@ class YahooFinanceProcessor:
         """
         vix_df = self.download_data(["VIXY"], self.start, self.end, self.time_interval)
         cleaned_vix = self.clean_data(vix_df)
+        print("cleaned_vix\n", cleaned_vix)
         vix = cleaned_vix[["timestamp", "close"]]
+        print("cleaned_vix[["timestamp", "close"]\n", vix)
         vix = vix.rename(columns={"close": "VIXY"})
+        print("vix.rename(columns={"close": "VIXY"}\n", vix)
 
         df = data.copy()
+        print("df\n", df)
         df = df.merge(vix, on="timestamp")
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
