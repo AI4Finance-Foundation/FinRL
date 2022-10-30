@@ -253,7 +253,7 @@ class YahooFinanceProcessor:
         vix = cleaned_vix[["timestamp", "close"]]
         print("cleaned_vix[[\"timestamp\", \"close\"]\n", vix)
         vix = vix.rename(columns={"close": "VIXY"})
-        print("vix.rename(columns={"close": "VIXY"}\n", vix)
+        print("vix.rename(columns={\"close\": \"VIXY\"}\n", vix)
 
         df = data.copy()
         print("df\n", df)
