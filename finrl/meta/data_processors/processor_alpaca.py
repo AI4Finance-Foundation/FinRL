@@ -260,7 +260,7 @@ class AlpacaProcessor:
             turbulence_index.append(turbulence_temp)
 
         turbulence_index = pd.DataFrame(
-            {"date": df_price_pivot.index, "turbulence": turbulence_index}
+            {"timestamp": df_price_pivot.index, "turbulence": turbulence_index}
         )
         return turbulence_index
 
