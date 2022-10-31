@@ -263,7 +263,7 @@ class AlpacaProcessor:
             {"timestamp": df_price_pivot.index, "turbulence": turbulence_index}
         )
 
-        print("turbulence_index\n", turbulence_index)
+        #print("turbulence_index\n", turbulence_index)
 
         return turbulence_index
 
