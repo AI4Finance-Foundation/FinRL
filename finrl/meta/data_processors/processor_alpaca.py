@@ -219,7 +219,7 @@ class AlpacaProcessor:
     def calculate_turbulence(self, data, time_period=252):
         # can add other market assets
         df = data.copy()
-        df_price_pivot = df.pivot(index="date", columns="tic", values="close")
+        df_price_pivot = df.pivot(index="timestamp", columns="tic", values="close")
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
