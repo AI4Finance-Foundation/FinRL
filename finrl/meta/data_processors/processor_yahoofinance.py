@@ -90,14 +90,11 @@ class YahooFinanceProcessor:
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
-        data_df.info()
-        print("(1) data_df\n", data_df)
 
         data_df = data_df.reset_index().drop(columns=['Adj Close'])
-        print("(2) data_df\n", data_df)
         # convert the column names to match processor_alpacay.py as far as poss
         data_df.columns = [
-            "DateTime",
+            "timestamp",
             "open",
             "high",
             "low",
@@ -105,8 +102,6 @@ class YahooFinanceProcessor:
             "volume",
             "tic",
         ]
-
-        print("(3) data_df\n", data_df)
         return data_df
 
     def clean_data(self, df) -> pd.DataFrame:
@@ -135,12 +130,9 @@ class YahooFinanceProcessor:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
-            print("(4) tic: ", tic)
-            print("(5) tmp_df\n", tmp_df)
             tic_df = df[df.tic == tic]  # extract just the rows from downloaded data relating to this tic
-            print("(6) tic_df\n", tic_df)          
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
-                tmp_df.loc[tic_df.iloc[i]["DateTime"]] = tic_df.iloc[i][
+                tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
 
@@ -192,26 +184,20 @@ class YahooFinanceProcessor:
                         previous_close,
                         0.0,
                     ]
-            print("(12) tmp_df\n", tmp_df)
+                    print("filled NaN data with previous close and set volume to 0.", tmp_df)
 
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
-            print("(13) tmp_df\n", tmp_df)
             tmp_df["tic"] = tic
-            print("(14) tmp_df\n", tmp_df)
             new_df = pd.concat([new_df, tmp_df])
-            print("(15) new_df\n", new_df)
 
-            print(("Data clean for ") + tic + (" is finished."))
+#            print(("Data clean for ") + tic + (" is finished."))
 
         # reset index and rename columns
         new_df = new_df.reset_index()
-        print("(15) new_df\n", new_df)
-        new_df = new_df.rename(columns={"index": "DateTime"})
-        print("(16) new_df\n", new_df)
+        new_df = new_df.rename(columns={"index": "timestamp"})
 
-        print("Data clean all finished!")
-        print("(17) new_df\n", new_df)
+#        print("Data clean all finished!")
 
         return new_df
 
@@ -223,7 +209,7 @@ class YahooFinanceProcessor:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        df = df.sort_values(by=["tic", "DateTime"])
+        df = df.sort_values(by=["tic", "timestamp"])
         stock = Sdf.retype(df.copy())
         unique_ticker = stock.tic.unique()
 
@@ -234,12 +220,12 @@ class YahooFinanceProcessor:
                     temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
                     temp_indicator = pd.DataFrame(temp_indicator)
                     temp_indicator["tic"] = unique_ticker[i]
-                    temp_indicator["DateTime"] = df[df.tic == unique_ticker[i]]["DateTime"].to_list()
+                    temp_indicator["timestamp"] = df[df.tic == unique_ticker[i]]["timestamp"].to_list()
                     indicator_df = pd.concat([indicator_df, temp_indicator], ignore_index=True)
                 except Exception as e:
                     print(e)
-            df = df.merge(indicator_df[["tic", "DateTime", indicator]], on=["tic", "DateTime"], how="left")
-        df = df.sort_values(by=["DateTime", "tic"])
+            df = df.merge(indicator_df[["tic", "timestamp", indicator]], on=["tic", "timestamp"], how="left")
+        df = df.sort_values(by=["timestamp", "tic"])
         return df
 
     def add_vix(self, data):
@@ -251,25 +237,25 @@ class YahooFinanceProcessor:
         vix_df = self.download_data(["VIXY"], self.start, self.end, self.time_interval)
         cleaned_vix = self.clean_data(vix_df)
         print("cleaned_vix\n", cleaned_vix)
-        vix = cleaned_vix[["DateTime", "close"]]
-        print("cleaned_vix[[\"DateTime\", \"close\"]\n", vix)
+        vix = cleaned_vix[["timestamp", "close"]]
+        print("cleaned_vix[[\"timestamp\", \"close\"]\n", vix)
         vix = vix.rename(columns={"close": "VIXY"})
         print("vix.rename(columns={\"close\": \"VIXY\"}\n", vix)
 
         df = data.copy()
         print("df\n", df)
-        df = df.merge(vix, on="DateTime")
-        df = df.sort_values(["DateTime", "tic"]).reset_index(drop=True)
+        df = df.merge(vix, on="timestamp")
+        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
     def calculate_turbulence(self, data, time_period=252):
         # can add other market assets
         df = data.copy()
-        df_price_pivot = df.pivot(index="DateTime", columns="tic", values="close")
+        df_price_pivot = df.pivot(index="timestamp", columns="tic", values="close")
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
-        unique_date = df.DateTime.unique()
+        unique_date = df.timestamp.unique()
         # start after a fixed timestamp period
         start = time_period
         turbulence_index = [0] * start
@@ -306,7 +292,7 @@ class YahooFinanceProcessor:
             turbulence_index.append(turbulence_temp)
 
         turbulence_index = pd.DataFrame(
-            {"DateTime": df_price_pivot.index, "turbulence": turbulence_index}
+            {"timestamp": df_price_pivot.index, "turbulence": turbulence_index}
         )
         return turbulence_index
 
@@ -318,8 +304,8 @@ class YahooFinanceProcessor:
         """
         df = data.copy()
         turbulence_index = self.calculate_turbulence(df, time_period=time_period)
-        df = df.merge(turbulence_index, on="DateTime")
-        df = df.sort_values(["DateTime", "tic"]).reset_index(drop=True)
+        df = df.merge(turbulence_index, on="timestamp")
+        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
     def df_to_array(self, df, tech_indicator_list, if_vix):
@@ -368,8 +354,8 @@ class YahooFinanceProcessor:
             data_df = pd.concat([data_df, barset])
 
         data_df = data_df.reset_index(drop=True)
-        start_time = data_df.DateTime.min()
-        end_time = data_df.DateTime.max()
+        start_time = data_df.timestamp.min()
+        end_time = data_df.timestamp.max()
         times = []
         current_time = start_time
         end = end_time + pd.Timedelta(minutes=1)
@@ -385,7 +371,7 @@ class YahooFinanceProcessor:
             )
             tic_df = df[df.tic == tic]
             for i in range(tic_df.shape[0]):
-                tmp_df.loc[tic_df.iloc[i]["DateTime"]] = tic_df.iloc[i][
+                tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
 
@@ -432,7 +418,7 @@ class YahooFinanceProcessor:
             new_df = pd.concat([new_df, tmp_df])
 
         new_df = new_df.reset_index()
-        new_df = new_df.rename(columns={"index": "DateTime"})
+        new_df = new_df.rename(columns={"index": "timestamp"})
 
         df = self.add_technical_indicator(new_df, tech_indicator_list)
         df["VIXY"] = 0
