@@ -80,7 +80,7 @@ class YahooFinanceProcessor:
         delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            while start_date <= end_date:   # downloading daily to workaround yfinance only allowing  max 7 calendar days of 1 min data per single download
+            while start_date <= end_date:   # downloading daily to workaround yfinance only allowing  max 7 calendar (not trading) days of 1 min data per single download
                 temp_df = yf.download(
                     tic,
                     start = start_date,
@@ -90,6 +90,7 @@ class YahooFinanceProcessor:
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
+        data_df.printschema
         print("(1) data_df\n", data_df)
 
         data_df = data_df.reset_index().drop(columns=['Adj Close'])
