@@ -131,17 +131,11 @@ class YahooFinanceProcessor:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
-            print("tmp_df\n", tmp_df)
-
             tic_df = df[df.tic == tic]  # extract just the rows from downloaded data relating to this tic
-            print("tic_df\n", tic_df)
-
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(LSE)] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
-            print("tmp_df\n", tmp_df)
-
             #print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
 
             # if close on start date is NaN, fill data with first valid close
@@ -159,7 +153,6 @@ class YahooFinanceProcessor:
                             0.0,
                         ]
                         break
-                print("(10) tmp_df\n", tmp_df)
 
             # if the close price of the first row is still NaN (All the prices are NaN in this case)
             if str(tmp_df.iloc[0]["close"]) == "nan":
@@ -175,7 +168,6 @@ class YahooFinanceProcessor:
                     0.0,
                     0.0,
                 ]
-                print("(11) tmp_df\n", tmp_df)
 
             # fill NaN data with previous close and set volume to 0.
             for i in range(tmp_df.shape[0]):
@@ -190,7 +182,7 @@ class YahooFinanceProcessor:
                         previous_close,
                         0.0,
                     ]
-                    print("filled NaN data with previous close and set volume to 0.", tmp_df)
+                    print("filled NaN data with previous close and set volume to 0. ticker: ", tic)
 
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
