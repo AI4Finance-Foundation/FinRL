@@ -273,7 +273,7 @@ class AlpacaProcessor:
         df = data.copy()
         turbulence_index = self.calculate_turbulence(df, time_period=time_period)
         df = df.merge(turbulence_index, on="date")
-        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
+        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
     def df_to_array(self, df, tech_indicator_list, if_vix):
