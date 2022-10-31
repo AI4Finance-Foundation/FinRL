@@ -102,6 +102,11 @@ class YahooFinanceProcessor:
             "volume",
             "tic",
         ]
+        
+        print("raw data_df\n", data_df)
+        data_df = data_df["timestamp"].tz_localize('Europe/London')
+        print("tz aware data_df\n", data_df)
+        
         return data_df
 
     def clean_data(self, df) -> pd.DataFrame:
@@ -140,7 +145,7 @@ class YahooFinanceProcessor:
                     ["open", "high", "low", "close", "volume"]
                 ]
             print("tmp_df\n", tmp_df)
-            
+
             #print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
 
             # if close on start date is NaN, fill data with first valid close
