@@ -90,7 +90,7 @@ class YahooFinanceProcessor:
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
-        data_df.printschema()
+        data_df.printSchema
         print("(1) data_df\n", data_df)
 
         data_df = data_df.reset_index().drop(columns=['Adj Close'])
