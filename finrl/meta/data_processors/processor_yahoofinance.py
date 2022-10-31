@@ -75,8 +75,8 @@ class YahooFinanceProcessor:
         self.time_interval = time_interval
 
         # Download and save the data in a pandas DataFrame
-        start_date = pd.DateTime(start_date)
-        end_date = pd.DateTime(end_date)
+        start_date = pd.Timestamp(start_date)
+        end_date = pd.Timestamp(end_date)
         delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
@@ -120,7 +120,7 @@ class YahooFinanceProcessor:
             times = []
             for day in trading_days:
                 LSE = "Europe/London"
-                current_time = pd.DateTime(day + " 08:00:00").tz_localize(LSE)
+                current_time = pd.Timestamp(day + " 08:00:00").tz_localize(LSE)
                 for i in range(510):    # 510 minutes between 08:00:00 and 16:30:00
                     times.append(current_time)
                     current_time += pd.Timedelta(minutes=1)
@@ -348,7 +348,7 @@ class YahooFinanceProcessor:
     def get_trading_days(self, start, end):
         nyse = tc.get_calendar("NYSE")
         df = nyse.sessions_in_range(
-            pd.DateTime(start, tz=pytz.UTC), pd.DateTime(end, tz=pytz.UTC)
+            pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
         )
         trading_days = []
         for day in df:
