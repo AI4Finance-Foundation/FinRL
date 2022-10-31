@@ -183,8 +183,9 @@ class YahooFinanceProcessor:
                         previous_close,
                         0.0,
                     ]
-                    print(tmp_df.iloc[i]["index"], " Filled NaN data with previous close and set volume to 0. ticker: ", tic)
+                    #print(tmp_df.iloc[i]["index"], " Filled NaN data with previous close and set volume to 0. ticker: ", tic)
 
+            print("after filling nan data - tmp_df:\n", tmp_df)
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
