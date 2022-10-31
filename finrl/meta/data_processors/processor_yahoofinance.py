@@ -129,8 +129,8 @@ class YahooFinanceProcessor:
         for tic in tic_list:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
-            ).tz_localize(LSE)
-            tic_df = df[df.tic == tic]  # extract just the rows from downloaded data relating to this tic
+            )
+            tic_df = df[df.tic == tic].tz.localize(LSE)  # extract just the rows from downloaded data relating to this tic
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
