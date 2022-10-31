@@ -109,12 +109,12 @@ class YahooFinanceProcessor:
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
         # produce full timestamp index
+        LSE = "Europe/London"
         if self.time_interval == "1d":
             times = trading_days
         elif self.time_interval == "1m":
             times = []
             for day in trading_days:
-                LSE = "Europe/London"
                 current_time = pd.Timestamp(day + " 08:00:00").tz_localize(LSE)
                 for i in range(510):    # 510 minutes between 08:00:00 and 16:30:00
                     times.append(current_time)
@@ -129,7 +129,7 @@ class YahooFinanceProcessor:
         for tic in tic_list:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
-            ).tz_localize
+            ).tz_localize(LSE)
             tic_df = df[df.tic == tic]  # extract just the rows from downloaded data relating to this tic
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
