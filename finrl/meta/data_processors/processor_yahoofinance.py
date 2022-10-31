@@ -103,10 +103,6 @@ class YahooFinanceProcessor:
             "tic",
         ]
         
-        print("raw data_df\n", data_df)
-        data_df = data_df["timestamp"].tz_localize('Europe/London')
-        print("tz aware data_df\n", data_df)
-        
         return data_df
 
     def clean_data(self, df) -> pd.DataFrame:
