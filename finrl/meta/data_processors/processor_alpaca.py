@@ -262,6 +262,9 @@ class AlpacaProcessor:
         turbulence_index = pd.DataFrame(
             {"timestamp": df_price_pivot.index, "turbulence": turbulence_index}
         )
+
+        print("turbulence_index\n", turbulence_index)
+
         return turbulence_index
 
     def add_turbulence(self, data, time_period=252):
