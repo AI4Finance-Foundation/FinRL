@@ -223,7 +223,7 @@ class AlpacaProcessor:
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
-        unique_date = df.date.unique()
+        unique_date = df.timestamp.unique()
         # start after a fixed timestamp period
         start = time_period
         turbulence_index = [0] * start
