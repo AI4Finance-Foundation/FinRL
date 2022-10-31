@@ -268,7 +268,7 @@ class YahooFinanceProcessor:
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
-        unique_date = df.date.unique()
+        unique_date = df.timestamp.unique()
         # start after a fixed timestamp period
         start = time_period
         turbulence_index = [0] * start
@@ -305,7 +305,7 @@ class YahooFinanceProcessor:
             turbulence_index.append(turbulence_temp)
 
         turbulence_index = pd.DataFrame(
-            {"date": df_price_pivot.index, "turbulence": turbulence_index}
+            {"timestamp": df_price_pivot.index, "turbulence": turbulence_index}
         )
         return turbulence_index
 
