@@ -131,8 +131,14 @@ class YahooFinanceProcessor:
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
             print("tmp_df\n", tmp_df)
+            tmp_df
+
             tic_df = df[df.tic == tic]  # extract just the rows from downloaded data relating to this tic
             print("tic_df\n", tic_df)
+            tic_df = tic_df.tz_localize(LSE)
+            tic_df
+            print("tic_df tz aware\n", tic_df)
+            
             for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
