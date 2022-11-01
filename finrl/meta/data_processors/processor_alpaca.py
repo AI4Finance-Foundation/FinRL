@@ -59,7 +59,7 @@ class AlpacaProcessor:
         # reformat to finrl expected schema
         data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
         data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(NY))
-        print("data_df <= alpaca.download\n", data_df)
+
         return data_df
 
     def clean_data(self, df):
@@ -81,20 +81,12 @@ class AlpacaProcessor:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
-            print("tic:", tic)
-            print("tmp_df\n", tmp_df)
             tic_df = df[df.tic == tic]
-            print("tic_df\n", tic_df)
-            print("tic_df.shape[0]\n", tic_df.shape[0])
             for i in range(tic_df.shape[0]):
                 tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
                     ["open", "high", "low", "close", "volume"]
                 ]
             
-            print("tmp_df.loc\n", tmp_df.loc[tic_df.iloc[i]["timestamp"]]) #print last one
-            
-            print("tmp_df\n", tmp_df)
-
             # if the close price of the first row is NaN
             if str(tmp_df.iloc[0]["close"]) == "nan":
                 print(
@@ -114,7 +106,6 @@ class AlpacaProcessor:
                             0.0,
                         ]
                         break
-                print("tmp_df(1)\n", tmp_df)
 
             # if the close price of the first row is still NaN (All the prices are NaN in this case)
             if str(tmp_df.iloc[0]["close"]) == "nan":
@@ -130,7 +121,6 @@ class AlpacaProcessor:
                     0.0,
                     0.0,
                 ]
-                print("tmp_df(2)\n", tmp_df)
 
             # forward filling row by row
             for i in range(tmp_df.shape[0]):
@@ -145,23 +135,16 @@ class AlpacaProcessor:
                         previous_close,
                         0.0,
                     ]
-            print("tmp_df(3)\n", tmp_df)
 
             tmp_df = tmp_df.astype(float)
-            print("tmp_df(4)\n", tmp_df)
             tmp_df["tic"] = tic
-            print("tmp_df(5)\n", tmp_df)
             new_df = pd.concat([new_df, tmp_df])
-            print("new_df(1)\n", new_df)
 
 
         new_df = new_df.reset_index()
-        print("new_df(2)\n", new_df)
         new_df = new_df.rename(columns={"index": "timestamp"})
-        print("new_df(3)\n", new_df)
 
-        print("Data clean finished!")
-        print("clean_data: new_df\n", new_df)
+        # print("Data clean finished!")
 
         return new_df
 
@@ -314,7 +297,7 @@ class AlpacaProcessor:
         return trading_days
 
     def fetch_latest_data(
-        self, ticker_list, time_interval, tech_indicator_list, limit=1
+        self, ticker_list, time_interval, tech_indicator_list, limit=100
     ) -> pd.DataFrame:
 
         data_df = pd.DataFrame()
