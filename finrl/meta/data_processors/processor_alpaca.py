@@ -314,7 +314,7 @@ class AlpacaProcessor:
         return trading_days
 
     def fetch_latest_data(
-        self, ticker_list, time_interval, tech_indicator_list, limit=100
+        self, ticker_list, time_interval, tech_indicator_list, limit=1
     ) -> pd.DataFrame:
 
         data_df = pd.DataFrame()
