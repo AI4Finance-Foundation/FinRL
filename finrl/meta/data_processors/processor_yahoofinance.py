@@ -93,7 +93,7 @@ class YahooFinanceProcessor:
                 start_date += delta
 
         data_df = data_df.reset_index().drop(columns=['Adj Close'])
-        # convert the column names to match processor_alpacay.py as far as poss
+        # convert the column names to match processor_alpaca.py as far as poss
         data_df.columns = [
             "timestamp",
             "open",
@@ -423,7 +423,7 @@ class YahooFinanceProcessor:
         df["VIXY"] = 0
 
         price_array, tech_array, turbulence_array = self.df_to_array(
-            df, tech_indicator_list, if_vix=True
+            df, tech_indicator_list, if_vix=False
         )
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
