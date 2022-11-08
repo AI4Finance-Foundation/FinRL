@@ -276,6 +276,8 @@ class AlpacaProcessor:
                     turbulence_array = df[df.tic == tic]["turbulence"].values
                 if_first_time = False
             else:
+                print("price_array\n", price_array)
+                print("df[df.tic == tic][[\"close\"]].values]\n", df[df.tic == tic][["close"]].values)
                 price_array = np.hstack(
                     [price_array, df[df.tic == tic][["close"]].values]
                 )
