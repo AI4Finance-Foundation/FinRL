@@ -1,0 +1,26 @@
+diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
+index 5b8f7a5..56714af 100644
+--- a/tutorials/3-Practical/train_alpaca.py
++++ b/tutorials/3-Practical/train_alpaca.py
+@@ -20,9 +20,9 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
+ #if you want to use larger datasets (change to longer period), and it raises error, 
+ #please try to increase "target_step". It should be larger than the episode steps. 
+ 
+-start_date = '2022-6-11'
+-end_date = '2022-9-1'
+-model_name='td3'
++start_date = '2022-8-24'
++end_date = '2022-9-2'
++model_name='a2c'
+ MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
+ 
+ train(start_date = start_date, 
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index cd14832..6bb8740 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20220914_101520-3nhd8ptj
+\ No newline at end of file
++run-20221029_144953-3i8bwmb0
+\ No newline at end of file

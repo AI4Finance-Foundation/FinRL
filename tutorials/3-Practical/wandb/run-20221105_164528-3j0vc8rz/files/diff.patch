@@ -1,0 +1,5307 @@
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/act_optimizer.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/act_optimizer.pth
+new file mode 100644
+index 0000000..f410453
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/act_optimizer.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/act_target.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/act_target.pth
+new file mode 100644
+index 0000000..7665f86
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/act_target.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/actor.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/actor.pth
+new file mode 100644
+index 0000000..7665f86
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/actor.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/actor__000000000032_-0003.148.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/actor__000000000032_-0003.148.pth
+new file mode 100644
+index 0000000..7665f86
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/actor__000000000032_-0003.148.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/cri_optimizer.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/cri_optimizer.pth
+new file mode 100644
+index 0000000..de4d763
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/cri_optimizer.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/cri_target.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/cri_target.pth
+new file mode 100644
+index 0000000..c7ff360
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/cri_target.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/critic.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/critic.pth
+new file mode 100644
+index 0000000..c7ff360
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/critic.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/plot_learning_curve.jpg b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/plot_learning_curve.jpg
+new file mode 100644
+index 0000000..c10fd59
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/plot_learning_curve.jpg differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/recorder.npy b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/recorder.npy
+new file mode 100644
+index 0000000..3f0af01
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/ppo_2022-8-24_2022-9-2/recorder.npy differ
+diff --git a/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/actor__000000002729_-0003.094.pth b/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/actor__000000002729_-0003.094.pth
+new file mode 100644
+index 0000000..3080ce1
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/actor__000000002729_-0003.094.pth differ
+diff --git a/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/plot_learning_curve.jpg b/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/plot_learning_curve.jpg
+new file mode 100644
+index 0000000..8a170a8
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/plot_learning_curve.jpg differ
+diff --git a/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/recorder.npy b/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/recorder.npy
+new file mode 100644
+index 0000000..5321182
+Binary files /dev/null and b/tutorials/3-Practical/papertrading_erl/sac_2022-8-24_2022-9-2/recorder.npy differ
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index cd14832..2f04178 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20220914_101520-3nhd8ptj
+\ No newline at end of file
++run-20221105_164528-3j0vc8rz
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/code/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/code/tutorials/3-Practical/train_alpaca.py
+new file mode 100644
+index 0000000..5b8f7a5
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/code/tutorials/3-Practical/train_alpaca.py
+@@ -0,0 +1,43 @@
++from finrl.train import train
++from finrl.test import test
++from finrl.config_tickers import DOW_30_TICKER
++from finrl.config import INDICATORS
++from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
++from common import *
++
++import numpy as np
++import pandas as pd
++
++ticker_list = DOW_30_TICKER
++action_dim = len(DOW_30_TICKER)
++candle_time_interval = '1Min'  # '1Min'
++
++env = StockTradingEnv
++
++ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
++        "eval_times":1} 
++#if you want to use larger datasets (change to longer period), and it raises error, 
++#please try to increase "target_step". It should be larger than the episode steps. 
++
++start_date = '2022-6-11'
++end_date = '2022-9-1'
++model_name='td3'
++MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++
++train(start_date = start_date, 
++      end_date = end_date,
++      ticker_list = ticker_list, 
++      data_source = 'alpaca',
++      time_interval= candle_time_interval, 
++      technical_indicator_list= INDICATORS,
++      drl_lib='elegantrl', 
++      env=env,
++      model_name=model_name, 
++      API_KEY = API_KEY, 
++      API_SECRET = API_SECRET, 
++      API_BASE_URL = API_BASE_URL,
++      erl_params=ERL_PARAMS,
++      cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
++      break_step=1e7)
++
+diff --git a/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/conda-environment.yaml b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/conda-environment.yaml
+new file mode 100644
+index 0000000..44e7178
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/conda-environment.yaml
+@@ -0,0 +1,316 @@
++name: x
++channels:
++  - defaults
++dependencies:
++  - _libgcc_mutex=0.1=main
++  - _openmp_mutex=5.1=1_gnu
++  - ca-certificates=2022.4.26=h06a4308_0
++  - gmp=6.2.1=h295c915_3
++  - ld_impl_linux-64=2.33.1=h53a641e_7
++  - libffi=3.3=he6710b0_2
++  - libgcc=7.2.0=h69d50b8_2
++  - libgcc-ng=11.2.0=h1234567_1
++  - libgomp=11.2.0=h1234567_1
++  - libstdcxx-ng=9.1.0=hdf63c60_0
++  - ncurses=6.2=he6710b0_1
++  - openssl=1.1.1p=h5eee18b_0
++  - python=3.7.10=hdb3f193_0
++  - readline=8.1=h27cfd23_0
++  - sqlite=3.35.4=hdfb4753_0
++  - tk=8.6.10=hbc83047_0
++  - wheel=0.36.2=pyhd3eb1b0_0
++  - xz=5.2.5=h7b6447c_0
++  - zlib=1.2.11=h7b6447c_3
++  - pip:
++    - absl-py==1.0.0
++    - aiodns==3.0.0
++    - aiohttp==3.8.1
++    - aiohttp-cors==0.7.0
++    - aioredis==1.3.1
++    - aiosignal==1.2.0
++    - ale-py==0.7.4
++    - alpaca-trade-api==2.3.0
++    - amply==0.1.4
++    - antlr4-python3-runtime==4.9.3
++    - argon2-cffi==21.3.0
++    - argon2-cffi-bindings==21.2.0
++    - astor==0.8.1
++    - astunparse==1.6.3
++    - async-timeout==4.0.2
++    - asynctest==0.13.0
++    - atari-py==0.2.6
++    - attrs==21.2.0
++    - autorom==0.4.2
++    - autorom-accept-rom-license==0.4.2
++    - backcall==0.2.0
++    - blackhc-mdp==1.0.6
++    - bleach==4.1.0
++    - blessed==1.19.1
++    - blessings==1.7
++    - box2d-py==2.3.5
++    - cachecontrol==0.12.11
++    - cached-property==1.5.2
++    - cachetools==5.0.0
++    - cachy==0.3.0
++    - ccxt==1.66.32
++    - certifi==2021.10.8
++    - cffi==1.14.5
++    - cfgv==3.3.1
++    - chardet==4.0.0
++    - charset-normalizer==2.0.12
++    - cleanrl==1.0.0b0
++    - cleo==0.8.1
++    - click==8.0.4
++    - clikit==0.6.2
++    - cloudpickle==1.2.2
++    - colorama==0.4.4
++    - colorful==0.5.4
++    - crashtest==0.3.1
++    - cryptography==37.0.4
++    - cvxpy==1.1.12
++    - cycler==0.11.0
++    - cython==0.29.23
++    - dataclasses==0.6
++    - debugpy==1.5.1
++    - decorator==4.4.2
++    - defusedxml==0.7.1
++    - deprecation==2.1.0
++    - distlib==0.3.4
++    - dm-tree==0.1.6
++    - docker-pycreds==0.4.0
++    - docutils==0.17.1
++    - easyprocess==0.3
++    - ecos==2.0.7.post1
++    - empyrical==0.5.5
++    - entrypoint2==0.2.4
++    - entrypoints==0.3
++    - exchange-calendars==3.6.3
++    - fasteners==0.16.3
++    - filelock==3.6.0
++    - flatbuffers==1.12
++    - fonttools==4.29.1
++    - frozenlist==1.3.1
++    - future==0.18.2
++    - gast==0.2.2
++    - gitdb==4.0.9
++    - gitpython==3.1.27
++    - glfw==2.1.0
++    - google-api-core==1.30.0
++    - google-auth==2.6.0
++    - google-auth-oauthlib==0.4.6
++    - google-pasta==0.2.0
++    - googleapis-common-protos==1.53.0
++    - gpustat==1.0.0rc1
++    - gputil==1.4.0
++    - greenlet==1.1.2
++    - grpcio==1.44.0
++    - gurobipy==9.1.2
++    - gym==0.23.1
++    - gym-notices==0.0.5
++    - h5py==3.1.0
++    - hanabi-learning-environment==0.0.1
++    - hiredis==2.0.0
++    - html5lib==1.1
++    - hydra-core==1.2.0
++    - identify==2.4.11
++    - idna==3.3
++    - imageio==2.9.0
++    - importlib-metadata==4.11.2
++    - importlib-resources==5.8.0
++    - iniconfig==1.1.1
++    - ipdb==0.13.9
++    - ipykernel==6.7.0
++    - ipython==7.23.1
++    - ipython-genutils==0.2.0
++    - ipywidgets==7.6.5
++    - jedi==0.18.0
++    - jeepney==0.8.0
++    - jinja2==3.0.3
++    - joblib==1.0.1
++    - jqdatasdk==1.8.10
++    - jsonschema==3.2.0
++    - jupyter-client==7.1.0
++    - jupyter-core==4.9.1
++    - jupyterlab-pygments==0.1.2
++    - jupyterlab-widgets==1.0.2
++    - keras==2.9.0
++    - keras-applications==1.0.8
++    - keras-nightly==2.5.0.dev2021032900
++    - keras-preprocessing==1.1.2
++    - keyring==22.3.0
++    - kiwisolver==1.3.2
++    - korean-lunar-calendar==0.2.1
++    - kungfu==0.2.2
++    - libclang==14.0.6
++    - lockfile==0.12.2
++    - lxml==4.9.1
++    - lz4==3.1.3
++    - magent==0.1.13
++    - markdown==3.3.6
++    - markupsafe==2.0.1
++    - matplotlib==3.5.1
++    - matplotlib-inline==0.1.2
++    - mistune==0.8.4
++    - mock==4.0.3
++    - msgpack==1.0.3
++    - mujoco-py==2.0.2.13
++    - multi-agent-ale-py==0.1.10
++    - multidict==5.1.0
++    - multitasking==0.0.11
++    - nashpy==0.0.21
++    - nbclient==0.5.10
++    - nbconvert==6.4.0
++    - nbformat==5.1.3
++    - nest-asyncio==1.5.4
++    - networkx==1.11
++    - ninja==1.10.2.3
++    - nodeenv==1.6.0
++    - notebook==6.4.7
++    - numpy==1.21.6
++    - nvidia-ml-py==11.495.46
++    - nvidia-ml-py3==7.352.0
++    - oauthlib==3.2.0
++    - omegaconf==2.2.2
++    - opencensus==0.7.13
++    - opencensus-context==0.1.2
++    - opencv-python==3.4.17.61
++    - opencv-python-headless==4.3.0.36
++    - opt-einsum==3.3.0
++    - osqp==0.6.2.post0
++    - packaging==21.3
++    - pandas==1.3.5
++    - pandas-datareader==0.10.0
++    - pandocfilters==1.5.0
++    - parso==0.8.2
++    - pastel==0.2.1
++    - pathtools==0.1.2
++    - patool==1.12
++    - pettingzoo==1.18.1
++    - pexpect==4.8.0
++    - pickleshare==0.7.5
++    - pillow==9.2.0
++    - pip==22.2
++    - pkginfo==1.8.3
++    - platformdirs==2.5.1
++    - pluggy==1.0.0
++    - ply==3.11
++    - poetry==1.1.14
++    - poetry-core==1.0.8
++    - pre-commit==2.17.0
++    - progressbar2==3.53.1
++    - prometheus-client==0.11.0
++    - promise==2.3
++    - prompt-toolkit==3.0.18
++    - protobuf==3.19.4
++    - psutil==5.9.0
++    - psycopg2-binary==2.9.3
++    - ptyprocess==0.7.0
++    - pulp==2.4
++    - py==1.11.0
++    - py-spy==0.3.7
++    - pyasn1==0.4.8
++    - pyasn1-modules==0.2.8
++    - pybullet==3.2.5
++    - pycares==4.2.2
++    - pycolab==1.2
++    - pycparser==2.20
++    - pydantic==1.8.2
++    - pydotplus==2.0.2
++    - pyfolio==0.9.2+75.g4b901f6
++    - pygame==2.1.0
++    - pyglet==1.5.0
++    - pygments==2.9.0
++    - pylev==1.4.0
++    - pyluach==2.0.0
++    - pymunk==6.0.0
++    - pymysql==1.0.2
++    - pyopengl==3.1.6
++    - pyparsing==3.0.7
++    - pyrsistent==0.17.3
++    - pytest==7.1.2
++    - python-chess==0.31.4
++    - python-dateutil==2.8.2
++    - python-utils==2.5.6
++    - pytz==2021.3
++    - pyunpack==0.2.2
++    - pyvirtualdisplay==3.0
++    - pywavelets==1.1.1
++    - pyyaml==5.4.1
++    - pyzmq==22.3.0
++    - qdldl==0.1.5.post0
++    - ray==1.13.0
++    - redis==3.5.3
++    - requests==2.27.1
++    - requests-oauthlib==1.3.1
++    - requests-toolbelt==0.9.1
++    - rl-games==1.5.2
++    - rlcard==0.2.8
++    - rsa==4.7.2
++    - scikit-image==0.18.1
++    - scikit-learn==0.24.2
++    - scipy==1.7.3
++    - scs==2.1.3
++    - seaborn==0.11.2
++    - secretstorage==3.3.2
++    - send2trash==1.8.0
++    - sentry-sdk==1.5.7
++    - setproctitle==1.2.2
++    - setuptools==59.5.0
++    - setuptools-scm==6.4.2
++    - shellingham==1.5.0
++    - shortuuid==1.0.8
++    - six==1.16.0
++    - slimevolleygym==0.1.0
++    - smart-open==6.0.0
++    - smmap==5.0.0
++    - sqlalchemy==1.4.40
++    - stable-baselines==2.10.2
++    - stable-baselines3==1.2.0
++    - stockstats==0.4.1
++    - supersuit==3.4.0
++    - tabulate==0.8.9
++    - tb-nightly==2.11.0a20220815
++    - tensorboard==2.9.1
++    - tensorboard-data-server==0.6.1
++    - tensorboard-plugin-wit==1.8.1
++    - tensorboardx==2.5.1
++    - tensorflow==2.9.1
++    - tensorflow-estimator==2.9.0
++    - tensorflow-gpu==2.0.0
++    - tensorflow-io-gcs-filesystem==0.26.0
++    - tensorflow-probability==0.8.0
++    - tensorlayer==2.2.3
++    - termcolor==1.1.0
++    - terminado==0.12.1
++    - testpath==0.5.0
++    - threadpoolctl==2.1.0
++    - thriftpy2==0.4.14
++    - tifffile==2021.6.14
++    - tinyscaler==1.2.4
++    - toml==0.10.2
++    - tomli==2.0.1
++    - tomlkit==0.11.3
++    - toolz==0.12.0
++    - torch==1.12.0
++    - torchvision==0.13.0
++    - tornado==6.1
++    - tqdm==4.60.0
++    - traitlets==5.1.1
++    - typing==3.7.4.3
++    - typing-extensions==4.1.1
++    - urllib3==1.26.8
++    - virtualenv==20.13.3
++    - wandb==0.12.11
++    - wcwidth==0.2.5
++    - webencodings==0.5.1
++    - websocket-client==1.3.3
++    - websockets==10.3
++    - werkzeug==2.0.3
++    - widgetsnbextension==3.5.2
++    - wrapt==1.12.1
++    - wrds==3.1.2
++    - yarl==1.7.2
++    - yaspin==2.1.0
++    - yfinance==0.1.74
++    - zipp==3.7.0
++prefix: /home/zihan/anaconda3/envs/x
+diff --git a/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/config.yaml b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/config.yaml
+new file mode 100644
+index 0000000..58b726b
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/config.yaml
+@@ -0,0 +1,41 @@
++wandb_version: 1
++
++_wandb:
++  desc: null
++  value:
++    cli_version: 0.12.11
++    code_path: code/tutorials/3-Practical/train_alpaca.py
++    framework: torch
++    is_jupyter_run: false
++    is_kaggle_kernel: false
++    python_version: 3.7.10
++    start_time: 1667067890
++    t:
++      1:
++      - 1
++      - 2
++      - 3
++      2:
++      - 1
++      - 2
++      - 3
++      3:
++      - 13
++      - 16
++      - 35
++      4: 3.7.10
++      5: 0.12.11
++      8:
++      - 5
++wandb_entity:
++  desc: null
++  value: quantumiracle
++wandb_group:
++  desc: null
++  value: ''
++wandb_name:
++  desc: null
++  value: ./papertrading_erl/td3_2022-6-11_2022-9-1
++wandb_project:
++  desc: null
++  value: FinRL
+diff --git a/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/diff.patch b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/diff.patch
+new file mode 100644
+index 0000000..e0f9249
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/diff.patch
+@@ -0,0 +1,9 @@
++diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
++index cd14832..1379f4e 120000
++--- a/tutorials/3-Practical/wandb/latest-run
+++++ b/tutorials/3-Practical/wandb/latest-run
++@@ -1 +1 @@
++-run-20220914_101520-3nhd8ptj
++\ No newline at end of file
+++run-20221029_142450-2quf0ahg
++\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/requirements.txt b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/requirements.txt
+new file mode 100644
+index 0000000..754814f
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/requirements.txt
+@@ -0,0 +1,301 @@
++absl-py==1.0.0
++aiodns==3.0.0
++aiohttp-cors==0.7.0
++aiohttp==3.8.1
++aioredis==1.3.1
++aiosignal==1.2.0
++ale-py==0.7.4
++alpaca-trade-api==2.3.0
++amply==0.1.4
++antlr4-python3-runtime==4.9.3
++argon2-cffi-bindings==21.2.0
++argon2-cffi==21.3.0
++astor==0.8.1
++astunparse==1.6.3
++async-timeout==4.0.2
++asynctest==0.13.0
++atari-py==0.2.6
++attrs==21.2.0
++autorom.accept-rom-license==0.4.2
++autorom==0.4.2
++backcall==0.2.0
++bidexhands==0.1.1
++blackhc.mdp==1.0.6
++bleach==4.1.0
++blessed==1.19.1
++blessings==1.7
++box2d-py==2.3.5
++cachecontrol==0.12.11
++cached-property==1.5.2
++cachetools==5.0.0
++cachy==0.3.0
++ccxt==1.66.32
++certifi==2021.10.8
++cffi==1.14.5
++cfgv==3.3.1
++chardet==4.0.0
++charset-normalizer==2.0.12
++cleanrl==1.0.0b0
++cleo==0.8.1
++click==8.0.4
++clikit==0.6.2
++cloudpickle==1.2.2
++colorama==0.4.4
++colorful==0.5.4
++crashtest==0.3.1
++cryptography==37.0.4
++cvxpy==1.1.12
++cycler==0.11.0
++cython==0.29.23
++dataclasses==0.6
++debugpy==1.5.1
++decorator==4.4.2
++defusedxml==0.7.1
++deprecation==2.1.0
++distlib==0.3.4
++dm-tree==0.1.6
++docker-pycreds==0.4.0
++docutils==0.17.1
++easyprocess==0.3
++ecos==2.0.7.post1
++elegantrl==0.3.3
++empyrical==0.5.5
++entrypoint2==0.2.4
++entrypoints==0.3
++exchange-calendars==3.6.3
++fasteners==0.16.3
++filelock==3.6.0
++finrl==0.3.5
++flatbuffers==1.12
++fonttools==4.29.1
++frozenlist==1.3.1
++future==0.18.2
++gast==0.2.2
++gitdb==4.0.9
++gitpython==3.1.27
++glfw==2.1.0
++google-api-core==1.30.0
++google-auth-oauthlib==0.4.6
++google-auth==2.6.0
++google-pasta==0.2.0
++googleapis-common-protos==1.53.0
++gpustat==1.0.0rc1
++gputil==1.4.0
++greenlet==1.1.2
++grpcio==1.44.0
++gurobipy==9.1.2
++gym-notices==0.0.5
++gym==0.23.1
++h5py==3.1.0
++hanabi-learning-environment==0.0.1
++hiredis==2.0.0
++html5lib==1.1
++hydra-core==1.2.0
++identify==2.4.11
++idna==3.3
++imageio==2.9.0
++importlib-metadata==4.11.2
++importlib-resources==5.8.0
++iniconfig==1.1.1
++ipdb==0.13.9
++ipykernel==6.7.0
++ipython-genutils==0.2.0
++ipython==7.23.1
++ipywidgets==7.6.5
++isaacgym==1.0rc4
++isaacgymenvs==1.2.0
++jedi==0.18.0
++jeepney==0.8.0
++jinja2==3.0.3
++joblib==1.0.1
++jqdatasdk==1.8.10
++jsonschema==3.2.0
++jupyter-client==7.1.0
++jupyter-core==4.9.1
++jupyterlab-pygments==0.1.2
++jupyterlab-widgets==1.0.2
++keras-applications==1.0.8
++keras-nightly==2.5.0.dev2021032900
++keras-preprocessing==1.1.2
++keras==2.9.0
++keyring==22.3.0
++kiwisolver==1.3.2
++korean-lunar-calendar==0.2.1
++kungfu==0.2.2
++lasertag==1.0.0
++libclang==14.0.6
++lockfile==0.12.2
++lxml==4.9.1
++lz4==3.1.3
++magent==0.1.13
++markdown==3.3.6
++markupsafe==2.0.1
++matplotlib-inline==0.1.2
++matplotlib==3.5.1
++mistune==0.8.4
++mj-envs==1.0.0
++mjrl==1.0.0
++mock==4.0.3
++msgpack==1.0.3
++mujoco-py==2.0.2.13
++multi-agent-ale-py==0.1.10
++multidict==5.1.0
++multitasking==0.0.11
++nashpy==0.0.21
++nbclient==0.5.10
++nbconvert==6.4.0
++nbformat==5.1.3
++nest-asyncio==1.5.4
++networkx==1.11
++ninja==1.10.2.3
++nodeenv==1.6.0
++notebook==6.4.7
++numpy==1.21.6
++nvidia-ml-py3==7.352.0
++nvidia-ml-py==11.495.46
++oauthlib==3.2.0
++omegaconf==2.2.2
++opencensus-context==0.1.2
++opencensus==0.7.13
++opencv-python-headless==4.3.0.36
++opencv-python==3.4.17.61
++opt-einsum==3.3.0
++osqp==0.6.2.post0
++packaging==21.3
++pandas-datareader==0.10.0
++pandas==1.3.5
++pandocfilters==1.5.0
++parso==0.8.2
++pastel==0.2.1
++pathtools==0.1.2
++patool==1.12
++pettingzoo==1.18.1
++pexpect==4.8.0
++pickleshare==0.7.5
++pillow==9.2.0
++pip==22.2
++pkginfo==1.8.3
++platformdirs==2.5.1
++pluggy==1.0.0
++ply==3.11
++poetry-core==1.0.8
++poetry==1.1.14
++pre-commit==2.17.0
++progressbar2==3.53.1
++prometheus-client==0.11.0
++promise==2.3
++prompt-toolkit==3.0.18
++protobuf==3.19.4
++psutil==5.9.0
++psycopg2-binary==2.9.3
++ptyprocess==0.7.0
++pulp==2.4
++py-spy==0.3.7
++py==1.11.0
++pyasn1-modules==0.2.8
++pyasn1==0.4.8
++pybullet==3.2.5
++pycares==4.2.2
++pycolab==1.2
++pycparser==2.20
++pydantic==1.8.2
++pydotplus==2.0.2
++pyfolio==0.9.2+75.g4b901f6
++pygame==2.1.0
++pyglet==1.5.0
++pygments==2.9.0
++pylev==1.4.0
++pyluach==2.0.0
++pymunk==6.0.0
++pymysql==1.0.2
++pyopengl==3.1.6
++pyparsing==3.0.7
++pyrsistent==0.17.3
++pytest==7.1.2
++python-chess==0.31.4
++python-dateutil==2.8.2
++python-utils==2.5.6
++pytz==2021.3
++pyunpack==0.2.2
++pyvirtualdisplay==3.0
++pywavelets==1.1.1
++pyyaml==5.4.1
++pyzmq==22.3.0
++qdldl==0.1.5.post0
++ray==1.13.0
++redis==3.5.3
++requests-oauthlib==1.3.1
++requests-toolbelt==0.9.1
++requests==2.27.1
++rl-games==1.5.2
++rlcard==0.2.8
++robosumo==0.0.1.dev0
++rsa==4.7.2
++scikit-image==0.18.1
++scikit-learn==0.24.2
++scipy==1.7.3
++scs==2.1.3
++seaborn==0.11.2
++secretstorage==3.3.2
++send2trash==1.8.0
++sentry-sdk==1.5.7
++setproctitle==1.2.2
++setuptools-scm==6.4.2
++setuptools==59.5.0
++shellingham==1.5.0
++shortuuid==1.0.8
++six==1.16.0
++slimevolleygym==0.1.0
++smart-open==6.0.0
++smmap==5.0.0
++sqlalchemy==1.4.40
++stable-baselines3==1.2.0
++stable-baselines==2.10.2
++stockstats==0.4.1
++supersuit==3.4.0
++tabulate==0.8.9
++tb-nightly==2.11.0a20220815
++tensorboard-data-server==0.6.1
++tensorboard-plugin-wit==1.8.1
++tensorboard==2.9.1
++tensorboardx==2.5.1
++tensorflow-estimator==2.9.0
++tensorflow-gpu==2.0.0
++tensorflow-io-gcs-filesystem==0.26.0
++tensorflow-probability==0.8.0
++tensorflow==2.9.1
++tensorlayer==2.2.3
++termcolor==1.1.0
++terminado==0.12.1
++testpath==0.5.0
++threadpoolctl==2.1.0
++thriftpy2==0.4.14
++tifffile==2021.6.14
++tinyscaler==1.2.4
++toml==0.10.2
++tomli==2.0.1
++tomlkit==0.11.3
++toolz==0.12.0
++torch==1.12.0
++torchvision==0.13.0
++tornado==6.1
++tqdm==4.60.0
++traitlets==5.1.1
++typing-extensions==4.1.1
++typing==3.7.4.3
++urllib3==1.26.8
++virtualenv==20.13.3
++wandb==0.12.11
++wcwidth==0.2.5
++webencodings==0.5.1
++websocket-client==1.3.3
++websockets==10.3
++werkzeug==2.0.3
++wheel==0.36.2
++widgetsnbextension==3.5.2
++wrapt==1.12.1
++wrds==3.1.2
++yarl==1.7.2
++yaspin==2.1.0
++yfinance==0.1.74
++zipp==3.7.0
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/wandb-metadata.json b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/wandb-metadata.json
+new file mode 100644
+index 0000000..ba1e932
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/wandb-metadata.json
+@@ -0,0 +1,24 @@
++{
++    "os": "Linux-5.4.0-125-generic-x86_64-with-debian-bullseye-sid",
++    "python": "3.7.10",
++    "heartbeatAt": "2022-10-29T18:24:52.993327",
++    "startedAt": "2022-10-29T18:24:50.348568",
++    "docker": null,
++    "gpu": "NVIDIA TITAN RTX",
++    "gpu_count": 2,
++    "cpu_count": 32,
++    "cuda": "11.0.207",
++    "args": [],
++    "state": "running",
++    "program": "train_alpaca.py",
++    "codePath": "tutorials/3-Practical/train_alpaca.py",
++    "git": {
++        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
++        "commit": "a0a6c45bcb60f44ce2ff754750b752050120ab07"
++    },
++    "email": "zhding@mail.ustc.edu.cn",
++    "root": "/home/zihan/research/FinRL",
++    "host": "e900-rbtg",
++    "username": "zihan",
++    "executable": "/home/zihan/anaconda3/envs/x/bin/python"
++}
+diff --git a/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/wandb-summary.json b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/wandb-summary.json
+new file mode 100644
+index 0000000..e601196
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/files/wandb-summary.json
+@@ -0,0 +1 @@
++{"_wandb": {"runtime": 25}}
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/run-2quf0ahg.wandb b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/run-2quf0ahg.wandb
+new file mode 100644
+index 0000000..28c11cf
+Binary files /dev/null and b/tutorials/3-Practical/wandb/run-20221029_142450-2quf0ahg/run-2quf0ahg.wandb differ
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/code/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/code/tutorials/3-Practical/train_alpaca.py
+new file mode 100644
+index 0000000..9cd4833
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/code/tutorials/3-Practical/train_alpaca.py
+@@ -0,0 +1,43 @@
++from finrl.train import train
++from finrl.test import test
++from finrl.config_tickers import DOW_30_TICKER
++from finrl.config import INDICATORS
++from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
++from common import *
++
++import numpy as np
++import pandas as pd
++
++ticker_list = DOW_30_TICKER
++action_dim = len(DOW_30_TICKER)
++candle_time_interval = '1Min'  # '1Min'
++
++env = StockTradingEnv
++
++ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
++        "eval_times":1} 
++#if you want to use larger datasets (change to longer period), and it raises error, 
++#please try to increase "target_step". It should be larger than the episode steps. 
++
++start_date = '2022-8-24'
++end_date = '2022-9-2'
++model_name='ppo'
++MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++
++train(start_date = start_date, 
++      end_date = end_date,
++      ticker_list = ticker_list, 
++      data_source = 'alpaca',
++      time_interval= candle_time_interval, 
++      technical_indicator_list= INDICATORS,
++      drl_lib='elegantrl', 
++      env=env,
++      model_name=model_name, 
++      API_KEY = API_KEY, 
++      API_SECRET = API_SECRET, 
++      API_BASE_URL = API_BASE_URL,
++      erl_params=ERL_PARAMS,
++      cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
++      break_step=1e7)
++
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/conda-environment.yaml b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/conda-environment.yaml
+new file mode 100644
+index 0000000..44e7178
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/conda-environment.yaml
+@@ -0,0 +1,316 @@
++name: x
++channels:
++  - defaults
++dependencies:
++  - _libgcc_mutex=0.1=main
++  - _openmp_mutex=5.1=1_gnu
++  - ca-certificates=2022.4.26=h06a4308_0
++  - gmp=6.2.1=h295c915_3
++  - ld_impl_linux-64=2.33.1=h53a641e_7
++  - libffi=3.3=he6710b0_2
++  - libgcc=7.2.0=h69d50b8_2
++  - libgcc-ng=11.2.0=h1234567_1
++  - libgomp=11.2.0=h1234567_1
++  - libstdcxx-ng=9.1.0=hdf63c60_0
++  - ncurses=6.2=he6710b0_1
++  - openssl=1.1.1p=h5eee18b_0
++  - python=3.7.10=hdb3f193_0
++  - readline=8.1=h27cfd23_0
++  - sqlite=3.35.4=hdfb4753_0
++  - tk=8.6.10=hbc83047_0
++  - wheel=0.36.2=pyhd3eb1b0_0
++  - xz=5.2.5=h7b6447c_0
++  - zlib=1.2.11=h7b6447c_3
++  - pip:
++    - absl-py==1.0.0
++    - aiodns==3.0.0
++    - aiohttp==3.8.1
++    - aiohttp-cors==0.7.0
++    - aioredis==1.3.1
++    - aiosignal==1.2.0
++    - ale-py==0.7.4
++    - alpaca-trade-api==2.3.0
++    - amply==0.1.4
++    - antlr4-python3-runtime==4.9.3
++    - argon2-cffi==21.3.0
++    - argon2-cffi-bindings==21.2.0
++    - astor==0.8.1
++    - astunparse==1.6.3
++    - async-timeout==4.0.2
++    - asynctest==0.13.0
++    - atari-py==0.2.6
++    - attrs==21.2.0
++    - autorom==0.4.2
++    - autorom-accept-rom-license==0.4.2
++    - backcall==0.2.0
++    - blackhc-mdp==1.0.6
++    - bleach==4.1.0
++    - blessed==1.19.1
++    - blessings==1.7
++    - box2d-py==2.3.5
++    - cachecontrol==0.12.11
++    - cached-property==1.5.2
++    - cachetools==5.0.0
++    - cachy==0.3.0
++    - ccxt==1.66.32
++    - certifi==2021.10.8
++    - cffi==1.14.5
++    - cfgv==3.3.1
++    - chardet==4.0.0
++    - charset-normalizer==2.0.12
++    - cleanrl==1.0.0b0
++    - cleo==0.8.1
++    - click==8.0.4
++    - clikit==0.6.2
++    - cloudpickle==1.2.2
++    - colorama==0.4.4
++    - colorful==0.5.4
++    - crashtest==0.3.1
++    - cryptography==37.0.4
++    - cvxpy==1.1.12
++    - cycler==0.11.0
++    - cython==0.29.23
++    - dataclasses==0.6
++    - debugpy==1.5.1
++    - decorator==4.4.2
++    - defusedxml==0.7.1
++    - deprecation==2.1.0
++    - distlib==0.3.4
++    - dm-tree==0.1.6
++    - docker-pycreds==0.4.0
++    - docutils==0.17.1
++    - easyprocess==0.3
++    - ecos==2.0.7.post1
++    - empyrical==0.5.5
++    - entrypoint2==0.2.4
++    - entrypoints==0.3
++    - exchange-calendars==3.6.3
++    - fasteners==0.16.3
++    - filelock==3.6.0
++    - flatbuffers==1.12
++    - fonttools==4.29.1
++    - frozenlist==1.3.1
++    - future==0.18.2
++    - gast==0.2.2
++    - gitdb==4.0.9
++    - gitpython==3.1.27
++    - glfw==2.1.0
++    - google-api-core==1.30.0
++    - google-auth==2.6.0
++    - google-auth-oauthlib==0.4.6
++    - google-pasta==0.2.0
++    - googleapis-common-protos==1.53.0
++    - gpustat==1.0.0rc1
++    - gputil==1.4.0
++    - greenlet==1.1.2
++    - grpcio==1.44.0
++    - gurobipy==9.1.2
++    - gym==0.23.1
++    - gym-notices==0.0.5
++    - h5py==3.1.0
++    - hanabi-learning-environment==0.0.1
++    - hiredis==2.0.0
++    - html5lib==1.1
++    - hydra-core==1.2.0
++    - identify==2.4.11
++    - idna==3.3
++    - imageio==2.9.0
++    - importlib-metadata==4.11.2
++    - importlib-resources==5.8.0
++    - iniconfig==1.1.1
++    - ipdb==0.13.9
++    - ipykernel==6.7.0
++    - ipython==7.23.1
++    - ipython-genutils==0.2.0
++    - ipywidgets==7.6.5
++    - jedi==0.18.0
++    - jeepney==0.8.0
++    - jinja2==3.0.3
++    - joblib==1.0.1
++    - jqdatasdk==1.8.10
++    - jsonschema==3.2.0
++    - jupyter-client==7.1.0
++    - jupyter-core==4.9.1
++    - jupyterlab-pygments==0.1.2
++    - jupyterlab-widgets==1.0.2
++    - keras==2.9.0
++    - keras-applications==1.0.8
++    - keras-nightly==2.5.0.dev2021032900
++    - keras-preprocessing==1.1.2
++    - keyring==22.3.0
++    - kiwisolver==1.3.2
++    - korean-lunar-calendar==0.2.1
++    - kungfu==0.2.2
++    - libclang==14.0.6
++    - lockfile==0.12.2
++    - lxml==4.9.1
++    - lz4==3.1.3
++    - magent==0.1.13
++    - markdown==3.3.6
++    - markupsafe==2.0.1
++    - matplotlib==3.5.1
++    - matplotlib-inline==0.1.2
++    - mistune==0.8.4
++    - mock==4.0.3
++    - msgpack==1.0.3
++    - mujoco-py==2.0.2.13
++    - multi-agent-ale-py==0.1.10
++    - multidict==5.1.0
++    - multitasking==0.0.11
++    - nashpy==0.0.21
++    - nbclient==0.5.10
++    - nbconvert==6.4.0
++    - nbformat==5.1.3
++    - nest-asyncio==1.5.4
++    - networkx==1.11
++    - ninja==1.10.2.3
++    - nodeenv==1.6.0
++    - notebook==6.4.7
++    - numpy==1.21.6
++    - nvidia-ml-py==11.495.46
++    - nvidia-ml-py3==7.352.0
++    - oauthlib==3.2.0
++    - omegaconf==2.2.2
++    - opencensus==0.7.13
++    - opencensus-context==0.1.2
++    - opencv-python==3.4.17.61
++    - opencv-python-headless==4.3.0.36
++    - opt-einsum==3.3.0
++    - osqp==0.6.2.post0
++    - packaging==21.3
++    - pandas==1.3.5
++    - pandas-datareader==0.10.0
++    - pandocfilters==1.5.0
++    - parso==0.8.2
++    - pastel==0.2.1
++    - pathtools==0.1.2
++    - patool==1.12
++    - pettingzoo==1.18.1
++    - pexpect==4.8.0
++    - pickleshare==0.7.5
++    - pillow==9.2.0
++    - pip==22.2
++    - pkginfo==1.8.3
++    - platformdirs==2.5.1
++    - pluggy==1.0.0
++    - ply==3.11
++    - poetry==1.1.14
++    - poetry-core==1.0.8
++    - pre-commit==2.17.0
++    - progressbar2==3.53.1
++    - prometheus-client==0.11.0
++    - promise==2.3
++    - prompt-toolkit==3.0.18
++    - protobuf==3.19.4
++    - psutil==5.9.0
++    - psycopg2-binary==2.9.3
++    - ptyprocess==0.7.0
++    - pulp==2.4
++    - py==1.11.0
++    - py-spy==0.3.7
++    - pyasn1==0.4.8
++    - pyasn1-modules==0.2.8
++    - pybullet==3.2.5
++    - pycares==4.2.2
++    - pycolab==1.2
++    - pycparser==2.20
++    - pydantic==1.8.2
++    - pydotplus==2.0.2
++    - pyfolio==0.9.2+75.g4b901f6
++    - pygame==2.1.0
++    - pyglet==1.5.0
++    - pygments==2.9.0
++    - pylev==1.4.0
++    - pyluach==2.0.0
++    - pymunk==6.0.0
++    - pymysql==1.0.2
++    - pyopengl==3.1.6
++    - pyparsing==3.0.7
++    - pyrsistent==0.17.3
++    - pytest==7.1.2
++    - python-chess==0.31.4
++    - python-dateutil==2.8.2
++    - python-utils==2.5.6
++    - pytz==2021.3
++    - pyunpack==0.2.2
++    - pyvirtualdisplay==3.0
++    - pywavelets==1.1.1
++    - pyyaml==5.4.1
++    - pyzmq==22.3.0
++    - qdldl==0.1.5.post0
++    - ray==1.13.0
++    - redis==3.5.3
++    - requests==2.27.1
++    - requests-oauthlib==1.3.1
++    - requests-toolbelt==0.9.1
++    - rl-games==1.5.2
++    - rlcard==0.2.8
++    - rsa==4.7.2
++    - scikit-image==0.18.1
++    - scikit-learn==0.24.2
++    - scipy==1.7.3
++    - scs==2.1.3
++    - seaborn==0.11.2
++    - secretstorage==3.3.2
++    - send2trash==1.8.0
++    - sentry-sdk==1.5.7
++    - setproctitle==1.2.2
++    - setuptools==59.5.0
++    - setuptools-scm==6.4.2
++    - shellingham==1.5.0
++    - shortuuid==1.0.8
++    - six==1.16.0
++    - slimevolleygym==0.1.0
++    - smart-open==6.0.0
++    - smmap==5.0.0
++    - sqlalchemy==1.4.40
++    - stable-baselines==2.10.2
++    - stable-baselines3==1.2.0
++    - stockstats==0.4.1
++    - supersuit==3.4.0
++    - tabulate==0.8.9
++    - tb-nightly==2.11.0a20220815
++    - tensorboard==2.9.1
++    - tensorboard-data-server==0.6.1
++    - tensorboard-plugin-wit==1.8.1
++    - tensorboardx==2.5.1
++    - tensorflow==2.9.1
++    - tensorflow-estimator==2.9.0
++    - tensorflow-gpu==2.0.0
++    - tensorflow-io-gcs-filesystem==0.26.0
++    - tensorflow-probability==0.8.0
++    - tensorlayer==2.2.3
++    - termcolor==1.1.0
++    - terminado==0.12.1
++    - testpath==0.5.0
++    - threadpoolctl==2.1.0
++    - thriftpy2==0.4.14
++    - tifffile==2021.6.14
++    - tinyscaler==1.2.4
++    - toml==0.10.2
++    - tomli==2.0.1
++    - tomlkit==0.11.3
++    - toolz==0.12.0
++    - torch==1.12.0
++    - torchvision==0.13.0
++    - tornado==6.1
++    - tqdm==4.60.0
++    - traitlets==5.1.1
++    - typing==3.7.4.3
++    - typing-extensions==4.1.1
++    - urllib3==1.26.8
++    - virtualenv==20.13.3
++    - wandb==0.12.11
++    - wcwidth==0.2.5
++    - webencodings==0.5.1
++    - websocket-client==1.3.3
++    - websockets==10.3
++    - werkzeug==2.0.3
++    - widgetsnbextension==3.5.2
++    - wrapt==1.12.1
++    - wrds==3.1.2
++    - yarl==1.7.2
++    - yaspin==2.1.0
++    - yfinance==0.1.74
++    - zipp==3.7.0
++prefix: /home/zihan/anaconda3/envs/x
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/config.yaml b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/config.yaml
+new file mode 100644
+index 0000000..7a595f8
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/config.yaml
+@@ -0,0 +1,37 @@
++wandb_version: 1
++
++_wandb:
++  desc: null
++  value:
++    cli_version: 0.12.11
++    code_path: code/tutorials/3-Practical/train_alpaca.py
++    framework: torch
++    is_jupyter_run: false
++    is_kaggle_kernel: false
++    python_version: 3.7.10
++    start_time: 1667069050
++    t:
++      1:
++      - 1
++      - 2
++      - 3
++      3:
++      - 13
++      - 16
++      - 35
++      4: 3.7.10
++      5: 0.12.11
++      8:
++      - 5
++wandb_entity:
++  desc: null
++  value: quantumiracle
++wandb_group:
++  desc: null
++  value: ''
++wandb_name:
++  desc: null
++  value: ./papertrading_erl/ppo_2022-8-24_2022-9-2
++wandb_project:
++  desc: null
++  value: FinRL
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/diff.patch b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/diff.patch
+new file mode 100644
+index 0000000..cc0a930
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/diff.patch
+@@ -0,0 +1,26 @@
++diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
++index 5b8f7a5..9cd4833 100644
++--- a/tutorials/3-Practical/train_alpaca.py
+++++ b/tutorials/3-Practical/train_alpaca.py
++@@ -20,9 +20,9 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++ #if you want to use larger datasets (change to longer period), and it raises error, 
++ #please try to increase "target_step". It should be larger than the episode steps. 
++ 
++-start_date = '2022-6-11'
++-end_date = '2022-9-1'
++-model_name='td3'
+++start_date = '2022-8-24'
+++end_date = '2022-9-2'
+++model_name='ppo'
++ MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++ 
++ train(start_date = start_date, 
++diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
++index cd14832..b092404 120000
++--- a/tutorials/3-Practical/wandb/latest-run
+++++ b/tutorials/3-Practical/wandb/latest-run
++@@ -1 +1 @@
++-run-20220914_101520-3nhd8ptj
++\ No newline at end of file
+++run-20221029_144410-6yonlgw1
++\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/requirements.txt b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/requirements.txt
+new file mode 100644
+index 0000000..754814f
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/requirements.txt
+@@ -0,0 +1,301 @@
++absl-py==1.0.0
++aiodns==3.0.0
++aiohttp-cors==0.7.0
++aiohttp==3.8.1
++aioredis==1.3.1
++aiosignal==1.2.0
++ale-py==0.7.4
++alpaca-trade-api==2.3.0
++amply==0.1.4
++antlr4-python3-runtime==4.9.3
++argon2-cffi-bindings==21.2.0
++argon2-cffi==21.3.0
++astor==0.8.1
++astunparse==1.6.3
++async-timeout==4.0.2
++asynctest==0.13.0
++atari-py==0.2.6
++attrs==21.2.0
++autorom.accept-rom-license==0.4.2
++autorom==0.4.2
++backcall==0.2.0
++bidexhands==0.1.1
++blackhc.mdp==1.0.6
++bleach==4.1.0
++blessed==1.19.1
++blessings==1.7
++box2d-py==2.3.5
++cachecontrol==0.12.11
++cached-property==1.5.2
++cachetools==5.0.0
++cachy==0.3.0
++ccxt==1.66.32
++certifi==2021.10.8
++cffi==1.14.5
++cfgv==3.3.1
++chardet==4.0.0
++charset-normalizer==2.0.12
++cleanrl==1.0.0b0
++cleo==0.8.1
++click==8.0.4
++clikit==0.6.2
++cloudpickle==1.2.2
++colorama==0.4.4
++colorful==0.5.4
++crashtest==0.3.1
++cryptography==37.0.4
++cvxpy==1.1.12
++cycler==0.11.0
++cython==0.29.23
++dataclasses==0.6
++debugpy==1.5.1
++decorator==4.4.2
++defusedxml==0.7.1
++deprecation==2.1.0
++distlib==0.3.4
++dm-tree==0.1.6
++docker-pycreds==0.4.0
++docutils==0.17.1
++easyprocess==0.3
++ecos==2.0.7.post1
++elegantrl==0.3.3
++empyrical==0.5.5
++entrypoint2==0.2.4
++entrypoints==0.3
++exchange-calendars==3.6.3
++fasteners==0.16.3
++filelock==3.6.0
++finrl==0.3.5
++flatbuffers==1.12
++fonttools==4.29.1
++frozenlist==1.3.1
++future==0.18.2
++gast==0.2.2
++gitdb==4.0.9
++gitpython==3.1.27
++glfw==2.1.0
++google-api-core==1.30.0
++google-auth-oauthlib==0.4.6
++google-auth==2.6.0
++google-pasta==0.2.0
++googleapis-common-protos==1.53.0
++gpustat==1.0.0rc1
++gputil==1.4.0
++greenlet==1.1.2
++grpcio==1.44.0
++gurobipy==9.1.2
++gym-notices==0.0.5
++gym==0.23.1
++h5py==3.1.0
++hanabi-learning-environment==0.0.1
++hiredis==2.0.0
++html5lib==1.1
++hydra-core==1.2.0
++identify==2.4.11
++idna==3.3
++imageio==2.9.0
++importlib-metadata==4.11.2
++importlib-resources==5.8.0
++iniconfig==1.1.1
++ipdb==0.13.9
++ipykernel==6.7.0
++ipython-genutils==0.2.0
++ipython==7.23.1
++ipywidgets==7.6.5
++isaacgym==1.0rc4
++isaacgymenvs==1.2.0
++jedi==0.18.0
++jeepney==0.8.0
++jinja2==3.0.3
++joblib==1.0.1
++jqdatasdk==1.8.10
++jsonschema==3.2.0
++jupyter-client==7.1.0
++jupyter-core==4.9.1
++jupyterlab-pygments==0.1.2
++jupyterlab-widgets==1.0.2
++keras-applications==1.0.8
++keras-nightly==2.5.0.dev2021032900
++keras-preprocessing==1.1.2
++keras==2.9.0
++keyring==22.3.0
++kiwisolver==1.3.2
++korean-lunar-calendar==0.2.1
++kungfu==0.2.2
++lasertag==1.0.0
++libclang==14.0.6
++lockfile==0.12.2
++lxml==4.9.1
++lz4==3.1.3
++magent==0.1.13
++markdown==3.3.6
++markupsafe==2.0.1
++matplotlib-inline==0.1.2
++matplotlib==3.5.1
++mistune==0.8.4
++mj-envs==1.0.0
++mjrl==1.0.0
++mock==4.0.3
++msgpack==1.0.3
++mujoco-py==2.0.2.13
++multi-agent-ale-py==0.1.10
++multidict==5.1.0
++multitasking==0.0.11
++nashpy==0.0.21
++nbclient==0.5.10
++nbconvert==6.4.0
++nbformat==5.1.3
++nest-asyncio==1.5.4
++networkx==1.11
++ninja==1.10.2.3
++nodeenv==1.6.0
++notebook==6.4.7
++numpy==1.21.6
++nvidia-ml-py3==7.352.0
++nvidia-ml-py==11.495.46
++oauthlib==3.2.0
++omegaconf==2.2.2
++opencensus-context==0.1.2
++opencensus==0.7.13
++opencv-python-headless==4.3.0.36
++opencv-python==3.4.17.61
++opt-einsum==3.3.0
++osqp==0.6.2.post0
++packaging==21.3
++pandas-datareader==0.10.0
++pandas==1.3.5
++pandocfilters==1.5.0
++parso==0.8.2
++pastel==0.2.1
++pathtools==0.1.2
++patool==1.12
++pettingzoo==1.18.1
++pexpect==4.8.0
++pickleshare==0.7.5
++pillow==9.2.0
++pip==22.2
++pkginfo==1.8.3
++platformdirs==2.5.1
++pluggy==1.0.0
++ply==3.11
++poetry-core==1.0.8
++poetry==1.1.14
++pre-commit==2.17.0
++progressbar2==3.53.1
++prometheus-client==0.11.0
++promise==2.3
++prompt-toolkit==3.0.18
++protobuf==3.19.4
++psutil==5.9.0
++psycopg2-binary==2.9.3
++ptyprocess==0.7.0
++pulp==2.4
++py-spy==0.3.7
++py==1.11.0
++pyasn1-modules==0.2.8
++pyasn1==0.4.8
++pybullet==3.2.5
++pycares==4.2.2
++pycolab==1.2
++pycparser==2.20
++pydantic==1.8.2
++pydotplus==2.0.2
++pyfolio==0.9.2+75.g4b901f6
++pygame==2.1.0
++pyglet==1.5.0
++pygments==2.9.0
++pylev==1.4.0
++pyluach==2.0.0
++pymunk==6.0.0
++pymysql==1.0.2
++pyopengl==3.1.6
++pyparsing==3.0.7
++pyrsistent==0.17.3
++pytest==7.1.2
++python-chess==0.31.4
++python-dateutil==2.8.2
++python-utils==2.5.6
++pytz==2021.3
++pyunpack==0.2.2
++pyvirtualdisplay==3.0
++pywavelets==1.1.1
++pyyaml==5.4.1
++pyzmq==22.3.0
++qdldl==0.1.5.post0
++ray==1.13.0
++redis==3.5.3
++requests-oauthlib==1.3.1
++requests-toolbelt==0.9.1
++requests==2.27.1
++rl-games==1.5.2
++rlcard==0.2.8
++robosumo==0.0.1.dev0
++rsa==4.7.2
++scikit-image==0.18.1
++scikit-learn==0.24.2
++scipy==1.7.3
++scs==2.1.3
++seaborn==0.11.2
++secretstorage==3.3.2
++send2trash==1.8.0
++sentry-sdk==1.5.7
++setproctitle==1.2.2
++setuptools-scm==6.4.2
++setuptools==59.5.0
++shellingham==1.5.0
++shortuuid==1.0.8
++six==1.16.0
++slimevolleygym==0.1.0
++smart-open==6.0.0
++smmap==5.0.0
++sqlalchemy==1.4.40
++stable-baselines3==1.2.0
++stable-baselines==2.10.2
++stockstats==0.4.1
++supersuit==3.4.0
++tabulate==0.8.9
++tb-nightly==2.11.0a20220815
++tensorboard-data-server==0.6.1
++tensorboard-plugin-wit==1.8.1
++tensorboard==2.9.1
++tensorboardx==2.5.1
++tensorflow-estimator==2.9.0
++tensorflow-gpu==2.0.0
++tensorflow-io-gcs-filesystem==0.26.0
++tensorflow-probability==0.8.0
++tensorflow==2.9.1
++tensorlayer==2.2.3
++termcolor==1.1.0
++terminado==0.12.1
++testpath==0.5.0
++threadpoolctl==2.1.0
++thriftpy2==0.4.14
++tifffile==2021.6.14
++tinyscaler==1.2.4
++toml==0.10.2
++tomli==2.0.1
++tomlkit==0.11.3
++toolz==0.12.0
++torch==1.12.0
++torchvision==0.13.0
++tornado==6.1
++tqdm==4.60.0
++traitlets==5.1.1
++typing-extensions==4.1.1
++typing==3.7.4.3
++urllib3==1.26.8
++virtualenv==20.13.3
++wandb==0.12.11
++wcwidth==0.2.5
++webencodings==0.5.1
++websocket-client==1.3.3
++websockets==10.3
++werkzeug==2.0.3
++wheel==0.36.2
++widgetsnbextension==3.5.2
++wrapt==1.12.1
++wrds==3.1.2
++yarl==1.7.2
++yaspin==2.1.0
++yfinance==0.1.74
++zipp==3.7.0
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/wandb-metadata.json b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/wandb-metadata.json
+new file mode 100644
+index 0000000..83b155d
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/wandb-metadata.json
+@@ -0,0 +1,24 @@
++{
++    "os": "Linux-5.4.0-125-generic-x86_64-with-debian-bullseye-sid",
++    "python": "3.7.10",
++    "heartbeatAt": "2022-10-29T18:44:13.449474",
++    "startedAt": "2022-10-29T18:44:10.198125",
++    "docker": null,
++    "gpu": "NVIDIA TITAN RTX",
++    "gpu_count": 2,
++    "cpu_count": 32,
++    "cuda": "11.0.207",
++    "args": [],
++    "state": "running",
++    "program": "train_alpaca.py",
++    "codePath": "tutorials/3-Practical/train_alpaca.py",
++    "git": {
++        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
++        "commit": "a0a6c45bcb60f44ce2ff754750b752050120ab07"
++    },
++    "email": "zhding@mail.ustc.edu.cn",
++    "root": "/home/zihan/research/FinRL",
++    "host": "e900-rbtg",
++    "username": "zihan",
++    "executable": "/home/zihan/anaconda3/envs/x/bin/python"
++}
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/wandb-summary.json b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/wandb-summary.json
+new file mode 100644
+index 0000000..22c7c35
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/files/wandb-summary.json
+@@ -0,0 +1 @@
++{"global_step": 4538327, "_timestamp": 1667074513.6764867, "info/r_max": -1.97892427444458, "info/r_avg": -2.5834524631500244, "info/r_std": 0.0, "info/s_avg": 2729.0, "info/s_std": 0.0, "info/used_time": 0.0, "info/r_exp": 0.0, "_runtime": 5463, "_step": 107}
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/run-6yonlgw1.wandb b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/run-6yonlgw1.wandb
+new file mode 100644
+index 0000000..83aecc9
+Binary files /dev/null and b/tutorials/3-Practical/wandb/run-20221029_144410-6yonlgw1/run-6yonlgw1.wandb differ
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/code/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/code/tutorials/3-Practical/train_alpaca.py
+new file mode 100644
+index 0000000..4b46a18
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/code/tutorials/3-Practical/train_alpaca.py
+@@ -0,0 +1,43 @@
++from finrl.train import train
++from finrl.test import test
++from finrl.config_tickers import DOW_30_TICKER
++from finrl.config import INDICATORS
++from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
++from common import *
++
++import numpy as np
++import pandas as pd
++
++ticker_list = DOW_30_TICKER
++action_dim = len(DOW_30_TICKER)
++candle_time_interval = '1Min'  # '1Min'
++
++env = StockTradingEnv
++
++ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
++        "eval_times":1} 
++#if you want to use larger datasets (change to longer period), and it raises error, 
++#please try to increase "target_step". It should be larger than the episode steps. 
++
++start_date = '2022-8-24'
++end_date = '2022-9-2'
++model_name='td3'
++MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++
++train(start_date = start_date, 
++      end_date = end_date,
++      ticker_list = ticker_list, 
++      data_source = 'alpaca',
++      time_interval= candle_time_interval, 
++      technical_indicator_list= INDICATORS,
++      drl_lib='elegantrl', 
++      env=env,
++      model_name=model_name, 
++      API_KEY = API_KEY, 
++      API_SECRET = API_SECRET, 
++      API_BASE_URL = API_BASE_URL,
++      erl_params=ERL_PARAMS,
++      cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
++      break_step=1e7)
++
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/conda-environment.yaml b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/conda-environment.yaml
+new file mode 100644
+index 0000000..44e7178
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/conda-environment.yaml
+@@ -0,0 +1,316 @@
++name: x
++channels:
++  - defaults
++dependencies:
++  - _libgcc_mutex=0.1=main
++  - _openmp_mutex=5.1=1_gnu
++  - ca-certificates=2022.4.26=h06a4308_0
++  - gmp=6.2.1=h295c915_3
++  - ld_impl_linux-64=2.33.1=h53a641e_7
++  - libffi=3.3=he6710b0_2
++  - libgcc=7.2.0=h69d50b8_2
++  - libgcc-ng=11.2.0=h1234567_1
++  - libgomp=11.2.0=h1234567_1
++  - libstdcxx-ng=9.1.0=hdf63c60_0
++  - ncurses=6.2=he6710b0_1
++  - openssl=1.1.1p=h5eee18b_0
++  - python=3.7.10=hdb3f193_0
++  - readline=8.1=h27cfd23_0
++  - sqlite=3.35.4=hdfb4753_0
++  - tk=8.6.10=hbc83047_0
++  - wheel=0.36.2=pyhd3eb1b0_0
++  - xz=5.2.5=h7b6447c_0
++  - zlib=1.2.11=h7b6447c_3
++  - pip:
++    - absl-py==1.0.0
++    - aiodns==3.0.0
++    - aiohttp==3.8.1
++    - aiohttp-cors==0.7.0
++    - aioredis==1.3.1
++    - aiosignal==1.2.0
++    - ale-py==0.7.4
++    - alpaca-trade-api==2.3.0
++    - amply==0.1.4
++    - antlr4-python3-runtime==4.9.3
++    - argon2-cffi==21.3.0
++    - argon2-cffi-bindings==21.2.0
++    - astor==0.8.1
++    - astunparse==1.6.3
++    - async-timeout==4.0.2
++    - asynctest==0.13.0
++    - atari-py==0.2.6
++    - attrs==21.2.0
++    - autorom==0.4.2
++    - autorom-accept-rom-license==0.4.2
++    - backcall==0.2.0
++    - blackhc-mdp==1.0.6
++    - bleach==4.1.0
++    - blessed==1.19.1
++    - blessings==1.7
++    - box2d-py==2.3.5
++    - cachecontrol==0.12.11
++    - cached-property==1.5.2
++    - cachetools==5.0.0
++    - cachy==0.3.0
++    - ccxt==1.66.32
++    - certifi==2021.10.8
++    - cffi==1.14.5
++    - cfgv==3.3.1
++    - chardet==4.0.0
++    - charset-normalizer==2.0.12
++    - cleanrl==1.0.0b0
++    - cleo==0.8.1
++    - click==8.0.4
++    - clikit==0.6.2
++    - cloudpickle==1.2.2
++    - colorama==0.4.4
++    - colorful==0.5.4
++    - crashtest==0.3.1
++    - cryptography==37.0.4
++    - cvxpy==1.1.12
++    - cycler==0.11.0
++    - cython==0.29.23
++    - dataclasses==0.6
++    - debugpy==1.5.1
++    - decorator==4.4.2
++    - defusedxml==0.7.1
++    - deprecation==2.1.0
++    - distlib==0.3.4
++    - dm-tree==0.1.6
++    - docker-pycreds==0.4.0
++    - docutils==0.17.1
++    - easyprocess==0.3
++    - ecos==2.0.7.post1
++    - empyrical==0.5.5
++    - entrypoint2==0.2.4
++    - entrypoints==0.3
++    - exchange-calendars==3.6.3
++    - fasteners==0.16.3
++    - filelock==3.6.0
++    - flatbuffers==1.12
++    - fonttools==4.29.1
++    - frozenlist==1.3.1
++    - future==0.18.2
++    - gast==0.2.2
++    - gitdb==4.0.9
++    - gitpython==3.1.27
++    - glfw==2.1.0
++    - google-api-core==1.30.0
++    - google-auth==2.6.0
++    - google-auth-oauthlib==0.4.6
++    - google-pasta==0.2.0
++    - googleapis-common-protos==1.53.0
++    - gpustat==1.0.0rc1
++    - gputil==1.4.0
++    - greenlet==1.1.2
++    - grpcio==1.44.0
++    - gurobipy==9.1.2
++    - gym==0.23.1
++    - gym-notices==0.0.5
++    - h5py==3.1.0
++    - hanabi-learning-environment==0.0.1
++    - hiredis==2.0.0
++    - html5lib==1.1
++    - hydra-core==1.2.0
++    - identify==2.4.11
++    - idna==3.3
++    - imageio==2.9.0
++    - importlib-metadata==4.11.2
++    - importlib-resources==5.8.0
++    - iniconfig==1.1.1
++    - ipdb==0.13.9
++    - ipykernel==6.7.0
++    - ipython==7.23.1
++    - ipython-genutils==0.2.0
++    - ipywidgets==7.6.5
++    - jedi==0.18.0
++    - jeepney==0.8.0
++    - jinja2==3.0.3
++    - joblib==1.0.1
++    - jqdatasdk==1.8.10
++    - jsonschema==3.2.0
++    - jupyter-client==7.1.0
++    - jupyter-core==4.9.1
++    - jupyterlab-pygments==0.1.2
++    - jupyterlab-widgets==1.0.2
++    - keras==2.9.0
++    - keras-applications==1.0.8
++    - keras-nightly==2.5.0.dev2021032900
++    - keras-preprocessing==1.1.2
++    - keyring==22.3.0
++    - kiwisolver==1.3.2
++    - korean-lunar-calendar==0.2.1
++    - kungfu==0.2.2
++    - libclang==14.0.6
++    - lockfile==0.12.2
++    - lxml==4.9.1
++    - lz4==3.1.3
++    - magent==0.1.13
++    - markdown==3.3.6
++    - markupsafe==2.0.1
++    - matplotlib==3.5.1
++    - matplotlib-inline==0.1.2
++    - mistune==0.8.4
++    - mock==4.0.3
++    - msgpack==1.0.3
++    - mujoco-py==2.0.2.13
++    - multi-agent-ale-py==0.1.10
++    - multidict==5.1.0
++    - multitasking==0.0.11
++    - nashpy==0.0.21
++    - nbclient==0.5.10
++    - nbconvert==6.4.0
++    - nbformat==5.1.3
++    - nest-asyncio==1.5.4
++    - networkx==1.11
++    - ninja==1.10.2.3
++    - nodeenv==1.6.0
++    - notebook==6.4.7
++    - numpy==1.21.6
++    - nvidia-ml-py==11.495.46
++    - nvidia-ml-py3==7.352.0
++    - oauthlib==3.2.0
++    - omegaconf==2.2.2
++    - opencensus==0.7.13
++    - opencensus-context==0.1.2
++    - opencv-python==3.4.17.61
++    - opencv-python-headless==4.3.0.36
++    - opt-einsum==3.3.0
++    - osqp==0.6.2.post0
++    - packaging==21.3
++    - pandas==1.3.5
++    - pandas-datareader==0.10.0
++    - pandocfilters==1.5.0
++    - parso==0.8.2
++    - pastel==0.2.1
++    - pathtools==0.1.2
++    - patool==1.12
++    - pettingzoo==1.18.1
++    - pexpect==4.8.0
++    - pickleshare==0.7.5
++    - pillow==9.2.0
++    - pip==22.2
++    - pkginfo==1.8.3
++    - platformdirs==2.5.1
++    - pluggy==1.0.0
++    - ply==3.11
++    - poetry==1.1.14
++    - poetry-core==1.0.8
++    - pre-commit==2.17.0
++    - progressbar2==3.53.1
++    - prometheus-client==0.11.0
++    - promise==2.3
++    - prompt-toolkit==3.0.18
++    - protobuf==3.19.4
++    - psutil==5.9.0
++    - psycopg2-binary==2.9.3
++    - ptyprocess==0.7.0
++    - pulp==2.4
++    - py==1.11.0
++    - py-spy==0.3.7
++    - pyasn1==0.4.8
++    - pyasn1-modules==0.2.8
++    - pybullet==3.2.5
++    - pycares==4.2.2
++    - pycolab==1.2
++    - pycparser==2.20
++    - pydantic==1.8.2
++    - pydotplus==2.0.2
++    - pyfolio==0.9.2+75.g4b901f6
++    - pygame==2.1.0
++    - pyglet==1.5.0
++    - pygments==2.9.0
++    - pylev==1.4.0
++    - pyluach==2.0.0
++    - pymunk==6.0.0
++    - pymysql==1.0.2
++    - pyopengl==3.1.6
++    - pyparsing==3.0.7
++    - pyrsistent==0.17.3
++    - pytest==7.1.2
++    - python-chess==0.31.4
++    - python-dateutil==2.8.2
++    - python-utils==2.5.6
++    - pytz==2021.3
++    - pyunpack==0.2.2
++    - pyvirtualdisplay==3.0
++    - pywavelets==1.1.1
++    - pyyaml==5.4.1
++    - pyzmq==22.3.0
++    - qdldl==0.1.5.post0
++    - ray==1.13.0
++    - redis==3.5.3
++    - requests==2.27.1
++    - requests-oauthlib==1.3.1
++    - requests-toolbelt==0.9.1
++    - rl-games==1.5.2
++    - rlcard==0.2.8
++    - rsa==4.7.2
++    - scikit-image==0.18.1
++    - scikit-learn==0.24.2
++    - scipy==1.7.3
++    - scs==2.1.3
++    - seaborn==0.11.2
++    - secretstorage==3.3.2
++    - send2trash==1.8.0
++    - sentry-sdk==1.5.7
++    - setproctitle==1.2.2
++    - setuptools==59.5.0
++    - setuptools-scm==6.4.2
++    - shellingham==1.5.0
++    - shortuuid==1.0.8
++    - six==1.16.0
++    - slimevolleygym==0.1.0
++    - smart-open==6.0.0
++    - smmap==5.0.0
++    - sqlalchemy==1.4.40
++    - stable-baselines==2.10.2
++    - stable-baselines3==1.2.0
++    - stockstats==0.4.1
++    - supersuit==3.4.0
++    - tabulate==0.8.9
++    - tb-nightly==2.11.0a20220815
++    - tensorboard==2.9.1
++    - tensorboard-data-server==0.6.1
++    - tensorboard-plugin-wit==1.8.1
++    - tensorboardx==2.5.1
++    - tensorflow==2.9.1
++    - tensorflow-estimator==2.9.0
++    - tensorflow-gpu==2.0.0
++    - tensorflow-io-gcs-filesystem==0.26.0
++    - tensorflow-probability==0.8.0
++    - tensorlayer==2.2.3
++    - termcolor==1.1.0
++    - terminado==0.12.1
++    - testpath==0.5.0
++    - threadpoolctl==2.1.0
++    - thriftpy2==0.4.14
++    - tifffile==2021.6.14
++    - tinyscaler==1.2.4
++    - toml==0.10.2
++    - tomli==2.0.1
++    - tomlkit==0.11.3
++    - toolz==0.12.0
++    - torch==1.12.0
++    - torchvision==0.13.0
++    - tornado==6.1
++    - tqdm==4.60.0
++    - traitlets==5.1.1
++    - typing==3.7.4.3
++    - typing-extensions==4.1.1
++    - urllib3==1.26.8
++    - virtualenv==20.13.3
++    - wandb==0.12.11
++    - wcwidth==0.2.5
++    - webencodings==0.5.1
++    - websocket-client==1.3.3
++    - websockets==10.3
++    - werkzeug==2.0.3
++    - widgetsnbextension==3.5.2
++    - wrapt==1.12.1
++    - wrds==3.1.2
++    - yarl==1.7.2
++    - yaspin==2.1.0
++    - yfinance==0.1.74
++    - zipp==3.7.0
++prefix: /home/zihan/anaconda3/envs/x
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/config.yaml b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/config.yaml
+new file mode 100644
+index 0000000..b89000a
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/config.yaml
+@@ -0,0 +1,41 @@
++wandb_version: 1
++
++_wandb:
++  desc: null
++  value:
++    cli_version: 0.12.11
++    code_path: code/tutorials/3-Practical/train_alpaca.py
++    framework: torch
++    is_jupyter_run: false
++    is_kaggle_kernel: false
++    python_version: 3.7.10
++    start_time: 1667069305
++    t:
++      1:
++      - 1
++      - 2
++      - 3
++      2:
++      - 1
++      - 2
++      - 3
++      3:
++      - 13
++      - 16
++      - 35
++      4: 3.7.10
++      5: 0.12.11
++      8:
++      - 5
++wandb_entity:
++  desc: null
++  value: quantumiracle
++wandb_group:
++  desc: null
++  value: ''
++wandb_name:
++  desc: null
++  value: ./papertrading_erl/td3_2022-8-24_2022-9-2
++wandb_project:
++  desc: null
++  value: FinRL
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/diff.patch b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/diff.patch
+new file mode 100644
+index 0000000..cb110a7
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/diff.patch
+@@ -0,0 +1,24 @@
++diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
++index 5b8f7a5..4b46a18 100644
++--- a/tutorials/3-Practical/train_alpaca.py
+++++ b/tutorials/3-Practical/train_alpaca.py
++@@ -20,8 +20,8 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++ #if you want to use larger datasets (change to longer period), and it raises error, 
++ #please try to increase "target_step". It should be larger than the episode steps. 
++ 
++-start_date = '2022-6-11'
++-end_date = '2022-9-1'
+++start_date = '2022-8-24'
+++end_date = '2022-9-2'
++ model_name='td3'
++ MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++ 
++diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
++index cd14832..45342be 120000
++--- a/tutorials/3-Practical/wandb/latest-run
+++++ b/tutorials/3-Practical/wandb/latest-run
++@@ -1 +1 @@
++-run-20220914_101520-3nhd8ptj
++\ No newline at end of file
+++run-20221029_144825-2m5cktfj
++\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/requirements.txt b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/requirements.txt
+new file mode 100644
+index 0000000..754814f
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/requirements.txt
+@@ -0,0 +1,301 @@
++absl-py==1.0.0
++aiodns==3.0.0
++aiohttp-cors==0.7.0
++aiohttp==3.8.1
++aioredis==1.3.1
++aiosignal==1.2.0
++ale-py==0.7.4
++alpaca-trade-api==2.3.0
++amply==0.1.4
++antlr4-python3-runtime==4.9.3
++argon2-cffi-bindings==21.2.0
++argon2-cffi==21.3.0
++astor==0.8.1
++astunparse==1.6.3
++async-timeout==4.0.2
++asynctest==0.13.0
++atari-py==0.2.6
++attrs==21.2.0
++autorom.accept-rom-license==0.4.2
++autorom==0.4.2
++backcall==0.2.0
++bidexhands==0.1.1
++blackhc.mdp==1.0.6
++bleach==4.1.0
++blessed==1.19.1
++blessings==1.7
++box2d-py==2.3.5
++cachecontrol==0.12.11
++cached-property==1.5.2
++cachetools==5.0.0
++cachy==0.3.0
++ccxt==1.66.32
++certifi==2021.10.8
++cffi==1.14.5
++cfgv==3.3.1
++chardet==4.0.0
++charset-normalizer==2.0.12
++cleanrl==1.0.0b0
++cleo==0.8.1
++click==8.0.4
++clikit==0.6.2
++cloudpickle==1.2.2
++colorama==0.4.4
++colorful==0.5.4
++crashtest==0.3.1
++cryptography==37.0.4
++cvxpy==1.1.12
++cycler==0.11.0
++cython==0.29.23
++dataclasses==0.6
++debugpy==1.5.1
++decorator==4.4.2
++defusedxml==0.7.1
++deprecation==2.1.0
++distlib==0.3.4
++dm-tree==0.1.6
++docker-pycreds==0.4.0
++docutils==0.17.1
++easyprocess==0.3
++ecos==2.0.7.post1
++elegantrl==0.3.3
++empyrical==0.5.5
++entrypoint2==0.2.4
++entrypoints==0.3
++exchange-calendars==3.6.3
++fasteners==0.16.3
++filelock==3.6.0
++finrl==0.3.5
++flatbuffers==1.12
++fonttools==4.29.1
++frozenlist==1.3.1
++future==0.18.2
++gast==0.2.2
++gitdb==4.0.9
++gitpython==3.1.27
++glfw==2.1.0
++google-api-core==1.30.0
++google-auth-oauthlib==0.4.6
++google-auth==2.6.0
++google-pasta==0.2.0
++googleapis-common-protos==1.53.0
++gpustat==1.0.0rc1
++gputil==1.4.0
++greenlet==1.1.2
++grpcio==1.44.0
++gurobipy==9.1.2
++gym-notices==0.0.5
++gym==0.23.1
++h5py==3.1.0
++hanabi-learning-environment==0.0.1
++hiredis==2.0.0
++html5lib==1.1
++hydra-core==1.2.0
++identify==2.4.11
++idna==3.3
++imageio==2.9.0
++importlib-metadata==4.11.2
++importlib-resources==5.8.0
++iniconfig==1.1.1
++ipdb==0.13.9
++ipykernel==6.7.0
++ipython-genutils==0.2.0
++ipython==7.23.1
++ipywidgets==7.6.5
++isaacgym==1.0rc4
++isaacgymenvs==1.2.0
++jedi==0.18.0
++jeepney==0.8.0
++jinja2==3.0.3
++joblib==1.0.1
++jqdatasdk==1.8.10
++jsonschema==3.2.0
++jupyter-client==7.1.0
++jupyter-core==4.9.1
++jupyterlab-pygments==0.1.2
++jupyterlab-widgets==1.0.2
++keras-applications==1.0.8
++keras-nightly==2.5.0.dev2021032900
++keras-preprocessing==1.1.2
++keras==2.9.0
++keyring==22.3.0
++kiwisolver==1.3.2
++korean-lunar-calendar==0.2.1
++kungfu==0.2.2
++lasertag==1.0.0
++libclang==14.0.6
++lockfile==0.12.2
++lxml==4.9.1
++lz4==3.1.3
++magent==0.1.13
++markdown==3.3.6
++markupsafe==2.0.1
++matplotlib-inline==0.1.2
++matplotlib==3.5.1
++mistune==0.8.4
++mj-envs==1.0.0
++mjrl==1.0.0
++mock==4.0.3
++msgpack==1.0.3
++mujoco-py==2.0.2.13
++multi-agent-ale-py==0.1.10
++multidict==5.1.0
++multitasking==0.0.11
++nashpy==0.0.21
++nbclient==0.5.10
++nbconvert==6.4.0
++nbformat==5.1.3
++nest-asyncio==1.5.4
++networkx==1.11
++ninja==1.10.2.3
++nodeenv==1.6.0
++notebook==6.4.7
++numpy==1.21.6
++nvidia-ml-py3==7.352.0
++nvidia-ml-py==11.495.46
++oauthlib==3.2.0
++omegaconf==2.2.2
++opencensus-context==0.1.2
++opencensus==0.7.13
++opencv-python-headless==4.3.0.36
++opencv-python==3.4.17.61
++opt-einsum==3.3.0
++osqp==0.6.2.post0
++packaging==21.3
++pandas-datareader==0.10.0
++pandas==1.3.5
++pandocfilters==1.5.0
++parso==0.8.2
++pastel==0.2.1
++pathtools==0.1.2
++patool==1.12
++pettingzoo==1.18.1
++pexpect==4.8.0
++pickleshare==0.7.5
++pillow==9.2.0
++pip==22.2
++pkginfo==1.8.3
++platformdirs==2.5.1
++pluggy==1.0.0
++ply==3.11
++poetry-core==1.0.8
++poetry==1.1.14
++pre-commit==2.17.0
++progressbar2==3.53.1
++prometheus-client==0.11.0
++promise==2.3
++prompt-toolkit==3.0.18
++protobuf==3.19.4
++psutil==5.9.0
++psycopg2-binary==2.9.3
++ptyprocess==0.7.0
++pulp==2.4
++py-spy==0.3.7
++py==1.11.0
++pyasn1-modules==0.2.8
++pyasn1==0.4.8
++pybullet==3.2.5
++pycares==4.2.2
++pycolab==1.2
++pycparser==2.20
++pydantic==1.8.2
++pydotplus==2.0.2
++pyfolio==0.9.2+75.g4b901f6
++pygame==2.1.0
++pyglet==1.5.0
++pygments==2.9.0
++pylev==1.4.0
++pyluach==2.0.0
++pymunk==6.0.0
++pymysql==1.0.2
++pyopengl==3.1.6
++pyparsing==3.0.7
++pyrsistent==0.17.3
++pytest==7.1.2
++python-chess==0.31.4
++python-dateutil==2.8.2
++python-utils==2.5.6
++pytz==2021.3
++pyunpack==0.2.2
++pyvirtualdisplay==3.0
++pywavelets==1.1.1
++pyyaml==5.4.1
++pyzmq==22.3.0
++qdldl==0.1.5.post0
++ray==1.13.0
++redis==3.5.3
++requests-oauthlib==1.3.1
++requests-toolbelt==0.9.1
++requests==2.27.1
++rl-games==1.5.2
++rlcard==0.2.8
++robosumo==0.0.1.dev0
++rsa==4.7.2
++scikit-image==0.18.1
++scikit-learn==0.24.2
++scipy==1.7.3
++scs==2.1.3
++seaborn==0.11.2
++secretstorage==3.3.2
++send2trash==1.8.0
++sentry-sdk==1.5.7
++setproctitle==1.2.2
++setuptools-scm==6.4.2
++setuptools==59.5.0
++shellingham==1.5.0
++shortuuid==1.0.8
++six==1.16.0
++slimevolleygym==0.1.0
++smart-open==6.0.0
++smmap==5.0.0
++sqlalchemy==1.4.40
++stable-baselines3==1.2.0
++stable-baselines==2.10.2
++stockstats==0.4.1
++supersuit==3.4.0
++tabulate==0.8.9
++tb-nightly==2.11.0a20220815
++tensorboard-data-server==0.6.1
++tensorboard-plugin-wit==1.8.1
++tensorboard==2.9.1
++tensorboardx==2.5.1
++tensorflow-estimator==2.9.0
++tensorflow-gpu==2.0.0
++tensorflow-io-gcs-filesystem==0.26.0
++tensorflow-probability==0.8.0
++tensorflow==2.9.1
++tensorlayer==2.2.3
++termcolor==1.1.0
++terminado==0.12.1
++testpath==0.5.0
++threadpoolctl==2.1.0
++thriftpy2==0.4.14
++tifffile==2021.6.14
++tinyscaler==1.2.4
++toml==0.10.2
++tomli==2.0.1
++tomlkit==0.11.3
++toolz==0.12.0
++torch==1.12.0
++torchvision==0.13.0
++tornado==6.1
++tqdm==4.60.0
++traitlets==5.1.1
++typing-extensions==4.1.1
++typing==3.7.4.3
++urllib3==1.26.8
++virtualenv==20.13.3
++wandb==0.12.11
++wcwidth==0.2.5
++webencodings==0.5.1
++websocket-client==1.3.3
++websockets==10.3
++werkzeug==2.0.3
++wheel==0.36.2
++widgetsnbextension==3.5.2
++wrapt==1.12.1
++wrds==3.1.2
++yarl==1.7.2
++yaspin==2.1.0
++yfinance==0.1.74
++zipp==3.7.0
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/wandb-metadata.json b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/wandb-metadata.json
+new file mode 100644
+index 0000000..b53fb50
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/wandb-metadata.json
+@@ -0,0 +1,24 @@
++{
++    "os": "Linux-5.4.0-125-generic-x86_64-with-debian-bullseye-sid",
++    "python": "3.7.10",
++    "heartbeatAt": "2022-10-29T18:48:27.871451",
++    "startedAt": "2022-10-29T18:48:25.257002",
++    "docker": null,
++    "gpu": "NVIDIA TITAN RTX",
++    "gpu_count": 2,
++    "cpu_count": 32,
++    "cuda": "11.0.207",
++    "args": [],
++    "state": "running",
++    "program": "train_alpaca.py",
++    "codePath": "tutorials/3-Practical/train_alpaca.py",
++    "git": {
++        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
++        "commit": "a0a6c45bcb60f44ce2ff754750b752050120ab07"
++    },
++    "email": "zhding@mail.ustc.edu.cn",
++    "root": "/home/zihan/research/FinRL",
++    "host": "e900-rbtg",
++    "username": "zihan",
++    "executable": "/home/zihan/anaconda3/envs/x/bin/python"
++}
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/wandb-summary.json b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/wandb-summary.json
+new file mode 100644
+index 0000000..018b406
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/files/wandb-summary.json
+@@ -0,0 +1 @@
++{"_wandb": {"runtime": 12}}
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/run-2m5cktfj.wandb b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/run-2m5cktfj.wandb
+new file mode 100644
+index 0000000..1a957c7
+Binary files /dev/null and b/tutorials/3-Practical/wandb/run-20221029_144825-2m5cktfj/run-2m5cktfj.wandb differ
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/code/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/code/tutorials/3-Practical/train_alpaca.py
+new file mode 100644
+index 0000000..4b46a18
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/code/tutorials/3-Practical/train_alpaca.py
+@@ -0,0 +1,43 @@
++from finrl.train import train
++from finrl.test import test
++from finrl.config_tickers import DOW_30_TICKER
++from finrl.config import INDICATORS
++from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
++from common import *
++
++import numpy as np
++import pandas as pd
++
++ticker_list = DOW_30_TICKER
++action_dim = len(DOW_30_TICKER)
++candle_time_interval = '1Min'  # '1Min'
++
++env = StockTradingEnv
++
++ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
++        "eval_times":1} 
++#if you want to use larger datasets (change to longer period), and it raises error, 
++#please try to increase "target_step". It should be larger than the episode steps. 
++
++start_date = '2022-8-24'
++end_date = '2022-9-2'
++model_name='td3'
++MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++
++train(start_date = start_date, 
++      end_date = end_date,
++      ticker_list = ticker_list, 
++      data_source = 'alpaca',
++      time_interval= candle_time_interval, 
++      technical_indicator_list= INDICATORS,
++      drl_lib='elegantrl', 
++      env=env,
++      model_name=model_name, 
++      API_KEY = API_KEY, 
++      API_SECRET = API_SECRET, 
++      API_BASE_URL = API_BASE_URL,
++      erl_params=ERL_PARAMS,
++      cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
++      break_step=1e7)
++
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/conda-environment.yaml b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/conda-environment.yaml
+new file mode 100644
+index 0000000..44e7178
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/conda-environment.yaml
+@@ -0,0 +1,316 @@
++name: x
++channels:
++  - defaults
++dependencies:
++  - _libgcc_mutex=0.1=main
++  - _openmp_mutex=5.1=1_gnu
++  - ca-certificates=2022.4.26=h06a4308_0
++  - gmp=6.2.1=h295c915_3
++  - ld_impl_linux-64=2.33.1=h53a641e_7
++  - libffi=3.3=he6710b0_2
++  - libgcc=7.2.0=h69d50b8_2
++  - libgcc-ng=11.2.0=h1234567_1
++  - libgomp=11.2.0=h1234567_1
++  - libstdcxx-ng=9.1.0=hdf63c60_0
++  - ncurses=6.2=he6710b0_1
++  - openssl=1.1.1p=h5eee18b_0
++  - python=3.7.10=hdb3f193_0
++  - readline=8.1=h27cfd23_0
++  - sqlite=3.35.4=hdfb4753_0
++  - tk=8.6.10=hbc83047_0
++  - wheel=0.36.2=pyhd3eb1b0_0
++  - xz=5.2.5=h7b6447c_0
++  - zlib=1.2.11=h7b6447c_3
++  - pip:
++    - absl-py==1.0.0
++    - aiodns==3.0.0
++    - aiohttp==3.8.1
++    - aiohttp-cors==0.7.0
++    - aioredis==1.3.1
++    - aiosignal==1.2.0
++    - ale-py==0.7.4
++    - alpaca-trade-api==2.3.0
++    - amply==0.1.4
++    - antlr4-python3-runtime==4.9.3
++    - argon2-cffi==21.3.0
++    - argon2-cffi-bindings==21.2.0
++    - astor==0.8.1
++    - astunparse==1.6.3
++    - async-timeout==4.0.2
++    - asynctest==0.13.0
++    - atari-py==0.2.6
++    - attrs==21.2.0
++    - autorom==0.4.2
++    - autorom-accept-rom-license==0.4.2
++    - backcall==0.2.0
++    - blackhc-mdp==1.0.6
++    - bleach==4.1.0
++    - blessed==1.19.1
++    - blessings==1.7
++    - box2d-py==2.3.5
++    - cachecontrol==0.12.11
++    - cached-property==1.5.2
++    - cachetools==5.0.0
++    - cachy==0.3.0
++    - ccxt==1.66.32
++    - certifi==2021.10.8
++    - cffi==1.14.5
++    - cfgv==3.3.1
++    - chardet==4.0.0
++    - charset-normalizer==2.0.12
++    - cleanrl==1.0.0b0
++    - cleo==0.8.1
++    - click==8.0.4
++    - clikit==0.6.2
++    - cloudpickle==1.2.2
++    - colorama==0.4.4
++    - colorful==0.5.4
++    - crashtest==0.3.1
++    - cryptography==37.0.4
++    - cvxpy==1.1.12
++    - cycler==0.11.0
++    - cython==0.29.23
++    - dataclasses==0.6
++    - debugpy==1.5.1
++    - decorator==4.4.2
++    - defusedxml==0.7.1
++    - deprecation==2.1.0
++    - distlib==0.3.4
++    - dm-tree==0.1.6
++    - docker-pycreds==0.4.0
++    - docutils==0.17.1
++    - easyprocess==0.3
++    - ecos==2.0.7.post1
++    - empyrical==0.5.5
++    - entrypoint2==0.2.4
++    - entrypoints==0.3
++    - exchange-calendars==3.6.3
++    - fasteners==0.16.3
++    - filelock==3.6.0
++    - flatbuffers==1.12
++    - fonttools==4.29.1
++    - frozenlist==1.3.1
++    - future==0.18.2
++    - gast==0.2.2
++    - gitdb==4.0.9
++    - gitpython==3.1.27
++    - glfw==2.1.0
++    - google-api-core==1.30.0
++    - google-auth==2.6.0
++    - google-auth-oauthlib==0.4.6
++    - google-pasta==0.2.0
++    - googleapis-common-protos==1.53.0
++    - gpustat==1.0.0rc1
++    - gputil==1.4.0
++    - greenlet==1.1.2
++    - grpcio==1.44.0
++    - gurobipy==9.1.2
++    - gym==0.23.1
++    - gym-notices==0.0.5
++    - h5py==3.1.0
++    - hanabi-learning-environment==0.0.1
++    - hiredis==2.0.0
++    - html5lib==1.1
++    - hydra-core==1.2.0
++    - identify==2.4.11
++    - idna==3.3
++    - imageio==2.9.0
++    - importlib-metadata==4.11.2
++    - importlib-resources==5.8.0
++    - iniconfig==1.1.1
++    - ipdb==0.13.9
++    - ipykernel==6.7.0
++    - ipython==7.23.1
++    - ipython-genutils==0.2.0
++    - ipywidgets==7.6.5
++    - jedi==0.18.0
++    - jeepney==0.8.0
++    - jinja2==3.0.3
++    - joblib==1.0.1
++    - jqdatasdk==1.8.10
++    - jsonschema==3.2.0
++    - jupyter-client==7.1.0
++    - jupyter-core==4.9.1
++    - jupyterlab-pygments==0.1.2
++    - jupyterlab-widgets==1.0.2
++    - keras==2.9.0
++    - keras-applications==1.0.8
++    - keras-nightly==2.5.0.dev2021032900
++    - keras-preprocessing==1.1.2
++    - keyring==22.3.0
++    - kiwisolver==1.3.2
++    - korean-lunar-calendar==0.2.1
++    - kungfu==0.2.2
++    - libclang==14.0.6
++    - lockfile==0.12.2
++    - lxml==4.9.1
++    - lz4==3.1.3
++    - magent==0.1.13
++    - markdown==3.3.6
++    - markupsafe==2.0.1
++    - matplotlib==3.5.1
++    - matplotlib-inline==0.1.2
++    - mistune==0.8.4
++    - mock==4.0.3
++    - msgpack==1.0.3
++    - mujoco-py==2.0.2.13
++    - multi-agent-ale-py==0.1.10
++    - multidict==5.1.0
++    - multitasking==0.0.11
++    - nashpy==0.0.21
++    - nbclient==0.5.10
++    - nbconvert==6.4.0
++    - nbformat==5.1.3
++    - nest-asyncio==1.5.4
++    - networkx==1.11
++    - ninja==1.10.2.3
++    - nodeenv==1.6.0
++    - notebook==6.4.7
++    - numpy==1.21.6
++    - nvidia-ml-py==11.495.46
++    - nvidia-ml-py3==7.352.0
++    - oauthlib==3.2.0
++    - omegaconf==2.2.2
++    - opencensus==0.7.13
++    - opencensus-context==0.1.2
++    - opencv-python==3.4.17.61
++    - opencv-python-headless==4.3.0.36
++    - opt-einsum==3.3.0
++    - osqp==0.6.2.post0
++    - packaging==21.3
++    - pandas==1.3.5
++    - pandas-datareader==0.10.0
++    - pandocfilters==1.5.0
++    - parso==0.8.2
++    - pastel==0.2.1
++    - pathtools==0.1.2
++    - patool==1.12
++    - pettingzoo==1.18.1
++    - pexpect==4.8.0
++    - pickleshare==0.7.5
++    - pillow==9.2.0
++    - pip==22.2
++    - pkginfo==1.8.3
++    - platformdirs==2.5.1
++    - pluggy==1.0.0
++    - ply==3.11
++    - poetry==1.1.14
++    - poetry-core==1.0.8
++    - pre-commit==2.17.0
++    - progressbar2==3.53.1
++    - prometheus-client==0.11.0
++    - promise==2.3
++    - prompt-toolkit==3.0.18
++    - protobuf==3.19.4
++    - psutil==5.9.0
++    - psycopg2-binary==2.9.3
++    - ptyprocess==0.7.0
++    - pulp==2.4
++    - py==1.11.0
++    - py-spy==0.3.7
++    - pyasn1==0.4.8
++    - pyasn1-modules==0.2.8
++    - pybullet==3.2.5
++    - pycares==4.2.2
++    - pycolab==1.2
++    - pycparser==2.20
++    - pydantic==1.8.2
++    - pydotplus==2.0.2
++    - pyfolio==0.9.2+75.g4b901f6
++    - pygame==2.1.0
++    - pyglet==1.5.0
++    - pygments==2.9.0
++    - pylev==1.4.0
++    - pyluach==2.0.0
++    - pymunk==6.0.0
++    - pymysql==1.0.2
++    - pyopengl==3.1.6
++    - pyparsing==3.0.7
++    - pyrsistent==0.17.3
++    - pytest==7.1.2
++    - python-chess==0.31.4
++    - python-dateutil==2.8.2
++    - python-utils==2.5.6
++    - pytz==2021.3
++    - pyunpack==0.2.2
++    - pyvirtualdisplay==3.0
++    - pywavelets==1.1.1
++    - pyyaml==5.4.1
++    - pyzmq==22.3.0
++    - qdldl==0.1.5.post0
++    - ray==1.13.0
++    - redis==3.5.3
++    - requests==2.27.1
++    - requests-oauthlib==1.3.1
++    - requests-toolbelt==0.9.1
++    - rl-games==1.5.2
++    - rlcard==0.2.8
++    - rsa==4.7.2
++    - scikit-image==0.18.1
++    - scikit-learn==0.24.2
++    - scipy==1.7.3
++    - scs==2.1.3
++    - seaborn==0.11.2
++    - secretstorage==3.3.2
++    - send2trash==1.8.0
++    - sentry-sdk==1.5.7
++    - setproctitle==1.2.2
++    - setuptools==59.5.0
++    - setuptools-scm==6.4.2
++    - shellingham==1.5.0
++    - shortuuid==1.0.8
++    - six==1.16.0
++    - slimevolleygym==0.1.0
++    - smart-open==6.0.0
++    - smmap==5.0.0
++    - sqlalchemy==1.4.40
++    - stable-baselines==2.10.2
++    - stable-baselines3==1.2.0
++    - stockstats==0.4.1
++    - supersuit==3.4.0
++    - tabulate==0.8.9
++    - tb-nightly==2.11.0a20220815
++    - tensorboard==2.9.1
++    - tensorboard-data-server==0.6.1
++    - tensorboard-plugin-wit==1.8.1
++    - tensorboardx==2.5.1
++    - tensorflow==2.9.1
++    - tensorflow-estimator==2.9.0
++    - tensorflow-gpu==2.0.0
++    - tensorflow-io-gcs-filesystem==0.26.0
++    - tensorflow-probability==0.8.0
++    - tensorlayer==2.2.3
++    - termcolor==1.1.0
++    - terminado==0.12.1
++    - testpath==0.5.0
++    - threadpoolctl==2.1.0
++    - thriftpy2==0.4.14
++    - tifffile==2021.6.14
++    - tinyscaler==1.2.4
++    - toml==0.10.2
++    - tomli==2.0.1
++    - tomlkit==0.11.3
++    - toolz==0.12.0
++    - torch==1.12.0
++    - torchvision==0.13.0
++    - tornado==6.1
++    - tqdm==4.60.0
++    - traitlets==5.1.1
++    - typing==3.7.4.3
++    - typing-extensions==4.1.1
++    - urllib3==1.26.8
++    - virtualenv==20.13.3
++    - wandb==0.12.11
++    - wcwidth==0.2.5
++    - webencodings==0.5.1
++    - websocket-client==1.3.3
++    - websockets==10.3
++    - werkzeug==2.0.3
++    - widgetsnbextension==3.5.2
++    - wrapt==1.12.1
++    - wrds==3.1.2
++    - yarl==1.7.2
++    - yaspin==2.1.0
++    - yfinance==0.1.74
++    - zipp==3.7.0
++prefix: /home/zihan/anaconda3/envs/x
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/config.yaml b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/config.yaml
+new file mode 100644
+index 0000000..92e8493
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/config.yaml
+@@ -0,0 +1,41 @@
++wandb_version: 1
++
++_wandb:
++  desc: null
++  value:
++    cli_version: 0.12.11
++    code_path: code/tutorials/3-Practical/train_alpaca.py
++    framework: torch
++    is_jupyter_run: false
++    is_kaggle_kernel: false
++    python_version: 3.7.10
++    start_time: 1667069342
++    t:
++      1:
++      - 1
++      - 2
++      - 3
++      2:
++      - 1
++      - 2
++      - 3
++      3:
++      - 13
++      - 16
++      - 35
++      4: 3.7.10
++      5: 0.12.11
++      8:
++      - 5
++wandb_entity:
++  desc: null
++  value: quantumiracle
++wandb_group:
++  desc: null
++  value: ''
++wandb_name:
++  desc: null
++  value: ./papertrading_erl/td3_2022-8-24_2022-9-2
++wandb_project:
++  desc: null
++  value: FinRL
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/diff.patch b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/diff.patch
+new file mode 100644
+index 0000000..bc5a06e
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/diff.patch
+@@ -0,0 +1,24 @@
++diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
++index 5b8f7a5..4b46a18 100644
++--- a/tutorials/3-Practical/train_alpaca.py
+++++ b/tutorials/3-Practical/train_alpaca.py
++@@ -20,8 +20,8 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++ #if you want to use larger datasets (change to longer period), and it raises error, 
++ #please try to increase "target_step". It should be larger than the episode steps. 
++ 
++-start_date = '2022-6-11'
++-end_date = '2022-9-1'
+++start_date = '2022-8-24'
+++end_date = '2022-9-2'
++ model_name='td3'
++ MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++ 
++diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
++index cd14832..e59525b 120000
++--- a/tutorials/3-Practical/wandb/latest-run
+++++ b/tutorials/3-Practical/wandb/latest-run
++@@ -1 +1 @@
++-run-20220914_101520-3nhd8ptj
++\ No newline at end of file
+++run-20221029_144902-1874m6r1
++\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/requirements.txt b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/requirements.txt
+new file mode 100644
+index 0000000..754814f
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/requirements.txt
+@@ -0,0 +1,301 @@
++absl-py==1.0.0
++aiodns==3.0.0
++aiohttp-cors==0.7.0
++aiohttp==3.8.1
++aioredis==1.3.1
++aiosignal==1.2.0
++ale-py==0.7.4
++alpaca-trade-api==2.3.0
++amply==0.1.4
++antlr4-python3-runtime==4.9.3
++argon2-cffi-bindings==21.2.0
++argon2-cffi==21.3.0
++astor==0.8.1
++astunparse==1.6.3
++async-timeout==4.0.2
++asynctest==0.13.0
++atari-py==0.2.6
++attrs==21.2.0
++autorom.accept-rom-license==0.4.2
++autorom==0.4.2
++backcall==0.2.0
++bidexhands==0.1.1
++blackhc.mdp==1.0.6
++bleach==4.1.0
++blessed==1.19.1
++blessings==1.7
++box2d-py==2.3.5
++cachecontrol==0.12.11
++cached-property==1.5.2
++cachetools==5.0.0
++cachy==0.3.0
++ccxt==1.66.32
++certifi==2021.10.8
++cffi==1.14.5
++cfgv==3.3.1
++chardet==4.0.0
++charset-normalizer==2.0.12
++cleanrl==1.0.0b0
++cleo==0.8.1
++click==8.0.4
++clikit==0.6.2
++cloudpickle==1.2.2
++colorama==0.4.4
++colorful==0.5.4
++crashtest==0.3.1
++cryptography==37.0.4
++cvxpy==1.1.12
++cycler==0.11.0
++cython==0.29.23
++dataclasses==0.6
++debugpy==1.5.1
++decorator==4.4.2
++defusedxml==0.7.1
++deprecation==2.1.0
++distlib==0.3.4
++dm-tree==0.1.6
++docker-pycreds==0.4.0
++docutils==0.17.1
++easyprocess==0.3
++ecos==2.0.7.post1
++elegantrl==0.3.3
++empyrical==0.5.5
++entrypoint2==0.2.4
++entrypoints==0.3
++exchange-calendars==3.6.3
++fasteners==0.16.3
++filelock==3.6.0
++finrl==0.3.5
++flatbuffers==1.12
++fonttools==4.29.1
++frozenlist==1.3.1
++future==0.18.2
++gast==0.2.2
++gitdb==4.0.9
++gitpython==3.1.27
++glfw==2.1.0
++google-api-core==1.30.0
++google-auth-oauthlib==0.4.6
++google-auth==2.6.0
++google-pasta==0.2.0
++googleapis-common-protos==1.53.0
++gpustat==1.0.0rc1
++gputil==1.4.0
++greenlet==1.1.2
++grpcio==1.44.0
++gurobipy==9.1.2
++gym-notices==0.0.5
++gym==0.23.1
++h5py==3.1.0
++hanabi-learning-environment==0.0.1
++hiredis==2.0.0
++html5lib==1.1
++hydra-core==1.2.0
++identify==2.4.11
++idna==3.3
++imageio==2.9.0
++importlib-metadata==4.11.2
++importlib-resources==5.8.0
++iniconfig==1.1.1
++ipdb==0.13.9
++ipykernel==6.7.0
++ipython-genutils==0.2.0
++ipython==7.23.1
++ipywidgets==7.6.5
++isaacgym==1.0rc4
++isaacgymenvs==1.2.0
++jedi==0.18.0
++jeepney==0.8.0
++jinja2==3.0.3
++joblib==1.0.1
++jqdatasdk==1.8.10
++jsonschema==3.2.0
++jupyter-client==7.1.0
++jupyter-core==4.9.1
++jupyterlab-pygments==0.1.2
++jupyterlab-widgets==1.0.2
++keras-applications==1.0.8
++keras-nightly==2.5.0.dev2021032900
++keras-preprocessing==1.1.2
++keras==2.9.0
++keyring==22.3.0
++kiwisolver==1.3.2
++korean-lunar-calendar==0.2.1
++kungfu==0.2.2
++lasertag==1.0.0
++libclang==14.0.6
++lockfile==0.12.2
++lxml==4.9.1
++lz4==3.1.3
++magent==0.1.13
++markdown==3.3.6
++markupsafe==2.0.1
++matplotlib-inline==0.1.2
++matplotlib==3.5.1
++mistune==0.8.4
++mj-envs==1.0.0
++mjrl==1.0.0
++mock==4.0.3
++msgpack==1.0.3
++mujoco-py==2.0.2.13
++multi-agent-ale-py==0.1.10
++multidict==5.1.0
++multitasking==0.0.11
++nashpy==0.0.21
++nbclient==0.5.10
++nbconvert==6.4.0
++nbformat==5.1.3
++nest-asyncio==1.5.4
++networkx==1.11
++ninja==1.10.2.3
++nodeenv==1.6.0
++notebook==6.4.7
++numpy==1.21.6
++nvidia-ml-py3==7.352.0
++nvidia-ml-py==11.495.46
++oauthlib==3.2.0
++omegaconf==2.2.2
++opencensus-context==0.1.2
++opencensus==0.7.13
++opencv-python-headless==4.3.0.36
++opencv-python==3.4.17.61
++opt-einsum==3.3.0
++osqp==0.6.2.post0
++packaging==21.3
++pandas-datareader==0.10.0
++pandas==1.3.5
++pandocfilters==1.5.0
++parso==0.8.2
++pastel==0.2.1
++pathtools==0.1.2
++patool==1.12
++pettingzoo==1.18.1
++pexpect==4.8.0
++pickleshare==0.7.5
++pillow==9.2.0
++pip==22.2
++pkginfo==1.8.3
++platformdirs==2.5.1
++pluggy==1.0.0
++ply==3.11
++poetry-core==1.0.8
++poetry==1.1.14
++pre-commit==2.17.0
++progressbar2==3.53.1
++prometheus-client==0.11.0
++promise==2.3
++prompt-toolkit==3.0.18
++protobuf==3.19.4
++psutil==5.9.0
++psycopg2-binary==2.9.3
++ptyprocess==0.7.0
++pulp==2.4
++py-spy==0.3.7
++py==1.11.0
++pyasn1-modules==0.2.8
++pyasn1==0.4.8
++pybullet==3.2.5
++pycares==4.2.2
++pycolab==1.2
++pycparser==2.20
++pydantic==1.8.2
++pydotplus==2.0.2
++pyfolio==0.9.2+75.g4b901f6
++pygame==2.1.0
++pyglet==1.5.0
++pygments==2.9.0
++pylev==1.4.0
++pyluach==2.0.0
++pymunk==6.0.0
++pymysql==1.0.2
++pyopengl==3.1.6
++pyparsing==3.0.7
++pyrsistent==0.17.3
++pytest==7.1.2
++python-chess==0.31.4
++python-dateutil==2.8.2
++python-utils==2.5.6
++pytz==2021.3
++pyunpack==0.2.2
++pyvirtualdisplay==3.0
++pywavelets==1.1.1
++pyyaml==5.4.1
++pyzmq==22.3.0
++qdldl==0.1.5.post0
++ray==1.13.0
++redis==3.5.3
++requests-oauthlib==1.3.1
++requests-toolbelt==0.9.1
++requests==2.27.1
++rl-games==1.5.2
++rlcard==0.2.8
++robosumo==0.0.1.dev0
++rsa==4.7.2
++scikit-image==0.18.1
++scikit-learn==0.24.2
++scipy==1.7.3
++scs==2.1.3
++seaborn==0.11.2
++secretstorage==3.3.2
++send2trash==1.8.0
++sentry-sdk==1.5.7
++setproctitle==1.2.2
++setuptools-scm==6.4.2
++setuptools==59.5.0
++shellingham==1.5.0
++shortuuid==1.0.8
++six==1.16.0
++slimevolleygym==0.1.0
++smart-open==6.0.0
++smmap==5.0.0
++sqlalchemy==1.4.40
++stable-baselines3==1.2.0
++stable-baselines==2.10.2
++stockstats==0.4.1
++supersuit==3.4.0
++tabulate==0.8.9
++tb-nightly==2.11.0a20220815
++tensorboard-data-server==0.6.1
++tensorboard-plugin-wit==1.8.1
++tensorboard==2.9.1
++tensorboardx==2.5.1
++tensorflow-estimator==2.9.0
++tensorflow-gpu==2.0.0
++tensorflow-io-gcs-filesystem==0.26.0
++tensorflow-probability==0.8.0
++tensorflow==2.9.1
++tensorlayer==2.2.3
++termcolor==1.1.0
++terminado==0.12.1
++testpath==0.5.0
++threadpoolctl==2.1.0
++thriftpy2==0.4.14
++tifffile==2021.6.14
++tinyscaler==1.2.4
++toml==0.10.2
++tomli==2.0.1
++tomlkit==0.11.3
++toolz==0.12.0
++torch==1.12.0
++torchvision==0.13.0
++tornado==6.1
++tqdm==4.60.0
++traitlets==5.1.1
++typing-extensions==4.1.1
++typing==3.7.4.3
++urllib3==1.26.8
++virtualenv==20.13.3
++wandb==0.12.11
++wcwidth==0.2.5
++webencodings==0.5.1
++websocket-client==1.3.3
++websockets==10.3
++werkzeug==2.0.3
++wheel==0.36.2
++widgetsnbextension==3.5.2
++wrapt==1.12.1
++wrds==3.1.2
++yarl==1.7.2
++yaspin==2.1.0
++yfinance==0.1.74
++zipp==3.7.0
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/wandb-metadata.json b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/wandb-metadata.json
+new file mode 100644
+index 0000000..70bc539
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/wandb-metadata.json
+@@ -0,0 +1,24 @@
++{
++    "os": "Linux-5.4.0-125-generic-x86_64-with-debian-bullseye-sid",
++    "python": "3.7.10",
++    "heartbeatAt": "2022-10-29T18:49:05.454423",
++    "startedAt": "2022-10-29T18:49:02.827941",
++    "docker": null,
++    "gpu": "NVIDIA TITAN RTX",
++    "gpu_count": 2,
++    "cpu_count": 32,
++    "cuda": "11.0.207",
++    "args": [],
++    "state": "running",
++    "program": "train_alpaca.py",
++    "codePath": "tutorials/3-Practical/train_alpaca.py",
++    "git": {
++        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
++        "commit": "a0a6c45bcb60f44ce2ff754750b752050120ab07"
++    },
++    "email": "zhding@mail.ustc.edu.cn",
++    "root": "/home/zihan/research/FinRL",
++    "host": "e900-rbtg",
++    "username": "zihan",
++    "executable": "/home/zihan/anaconda3/envs/x/bin/python"
++}
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/wandb-summary.json b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/wandb-summary.json
+new file mode 100644
+index 0000000..018b406
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/files/wandb-summary.json
+@@ -0,0 +1 @@
++{"_wandb": {"runtime": 12}}
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/run-1874m6r1.wandb b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/run-1874m6r1.wandb
+new file mode 100644
+index 0000000..72b7d1f
+Binary files /dev/null and b/tutorials/3-Practical/wandb/run-20221029_144902-1874m6r1/run-1874m6r1.wandb differ
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/code/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/code/tutorials/3-Practical/train_alpaca.py
+new file mode 100644
+index 0000000..56714af
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/code/tutorials/3-Practical/train_alpaca.py
+@@ -0,0 +1,43 @@
++from finrl.train import train
++from finrl.test import test
++from finrl.config_tickers import DOW_30_TICKER
++from finrl.config import INDICATORS
++from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
++from common import *
++
++import numpy as np
++import pandas as pd
++
++ticker_list = DOW_30_TICKER
++action_dim = len(DOW_30_TICKER)
++candle_time_interval = '1Min'  # '1Min'
++
++env = StockTradingEnv
++
++ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
++        "eval_times":1} 
++#if you want to use larger datasets (change to longer period), and it raises error, 
++#please try to increase "target_step". It should be larger than the episode steps. 
++
++start_date = '2022-8-24'
++end_date = '2022-9-2'
++model_name='a2c'
++MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++
++train(start_date = start_date, 
++      end_date = end_date,
++      ticker_list = ticker_list, 
++      data_source = 'alpaca',
++      time_interval= candle_time_interval, 
++      technical_indicator_list= INDICATORS,
++      drl_lib='elegantrl', 
++      env=env,
++      model_name=model_name, 
++      API_KEY = API_KEY, 
++      API_SECRET = API_SECRET, 
++      API_BASE_URL = API_BASE_URL,
++      erl_params=ERL_PARAMS,
++      cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
++      break_step=1e7)
++
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/conda-environment.yaml b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/conda-environment.yaml
+new file mode 100644
+index 0000000..e69de29
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/config.yaml b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/config.yaml
+new file mode 100644
+index 0000000..88d46d9
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/config.yaml
+@@ -0,0 +1,41 @@
++wandb_version: 1
++
++_wandb:
++  desc: null
++  value:
++    cli_version: 0.12.11
++    code_path: code/tutorials/3-Practical/train_alpaca.py
++    framework: torch
++    is_jupyter_run: false
++    is_kaggle_kernel: false
++    python_version: 3.7.10
++    start_time: 1667069393
++    t:
++      1:
++      - 1
++      - 2
++      - 3
++      2:
++      - 1
++      - 2
++      - 3
++      3:
++      - 13
++      - 16
++      - 35
++      4: 3.7.10
++      5: 0.12.11
++      8:
++      - 5
++wandb_entity:
++  desc: null
++  value: quantumiracle
++wandb_group:
++  desc: null
++  value: ''
++wandb_name:
++  desc: null
++  value: ./papertrading_erl/a2c_2022-8-24_2022-9-2
++wandb_project:
++  desc: null
++  value: FinRL
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/diff.patch b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/diff.patch
+new file mode 100644
+index 0000000..8777ca7
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/diff.patch
+@@ -0,0 +1,26 @@
++diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
++index 5b8f7a5..56714af 100644
++--- a/tutorials/3-Practical/train_alpaca.py
+++++ b/tutorials/3-Practical/train_alpaca.py
++@@ -20,9 +20,9 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++ #if you want to use larger datasets (change to longer period), and it raises error, 
++ #please try to increase "target_step". It should be larger than the episode steps. 
++ 
++-start_date = '2022-6-11'
++-end_date = '2022-9-1'
++-model_name='td3'
+++start_date = '2022-8-24'
+++end_date = '2022-9-2'
+++model_name='a2c'
++ MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++ 
++ train(start_date = start_date, 
++diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
++index cd14832..6bb8740 120000
++--- a/tutorials/3-Practical/wandb/latest-run
+++++ b/tutorials/3-Practical/wandb/latest-run
++@@ -1 +1 @@
++-run-20220914_101520-3nhd8ptj
++\ No newline at end of file
+++run-20221029_144953-3i8bwmb0
++\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/requirements.txt b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/requirements.txt
+new file mode 100644
+index 0000000..754814f
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/requirements.txt
+@@ -0,0 +1,301 @@
++absl-py==1.0.0
++aiodns==3.0.0
++aiohttp-cors==0.7.0
++aiohttp==3.8.1
++aioredis==1.3.1
++aiosignal==1.2.0
++ale-py==0.7.4
++alpaca-trade-api==2.3.0
++amply==0.1.4
++antlr4-python3-runtime==4.9.3
++argon2-cffi-bindings==21.2.0
++argon2-cffi==21.3.0
++astor==0.8.1
++astunparse==1.6.3
++async-timeout==4.0.2
++asynctest==0.13.0
++atari-py==0.2.6
++attrs==21.2.0
++autorom.accept-rom-license==0.4.2
++autorom==0.4.2
++backcall==0.2.0
++bidexhands==0.1.1
++blackhc.mdp==1.0.6
++bleach==4.1.0
++blessed==1.19.1
++blessings==1.7
++box2d-py==2.3.5
++cachecontrol==0.12.11
++cached-property==1.5.2
++cachetools==5.0.0
++cachy==0.3.0
++ccxt==1.66.32
++certifi==2021.10.8
++cffi==1.14.5
++cfgv==3.3.1
++chardet==4.0.0
++charset-normalizer==2.0.12
++cleanrl==1.0.0b0
++cleo==0.8.1
++click==8.0.4
++clikit==0.6.2
++cloudpickle==1.2.2
++colorama==0.4.4
++colorful==0.5.4
++crashtest==0.3.1
++cryptography==37.0.4
++cvxpy==1.1.12
++cycler==0.11.0
++cython==0.29.23
++dataclasses==0.6
++debugpy==1.5.1
++decorator==4.4.2
++defusedxml==0.7.1
++deprecation==2.1.0
++distlib==0.3.4
++dm-tree==0.1.6
++docker-pycreds==0.4.0
++docutils==0.17.1
++easyprocess==0.3
++ecos==2.0.7.post1
++elegantrl==0.3.3
++empyrical==0.5.5
++entrypoint2==0.2.4
++entrypoints==0.3
++exchange-calendars==3.6.3
++fasteners==0.16.3
++filelock==3.6.0
++finrl==0.3.5
++flatbuffers==1.12
++fonttools==4.29.1
++frozenlist==1.3.1
++future==0.18.2
++gast==0.2.2
++gitdb==4.0.9
++gitpython==3.1.27
++glfw==2.1.0
++google-api-core==1.30.0
++google-auth-oauthlib==0.4.6
++google-auth==2.6.0
++google-pasta==0.2.0
++googleapis-common-protos==1.53.0
++gpustat==1.0.0rc1
++gputil==1.4.0
++greenlet==1.1.2
++grpcio==1.44.0
++gurobipy==9.1.2
++gym-notices==0.0.5
++gym==0.23.1
++h5py==3.1.0
++hanabi-learning-environment==0.0.1
++hiredis==2.0.0
++html5lib==1.1
++hydra-core==1.2.0
++identify==2.4.11
++idna==3.3
++imageio==2.9.0
++importlib-metadata==4.11.2
++importlib-resources==5.8.0
++iniconfig==1.1.1
++ipdb==0.13.9
++ipykernel==6.7.0
++ipython-genutils==0.2.0
++ipython==7.23.1
++ipywidgets==7.6.5
++isaacgym==1.0rc4
++isaacgymenvs==1.2.0
++jedi==0.18.0
++jeepney==0.8.0
++jinja2==3.0.3
++joblib==1.0.1
++jqdatasdk==1.8.10
++jsonschema==3.2.0
++jupyter-client==7.1.0
++jupyter-core==4.9.1
++jupyterlab-pygments==0.1.2
++jupyterlab-widgets==1.0.2
++keras-applications==1.0.8
++keras-nightly==2.5.0.dev2021032900
++keras-preprocessing==1.1.2
++keras==2.9.0
++keyring==22.3.0
++kiwisolver==1.3.2
++korean-lunar-calendar==0.2.1
++kungfu==0.2.2
++lasertag==1.0.0
++libclang==14.0.6
++lockfile==0.12.2
++lxml==4.9.1
++lz4==3.1.3
++magent==0.1.13
++markdown==3.3.6
++markupsafe==2.0.1
++matplotlib-inline==0.1.2
++matplotlib==3.5.1
++mistune==0.8.4
++mj-envs==1.0.0
++mjrl==1.0.0
++mock==4.0.3
++msgpack==1.0.3
++mujoco-py==2.0.2.13
++multi-agent-ale-py==0.1.10
++multidict==5.1.0
++multitasking==0.0.11
++nashpy==0.0.21
++nbclient==0.5.10
++nbconvert==6.4.0
++nbformat==5.1.3
++nest-asyncio==1.5.4
++networkx==1.11
++ninja==1.10.2.3
++nodeenv==1.6.0
++notebook==6.4.7
++numpy==1.21.6
++nvidia-ml-py3==7.352.0
++nvidia-ml-py==11.495.46
++oauthlib==3.2.0
++omegaconf==2.2.2
++opencensus-context==0.1.2
++opencensus==0.7.13
++opencv-python-headless==4.3.0.36
++opencv-python==3.4.17.61
++opt-einsum==3.3.0
++osqp==0.6.2.post0
++packaging==21.3
++pandas-datareader==0.10.0
++pandas==1.3.5
++pandocfilters==1.5.0
++parso==0.8.2
++pastel==0.2.1
++pathtools==0.1.2
++patool==1.12
++pettingzoo==1.18.1
++pexpect==4.8.0
++pickleshare==0.7.5
++pillow==9.2.0
++pip==22.2
++pkginfo==1.8.3
++platformdirs==2.5.1
++pluggy==1.0.0
++ply==3.11
++poetry-core==1.0.8
++poetry==1.1.14
++pre-commit==2.17.0
++progressbar2==3.53.1
++prometheus-client==0.11.0
++promise==2.3
++prompt-toolkit==3.0.18
++protobuf==3.19.4
++psutil==5.9.0
++psycopg2-binary==2.9.3
++ptyprocess==0.7.0
++pulp==2.4
++py-spy==0.3.7
++py==1.11.0
++pyasn1-modules==0.2.8
++pyasn1==0.4.8
++pybullet==3.2.5
++pycares==4.2.2
++pycolab==1.2
++pycparser==2.20
++pydantic==1.8.2
++pydotplus==2.0.2
++pyfolio==0.9.2+75.g4b901f6
++pygame==2.1.0
++pyglet==1.5.0
++pygments==2.9.0
++pylev==1.4.0
++pyluach==2.0.0
++pymunk==6.0.0
++pymysql==1.0.2
++pyopengl==3.1.6
++pyparsing==3.0.7
++pyrsistent==0.17.3
++pytest==7.1.2
++python-chess==0.31.4
++python-dateutil==2.8.2
++python-utils==2.5.6
++pytz==2021.3
++pyunpack==0.2.2
++pyvirtualdisplay==3.0
++pywavelets==1.1.1
++pyyaml==5.4.1
++pyzmq==22.3.0
++qdldl==0.1.5.post0
++ray==1.13.0
++redis==3.5.3
++requests-oauthlib==1.3.1
++requests-toolbelt==0.9.1
++requests==2.27.1
++rl-games==1.5.2
++rlcard==0.2.8
++robosumo==0.0.1.dev0
++rsa==4.7.2
++scikit-image==0.18.1
++scikit-learn==0.24.2
++scipy==1.7.3
++scs==2.1.3
++seaborn==0.11.2
++secretstorage==3.3.2
++send2trash==1.8.0
++sentry-sdk==1.5.7
++setproctitle==1.2.2
++setuptools-scm==6.4.2
++setuptools==59.5.0
++shellingham==1.5.0
++shortuuid==1.0.8
++six==1.16.0
++slimevolleygym==0.1.0
++smart-open==6.0.0
++smmap==5.0.0
++sqlalchemy==1.4.40
++stable-baselines3==1.2.0
++stable-baselines==2.10.2
++stockstats==0.4.1
++supersuit==3.4.0
++tabulate==0.8.9
++tb-nightly==2.11.0a20220815
++tensorboard-data-server==0.6.1
++tensorboard-plugin-wit==1.8.1
++tensorboard==2.9.1
++tensorboardx==2.5.1
++tensorflow-estimator==2.9.0
++tensorflow-gpu==2.0.0
++tensorflow-io-gcs-filesystem==0.26.0
++tensorflow-probability==0.8.0
++tensorflow==2.9.1
++tensorlayer==2.2.3
++termcolor==1.1.0
++terminado==0.12.1
++testpath==0.5.0
++threadpoolctl==2.1.0
++thriftpy2==0.4.14
++tifffile==2021.6.14
++tinyscaler==1.2.4
++toml==0.10.2
++tomli==2.0.1
++tomlkit==0.11.3
++toolz==0.12.0
++torch==1.12.0
++torchvision==0.13.0
++tornado==6.1
++tqdm==4.60.0
++traitlets==5.1.1
++typing-extensions==4.1.1
++typing==3.7.4.3
++urllib3==1.26.8
++virtualenv==20.13.3
++wandb==0.12.11
++wcwidth==0.2.5
++webencodings==0.5.1
++websocket-client==1.3.3
++websockets==10.3
++werkzeug==2.0.3
++wheel==0.36.2
++widgetsnbextension==3.5.2
++wrapt==1.12.1
++wrds==3.1.2
++yarl==1.7.2
++yaspin==2.1.0
++yfinance==0.1.74
++zipp==3.7.0
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/wandb-metadata.json b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/wandb-metadata.json
+new file mode 100644
+index 0000000..26601a4
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/wandb-metadata.json
+@@ -0,0 +1,24 @@
++{
++    "os": "Linux-5.4.0-125-generic-x86_64-with-debian-bullseye-sid",
++    "python": "3.7.10",
++    "heartbeatAt": "2022-10-29T18:49:56.328423",
++    "startedAt": "2022-10-29T18:49:53.678186",
++    "docker": null,
++    "gpu": "NVIDIA TITAN RTX",
++    "gpu_count": 2,
++    "cpu_count": 32,
++    "cuda": "11.0.207",
++    "args": [],
++    "state": "running",
++    "program": "train_alpaca.py",
++    "codePath": "tutorials/3-Practical/train_alpaca.py",
++    "git": {
++        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
++        "commit": "a0a6c45bcb60f44ce2ff754750b752050120ab07"
++    },
++    "email": "zhding@mail.ustc.edu.cn",
++    "root": "/home/zihan/research/FinRL",
++    "host": "e900-rbtg",
++    "username": "zihan",
++    "executable": "/home/zihan/anaconda3/envs/x/bin/python"
++}
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/wandb-summary.json b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/wandb-summary.json
+new file mode 100644
+index 0000000..13ed209
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/files/wandb-summary.json
+@@ -0,0 +1 @@
++{"_wandb": {"runtime": 7}}
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/run-3i8bwmb0.wandb b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/run-3i8bwmb0.wandb
+new file mode 100644
+index 0000000..34bb7c3
+Binary files /dev/null and b/tutorials/3-Practical/wandb/run-20221029_144953-3i8bwmb0/run-3i8bwmb0.wandb differ
+diff --git a/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/code/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/code/tutorials/3-Practical/train_alpaca.py
+new file mode 100644
+index 0000000..f2fe484
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/code/tutorials/3-Practical/train_alpaca.py
+@@ -0,0 +1,43 @@
++from finrl.train import train
++from finrl.test import test
++from finrl.config_tickers import DOW_30_TICKER
++from finrl.config import INDICATORS
++from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
++from common import *
++
++import numpy as np
++import pandas as pd
++
++ticker_list = DOW_30_TICKER
++action_dim = len(DOW_30_TICKER)
++candle_time_interval = '1Min'  # '1Min'
++
++env = StockTradingEnv
++
++ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
++        "eval_times":1} 
++#if you want to use larger datasets (change to longer period), and it raises error, 
++#please try to increase "target_step". It should be larger than the episode steps. 
++
++start_date = '2022-8-24'
++end_date = '2022-9-2'
++model_name='sac'
++MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++
++train(start_date = start_date, 
++      end_date = end_date,
++      ticker_list = ticker_list, 
++      data_source = 'alpaca',
++      time_interval= candle_time_interval, 
++      technical_indicator_list= INDICATORS,
++      drl_lib='elegantrl', 
++      env=env,
++      model_name=model_name, 
++      API_KEY = API_KEY, 
++      API_SECRET = API_SECRET, 
++      API_BASE_URL = API_BASE_URL,
++      erl_params=ERL_PARAMS,
++      cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
++      break_step=1e7)
++
+diff --git a/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/conda-environment.yaml b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/conda-environment.yaml
+new file mode 100644
+index 0000000..44e7178
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/conda-environment.yaml
+@@ -0,0 +1,316 @@
++name: x
++channels:
++  - defaults
++dependencies:
++  - _libgcc_mutex=0.1=main
++  - _openmp_mutex=5.1=1_gnu
++  - ca-certificates=2022.4.26=h06a4308_0
++  - gmp=6.2.1=h295c915_3
++  - ld_impl_linux-64=2.33.1=h53a641e_7
++  - libffi=3.3=he6710b0_2
++  - libgcc=7.2.0=h69d50b8_2
++  - libgcc-ng=11.2.0=h1234567_1
++  - libgomp=11.2.0=h1234567_1
++  - libstdcxx-ng=9.1.0=hdf63c60_0
++  - ncurses=6.2=he6710b0_1
++  - openssl=1.1.1p=h5eee18b_0
++  - python=3.7.10=hdb3f193_0
++  - readline=8.1=h27cfd23_0
++  - sqlite=3.35.4=hdfb4753_0
++  - tk=8.6.10=hbc83047_0
++  - wheel=0.36.2=pyhd3eb1b0_0
++  - xz=5.2.5=h7b6447c_0
++  - zlib=1.2.11=h7b6447c_3
++  - pip:
++    - absl-py==1.0.0
++    - aiodns==3.0.0
++    - aiohttp==3.8.1
++    - aiohttp-cors==0.7.0
++    - aioredis==1.3.1
++    - aiosignal==1.2.0
++    - ale-py==0.7.4
++    - alpaca-trade-api==2.3.0
++    - amply==0.1.4
++    - antlr4-python3-runtime==4.9.3
++    - argon2-cffi==21.3.0
++    - argon2-cffi-bindings==21.2.0
++    - astor==0.8.1
++    - astunparse==1.6.3
++    - async-timeout==4.0.2
++    - asynctest==0.13.0
++    - atari-py==0.2.6
++    - attrs==21.2.0
++    - autorom==0.4.2
++    - autorom-accept-rom-license==0.4.2
++    - backcall==0.2.0
++    - blackhc-mdp==1.0.6
++    - bleach==4.1.0
++    - blessed==1.19.1
++    - blessings==1.7
++    - box2d-py==2.3.5
++    - cachecontrol==0.12.11
++    - cached-property==1.5.2
++    - cachetools==5.0.0
++    - cachy==0.3.0
++    - ccxt==1.66.32
++    - certifi==2021.10.8
++    - cffi==1.14.5
++    - cfgv==3.3.1
++    - chardet==4.0.0
++    - charset-normalizer==2.0.12
++    - cleanrl==1.0.0b0
++    - cleo==0.8.1
++    - click==8.0.4
++    - clikit==0.6.2
++    - cloudpickle==1.2.2
++    - colorama==0.4.4
++    - colorful==0.5.4
++    - crashtest==0.3.1
++    - cryptography==37.0.4
++    - cvxpy==1.1.12
++    - cycler==0.11.0
++    - cython==0.29.23
++    - dataclasses==0.6
++    - debugpy==1.5.1
++    - decorator==4.4.2
++    - defusedxml==0.7.1
++    - deprecation==2.1.0
++    - distlib==0.3.4
++    - dm-tree==0.1.6
++    - docker-pycreds==0.4.0
++    - docutils==0.17.1
++    - easyprocess==0.3
++    - ecos==2.0.7.post1
++    - empyrical==0.5.5
++    - entrypoint2==0.2.4
++    - entrypoints==0.3
++    - exchange-calendars==3.6.3
++    - fasteners==0.16.3
++    - filelock==3.6.0
++    - flatbuffers==1.12
++    - fonttools==4.29.1
++    - frozenlist==1.3.1
++    - future==0.18.2
++    - gast==0.2.2
++    - gitdb==4.0.9
++    - gitpython==3.1.27
++    - glfw==2.1.0
++    - google-api-core==1.30.0
++    - google-auth==2.6.0
++    - google-auth-oauthlib==0.4.6
++    - google-pasta==0.2.0
++    - googleapis-common-protos==1.53.0
++    - gpustat==1.0.0rc1
++    - gputil==1.4.0
++    - greenlet==1.1.2
++    - grpcio==1.44.0
++    - gurobipy==9.1.2
++    - gym==0.23.1
++    - gym-notices==0.0.5
++    - h5py==3.1.0
++    - hanabi-learning-environment==0.0.1
++    - hiredis==2.0.0
++    - html5lib==1.1
++    - hydra-core==1.2.0
++    - identify==2.4.11
++    - idna==3.3
++    - imageio==2.9.0
++    - importlib-metadata==4.11.2
++    - importlib-resources==5.8.0
++    - iniconfig==1.1.1
++    - ipdb==0.13.9
++    - ipykernel==6.7.0
++    - ipython==7.23.1
++    - ipython-genutils==0.2.0
++    - ipywidgets==7.6.5
++    - jedi==0.18.0
++    - jeepney==0.8.0
++    - jinja2==3.0.3
++    - joblib==1.0.1
++    - jqdatasdk==1.8.10
++    - jsonschema==3.2.0
++    - jupyter-client==7.1.0
++    - jupyter-core==4.9.1
++    - jupyterlab-pygments==0.1.2
++    - jupyterlab-widgets==1.0.2
++    - keras==2.9.0
++    - keras-applications==1.0.8
++    - keras-nightly==2.5.0.dev2021032900
++    - keras-preprocessing==1.1.2
++    - keyring==22.3.0
++    - kiwisolver==1.3.2
++    - korean-lunar-calendar==0.2.1
++    - kungfu==0.2.2
++    - libclang==14.0.6
++    - lockfile==0.12.2
++    - lxml==4.9.1
++    - lz4==3.1.3
++    - magent==0.1.13
++    - markdown==3.3.6
++    - markupsafe==2.0.1
++    - matplotlib==3.5.1
++    - matplotlib-inline==0.1.2
++    - mistune==0.8.4
++    - mock==4.0.3
++    - msgpack==1.0.3
++    - mujoco-py==2.0.2.13
++    - multi-agent-ale-py==0.1.10
++    - multidict==5.1.0
++    - multitasking==0.0.11
++    - nashpy==0.0.21
++    - nbclient==0.5.10
++    - nbconvert==6.4.0
++    - nbformat==5.1.3
++    - nest-asyncio==1.5.4
++    - networkx==1.11
++    - ninja==1.10.2.3
++    - nodeenv==1.6.0
++    - notebook==6.4.7
++    - numpy==1.21.6
++    - nvidia-ml-py==11.495.46
++    - nvidia-ml-py3==7.352.0
++    - oauthlib==3.2.0
++    - omegaconf==2.2.2
++    - opencensus==0.7.13
++    - opencensus-context==0.1.2
++    - opencv-python==3.4.17.61
++    - opencv-python-headless==4.3.0.36
++    - opt-einsum==3.3.0
++    - osqp==0.6.2.post0
++    - packaging==21.3
++    - pandas==1.3.5
++    - pandas-datareader==0.10.0
++    - pandocfilters==1.5.0
++    - parso==0.8.2
++    - pastel==0.2.1
++    - pathtools==0.1.2
++    - patool==1.12
++    - pettingzoo==1.18.1
++    - pexpect==4.8.0
++    - pickleshare==0.7.5
++    - pillow==9.2.0
++    - pip==22.2
++    - pkginfo==1.8.3
++    - platformdirs==2.5.1
++    - pluggy==1.0.0
++    - ply==3.11
++    - poetry==1.1.14
++    - poetry-core==1.0.8
++    - pre-commit==2.17.0
++    - progressbar2==3.53.1
++    - prometheus-client==0.11.0
++    - promise==2.3
++    - prompt-toolkit==3.0.18
++    - protobuf==3.19.4
++    - psutil==5.9.0
++    - psycopg2-binary==2.9.3
++    - ptyprocess==0.7.0
++    - pulp==2.4
++    - py==1.11.0
++    - py-spy==0.3.7
++    - pyasn1==0.4.8
++    - pyasn1-modules==0.2.8
++    - pybullet==3.2.5
++    - pycares==4.2.2
++    - pycolab==1.2
++    - pycparser==2.20
++    - pydantic==1.8.2
++    - pydotplus==2.0.2
++    - pyfolio==0.9.2+75.g4b901f6
++    - pygame==2.1.0
++    - pyglet==1.5.0
++    - pygments==2.9.0
++    - pylev==1.4.0
++    - pyluach==2.0.0
++    - pymunk==6.0.0
++    - pymysql==1.0.2
++    - pyopengl==3.1.6
++    - pyparsing==3.0.7
++    - pyrsistent==0.17.3
++    - pytest==7.1.2
++    - python-chess==0.31.4
++    - python-dateutil==2.8.2
++    - python-utils==2.5.6
++    - pytz==2021.3
++    - pyunpack==0.2.2
++    - pyvirtualdisplay==3.0
++    - pywavelets==1.1.1
++    - pyyaml==5.4.1
++    - pyzmq==22.3.0
++    - qdldl==0.1.5.post0
++    - ray==1.13.0
++    - redis==3.5.3
++    - requests==2.27.1
++    - requests-oauthlib==1.3.1
++    - requests-toolbelt==0.9.1
++    - rl-games==1.5.2
++    - rlcard==0.2.8
++    - rsa==4.7.2
++    - scikit-image==0.18.1
++    - scikit-learn==0.24.2
++    - scipy==1.7.3
++    - scs==2.1.3
++    - seaborn==0.11.2
++    - secretstorage==3.3.2
++    - send2trash==1.8.0
++    - sentry-sdk==1.5.7
++    - setproctitle==1.2.2
++    - setuptools==59.5.0
++    - setuptools-scm==6.4.2
++    - shellingham==1.5.0
++    - shortuuid==1.0.8
++    - six==1.16.0
++    - slimevolleygym==0.1.0
++    - smart-open==6.0.0
++    - smmap==5.0.0
++    - sqlalchemy==1.4.40
++    - stable-baselines==2.10.2
++    - stable-baselines3==1.2.0
++    - stockstats==0.4.1
++    - supersuit==3.4.0
++    - tabulate==0.8.9
++    - tb-nightly==2.11.0a20220815
++    - tensorboard==2.9.1
++    - tensorboard-data-server==0.6.1
++    - tensorboard-plugin-wit==1.8.1
++    - tensorboardx==2.5.1
++    - tensorflow==2.9.1
++    - tensorflow-estimator==2.9.0
++    - tensorflow-gpu==2.0.0
++    - tensorflow-io-gcs-filesystem==0.26.0
++    - tensorflow-probability==0.8.0
++    - tensorlayer==2.2.3
++    - termcolor==1.1.0
++    - terminado==0.12.1
++    - testpath==0.5.0
++    - threadpoolctl==2.1.0
++    - thriftpy2==0.4.14
++    - tifffile==2021.6.14
++    - tinyscaler==1.2.4
++    - toml==0.10.2
++    - tomli==2.0.1
++    - tomlkit==0.11.3
++    - toolz==0.12.0
++    - torch==1.12.0
++    - torchvision==0.13.0
++    - tornado==6.1
++    - tqdm==4.60.0
++    - traitlets==5.1.1
++    - typing==3.7.4.3
++    - typing-extensions==4.1.1
++    - urllib3==1.26.8
++    - virtualenv==20.13.3
++    - wandb==0.12.11
++    - wcwidth==0.2.5
++    - webencodings==0.5.1
++    - websocket-client==1.3.3
++    - websockets==10.3
++    - werkzeug==2.0.3
++    - widgetsnbextension==3.5.2
++    - wrapt==1.12.1
++    - wrds==3.1.2
++    - yarl==1.7.2
++    - yaspin==2.1.0
++    - yfinance==0.1.74
++    - zipp==3.7.0
++prefix: /home/zihan/anaconda3/envs/x
+diff --git a/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/config.yaml b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/config.yaml
+new file mode 100644
+index 0000000..faa71bf
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/config.yaml
+@@ -0,0 +1,37 @@
++wandb_version: 1
++
++_wandb:
++  desc: null
++  value:
++    cli_version: 0.12.11
++    code_path: code/tutorials/3-Practical/train_alpaca.py
++    framework: torch
++    is_jupyter_run: false
++    is_kaggle_kernel: false
++    python_version: 3.7.10
++    start_time: 1667069445
++    t:
++      1:
++      - 1
++      - 2
++      - 3
++      3:
++      - 13
++      - 16
++      - 35
++      4: 3.7.10
++      5: 0.12.11
++      8:
++      - 5
++wandb_entity:
++  desc: null
++  value: quantumiracle
++wandb_group:
++  desc: null
++  value: ''
++wandb_name:
++  desc: null
++  value: ./papertrading_erl/sac_2022-8-24_2022-9-2
++wandb_project:
++  desc: null
++  value: FinRL
+diff --git a/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/diff.patch b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/diff.patch
+new file mode 100644
+index 0000000..b053689
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/diff.patch
+@@ -0,0 +1,26 @@
++diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
++index 5b8f7a5..f2fe484 100644
++--- a/tutorials/3-Practical/train_alpaca.py
+++++ b/tutorials/3-Practical/train_alpaca.py
++@@ -20,9 +20,9 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++ #if you want to use larger datasets (change to longer period), and it raises error, 
++ #please try to increase "target_step". It should be larger than the episode steps. 
++ 
++-start_date = '2022-6-11'
++-end_date = '2022-9-1'
++-model_name='td3'
+++start_date = '2022-8-24'
+++end_date = '2022-9-2'
+++model_name='sac'
++ MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++ 
++ train(start_date = start_date, 
++diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
++index cd14832..111d36e 120000
++--- a/tutorials/3-Practical/wandb/latest-run
+++++ b/tutorials/3-Practical/wandb/latest-run
++@@ -1 +1 @@
++-run-20220914_101520-3nhd8ptj
++\ No newline at end of file
+++run-20221029_145045-3fs0t18a
++\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/requirements.txt b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/requirements.txt
+new file mode 100644
+index 0000000..754814f
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/requirements.txt
+@@ -0,0 +1,301 @@
++absl-py==1.0.0
++aiodns==3.0.0
++aiohttp-cors==0.7.0
++aiohttp==3.8.1
++aioredis==1.3.1
++aiosignal==1.2.0
++ale-py==0.7.4
++alpaca-trade-api==2.3.0
++amply==0.1.4
++antlr4-python3-runtime==4.9.3
++argon2-cffi-bindings==21.2.0
++argon2-cffi==21.3.0
++astor==0.8.1
++astunparse==1.6.3
++async-timeout==4.0.2
++asynctest==0.13.0
++atari-py==0.2.6
++attrs==21.2.0
++autorom.accept-rom-license==0.4.2
++autorom==0.4.2
++backcall==0.2.0
++bidexhands==0.1.1
++blackhc.mdp==1.0.6
++bleach==4.1.0
++blessed==1.19.1
++blessings==1.7
++box2d-py==2.3.5
++cachecontrol==0.12.11
++cached-property==1.5.2
++cachetools==5.0.0
++cachy==0.3.0
++ccxt==1.66.32
++certifi==2021.10.8
++cffi==1.14.5
++cfgv==3.3.1
++chardet==4.0.0
++charset-normalizer==2.0.12
++cleanrl==1.0.0b0
++cleo==0.8.1
++click==8.0.4
++clikit==0.6.2
++cloudpickle==1.2.2
++colorama==0.4.4
++colorful==0.5.4
++crashtest==0.3.1
++cryptography==37.0.4
++cvxpy==1.1.12
++cycler==0.11.0
++cython==0.29.23
++dataclasses==0.6
++debugpy==1.5.1
++decorator==4.4.2
++defusedxml==0.7.1
++deprecation==2.1.0
++distlib==0.3.4
++dm-tree==0.1.6
++docker-pycreds==0.4.0
++docutils==0.17.1
++easyprocess==0.3
++ecos==2.0.7.post1
++elegantrl==0.3.3
++empyrical==0.5.5
++entrypoint2==0.2.4
++entrypoints==0.3
++exchange-calendars==3.6.3
++fasteners==0.16.3
++filelock==3.6.0
++finrl==0.3.5
++flatbuffers==1.12
++fonttools==4.29.1
++frozenlist==1.3.1
++future==0.18.2
++gast==0.2.2
++gitdb==4.0.9
++gitpython==3.1.27
++glfw==2.1.0
++google-api-core==1.30.0
++google-auth-oauthlib==0.4.6
++google-auth==2.6.0
++google-pasta==0.2.0
++googleapis-common-protos==1.53.0
++gpustat==1.0.0rc1
++gputil==1.4.0
++greenlet==1.1.2
++grpcio==1.44.0
++gurobipy==9.1.2
++gym-notices==0.0.5
++gym==0.23.1
++h5py==3.1.0
++hanabi-learning-environment==0.0.1
++hiredis==2.0.0
++html5lib==1.1
++hydra-core==1.2.0
++identify==2.4.11
++idna==3.3
++imageio==2.9.0
++importlib-metadata==4.11.2
++importlib-resources==5.8.0
++iniconfig==1.1.1
++ipdb==0.13.9
++ipykernel==6.7.0
++ipython-genutils==0.2.0
++ipython==7.23.1
++ipywidgets==7.6.5
++isaacgym==1.0rc4
++isaacgymenvs==1.2.0
++jedi==0.18.0
++jeepney==0.8.0
++jinja2==3.0.3
++joblib==1.0.1
++jqdatasdk==1.8.10
++jsonschema==3.2.0
++jupyter-client==7.1.0
++jupyter-core==4.9.1
++jupyterlab-pygments==0.1.2
++jupyterlab-widgets==1.0.2
++keras-applications==1.0.8
++keras-nightly==2.5.0.dev2021032900
++keras-preprocessing==1.1.2
++keras==2.9.0
++keyring==22.3.0
++kiwisolver==1.3.2
++korean-lunar-calendar==0.2.1
++kungfu==0.2.2
++lasertag==1.0.0
++libclang==14.0.6
++lockfile==0.12.2
++lxml==4.9.1
++lz4==3.1.3
++magent==0.1.13
++markdown==3.3.6
++markupsafe==2.0.1
++matplotlib-inline==0.1.2
++matplotlib==3.5.1
++mistune==0.8.4
++mj-envs==1.0.0
++mjrl==1.0.0
++mock==4.0.3
++msgpack==1.0.3
++mujoco-py==2.0.2.13
++multi-agent-ale-py==0.1.10
++multidict==5.1.0
++multitasking==0.0.11
++nashpy==0.0.21
++nbclient==0.5.10
++nbconvert==6.4.0
++nbformat==5.1.3
++nest-asyncio==1.5.4
++networkx==1.11
++ninja==1.10.2.3
++nodeenv==1.6.0
++notebook==6.4.7
++numpy==1.21.6
++nvidia-ml-py3==7.352.0
++nvidia-ml-py==11.495.46
++oauthlib==3.2.0
++omegaconf==2.2.2
++opencensus-context==0.1.2
++opencensus==0.7.13
++opencv-python-headless==4.3.0.36
++opencv-python==3.4.17.61
++opt-einsum==3.3.0
++osqp==0.6.2.post0
++packaging==21.3
++pandas-datareader==0.10.0
++pandas==1.3.5
++pandocfilters==1.5.0
++parso==0.8.2
++pastel==0.2.1
++pathtools==0.1.2
++patool==1.12
++pettingzoo==1.18.1
++pexpect==4.8.0
++pickleshare==0.7.5
++pillow==9.2.0
++pip==22.2
++pkginfo==1.8.3
++platformdirs==2.5.1
++pluggy==1.0.0
++ply==3.11
++poetry-core==1.0.8
++poetry==1.1.14
++pre-commit==2.17.0
++progressbar2==3.53.1
++prometheus-client==0.11.0
++promise==2.3
++prompt-toolkit==3.0.18
++protobuf==3.19.4
++psutil==5.9.0
++psycopg2-binary==2.9.3
++ptyprocess==0.7.0
++pulp==2.4
++py-spy==0.3.7
++py==1.11.0
++pyasn1-modules==0.2.8
++pyasn1==0.4.8
++pybullet==3.2.5
++pycares==4.2.2
++pycolab==1.2
++pycparser==2.20
++pydantic==1.8.2
++pydotplus==2.0.2
++pyfolio==0.9.2+75.g4b901f6
++pygame==2.1.0
++pyglet==1.5.0
++pygments==2.9.0
++pylev==1.4.0
++pyluach==2.0.0
++pymunk==6.0.0
++pymysql==1.0.2
++pyopengl==3.1.6
++pyparsing==3.0.7
++pyrsistent==0.17.3
++pytest==7.1.2
++python-chess==0.31.4
++python-dateutil==2.8.2
++python-utils==2.5.6
++pytz==2021.3
++pyunpack==0.2.2
++pyvirtualdisplay==3.0
++pywavelets==1.1.1
++pyyaml==5.4.1
++pyzmq==22.3.0
++qdldl==0.1.5.post0
++ray==1.13.0
++redis==3.5.3
++requests-oauthlib==1.3.1
++requests-toolbelt==0.9.1
++requests==2.27.1
++rl-games==1.5.2
++rlcard==0.2.8
++robosumo==0.0.1.dev0
++rsa==4.7.2
++scikit-image==0.18.1
++scikit-learn==0.24.2
++scipy==1.7.3
++scs==2.1.3
++seaborn==0.11.2
++secretstorage==3.3.2
++send2trash==1.8.0
++sentry-sdk==1.5.7
++setproctitle==1.2.2
++setuptools-scm==6.4.2
++setuptools==59.5.0
++shellingham==1.5.0
++shortuuid==1.0.8
++six==1.16.0
++slimevolleygym==0.1.0
++smart-open==6.0.0
++smmap==5.0.0
++sqlalchemy==1.4.40
++stable-baselines3==1.2.0
++stable-baselines==2.10.2
++stockstats==0.4.1
++supersuit==3.4.0
++tabulate==0.8.9
++tb-nightly==2.11.0a20220815
++tensorboard-data-server==0.6.1
++tensorboard-plugin-wit==1.8.1
++tensorboard==2.9.1
++tensorboardx==2.5.1
++tensorflow-estimator==2.9.0
++tensorflow-gpu==2.0.0
++tensorflow-io-gcs-filesystem==0.26.0
++tensorflow-probability==0.8.0
++tensorflow==2.9.1
++tensorlayer==2.2.3
++termcolor==1.1.0
++terminado==0.12.1
++testpath==0.5.0
++threadpoolctl==2.1.0
++thriftpy2==0.4.14
++tifffile==2021.6.14
++tinyscaler==1.2.4
++toml==0.10.2
++tomli==2.0.1
++tomlkit==0.11.3
++toolz==0.12.0
++torch==1.12.0
++torchvision==0.13.0
++tornado==6.1
++tqdm==4.60.0
++traitlets==5.1.1
++typing-extensions==4.1.1
++typing==3.7.4.3
++urllib3==1.26.8
++virtualenv==20.13.3
++wandb==0.12.11
++wcwidth==0.2.5
++webencodings==0.5.1
++websocket-client==1.3.3
++websockets==10.3
++werkzeug==2.0.3
++wheel==0.36.2
++widgetsnbextension==3.5.2
++wrapt==1.12.1
++wrds==3.1.2
++yarl==1.7.2
++yaspin==2.1.0
++yfinance==0.1.74
++zipp==3.7.0
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/wandb-metadata.json b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/wandb-metadata.json
+new file mode 100644
+index 0000000..dc0b47e
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/wandb-metadata.json
+@@ -0,0 +1,24 @@
++{
++    "os": "Linux-5.4.0-125-generic-x86_64-with-debian-bullseye-sid",
++    "python": "3.7.10",
++    "heartbeatAt": "2022-10-29T18:50:47.680770",
++    "startedAt": "2022-10-29T18:50:45.067876",
++    "docker": null,
++    "gpu": "NVIDIA TITAN RTX",
++    "gpu_count": 2,
++    "cpu_count": 32,
++    "cuda": "11.0.207",
++    "args": [],
++    "state": "running",
++    "program": "train_alpaca.py",
++    "codePath": "tutorials/3-Practical/train_alpaca.py",
++    "git": {
++        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
++        "commit": "a0a6c45bcb60f44ce2ff754750b752050120ab07"
++    },
++    "email": "zhding@mail.ustc.edu.cn",
++    "root": "/home/zihan/research/FinRL",
++    "host": "e900-rbtg",
++    "username": "zihan",
++    "executable": "/home/zihan/anaconda3/envs/x/bin/python"
++}
+diff --git a/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/wandb-summary.json b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/wandb-summary.json
+new file mode 100644
+index 0000000..e32ca1c
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/files/wandb-summary.json
+@@ -0,0 +1 @@
++{"_wandb": {"runtime": 13}}
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/run-3fs0t18a.wandb b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/run-3fs0t18a.wandb
+new file mode 100644
+index 0000000..c1c5544
+Binary files /dev/null and b/tutorials/3-Practical/wandb/run-20221029_145045-3fs0t18a/run-3fs0t18a.wandb differ
+diff --git a/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/code/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/code/tutorials/3-Practical/train_alpaca.py
+new file mode 100644
+index 0000000..4b46a18
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/code/tutorials/3-Practical/train_alpaca.py
+@@ -0,0 +1,43 @@
++from finrl.train import train
++from finrl.test import test
++from finrl.config_tickers import DOW_30_TICKER
++from finrl.config import INDICATORS
++from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
++from common import *
++
++import numpy as np
++import pandas as pd
++
++ticker_list = DOW_30_TICKER
++action_dim = len(DOW_30_TICKER)
++candle_time_interval = '1Min'  # '1Min'
++
++env = StockTradingEnv
++
++ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++        "seed":312,"net_dimension":512, "target_step":5000, "eval_gap":30,
++        "eval_times":1} 
++#if you want to use larger datasets (change to longer period), and it raises error, 
++#please try to increase "target_step". It should be larger than the episode steps. 
++
++start_date = '2022-8-24'
++end_date = '2022-9-2'
++model_name='td3'
++MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++
++train(start_date = start_date, 
++      end_date = end_date,
++      ticker_list = ticker_list, 
++      data_source = 'alpaca',
++      time_interval= candle_time_interval, 
++      technical_indicator_list= INDICATORS,
++      drl_lib='elegantrl', 
++      env=env,
++      model_name=model_name, 
++      API_KEY = API_KEY, 
++      API_SECRET = API_SECRET, 
++      API_BASE_URL = API_BASE_URL,
++      erl_params=ERL_PARAMS,
++      cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
++      break_step=1e7)
++
+diff --git a/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/conda-environment.yaml b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/conda-environment.yaml
+new file mode 100644
+index 0000000..44e7178
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/conda-environment.yaml
+@@ -0,0 +1,316 @@
++name: x
++channels:
++  - defaults
++dependencies:
++  - _libgcc_mutex=0.1=main
++  - _openmp_mutex=5.1=1_gnu
++  - ca-certificates=2022.4.26=h06a4308_0
++  - gmp=6.2.1=h295c915_3
++  - ld_impl_linux-64=2.33.1=h53a641e_7
++  - libffi=3.3=he6710b0_2
++  - libgcc=7.2.0=h69d50b8_2
++  - libgcc-ng=11.2.0=h1234567_1
++  - libgomp=11.2.0=h1234567_1
++  - libstdcxx-ng=9.1.0=hdf63c60_0
++  - ncurses=6.2=he6710b0_1
++  - openssl=1.1.1p=h5eee18b_0
++  - python=3.7.10=hdb3f193_0
++  - readline=8.1=h27cfd23_0
++  - sqlite=3.35.4=hdfb4753_0
++  - tk=8.6.10=hbc83047_0
++  - wheel=0.36.2=pyhd3eb1b0_0
++  - xz=5.2.5=h7b6447c_0
++  - zlib=1.2.11=h7b6447c_3
++  - pip:
++    - absl-py==1.0.0
++    - aiodns==3.0.0
++    - aiohttp==3.8.1
++    - aiohttp-cors==0.7.0
++    - aioredis==1.3.1
++    - aiosignal==1.2.0
++    - ale-py==0.7.4
++    - alpaca-trade-api==2.3.0
++    - amply==0.1.4
++    - antlr4-python3-runtime==4.9.3
++    - argon2-cffi==21.3.0
++    - argon2-cffi-bindings==21.2.0
++    - astor==0.8.1
++    - astunparse==1.6.3
++    - async-timeout==4.0.2
++    - asynctest==0.13.0
++    - atari-py==0.2.6
++    - attrs==21.2.0
++    - autorom==0.4.2
++    - autorom-accept-rom-license==0.4.2
++    - backcall==0.2.0
++    - blackhc-mdp==1.0.6
++    - bleach==4.1.0
++    - blessed==1.19.1
++    - blessings==1.7
++    - box2d-py==2.3.5
++    - cachecontrol==0.12.11
++    - cached-property==1.5.2
++    - cachetools==5.0.0
++    - cachy==0.3.0
++    - ccxt==1.66.32
++    - certifi==2021.10.8
++    - cffi==1.14.5
++    - cfgv==3.3.1
++    - chardet==4.0.0
++    - charset-normalizer==2.0.12
++    - cleanrl==1.0.0b0
++    - cleo==0.8.1
++    - click==8.0.4
++    - clikit==0.6.2
++    - cloudpickle==1.2.2
++    - colorama==0.4.4
++    - colorful==0.5.4
++    - crashtest==0.3.1
++    - cryptography==37.0.4
++    - cvxpy==1.1.12
++    - cycler==0.11.0
++    - cython==0.29.23
++    - dataclasses==0.6
++    - debugpy==1.5.1
++    - decorator==4.4.2
++    - defusedxml==0.7.1
++    - deprecation==2.1.0
++    - distlib==0.3.4
++    - dm-tree==0.1.6
++    - docker-pycreds==0.4.0
++    - docutils==0.17.1
++    - easyprocess==0.3
++    - ecos==2.0.7.post1
++    - empyrical==0.5.5
++    - entrypoint2==0.2.4
++    - entrypoints==0.3
++    - exchange-calendars==3.6.3
++    - fasteners==0.16.3
++    - filelock==3.6.0
++    - flatbuffers==1.12
++    - fonttools==4.29.1
++    - frozenlist==1.3.1
++    - future==0.18.2
++    - gast==0.2.2
++    - gitdb==4.0.9
++    - gitpython==3.1.27
++    - glfw==2.1.0
++    - google-api-core==1.30.0
++    - google-auth==2.6.0
++    - google-auth-oauthlib==0.4.6
++    - google-pasta==0.2.0
++    - googleapis-common-protos==1.53.0
++    - gpustat==1.0.0rc1
++    - gputil==1.4.0
++    - greenlet==1.1.2
++    - grpcio==1.44.0
++    - gurobipy==9.1.2
++    - gym==0.23.1
++    - gym-notices==0.0.5
++    - h5py==3.1.0
++    - hanabi-learning-environment==0.0.1
++    - hiredis==2.0.0
++    - html5lib==1.1
++    - hydra-core==1.2.0
++    - identify==2.4.11
++    - idna==3.3
++    - imageio==2.9.0
++    - importlib-metadata==4.11.2
++    - importlib-resources==5.8.0
++    - iniconfig==1.1.1
++    - ipdb==0.13.9
++    - ipykernel==6.7.0
++    - ipython==7.23.1
++    - ipython-genutils==0.2.0
++    - ipywidgets==7.6.5
++    - jedi==0.18.0
++    - jeepney==0.8.0
++    - jinja2==3.0.3
++    - joblib==1.0.1
++    - jqdatasdk==1.8.10
++    - jsonschema==3.2.0
++    - jupyter-client==7.1.0
++    - jupyter-core==4.9.1
++    - jupyterlab-pygments==0.1.2
++    - jupyterlab-widgets==1.0.2
++    - keras==2.9.0
++    - keras-applications==1.0.8
++    - keras-nightly==2.5.0.dev2021032900
++    - keras-preprocessing==1.1.2
++    - keyring==22.3.0
++    - kiwisolver==1.3.2
++    - korean-lunar-calendar==0.2.1
++    - kungfu==0.2.2
++    - libclang==14.0.6
++    - lockfile==0.12.2
++    - lxml==4.9.1
++    - lz4==3.1.3
++    - magent==0.1.13
++    - markdown==3.3.6
++    - markupsafe==2.0.1
++    - matplotlib==3.5.1
++    - matplotlib-inline==0.1.2
++    - mistune==0.8.4
++    - mock==4.0.3
++    - msgpack==1.0.3
++    - mujoco-py==2.0.2.13
++    - multi-agent-ale-py==0.1.10
++    - multidict==5.1.0
++    - multitasking==0.0.11
++    - nashpy==0.0.21
++    - nbclient==0.5.10
++    - nbconvert==6.4.0
++    - nbformat==5.1.3
++    - nest-asyncio==1.5.4
++    - networkx==1.11
++    - ninja==1.10.2.3
++    - nodeenv==1.6.0
++    - notebook==6.4.7
++    - numpy==1.21.6
++    - nvidia-ml-py==11.495.46
++    - nvidia-ml-py3==7.352.0
++    - oauthlib==3.2.0
++    - omegaconf==2.2.2
++    - opencensus==0.7.13
++    - opencensus-context==0.1.2
++    - opencv-python==3.4.17.61
++    - opencv-python-headless==4.3.0.36
++    - opt-einsum==3.3.0
++    - osqp==0.6.2.post0
++    - packaging==21.3
++    - pandas==1.3.5
++    - pandas-datareader==0.10.0
++    - pandocfilters==1.5.0
++    - parso==0.8.2
++    - pastel==0.2.1
++    - pathtools==0.1.2
++    - patool==1.12
++    - pettingzoo==1.18.1
++    - pexpect==4.8.0
++    - pickleshare==0.7.5
++    - pillow==9.2.0
++    - pip==22.2
++    - pkginfo==1.8.3
++    - platformdirs==2.5.1
++    - pluggy==1.0.0
++    - ply==3.11
++    - poetry==1.1.14
++    - poetry-core==1.0.8
++    - pre-commit==2.17.0
++    - progressbar2==3.53.1
++    - prometheus-client==0.11.0
++    - promise==2.3
++    - prompt-toolkit==3.0.18
++    - protobuf==3.19.4
++    - psutil==5.9.0
++    - psycopg2-binary==2.9.3
++    - ptyprocess==0.7.0
++    - pulp==2.4
++    - py==1.11.0
++    - py-spy==0.3.7
++    - pyasn1==0.4.8
++    - pyasn1-modules==0.2.8
++    - pybullet==3.2.5
++    - pycares==4.2.2
++    - pycolab==1.2
++    - pycparser==2.20
++    - pydantic==1.8.2
++    - pydotplus==2.0.2
++    - pyfolio==0.9.2+75.g4b901f6
++    - pygame==2.1.0
++    - pyglet==1.5.0
++    - pygments==2.9.0
++    - pylev==1.4.0
++    - pyluach==2.0.0
++    - pymunk==6.0.0
++    - pymysql==1.0.2
++    - pyopengl==3.1.6
++    - pyparsing==3.0.7
++    - pyrsistent==0.17.3
++    - pytest==7.1.2
++    - python-chess==0.31.4
++    - python-dateutil==2.8.2
++    - python-utils==2.5.6
++    - pytz==2021.3
++    - pyunpack==0.2.2
++    - pyvirtualdisplay==3.0
++    - pywavelets==1.1.1
++    - pyyaml==5.4.1
++    - pyzmq==22.3.0
++    - qdldl==0.1.5.post0
++    - ray==1.13.0
++    - redis==3.5.3
++    - requests==2.27.1
++    - requests-oauthlib==1.3.1
++    - requests-toolbelt==0.9.1
++    - rl-games==1.5.2
++    - rlcard==0.2.8
++    - rsa==4.7.2
++    - scikit-image==0.18.1
++    - scikit-learn==0.24.2
++    - scipy==1.7.3
++    - scs==2.1.3
++    - seaborn==0.11.2
++    - secretstorage==3.3.2
++    - send2trash==1.8.0
++    - sentry-sdk==1.5.7
++    - setproctitle==1.2.2
++    - setuptools==59.5.0
++    - setuptools-scm==6.4.2
++    - shellingham==1.5.0
++    - shortuuid==1.0.8
++    - six==1.16.0
++    - slimevolleygym==0.1.0
++    - smart-open==6.0.0
++    - smmap==5.0.0
++    - sqlalchemy==1.4.40
++    - stable-baselines==2.10.2
++    - stable-baselines3==1.2.0
++    - stockstats==0.4.1
++    - supersuit==3.4.0
++    - tabulate==0.8.9
++    - tb-nightly==2.11.0a20220815
++    - tensorboard==2.9.1
++    - tensorboard-data-server==0.6.1
++    - tensorboard-plugin-wit==1.8.1
++    - tensorboardx==2.5.1
++    - tensorflow==2.9.1
++    - tensorflow-estimator==2.9.0
++    - tensorflow-gpu==2.0.0
++    - tensorflow-io-gcs-filesystem==0.26.0
++    - tensorflow-probability==0.8.0
++    - tensorlayer==2.2.3
++    - termcolor==1.1.0
++    - terminado==0.12.1
++    - testpath==0.5.0
++    - threadpoolctl==2.1.0
++    - thriftpy2==0.4.14
++    - tifffile==2021.6.14
++    - tinyscaler==1.2.4
++    - toml==0.10.2
++    - tomli==2.0.1
++    - tomlkit==0.11.3
++    - toolz==0.12.0
++    - torch==1.12.0
++    - torchvision==0.13.0
++    - tornado==6.1
++    - tqdm==4.60.0
++    - traitlets==5.1.1
++    - typing==3.7.4.3
++    - typing-extensions==4.1.1
++    - urllib3==1.26.8
++    - virtualenv==20.13.3
++    - wandb==0.12.11
++    - wcwidth==0.2.5
++    - webencodings==0.5.1
++    - websocket-client==1.3.3
++    - websockets==10.3
++    - werkzeug==2.0.3
++    - widgetsnbextension==3.5.2
++    - wrapt==1.12.1
++    - wrds==3.1.2
++    - yarl==1.7.2
++    - yaspin==2.1.0
++    - yfinance==0.1.74
++    - zipp==3.7.0
++prefix: /home/zihan/anaconda3/envs/x
+diff --git a/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/config.yaml b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/config.yaml
+new file mode 100644
+index 0000000..a24a6a3
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/config.yaml
+@@ -0,0 +1,41 @@
++wandb_version: 1
++
++_wandb:
++  desc: null
++  value:
++    cli_version: 0.12.11
++    code_path: code/tutorials/3-Practical/train_alpaca.py
++    framework: torch
++    is_jupyter_run: false
++    is_kaggle_kernel: false
++    python_version: 3.7.10
++    start_time: 1667076329
++    t:
++      1:
++      - 1
++      - 2
++      - 3
++      2:
++      - 1
++      - 2
++      - 3
++      3:
++      - 13
++      - 16
++      - 35
++      4: 3.7.10
++      5: 0.12.11
++      8:
++      - 5
++wandb_entity:
++  desc: null
++  value: quantumiracle
++wandb_group:
++  desc: null
++  value: ''
++wandb_name:
++  desc: null
++  value: ./papertrading_erl/td3_2022-8-24_2022-9-2
++wandb_project:
++  desc: null
++  value: FinRL
+diff --git a/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/diff.patch b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/diff.patch
+new file mode 100644
+index 0000000..9040d6f
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/diff.patch
+@@ -0,0 +1,24 @@
++diff --git a/tutorials/3-Practical/train_alpaca.py b/tutorials/3-Practical/train_alpaca.py
++index 5b8f7a5..4b46a18 100644
++--- a/tutorials/3-Practical/train_alpaca.py
+++++ b/tutorials/3-Practical/train_alpaca.py
++@@ -20,8 +20,8 @@ ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048, "gamma":  0.985,
++ #if you want to use larger datasets (change to longer period), and it raises error, 
++ #please try to increase "target_step". It should be larger than the episode steps. 
++ 
++-start_date = '2022-6-11'
++-end_date = '2022-9-1'
+++start_date = '2022-8-24'
+++end_date = '2022-9-2'
++ model_name='td3'
++ MODEL_IDX = f'{model_name}_{start_date}_{end_date}'
++ 
++diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
++index cd14832..15cc46d 120000
++--- a/tutorials/3-Practical/wandb/latest-run
+++++ b/tutorials/3-Practical/wandb/latest-run
++@@ -1 +1 @@
++-run-20220914_101520-3nhd8ptj
++\ No newline at end of file
+++run-20221029_164529-1vl0okpw
++\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/requirements.txt b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/requirements.txt
+new file mode 100644
+index 0000000..754814f
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/requirements.txt
+@@ -0,0 +1,301 @@
++absl-py==1.0.0
++aiodns==3.0.0
++aiohttp-cors==0.7.0
++aiohttp==3.8.1
++aioredis==1.3.1
++aiosignal==1.2.0
++ale-py==0.7.4
++alpaca-trade-api==2.3.0
++amply==0.1.4
++antlr4-python3-runtime==4.9.3
++argon2-cffi-bindings==21.2.0
++argon2-cffi==21.3.0
++astor==0.8.1
++astunparse==1.6.3
++async-timeout==4.0.2
++asynctest==0.13.0
++atari-py==0.2.6
++attrs==21.2.0
++autorom.accept-rom-license==0.4.2
++autorom==0.4.2
++backcall==0.2.0
++bidexhands==0.1.1
++blackhc.mdp==1.0.6
++bleach==4.1.0
++blessed==1.19.1
++blessings==1.7
++box2d-py==2.3.5
++cachecontrol==0.12.11
++cached-property==1.5.2
++cachetools==5.0.0
++cachy==0.3.0
++ccxt==1.66.32
++certifi==2021.10.8
++cffi==1.14.5
++cfgv==3.3.1
++chardet==4.0.0
++charset-normalizer==2.0.12
++cleanrl==1.0.0b0
++cleo==0.8.1
++click==8.0.4
++clikit==0.6.2
++cloudpickle==1.2.2
++colorama==0.4.4
++colorful==0.5.4
++crashtest==0.3.1
++cryptography==37.0.4
++cvxpy==1.1.12
++cycler==0.11.0
++cython==0.29.23
++dataclasses==0.6
++debugpy==1.5.1
++decorator==4.4.2
++defusedxml==0.7.1
++deprecation==2.1.0
++distlib==0.3.4
++dm-tree==0.1.6
++docker-pycreds==0.4.0
++docutils==0.17.1
++easyprocess==0.3
++ecos==2.0.7.post1
++elegantrl==0.3.3
++empyrical==0.5.5
++entrypoint2==0.2.4
++entrypoints==0.3
++exchange-calendars==3.6.3
++fasteners==0.16.3
++filelock==3.6.0
++finrl==0.3.5
++flatbuffers==1.12
++fonttools==4.29.1
++frozenlist==1.3.1
++future==0.18.2
++gast==0.2.2
++gitdb==4.0.9
++gitpython==3.1.27
++glfw==2.1.0
++google-api-core==1.30.0
++google-auth-oauthlib==0.4.6
++google-auth==2.6.0
++google-pasta==0.2.0
++googleapis-common-protos==1.53.0
++gpustat==1.0.0rc1
++gputil==1.4.0
++greenlet==1.1.2
++grpcio==1.44.0
++gurobipy==9.1.2
++gym-notices==0.0.5
++gym==0.23.1
++h5py==3.1.0
++hanabi-learning-environment==0.0.1
++hiredis==2.0.0
++html5lib==1.1
++hydra-core==1.2.0
++identify==2.4.11
++idna==3.3
++imageio==2.9.0
++importlib-metadata==4.11.2
++importlib-resources==5.8.0
++iniconfig==1.1.1
++ipdb==0.13.9
++ipykernel==6.7.0
++ipython-genutils==0.2.0
++ipython==7.23.1
++ipywidgets==7.6.5
++isaacgym==1.0rc4
++isaacgymenvs==1.2.0
++jedi==0.18.0
++jeepney==0.8.0
++jinja2==3.0.3
++joblib==1.0.1
++jqdatasdk==1.8.10
++jsonschema==3.2.0
++jupyter-client==7.1.0
++jupyter-core==4.9.1
++jupyterlab-pygments==0.1.2
++jupyterlab-widgets==1.0.2
++keras-applications==1.0.8
++keras-nightly==2.5.0.dev2021032900
++keras-preprocessing==1.1.2
++keras==2.9.0
++keyring==22.3.0
++kiwisolver==1.3.2
++korean-lunar-calendar==0.2.1
++kungfu==0.2.2
++lasertag==1.0.0
++libclang==14.0.6
++lockfile==0.12.2
++lxml==4.9.1
++lz4==3.1.3
++magent==0.1.13
++markdown==3.3.6
++markupsafe==2.0.1
++matplotlib-inline==0.1.2
++matplotlib==3.5.1
++mistune==0.8.4
++mj-envs==1.0.0
++mjrl==1.0.0
++mock==4.0.3
++msgpack==1.0.3
++mujoco-py==2.0.2.13
++multi-agent-ale-py==0.1.10
++multidict==5.1.0
++multitasking==0.0.11
++nashpy==0.0.21
++nbclient==0.5.10
++nbconvert==6.4.0
++nbformat==5.1.3
++nest-asyncio==1.5.4
++networkx==1.11
++ninja==1.10.2.3
++nodeenv==1.6.0
++notebook==6.4.7
++numpy==1.21.6
++nvidia-ml-py3==7.352.0
++nvidia-ml-py==11.495.46
++oauthlib==3.2.0
++omegaconf==2.2.2
++opencensus-context==0.1.2
++opencensus==0.7.13
++opencv-python-headless==4.3.0.36
++opencv-python==3.4.17.61
++opt-einsum==3.3.0
++osqp==0.6.2.post0
++packaging==21.3
++pandas-datareader==0.10.0
++pandas==1.3.5
++pandocfilters==1.5.0
++parso==0.8.2
++pastel==0.2.1
++pathtools==0.1.2
++patool==1.12
++pettingzoo==1.18.1
++pexpect==4.8.0
++pickleshare==0.7.5
++pillow==9.2.0
++pip==22.2
++pkginfo==1.8.3
++platformdirs==2.5.1
++pluggy==1.0.0
++ply==3.11
++poetry-core==1.0.8
++poetry==1.1.14
++pre-commit==2.17.0
++progressbar2==3.53.1
++prometheus-client==0.11.0
++promise==2.3
++prompt-toolkit==3.0.18
++protobuf==3.19.4
++psutil==5.9.0
++psycopg2-binary==2.9.3
++ptyprocess==0.7.0
++pulp==2.4
++py-spy==0.3.7
++py==1.11.0
++pyasn1-modules==0.2.8
++pyasn1==0.4.8
++pybullet==3.2.5
++pycares==4.2.2
++pycolab==1.2
++pycparser==2.20
++pydantic==1.8.2
++pydotplus==2.0.2
++pyfolio==0.9.2+75.g4b901f6
++pygame==2.1.0
++pyglet==1.5.0
++pygments==2.9.0
++pylev==1.4.0
++pyluach==2.0.0
++pymunk==6.0.0
++pymysql==1.0.2
++pyopengl==3.1.6
++pyparsing==3.0.7
++pyrsistent==0.17.3
++pytest==7.1.2
++python-chess==0.31.4
++python-dateutil==2.8.2
++python-utils==2.5.6
++pytz==2021.3
++pyunpack==0.2.2
++pyvirtualdisplay==3.0
++pywavelets==1.1.1
++pyyaml==5.4.1
++pyzmq==22.3.0
++qdldl==0.1.5.post0
++ray==1.13.0
++redis==3.5.3
++requests-oauthlib==1.3.1
++requests-toolbelt==0.9.1
++requests==2.27.1
++rl-games==1.5.2
++rlcard==0.2.8
++robosumo==0.0.1.dev0
++rsa==4.7.2
++scikit-image==0.18.1
++scikit-learn==0.24.2
++scipy==1.7.3
++scs==2.1.3
++seaborn==0.11.2
++secretstorage==3.3.2
++send2trash==1.8.0
++sentry-sdk==1.5.7
++setproctitle==1.2.2
++setuptools-scm==6.4.2
++setuptools==59.5.0
++shellingham==1.5.0
++shortuuid==1.0.8
++six==1.16.0
++slimevolleygym==0.1.0
++smart-open==6.0.0
++smmap==5.0.0
++sqlalchemy==1.4.40
++stable-baselines3==1.2.0
++stable-baselines==2.10.2
++stockstats==0.4.1
++supersuit==3.4.0
++tabulate==0.8.9
++tb-nightly==2.11.0a20220815
++tensorboard-data-server==0.6.1
++tensorboard-plugin-wit==1.8.1
++tensorboard==2.9.1
++tensorboardx==2.5.1
++tensorflow-estimator==2.9.0
++tensorflow-gpu==2.0.0
++tensorflow-io-gcs-filesystem==0.26.0
++tensorflow-probability==0.8.0
++tensorflow==2.9.1
++tensorlayer==2.2.3
++termcolor==1.1.0
++terminado==0.12.1
++testpath==0.5.0
++threadpoolctl==2.1.0
++thriftpy2==0.4.14
++tifffile==2021.6.14
++tinyscaler==1.2.4
++toml==0.10.2
++tomli==2.0.1
++tomlkit==0.11.3
++toolz==0.12.0
++torch==1.12.0
++torchvision==0.13.0
++tornado==6.1
++tqdm==4.60.0
++traitlets==5.1.1
++typing-extensions==4.1.1
++typing==3.7.4.3
++urllib3==1.26.8
++virtualenv==20.13.3
++wandb==0.12.11
++wcwidth==0.2.5
++webencodings==0.5.1
++websocket-client==1.3.3
++websockets==10.3
++werkzeug==2.0.3
++wheel==0.36.2
++widgetsnbextension==3.5.2
++wrapt==1.12.1
++wrds==3.1.2
++yarl==1.7.2
++yaspin==2.1.0
++yfinance==0.1.74
++zipp==3.7.0
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/wandb-metadata.json b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/wandb-metadata.json
+new file mode 100644
+index 0000000..76ee83d
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/wandb-metadata.json
+@@ -0,0 +1,24 @@
++{
++    "os": "Linux-5.4.0-125-generic-x86_64-with-debian-bullseye-sid",
++    "python": "3.7.10",
++    "heartbeatAt": "2022-10-29T20:45:32.758690",
++    "startedAt": "2022-10-29T20:45:29.953961",
++    "docker": null,
++    "gpu": "NVIDIA TITAN RTX",
++    "gpu_count": 2,
++    "cpu_count": 32,
++    "cuda": "11.0.207",
++    "args": [],
++    "state": "running",
++    "program": "train_alpaca.py",
++    "codePath": "tutorials/3-Practical/train_alpaca.py",
++    "git": {
++        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
++        "commit": "a0a6c45bcb60f44ce2ff754750b752050120ab07"
++    },
++    "email": "zhding@mail.ustc.edu.cn",
++    "root": "/home/zihan/research/FinRL",
++    "host": "e900-rbtg",
++    "username": "zihan",
++    "executable": "/home/zihan/anaconda3/envs/x/bin/python"
++}
+diff --git a/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/wandb-summary.json b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/wandb-summary.json
+new file mode 100644
+index 0000000..2380b7b
+--- /dev/null
++++ b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/files/wandb-summary.json
+@@ -0,0 +1 @@
++{"global_step": 9974495, "_timestamp": 1667125383.8931928, "info/r_max": 0.5305553674697876, "info/r_avg": -5.420580863952637, "info/r_std": 0.0, "info/s_avg": 2729.0, "info/s_std": 0.0, "info/used_time": 0.0, "info/r_exp": 0.0, "_runtime": 49054, "_step": 1199, "_wandb": {"runtime": 49190}}
+\ No newline at end of file
+diff --git a/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/run-1vl0okpw.wandb b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/run-1vl0okpw.wandb
+new file mode 100644
+index 0000000..0355935
+Binary files /dev/null and b/tutorials/3-Practical/wandb/run-20221029_164529-1vl0okpw/run-1vl0okpw.wandb differ

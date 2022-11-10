@@ -1,6 +1,7 @@
 # Custom config
 #results/
 *.pkl
+*.csv
 
 # remove DS_Store
 **/.DS_Store

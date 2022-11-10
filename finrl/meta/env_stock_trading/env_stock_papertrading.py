@@ -210,7 +210,9 @@ class AlpacaPaperTrading:
             if self.timeToClose < (60):
                 # Close all positions when 1 minutes til market close.
                 print("Market closing soon. Stop trading.")
-                tAMO = threading.Thread(target=self.awaitMarketOpen)
+                tAMO = threading.Thread(target=self.awaitMarketOpen)        
+                tAMO.start()
+                tAMO.join()
 
             trade = threading.Thread(target=self.trade)
             trade.start()
@@ -258,7 +260,7 @@ class AlpacaPaperTrading:
 
         self.stocks_cd += 1
         if self.turbulence_bool == 0:
-            min_action = 10  # stock_cd
+            min_action = 10  # buy/sell threshold
             action_range = 10000 # max buy/sell shares of stocks
             action = np.clip(action, -action_range, action_range)
             for index in np.where(action < -min_action)[0]:  # sell_index:
