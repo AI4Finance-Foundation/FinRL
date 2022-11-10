@@ -1,0 +1,42 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.13.2
+    code_path: code/tutorials/3-Practical/train_alpaca.py
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.7.0
+    start_time: 1667702690.079754
+    t:
+      1:
+      - 1
+      - 3
+      - 55
+      2:
+      - 1
+      - 3
+      - 55
+      3:
+      - 13
+      - 16
+      - 23
+      - 35
+      4: 3.7.0
+      5: 0.13.2
+      8:
+      - 5
+wandb_entity:
+  desc: null
+  value: quantumiracle
+wandb_group:
+  desc: null
+  value: ''
+wandb_name:
+  desc: null
+  value: elegantrl_ppo_2022-6-1_2022-6-10
+wandb_project:
+  desc: null
+  value: FinRL
