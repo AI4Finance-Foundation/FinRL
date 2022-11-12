@@ -208,19 +208,20 @@ class AlpacaPaperTrading:
 
             # a non-stop across days version
             if self.timeToClose < (60):
-                # Close all positions when 1 minutes til market close.
                 print("Market closing soon. Stop trading.")
+                time.sleep(180)  # wait for the market to fully stop, and halt trade during the time
                 tAMO = threading.Thread(target=self.awaitMarketOpen)        
                 tAMO.start()
                 tAMO.join()
 
-            trade = threading.Thread(target=self.trade)
-            trade.start()
-            trade.join()
-            last_equity = float(self.alpaca.get_account().last_equity)
-            cur_time = time.time()
-            self.equities.append([cur_time, last_equity])
-            time.sleep(self.time_interval)
+            else:
+                trade = threading.Thread(target=self.trade)
+                trade.start()
+                trade.join()
+                last_equity = float(self.alpaca.get_account().last_equity)
+                cur_time = time.time()
+                self.equities.append([cur_time, last_equity])
+                time.sleep(self.time_interval)
 
 
     def awaitMarketOpen(self):
