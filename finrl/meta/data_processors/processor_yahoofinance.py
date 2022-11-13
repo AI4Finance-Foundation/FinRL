@@ -347,10 +347,17 @@ class YahooFinanceProcessor:
 
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic]
-            barset["tic"] = tic
-            barset = barset.reset_index()
-            data_df = pd.concat([data_df, barset])
+#            barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic] ***********************************
+#            barset["tic"] = tic
+#            barset = barset.reset_index()
+#            data_df = pd.concat([data_df, barset])
+            temp_df = yf.download(
+                tic,
+                period = "1d",  # download data for today
+                interval = time_interval
+            )
+            temp_df["tic"] = tic
+            data_df = pd.concat([data_df, temp_df])
 
         data_df = data_df.reset_index(drop=True)
         start_time = data_df.timestamp.min()
