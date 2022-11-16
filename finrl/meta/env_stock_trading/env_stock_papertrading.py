@@ -207,9 +207,10 @@ class AlpacaPaperTrading:
             #     time.sleep(self.time_interval)
 
             # a non-stop across days version
-            if self.timeToClose < (60):
+            print('time: ', currTime, self.timeToClose)
+            if self.timeToClose < (self.time_interval+60):  # this needs to adapt to trade interval
                 print("Market closing soon. Stop trading.")
-                time.sleep(180)  # wait for the market to fully stop, and halt trade during the time
+                time.sleep(self.time_interval+60*10)  # wait for the market to fully stop, and halt trade during the time
                 tAMO = threading.Thread(target=self.awaitMarketOpen)        
                 tAMO.start()
                 tAMO.join()
