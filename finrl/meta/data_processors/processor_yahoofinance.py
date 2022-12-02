@@ -8,6 +8,7 @@ import pandas as pd
 import pytz
 import yfinance as yf
 from stockstats import StockDataFrame as Sdf
+import datetime
 from datetime import date, timedelta
 
 
@@ -341,25 +342,60 @@ class YahooFinanceProcessor:
 
         return trading_days
 
+#****** NB: YAHOO FINANCE DATA MAY BE IN REAL-TIME OR DELAYED BY 15 MINUTES OR MORE, DEPENDING ON THE EXCHANGE ******
     def fetch_latest_data(
         self, ticker_list, time_interval, tech_indicator_list, limit=100
     ) -> pd.DataFrame:
 
+        # Convert FinRL 'standardised' Alpaca time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+        if (time_interval == '1Min'):
+            time_interval = '1m'
+        elif (time_interval == '2Min'):
+            time_interval = '2m'
+        elif (time_interval == '5Min'):
+            time_interval = '5m'
+        elif (time_interval == '15Min'):
+            time_interval = '15m'
+        elif (time_interval == '30Min'):
+            time_interval = '30m'
+        elif (time_interval == '60Min'):
+            time_interval = '60m'
+        elif (time_interval == '90Min'):
+            time_interval = '90m'
+        elif (time_interval == '1H'):
+            time_interval = '1h'
+        elif (time_interval == '1D'):
+            time_interval = '1d'
+        elif (time_interval == '5D'):
+            time_interval = '5d'
+        elif (time_interval == '1W'):
+            time_interval = '1wk'
+        elif (time_interval == '1M'):
+            time_interval = '1mo'
+        elif (time_interval == '3M'):
+            time_interval = '3mo'
+
+        end_datetime = datetime.datetime.now()
+        start_datetime = end_datetime - datetime.timedelta(minutes=limit + 1)   # get the last rows up to limit
+        
         data_df = pd.DataFrame()
         for tic in ticker_list:
-#            barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic] ***********************************
-#            barset["tic"] = tic
-#            barset = barset.reset_index()
-#            data_df = pd.concat([data_df, barset])
-            temp_df = yf.download(
-                tic,
-                period = "1d",  # download data for today
-                interval = time_interval
-            )
-            temp_df["tic"] = tic
-            data_df = pd.concat([data_df, temp_df])
+            barset = yf.download(tic, start_datetime, end_datetime, interval=time_interval)  # use start and end datetime to simulate the limit parameter
+            barset["tic"] = tic
+            data_df = pd.concat([data_df, barset])
+        
+        data_df = data_df.reset_index().drop(columns=['Adj Close']) # Alpaca data does not have 'Adj Close'
 
-        data_df = data_df.reset_index(drop=True)
+        data_df.columns = [ # convert to Alpaca column names lowercase
+            "timestamp",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "tic"
+        ]
+
         start_time = data_df.timestamp.min()
         end_time = data_df.timestamp.max()
         times = []
@@ -430,10 +466,11 @@ class YahooFinanceProcessor:
         df["VIXY"] = 0
 
         price_array, tech_array, turbulence_array = self.df_to_array(
-            df, tech_indicator_list, if_vix=False
+            df, tech_indicator_list, if_vix=True
         )
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
-        turb_df = self.api.get_bars(["VIXY"], time_interval, limit=1).df
-        latest_turb = turb_df["close"].values
+        start_datetime = end_datetime - datetime.timedelta(minutes=1)
+        turb_df = yf.download('VIXY', start_datetime, limit=1)
+        latest_turb = turb_df["Close"].values
         return latest_price, latest_tech, latest_turb
