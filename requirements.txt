@@ -33,6 +33,7 @@ setuptools==59.5.0
 stable-baselines3[extra]
 stockstats>=0.4.0
 tensorboardX
+swig
 wheel>=0.33.6
 wrds
 yfinance
