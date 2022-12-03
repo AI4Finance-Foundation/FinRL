@@ -1,20 +1,30 @@
 from __future__ import annotations
 
-import trading_ig as tradeapi
 import exchange_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
+import trading_ig as tradeapi
 from stockstats import StockDataFrame as Sdf
 
 
 class IGProcessor:
-    def __init__(self, username=None, password=None, api_key=None, acc_type=None, acc_number=None, api=None):
+    def __init__(
+        self,
+        username=None,
+        password=None,
+        api_key=None,
+        acc_type=None,
+        acc_number=None,
+        api=None,
+    ):
         if api is None:
             try:
-#                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
-                self.api = tradeapi.IGService(username, password, api_key, acc_type, acc_number=acc_number)
-                self.api.create_session()               
+                #                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+                self.api = tradeapi.IGService(
+                    username, password, api_key, acc_type, acc_number=acc_number
+                )
+                self.api.create_session()
             except BaseException:
                 raise ValueError("Wrong Account Info!")
         else:
@@ -32,13 +42,12 @@ class IGProcessor:
         The function tries to retrieve the data, between the start date and the end date, from the IG server.
         if time_interval < 1D: period of data retrieved is the trading time of the London Stock Exchange (LSE) (from 8:00 am to 4:30 pm), in UTC offset zone.
         if time_interval >= 1D: each bar is the midnight of the day in UK/London time, in UTC offset zone.
-                
+
         IG resolution expected values
             are 1Min, 2Min, 3Min, 5Min, 10Min, 15Min, 30Min, 1H, 2H, 3H, 4H, D,
             W, M. Default is 1Min
 
         """
-
 
         self.start = start_date
         self.end = end_date
@@ -49,7 +58,9 @@ class IGProcessor:
         start_date = pd.Timestamp(start_date + " 08:00:00", tz=LON)
         end_date = pd.Timestamp(end_date + " 16:29:00", tz=LON)
         for tic in ticker_list:
-            response = self.api.fetch_historical_prices_by_epic_and_date_range(tic, time_interval, start_date, end_date)
+            response = self.api.fetch_historical_prices_by_epic_and_date_range(
+                tic, time_interval, start_date, end_date
+            )
             barset = barset.append(response)
 
         # from trepan.api import debug;debug()
@@ -179,13 +190,15 @@ class IGProcessor:
                 temp_indicator["date"] = df[df.tic == unique_ticker[i]][
                     "date"
                 ].to_list()
-                indicator_df = pd.concat([indicator_df, temp_indicator], ignore_index=True)
+                indicator_df = pd.concat(
+                    [indicator_df, temp_indicator], ignore_index=True
+                )
             df = df.merge(
                 indicator_df[["tic", "date", indicator]], on=["tic", "date"], how="left"
             )
         df = df.sort_values(by=["date", "tic"])
         df = df.rename(columns={"date": "timestamp"})
-#        print("Succesfully add technical indicators")
+        #        print("Succesfully add technical indicators")
         return df
 
     def add_vix(self, data):
@@ -279,7 +292,7 @@ class IGProcessor:
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-#        print("Successfully transformed into array")
+        #        print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
     def get_trading_days(self, start, end):

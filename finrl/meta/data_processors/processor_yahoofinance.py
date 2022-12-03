@@ -1,5 +1,9 @@
 """Reference: https://github.com/AI4Finance-LLC/FinRL"""
 from __future__ import annotations
+
+import datetime
+from datetime import date
+from datetime import timedelta
 from sqlite3 import Timestamp
 
 import exchange_calendars as tc
@@ -8,8 +12,6 @@ import pandas as pd
 import pytz
 import yfinance as yf
 from stockstats import StockDataFrame as Sdf
-import datetime
-from datetime import date, timedelta
 
 
 class YahooFinanceProcessor:
@@ -45,32 +47,32 @@ class YahooFinanceProcessor:
             for the specified stock ticker
         """
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
-        if (time_interval == '1Min'):
-            time_interval = '1m'
-        elif (time_interval == '2Min'):
-            time_interval = '2m'
-        elif (time_interval == '5Min'):
-            time_interval = '5m'
-        elif (time_interval == '15Min'):
-            time_interval = '15m'
-        elif (time_interval == '30Min'):
-            time_interval = '30m'
-        elif (time_interval == '60Min'):
-            time_interval = '60m'
-        elif (time_interval == '90Min'):
-            time_interval = '90m'
-        elif (time_interval == '1H'):
-            time_interval = '1h'
-        elif (time_interval == '1D'):
-            time_interval = '1d'
-        elif (time_interval == '5D'):
-            time_interval = '5d'
-        elif (time_interval == '1W'):
-            time_interval = '1wk'
-        elif (time_interval == '1M'):
-            time_interval = '1mo'
-        elif (time_interval == '3M'):
-            time_interval = '3mo'
+        if time_interval == "1Min":
+            time_interval = "1m"
+        elif time_interval == "2Min":
+            time_interval = "2m"
+        elif time_interval == "5Min":
+            time_interval = "5m"
+        elif time_interval == "15Min":
+            time_interval = "15m"
+        elif time_interval == "30Min":
+            time_interval = "30m"
+        elif time_interval == "60Min":
+            time_interval = "60m"
+        elif time_interval == "90Min":
+            time_interval = "90m"
+        elif time_interval == "1H":
+            time_interval = "1h"
+        elif time_interval == "1D":
+            time_interval = "1d"
+        elif time_interval == "5D":
+            time_interval = "5d"
+        elif time_interval == "1W":
+            time_interval = "1wk"
+        elif time_interval == "1M":
+            time_interval = "1mo"
+        elif time_interval == "3M":
+            time_interval = "3mo"
 
         self.start = start_date
         self.end = end_date
@@ -82,18 +84,20 @@ class YahooFinanceProcessor:
         delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            while start_date <= end_date:   # downloading daily to workaround yfinance only allowing  max 7 calendar (not trading) days of 1 min data per single download
+            while (
+                start_date <= end_date
+            ):  # downloading daily to workaround yfinance only allowing  max 7 calendar (not trading) days of 1 min data per single download
                 temp_df = yf.download(
                     tic,
-                    start = start_date,
-                    end = start_date + delta,
-                    interval = self.time_interval
+                    start=start_date,
+                    end=start_date + delta,
+                    interval=self.time_interval,
                 )
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
 
-        data_df = data_df.reset_index().drop(columns=['Adj Close'])
+        data_df = data_df.reset_index().drop(columns=["Adj Close"])
         # convert the column names to match processor_alpaca.py as far as poss
         data_df.columns = [
             "timestamp",
@@ -104,7 +108,7 @@ class YahooFinanceProcessor:
             "volume",
             "tic",
         ]
-        
+
         return data_df
 
     def clean_data(self, df) -> pd.DataFrame:
@@ -119,7 +123,7 @@ class YahooFinanceProcessor:
             times = []
             for day in trading_days:
                 current_time = pd.Timestamp(day + " 08:00:00").tz_localize(LSE)
-                for i in range(510):    # 510 minutes between 08:00:00 and 16:30:00
+                for i in range(510):  # 510 minutes between 08:00:00 and 16:30:00
                     times.append(current_time)
                     current_time += pd.Timedelta(minutes=1)
         else:
@@ -133,12 +137,14 @@ class YahooFinanceProcessor:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
-            tic_df = df[df.tic == tic]  # extract just the rows from downloaded data relating to this tic
-            for i in range(tic_df.shape[0]):      # fill empty DataFrame using original data
-                tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(LSE)] = tic_df.iloc[i][
-                    ["open", "high", "low", "close", "volume"]
-                ]
-            #print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
+            tic_df = df[
+                df.tic == tic
+            ]  # extract just the rows from downloaded data relating to this tic
+            for i in range(tic_df.shape[0]):  # fill empty DataFrame using original data
+                tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(LSE)] = tic_df.iloc[
+                    i
+                ][["open", "high", "low", "close", "volume"]]
+            # print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
 
             # if close on start date is NaN, fill data with first valid close
             # and set volume to 0.
@@ -191,13 +197,13 @@ class YahooFinanceProcessor:
             tmp_df["tic"] = tic
             new_df = pd.concat([new_df, tmp_df])
 
-#            print(("Data clean for ") + tic + (" is finished."))
+        #            print(("Data clean for ") + tic + (" is finished."))
 
         # reset index and rename columns
         new_df = new_df.reset_index()
         new_df = new_df.rename(columns={"index": "timestamp"})
 
-#        print("Data clean all finished!")
+        #        print("Data clean all finished!")
 
         return new_df
 
@@ -220,11 +226,19 @@ class YahooFinanceProcessor:
                     temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
                     temp_indicator = pd.DataFrame(temp_indicator)
                     temp_indicator["tic"] = unique_ticker[i]
-                    temp_indicator["timestamp"] = df[df.tic == unique_ticker[i]]["timestamp"].to_list()
-                    indicator_df = pd.concat([indicator_df, temp_indicator], ignore_index=True)
+                    temp_indicator["timestamp"] = df[df.tic == unique_ticker[i]][
+                        "timestamp"
+                    ].to_list()
+                    indicator_df = pd.concat(
+                        [indicator_df, temp_indicator], ignore_index=True
+                    )
                 except Exception as e:
                     print(e)
-            df = df.merge(indicator_df[["tic", "timestamp", indicator]], on=["tic", "timestamp"], how="left")
+            df = df.merge(
+                indicator_df[["tic", "timestamp", indicator]],
+                on=["tic", "timestamp"],
+                how="left",
+            )
         df = df.sort_values(by=["timestamp", "tic"])
         return df
 
@@ -238,9 +252,9 @@ class YahooFinanceProcessor:
         cleaned_vix = self.clean_data(vix_df)
         print("cleaned_vix\n", cleaned_vix)
         vix = cleaned_vix[["timestamp", "close"]]
-        print("cleaned_vix[[\"timestamp\", \"close\"]\n", vix)
+        print('cleaned_vix[["timestamp", "close"]\n', vix)
         vix = vix.rename(columns={"close": "VIXY"})
-        print("vix.rename(columns={\"close\": \"VIXY\"}\n", vix)
+        print('vix.rename(columns={"close": "VIXY"}\n', vix)
 
         df = data.copy()
         print("df\n", df)
@@ -328,7 +342,7 @@ class YahooFinanceProcessor:
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-#        print("Successfully transformed into array")
+        #        print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
     def get_trading_days(self, start, end):
@@ -342,58 +356,64 @@ class YahooFinanceProcessor:
 
         return trading_days
 
-#****** NB: YAHOO FINANCE DATA MAY BE IN REAL-TIME OR DELAYED BY 15 MINUTES OR MORE, DEPENDING ON THE EXCHANGE ******
+    # ****** NB: YAHOO FINANCE DATA MAY BE IN REAL-TIME OR DELAYED BY 15 MINUTES OR MORE, DEPENDING ON THE EXCHANGE ******
     def fetch_latest_data(
         self, ticker_list, time_interval, tech_indicator_list, limit=100
     ) -> pd.DataFrame:
 
         # Convert FinRL 'standardised' Alpaca time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
-        if (time_interval == '1Min'):
-            time_interval = '1m'
-        elif (time_interval == '2Min'):
-            time_interval = '2m'
-        elif (time_interval == '5Min'):
-            time_interval = '5m'
-        elif (time_interval == '15Min'):
-            time_interval = '15m'
-        elif (time_interval == '30Min'):
-            time_interval = '30m'
-        elif (time_interval == '60Min'):
-            time_interval = '60m'
-        elif (time_interval == '90Min'):
-            time_interval = '90m'
-        elif (time_interval == '1H'):
-            time_interval = '1h'
-        elif (time_interval == '1D'):
-            time_interval = '1d'
-        elif (time_interval == '5D'):
-            time_interval = '5d'
-        elif (time_interval == '1W'):
-            time_interval = '1wk'
-        elif (time_interval == '1M'):
-            time_interval = '1mo'
-        elif (time_interval == '3M'):
-            time_interval = '3mo'
+        if time_interval == "1Min":
+            time_interval = "1m"
+        elif time_interval == "2Min":
+            time_interval = "2m"
+        elif time_interval == "5Min":
+            time_interval = "5m"
+        elif time_interval == "15Min":
+            time_interval = "15m"
+        elif time_interval == "30Min":
+            time_interval = "30m"
+        elif time_interval == "60Min":
+            time_interval = "60m"
+        elif time_interval == "90Min":
+            time_interval = "90m"
+        elif time_interval == "1H":
+            time_interval = "1h"
+        elif time_interval == "1D":
+            time_interval = "1d"
+        elif time_interval == "5D":
+            time_interval = "5d"
+        elif time_interval == "1W":
+            time_interval = "1wk"
+        elif time_interval == "1M":
+            time_interval = "1mo"
+        elif time_interval == "3M":
+            time_interval = "3mo"
 
         end_datetime = datetime.datetime.now()
-        start_datetime = end_datetime - datetime.timedelta(minutes=limit + 1)   # get the last rows up to limit
-        
+        start_datetime = end_datetime - datetime.timedelta(
+            minutes=limit + 1
+        )  # get the last rows up to limit
+
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            barset = yf.download(tic, start_datetime, end_datetime, interval=time_interval)  # use start and end datetime to simulate the limit parameter
+            barset = yf.download(
+                tic, start_datetime, end_datetime, interval=time_interval
+            )  # use start and end datetime to simulate the limit parameter
             barset["tic"] = tic
             data_df = pd.concat([data_df, barset])
-        
-        data_df = data_df.reset_index().drop(columns=['Adj Close']) # Alpaca data does not have 'Adj Close'
 
-        data_df.columns = [ # convert to Alpaca column names lowercase
+        data_df = data_df.reset_index().drop(
+            columns=["Adj Close"]
+        )  # Alpaca data does not have 'Adj Close'
+
+        data_df.columns = [  # convert to Alpaca column names lowercase
             "timestamp",
             "open",
             "high",
             "low",
             "close",
             "volume",
-            "tic"
+            "tic",
         ]
 
         start_time = data_df.timestamp.min()
@@ -471,6 +491,6 @@ class YahooFinanceProcessor:
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
         start_datetime = end_datetime - datetime.timedelta(minutes=1)
-        turb_df = yf.download('VIXY', start_datetime, limit=1)
+        turb_df = yf.download("VIXY", start_datetime, limit=1)
         latest_turb = turb_df["Close"].values
         return latest_price, latest_tech, latest_turb
