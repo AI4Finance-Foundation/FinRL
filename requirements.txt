@@ -9,7 +9,7 @@ gym>=0.17
 importlib-metadata==4.13.0
 jqdatasdk
 lz4
-#pyfolio
+pyfolio
 # plot
 matplotlib
 # data handling
