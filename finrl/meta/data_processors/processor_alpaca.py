@@ -45,6 +45,7 @@ class AlpacaProcessor:
             start=start_date.isoformat(),
             end=end_date.isoformat(),
         ).df
+
         # from trepan.api import debug;debug()
         # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm) if time_interval < 1D
         day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000
@@ -58,6 +59,7 @@ class AlpacaProcessor:
         # reformat to finrl expected schema
         data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
         data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(NY))
+
         return data_df
 
     def clean_data(self, df):
@@ -72,6 +74,7 @@ class AlpacaProcessor:
             for i in range(390):
                 times.append(current_time)
                 current_time += pd.Timedelta(minutes=1)
+
         # create a new dataframe with full timestamp series
         new_df = pd.DataFrame()
         for tic in tic_list:
@@ -103,6 +106,7 @@ class AlpacaProcessor:
                             0.0,
                         ]
                         break
+
             # if the close price of the first row is still NaN (All the prices are NaN in this case)
             if str(tmp_df.iloc[0]["close"]) == "nan":
                 print(
@@ -131,14 +135,15 @@ class AlpacaProcessor:
                         previous_close,
                         0.0,
                     ]
+
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
-            new_df = new_df.append(tmp_df)
+            new_df = pd.concat([new_df, tmp_df])
 
         new_df = new_df.reset_index()
         new_df = new_df.rename(columns={"index": "timestamp"})
 
-        print("Data clean finished!")
+        # print("Data clean finished!")
 
         return new_df
 
@@ -173,13 +178,15 @@ class AlpacaProcessor:
                 temp_indicator["date"] = df[df.tic == unique_ticker[i]][
                     "date"
                 ].to_list()
-                indicator_df = indicator_df.append(temp_indicator, ignore_index=True)
+                indicator_df = pd.concat(
+                    [indicator_df, temp_indicator], ignore_index=True
+                )
             df = df.merge(
                 indicator_df[["tic", "date", indicator]], on=["tic", "date"], how="left"
             )
         df = df.sort_values(by=["date", "tic"])
         df = df.rename(columns={"date": "timestamp"})
-        print("Succesfully add technical indicators")
+        #        print("Succesfully add technical indicators")
         return df
 
     def add_vix(self, data):
@@ -196,11 +203,11 @@ class AlpacaProcessor:
     def calculate_turbulence(self, data, time_period=252):
         # can add other market assets
         df = data.copy()
-        df_price_pivot = df.pivot(index="date", columns="tic", values="close")
+        df_price_pivot = df.pivot(index="timestamp", columns="tic", values="close")
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
-        unique_date = df.date.unique()
+        unique_date = df.timestamp.unique()
         # start after a fixed timestamp period
         start = time_period
         turbulence_index = [0] * start
@@ -237,8 +244,11 @@ class AlpacaProcessor:
             turbulence_index.append(turbulence_temp)
 
         turbulence_index = pd.DataFrame(
-            {"date": df_price_pivot.index, "turbulence": turbulence_index}
+            {"timestamp": df_price_pivot.index, "turbulence": turbulence_index}
         )
+
+        # print("turbulence_index\n", turbulence_index)
+
         return turbulence_index
 
     def add_turbulence(self, data, time_period=252):
@@ -249,8 +259,8 @@ class AlpacaProcessor:
         """
         df = data.copy()
         turbulence_index = self.calculate_turbulence(df, time_period=time_period)
-        df = df.merge(turbulence_index, on="date")
-        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
+        df = df.merge(turbulence_index, on="timestamp")
+        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
     def df_to_array(self, df, tech_indicator_list, if_vix):
@@ -273,7 +283,7 @@ class AlpacaProcessor:
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-        print("Successfully transformed into array")
+        #        print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
     def get_trading_days(self, start, end):
@@ -296,7 +306,7 @@ class AlpacaProcessor:
             barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic]
             barset["tic"] = tic
             barset = barset.reset_index()
-            data_df = data_df.append(barset)
+            data_df = pd.concat([data_df, barset])
 
         data_df = data_df.reset_index(drop=True)
         start_time = data_df.timestamp.min()
@@ -360,7 +370,7 @@ class AlpacaProcessor:
                     ]
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
-            new_df = new_df.append(tmp_df)
+            new_df = pd.concat([new_df, tmp_df])
 
         new_df = new_df.reset_index()
         new_df = new_df.rename(columns={"index": "timestamp"})
