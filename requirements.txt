@@ -9,7 +9,6 @@ gym>=0.17
 importlib-metadata==4.13.0
 jqdatasdk
 lz4
-#pyfolio
 # plot
 matplotlib
 # data handling
@@ -18,6 +17,7 @@ pandas>=1.1.5
 
 #hooks
 pre-commit
+pyfolio
 
 # testing requirements
 pytest
