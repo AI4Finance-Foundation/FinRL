@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
-from finrl.meta.data_processors.processor_IG import IGProcessor as IG
 from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
@@ -29,19 +28,6 @@ class DataProcessor:
 
         elif data_source == "yahoofinance":
             self.processor = YahooFinance()
-        elif data_source == "IG":
-            try:
-                username = kwargs.get("username")
-                password = kwargs.get("password")
-                api_key = kwargs.get("api_key")
-                acc_type = kwargs.get("acc_type")
-                acc_number = kwargs.get("acc_number")
-                self.processor = IG(
-                    username, password, api_key, acc_type, acc_number=acc_number
-                )
-                print("IG successfully connected")
-            except BaseException:
-                raise ValueError("Please input correct account info for IG!")
         else:
             raise ValueError("Data source input is NOT supported yet.")
 
