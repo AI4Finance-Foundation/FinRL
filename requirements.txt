@@ -32,6 +32,7 @@ scikit-learn>=0.21.0
 setuptools==59.5.0
 stable-baselines3[extra]
 stockstats>=0.4.0
+swig
 tensorboardX
 wheel>=0.33.6
 wrds

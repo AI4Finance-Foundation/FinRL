@@ -4,6 +4,8 @@ Papers by the Columbia research team can be found at [Google Scholar](https://sc
 
 |Title |Conference |Link|Citations|Year|
 |  ----  |  ----  |  ----  |  ----  |  ----  |
+|**FinRL-Meta**: Market Environments and Benchmarks for Data-Driven Financial Reinforcement Learning | NeurIPS 2022 | paper: https://openreview.net/forum?id=LkAFwrqdRY6 | - | 2022 |
+|Deep Reinforcement Learning for Cryptocurrency Trading: Practical Approach to Address Backtest Overfitting | ICAIF 2022 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2209.05559| 1 | 2022 |
 |**FinRL-Meta**: A Universe of Near-Real Market Environments for Data-Driven Deep Reinforcement Learning in Quantitative Finance| NeurIPS 2021 Data-Centric AI Workshop| paper: https://arxiv.org/abs/2112.06753 ;<br />code: https://github.com/AI4Finance-Foundation/FinRL-Meta| 2| 2021|
 |Explainable deep reinforcement learning for portfolio management: An empirical approach| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.03995;<br />code: [https://github.com/AI4Finance-Foundation/FinRL](https://github.com/AI4Finance-Foundation/FinRL-Meta/blob/master/tutorials/2-Advance/FinRL_PortfolioAllocation_Explainable_DRL/FinRL_PortfolioAllocation_Explainable_DRL.py)| 1| 2021|
 |**FinRL-Podracer**: High performance and scalable deep reinforcement learning for quantitative finance| ICAIF 2021 : ACM International Conference on AI in Finance | paper: https://arxiv.org/abs/2111.05188;<br />code: https://github.com/AI4Finance-Foundation/FinRL_Podracer| 2 | 2021|
