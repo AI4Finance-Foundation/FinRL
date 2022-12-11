@@ -5,7 +5,6 @@
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import INDICATORS
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
-from finrl.meta.env_stock_trading.env_stock_papertrading import AlpacaPaperTrading
 from finrl.meta.data_processor import DataProcessor
 from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
 
