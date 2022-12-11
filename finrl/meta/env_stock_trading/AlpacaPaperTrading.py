@@ -305,5 +305,26 @@ class AlpacaPaperTrading():
     def sigmoid_sign(ary, thresh):
         def sigmoid(x):
             return 1 / (1 + np.exp(-x * np.e)) - 0.5
-
         return sigmoid(ary / thresh) * thresh
+
+
+class StockEnvEmpty(gym.Env):
+    #Empty Env used for loading rllib agent
+    def __init__(self,config):
+      state_dim = config['state_dim']
+      action_dim = config['action_dim']
+      self.env_num = 1
+      self.max_step = 10000
+      self.env_name = 'StockEnvEmpty'
+      self.state_dim = state_dim  
+      self.action_dim = action_dim
+      self.if_discrete = False  
+      self.target_return = 9999
+      self.observation_space = gym.spaces.Box(low=-3000, high=3000, shape=(state_dim,), dtype=np.float32)
+      self.action_space = gym.spaces.Box(low=-1, high=1, shape=(action_dim,), dtype=np.float32)
+        
+    def reset(self):
+        return 
+
+    def step(self, actions):
+        return
