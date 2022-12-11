@@ -16,7 +16,7 @@ from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 class AlpacaPaperTrading:
     def __init__(
         self,
-        ticker_list,
+        tickeStockEnvEmptyr_list,
         time_interval,
         drl_lib,
         agent,
