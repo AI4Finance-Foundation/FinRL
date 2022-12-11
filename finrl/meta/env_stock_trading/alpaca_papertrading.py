@@ -2,7 +2,7 @@
 
 # Setup Alpaca Paper trading environment
 
-from finrl.meta.env_stock_trading.Common import AgentPPO
+from finrl.meta.env_stock_trading.papertrading_common import AgentPPO
 import datetime
 import threading
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
