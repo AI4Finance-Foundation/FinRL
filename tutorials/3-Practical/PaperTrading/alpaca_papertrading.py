@@ -225,7 +225,6 @@ class AlpacaPaperTrading():
                     qty = 0 # set to 0 quantity
                 else:
                     qty = abs(int(buy_num_shares))
-                qty = abs(int(buy_num_shares))
                 respSO = []
                 tSubmitOrder = threading.Thread(target=self.submitOrder(qty, self.stockUniverse[index], 'buy', respSO))
                 tSubmitOrder.start()
