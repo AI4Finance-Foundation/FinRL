@@ -165,29 +165,26 @@ class AlpacaPaperTrading:
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
             self.timeToClose = closingTime - currTime
 
-            if self.timeToClose < (60):
-                # Close all positions when 1 minutes til market close.
-                print("Market closing soon. Stop trading.")
-                break
+            if self.timeTAoClose < (60*2):
+                # Close all positions when 2 minutes til market close.  Any less and it will be in danger of not closing positions in time.
 
-                """# Close all positions when 1 minutes til market close.
-            print("Market closing soon.  Closing positions.")
+                print("Market closing soon.  Closing positions.")
 
-            positions = self.alpaca.list_positions()
-            for position in positions:
-              if(position.side == 'long'):
-                orderSide = 'sell'
-              else:
-                orderSide = 'buy'
-              qty = abs(int(float(position.qty)))
-              respSO = []
-              tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
-              tSubmitOrder.start()
-              tSubmitOrder.join()
+                positions = self.alpaca.list_positions()
+                for position in positions:
+                    if(position.side == 'long'):
+                        orderSide = 'sell'
+                    else:
+                        orderSide = 'buy'
+                    qty = abs(int(float(position.qty)))
+                    respSO = []
+                    tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
+                    tSubmitOrder.start()
+                    tSubmitOrder.join()
 
-            # Run script again after market close for next trading day.
-            print("Sleeping until market close (15 minutes).")
-            time.sleep(60 * 15)"""
+                # Run script again after market close for next trading day.
+                print("Sleeping until market close (15 minutes).")
+                time.sleep(60 * 15)
 
             else:
                 trade = threading.Thread(target=self.trade)
