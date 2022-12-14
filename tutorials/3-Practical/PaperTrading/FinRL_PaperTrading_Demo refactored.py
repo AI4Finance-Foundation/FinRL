@@ -1,11 +1,11 @@
 # Disclaimer: Nothing herein is financial advice, and NOT a recommendation to trade real money. Many platforms exist for simulated trading (paper trading) which can be used for building and developing the methods discussed. Please use common sense and always first consult a professional before trading or investing.
 # install finrl library
-#%pip install --upgrade git+https://github.com/AI4Finance-Foundation/FinRL.git
-# Get the API Keys Ready
+# %pip install --upgrade git+https://github.com/AI4Finance-Foundation/FinRL.git
+# Alpaca keys
 API_KEY = ''
 API_SECRET = ''
 API_BASE_URL = ''
-# Import related modules
+
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import INDICATORS
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
@@ -13,14 +13,11 @@ from alpaca_papertrading import AlpacaPaperTrading
 from papertrading_common import train, test, alpaca_history, DIA_history
 # Import Dow Jones 30 Symbols
 ticker_list = DOW_30_TICKER
-action_dim = len(DOW_30_TICKER)
-state_dim = 1 + 2 + 3 * action_dim + len(INDICATORS) * action_dim # Calculate the DRL state dimension manually for paper trading. amount + (turbulence, turbulence_bool) + (price, shares, cd (holding time)) * stock_dim + tech_dim
 env = StockTradingEnv
-# Train the agent - #if you want to use larger datasets (change to longer period), and it raises error, #please try to increase "target_step". It should be larger than the episode steps. 
+#if you want to use larger datasets (change to longer period), and it raises error, please try to increase "target_step". It should be larger than the episode steps. 
 ERL_PARAMS = {"learning_rate": 3e-6,"batch_size": 2048,"gamma":  0.985,
         "seed":312,"net_dimension":[128,64], "target_step":5000, "eval_gap":30,
         "eval_times":1} 
-env = StockTradingEnv
 
 train(start_date = '2022-08-25', 
       end_date = '2022-08-31',
@@ -71,6 +68,9 @@ train(start_date = '2022-08-25',    # After tuning well, retrain on the training
       erl_params=ERL_PARAMS,
       cwd='./papertrading_erl_retrain',
       break_step=2e5)
+
+action_dim = len(DOW_30_TICKER)
+state_dim = 1 + 2 + 3 * action_dim + len(INDICATORS) * action_dim # Calculate the DRL state dimension manually for paper trading. amount + (turbulence, turbulence_bool) + (price, shares, cd (holding time)) * stock_dim + tech_dim
 
 paper_trading_erl = AlpacaPaperTrading(ticker_list = DOW_30_TICKER,
         time_interval = '1Min', 
