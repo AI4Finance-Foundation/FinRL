@@ -2,6 +2,10 @@
 <img align="center" src=https://github.com/AI4Finance-Foundation/FinRL/blob/master/figs/FinRL_Tutorials.png>
 </div>
 
+**NOTICE**
+We only reserve several stable tutorials in this folder. For more tutorials, please refer to this repo https://github.com/AI4Finance-Foundation/FinRL-Tutorials.
+
+
 **Mission**: provide user-friendly demos using notebooks.
 
 Note that we are merging the tutorials from [FinRL-meta](https://github.com/AI4Finance-Foundation/FinRL-Meta/tree/master/tutorials).
