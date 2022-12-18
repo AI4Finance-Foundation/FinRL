@@ -4,9 +4,15 @@
 # Alpaca keys
 from __future__ import annotations
 
-API_KEY = ""
-API_SECRET = ""
-API_BASE_URL = ""
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("key", help="api key")
+parser.add_argument("secret", help="api secret")
+parser.add_argument("url", help="api base url")
+args = parser.parse_args()
+API_KEY = args.key
+API_SECRET = args.secret
+API_BASE_URL = args.url
 
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import INDICATORS
