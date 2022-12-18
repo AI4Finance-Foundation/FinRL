@@ -11,12 +11,12 @@ import gym
 import numpy as np
 import pandas as pd
 import torch
-from papertrading_common import AgentPPO
+from common import AgentPPO
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 
 
-class AlpacaPaperTrading:
+class PaperTradingAlpaca:
     def __init__(
         self,
         ticker_list,
