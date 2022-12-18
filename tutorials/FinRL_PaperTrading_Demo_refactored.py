@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+
 parser = argparse.ArgumentParser()
 parser.add_argument("key", help="api key")
 parser.add_argument("secret", help="api secret")
