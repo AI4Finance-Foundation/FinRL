@@ -1,8 +1,18 @@
-# Contribution Guidelines
+:github_url: https://github.com/AI4Finance-Foundation/FinRL
+
+============================
+Development Guide
+============================
+
+Contribution Guidelines
+=======
+
 This project aims to bring a reinforcement learning environment to the trading community.
 There are always competing priorities among the community, and we want to make sure that we are able to achieve together a project that is reliable, sustainable, and maintainable.
 
-## Guiding Principles (v1)
+Guiding Principles
+=======
+
 * We should have reliable codes in this project
     * reliable code with tests
     * reliable code that works
@@ -19,12 +29,16 @@ There are always competing priorities among the community, and we want to make s
 * Filing an [issue](https://guides.github.com/features/issues/) is a great way to help improve the project
 
 
-## We will accept PR's for the following reasons
+Aaccepting PRs
+=======
+
 * You found a bug and a way to fix it
 * You have contributed to an issue that was prioritized by the coordinators of this project
 * You have new functionality that you're adding that you've written issues for and has documentation + Tests
 
-## PR Guidelines
+PR Guidelines
+=======
+
 * Please tag @bruceyang, @spencerromo, or @xiaoyang in every PR. (P.S. we're looking for more collaborators with software experience!)
 * Please reference or write and reference an [issue](https://guides.github.com/features/issues/)
 * Please have clear commit messages
@@ -34,18 +48,21 @@ There are always competing priorities among the community, and we want to make s
 * Please use pre-commit hooks
 
 
-## Using pre-commit
+Others
+=======
+
+-Using pre-commit
 ```
 pip install pre-commit
 pre-commit install
 ```
 
-## Running Tests
+-Running Tests
 ```
-# Locally
+-Locally
 python3 -m unittest discover
 
-# Docker
+-Docker
 ./docker/bin/build_container.sh
 ./docker/bin/test.sh
 ```
