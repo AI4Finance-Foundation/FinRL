@@ -86,6 +86,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
 
    developer_guide/file_architecture
    developer_guide/development_setup
+   developer_guide/contributing
 
 
 .. toctree::
