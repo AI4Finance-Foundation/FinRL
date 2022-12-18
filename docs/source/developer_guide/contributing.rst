@@ -1,11 +1,10 @@
 :github_url: https://github.com/AI4Finance-Foundation/FinRL
 
 ============================
-Development Guide
+Contributing Guidelines
 ============================
 
-Contribution Guidelines
-=======
+
 
 This project aims to bring a reinforcement learning environment to the trading community.
 There are always competing priorities among the community, and we want to make sure that we are able to achieve together a project that is reliable, sustainable, and maintainable.
