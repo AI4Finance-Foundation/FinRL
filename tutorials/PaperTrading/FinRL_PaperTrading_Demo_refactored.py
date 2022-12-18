@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+
 parser = argparse.ArgumentParser()
 parser.add_argument("key", help="api key")
 parser.add_argument("secret", help="api secret")
@@ -37,16 +38,16 @@ ERL_PARAMS = {
 
 # Set up sliding window of 6 days training and 2 days testing
 import datetime
-from pandas.tseries.offsets import BDay # BDay is business day, not birthday...
+from pandas.tseries.offsets import BDay  # BDay is business day, not birthday...
 
 today = datetime.datetime.today()
 
-TEST_END_DATE       = (today - BDay(1)).to_pydatetime().date()
-TEST_START_DATE     = (TEST_END_DATE - BDay(1)).to_pydatetime().date()
-TRAIN_END_DATE      = (TEST_START_DATE - BDay(1)).to_pydatetime().date()
-TRAIN_START_DATE    = (TRAIN_END_DATE- BDay(5)).to_pydatetime().date()
-TRAINFULL_START_DATE= TRAIN_START_DATE
-TRAINFULL_END_DATE  = TEST_END_DATE
+TEST_END_DATE = (today - BDay(1)).to_pydatetime().date()
+TEST_START_DATE = (TEST_END_DATE - BDay(1)).to_pydatetime().date()
+TRAIN_END_DATE = (TEST_START_DATE - BDay(1)).to_pydatetime().date()
+TRAIN_START_DATE = (TRAIN_END_DATE - BDay(5)).to_pydatetime().date()
+TRAINFULL_START_DATE = TRAIN_START_DATE
+TRAINFULL_END_DATE = TEST_END_DATE
 
 TRAIN_START_DATE = str(TRAIN_START_DATE)
 TRAIN_END_DATE = str(TRAIN_END_DATE)
