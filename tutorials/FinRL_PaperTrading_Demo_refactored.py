@@ -36,9 +36,36 @@ ERL_PARAMS = {
     "eval_times": 1,
 }
 
+# Set up sliding window of 6 days training and 2 days testing
+import datetime
+from pandas.tseries.offsets import BDay  # BDay is business day, not birthday...
+
+today = datetime.datetime.today()
+
+TEST_END_DATE = (today - BDay(1)).to_pydatetime().date()
+TEST_START_DATE = (TEST_END_DATE - BDay(1)).to_pydatetime().date()
+TRAIN_END_DATE = (TEST_START_DATE - BDay(1)).to_pydatetime().date()
+TRAIN_START_DATE = (TRAIN_END_DATE - BDay(5)).to_pydatetime().date()
+TRAINFULL_START_DATE = TRAIN_START_DATE
+TRAINFULL_END_DATE = TEST_END_DATE
+
+TRAIN_START_DATE = str(TRAIN_START_DATE)
+TRAIN_END_DATE = str(TRAIN_END_DATE)
+TEST_START_DATE = str(TEST_START_DATE)
+TEST_END_DATE = str(TEST_END_DATE)
+TRAINFULL_START_DATE = str(TRAINFULL_START_DATE)
+TRAINFULL_END_DATE = str(TRAINFULL_END_DATE)
+
+print("TRAIN_START_DATE: ", TRAIN_START_DATE)
+print("TRAIN_END_DATE: ", TRAIN_END_DATE)
+print("TEST_START_DATE: ", TEST_START_DATE)
+print("TEST_END_DATE: ", TEST_END_DATE)
+print("TRAINFULL_START_DATE: ", TRAINFULL_START_DATE)
+print("TRAINFULL_END_DATE: ", TRAINFULL_END_DATE)
+
 train(
-    start_date="2022-08-25",
-    end_date="2022-08-31",
+    start_date=TRAIN_START_DATE,
+    end_date=TRAIN_END_DATE,
     ticker_list=ticker_list,
     data_source="alpaca",
     time_interval="1Min",
@@ -56,8 +83,8 @@ train(
 )
 
 account_value_erl = test(
-    start_date="2022-09-01",
-    end_date="2022-09-02",
+    start_date=TEST_START_DATE,
+    end_date=TEST_END_DATE,
     ticker_list=ticker_list,
     data_source="alpaca",
     time_interval="1Min",
@@ -74,8 +101,8 @@ account_value_erl = test(
 )
 
 train(
-    start_date="2022-08-25",  # After tuning well, retrain on the training and testing sets
-    end_date="2022-09-02",
+    start_date=TRAINFULL_START_DATE,  # After tuning well, retrain on the training and testing sets
+    end_date=TRAINFULL_END_DATE,
     ticker_list=ticker_list,
     data_source="alpaca",
     time_interval="1Min",
