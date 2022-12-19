@@ -11,8 +11,7 @@ import gym
 import numpy as np
 import pandas as pd
 import torch
-from common import AgentPPO
-
+from finrl.meta.paper_trading.common import AgentPPO
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 
 
