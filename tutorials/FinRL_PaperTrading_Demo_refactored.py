@@ -18,8 +18,8 @@ API_BASE_URL = args.url
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.config import INDICATORS
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
-from alpaca_papertrading import AlpacaPaperTrading
-from papertrading_common import train, test, alpaca_history, DIA_history
+from finrl.meta.paper_trading.alpaca import PaperTradingAlpaca
+from finrl.meta.paper_trading.common import train, test, alpaca_history, DIA_history
 
 # Import Dow Jones 30 Symbols
 ticker_list = DOW_30_TICKER
