@@ -1,4 +1,5 @@
 # Importing the libraries
+from __future__ import annotations
 
 import ray
 
@@ -24,17 +25,17 @@ from typing import Dict, Optional, Any, List, Union
 
 
 class DRLlibv2:
-    '''
+    """
     It instantiates RLlib model with Ray tune functionality
     Attributes
     -------------------------------------
-    trainable: 
+    trainable:
     trainable: Any Trainable class
-    train_env: Training environment 
+    train_env: Training environment
     train_env_name: Name of the training environment
     params: hyperparameters dictionary
     run_name: tune run name
-    framework: str = "torch" 
+    framework: str = "torch"
     local_dir: to save the results and tensorboard plots
     num_workers: number of workers
     search_alg= search space for hyperparameters
@@ -60,12 +61,13 @@ class DRLlibv2:
         restore_agent: It restores previously errored or stopped trials or experiments
         infer_results: It returns the results dataframe and trial informations
         get_test_agent: It returns the testing agent for inference
-    
 
-    '''
+
+    """
+
     def __init__(
         self,
-        trainable: Union[str, Any],
+        trainable: str | Any,
         train_env,
         train_env_name: str,
         params: dict,
@@ -78,14 +80,14 @@ class DRLlibv2:
         num_samples: int = 0,
         scheduler=None,
         log_level: str = "WARN",
-        num_gpus: Union[float, int] = 0,
-        num_cpus: Union[float, int] = 2,
+        num_gpus: float | int = 0,
+        num_cpus: float | int = 2,
         dataframe_save: str = "tune.csv",
         metric: str = "episode_reward_mean",
-        mode: Union[str, List[str]] = "max",
+        mode: str | list[str] = "max",
         max_failures: int = 0,
         training_iterations: int = 100,
-        checkpoint_num_to_keep: Union[None, int] = None,
+        checkpoint_num_to_keep: None | int = None,
         checkpoint_freq: int = 0,
         reuse_actors: bool = False,
     ):
@@ -123,10 +125,10 @@ class DRLlibv2:
         self.reuse_actors = reuse_actors
 
     def train_tune_model(self):
-        '''
+        """
         Tuning and training the model
         Returns the results object
-        '''
+        """
         ray.init(
             num_cpus=self.num_cpus, num_gpus=self.num_gpus, ignore_reinit_error=True
         )
@@ -165,9 +167,9 @@ class DRLlibv2:
         return self.results
 
     def infer_results(self, to_dataframe: str = None, mode: str = "a"):
-        '''
+        """
         Get tune results in a dataframe and best results object
-        '''
+        """
         results_df = self.results.get_dataframe()
 
         if to_dataframe is None:
@@ -186,18 +188,18 @@ class DRLlibv2:
 
     def restore_agent(
         self,
-        checkpoint_path:str='',
+        checkpoint_path: str = "",
         restore_search: bool = False,
         resume_unfinished: bool = True,
         resume_errored: bool = False,
         restart_errored: bool = False,
     ):
-        '''
+        """
         Restore errored or stopped trials
-        '''
+        """
         # if restore_search:
         # self.search_alg = self.search_alg.restore_from_dir(self.local_dir)
-        if checkpoint_path == '':
+        if checkpoint_path == "":
             checkpoint_path = self.results.get_best_result().checkpoint._local_path
 
         restored_agent = tune.Tuner.restore(
@@ -213,9 +215,9 @@ class DRLlibv2:
         return self.results
 
     def get_test_agent(self, test_env, test_env_name: str, checkpoint=None):
-        '''
+        """
         Get test agent
-        '''
+        """
         register_env(test_env_name, lambda config: test_env)
 
         if checkpoint is None:
