@@ -7,21 +7,34 @@ from __future__ import annotations
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("key", help="api key")
-parser.add_argument("secret", help="api secret")
-parser.add_argument("url", help="api base url")
+parser.add_argument("data_key", help="data source api key")
+parser.add_argument("data_secret", help="data source api secret")
+parser.add_argument("data_url", help="data source api base url")
+parser.add_argument("trading_key", help="trading api key")
+parser.add_argument("trading_secret", help="trading api secret")
+parser.add_argument("trading_url", help="trading api base url")
 args = parser.parse_args()
-API_KEY = args.key
-API_SECRET = args.secret
-API_BASE_URL = args.url
+DATA_API_KEY = args.data_key
+DATA_API_SECRET = args.data_secret
+DATA_API_BASE_URL = args.data_url
+TRADING_API_KEY = args.trading_key
+TRADING_API_SECRET = args.trading_secret
+TRADING_API_BASE_URL = args.trading_url
 
-from finrl.config_tickers import DOW_30_TICKER
-from finrl.config import INDICATORS
+print("DATA_API_KEY: ", DATA_API_KEY)
+print("DATA_API_SECRET: ", DATA_API_SECRET)
+print("DATA_API_BASE_URL: ", DATA_API_BASE_URL)
+print("TRADING_API_KEY: ", TRADING_API_KEY)
+print("TRADING_API_SECRET: ", TRADING_API_SECRET)
+print("TRADING_API_BASE_URL: ", TRADING_API_BASE_URL)
+
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 from finrl.meta.paper_trading.alpaca import PaperTradingAlpaca
 from finrl.meta.paper_trading.common import train, test, alpaca_history, DIA_history
+from finrl.config import INDICATORS
 
 # Import Dow Jones 30 Symbols
+from finrl.config_tickers import DOW_30_TICKER
 ticker_list = DOW_30_TICKER
 env = StockTradingEnv
 # if you want to use larger datasets (change to longer period), and it raises error, please try to increase "target_step". It should be larger than the episode steps.
@@ -74,9 +87,9 @@ train(
     env=env,
     model_name="ppo",
     if_vix=True,
-    API_KEY=API_KEY,
-    API_SECRET=API_SECRET,
-    API_BASE_URL=API_BASE_URL,
+    API_KEY=DATA_API_KEY,
+    API_SECRET=DATA_API_SECRET,
+    API_BASE_URL=DATA_API_BASE_URL,
     erl_params=ERL_PARAMS,
     cwd="./papertrading_erl",  # current_working_dir
     break_step=1e5,
@@ -93,9 +106,9 @@ account_value_erl = test(
     env=env,
     model_name="ppo",
     if_vix=True,
-    API_KEY=API_KEY,
-    API_SECRET=API_SECRET,
-    API_BASE_URL=API_BASE_URL,
+    API_KEY=DATA_API_KEY,
+    API_SECRET=DATA_API_SECRET,
+    API_BASE_URL=DATA_API_BASE_URL,
     cwd="./papertrading_erl",
     net_dimension=ERL_PARAMS["net_dimension"],
 )
@@ -111,9 +124,9 @@ train(
     env=env,
     model_name="ppo",
     if_vix=True,
-    API_KEY=API_KEY,
-    API_SECRET=API_SECRET,
-    API_BASE_URL=API_BASE_URL,
+    API_KEY=DATA_API_KEY,
+    API_SECRET=DATA_API_SECRET,
+    API_BASE_URL=DATA_API_BASE_URL,
     erl_params=ERL_PARAMS,
     cwd="./papertrading_erl_retrain",
     break_step=2e5,
@@ -133,9 +146,9 @@ paper_trading_erl = PaperTradingAlpaca(
     net_dim=ERL_PARAMS["net_dimension"],
     state_dim=state_dim,
     action_dim=action_dim,
-    API_KEY=API_KEY,
-    API_SECRET=API_SECRET,
-    API_BASE_URL=API_BASE_URL,
+    API_KEY=TRADING_API_KEY,
+    API_SECRET=TRADING_API_SECRET,
+    API_BASE_URL=TRADING_API_BASE_URL,
     tech_indicator_list=INDICATORS,
     turbulence_thresh=30,
     max_stock=1e2,
@@ -146,9 +159,9 @@ paper_trading_erl.run()
 # Check Portfolio Performance
 # ## Get cumulative return
 df_erl, cumu_erl = alpaca_history(
-    key=API_KEY,
-    secret=API_SECRET,
-    url=API_BASE_URL,
+    key=DATA_API_KEY,
+    secret=DATA_API_SECRET,
+    url=DATA_API_BASE_URL,
     start="2022-09-01",  # must be within 1 month
     end="2022-09-12",
 )  # change the date if error occurs
