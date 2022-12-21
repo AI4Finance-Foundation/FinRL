@@ -124,7 +124,7 @@ state_dim = (
     1 + 2 + 3 * action_dim + len(INDICATORS) * action_dim
 )  # Calculate the DRL state dimension manually for paper trading. amount + (turbulence, turbulence_bool) + (price, shares, cd (holding time)) * stock_dim + tech_dim
 
-paper_trading_erl = AlpacaPaperTrading(
+paper_trading_erl = PaperTradingAlpaca(
     ticker_list=DOW_30_TICKER,
     time_interval="1Min",
     drl_lib="elegantrl",
