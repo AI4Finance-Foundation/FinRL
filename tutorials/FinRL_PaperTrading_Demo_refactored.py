@@ -35,6 +35,7 @@ from finrl.config import INDICATORS
 
 # Import Dow Jones 30 Symbols
 from finrl.config_tickers import DOW_30_TICKER
+
 ticker_list = DOW_30_TICKER
 env = StockTradingEnv
 # if you want to use larger datasets (change to longer period), and it raises error, please try to increase "target_step". It should be larger than the episode steps.
