@@ -165,7 +165,7 @@ class PaperTradingAlpaca:
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
             self.timeToClose = closingTime - currTime
 
-            if self.timeTAoClose < (60 * 2):
+            if self.timeToClose < (60 * 2):
                 # Close all positions when 2 minutes til market close.  Any less and it will be in danger of not closing positions in time.
 
                 print("Market closing soon.  Closing positions.")
