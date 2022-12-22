@@ -359,6 +359,7 @@ class PaperTradingAlpaca:
                 )
                 resp.append(False)
         else:
+            '''
             print(
                 "Quantity is 0, order of | "
                 + str(qty)
@@ -368,6 +369,7 @@ class PaperTradingAlpaca:
                 + side
                 + " | not completed."
             )
+            '''
             resp.append(True)
 
     @staticmethod
