@@ -3,7 +3,7 @@
 </div>
 
 **NOTICE**
-We only reserve several stable tutorials in this folder. For more tutorials, please refer to this repo https://github.com/AI4Finance-Foundation/FinRL-Tutorials.
+In this folder, we maintain several home-grown examples.  For more tutorials, please refer to the repo at https://github.com/AI4Finance-Foundation/FinRL-Tutorials.
 
 
 **Mission**: provide user-friendly demos using notebooks.
