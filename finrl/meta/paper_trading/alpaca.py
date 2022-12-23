@@ -330,7 +330,7 @@ class PaperTradingAlpaca:
         ).astype(np.float32)
         state[np.isnan(state)] = 0.0
         state[np.isinf(state)] = 0.0
-        #print(len(self.stockUniverse))
+        # print(len(self.stockUniverse))
         return state
 
     def submitOrder(self, qty, stock, side, resp):
