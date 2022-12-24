@@ -5,7 +5,7 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from sqlite3 import Timestamp
-
+from typing import List, Any, Dict, Optional, Type, TypeVar, Union
 import exchange_calendars as tc
 import numpy as np
 import pandas as pd
@@ -17,25 +17,37 @@ from stockstats import StockDataFrame as Sdf
 class YahooFinanceProcessor:
     """Provides methods for retrieving daily stock data from
     Yahoo Finance API
-    Attributes
-    ----------
-        start_date : str
-            start date of the data (modified from neofinrl_config.py)
-        end_date : str
-            end date of the data (modified from neofinrl_config.py)
-        ticker_list : list
-            a list of stock tickers (modified from neofinrl_config.py)
-    Methods
-    -------
-    fetch_data()
-        Fetches data from yahoo API
     """
 
     def __init__(self):
         pass
 
+    '''
+    Param
+    ----------
+        start_date : str
+            start date of the data
+        end_date : str
+            end date of the data
+        ticker_list : list
+            a list of stock tickers
+    Example
+    -------
+    ticker_list = config_tickers.DOW_30_TICKER
+    start_date = '2009-01-01'
+    end_date = '2021-10-31'
+    time_interval == "1D"
+
+    output:
+        date	    tic	    open	    high	    low	        close	    volume
+    0	2009-01-02	AAPL	3.067143	3.251429	3.041429	2.767330	746015200.0
+    1	2009-01-02	AMGN	58.590000	59.080002	57.750000	44.523766	6547900.0
+    2	2009-01-02	AXP	    18.570000	19.520000	18.400000	15.477426	10955700.0	
+    3	2009-01-02	BA	    42.799999	45.560001	42.779999	33.941093	7010200.0
+    ...
+    '''
     def download_data(
-        self, ticker_list: list, start_date: str, end_date: str, time_interval: str
+        self, ticker_list: [str], start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
         """Fetches data from Yahoo API
         Parameters
