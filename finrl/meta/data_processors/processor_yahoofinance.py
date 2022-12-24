@@ -5,7 +5,14 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from sqlite3 import Timestamp
-from typing import List, Any, Dict, Optional, Type, TypeVar, Union
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Type
+from typing import TypeVar
+from typing import Union
+
 import exchange_calendars as tc
 import numpy as np
 import pandas as pd
@@ -22,7 +29,7 @@ class YahooFinanceProcessor:
     def __init__(self):
         pass
 
-    '''
+    """
     Param
     ----------
         start_date : str
@@ -42,12 +49,13 @@ class YahooFinanceProcessor:
         date	    tic	    open	    high	    low	        close	    volume
     0	2009-01-02	AAPL	3.067143	3.251429	3.041429	2.767330	746015200.0
     1	2009-01-02	AMGN	58.590000	59.080002	57.750000	44.523766	6547900.0
-    2	2009-01-02	AXP	    18.570000	19.520000	18.400000	15.477426	10955700.0	
+    2	2009-01-02	AXP	    18.570000	19.520000	18.400000	15.477426	10955700.0
     3	2009-01-02	BA	    42.799999	45.560001	42.779999	33.941093	7010200.0
     ...
-    '''
+    """
+
     def download_data(
-        self, ticker_list: List[str], start_date: str, end_date: str, time_interval: str
+        self, ticker_list: list[str], start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
         if time_interval == "1Min":
@@ -210,7 +218,9 @@ class YahooFinanceProcessor:
 
         return new_df
 
-    def add_technical_indicator(self, data: pd.DataFrame, tech_indicator_list: List[str]):
+    def add_technical_indicator(
+        self, data: pd.DataFrame, tech_indicator_list: list[str]
+    ):
         """
         calculate technical indicators
         use stockstats package to add technical inidactors
@@ -265,7 +275,7 @@ class YahooFinanceProcessor:
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-    def calculate_turbulence(self, data: pd.DataFrame, time_period: int=252):
+    def calculate_turbulence(self, data: pd.DataFrame, time_period: int = 252):
         # can add other market assets
         df = data.copy()
         df_price_pivot = df.pivot(index="timestamp", columns="tic", values="close")
@@ -313,7 +323,7 @@ class YahooFinanceProcessor:
         )
         return turbulence_index
 
-    def add_turbulence(self, data: pd.DataFrame, time_period: int=252):
+    def add_turbulence(self, data: pd.DataFrame, time_period: int = 252):
         """
         add turbulence index from a precalcualted dataframe
         :param data: (df) pandas dataframe
@@ -325,7 +335,9 @@ class YahooFinanceProcessor:
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-    def df_to_array(self, df: pd.DataFrame, tech_indicator_list: List[str], if_vix: bool):
+    def df_to_array(
+        self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool
+    ):
         df = df.copy()
         unique_ticker = df.tic.unique()
         if_first_time = True
@@ -361,7 +373,11 @@ class YahooFinanceProcessor:
 
     # ****** NB: YAHOO FINANCE DATA MAY BE IN REAL-TIME OR DELAYED BY 15 MINUTES OR MORE, DEPENDING ON THE EXCHANGE ******
     def fetch_latest_data(
-        self, ticker_list: List[str], time_interval: str, tech_indicator_list: List[str], limit: int=100
+        self,
+        ticker_list: list[str],
+        time_interval: str,
+        tech_indicator_list: list[str],
+        limit: int = 100,
     ) -> pd.DataFrame:
 
         # Convert FinRL 'standardised' Alpaca time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
