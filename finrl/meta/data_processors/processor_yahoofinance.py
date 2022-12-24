@@ -40,6 +40,7 @@ class YahooFinanceProcessor:
             a list of stock tickers
     Example
     -------
+    input:
     ticker_list = config_tickers.DOW_30_TICKER
     start_date = '2009-01-01'
     end_date = '2021-10-31'
@@ -55,7 +56,7 @@ class YahooFinanceProcessor:
     """
 
     def download_data(
-        self, ticker_list: list[str], start_date: str, end_date: str, time_interval: str
+        self, ticker_list: List[str], start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
         if time_interval == "1Min":
@@ -84,6 +85,8 @@ class YahooFinanceProcessor:
             time_interval = "1mo"
         elif time_interval == "3M":
             time_interval = "3mo"
+        else:
+            raise ValueError("wrong time_interval")
 
         self.start = start_date
         self.end = end_date
@@ -219,7 +222,7 @@ class YahooFinanceProcessor:
         return new_df
 
     def add_technical_indicator(
-        self, data: pd.DataFrame, tech_indicator_list: list[str]
+        self, data: pd.DataFrame, tech_indicator_list: List[str]
     ):
         """
         calculate technical indicators
@@ -255,7 +258,7 @@ class YahooFinanceProcessor:
         df = df.sort_values(by=["timestamp", "tic"])
         return df
 
-    def add_vix(self, data: pd.DataFrame):
+    def add_vix(self, data: pd.DataFrame) -> pd.DataFrame:
         """
         add vix from yahoo finance
         :param data: (df) pandas dataframe
@@ -275,7 +278,7 @@ class YahooFinanceProcessor:
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-    def calculate_turbulence(self, data: pd.DataFrame, time_period: int = 252):
+    def calculate_turbulence(self, data: pd.DataFrame, time_period: int = 252) -> pd.DataFrame:
         # can add other market assets
         df = data.copy()
         df_price_pivot = df.pivot(index="timestamp", columns="tic", values="close")
@@ -323,7 +326,7 @@ class YahooFinanceProcessor:
         )
         return turbulence_index
 
-    def add_turbulence(self, data: pd.DataFrame, time_period: int = 252):
+    def add_turbulence(self, data: pd.DataFrame, time_period: int = 252) -> pd.DataFrame:
         """
         add turbulence index from a precalcualted dataframe
         :param data: (df) pandas dataframe
@@ -337,7 +340,7 @@ class YahooFinanceProcessor:
 
     def df_to_array(
         self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool
-    ):
+    ) -> List[np.ndarray]:
         df = df.copy()
         unique_ticker = df.tic.unique()
         if_first_time = True
@@ -360,7 +363,7 @@ class YahooFinanceProcessor:
         #        print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
-    def get_trading_days(self, start: str, end: str):
+    def get_trading_days(self, start: str, end: str) -> List[str]:
         nyse = tc.get_calendar("NYSE")
         df = nyse.sessions_in_range(
             pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
@@ -407,6 +410,8 @@ class YahooFinanceProcessor:
             time_interval = "1mo"
         elif time_interval == "3M":
             time_interval = "3mo"
+        else:
+            raise ValueError("wrong time_interval")
 
         end_datetime = datetime.datetime.now()
         start_datetime = end_datetime - datetime.timedelta(
