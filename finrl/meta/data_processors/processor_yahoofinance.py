@@ -47,17 +47,8 @@ class YahooFinanceProcessor:
     ...
     '''
     def download_data(
-        self, ticker_list: [str], start_date: str, end_date: str, time_interval: str
+        self, ticker_list: List[str], start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
-        """Fetches data from Yahoo API
-        Parameters
-        ----------
-        Returns
-        -------
-        `pd.DataFrame`
-            7 columns: A date, open, high, low, close, volume and tick symbol
-            for the specified stock ticker
-        """
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
         if time_interval == "1Min":
             time_interval = "1m"
@@ -123,7 +114,7 @@ class YahooFinanceProcessor:
 
         return data_df
 
-    def clean_data(self, df) -> pd.DataFrame:
+    def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         tic_list = np.unique(df.tic.values)
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
@@ -219,7 +210,7 @@ class YahooFinanceProcessor:
 
         return new_df
 
-    def add_technical_indicator(self, data, tech_indicator_list):
+    def add_technical_indicator(self, data: pd.DataFrame, tech_indicator_list: List[str]):
         """
         calculate technical indicators
         use stockstats package to add technical inidactors
@@ -254,7 +245,7 @@ class YahooFinanceProcessor:
         df = df.sort_values(by=["timestamp", "tic"])
         return df
 
-    def add_vix(self, data):
+    def add_vix(self, data: pd.DataFrame):
         """
         add vix from yahoo finance
         :param data: (df) pandas dataframe
@@ -274,7 +265,7 @@ class YahooFinanceProcessor:
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-    def calculate_turbulence(self, data, time_period=252):
+    def calculate_turbulence(self, data: pd.DataFrame, time_period: int=252):
         # can add other market assets
         df = data.copy()
         df_price_pivot = df.pivot(index="timestamp", columns="tic", values="close")
@@ -322,7 +313,7 @@ class YahooFinanceProcessor:
         )
         return turbulence_index
 
-    def add_turbulence(self, data, time_period=252):
+    def add_turbulence(self, data: pd.DataFrame, time_period: int=252):
         """
         add turbulence index from a precalcualted dataframe
         :param data: (df) pandas dataframe
@@ -334,7 +325,7 @@ class YahooFinanceProcessor:
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-    def df_to_array(self, df, tech_indicator_list, if_vix):
+    def df_to_array(self, df: pd.DataFrame, tech_indicator_list: List[str], if_vix: bool):
         df = df.copy()
         unique_ticker = df.tic.unique()
         if_first_time = True
@@ -357,7 +348,7 @@ class YahooFinanceProcessor:
         #        print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
-    def get_trading_days(self, start, end):
+    def get_trading_days(self, start: str, end: str):
         nyse = tc.get_calendar("NYSE")
         df = nyse.sessions_in_range(
             pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
@@ -370,7 +361,7 @@ class YahooFinanceProcessor:
 
     # ****** NB: YAHOO FINANCE DATA MAY BE IN REAL-TIME OR DELAYED BY 15 MINUTES OR MORE, DEPENDING ON THE EXCHANGE ******
     def fetch_latest_data(
-        self, ticker_list, time_interval, tech_indicator_list, limit=100
+        self, ticker_list: List[str], time_interval: str, tech_indicator_list: List[str], limit: int=100
     ) -> pd.DataFrame:
 
         # Convert FinRL 'standardised' Alpaca time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
