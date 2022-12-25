@@ -1,12 +1,11 @@
+
 # @Author: Astarag Mohapatra
-# Importing the libraries
-from __future__ import annotations
 
 import ray
 
 assert (
     ray.__version__ > "2.0.0"
-), "Please install ray 2.1.0 by doing 'pip install ray[rllib] ray[tune] lz4' , lz4 is for population based tuning"
+), "Please install ray 2.2.0 by doing 'pip install ray[rllib] ray[tune] lz4' , lz4 is for population based tuning"
 from pprint import pprint
 
 from ray import tune
@@ -26,34 +25,56 @@ from typing import Dict, Optional, Any, List, Union
 
 
 class DRLlibv2:
-    """
+    '''
     It instantiates RLlib model with Ray tune functionality
-    Attributes
+    Params
     -------------------------------------
-    trainable:
-    trainable: Any Trainable class
-    train_env: Training environment
-    train_env_name: Name of the training environment
-    params: hyperparameters dictionary
-    run_name: tune run name
-    framework: str = "torch"
-    local_dir: to save the results and tensorboard plots
-    num_workers: number of workers
-    search_alg= search space for hyperparameters
-    concurrent_trials: Number of concurrent hyperparameters trial to run
-    num_samples: Number of samples of hyperparameters config to run
-    scheduler: Stopping suboptimal trials
+    trainable: 
+        Any Trainable class that takes config as parameter
+    train_env: 
+        Training environment instance 
+    train_env_name: str 
+        Name of the training environment
+    params: dict 
+        hyperparameters dictionary
+    run_name: str 
+        tune run name
+    framework: str
+        "torch" or "tf" for tensorflow
+    local_dir: str
+         to save the results and tensorboard plots
+    num_workers: int 
+        number of workers
+    search_alg 
+        search space for hyperparameters
+    concurrent_trials:
+         Number of concurrent hyperparameters trial to run
+    num_samples: int
+         Number of samples of hyperparameters config to run
+    scheduler: 
+        Stopping suboptimal trials
     log_level: str = "WARN",
+        Verbosity: "DEBUG"
     num_gpus: Union[float, int] = 0
+        GPUs for trial
     num_cpus: Union[float, int] = 2
-    dataframe_save: Saving the tune results
-    metric: Metric for hyperparameter optimization
-    mode: Maximize or Minimize the metric
-    max_failures: Number of failures to TuneError
-    training_iterations: Number of times session.report() is called
-    checkpoint_num_to_keep: Number of checkpoints to keep
-    checkpoint_freq: CHeckpoint freq wrt training iterations
-    reuse_actors: Reuse actors for tuning
+        CPUs for rollout collection 
+    dataframe_save: str 
+        Saving the tune results
+    metric: str 
+        Metric for hyperparameter optimization in Bayesian Methods
+    mode: str 
+        Maximize or Minimize the metric
+    max_failures: int 
+        Number of failures to TuneError
+    training_iterations: str
+         Number of times session.report() is called
+    checkpoint_num_to_keep: int 
+        Number of checkpoints to keep
+    checkpoint_freq: int 
+        Checkpoint freq wrt training iterations
+    reuse_actors:bool 
+        Reuse actors for tuning
 
     It has the following methods:
     Methods
@@ -62,13 +83,47 @@ class DRLlibv2:
         restore_agent: It restores previously errored or stopped trials or experiments
         infer_results: It returns the results dataframe and trial informations
         get_test_agent: It returns the testing agent for inference
-
-
-    """
-
+    
+    Example
+    ---------------------------------------
+    def sample_ppo_params():
+        return {
+            "entropy_coeff": tune.loguniform(0.00000001, 0.1),
+            "lr": tune.loguniform(5e-5, 0.001),
+            "sgd_minibatch_size": tune.choice([ 32, 64, 128, 256, 512]),
+            "lambda": tune.choice([0.1,0.3,0.5,0.7,0.9,1.0]),
+        }
+    optuna_search = OptunaSearch(
+        metric="episode_reward_mean",
+        mode="max")
+    drl_agent = DRLlibv2(
+        trainable="PPO",
+        train_env=env(train_env_config),
+        train_env_name="StockTrading_train",
+        framework="torch",
+        num_workers=1,
+        log_level="DEBUG",
+        run_name = 'test',
+        local_dir = "test",
+        params = sample_ppo_params(),
+        num_samples = 1,
+        num_gpus=1,
+        training_iterations=10,
+        search_alg = optuna_search,
+        checkpoint_freq=5
+    )
+    #Tune or train the model
+    res = drl_agent.train_tune_model()
+    
+    #Get the tune results
+    results_df, best_result = drl_agent.infer_results()
+    
+    #Get the best testing agent
+    test_agent = drl_agent.get_test_agent(test_env_instance,'StockTrading_testenv')
+    '''
     def __init__(
         self,
-        trainable: str | Any,
+        trainable: Union[str, Any],
         train_env,
         train_env_name: str,
         params: dict,
@@ -81,14 +136,14 @@ class DRLlibv2:
         num_samples: int = 0,
         scheduler=None,
         log_level: str = "WARN",
-        num_gpus: float | int = 0,
-        num_cpus: float | int = 2,
+        num_gpus: Union[float, int] = 0,
+        num_cpus: Union[float, int] = 2,
         dataframe_save: str = "tune.csv",
         metric: str = "episode_reward_mean",
-        mode: str | list[str] = "max",
+        mode: Union[str, List[str]] = "max",
         max_failures: int = 0,
         training_iterations: int = 100,
-        checkpoint_num_to_keep: None | int = None,
+        checkpoint_num_to_keep: Union[None, int] = None,
         checkpoint_freq: int = 0,
         reuse_actors: bool = False,
     ):
@@ -126,10 +181,10 @@ class DRLlibv2:
         self.reuse_actors = reuse_actors
 
     def train_tune_model(self):
-        """
+        '''
         Tuning and training the model
         Returns the results object
-        """
+        '''
         ray.init(
             num_cpus=self.num_cpus, num_gpus=self.num_gpus, ignore_reinit_error=True
         )
@@ -168,9 +223,9 @@ class DRLlibv2:
         return self.results
 
     def infer_results(self, to_dataframe: str = None, mode: str = "a"):
-        """
+        '''
         Get tune results in a dataframe and best results object
-        """
+        '''
         results_df = self.results.get_dataframe()
 
         if to_dataframe is None:
@@ -189,18 +244,18 @@ class DRLlibv2:
 
     def restore_agent(
         self,
-        checkpoint_path: str = "",
+        checkpoint_path:str='',
         restore_search: bool = False,
         resume_unfinished: bool = True,
         resume_errored: bool = False,
         restart_errored: bool = False,
     ):
-        """
+        '''
         Restore errored or stopped trials
-        """
+        '''
         # if restore_search:
         # self.search_alg = self.search_alg.restore_from_dir(self.local_dir)
-        if checkpoint_path == "":
+        if checkpoint_path == '':
             checkpoint_path = self.results.get_best_result().checkpoint._local_path
 
         restored_agent = tune.Tuner.restore(
@@ -209,16 +264,16 @@ class DRLlibv2:
             resume_unfinished=resume_unfinished,
             resume_errored=resume_errored,
         )
-
+        print(restored_agent)
         self.results = restored_agent.fit()
 
         self.search_alg.save_to_dir(self.local_dir)
         return self.results
 
     def get_test_agent(self, test_env, test_env_name: str, checkpoint=None):
-        """
+        '''
         Get test agent
-        """
+        '''
         register_env(test_env_name, lambda config: test_env)
 
         if checkpoint is None:
