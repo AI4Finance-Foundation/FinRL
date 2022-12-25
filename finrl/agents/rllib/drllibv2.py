@@ -1,4 +1,3 @@
-
 # @Author: Astarag Mohapatra
 
 import ray
@@ -25,55 +24,55 @@ from typing import Dict, Optional, Any, List, Union
 
 
 class DRLlibv2:
-    '''
+    """
     It instantiates RLlib model with Ray tune functionality
     Params
     -------------------------------------
-    trainable: 
+    trainable:
         Any Trainable class that takes config as parameter
-    train_env: 
-        Training environment instance 
-    train_env_name: str 
+    train_env:
+        Training environment instance
+    train_env_name: str
         Name of the training environment
-    params: dict 
+    params: dict
         hyperparameters dictionary
-    run_name: str 
+    run_name: str
         tune run name
     framework: str
         "torch" or "tf" for tensorflow
     local_dir: str
          to save the results and tensorboard plots
-    num_workers: int 
+    num_workers: int
         number of workers
-    search_alg 
+    search_alg
         search space for hyperparameters
     concurrent_trials:
          Number of concurrent hyperparameters trial to run
     num_samples: int
          Number of samples of hyperparameters config to run
-    scheduler: 
+    scheduler:
         Stopping suboptimal trials
     log_level: str = "WARN",
         Verbosity: "DEBUG"
     num_gpus: Union[float, int] = 0
         GPUs for trial
     num_cpus: Union[float, int] = 2
-        CPUs for rollout collection 
-    dataframe_save: str 
+        CPUs for rollout collection
+    dataframe_save: str
         Saving the tune results
-    metric: str 
+    metric: str
         Metric for hyperparameter optimization in Bayesian Methods
-    mode: str 
+    mode: str
         Maximize or Minimize the metric
-    max_failures: int 
+    max_failures: int
         Number of failures to TuneError
     training_iterations: str
          Number of times session.report() is called
-    checkpoint_num_to_keep: int 
+    checkpoint_num_to_keep: int
         Number of checkpoints to keep
-    checkpoint_freq: int 
+    checkpoint_freq: int
         Checkpoint freq wrt training iterations
-    reuse_actors:bool 
+    reuse_actors:bool
         Reuse actors for tuning
 
     It has the following methods:
@@ -83,7 +82,7 @@ class DRLlibv2:
         restore_agent: It restores previously errored or stopped trials or experiments
         infer_results: It returns the results dataframe and trial informations
         get_test_agent: It returns the testing agent for inference
-    
+
     Example
     ---------------------------------------
     def sample_ppo_params():
@@ -114,13 +113,14 @@ class DRLlibv2:
     )
     #Tune or train the model
     res = drl_agent.train_tune_model()
-    
+
     #Get the tune results
     results_df, best_result = drl_agent.infer_results()
-    
+
     #Get the best testing agent
     test_agent = drl_agent.get_test_agent(test_env_instance,'StockTrading_testenv')
-    '''
+    """
+
     def __init__(
         self,
         trainable: Union[str, Any],
@@ -181,10 +181,10 @@ class DRLlibv2:
         self.reuse_actors = reuse_actors
 
     def train_tune_model(self):
-        '''
+        """
         Tuning and training the model
         Returns the results object
-        '''
+        """
         ray.init(
             num_cpus=self.num_cpus, num_gpus=self.num_gpus, ignore_reinit_error=True
         )
@@ -223,9 +223,9 @@ class DRLlibv2:
         return self.results
 
     def infer_results(self, to_dataframe: str = None, mode: str = "a"):
-        '''
+        """
         Get tune results in a dataframe and best results object
-        '''
+        """
         results_df = self.results.get_dataframe()
 
         if to_dataframe is None:
@@ -244,18 +244,18 @@ class DRLlibv2:
 
     def restore_agent(
         self,
-        checkpoint_path:str='',
+        checkpoint_path: str = "",
         restore_search: bool = False,
         resume_unfinished: bool = True,
         resume_errored: bool = False,
         restart_errored: bool = False,
     ):
-        '''
+        """
         Restore errored or stopped trials
-        '''
+        """
         # if restore_search:
         # self.search_alg = self.search_alg.restore_from_dir(self.local_dir)
-        if checkpoint_path == '':
+        if checkpoint_path == "":
             checkpoint_path = self.results.get_best_result().checkpoint._local_path
 
         restored_agent = tune.Tuner.restore(
@@ -271,9 +271,9 @@ class DRLlibv2:
         return self.results
 
     def get_test_agent(self, test_env, test_env_name: str, checkpoint=None):
-        '''
+        """
         Get test agent
-        '''
+        """
         register_env(test_env_name, lambda config: test_env)
 
         if checkpoint is None:
