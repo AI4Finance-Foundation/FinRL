@@ -10,10 +10,34 @@ from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.data_processor import DataProcessor
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 from finrl.wandb import init_wandb
+import os
+import json
+import pandas as pd
+
 
 # construct environment
 
-def download_data(    
+
+def clip_by_date(data, start_date, end_date):
+    start_time = pd.Timestamp(start_date + " 00:00:00").tz_localize("America/New_York")
+    end_time = pd.Timestamp(end_date + " 23:59:59").tz_localize("America/New_York")
+    return data[(start_time <= data['timestamp']) & (data['timestamp'] <= end_time)]
+
+
+def clip_by_name(data, name):
+    return data[data['tic'] == name]
+
+
+def load_df(start_date, end_date):
+    data_path = os.path.join(os.path.split(__file__)[0], '..', 'data')
+    data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
+    file_name = os.path.join(data_path, data_file_name)
+    data = pd.read_pickle(file_name)
+    data = clip_by_date(data, start_date, end_date)
+    return data
+
+
+def download_data(
         start_date,
         end_date,
         ticker_list,
@@ -23,18 +47,16 @@ def download_data(
         if_vix=True,
         if_train=False,
         **kwargs
-        ):
-
-    data_path = 'data/'
-    data_file_name = f'{data_source}_{start_date}_{end_date}.pkl'
-    file_name = data_path + data_file_name
+):
+    data_path = os.path.join(os.path.split(__file__)[0], '..', 'data')
+    # data_file_name = f'{data_source}_{start_date}_{end_date}.pkl'
+    data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
+    file_name = os.path.join(data_path, data_file_name)
     dp = DataProcessor(data_source, **kwargs)
-    import pandas as pd
-    import os
     if os.path.isfile(file_name):
         # load if exist
         try:
-            data = pd.read_pickle(file_name)
+            data = load_df(start_date, end_date)
             dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
             print(f"Load data from {file_name}")
         except:
@@ -49,7 +71,7 @@ def download_data(
 
         # save data
         os.makedirs(data_path, exist_ok=True)
-        data.to_pickle(file_name) 
+        data.to_pickle(file_name)
 
     print('The data looks like: \n', data.head(20).to_string, data.tail(20).to_string)  # display the data
     print(f'Full data shape: {data.shape}')
@@ -59,24 +81,25 @@ def download_data(
         "tech_array": tech_array,
         "turbulence_array": turbulence_array,
         "if_train": if_train,
-        "date_array": pd.to_datetime(data['timestamp']+pd.Timedelta(hours=4))  # ny to utc by default
+        "date_array": pd.to_datetime(data['timestamp'] + pd.Timedelta(hours=4))  # ny to utc by default
     }
     return env_config
 
+
 def train(
-    start_date,
-    end_date,
-    ticker_list,
-    data_source,
-    time_interval,
-    technical_indicator_list,
-    drl_lib,
-    env,
-    model_name,
-    if_vix=True,
-    **kwargs,
+        start_date,
+        end_date,
+        ticker_list,
+        data_source,
+        time_interval,
+        technical_indicator_list,
+        drl_lib,
+        env,
+        model_name,
+        if_vix=True,
+        **kwargs,
 ):
-    env_config = download_data(    
+    env_config = download_data(
         start_date,
         end_date,
         ticker_list,
@@ -116,6 +139,17 @@ def train(
             turbulence_array=turbulence_array,
         )
         model = agent.get_model(model_name, model_kwargs=erl_params)
+        if not os.path.exists(cwd):
+            os.mkdir(cwd)
+        params = {
+            'erl_params': erl_params,
+            'start_date': start_date,
+            'end_date': end_date,
+            'ticker_list': ticker_list,
+        }
+        with open(os.path.join(cwd, 'params.json'), 'w') as f:
+            json.dump(params, f)
+
         trained_model = agent.train_model(
             model=model, cwd=cwd, total_timesteps=break_step
         )
