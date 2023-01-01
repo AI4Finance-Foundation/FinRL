@@ -64,7 +64,7 @@ For a trading task (on the top), an agent (in the middle) interacts with a marke
 </div>
 
 
-Run [Stock_NeurIPS2018.ipynb](https://github.com/AI4Finance-Foundation/FinRL/blob/master/FinRL_StockTrading_NeurIPS_2018.ipynb) for a quick start.
+Run Stock_NeurIPS2018.ipynb for a quick start.
 
 A video [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
 
