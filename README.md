@@ -30,9 +30,9 @@ FinRL has evolving into an ecosystem, including hundreds of financial markets, s
 
 | Roadmap  | Level | Target Users | Example | Desription |
 |----|----|----|----|----|
-| 0.0 (Preparation) | preparation | practitioners | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| a playground |
+| 0.0 (Preparation) | preparation | practitioners | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Metaverse)| gym-style market environments |
 | 1.0 (Proof-of-Concept)| entry-level | beginners | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | demonstration, education |
-| 2.0 (Professional) | intermediate-level  | full-stack developers, professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | financially optimized DRL algorithms |
+| 2.0 (Professional) | intermediate-level  | full-stack developers, professionals | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | DRL algorithms |
 | 3.0 (Production) | advance-level | investment banks, hedge funds | [Podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native solutions |
 
 
@@ -54,7 +54,7 @@ FinRL has evolving into an ecosystem, including hundreds of financial markets, s
 
 ## Overview
 
-FinRL framework has three layers: market environments, agents, and applications.
+FinRL has three layers: market environments, agents, and applications.
 
 For a trading task (on the top), an agent (in the middle) interacts with a market environment (at the bottom), making sequential decisions.
 
