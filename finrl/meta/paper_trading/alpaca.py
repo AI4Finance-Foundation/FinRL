@@ -177,12 +177,14 @@ class PaperTradingAlpaca:
                         orderSide = "buy"
                     qty = abs(int(float(position.qty)))
                     respSO = []
-                    tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
+                    tSubmitOrder = threading.Thread(
+                        target=self.submitOrder(qty, position.symbol, orderSide, respSO)
+                    )
                     tSubmitOrder.start()
-                    threads.append(tSubmitOrder)    # record thread for joining later
+                    threads.append(tSubmitOrder)  # record thread for joining later
 
-                for x in threads:   #  wait for all threads to complete
-                    x.join()    
+                for x in threads:  #  wait for all threads to complete
+                    x.join()
 
                 # Run script again after market close for next trading day.
                 print("Sleeping until market close (15 minutes).")
@@ -237,13 +239,17 @@ class PaperTradingAlpaca:
                 sell_num_shares = min(self.stocks[index], -action[index])
                 qty = abs(int(sell_num_shares))
                 respSO = []
-                tSubmitOrder = threading.Thread(target=self.submitOrder(qty, self.stockUniverse[index], "sell", respSO))
+                tSubmitOrder = threading.Thread(
+                    target=self.submitOrder(
+                        qty, self.stockUniverse[index], "sell", respSO
+                    )
+                )
                 tSubmitOrder.start()
-                threads.append(tSubmitOrder)    # record thread for joining later
+                threads.append(tSubmitOrder)  # record thread for joining later
                 self.cash = float(self.alpaca.get_account().cash)
                 self.stocks_cd[index] = 0
 
-            for x in threads:   #  wait for all threads to complete
+            for x in threads:  #  wait for all threads to complete
                 x.join()
 
             threads = []
@@ -260,14 +266,18 @@ class PaperTradingAlpaca:
                 else:
                     qty = abs(int(buy_num_shares))
                 respSO = []
-                tSubmitOrder = threading.Thread(target=self.submitOrder(qty, self.stockUniverse[index], "buy", respSO))
+                tSubmitOrder = threading.Thread(
+                    target=self.submitOrder(
+                        qty, self.stockUniverse[index], "buy", respSO
+                    )
+                )
                 tSubmitOrder.start()
-                threads.append(tSubmitOrder)    # record thread for joining later
+                threads.append(tSubmitOrder)  # record thread for joining later
                 self.cash = float(self.alpaca.get_account().cash)
                 self.stocks_cd[index] = 0
 
-            for x in threads:   #  wait for all threads to complete
-                x.join()   
+            for x in threads:  #  wait for all threads to complete
+                x.join()
 
         else:  # sell all when turbulence
             threads = []
@@ -279,12 +289,14 @@ class PaperTradingAlpaca:
                     orderSide = "buy"
                 qty = abs(int(float(position.qty)))
                 respSO = []
-                tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
+                tSubmitOrder = threading.Thread(
+                    target=self.submitOrder(qty, position.symbol, orderSide, respSO)
+                )
                 tSubmitOrder.start()
-                threads.append(tSubmitOrder)    # record thread for joining later
+                threads.append(tSubmitOrder)  # record thread for joining later
 
-            for x in threads:   #  wait for all threads to complete
-                x.join()   
+            for x in threads:  #  wait for all threads to complete
+                x.join()
 
             self.stocks_cd[:] = 0
 
