@@ -24,7 +24,7 @@
 
 
 
-**Financial Reinforcement Learning (FinRL)** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to exploit the great potential of deep reinforcement learning. FinRL has evolved into an ecosystem, including hundreds of financial markets, state-of-the-art algorithms, financial applications (portfolio allocation, cryptocurrency trading, high-frequency trading), cloud deployment, etc.
+**Financial Reinforcement Learning (FinRL)** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to exploit the great potential of deep reinforcement learning. FinRL has evolved into an ecosystem as follows
 
 | Roadmap  | Stage | Users | Project | Desription |
 |----|----|----|----|----|
@@ -59,16 +59,12 @@ FinRL has three layers: market environments, agents, and applications.  For a tr
 </div>
 
 
-Run Stock_NeurIPS2018.ipynb for a quick start.
-
-A video [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at the [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
+A quick start: Stock_NeurIPS2018.ipynb. Videos [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
 
 
 ## File Structure
 
-The main folder **finrl** has three subfolders **applications, agents, meta**.
-
-We employ a **train-test-trade** pipeline with three files: train.py, test.py, and trade.py.
+The main folder **finrl** has three subfolders **applications, agents, meta**. We employ a **train-test-trade** pipeline with three files: train.py, test.py, and trade.py.
 
 ```
 FinRL
@@ -99,8 +95,8 @@ FinRL
 │   ├── test.py
 │   └── trade.py
 │
-├── tutorials (educational notebook files)
-├── tests (unit tests to verify codes on env & data)
+├── examples
+├── unit_tests (unit tests to verify codes on env & data)
 │   ├── environments
 │   	└── test_env_cashpenalty.py
 │   └── downloaders
