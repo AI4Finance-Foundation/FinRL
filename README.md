@@ -302,15 +302,7 @@ Thank you!
 
 ### Sponsorship
 
-Welcome gift money to support AI4Finance, a non-profit community. Use the links on the right column, or scan the following vemo QR code:
-
-Sponsorship records at [Issue #425](https://github.com/AI4Finance-Foundation/FinRL/issues/425)
-
-<a target="\_blank">
-	<div align="center">
-		<img src=figs/Xiao-Yang-Liu_AI4Finance_vemo.png width="35%"/>
-	</div>
-</a>
+Welcome gift money to support AI4Finance, a non-profit community. 
 
 Network: USDT-TRC20
 
