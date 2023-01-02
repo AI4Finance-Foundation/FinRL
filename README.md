@@ -24,7 +24,7 @@
 
 
 
-**Financial Reinforcement Learning (FinRL)** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to exploit the great potential of deep reinforcement learning. FinRL has evolving into an ecosystem, including hundreds of financial markets, state-of-the-art algorithms, financial applications (portfolio allocation, cryptocurrency trading, high-frequency trading), cloud deployment, etc.
+**Financial Reinforcement Learning (FinRL)** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to exploit the great potential of deep reinforcement learning. FinRL has evolved into an ecosystem, including hundreds of financial markets, state-of-the-art algorithms, financial applications (portfolio allocation, cryptocurrency trading, high-frequency trading), cloud deployment, etc.
 
 | Roadmap  | Stage | Users | Project | Desription |
 |----|----|----|----|----|
