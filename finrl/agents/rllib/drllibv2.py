@@ -149,7 +149,8 @@ class DRLlibv2:
         reuse_actors: bool = False,
     ):
 
-        if train_env is not None: register_env(train_env_name, lambda config: train_env)
+        if train_env is not None:
+            register_env(train_env_name, lambda config: train_env)
 
         self.params = params
         self.params["framework"] = framework
@@ -219,7 +220,8 @@ class DRLlibv2:
         )
 
         self.results = tuner.fit()
-        if self.search_alg is not None: self.search_alg.save_to_dir(self.local_dir)
+        if self.search_alg is not None:
+            self.search_alg.save_to_dir(self.local_dir)
         # ray.shutdown()
         return self.results
 
@@ -271,11 +273,12 @@ class DRLlibv2:
         self.search_alg.save_to_dir(self.local_dir)
         return self.results
 
-    def get_test_agent(self, test_env_name: str,test_env=None, checkpoint=None):
+    def get_test_agent(self, test_env_name: str, test_env=None, checkpoint=None):
         """
         Get test agent
         """
-        if test_env is not None: register_env(test_env_name, lambda config: test_env)
+        if test_env is not None:
+            register_env(test_env_name, lambda config: test_env)
 
         if checkpoint is None:
             checkpoint = self.results.get_best_result().checkpoint
