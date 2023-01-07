@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
+from finrl.meta.data_processors.processor_alpaca_crypto import AlpacaCryptoProcessor as AlpacaCrypto
 from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
@@ -19,9 +20,16 @@ class DataProcessor:
                 API_SECRET = kwargs.get("API_SECRET")
                 API_BASE_URL = kwargs.get("API_BASE_URL")
                 self.processor = Alpaca(API_KEY, API_SECRET, API_BASE_URL)
+
                 print("Alpaca successfully connected")
             except BaseException:
                 raise ValueError("Please input correct account info for alpaca!")
+
+        elif data_source == "alpaca-crypto":
+            API_KEY = kwargs.get("API_KEY")
+            API_SECRET = kwargs.get("API_SECRET")
+            API_BASE_URL = kwargs.get("API_BASE_URL")
+            self.processor = AlpacaCrypto(API_KEY, API_SECRET, API_BASE_URL)
 
         elif data_source == "wrds":
             self.processor = Wrds()

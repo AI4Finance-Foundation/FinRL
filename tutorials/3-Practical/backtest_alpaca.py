@@ -16,7 +16,7 @@ candle_time_interval = '5Min'  # '1Min'
 env = StockTradingEnv
 
 start_date = '2022-6-11'
-end_date = '2022-9-1'
+end_date = '2022-9-2'
 
 account_value = test(start_date = start_date, 
       end_date = end_date,
