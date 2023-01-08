@@ -1,0 +1,127 @@
+diff --git a/finrl/train.py b/finrl/train.py
+index 3792a73..9f48380 100644
+--- a/finrl/train.py
++++ b/finrl/train.py
+@@ -48,8 +48,8 @@ def download_data(
+     # data_path = os.path.join(os.path.split(__file__)[0], '..', 'data')
+     data_path = './data'
+     # data_file_name = f'{data_source}_{start_date}_{end_date}.pkl'
+-    # data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
+-    data_file_name = f'alpaca_2019-1-1_2022-1-1.pkl'
++    data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
++    # data_file_name = f'alpaca_2019-1-1_2022-1-1.pkl'
+     file_path = os.path.join(data_path, data_file_name)
+     dp = DataProcessor(data_source, **kwargs)
+     if os.path.isfile(file_path):
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/act_optimizer.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/act_optimizer.pth
+deleted file mode 100644
+index 0166518..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/act_optimizer.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/act_target.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/act_target.pth
+deleted file mode 100644
+index 965a566..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/act_target.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor.pth
+deleted file mode 100644
+index 965a566..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000021839_-0002.429.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000021839_-0002.429.pth
+deleted file mode 100644
+index 72cddf6..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000021839_-0002.429.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000043678_-0001.311.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000043678_-0001.311.pth
+deleted file mode 100644
+index f46fd72..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000043678_-0001.311.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000065517_00001.335.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000065517_00001.335.pth
+deleted file mode 100644
+index 5ee5a85..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000065517_00001.335.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000152873_00004.735.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000152873_00004.735.pth
+deleted file mode 100644
+index f6fd1e0..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000152873_00004.735.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000458619_00008.424.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000458619_00008.424.pth
+deleted file mode 100644
+index 22efda2..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000000458619_00008.424.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000001506891_00011.213.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000001506891_00011.213.pth
+deleted file mode 100644
+index 4170605..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000001506891_00011.213.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000002183900_00011.855.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000002183900_00011.855.pth
+deleted file mode 100644
+index 62d2c3d..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/actor__000002183900_00011.855.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/cri_optimizer.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/cri_optimizer.pth
+deleted file mode 100644
+index bddd080..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/cri_optimizer.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/cri_target.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/cri_target.pth
+deleted file mode 100644
+index e571680..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/cri_target.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/critic.pth b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/critic.pth
+deleted file mode 100644
+index e571680..0000000
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/critic.pth and /dev/null differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/plot_learning_curve.jpg b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/plot_learning_curve.jpg
+index efcfa3d..9771805 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/plot_learning_curve.jpg and b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/plot_learning_curve.jpg differ
+diff --git a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/recorder.npy b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/recorder.npy
+index 7db6775..336f622 100644
+Binary files a/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/recorder.npy and b/tutorials/3-Practical/papertrading_erl/ppo_2022-6-11_2022-9-1/recorder.npy differ
+diff --git a/tutorials/3-Practical/train_and_test.py b/tutorials/3-Practical/train_and_test.py
+index 125bfc6..6d7029b 100644
+--- a/tutorials/3-Practical/train_and_test.py
++++ b/tutorials/3-Practical/train_and_test.py
+@@ -66,23 +66,23 @@ def train_and_test(
+         model_name,
+         MODEL_IDX,
+ ):
+-    # train(start_date=train_start_date,
+-    #       end_date=train_end_date,
+-    #       ticker_list=ticker_list,
+-    #       data_source='alpaca',
+-    #       time_interval=candle_time_interval,
+-    #       technical_indicator_list=INDICATORS,
+-    #       drl_lib='elegantrl',
+-    #       #       drl_lib='rllib',
+-    #       #       drl_lib='stable_baselines3',
+-    #       env=env,
+-    #       model_name=model_name,
+-    #       API_KEY=API_KEY,
+-    #       API_SECRET=API_SECRET,
+-    #       API_BASE_URL=API_BASE_URL,
+-    #       erl_params=ERL_PARAMS,
+-    #       cwd=f'./papertrading_erl/{MODEL_IDX}',  # current_working_dir
+-    #       break_step=1e7)
++    train(start_date=train_start_date,
++          end_date=train_end_date,
++          ticker_list=ticker_list,
++          data_source='alpaca',
++          time_interval=candle_time_interval,
++          technical_indicator_list=INDICATORS,
++          drl_lib='elegantrl',
++          #       drl_lib='rllib',
++          #       drl_lib='stable_baselines3',
++          env=env,
++          model_name=model_name,
++          API_KEY=API_KEY,
++          API_SECRET=API_SECRET,
++          API_BASE_URL=API_BASE_URL,
++          erl_params=ERL_PARAMS,
++          cwd=f'./papertrading_erl/{MODEL_IDX}',  # current_working_dir
++          break_step=1e7)
+ 
+     account_value = test(start_date=test_start_date,
+                          end_date=test_end_date,
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index 77a1459..69ba287 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20230108_114755-151tvnm6
+\ No newline at end of file
++run-20230108_122933-3ib5h8oo
+\ No newline at end of file

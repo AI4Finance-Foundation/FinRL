@@ -11,7 +11,7 @@ import pandas as pd
 
 ticker_list = DOW_30_TICKER
 action_dim = len(DOW_30_TICKER)
-candle_time_interval = '1Min'  # '1Min'
+candle_time_interval = '5Min'  # '1Min'
 
 env = StockTradingEnv
 
@@ -19,11 +19,8 @@ ERL_PARAMS = {"learning_rate": 3e-6, "batch_size": 2048, "gamma": 0.985,
               "seed": 312, "net_dimension": 512, "target_step": 5000, "eval_gap": 30,
               "eval_times": 1}
 
-# train_start_date = '2022-6-11'
-# train_end_date = '2022-8-11'
-train_start_date = '2019-1-1'
-train_end_date = '2023-1-1'
-# train_end_date = '2022-9-1'
+train_start_date = '2022-6-11'
+train_end_date = '2022-8-11'
 test_start_date = '2022-8-11'
 test_end_date = '2022-9-1'
 baseline_ticker = 'AXP'
@@ -85,7 +82,6 @@ def train_and_test(
           API_BASE_URL=API_BASE_URL,
           erl_params=ERL_PARAMS,
           cwd=f'./papertrading_erl/{MODEL_IDX}',  # current_working_dir
-          wandb=False,
           break_step=1e7)
 
     account_value = test(start_date=test_start_date,

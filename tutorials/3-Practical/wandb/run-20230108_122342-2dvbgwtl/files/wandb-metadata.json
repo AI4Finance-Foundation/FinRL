@@ -1,0 +1,24 @@
+{
+    "os": "Linux-5.15.0-56-generic-x86_64-with-debian-bullseye-sid",
+    "python": "3.7.0",
+    "heartbeatAt": "2023-01-08T17:23:43.002006",
+    "startedAt": "2023-01-08T17:23:42.648035",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 3060 Ti",
+    "gpu_count": 1,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "train_and_test.py",
+    "codePath": "tutorials/3-Practical/train_and_test.py",
+    "git": {
+        "remote": "https://quantumiracle:@github.com/quantumiracle/FinRL.git",
+        "commit": "c1af4609f64988fa7b72be062b3583597963eb2d"
+    },
+    "email": "zhding@mail.ustc.edu.cn",
+    "root": "/home/quantumiracle/research/FinRL",
+    "host": "quantumiracle-XPS-8940",
+    "username": "quantumiracle",
+    "executable": "/home/quantumiracle/anaconda3/envs/x/bin/python"
+}

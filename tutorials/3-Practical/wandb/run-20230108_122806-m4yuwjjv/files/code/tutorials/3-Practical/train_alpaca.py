@@ -42,6 +42,5 @@ if __name__ == "__main__":
         API_BASE_URL = API_BASE_URL,
         erl_params=ERL_PARAMS,
         cwd=f'./papertrading_erl/{MODEL_IDX}', #current_working_dir
-        wandb=False,
         break_step=1e7)
 

@@ -54,15 +54,14 @@ def download_data(
     dp = DataProcessor(data_source, **kwargs)
     if os.path.isfile(file_path):
         # load if exist
-        data = load_df(start_date, end_date, file_path)
-        dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
         try:
-            data = load_df(start_date, end_date)
+            data = load_df(start_date, end_date, file_path)
             dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
             print(f"Load data from {file_path}")
         except:
             print(f"Failed to load data from {file_path}")
     else:
+        print('Download data')
         # download data
         data = dp.download_data(ticker_list, start_date, end_date, time_interval)
         data = dp.clean_data(data)
@@ -98,6 +97,7 @@ def train(
         env,
         model_name,
         if_vix=True,
+        wandb=False,
         **kwargs,
 ):
     env_config = download_data(
@@ -125,7 +125,8 @@ def train(
             'wandb_entity': 'quantumiracle',            
             'wandb_name': str(cwd),
     }
-    init_wandb(args)
+    if wandb:
+        init_wandb(args)
 
     if drl_lib == "elegantrl":
         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl

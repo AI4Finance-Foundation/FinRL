@@ -1,0 +1,69 @@
+diff --git a/finrl/train.py b/finrl/train.py
+index 3792a73..9f48380 100644
+--- a/finrl/train.py
++++ b/finrl/train.py
+@@ -48,8 +48,8 @@ def download_data(
+     # data_path = os.path.join(os.path.split(__file__)[0], '..', 'data')
+     data_path = './data'
+     # data_file_name = f'{data_source}_{start_date}_{end_date}.pkl'
+-    # data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
+-    data_file_name = f'alpaca_2019-1-1_2022-1-1.pkl'
++    data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
++    # data_file_name = f'alpaca_2019-1-1_2022-1-1.pkl'
+     file_path = os.path.join(data_path, data_file_name)
+     dp = DataProcessor(data_source, **kwargs)
+     if os.path.isfile(file_path):
+diff --git a/tutorials/3-Practical/train_and_test.py b/tutorials/3-Practical/train_and_test.py
+index 125bfc6..6d7029b 100644
+--- a/tutorials/3-Practical/train_and_test.py
++++ b/tutorials/3-Practical/train_and_test.py
+@@ -66,23 +66,23 @@ def train_and_test(
+         model_name,
+         MODEL_IDX,
+ ):
+-    # train(start_date=train_start_date,
+-    #       end_date=train_end_date,
+-    #       ticker_list=ticker_list,
+-    #       data_source='alpaca',
+-    #       time_interval=candle_time_interval,
+-    #       technical_indicator_list=INDICATORS,
+-    #       drl_lib='elegantrl',
+-    #       #       drl_lib='rllib',
+-    #       #       drl_lib='stable_baselines3',
+-    #       env=env,
+-    #       model_name=model_name,
+-    #       API_KEY=API_KEY,
+-    #       API_SECRET=API_SECRET,
+-    #       API_BASE_URL=API_BASE_URL,
+-    #       erl_params=ERL_PARAMS,
+-    #       cwd=f'./papertrading_erl/{MODEL_IDX}',  # current_working_dir
+-    #       break_step=1e7)
++    train(start_date=train_start_date,
++          end_date=train_end_date,
++          ticker_list=ticker_list,
++          data_source='alpaca',
++          time_interval=candle_time_interval,
++          technical_indicator_list=INDICATORS,
++          drl_lib='elegantrl',
++          #       drl_lib='rllib',
++          #       drl_lib='stable_baselines3',
++          env=env,
++          model_name=model_name,
++          API_KEY=API_KEY,
++          API_SECRET=API_SECRET,
++          API_BASE_URL=API_BASE_URL,
++          erl_params=ERL_PARAMS,
++          cwd=f'./papertrading_erl/{MODEL_IDX}',  # current_working_dir
++          break_step=1e7)
+ 
+     account_value = test(start_date=test_start_date,
+                          end_date=test_end_date,
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index 77a1459..a583779 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20230108_114755-151tvnm6
+\ No newline at end of file
++run-20230108_122342-2dvbgwtl
+\ No newline at end of file
