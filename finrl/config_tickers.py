@@ -2,6 +2,10 @@ from __future__ import annotations
 
 SINGLE_TICKER = ["AAPL"]
 
+# Chinese stocks in US exchanges: https://stockmarketmba.com/chinesecompaniesthattradeonusexchanges.php
+CHINESE_STOCK_TICKER = ['BABA', 'PDD', 'JD', 'NTES', 'BIDU', 'YUMC', 'BGNE', 'TCOM', 'BEKE', 'LI', 'ZTO', 'NIO', 'HTHT', 'SNP', 'LFC', 'DIDI', 'PTR', 'LEGN', 'YMM', 'BILI', 'BZ', 'VIPS', 'TME', 'XPEV', 'EDU', 'FUTU', 'LU', 'ATHM', 'GDS', 'MNSO', 'TAL', 'QFIN', 'ZNH', 'ZLAB', 'DQ', 'WB', 'HCM', 'HNP', 'IQ', 'RLX', 'OCFT', 'CEA', 'JKS', 'CSIQ', 'DADA', 'YY', 'INT', 'CD', 'UXIN', 'MOMO', 'ACH', 'BTB', 'WDH', 'HOLI', 'NOAH', 'TUYA', 'KC', 'FINV', 'ZH', 'DDL', 'VNET', 'TIGR', 'GOTU', 'SVA', 'YSG', 'SHI', 'PUYI', 'SOHU', 'DOYU', 'QK', 'API', 'FANH', 'RERE', 'EBON', 'NIU', 'ICLK', 'HUYA', 'CAN', 'MF', 'EH', 'SOL', 'IMAB', 'CYD', 'BZUN', 'HAPP', 'LX', 'GHG', 'EM', 'XIN', 'TROO', 'CSCW', 'DAO', 'TOUR', 'BNR', 'QD', 'LEJU', 'MHUA', 'CAAS', 'KNDI', 'BTCM', 'LIAN', 'NTP', 'GRCL', 'HYW', 'LITB', 'YI', 'CANG', 'XNET', 'SECO', 'XYF', 'YRD', 'CNF', 'SY', 'RAAS', 'GGE', 'GSMG', 'YJ', 'GTH', 'COE', 'FENG', 'CBAT', 'REDU', 'YQ', 'LKCO', 'SDH', 'JG', 'BYSI', 'HUDI', 'KXIN', 'CIH', 'HUIZ', 'GLG', 'JFIN', 'IH', 'WIMI', 'CGA', 'ADAG', 'CNEY', 'ZEPP', 'DSWL', 'BLCT', 'BRLI', 'PLAG', 'BTBT', 'AAME', 'TEDU', 'AACG', 'CNTB', 'ANTE', 'AIH', 'SEED', 'AGMH', 'RCON', 'VIOT', 'KRKR', 'CCM', 'LXEH', 'SISI', 'DTSS', 'UPC', 'PME', 'LGHL', 'ATXG', 'JFU', 'CJJD', 'BEST', 'STG', 'QLI', 'GTEC', 'DOGZ', 'FFHL', 'FTFT', 'SNTG', 'CLPS', 'RENN', 'JT', 'BAOS', 'TIRX', 'LIZI', 'EDTK', 'ATIF', 'ZCMD', 'NISN', 'YGMZ', 'RYB', 'QTT', 'BTOG', 'CREG', 'EJH', 'MDJH', 'MOGU', 'RETO', 'TC', 'CMCM', 'IFBD', 'MFH', 'CNET', 'SOS', 'BQ', 'AIU', 'CHNR', 'BEDU', 'CPOP', 'ZME', 'OG', 'TANH', 'FEDU', 'MKD', 'OST', 'CLEU', 'JWEL', 'ZKIN', 'NCTY', 'JP', 'LYL', 'EZGO', 'OCG', 'KUKE', 'TAOP', 'WAFU', 'PETZ', 'FAMI', 'AHG', 'MOHO', 'BON', 'ANPC', 'EEIQ', 'PHCF', 'UTME', 'AIHS', 'AMBO', 'WNW', 'QH', 'LLL', 'UK', 'HUSN', 'FHS', 'PBTS', 'DXF', 'CCNC', 'AEHL', 'JZXN', 'DUO', 'BHAT', 'PT', 'MTC', 'METX', 'SXTC', 'HLG']
+
+
 # Dow 30 constituents in 2021/10
 # check https://wrds-www.wharton.upenn.edu/ for U.S. index constituents
 DOW_30_TICKER = [

@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 ticker_list = DOW_30_TICKER
-action_dim = len(DOW_30_TICKER)
+action_dim = len(ticker_list)
 candle_time_interval = '5Min'  # '1Min'
 
 env = StockTradingEnv

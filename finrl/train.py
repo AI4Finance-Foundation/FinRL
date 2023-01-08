@@ -44,12 +44,12 @@ def download_data(
         if_vix=True,
         if_train=False,
         **kwargs
-):
+):  
     # data_path = os.path.join(os.path.split(__file__)[0], '..', 'data')
     data_path = './data'
-    # data_file_name = f'{data_source}_{start_date}_{end_date}.pkl'
     # data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
-    data_file_name = f'alpaca_2019-1-1_2022-1-1.pkl'
+    # data_file_name = f'DOW30_alpaca_2019-1-1_2023-1-1.pkl'  # existing large data
+    data_file_name = f'CHI30_alpaca_2019-1-1_2023-1-1.pkl'  # existing large data
     file_path = os.path.join(data_path, data_file_name)
     dp = DataProcessor(data_source, **kwargs)
     if os.path.isfile(file_path):
@@ -61,6 +61,8 @@ def download_data(
         except:
             print(f"Failed to load data from {file_path}")
     else:
+        data_file_name = f'CHI30_{data_source}_{start_date}_{end_date}.pkl'
+        file_path = os.path.join(data_path, data_file_name)
         print('Download data')
         # download data
         data = dp.download_data(ticker_list, start_date, end_date, time_interval)
