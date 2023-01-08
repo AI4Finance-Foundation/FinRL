@@ -5,6 +5,13 @@ import datetime
 from datetime import date
 from datetime import timedelta
 from sqlite3 import Timestamp
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Type
+from typing import TypeVar
+from typing import Union
 
 import exchange_calendars as tc
 import numpy as np
@@ -17,35 +24,40 @@ from stockstats import StockDataFrame as Sdf
 class YahooFinanceProcessor:
     """Provides methods for retrieving daily stock data from
     Yahoo Finance API
-    Attributes
-    ----------
-        start_date : str
-            start date of the data (modified from neofinrl_config.py)
-        end_date : str
-            end date of the data (modified from neofinrl_config.py)
-        ticker_list : list
-            a list of stock tickers (modified from neofinrl_config.py)
-    Methods
-    -------
-    fetch_data()
-        Fetches data from yahoo API
     """
 
     def __init__(self):
         pass
 
+    """
+    Param
+    ----------
+        start_date : str
+            start date of the data
+        end_date : str
+            end date of the data
+        ticker_list : list
+            a list of stock tickers
+    Example
+    -------
+    input:
+    ticker_list = config_tickers.DOW_30_TICKER
+    start_date = '2009-01-01'
+    end_date = '2021-10-31'
+    time_interval == "1D"
+
+    output:
+        date	    tic	    open	    high	    low	        close	    volume
+    0	2009-01-02	AAPL	3.067143	3.251429	3.041429	2.767330	746015200.0
+    1	2009-01-02	AMGN	58.590000	59.080002	57.750000	44.523766	6547900.0
+    2	2009-01-02	AXP	    18.570000	19.520000	18.400000	15.477426	10955700.0
+    3	2009-01-02	BA	    42.799999	45.560001	42.779999	33.941093	7010200.0
+    ...
+    """
+
     def download_data(
-        self, ticker_list: list, start_date: str, end_date: str, time_interval: str
+        self, ticker_list: list[str], start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
-        """Fetches data from Yahoo API
-        Parameters
-        ----------
-        Returns
-        -------
-        `pd.DataFrame`
-            7 columns: A date, open, high, low, close, volume and tick symbol
-            for the specified stock ticker
-        """
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
         if time_interval == "1Min":
             time_interval = "1m"
@@ -73,6 +85,8 @@ class YahooFinanceProcessor:
             time_interval = "1mo"
         elif time_interval == "3M":
             time_interval = "3mo"
+        else:
+            raise ValueError("wrong time_interval")
 
         self.start = start_date
         self.end = end_date
@@ -111,7 +125,7 @@ class YahooFinanceProcessor:
 
         return data_df
 
-    def clean_data(self, df) -> pd.DataFrame:
+    def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         tic_list = np.unique(df.tic.values)
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
@@ -207,7 +221,9 @@ class YahooFinanceProcessor:
 
         return new_df
 
-    def add_technical_indicator(self, data, tech_indicator_list):
+    def add_technical_indicator(
+        self, data: pd.DataFrame, tech_indicator_list: list[str]
+    ):
         """
         calculate technical indicators
         use stockstats package to add technical inidactors
@@ -242,7 +258,7 @@ class YahooFinanceProcessor:
         df = df.sort_values(by=["timestamp", "tic"])
         return df
 
-    def add_vix(self, data):
+    def add_vix(self, data: pd.DataFrame) -> pd.DataFrame:
         """
         add vix from yahoo finance
         :param data: (df) pandas dataframe
@@ -262,7 +278,9 @@ class YahooFinanceProcessor:
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-    def calculate_turbulence(self, data, time_period=252):
+    def calculate_turbulence(
+        self, data: pd.DataFrame, time_period: int = 252
+    ) -> pd.DataFrame:
         # can add other market assets
         df = data.copy()
         df_price_pivot = df.pivot(index="timestamp", columns="tic", values="close")
@@ -310,7 +328,9 @@ class YahooFinanceProcessor:
         )
         return turbulence_index
 
-    def add_turbulence(self, data, time_period=252):
+    def add_turbulence(
+        self, data: pd.DataFrame, time_period: int = 252
+    ) -> pd.DataFrame:
         """
         add turbulence index from a precalcualted dataframe
         :param data: (df) pandas dataframe
@@ -322,7 +342,9 @@ class YahooFinanceProcessor:
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
 
-    def df_to_array(self, df, tech_indicator_list, if_vix):
+    def df_to_array(
+        self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool
+    ) -> list[np.ndarray]:
         df = df.copy()
         unique_ticker = df.tic.unique()
         if_first_time = True
@@ -345,7 +367,7 @@ class YahooFinanceProcessor:
         #        print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
-    def get_trading_days(self, start, end):
+    def get_trading_days(self, start: str, end: str) -> list[str]:
         nyse = tc.get_calendar("NYSE")
         df = nyse.sessions_in_range(
             pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
@@ -358,7 +380,11 @@ class YahooFinanceProcessor:
 
     # ****** NB: YAHOO FINANCE DATA MAY BE IN REAL-TIME OR DELAYED BY 15 MINUTES OR MORE, DEPENDING ON THE EXCHANGE ******
     def fetch_latest_data(
-        self, ticker_list, time_interval, tech_indicator_list, limit=100
+        self,
+        ticker_list: list[str],
+        time_interval: str,
+        tech_indicator_list: list[str],
+        limit: int = 100,
     ) -> pd.DataFrame:
 
         # Convert FinRL 'standardised' Alpaca time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
@@ -388,6 +414,8 @@ class YahooFinanceProcessor:
             time_interval = "1mo"
         elif time_interval == "3M":
             time_interval = "3mo"
+        else:
+            raise ValueError("wrong time_interval")
 
         end_datetime = datetime.datetime.now()
         start_datetime = end_datetime - datetime.timedelta(
