@@ -18,8 +18,10 @@ def get_daily_return(df, value_col_name="account_value"):
     df["daily_return"] = df[value_col_name].pct_change(1)
     df["date"] = pd.to_datetime(df["date"])
     df.set_index("date", inplace=True, drop=True)
-    
-    df.index = df.index.tz_localize("UTC")
+    try:
+        df.index = df.index.tz_localize('UTC')
+    except:
+        df.index = df.index.tz_convert('UTC')
     return pd.Series(df["daily_return"], index=df.index)
 
 
@@ -69,6 +71,7 @@ def backtest_plot(
         pyfolio.create_full_tear_sheet(
             returns=test_returns, benchmark_rets=baseline_returns, set_context=False
         )
+        r = np.random.random()
 
 
 def get_baseline(ticker, start, end):
