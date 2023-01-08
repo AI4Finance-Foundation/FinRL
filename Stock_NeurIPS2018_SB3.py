@@ -294,66 +294,67 @@ agent = DRLAgent(env=env_train)
 # Model Training: 5 models, A2C DDPG, PPO, TD3, SAC
 # """
 
-### Model 1: A2C
-
-
-#%%
-
-agent = DRLAgent(env=env_train)
-model_a2c = agent.get_model("a2c")
-
-#%%
-
-trained_a2c = agent.train_model(
-    model=model_a2c, tb_log_name="a2c", total_timesteps=50000
-)
-
-
-### Model 2: DDPG
-
-#%%
-
-agent = DRLAgent(env=env_train)
-model_ddpg = agent.get_model("ddpg")
-
-#%%
-
-trained_ddpg = agent.train_model(
-    model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000
-)
-
-### Model 3: PPO
-
-
-agent = DRLAgent(env=env_train)
-PPO_PARAMS = {
-    "n_steps": 2048,
-    "ent_coef": 0.01,
-    "learning_rate": 0.00025,
-    "batch_size": 128,
-}
-model_ppo = agent.get_model("ppo", model_kwargs=PPO_PARAMS)
-
-#%%
-
-trained_ppo = agent.train_model(
-    model=model_ppo, tb_log_name="ppo", total_timesteps=50000
-)
-
-
-### Model 4: TD3
-
-
-agent = DRLAgent(env=env_train)
-TD3_PARAMS = {"batch_size": 100, "buffer_size": 1000000, "learning_rate": 0.001}
-
-model_td3 = agent.get_model("td3", model_kwargs=TD3_PARAMS)
-
-#%%
-
-trained_td3 = agent.train_model(
-    model=model_td3, tb_log_name="td3", total_timesteps=30000
-)
+# ### Model 1: A2C
+#
+#
+# #%%
+#
+# agent = DRLAgent(env=env_train)
+# model_a2c = agent.get_model("a2c")
+#
+# #%%
+#
+# trained_a2c = agent.train_model(
+#     model=model_a2c, tb_log_name="a2c", total_timesteps=50000
+# )
+#
+#
+# ### Model 2: DDPG
+#
+# #%%
+#
+# agent = DRLAgent(env=env_train)
+# model_ddpg = agent.get_model("ddpg")
+#
+# #%%
+#
+# trained_ddpg = agent.train_model(
+#     model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000
+# )
+#
+# ### Model 3: PPO
+#
+#
+# agent = DRLAgent(env=env_train)
+# PPO_PARAMS = {
+#     "n_steps": 2048,
+#     "ent_coef": 0.01,
+#     "learning_rate": 0.00025,
+#     "batch_size": 128,
+#     'device':'cuda',
+# }
+# model_ppo = agent.get_model("ppo", model_kwargs=PPO_PARAMS)
+#
+# #%%
+#
+# trained_ppo = agent.train_model(
+#     model=model_ppo, tb_log_name="ppo", total_timesteps=50000
+# )
+#
+#
+# ### Model 4: TD3
+#
+#
+# agent = DRLAgent(env=env_train)
+# TD3_PARAMS = {"batch_size": 100, "buffer_size": 1000000, "learning_rate": 0.001}
+#
+# model_td3 = agent.get_model("td3", model_kwargs=TD3_PARAMS)
+#
+# #%%
+#
+# trained_td3 = agent.train_model(
+#     model=model_td3, tb_log_name="td3", total_timesteps=30000
+# )
 
 
 ### Model 5: SAC
@@ -366,13 +367,14 @@ SAC_PARAMS = {
     "learning_rate": 0.0001,
     "learning_starts": 100,
     "ent_coef": "auto_0.1",
+    "device":'cuda'
 }
 
 model_sac = agent.get_model("sac", model_kwargs=SAC_PARAMS)
 
 
 trained_sac = agent.train_model(
-    model=model_sac, tb_log_name="sac", total_timesteps=60000
+    model=model_sac, tb_log_name="sac", total_timesteps=60#60000
 )
 
 
@@ -494,9 +496,11 @@ print("==============Compare to DJIA===========")
 # S&P 500: ^GSPC
 # Dow Jones Index: ^DJI
 # NASDAQ 100: ^NDX
-backtest_plot(
+result = backtest_plot(
     df_account_value,
     baseline_ticker="^DJI",
     baseline_start=df_account_value.loc[0, "date"],
     baseline_end=df_account_value.loc[len(df_account_value) - 1, "date"],
 )
+
+print(result)
