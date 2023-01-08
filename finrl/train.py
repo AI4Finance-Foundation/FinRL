@@ -28,11 +28,8 @@ def clip_by_name(data, name):
     return data[data['tic'] == name]
 
 
-def load_df(start_date, end_date):
-    data_path = os.path.join(os.path.split(__file__)[0], '..', 'data')
-    data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
-    file_name = os.path.join(data_path, data_file_name)
-    data = pd.read_pickle(file_name)
+def load_df(start_date, end_date, file_path):
+    data = pd.read_pickle(file_path)
     data = clip_by_date(data, start_date, end_date)
     return data
 
@@ -48,19 +45,23 @@ def download_data(
         if_train=False,
         **kwargs
 ):
-    data_path = os.path.join(os.path.split(__file__)[0], '..', 'data')
+    # data_path = os.path.join(os.path.split(__file__)[0], '..', 'data')
+    data_path = './data'
     # data_file_name = f'{data_source}_{start_date}_{end_date}.pkl'
-    data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
-    file_name = os.path.join(data_path, data_file_name)
+    # data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
+    data_file_name = f'alpaca_2019-1-1_2022-1-1.pkl'
+    file_path = os.path.join(data_path, data_file_name)
     dp = DataProcessor(data_source, **kwargs)
-    if os.path.isfile(file_name):
+    if os.path.isfile(file_path):
         # load if exist
+        data = load_df(start_date, end_date, file_path)
+        dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
         try:
             data = load_df(start_date, end_date)
             dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
-            print(f"Load data from {file_name}")
+            print(f"Load data from {file_path}")
         except:
-            print(f"Failed to load data from {file_name}")
+            print(f"Failed to load data from {file_path}")
     else:
         # download data
         data = dp.download_data(ticker_list, start_date, end_date, time_interval)
@@ -71,7 +72,7 @@ def download_data(
 
         # save data
         os.makedirs(data_path, exist_ok=True)
-        data.to_pickle(file_name)
+        data.to_pickle(file_path)
 
     print('The data looks like: \n', data.head(20).to_string, data.tail(20).to_string)  # display the data
     print(f'Full data shape: {data.shape}')

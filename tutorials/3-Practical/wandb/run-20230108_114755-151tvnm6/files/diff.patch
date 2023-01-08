@@ -1,0 +1,128 @@
+diff --git a/finrl/meta/data_processors/processor_alpaca.py b/finrl/meta/data_processors/processor_alpaca.py
+index b9881b2..63c2cef 100644
+--- a/finrl/meta/data_processors/processor_alpaca.py
++++ b/finrl/meta/data_processors/processor_alpaca.py
+@@ -46,6 +46,7 @@ class AlpacaProcessor:
+             start=start_date.isoformat(),
+             end=end_date.isoformat(),
+         ).df
++        print(barset.head(5), barset.keys())
+ 
+         # from trepan.api import debug;debug()
+         # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm) if time_interval < 1D
+diff --git a/finrl/meta/data_processors/processor_alpaca_crypto.py b/finrl/meta/data_processors/processor_alpaca_crypto.py
+index bae6e5d..6acfef3 100644
+--- a/finrl/meta/data_processors/processor_alpaca_crypto.py
++++ b/finrl/meta/data_processors/processor_alpaca_crypto.py
+@@ -1,20 +1,23 @@
+ from __future__ import annotations
+ 
+-# import alpaca_trade_api as tradeapi
++import alpaca_trade_api as tradeapi
+ from alpaca_trade_api.rest import REST
+ import exchange_calendars as tc
+ import numpy as np
+ import pandas as pd
+ import pytz
++from datetime import datetime
+ from stockstats import StockDataFrame as Sdf
+ 
+ pd.set_option('display.max_columns', None)
++pd.set_option('display.max_rows', None)
++
+ class AlpacaCryptoProcessor:
+     def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, api=None):
+         if api is None:
+             try:
+-                # self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+-                self.api = REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
++                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
++                # self.api = REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+             except BaseException:
+                 raise ValueError("Wrong Account Info!")
+         else:
+@@ -44,23 +47,28 @@ class AlpacaCryptoProcessor:
+ 
+         print(time_interval, start_date, end_date)
+ 
++        ticker = 'BTCUSD'
+         barset = self.api.get_crypto_bars(
+             # ticker_list,
+-            'BTCUSD',
++            ticker,  # currently only support one ticker
+             time_interval,
+             start=start_date.isoformat(),
+             end=end_date.isoformat(),
+         ).df
+-        print(barset.head(5))
++        barset['symbol'] = ticker  # add symbol column
++        print(barset.head(10))
++        # print(barset.tail(20))
+         # from trepan.api import debug;debug()
+         # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm) if time_interval < 1D
+-        day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000
+-        if pd.Timedelta(time_interval).delta < day_delta:
+-            NYSE_open_hour = "13:30"  # in UTC
+-            NYSE_close_hour = "19:59"  # in UTC
+-            data_df = barset.between_time(NYSE_open_hour, NYSE_close_hour)
+-        else:
+-            data_df = barset
++        # day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000
++        # if pd.Timedelta(time_interval).delta < day_delta:
++        #     NYSE_open_hour = "13:30"  # in UTC
++        #     NYSE_close_hour = "19:59"  # in UTC
++        #     data_df = barset.between_time(NYSE_open_hour, NYSE_close_hour)
++        # else:
++        #     data_df = barset
++        # crypto trading is 24/7, so no need to filter time
++        data_df = barset
+ 
+         # reformat to finrl expected schema
+         data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
+@@ -80,13 +88,14 @@ class AlpacaCryptoProcessor:
+     def clean_data(self, df):
+         tic_list = np.unique(df.tic.values)
+ 
+-        trading_days = self.get_trading_days(start=self.start, end=self.end)
++        trading_days = self.get_trading_days(df, start=self.start, end=self.end)
++
+         # produce full timestamp index
+         times = []
+         for day in trading_days:
+             NY = "America/New_York"
+-            current_time = pd.Timestamp(day + " 09:30:00").tz_localize(NY)
+-            for i in range(390):
++            current_time = pd.Timestamp(day + " 00:00:00").tz_localize(NY)
++            for i in range(1440):  # 24* =60
+                 times.append(current_time)
+                 current_time += pd.Timedelta(minutes=1)
+         # create a new dataframe with full timestamp series
+@@ -309,14 +318,13 @@ class AlpacaCryptoProcessor:
+         print("Successfully transformed into array")
+         return price_array, tech_array, turbulence_array
+ 
+-    def get_trading_days(self, start, end):
+-        nyse = tc.get_calendar("NYSE")
+-        df = nyse.sessions_in_range(
+-            pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)-pd.Timedelta(days=1)
+-        )  # the end day should not be included, so minus one day
++    def get_trading_days(self, df, start, end):
+         trading_days = []
+-        for day in df:
++
++        for day in df.timestamp.values:
+             trading_days.append(str(day)[:10])
++        trading_days = list(set(trading_days)) # get unique days
++        trading_days.sort(key=lambda date: datetime.strptime(date, "%Y-%m-%d"))
+ 
+         return trading_days
+ 
+diff --git a/tutorials/3-Practical/wandb/latest-run b/tutorials/3-Practical/wandb/latest-run
+index 04e5898..77a1459 120000
+--- a/tutorials/3-Practical/wandb/latest-run
++++ b/tutorials/3-Practical/wandb/latest-run
+@@ -1 +1 @@
+-run-20221109_211406-2zg47wmu
+\ No newline at end of file
++run-20230108_114755-151tvnm6
+\ No newline at end of file
