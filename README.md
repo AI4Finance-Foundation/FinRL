@@ -190,7 +190,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 - The environment layer includes not only a collection of historical data APIs, but also live trading APIs. They are reconfigured into standard OpenAI gym-style environments. Moreover, it incorporates market frictions and allows users to customize the trading time granularity.
 
 
-## Tutorials 
+## Tutorials
 
 + [Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
 
@@ -298,7 +298,7 @@ Thank you!
 
 ### Sponsorship
 
-Welcome gift money to support AI4Finance, a non-profit community. 
+Welcome gift money to support AI4Finance, a non-profit community.
 
 Network: USDT-TRC20
 
