@@ -207,8 +207,23 @@ class AlpacaPaperTrading:
             #     time.sleep(self.time_interval)
 
             # a non-stop across days version
-            print('time: ', currTime, self.timeToClose)
+            est_time = clock.timestamp.replace(tzinfo=datetime.timezone.est).timestamp()
+            print('Current time in EST: ', datetime.datetime.fromtimestamp(est_time).isoformat(), \
+                ' Time to close: ', int(self.timeToClose/60), ' minutes')
             if self.timeToClose < (self.time_interval+60):  # this needs to adapt to trade interval
+                # Close all positions when market close.
+                positions = self.alpaca.list_positions()
+                for position in positions:
+                    if(position.side == 'long'):
+                        orderSide = 'sell'
+                    else:
+                        orderSide = 'buy'
+                    qty = abs(int(float(position.qty)))
+                    respSO = []
+                    tSubmitOrder = threading.Thread(target=self.submitOrder(qty, position.symbol, orderSide, respSO))
+                    tSubmitOrder.start()
+                    tSubmitOrder.join()
+
                 print("Market closing soon. Stop trading.")
                 time.sleep(self.time_interval+60*10)  # wait for the market to fully stop, and halt trade during the time
                 tAMO = threading.Thread(target=self.awaitMarketOpen)        

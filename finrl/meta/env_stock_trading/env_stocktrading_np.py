@@ -19,6 +19,7 @@ class StockTradingEnv(gym.Env):
         sell_cost_pct=1e-3,
         reward_scaling=2**-11,
         initial_stocks=None,
+        allow_short=True,
     ):
         price_ary = config["price_array"]
         tech_ary = config["tech_array"]
@@ -47,6 +48,7 @@ class StockTradingEnv(gym.Env):
             if initial_stocks is None
             else initial_stocks
         )
+        self.allow_short = allow_short
 
         # reset()
         self.day = None

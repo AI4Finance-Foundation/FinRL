@@ -113,7 +113,6 @@ class DRLAgent:
                     a_tensor.detach().cpu().numpy()[0]
                 )  # not need detach(), because with torch.no_grad() outside
                 state, reward, done, _ = environment.step(action)
-
                 total_asset = (
                     environment.amount
                     + (

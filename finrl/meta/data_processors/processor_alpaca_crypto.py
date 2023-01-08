@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-import alpaca_trade_api as tradeapi
+# import alpaca_trade_api as tradeapi
+from alpaca_trade_api.rest import REST
 import exchange_calendars as tc
 import numpy as np
 import pandas as pd
@@ -8,11 +9,12 @@ import pytz
 from stockstats import StockDataFrame as Sdf
 
 pd.set_option('display.max_columns', None)
-class AlpacaProcessor:
+class AlpacaCryptoProcessor:
     def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, api=None):
         if api is None:
             try:
-                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+                # self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+                self.api = REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
             except BaseException:
                 raise ValueError("Wrong Account Info!")
         else:
@@ -40,13 +42,16 @@ class AlpacaProcessor:
         start_date = pd.Timestamp(start_date, tz=NY)
         end_date = pd.Timestamp(end_date, tz=NY)
 
-        barset = self.api.get_bars(
-            ticker_list,
+        print(time_interval, start_date, end_date)
+
+        barset = self.api.get_crypto_bars(
+            # ticker_list,
+            'BTCUSD',
             time_interval,
             start=start_date.isoformat(),
             end=end_date.isoformat(),
         ).df
-
+        print(barset.head(5))
         # from trepan.api import debug;debug()
         # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm) if time_interval < 1D
         day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000
