@@ -2,6 +2,7 @@
 #results/
 *.pkl
 *.csv
+*.pth
 
 # remove DS_Store
 **/.DS_Store
