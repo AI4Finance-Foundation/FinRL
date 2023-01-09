@@ -53,7 +53,7 @@ class YahooDownloader:
             temp_df["tic"] = tic
             # data_df = data_df.append(temp_df)
             # FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
-            data_df = pd.concat([data_df,temp_df])
+            data_df = pd.concat([data_df, temp_df])
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:
@@ -75,7 +75,7 @@ class YahooDownloader:
         except NotImplementedError:
             print("the features are not supported currently")
         # create day of the week column (monday = 0)
-        data_df['date'] = pd.to_datetime(data_df['date'], errors='coerce')
+        data_df["date"] = pd.to_datetime(data_df["date"], errors="coerce")
         data_df["day"] = data_df["date"].dt.dayofweek
         # convert date to standard string format, easy to filter
         data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))

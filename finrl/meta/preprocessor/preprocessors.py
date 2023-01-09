@@ -156,7 +156,9 @@ class FeatureEngineer:
                         "date"
                     ].to_list()
 
-                    indicator_df = pd.concat([indicator_df,temp_indicator], ignore_index=True)
+                    indicator_df = pd.concat(
+                        [indicator_df, temp_indicator], ignore_index=True
+                    )
                     # indicator_df = indicator_df.append(
                     #     temp_indicator, ignore_index=True
                     # )

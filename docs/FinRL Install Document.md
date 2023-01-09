@@ -31,7 +31,7 @@ pip install wrds
 conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
 
 # 这一步需要用VPN
-python Stock_NeurIPS2018_SB3.py 
+python Stock_NeurIPS2018_SB3.py
 ```
 
 ![img](https://f3pmqowv13.feishu.cn/space/api/box/stream/download/asynccode/?code=MzM2Zjk0OTgzZjI3NmY2NTQ4ZWQyZWFjNDk5NzY5YmRfN09nRzMzRXV4a3RxTXFhZHZhOFZQUDJ4bGpsUWtkRTNfVG9rZW46Ym94Y25SUTFKOGtwR3NxRUw1MFlySmpqZkxoXzE2NzMyMzU2NTQ6MTY3MzIzOTI1NF9WNA)
@@ -56,7 +56,7 @@ pip install .
 pip install wrds
 
 # 对于国内用户，这一步需要用VPN
-python Stock_NeurIPS2018_SB3.py 
+python Stock_NeurIPS2018_SB3.py
 ```
 
 ![img](https://f3pmqowv13.feishu.cn/space/api/box/stream/download/asynccode/?code=NjgzNDEzOTc3MzY1ODNhNTZlZDRjYjRkODNiZmJiZWFfenJyR0hwaU5NSXlkaTV2cmFOVWg2N3RqODE2V3VkVUpfVG9rZW46Ym94Y25td1BDWjA5dk5nQ0pWQVZIcHg4QWI2XzE2NzMyMzU2NTQ6MTY3MzIzOTI1NF9WNA)
@@ -67,11 +67,11 @@ python Stock_NeurIPS2018_SB3.py
  [tool.poetry]
  name = "finrl"
  version = "0.3.5"
- 
+
  description = "FinRL: Financial Reinforcement Learning Framework. Version 0.3.5 notes: stable version, code refactoring, more tutorials, clear documentation"
  authors = ["Hongyang Yang, Xiaoyang Liu"]
  license = "MIT"
- 
+
  readme = "README.md"
  classifiers=[
          # Trove classifiers
@@ -89,7 +89,7 @@ python Stock_NeurIPS2018_SB3.py
  keywords=["Reinforcement Learning", "Finance"]
  [tool.poetry.urls]
  github = "https://github.com/finrl/finrl-library"
- 
+
  [tool.poetry.dependencies]
  python = ">=3.7" #">=3.7,<3.9"
  pyfolio = {git="https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2"}
@@ -111,13 +111,13 @@ python Stock_NeurIPS2018_SB3.py
  scikit-learn = ">=0.21.0"
  ray = {extras=["default", "tune"], version=">=1.8.0"}#, version="1.3.0"
  stable-baselines3 = "^1.6.2"
- 
+
  [tool.poetry.dev-dependencies]
  pytest = "*"
  pre-commit = "*"
- 
+
  [build-system]
  requires = ["poetry-core"]
  build-backend = "poetry.core.masonry.api"
- 
+
 ```
