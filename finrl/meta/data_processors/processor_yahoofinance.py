@@ -244,7 +244,12 @@ class YahooFinanceProcessor:
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
 <<<<<<< HEAD
+<<<<<<< HEAD
             new_df = pd.concat([new_df, tmp_df])
+=======
+            # new_df = new_df.append(tmp_df)
+            new_df = pd.concat([new_df, tmp_df], axis=0)
+>>>>>>> refs/heads/dev-jdb
 =======
             # new_df = new_df.append(tmp_df)
             new_df = pd.concat([new_df, tmp_df], axis=0)
@@ -285,14 +290,20 @@ class YahooFinanceProcessor:
                         "timestamp"
                     ].to_list()
 <<<<<<< HEAD
+<<<<<<< HEAD
                     indicator_df = pd.concat(
                         [indicator_df, temp_indicator], ignore_index=True
                     )
 =======
+=======
+>>>>>>> refs/heads/dev-jdb
                     # indicator_df = indicator_df.append(
                     #     temp_indicator, ignore_index=True
                     # )
                     indicator_df =pd.concat([indicator_df, temp_indicator], axis=0, ignore_index=True)
+<<<<<<< HEAD
+>>>>>>> refs/heads/dev-jdb
+=======
 >>>>>>> refs/heads/dev-jdb
                 except Exception as e:
                     print(e)
