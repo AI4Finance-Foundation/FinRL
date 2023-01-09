@@ -21,8 +21,8 @@ pyfolio
 
 # testing requirements
 pytest
-#ray[default]
-#ray[tune]
+ray[default]
+ray[tune]
 
 # Model Building Requirements
 scikit-learn>=0.21.0

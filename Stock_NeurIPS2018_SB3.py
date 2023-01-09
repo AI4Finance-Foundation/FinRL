@@ -367,7 +367,7 @@ SAC_PARAMS = {
     "learning_rate": 0.0001,
     "learning_starts": 100,
     "ent_coef": "auto_0.1",
-    # "device":'mps' #"device":'cuda'
+    "device":'mps' #"device":'cuda'
 }
 
 model_sac = agent.get_model("sac", model_kwargs=SAC_PARAMS)
