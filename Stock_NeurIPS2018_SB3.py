@@ -367,14 +367,14 @@ SAC_PARAMS = {
     "learning_rate": 0.0001,
     "learning_starts": 100,
     "ent_coef": "auto_0.1",
-    "device":'cuda'
+    # "device":'mps' #"device":'cuda'
 }
 
 model_sac = agent.get_model("sac", model_kwargs=SAC_PARAMS)
 
 
 trained_sac = agent.train_model(
-    model=model_sac, tb_log_name="sac", total_timesteps=60#60000
+    model=model_sac, tb_log_name="sac", total_timesteps=60000#60000
 )
 
 
