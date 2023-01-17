@@ -173,6 +173,8 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 <details><summary><b>Version History</b> <i>[click to expand]</i></summary>
 <div>
 
+* 2022-06-25
+	0.3.5: Formal release of FinRL, neo_finrl is chenged to FinRL-Meta with related files in directory: *meta*.
 * 2021-08-25
 	0.3.1: pytorch version with a three-layer architecture, apps (financial tasks), drl_agents (drl algorithms), neo_finrl (gym env)
 * 2020-12-14
