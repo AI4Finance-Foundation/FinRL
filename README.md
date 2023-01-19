@@ -24,12 +24,12 @@
 
 
 
-**Financial Reinforcement Learning (FinRL)** ([website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to exploit the great potential of deep reinforcement learning. FinRL has evolved into an ecosystem as follows
+**Financial Reinforcement Learning (FinRL)** ([Document website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** to demonstrate the great potential of financial reinforcement learning. FinRL has evolved into an **ecosystem**
 
-| Roadmap  | Stage | Users | Project | Desription |
+| Dev Roadmap  | Stage | Users | Project | Desription |
 |----|----|----|----|----|
 | 0.0 (Preparation) | entrance | practitioners | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta)| gym-style market environments |
-| 1.0 (Proof-of-Concept)| full-stack | developers | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | pipeline |
+| 1.0 (Proof-of-Concept)| full-stack | developers | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | automatic pipeline |
 | 2.0 (Professional) | profession | experts | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | algorithms |
 | 3.0 (Production) | service | hedge funds | [Podracer](https://github.com/AI4Finance-Foundation/FinRL_Podracer) | cloud-native deployment |
 
