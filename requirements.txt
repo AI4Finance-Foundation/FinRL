@@ -1,12 +1,8 @@
 alpaca_trade_api>=2.1.0
 ccxt==1.66.32  # make sure that >=1.66.32
 elegantrl
-
-# market data & paper trading API
-wrds
 exchange_calendars==3.6.3 # because raise exception with 4.1.1, success tested with 3.6.3
 gputil
-swig
 gym>=0.17
 importlib-metadata==4.13.0
 jqdatasdk
@@ -38,7 +34,11 @@ SQLAlchemy
 SQLAlchemy
 stable-baselines3[extra]
 stockstats>=0.4.0
+swig
 
 tensorboardX
 wheel>=0.33.6
+
+# market data & paper trading API
+wrds
 yfinance
