@@ -136,7 +136,7 @@ class YahooFinanceProcessor:
         elif self.time_interval == "1m":
             times = []
             for day in trading_days:
-#                NY = "America/New_York"
+                #                NY = "America/New_York"
                 current_time = pd.Timestamp(day + " 09:30:00").tz_localize(NY)
                 for i in range(390):  # 390 minutes in trading day
                     times.append(current_time)

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import gym
 import numpy as np
-from numpy import random as rd
 from elegantrl.train.run import Arguments
+from numpy import random as rd
 
 
 class StockTradingEnv(gym.Env):
