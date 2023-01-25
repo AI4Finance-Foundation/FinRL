@@ -74,39 +74,39 @@ class FeatureEngineer:
         self.use_turbulence = use_turbulence
         self.user_defined_feature = user_defined_feature
 
-    def preprocess_data(self, df, date_column="date"):
+    def preprocess_data(self, df):
         """main method to do the feature engineering
         @:param config: source dataframe
         @:return: a DataMatrices object
         """
         # clean data
-        df = self.clean_data(df,date_column=date_column)
+        df = self.clean_data(df)
 
         # add technical indicators using stockstats
         if self.use_technical_indicator:
-            df = self.add_technical_indicator(df,date_column=date_column)
+            df = self.add_technical_indicator(df)
             print("Successfully added technical indicators")
 
         # add vix for multiple stock
         if self.use_vix:
-            df = self.add_vix(df,date_column=date_column)
+            df = self.add_vix(df)
             print("Successfully added vix")
 
         # add turbulence index for multiple stock
         if self.use_turbulence:
-            df = self.add_turbulence(df,date_column=date_column)
+            df = self.add_turbulence(df)
             print("Successfully added turbulence index")
 
         # add user defined feature
         if self.user_defined_feature:
-            df = self.add_user_defined_feature(df,date_column=date_column)
+            df = self.add_user_defined_feature(df)
             print("Successfully added user defined features")
 
         # fill the missing values at the beginning and the end
         df = df.fillna(method="ffill").fillna(method="bfill")
         return df
 
-    def clean_data(self, data, date_column="date"):
+    def clean_data(self, data):
         """
         clean the raw data
         deal with missing values
@@ -115,11 +115,9 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        #df = df.sort_values(["date", "tic"], ignore_index=True)
-        df = df.sort_values([date_column, "tic"], ignore_index=True)
-        #df.index = df.date.factorize()[0]
-        df.index = df[date_column].factorize()[0]
-        merged_closes = df.pivot_table(index=date_column, columns="tic", values="close")
+        df = df.sort_values(["date", "tic"], ignore_index=True)
+        df.index = df.date.factorize()[0]
+        merged_closes = df.pivot_table(index="date", columns="tic", values="close")
         merged_closes = merged_closes.dropna(axis=1)
         tics = merged_closes.columns
         df = df[df.tic.isin(tics)]
@@ -135,7 +133,7 @@ class FeatureEngineer:
         # df_full = df_full.fillna(0)
         return df
 
-    def add_technical_indicator(self, data, date_column="timestamp"):
+    def add_technical_indicator(self, data):
         """
         calculate technical indicators
         use stockstats package to add technical inidactors
@@ -143,7 +141,7 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        df = df.sort_values(by=["tic", date_column])
+        df = df.sort_values(by=["tic", "date"])
         stock = Sdf.retype(df.copy())
         unique_ticker = stock.tic.unique()
 
@@ -154,8 +152,8 @@ class FeatureEngineer:
                     temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
                     temp_indicator = pd.DataFrame(temp_indicator)
                     temp_indicator["tic"] = unique_ticker[i]
-                    temp_indicator[date_column] = df[df.tic == unique_ticker[i]][
-                        date_column
+                    temp_indicator["date"] = df[df.tic == unique_ticker[i]][
+                        "date"
                     ].to_list()
                     indicator_df = indicator_df.append(
                         temp_indicator, ignore_index=True
@@ -163,9 +161,9 @@ class FeatureEngineer:
                 except Exception as e:
                     print(e)
             df = df.merge(
-                indicator_df[["tic", date_column, indicator]], on=["tic", date_column], how="left"
+                indicator_df[["tic", "date", indicator]], on=["tic", "date"], how="left"
             )
-        df = df.sort_values(by=[date_column, "tic"])
+        df = df.sort_values(by=["date", "tic"])
         return df
         # df = data.set_index(['date','tic']).sort_index()
         # df = df.join(df.groupby(level=0, group_keys=False).apply(lambda x, y: Sdf.retype(x)[y], y=self.tech_indicator_list))
@@ -185,7 +183,7 @@ class FeatureEngineer:
         # df['return_lag_4']=df.close.pct_change(5)
         return df
 
-    def add_vix(self, data, date_column="timestamp"):
+    def add_vix(self, data):
         """
         add vix from yahoo finance
         :param data: (df) pandas dataframe
@@ -195,14 +193,14 @@ class FeatureEngineer:
         df_vix = YahooDownloader(
             start_date=df.date.min(), end_date=df.date.max(), ticker_list=["^VIX"]
         ).fetch_data()
-        vix = df_vix[[date_column, "close"]]
-        vix.columns = [date_column, "vix"]
+        vix = df_vix[["date", "close"]]
+        vix.columns = ["date", "vix"]
 
-        df = df.merge(vix, on=date_column)
-        df = df.sort_values([date_column, "tic"]).reset_index(drop=True)
+        df = df.merge(vix, on="date")
+        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
         return df
 
-    def add_turbulence(self, data, date_column="timestamp"):
+    def add_turbulence(self, data):
         """
         add turbulence index from a precalcualted dataframe
         :param data: (df) pandas dataframe
@@ -210,19 +208,19 @@ class FeatureEngineer:
         """
         df = data.copy()
         turbulence_index = self.calculate_turbulence(df)
-        df = df.merge(turbulence_index, on=date_column)
-        df = df.sort_values([date_column, "tic"]).reset_index(drop=True)
+        df = df.merge(turbulence_index, on="date")
+        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
         return df
 
-    def calculate_turbulence(self, data, date_column="timestamp"):
+    def calculate_turbulence(self, data):
         """calculate turbulence index based on dow 30"""
         # can add other market assets
         df = data.copy()
-        df_price_pivot = df.pivot(index=date_column, columns="tic", values="close")
+        df_price_pivot = df.pivot(index="date", columns="tic", values="close")
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
-        unique_date = df[date_column].unique()
+        unique_date = df.date.unique()
         # start after a year
         start = 252
         turbulence_index = [0] * start
@@ -262,7 +260,7 @@ class FeatureEngineer:
             turbulence_index.append(turbulence_temp)
         try:
             turbulence_index = pd.DataFrame(
-                {date_column: df_price_pivot.index, "turbulence": turbulence_index}
+                {"date": df_price_pivot.index, "turbulence": turbulence_index}
             )
         except ValueError:
             raise Exception("Turbulence information could not be added.")
