@@ -219,7 +219,8 @@ class DRLlibv2:
         )
 
         self.results = tuner.fit()
-        self.search_alg.save_to_dir(self.local_dir)
+        if self.search_alg is not None:
+            self.search_alg.save_to_dir(self.local_dir)
         # ray.shutdown()
         return self.results
 
@@ -268,7 +269,8 @@ class DRLlibv2:
         print(restored_agent)
         self.results = restored_agent.fit()
 
-        self.search_alg.save_to_dir(self.local_dir)
+        if self.search_alg is not None:
+            self.search_alg.save_to_dir(self.local_dir)
         return self.results
 
     def get_test_agent(self, test_env, test_env_name: str, checkpoint=None):
