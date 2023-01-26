@@ -125,9 +125,9 @@ class DRLlibv2:
     def __init__(
         self,
         trainable: str | Any,
-        train_env,
         train_env_name: str,
         params: dict,
+        train_env=None,
         run_name: str = "tune_run",
         framework: str = "torch",
         local_dir: str = "tune_results",
@@ -149,7 +149,8 @@ class DRLlibv2:
         reuse_actors: bool = False,
     ):
 
-        register_env(train_env_name, lambda config: train_env)
+        if train_env is not None:
+            register_env(train_env_name, lambda config: train_env)
 
         self.params = params
         self.params["framework"] = framework
@@ -273,11 +274,12 @@ class DRLlibv2:
             self.search_alg.save_to_dir(self.local_dir)
         return self.results
 
-    def get_test_agent(self, test_env, test_env_name: str, checkpoint=None):
+    def get_test_agent(self, test_env_name: str, test_env=None, checkpoint=None):
         """
         Get test agent
         """
-        register_env(test_env_name, lambda config: test_env)
+        if test_env is not None:
+            register_env(test_env_name, lambda config: test_env)
 
         if checkpoint is None:
             checkpoint = self.results.get_best_result().checkpoint
