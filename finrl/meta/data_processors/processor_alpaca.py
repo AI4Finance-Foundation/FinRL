@@ -64,6 +64,13 @@ class AlpacaProcessor:
 
     def clean_data(self, df):
         tic_list = np.unique(df.tic.values)
+        n_tickers = len(tic_list)
+
+        # align start and end dates
+        unique_times = df["timestamp"].unique()
+        for time in unique_times:
+            if len(df[df.timestamp == time].index) < n_tickers:
+                df = df[df.timestamp != time]
 
         trading_days = self.get_trading_days(start=self.start, end=self.end)
         # produce full timestamp index
