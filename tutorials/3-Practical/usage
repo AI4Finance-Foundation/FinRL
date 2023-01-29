@@ -1,0 +1,5 @@
+requires:
+python 3.8, 3.9 (3.7 will report error for streamlit)
+
+local run:
+streamlit run streamlit_train.py --server.fileWatcherType none

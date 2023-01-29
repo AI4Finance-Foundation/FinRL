@@ -1,5 +1,12 @@
 from __future__ import annotations
 
+__all__ = ['SINGLE_TICKER', 'CHINESE_STOCK_TICKER', 'DOW_30_TICKER', \
+    'NAS_100_TICKER', 'SP_500_TICKER', 'HSI_50_TICKER',\
+    'SSE_50_TICKER', 'CSI_300_TICKER', 'CAC_40_TICKER',\
+    'DAX_30_TICKER',  'TECDAX_TICKER',  'MDAX_50_TICKER',\
+    'SDAX_50_TICKER', 'LQ45_TICKER',  'SRI_KEHATI_TICKER',\
+    'FX_TICKER']
+
 SINGLE_TICKER = ["AAPL"]
 
 # Chinese stocks in US exchanges: https://stockmarketmba.com/chinesecompaniesthattradeonusexchanges.php

@@ -49,7 +49,8 @@ def download_data(
     data_path = './data'
     # data_file_name = f'alpaca_2022-6-11_2022-9-1.pkl'
     data_file_name = f'DOW30_alpaca_2019-1-1_2023-1-1.pkl'  # existing large data
-    # data_file_name = f'CHI30_alpaca_2019-1-1_2023-1-1.pkl'  # existing large data
+    if 'CHI' in ticker_list:
+        data_file_name = f'CHI30_alpaca_2019-1-1_2023-1-1.pkl'  # existing large data
     file_path = os.path.join(data_path, data_file_name)
     dp = DataProcessor(data_source, **kwargs)
     if os.path.isfile(file_path):
