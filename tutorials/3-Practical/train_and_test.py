@@ -67,6 +67,14 @@ def backtest_plot(
     return figs
 
 
+def get_baseline(ticker, start, end):
+    baseline_df = load_df(start, end)
+    baseline_df = baseline_df[baseline_df['tic'] == ticker]
+    baseline_df = baseline_df.loc[baseline_df['timestamp'].dt.time == dt.time(15, 59)]
+    baseline_df['date'] = baseline_df['timestamp'].dt.date
+    return baseline_df
+
+
 def train_and_test(
         train_start_date,
         train_end_date,
@@ -123,10 +131,11 @@ def train_and_test(
     #     start=test_start_date,
     #     end=test_end_date)
 
-    baseline_df = load_df(test_start_date, test_end_date)
-    baseline_df = baseline_df[baseline_df['tic'] == baseline_ticker]
-    baseline_df = baseline_df.loc[baseline_df['timestamp'].dt.time == dt.time(15, 59)]
-    baseline_df['date'] = baseline_df['timestamp'].dt.date
+    baseline_df = get_baseline(            
+            ticker = baseline_ticker, 
+            start = test_start_date,
+            end = test_end_date)
+
     stats = backtest_stats(baseline_df, value_col_name='close')
     print(stats)
 

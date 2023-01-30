@@ -55,6 +55,8 @@ def download_data(
     dp = DataProcessor(data_source, **kwargs)
     if os.path.isfile(file_path):
         # load if exist
+        data = load_df(start_date, end_date, file_path)
+        dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
         try:
             data = load_df(start_date, end_date, file_path)
             dp.set_meta_data(start_date, end_date, time_interval, technical_indicator_list)
