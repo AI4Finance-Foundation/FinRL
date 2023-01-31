@@ -138,6 +138,7 @@ class AlpacaProcessor:
 
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
+            tmp_df = tmp_df.loc[times]
             new_df = pd.concat([new_df, tmp_df])
 
         new_df = new_df.reset_index()
