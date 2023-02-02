@@ -290,22 +290,11 @@ class YahooFinanceProcessor:
                     temp_indicator["timestamp"] = df[df.tic == unique_ticker[i]][
                         "timestamp"
                     ].to_list()
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                     indicator_df = pd.concat(
                         [indicator_df, temp_indicator], ignore_index=True
                     )
-=======
-=======
->>>>>>> refs/heads/dev-jdb
-                    # indicator_df = indicator_df.append(
-                    #     temp_indicator, ignore_index=True
-                    # )
-                    indicator_df =pd.concat([indicator_df, temp_indicator], axis=0, ignore_index=True)
-<<<<<<< HEAD
->>>>>>> refs/heads/dev-jdb
-=======
->>>>>>> refs/heads/dev-jdb
+
                 except Exception as e:
                     print(e)
             df = df.merge(
