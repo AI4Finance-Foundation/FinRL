@@ -98,7 +98,6 @@ class YahooFinanceProcessor:
         delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
-<<<<<<< HEAD
             while (
                 start_date <= end_date
             ):  # downloading daily to workaround yfinance only allowing  max 7 calendar (not trading) days of 1 min data per single download
@@ -111,39 +110,6 @@ class YahooFinanceProcessor:
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
                 start_date += delta
-=======
-            temp_df = yf.download(
-                tic, start=start_date, end=end_date, interval=self.time_interval
-            )  # bug fix: add interval for download
-            temp_df["tic"] = tic
-            # data_df = data_df.append(temp_df)
-            data_df = pd.concat([data_df, temp_df], axis=0)
-        # reset the index, we want to use numbers as index instead of dates
-        data_df = data_df.reset_index()
-        try:
-            # convert the column names to standardized names
-            data_df.columns = [
-                "date",
-                "open",
-                "high",
-                "low",
-                "close",
-                "adjcp",
-                "volume",
-                "tic",
-            ]
-        except NotImplementedError:
-            print("the features are not supported currently")
-        # create day of the week column (monday = 0)
-        data_df["day"] = data_df["date"].dt.dayofweek
-        # convert date to standard string format, easy to filter
-        data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))
-        # drop missing data
-        data_df = data_df.dropna()
-        data_df = data_df.reset_index(drop=True)
-        print("Shape of DataFrame: ", data_df.shape)
-        # print("Display DataFrame: ", data_df.head())
->>>>>>> refs/heads/dev-jdb
 
         data_df = data_df.reset_index().drop(columns=["Adj Close"])
         # convert the column names to match processor_alpaca.py as far as poss
@@ -244,17 +210,7 @@ class YahooFinanceProcessor:
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
-<<<<<<< HEAD
-<<<<<<< HEAD
             new_df = pd.concat([new_df, tmp_df])
-=======
-            # new_df = new_df.append(tmp_df)
-            new_df = pd.concat([new_df, tmp_df], axis=0)
->>>>>>> refs/heads/dev-jdb
-=======
-            # new_df = new_df.append(tmp_df)
-            new_df = pd.concat([new_df, tmp_df], axis=0)
->>>>>>> refs/heads/dev-jdb
 
         #            print(("Data clean for ") + tic + (" is finished."))
 
@@ -290,11 +246,9 @@ class YahooFinanceProcessor:
                     temp_indicator["timestamp"] = df[df.tic == unique_ticker[i]][
                         "timestamp"
                     ].to_list()
-
                     indicator_df = pd.concat(
                         [indicator_df, temp_indicator], ignore_index=True
                     )
-
                 except Exception as e:
                     print(e)
             df = df.merge(
