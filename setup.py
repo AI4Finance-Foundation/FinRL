@@ -26,12 +26,6 @@ setup(
     url="https://github.com/finrl/finrl-library",
     license="MIT",
     packages=find_packages(),
-    # install_requires=REQUIRES
-    # + ["pyfolio @ git+https://github.com/quantopian/pyfolio.git#egg=pyfolio-0.9.2"]
-    # + [
-    #     "elegantrl @ git+https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"
-    # ],
-    # install_requires=REQUIRES,
     description="FinRL: Financial Reinforcement Learning Framework.",
     long_description="Version 0.3.5 notes: stable version, code refactoring, more tutorials, clear documentation",
     # It is developed by `AI4Finance`_. \
