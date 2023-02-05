@@ -28,7 +28,7 @@ Guiding Principles
 * Filing an [issue](https://guides.github.com/features/issues/) is a great way to help improve the project
 
 
-Aaccepting PRs
+Accepting PRs
 =======
 
 * You found a bug and a way to fix it
