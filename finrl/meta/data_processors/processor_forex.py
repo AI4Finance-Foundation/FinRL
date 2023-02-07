@@ -1,178 +1,180 @@
 from __future__ import annotations
-from functools import lru_cache
-from typing import Callable, List, Dict, Optional, Type
-import calendar
 from datetime import datetime
 
-import numpy as np
-import pandas as pd
-import pytz
 from stockstats import StockDataFrame as Sdf
-from fx_history_data.database import get_database, BaseDatabase
-from fx_history_data.vo import BarData
-from fx_history_data.constant import Interval, Exchange
 import pandas as pd
+import numpy as np
+from ..preprocessor.mtdbdownloader import MtDbDownloader
+from ..data_processors.fx_history_data.utility import timer
 
 
-def load_bar_data(
-    symbol: str,
-    exchange: Exchange,
-    interval: Interval,
-    start: datetime,
-    end: datetime
-) -> pd.DataFrame:
-    """"""
-    database: BaseDatabase = get_database()
-    bars = database.load_bar_data(symbol, exchange, interval, start, end)
-    df = pd.DataFrame(bars)
-    return df
-
-
-if __name__ == "__main__":
-    df = load_bar_data(
-        symbol="EURUSD",
-        interval=Interval.MINUTE,
-        exchange=Exchange.MT4,
-        start=datetime(2022, 12, 15, tzinfo=pytz.timezone('Etc/GMT0')),
-        end=datetime(2022, 12, 30, tzinfo=pytz.timezone('Etc/GMT0')),
-    )
-    print(df)
-    df.to_csv("df.csv")
-
-'''
 class ForexEngineer:
-    def __init__(self, data):
-        self.data = data
-
-    def data_fetch(self, start, end, pair_list: List, period: Interval):
-        def min_ohlcv(dt, pair, limit):
-            since = calendar.timegm(dt.utctimetuple()) * 1000
-            ohlcv = self.binance.fetch_ohlcv(
-                symbol=pair, timeframe="1m", since=since, limit=limit
-            )
-            return ohlcv
-
-        def ohlcv(dt, pair, period="1d"):
-            ohlcv = []
-            limit = 1000
-            if period == "1m":
-                limit = 720
-            elif period == "1d":
-                limit = 1
-            elif period == "1h":
-                limit = 24
-            elif period == "5m":
-                limit = 288
-            for i in dt:
-                start_dt = i
-                since = calendar.timegm(start_dt.utctimetuple()) * 1000
-                if period == "1m":
-                    ohlcv.extend(min_ohlcv(start_dt, pair, limit))
-                else:
-                    ohlcv.extend(
-                        self.binance.fetch_ohlcv(
-                            symbol=pair, timeframe=period, since=since, limit=limit
-                        )
-                    )
-            df = pd.DataFrame(
-                ohlcv, columns=["time", "open", "high", "low", "close", "volume"]
-            )
-            df["time"] = [
-                datetime.fromtimestamp(float(time) / 1000) for time in df["time"]
-            ]
-            df["open"] = df["open"].astype(np.float64)
-            df["high"] = df["high"].astype(np.float64)
-            df["low"] = df["low"].astype(np.float64)
-            df["close"] = df["close"].astype(np.float64)
-            df["volume"] = df["volume"].astype(np.float64)
-            return df
-
-        crypto_column = pd.MultiIndex.from_product(
-            [pair_list, ["open", "high", "low", "close", "volume"]]
+    @timer
+    def download_data(self,
+            ticker_list: list,
+            time_interval: str,
+            start_date: datetime,
+            end_date: datetime
+    ) -> pd.DataFrame:
+        """"""
+        downloader = MtDbDownloader(
+            start_date=start_date,
+            end_date=end_date,
+            ticker_list=ticker_list
         )
-        first_time = True
-        for pair in pair_list:
-            start_dt = datetime.strptime(start, "%Y%m%d %H:%M:%S")
-            end_dt = datetime.strptime(end, "%Y%m%d %H:%M:%S")
-            start_timestamp = calendar.timegm(start_dt.utctimetuple())
-            end_timestamp = calendar.timegm(end_dt.utctimetuple())
-            if period == "1m":
-                date_list = [
-                    datetime.utcfromtimestamp(float(time))
-                    for time in range(start_timestamp, end_timestamp, 60 * 720)
+        data_df = downloader.fetch_data()
+
+        return data_df
+
+    @timer
+    def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
+        time = df["time"].unique()
+        symbol = df["symbol"].unique()
+        columns = df.columns.drop(["time", "symbol"])
+        index = pd.MultiIndex.from_product([time, symbol])
+        df = df.set_index(["time", "symbol"], drop=True)
+        df = pd.DataFrame(df, index=index, columns=columns)
+        df = df.reset_index()
+        df = df.sort_values(by=["level_1", "level_0"])
+        df = df.fillna(method="pad")
+        df.rename(columns={"level_1":"symbol", "level_0":"time"}, inplace=True)
+        return df
+
+    @timer
+    def add_technical_indicator(
+            self, data: pd.DataFrame, tech_indicator_list: list[str]
+    ):
+        """
+        calculate technical indicators
+        use stockstats package to add technical indicators
+        :param data: (df) pandas dataframe
+        :return: (df) pandas dataframe
+        """
+        df = data.copy()
+        df = df.sort_values(by=["symbol", "time"])
+        stock = Sdf.retype(df.copy())
+        unique_ticker = stock.symbol.unique()
+
+        for indicator in tech_indicator_list:
+            indicator_df = pd.DataFrame()
+            for i in range(len(unique_ticker)):
+                try:
+                    temp_indicator = stock[stock.symbol == unique_ticker[i]][indicator]
+                    temp_indicator = pd.DataFrame(temp_indicator)
+                    temp_indicator["symbol"] = unique_ticker[i]
+                    temp_indicator["time"] = df[df.symbol == unique_ticker[i]][
+                        "time"
+                    ].to_list()
+                    indicator_df = pd.concat(
+                        [indicator_df, temp_indicator], ignore_index=True
+                    )
+                except Exception as e:
+                    print(e)
+            df = df.merge(
+                indicator_df[["symbol", "time", indicator]],
+                on=["symbol", "time"],
+                how="left",
+            )
+        df = df.sort_values(by=["time", "symbol"])
+        return df
+
+    def calculate_turbulence(
+            self, data: pd.DataFrame, time_period: int = 24*60*15
+    ) -> pd.DataFrame:
+        # can add other market assets
+        df = data.copy()
+        df_price_pivot = df.pivot(index="time", columns="symbol", values="close")
+        # use returns to calculate turbulence
+        df_price_pivot = df_price_pivot.pct_change()
+
+        unique_date = df.time.unique()
+        # start after a fixed timestamp period
+        start = time_period
+        turbulence_index = [0] * start
+        # turbulence_index = [0]
+        count = 0
+        for i in range(start, len(unique_date)):
+            current_price = df_price_pivot[df_price_pivot.index == unique_date[i]]
+            # use one year rolling window to calcualte covariance
+            # Lear: minute data rolling window set to 24(hour) * 60(min) * 15(day)
+            hist_price = df_price_pivot[
+                (df_price_pivot.index < unique_date[i])
+                & (df_price_pivot.index >= unique_date[i - time_period])
                 ]
+            # Drop tickers which has number missing values more than the "oldest" ticker
+            filtered_hist_price = hist_price.iloc[
+                                  hist_price.isna().sum().min():
+                                  ].dropna(axis=1)
+
+            cov_temp = filtered_hist_price.cov()
+            current_temp = current_price[[x for x in filtered_hist_price]] - np.mean(
+                filtered_hist_price, axis=0
+            )
+            temp = current_temp.values.dot(np.linalg.pinv(cov_temp)).dot(
+                current_temp.values.T
+            )
+            if temp > 0:
+                count += 1
+                if count > 2:
+                    turbulence_temp = temp[0][0]
+                else:
+                    # avoid large outlier because of the calculation just begins
+                    turbulence_temp = 0
             else:
-                date_list = [
-                    datetime.utcfromtimestamp(float(time))
-                    for time in range(start_timestamp, end_timestamp, 60 * 1440)
-                ]
-            df = ohlcv(date_list, pair, period)
-            if first_time:
-                dataset = pd.DataFrame(columns=crypto_column, index=df["time"].values)
-                first_time = False
-            temp_col = pd.MultiIndex.from_product(
-                [[pair], ["open", "high", "low", "close", "volume"]]
-            )
-            dataset[temp_col] = df[["open", "high", "low", "close", "volume"]].values
-        print("Actual end time: " + str(df["time"].values[-1]))
-        return dataset
+                turbulence_temp = 0
+            turbulence_index.append(turbulence_temp)
 
-    def add_technical_indicators(
-        self,
-        df,
-        pair_list,
-        tech_indicator_list=[
-            "macd",
-            "boll_ub",
-            "boll_lb",
-            "rsi_30",
-            "dx_30",
-            "close_30_sma",
-            "close_60_sma",
-        ],
-    ):
-        df = df.dropna()
+        turbulence_index = pd.DataFrame(
+            {"time": df_price_pivot.index, "turbulence": turbulence_index}
+        )
+        return turbulence_index
+
+    @timer
+    def add_turbulence(
+            self, data: pd.DataFrame, time_period: int = 24*60*15
+    ) -> pd.DataFrame:
+        """
+        add turbulence index from a precalcualted dataframe
+        :param data: (df) pandas dataframe
+        :return: (df) pandas dataframe
+        """
+        df = data.copy()
+        turbulence_index = self.calculate_turbulence(df, time_period=time_period)
+        df = df.merge(turbulence_index, on="time")
+        df = df.sort_values(["time", "symbol"]).reset_index(drop=True)
+        return df
+
+    @timer
+    def df_to_array(
+            self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool
+    ) -> list[np.ndarray]:
         df = df.copy()
-        column_list = [
-            pair_list,
-            ["open", "high", "low", "close", "volume"] + (tech_indicator_list),
-        ]
-        column = pd.MultiIndex.from_product(column_list)
-        index_list = df.index
-        dataset = pd.DataFrame(columns=column, index=index_list)
-        for pair in pair_list:
-            pair_column = pd.MultiIndex.from_product(
-                [[pair], ["open", "high", "low", "close", "volume"]]
-            )
-            dataset[pair_column] = df[pair]
-            temp_df = df[pair].reset_index().sort_values(by=["index"])
-            temp_df = temp_df.rename(columns={"index": "date"})
-            crypto_df = Sdf.retype(temp_df.copy())
-            for indicator in tech_indicator_list:
-                temp_indicator = crypto_df[indicator].values.tolist()
-                dataset[(pair, indicator)] = temp_indicator
-        print("Succesfully add technical indicators")
-        return dataset
+        unique_ticker = df.symbol.unique()
+        if_first_time = True
+        for symbol in unique_ticker:
+            if if_first_time:
+                price_array = df[df.symbol == symbol][["close"]].values
+                tech_array = df[df.symbol == symbol][tech_indicator_list].values
+                if if_vix:
+                    turbulence_array = df[df.symbol == symbol][["VIXY"]].values
+                else:
+                    turbulence_array = df[df.symbol == symbol][["turbulence"]].values
+                if_first_time = False
+            else:
+                price_array = np.hstack(
+                    [price_array, df[df.symbol == symbol][["close"]].values]
+                )
+                tech_array = np.hstack(
+                    [tech_array, df[df.symbol == symbol][tech_indicator_list].values]
+                )
+                if if_vix:
+                    turbulence_array = np.hstack(
+                        [turbulence_array, df[df.symbol == symbol][["VIXY"]].values]
+                    )
+                else:
+                    turbulence_array = np.hstack(
+                        [turbulence_array, df[df.symbol == symbol][["turbulence"]].values]
+                    )
 
-    def df_to_ary(
-        self,
-        df,
-        pair_list,
-        tech_indicator_list=[
-            "macd",
-            "boll_ub",
-            "boll_lb",
-            "rsi_30",
-            "dx_30",
-            "close_30_sma",
-            "close_60_sma",
-        ],
-    ):
-        df = df.dropna()
-        date_ary = df.index.values
-        price_array = df[pd.MultiIndex.from_product([pair_list, ["close"]])].values
-        tech_array = df[
-            pd.MultiIndex.from_product([pair_list, tech_indicator_list])
-        ].values
-        return price_array, tech_array, date_ary
-'''
+        #        print("Successfully transformed into array")
+        return price_array, tech_array, turbulence_array

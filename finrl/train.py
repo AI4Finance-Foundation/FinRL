@@ -9,10 +9,20 @@ from finrl.config import TRAIN_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.data_processor import DataProcessor
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
+import time
+
+
+def timer(func):
+    def func_in():
+        start_time = time.time()
+        func()
+        end_time = time.time()
+        spend_time = (end_time - start_time)/60
+        print("Spend_time:{} min".format(spend_time))
+    return func_in
+
 
 # construct environment
-
-
 def train(
     start_date,
     end_date,
@@ -23,14 +33,16 @@ def train(
     drl_lib,
     env,
     model_name,
-    if_vix=True,
+    if_vix=False,
     **kwargs,
 ):
     # download data
+
     dp = DataProcessor(data_source, **kwargs)
     data = dp.download_data(ticker_list, start_date, end_date, time_interval)
     data = dp.clean_data(data)
     data = dp.add_technical_indicator(data, technical_indicator_list)
+    data = dp.add_turbulence(data)
     if if_vix:
         data = dp.add_vix(data)
     price_array, tech_array, turbulence_array = dp.df_to_array(data, if_vix)

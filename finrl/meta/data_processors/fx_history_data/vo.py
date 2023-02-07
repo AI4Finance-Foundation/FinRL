@@ -57,10 +57,10 @@ class BarData(BaseData):
     volume: float = 0
     turnover: float = 0
     open_interest: float = 0
-    open_price: float = 0
-    high_price: float = 0
-    low_price: float = 0
-    close_price: float = 0
+    open: float = 0
+    high: float = 0
+    low: float = 0
+    close: float = 0
 
     def __post_init__(self) -> None:
         """"""

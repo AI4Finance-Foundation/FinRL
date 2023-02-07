@@ -34,10 +34,11 @@ def data_split(df, start, end, target_date_col="date"):
 
 
 def convert_to_datetime(time):
-    time_fmt = "%Y-%m-%dT%H:%M:%S"
+    time_fmt = "%Y-%m-%dT%H:%M:%S%z"
+    if len(time) <= 10:
+        time = time + "T00:00:00Z"
     if isinstance(time, str):
         return datetime.datetime.strptime(time, time_fmt)
-
 
 class FeatureEngineer:
     """Provides methods for preprocessing the stock price data

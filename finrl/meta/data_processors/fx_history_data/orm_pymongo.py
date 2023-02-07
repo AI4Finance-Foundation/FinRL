@@ -263,11 +263,11 @@ class Database(BaseDatabase):
             d["exchange"] = exchange
             d["interval"] = Interval(d["time_frame"]).value
             d["gateway_name"] = "DB"
-            d["high_price"] = d["high"]
-            d["low_price"] = d["low"]
+            d["close"] = d["close_price"]
+            d["open"] = d["open_price"]
             d.pop("_id")
-            d.pop("high")
-            d.pop("low")
+            d.pop("close_price")
+            d.pop("open_price")
             d.pop("time_frame")
             bar = BarData(**d)
             bars.append(bar)

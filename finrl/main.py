@@ -17,7 +17,7 @@ from finrl.config import TRADE_START_DATE
 from finrl.config import TRAIN_END_DATE
 from finrl.config import TRAIN_START_DATE
 from finrl.config import TRAINED_MODEL_DIR
-from finrl.config_tickers import DOW_30_TICKER
+from finrl.config_tickers import FX_STUDY
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 
 # construct environment
@@ -49,9 +49,26 @@ def check_and_make_directories(directories: list[str]):
             os.makedirs("./" + directory)
 
 
+class ObjDict(dict):
+    """
+    Makes a  dictionary behave like an object,with attribute-style access.
+    """
+    def __getattr__(self,name):
+        try:
+            return self[name]
+        except:
+            raise AttributeError(name)
+    def __setattr__(self,name,value):
+        self[name]=value
+
+
+options = ObjDict({
+    "mode": "train"
+})
+
 def main() -> int:
-    parser = build_parser()
-    options = parser.parse_args()
+    # parser = build_parser()
+    # options = parser.parse_args()
     check_and_make_directories(
         [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
     )
@@ -68,9 +85,9 @@ def main() -> int:
         train(
             start_date=TRAIN_START_DATE,
             end_date=TRAIN_END_DATE,
-            ticker_list=DOW_30_TICKER,
-            data_source="yahoofinance",
-            time_interval="1D",
+            ticker_list=FX_STUDY,
+            data_source="forex",
+            time_interval="MINUTE",
             technical_indicator_list=INDICATORS,
             drl_lib="elegantrl",
             env=env,
@@ -146,4 +163,5 @@ def main() -> int:
 # python main.py --mode=test
 # python main.py --mode=trade
 if __name__ == "__main__":
-    raise SystemExit(main())
+    main()
+    # raise SystemExit(main())

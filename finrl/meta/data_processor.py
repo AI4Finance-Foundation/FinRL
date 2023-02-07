@@ -8,6 +8,7 @@ from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
+from finrl.meta.data_processors.processor_forex import ForexEngineer as Forex
 
 
 class DataProcessor:
@@ -28,6 +29,9 @@ class DataProcessor:
 
         elif data_source == "yahoofinance":
             self.processor = YahooFinance()
+
+        elif data_source == "forex":
+            self.processor = Forex()
 
         else:
             raise ValueError("Data source input is NOT supported yet.")

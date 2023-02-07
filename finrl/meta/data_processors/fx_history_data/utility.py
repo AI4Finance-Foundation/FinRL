@@ -31,7 +31,7 @@ def extract_atp_symbol(atp_symbol: str) -> Tuple[str, Exchange]:
     :return: (symbol, exchange)
     """
     symbol, exchange_str = atp_symbol.split(".")
-    return symbol, Exchange(exchange_str)
+    return symbol, Exchange[exchange_str]
 
 
 def generate_atp_symbol(symbol: str, exchange: Exchange) -> str:
@@ -1016,3 +1016,15 @@ def get_file_logger(filename: str) -> logging.Logger:
     handler.setFormatter(log_formatter)
     logger.addHandler(handler)  # each handler will be added only once.
     return logger
+
+
+def timer(func):
+    def func_wrapper(*args,**kwargs):
+        from time import time
+        time_start = time()
+        result = func(*args,**kwargs)
+        time_end = time()
+        time_spend = time_end - time_start
+        print('\n{0} cost time {1} s\n'.format(func.__name__, time_spend))
+        return result
+    return func_wrapper
