@@ -94,7 +94,6 @@ class TuneSB3Optuna:
         total_timesteps: int = 50000,
         n_trials: int = 30,
     ):
-
         self.env_train = env_train
         self.agent = DRLAgent(env=env_train)
         self.model_name = model_name
