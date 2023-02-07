@@ -6,11 +6,14 @@ from __future__ import annotations
 import pandas as pd
 from datetime import datetime
 from.preprocessors import convert_to_datetime
+from typing import List
 
 from ..data_processors.fx_history_data.constant import Interval, Exchange
 from ..data_processors.fx_history_data.database import BaseDatabase
 from ..data_processors.fx_history_data.orm_pymongo import Database
 from ..data_processors.fx_history_data.utility import extract_atp_symbol
+from ..data_processors.fx_history_data.vo import BarData
+
 
 class MtDbDownloader:
     """Provides methods for retrieving minute Forex data from
@@ -39,7 +42,7 @@ class MtDbDownloader:
         self.ticker_list = ticker_list
         self.interval = Interval.MINUTE
 
-    def fetch_data(self) -> pd.DataFrame:
+    def fetch_data(self) -> List[BarData]:
         """Fetches data from DB
         Parameters
         ----------
@@ -51,24 +54,32 @@ class MtDbDownloader:
             for the specified stock ticker
         """
         # Download and save the data in a pandas DataFrame:
-        data_df = pd.DataFrame()
+        #data_df = pd.DataFrame()
         database: BaseDatabase = Database()
-
+        bars: List[BarData] = []
         for tic in self.ticker_list:
             tic, exchange = extract_atp_symbol(tic)
-            temp_df = database.load_bar_data(
+            temp = database.load_bar_data(
                 symbol=tic,
                 exchange=exchange,
                 start=self.start_date,
                 end=self.end_date,
                 interval=self.interval
             )
-            temp_df = pd.DataFrame(temp_df)
-            data_df = pd.concat([data_df, temp_df])
+            if temp:
+                bars = temp
+                temp = None
+            else:
+                bars.append(temp)
+                temp = None
+            # temp_df = pd.DataFrame(temp_df)
+            # data_df = pd.concat([data_df, temp_df])
         # reset the index, we want to use numbers as index instead of dates
         # data_df.reset_index(inplace=True)
+        return bars
+        '''
         try:
-            # convert the column names to standardized names
+            # only select below columns
             data_df= data_df[[
                 "time",
                 "open",
@@ -92,6 +103,7 @@ class MtDbDownloader:
         data_df = data_df.sort_values(by=["time", "symbol"]).reset_index(drop=True)
 
         return data_df
+        '''
 
     def select_equal_rows_stock(self, df):
         df_check = df.symbol.value_counts()

@@ -8,6 +8,7 @@ from finrl.config import TRAIN_END_DATE
 from finrl.config import TRAIN_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.data_processor import DataProcessor
+from finrl.meta.data_processors.fx_history_data.minutebars import MinuteBar
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
 import time
 
@@ -39,9 +40,18 @@ def train(
     # download data
 
     dp = DataProcessor(data_source, **kwargs)
-    data = dp.download_data(ticker_list, start_date, end_date, time_interval)
-    data = dp.clean_data(data)
-    data = dp.add_technical_indicator(data, technical_indicator_list)
+    min1_bar = dp.download_data(ticker_list, start_date, end_date, time_interval)
+    min5_bar = MinuteBar(min1_bar, window_mn=5).all_bars
+    min30_bar = MinuteBar(min1_bar, window_mn=30).all_bars
+    # data = dp.clean_data(data)
+
+    # TODO: add data_stamp to env as time feature
+    # data_stamp = dp.add_time_features(data)
+
+    # TODO: now returned array already
+    # data = dp.add_technical_indicator(data, technical_indicator_list)
+    # tech_array = dp.add_technical_indicator_by_talib(data, technical_indicator_list)
+
     data = dp.add_turbulence(data)
     if if_vix:
         data = dp.add_vix(data)
