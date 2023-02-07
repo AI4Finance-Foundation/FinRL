@@ -80,7 +80,9 @@ def main() -> int:
 
         # demo for elegantrl
         kwargs = (
-            {}
+            {
+                "charts": "on"
+            }
         )  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         train(
             start_date=TRAIN_START_DATE,

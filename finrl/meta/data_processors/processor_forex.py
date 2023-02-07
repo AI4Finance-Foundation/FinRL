@@ -4,30 +4,36 @@ from datetime import datetime
 from stockstats import StockDataFrame as Sdf
 import pandas as pd
 import numpy as np
+from typing import List
 from ..preprocessor.mtdbdownloader import MtDbDownloader
 from ..data_processors.fx_history_data.utility import timer
+from ..data_processors.fx_history_data.timefeatures import time_features
+from ..data_processors.fx_history_data.techfeatures import ArrayManager
+from ..data_processors.fx_history_data.vo import BarData
 
 
 class ForexEngineer:
+
     @timer
     def download_data(self,
             ticker_list: list,
             time_interval: str,
             start_date: datetime,
             end_date: datetime
-    ) -> pd.DataFrame:
+    ) -> List[BarData]:
         """"""
         downloader = MtDbDownloader(
             start_date=start_date,
             end_date=end_date,
             ticker_list=ticker_list
         )
-        data_df = downloader.fetch_data()
+        bars = downloader.fetch_data()
 
-        return data_df
+        return bars
 
     @timer
     def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
+        # fill time gap to ensure all symbols has same date, and fill NONE pricing data by last price
         time = df["time"].unique()
         symbol = df["symbol"].unique()
         columns = df.columns.drop(["time", "symbol"])
@@ -39,6 +45,11 @@ class ForexEngineer:
         df = df.fillna(method="pad")
         df.rename(columns={"level_1":"symbol", "level_0":"time"}, inplace=True)
         return df
+
+    @timer
+    def add_time_features(self, df:pd.DataFrame) -> pd.DataFrame:
+        df_time = time_features(df, timeenc=1, freq="t")
+        return df_time
 
     @timer
     def add_technical_indicator(
@@ -77,6 +88,10 @@ class ForexEngineer:
             )
         df = df.sort_values(by=["time", "symbol"])
         return df
+
+    @timer
+    def add_technical_indicator_by_talib(self, data: pd.DataFrame, tech_indicator_list: list[str]):
+        return tech_features(data, tech_indicator_list)
 
     def calculate_turbulence(
             self, data: pd.DataFrame, time_period: int = 24*60*15

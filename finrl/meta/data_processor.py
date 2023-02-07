@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+from typing import List
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
 from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
@@ -9,6 +10,7 @@ from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
 from finrl.meta.data_processors.processor_forex import ForexEngineer as Forex
+from finrl.meta.data_processors.fx_history_data.vo import BarData
 
 
 class DataProcessor:
@@ -38,14 +40,15 @@ class DataProcessor:
 
     def download_data(
         self, ticker_list, start_date, end_date, time_interval
-    ) -> pd.DataFrame:
-        df = self.processor.download_data(
+    ) -> List[BarData]:
+        bars: List[BarData] = []
+        bars = self.processor.download_data(
             ticker_list=ticker_list,
             start_date=start_date,
             end_date=end_date,
             time_interval=time_interval,
         )
-        return df
+        return bars
 
     def clean_data(self, df) -> pd.DataFrame:
         df = self.processor.clean_data(df)
@@ -57,6 +60,14 @@ class DataProcessor:
         df = self.processor.add_technical_indicator(df, tech_indicator_list)
 
         return df
+
+    def add_time_features(self,df) -> pd.DataFrame:
+        df = self.processor.add_time_features(df)
+        return df
+
+    def add_technical_indicator_by_talib(self,df, tech_indicator_list):
+        arr = self.processor.add_technical_indicator_by_talib(df, tech_indicator_list)
+        return arr
 
     def add_turbulence(self, df) -> pd.DataFrame:
         df = self.processor.add_turbulence(df)
