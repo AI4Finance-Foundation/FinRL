@@ -19,9 +19,9 @@ except FileNotFoundError:
 
 setup(
     name="finrl",
-    version="0.3.5",
+    version="0.3.6",
     include_package_data=True,
-    author="Hongyang Yang, Xiaoyang Liu",
+    author="Hongyang Yang, Xiaoyang Liu, Ming Zhu",
     author_email="hy2500@columbia.edu",
     url="https://github.com/finrl/finrl-library",
     license="MIT",
