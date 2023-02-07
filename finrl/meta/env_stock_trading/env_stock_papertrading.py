@@ -164,7 +164,6 @@ class AlpacaPaperTrading:
         tAMO.join()
         print("Market opened.")
         while True:
-
             # Figure out when the market will close so we can prepare to sell beforehand.
             clock = self.alpaca.get_clock()
             closingTime = clock.next_close.replace(
