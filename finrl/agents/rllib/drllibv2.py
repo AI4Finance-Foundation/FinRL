@@ -148,7 +148,6 @@ class DRLlibv2:
         checkpoint_freq: int = 0,
         reuse_actors: bool = False,
     ):
-
         if train_env is not None:
             register_env(train_env_name, lambda config: train_env)
 

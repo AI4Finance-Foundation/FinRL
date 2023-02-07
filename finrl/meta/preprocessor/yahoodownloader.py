@@ -28,7 +28,6 @@ class YahooDownloader:
     """
 
     def __init__(self, start_date: str, end_date: str, ticker_list: list):
-
         self.start_date = start_date
         self.end_date = end_date
         self.ticker_list = ticker_list

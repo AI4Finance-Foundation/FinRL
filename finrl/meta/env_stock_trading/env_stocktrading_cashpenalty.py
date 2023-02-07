@@ -205,7 +205,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         return state, reward, True, {}
 
     def log_step(self, reason, terminal_reward=None):
-
         if terminal_reward is None:
             terminal_reward = self.account_information["reward"][-1]
         cash_pct = (
