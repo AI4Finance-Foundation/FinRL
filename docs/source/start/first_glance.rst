@@ -3,7 +3,7 @@
 First Glance
 ============================
 
-To quickly understand what is FinRL and how it works, you can go through the notebook *Stock_NeurIPS2018.ipynb* in our tutorial (https://github.com/AI4Finance-Foundation/FinRL/tree/master/tutorials/1-Introduction)
+To quickly understand what is FinRL and how it works, you can go through the series Stock_NeurIPS2018, including *Stock_NeurIPS2018_Data.ipynb*, *Stock_NeurIPS2018_Train.ipynb*, *Stock_NeurIPS2018_Backtest.ipynb* in our examples directory (https://github.com/AI4Finance-Foundation/FinRL/tree/master/examples)
 
 This is how we use Deep Reinforcement Learning for Stock Trading from scratch.
 
