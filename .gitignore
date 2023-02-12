@@ -3,6 +3,7 @@
 *.pkl
 *.csv
 *.pth
+tutorials/3-Practical/papertrading_erl/
 
 # remove DS_Store
 **/.DS_Store
