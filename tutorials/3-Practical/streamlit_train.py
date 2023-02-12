@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime  as dt
 import multiprocessing
+import json
 from finrl.train import train
 from finrl.test import test
 from finrl.config_tickers import *
@@ -11,9 +12,11 @@ from finrl.meta.data_processor import DataProcessor
 from finrl.plot import backtest_stats, get_daily_return, get_baseline
 from train_and_test import backtest_plot, get_baseline
 from common import *
-from train_alpaca import MODEL_IDX
 
 # img = 'choice_distribution.png'
+
+
+log_dict = {}
 
 st.header('FinRL GUI', anchor=None)
 st.subheader('Train', anchor=None)
@@ -28,6 +31,7 @@ Log = st.checkbox("Track log", value=True)
 
 ticker_list = eval(StockPool)[:int(NumStock)]
 env = StockTradingEnv
+MODEL_IDX = f'{Algo.lower()}_{TrainStartDate}_{TrainEndDate}'
 save_path = f'./papertrading_erl/{MODEL_IDX}/'
 
 def train_process(**kwargs):
@@ -52,11 +56,11 @@ def train_process(**kwargs):
 
 
 if st.button('Train'):
-      ERL_PARAMS = {"learning_rate": 3e-6, "batch_size": 2048, "gamma": 0.985,
+      ErlParams = {"learning_rate": 3e-6, "batch_size": 2048, "gamma": 0.985,
               "seed": 312, "net_dimension": 512, "target_step": 5000, "eval_gap": 30,
               "eval_times": 1}
       st.text('Training Hyperparameters:')
-      Hyperparams = st.json(ERL_PARAMS)
+      Hyperparams = st.json(ErlParams)
       st.text(f'Confs and Models saved to: {save_path}')
       training_args = {
       'start_date': TrainStartDate,
@@ -71,15 +75,37 @@ if st.button('Train'):
       'API_KEY': API_KEY,
       'API_SECRET': API_SECRET,
       'API_BASE_URL': API_BASE_URL,
-      'erl_params': ERL_PARAMS,
+      'erl_params': ErlParams,
       'cwd': save_path,  # current_working_dir
       'wandb': False,
       'break_step': 1e7
       }
+
       process = multiprocessing.Process(target=train_process, kwargs=training_args)
       process.daemon = True  # let subprocess run on its own without blocking the main process
       process.start()
       st.text(f'Process ID for current run: {process.pid}')
+
+      # logging above info
+      log_dict['StockPool'] = StockPool
+      log_dict['NumStock'] = NumStock
+      log_dict['TickerList'] = training_args['ticker_list']
+      log_dict['DataSource'] = training_args['data_source']
+      log_dict['IndicatorList'] = training_args['technical_indicator_list']
+      log_dict['Algo'] = Algo
+      log_dict['AlgoLib'] = AlgoLib
+      log_dict['TrainStartDate'] = TrainStartDate
+      log_dict['TrainEndDate'] = TrainEndDate
+      log_dict['TrainTradeInterval'] = TrainTradeInterval
+      log_dict['ErlParams'] = ErlParams
+      log_dict['BreakStep'] = training_args['break_step']
+      # log_dict['TrainArgs'] = training_args  # serialization error for json on dict of dict
+      log_dict['ProcessID'] = process.pid
+
+      print(log_dict)
+      with open(save_path + "conf.json", "w") as f:
+            json.dump(log_dict, f)
+
       # process.join()  # if join(), the main process will wait for the subprocess to finish before continuing
 
       # train(start_date=TrainStartDate,
@@ -144,8 +170,8 @@ if st.button('BackTest'):  # test
       figs = backtest_plot(account_value, baseline_df)
       from PIL import Image
 
-      figs.savefig(save_path + '/backtest.png')
-      image = Image.open(save_path + '/backtest.png')
+      figs.savefig(save_path + 'backtest.png')
+      image = Image.open(save_path + 'backtest.png')
       st.subheader('BackTest Results', anchor=None)
       st.image(image, caption='Results')
 
