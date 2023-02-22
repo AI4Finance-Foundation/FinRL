@@ -335,6 +335,69 @@ def main():
 
     # Obtain optimal portfolio sets that maximize return and minimize risk
 
+    # Dependencies
+    import numpy as np
+    import pandas as pd
+
+    # input k-portfolio 1 dataset comprising 15 stocks
+    # StockFileName = './DJIA_Apr112014_Apr112019_kpf1.csv'
+
+    Rows = 1259  # excluding header
+    Columns = 15  # excluding date
+    portfolioSize = 29  # set portfolio size
+
+    # read stock prices in a dataframe
+    # df = pd.read_csv(StockFileName,  nrows= Rows)
+
+    # extract asset labels
+    # assetLabels = df.columns[1:Columns+1].tolist()
+    # print(assetLabels)
+
+    # extract asset prices
+    # StockData = df.iloc[0:, 1:]
+    StockData = mvo.head(mvo.shape[0] - 336)
+    TradeData = mvo.tail(336)
+    # df.head()
+    TradeData.to_numpy()
+
+    # compute asset returns
+    arStockPrices = np.asarray(StockData)
+    [Rows, Cols] = arStockPrices.shape
+    arReturns = StockReturnsComputing(arStockPrices, Rows, Cols)
+
+    # compute mean returns and variance covariance matrix of returns
+    meanReturns = np.mean(arReturns, axis=0)
+    covReturns = np.cov(arReturns, rowvar=False)
+
+    # set precision for printing results
+    np.set_printoptions(precision=3, suppress=True)
+
+    # display mean returns and variance-covariance matrix of returns
+    print('Mean returns of assets in k-portfolio 1\n', meanReturns)
+    print('Variance-Covariance matrix of returns\n', covReturns)
+
+    from pypfopt.efficient_frontier import EfficientFrontier
+
+    ef_mean = EfficientFrontier(meanReturns, covReturns, weight_bounds=(0, 0.5))
+    raw_weights_mean = ef_mean.max_sharpe()
+    cleaned_weights_mean = ef_mean.clean_weights()
+    mvo_weights = np.array([1000000 * cleaned_weights_mean[i] for i in range(29)])
+    mvo_weights
+
+    LastPrice = np.array([1 / p for p in StockData.tail(1).to_numpy()[0]])
+    Initial_Portfolio = np.multiply(mvo_weights, LastPrice)
+    Initial_Portfolio
+
+    Portfolio_Assets = TradeData @ Initial_Portfolio
+    MVO_result = pd.DataFrame(Portfolio_Assets, columns=["Mean Var"])
+    MVO_result
+
+    df_result_a2c = df_account_value_a2c.set_index(df_account_value_a2c.columns[0])
+    df_result_ddpg = df_account_value_ddpg.set_index(df_account_value_ddpg.columns[0])
+    df_result_td3 = df_account_value_td3.set_index(df_account_value_td3.columns[0])
+    df_result_ppo = df_account_value_ppo.set_index(df_account_value_ppo.columns[0])
+    df_result_sac = df_account_value_sac.set_index(df_account_value_sac.columns[0])
+
 
 
 
