@@ -55,7 +55,8 @@ class YahooDownloader:
                 data_df = data_df.append(temp_df)
             else:
                 num_failures += 1
-        
+        if num_failures == len(self.ticker_list):
+            raise ValueError("no data is fetched.")
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:
