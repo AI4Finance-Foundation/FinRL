@@ -398,7 +398,16 @@ def main():
     df_result_ppo = df_account_value_ppo.set_index(df_account_value_ppo.columns[0])
     df_result_sac = df_account_value_sac.set_index(df_account_value_sac.columns[0])
 
+    result = pd.merge(df_result_a2c, df_result_ddpg, left_index=True, right_index=True)
+    result = pd.merge(result, df_result_td3, left_index=True, right_index=True)
+    result = pd.merge(result, df_result_ppo, left_index=True, right_index=True)
+    result = pd.merge(result, df_result_sac, left_index=True, right_index=True)
+    result = pd.merge(result, MVO_result, left_index=True, right_index=True)
+    result.columns = ['a2c', 'ddpg', 'td3', 'ppo', 'sac', 'mean var']
 
+    plt.rcParams["figure.figsize"] = (15, 5)
+    plt.figure()
+    result.plot()
 
 
 if __name__ == '__main__':
