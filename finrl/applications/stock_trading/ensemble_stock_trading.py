@@ -160,5 +160,6 @@ def main():
                   baseline_end=df_account_value.loc[len(df_account_value) - 1, 'date'])
 
 
-
+if __name__ == '__main__':
+    main()
 
