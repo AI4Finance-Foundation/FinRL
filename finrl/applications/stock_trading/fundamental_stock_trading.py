@@ -969,6 +969,7 @@ def main():
                       baseline_start=TEST_START_DATE,
                       baseline_end=TEST_END_DATE)
 
-
+if __name__ == '__main__':
+    main()
 
 
