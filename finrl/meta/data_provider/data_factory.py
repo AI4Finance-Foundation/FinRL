@@ -79,6 +79,7 @@ def data_provider(args, flag, data):
             freq=args.freq,
             target=args.target,
             flag=flag,
+            size=[args.seq_len, args.label_len, args.pred_len]
         )
         print(flag, len(data_set))
         data_loader = DataLoader(
