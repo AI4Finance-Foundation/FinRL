@@ -31,8 +31,11 @@ Log = st.checkbox("Track log", value=True)
 
 ticker_list = eval(StockPool)[:int(NumStock)]
 env = StockTradingEnv
-MODEL_IDX = f'{Algo.lower()}_{TrainStartDate}_{TrainEndDate}'
-save_dir = f'./train_results/'
+save_dir = f'./log/'
+# get the current date and time
+now = dt.datetime.now()
+time = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}-{now.second}"
+MODEL_IDX = f'{Algo.lower()}_{TrainStartDate}_{TrainEndDate}_{time}'
 save_path = save_dir+f'{MODEL_IDX}/'
 os.makedirs(save_path, exist_ok=True)
 
