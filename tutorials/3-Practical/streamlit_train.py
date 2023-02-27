@@ -1,7 +1,7 @@
 import streamlit as st
 import datetime  as dt
 import multiprocessing
-import json
+import json, os
 from finrl.train import train
 from finrl.test import test
 from finrl.config_tickers import *
@@ -32,7 +32,8 @@ Log = st.checkbox("Track log", value=True)
 ticker_list = eval(StockPool)[:int(NumStock)]
 env = StockTradingEnv
 MODEL_IDX = f'{Algo.lower()}_{TrainStartDate}_{TrainEndDate}'
-save_path = f'./papertrading_erl/{MODEL_IDX}/'
+save_dir = f'./train_results/'
+save_path = save_dir+f'{MODEL_IDX}/'
 
 def train_process(**kwargs):
 #     for key, value in kwargs.items():     
@@ -103,8 +104,9 @@ if st.button('Train'):
       log_dict['ProcessID'] = process.pid
 
       print(log_dict)
-      with open(save_path + "conf.json", "w") as f:
-            json.dump(log_dict, f)
+      save_file = open(save_path + "conf.json", "w")
+      json.dump(log_dict, save_file)
+      save_file.close()
 
       # process.join()  # if join(), the main process will wait for the subprocess to finish before continuing
 
@@ -130,7 +132,7 @@ st.subheader('BackTest', anchor=None)
 TestStartDate = st.date_input("Select a start date for backtest", value=dt.date(2022, 6, 1)).strftime("%Y-%-m-%-d") 
 TestEndDate = st.date_input("Select an end date for backtest", value=dt.date(2022, 9, 1)).strftime("%Y-%-m-%-d") 
 TestTradeInterval = st.radio("Select a trade interval", ['5Min', '1Min', '15Min', '30Min', '60Min'], key=2)
-Baseline = st.selectbox("Select a baseline", ['^DJI',])
+Baseline = st.selectbox("Select a baseline", ['^DJI',], key=3)
 # print(TestStartDate, TestEndDate, TestTradeInterval)
 # st.image(img, width=1000)
 
@@ -176,5 +178,58 @@ if st.button('BackTest'):  # test
       st.image(image, caption='Results')
 
 
-else:
-      pass
+st.subheader('Compare', anchor=None)
+CompareStartDate = st.date_input("Select a start date for compare", value=dt.date(2022, 6, 1)).strftime("%Y-%-m-%-d") 
+CompareEndDate = st.date_input("Select an end date for compare", value=dt.date(2022, 9, 1)).strftime("%Y-%-m-%-d") 
+CompareTradeInterval = st.radio("Select a trade interval", ['5Min', '1Min', '15Min', '30Min', '60Min'], key=4)
+Baseline = st.selectbox("Select a baseline", ['^DJI',], key=5)
+
+# get all current ckpts
+ckpt_list = []
+for filename in os.listdir(save_dir):
+    # check if the item is a directory
+      if os.path.isdir(os.path.join(save_dir, filename)):
+            # print(os.path.join(save_path, filename))
+            ckpt_list.append(filename)
+st.radio("Select checkpoints", ckpt_list)
+
+if st.button('Compare'):  # test
+
+      account_value = test(start_date = CompareStartDate, 
+            end_date = CompareEndDate,
+            ticker_list = ticker_list, 
+            data_source = 'alpaca',
+            time_interval= CompareTradeInterval, 
+            technical_indicator_list= INDICATORS,
+            drl_lib=AlgoLib, 
+            env=env,
+            model_name=Algo.lower(), 
+            API_KEY = API_KEY, 
+            API_SECRET = API_SECRET, 
+            API_BASE_URL = API_BASE_URL,
+      #       erl_params=ERL_PARAMS,
+            cwd=save_path, #current_working_dir
+            if_plot=True, # to return a dataframe for backtest_plot
+            break_step=1e7)
+
+      #baseline stats
+      print("==============Get Baseline Stats===========")
+      baseline_df = get_baseline(
+            ticker = Baseline, 
+            start = TestStartDate,
+            end = TestEndDate)
+
+      stats = backtest_stats(baseline_df, value_col_name = 'close')
+
+      print("==============Compare to DJIA===========")
+      # %matplotlib inline
+      # S&P 500: ^GSPC
+      # Dow Jones Index: ^DJI
+      # NASDAQ 100: ^NDX
+      figs = backtest_plot(account_value, baseline_df)
+      from PIL import Image
+
+      figs.savefig(save_path + 'backtest.png')
+      image = Image.open(save_path + 'backtest.png')
+      st.subheader('BackTest Results', anchor=None)
+      st.image(image, caption='Results')
