@@ -37,14 +37,14 @@ now = dt.datetime.now()
 time = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}-{now.second}"
 MODEL_IDX = f'{Algo.lower()}_{TrainStartDate}_{TrainEndDate}_{time}'
 save_path = save_dir+f'{MODEL_IDX}/'
-os.makedirs(save_path, exist_ok=True)
+# os.makedirs(save_path, exist_ok=True)
 
 def train_process(**kwargs):
       import logging
       import os
       log_path = os.path.join(save_path, 'process.log')
       logging.basicConfig(filename=log_path,
-                          filemode='a',
+                          filemode='w+',
                           format='%(asctime)s,%(msecs)d (%(name)s) [%(levelname)s] %(message)s',
                           datefmt='%H:%M:%S',
                           level=logging.NOTSET)
@@ -117,7 +117,9 @@ if st.button('Train'):
       log_dict['ProcessID'] = process.pid
 
       print(log_dict)
-      save_file = open(save_path + "conf.json", "w")
+      if not os.path.exists(save_path):
+            os.mkdir(save_path)
+      save_file = open(os.path.join(save_path, "conf.json"), "w")
       json.dump(log_dict, save_file)
       save_file.close()
 

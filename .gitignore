@@ -4,6 +4,7 @@
 *.csv
 *.pth
 tutorials/3-Practical/papertrading_erl/
+tutorials/3-Practical/log/
 
 # remove DS_Store
 **/.DS_Store
