@@ -44,7 +44,7 @@ def train_process(**kwargs):
       import os
       log_path = os.path.join(save_path, 'process.log')
       logging.basicConfig(filename=log_path,
-                          filemode='w+',
+                          filemode='a',
                           format='%(asctime)s,%(msecs)d (%(name)s) [%(levelname)s] %(message)s',
                           datefmt='%H:%M:%S',
                           level=logging.NOTSET)
@@ -90,7 +90,7 @@ if st.button('Train'):
       'API_SECRET': API_SECRET,
       'API_BASE_URL': API_BASE_URL,
       'erl_params': ErlParams,
-      'cwd': save_path,  # current_working_dir
+      'cwd': os.path.join(save_path, 'process/'),  # current_working_dir
       'wandb': False,
       'break_step': 1e7
       }
@@ -206,7 +206,7 @@ for filename in os.listdir(save_dir):
       if os.path.isdir(os.path.join(save_dir, filename)):
             # print(os.path.join(save_path, filename))
             ckpt_list.append(filename)
-st.radio("Select checkpoints", ckpt_list)
+SelectedCKPT = st.multiselect("Select checkpoints", ckpt_list)
 
 if st.button('Compare'):  # test
 
