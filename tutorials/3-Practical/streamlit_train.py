@@ -38,7 +38,7 @@ save_path = save_dir+f'{MODEL_IDX}/'
 def train_process(**kwargs):
       import logging
       import os
-      log_path = os.path.join(kwargs['cwd'], 'current_log.log')
+      log_path = os.path.join(save_path, 'process.log')
       logging.basicConfig(filename=log_path,
                           filemode='a',
                           format='%(asctime)s,%(msecs)d (%(name)s) [%(levelname)s] %(message)s',
