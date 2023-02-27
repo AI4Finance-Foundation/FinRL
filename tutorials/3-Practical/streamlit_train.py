@@ -34,6 +34,7 @@ env = StockTradingEnv
 MODEL_IDX = f'{Algo.lower()}_{TrainStartDate}_{TrainEndDate}'
 save_dir = f'./train_results/'
 save_path = save_dir+f'{MODEL_IDX}/'
+os.makedirs(save_path, exist_ok=True)
 
 def train_process(**kwargs):
       import logging
