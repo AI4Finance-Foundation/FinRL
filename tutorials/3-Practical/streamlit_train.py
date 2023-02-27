@@ -35,6 +35,15 @@ MODEL_IDX = f'{Algo.lower()}_{TrainStartDate}_{TrainEndDate}'
 save_path = f'./papertrading_erl/{MODEL_IDX}/'
 
 def train_process(**kwargs):
+      import logging
+      import os
+      log_path = os.path.join(kwargs['cwd'], 'current_log.log')
+      logging.basicConfig(filename=log_path,
+                          filemode='a',
+                          format='%(asctime)s,%(msecs)d (%(name)s) [%(levelname)s] %(message)s',
+                          datefmt='%H:%M:%S',
+                          level=logging.NOTSET)
+
 #     for key, value in kwargs.items():     
       train(start_date=kwargs['start_date'],
             end_date=kwargs['end_date'],
