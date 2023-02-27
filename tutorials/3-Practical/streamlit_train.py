@@ -112,6 +112,8 @@ if st.button('Train'):
       log_dict['ProcessID'] = process.pid
 
       print(log_dict)
+      if not os.path.exists(save_path):
+            os.mkdir(save_path)
       with open(save_path + "conf.json", "w") as f:
             json.dump(log_dict, f)
 
