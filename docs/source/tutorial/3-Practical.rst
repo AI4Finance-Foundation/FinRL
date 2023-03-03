@@ -8,7 +8,7 @@ This section is recommended for users with some familiarity of FinRL or FinRL-Me
 
 Notebooks in this section includes:
 
-`FinRL_MultiCrypto_Trading.ipynb <https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/3-Practical/FinRL_MultiCrypto_Trading.ipynb>`_,
+`FinRL_MultiCrypto_Trading.ipynb <https://github.com/AI4Finance-Foundation/FinRL-Tutorials/blob/master/3-Practical/FinRL_MultiCrypto_Trading.ipynb>`_,
 
 In this notebook, we provide a demo of multiple cryptocurrency trading. It shows a whole process of how to use APIs in FinRL and FinRL-Meta to do cryptocurrency trading.
 
