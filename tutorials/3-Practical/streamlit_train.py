@@ -19,7 +19,7 @@ def train_process(**kwargs):
     save_path = kwargs['cwd']
     if not os.path.exists(save_path):
         os.mkdir(save_path)
-    log_path = os.path.join(save_path, 'process.log')
+    log_path = os.path.join(save_path, '..', 'process.log')
     init_logger(log_path)
 
     #     for key, value in kwargs.items():
