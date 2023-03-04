@@ -1,6 +1,7 @@
 def init_logger(log_path):
     import logging
     logger = logging.getLogger(log_path)
+    logger.propagate = False
     logger.setLevel(level=logging.INFO)
     file_handler = logging.FileHandler(log_path)
     file_handler.setLevel(level=logging.INFO)

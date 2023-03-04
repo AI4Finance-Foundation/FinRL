@@ -43,8 +43,6 @@ def train_process(**kwargs):
 
 
 if __name__ == '__main__':
-    # img = 'choice_distribution.png'
-
     import streamlit as st
 
     log_dict = {}
