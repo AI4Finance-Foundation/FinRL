@@ -111,7 +111,7 @@ class Exp_Long_Term_Forecast_MT4(Exp_Basic):
         for epoch in range(self.args.train_epochs):
             iter_count = 0
             train_loss = []
-
+            # torch.cuda.empty_cache()
             self.model.train()
             epoch_time = time.time()
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(train_loader):

@@ -14,6 +14,9 @@ from finrl.config_tickers import FX_STUDY
 
 import random
 import numpy as np
+# torch.cuda.set_per_process_memory_fraction(0.5, 0)
+torch.cuda.empty_cache()
+
 
 fix_seed = 2021
 random.seed(fix_seed)
@@ -62,9 +65,9 @@ parser.add_argument('--anomaly_ratio', type=float, default=0.25, help='prior ano
 # model define
 parser.add_argument('--top_k', type=int, default=5, help='for TimesBlock')
 parser.add_argument('--num_kernels', type=int, default=6, help='for Inception')
-parser.add_argument('--enc_in', type=int, default=7, help='encoder input size')
-parser.add_argument('--dec_in', type=int, default=7, help='decoder input size')
-parser.add_argument('--c_out', type=int, default=7, help='output size')
+parser.add_argument('--enc_in', type=int, default=4, help='encoder input size')
+parser.add_argument('--dec_in', type=int, default=4, help='decoder input size')
+parser.add_argument('--c_out', type=int, default=4, help='output size')
 parser.add_argument('--d_model', type=int, default=512, help='dimension of model')
 parser.add_argument('--n_heads', type=int, default=8, help='num of heads')
 parser.add_argument('--e_layers', type=int, default=2, help='num of encoder layers')
