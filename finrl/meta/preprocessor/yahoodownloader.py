@@ -52,7 +52,7 @@ class YahooDownloader:
             )
             temp_df["tic"] = tic
             if len(temp_df) > 0:
-                data_df = data_df.append(temp_df)
+                data_df = data_df.concat(temp_df)
             else:
                 num_failures += 1
         if num_failures == len(self.ticker_list):
