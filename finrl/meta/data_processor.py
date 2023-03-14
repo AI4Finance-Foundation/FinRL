@@ -13,7 +13,6 @@ from finrl.meta.data_processors.processor_yahoofinance import (
 class DataProcessor:
     def __init__(self, data_source, **kwargs):
         if data_source == "alpaca":
-
             try:
                 API_KEY = kwargs.get("API_KEY")
                 API_SECRET = kwargs.get("API_SECRET")

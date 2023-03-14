@@ -173,7 +173,6 @@ class DRLEnsembleAgent:
         seed=None,
         verbose=1,
     ):
-
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
 
@@ -247,7 +246,6 @@ class DRLEnsembleAgent:
         tech_indicator_list,
         print_verbosity,
     ):
-
         self.df = df
         self.train_period = train_period
         self.val_test_period = val_test_period
