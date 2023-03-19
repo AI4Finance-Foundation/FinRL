@@ -2,11 +2,11 @@
 
 A multi-stage machine learning approach is a promising methodology for analyzing financial big data, especially when learning from alpha factors or smart investors. Our proposed system automates this workflow, starting with replicating these strategies, and then using reinforcement learning techniques to further refine the results.
 
-By first replicating successful strategies, our system can verify the effectiveness of the approach and identify potential weaknesses or areas for improvement. This process provides a strong foundation for further refinement using reinforcement learning, which can help to optimize and fine-tune the strategies for maximum performance.
+In complex tasks such as Go and Atari games, imitation learning is often used as a starting point to approximate human-level performance. Imitation learning involves training a model to imitate a human's behavior, typically using a dataset of expert demonstrations. This process provides a strong foundation for further refinement using reinforcement learning, which could learn through trial and error to find strategies that surpass human-level performance and achieve superhuman play.
 
-By automating this workflow, our system can save valuable time and resources, while also providing more accurate and reliable results. Ultimately, this approach can help to identify profitable investment opportunities and inform smarter financial decision-making.
+By automating this workflow, our system can analogously save valuable time and resources, while also providing more accurate and reliable results. Ultimately, this approach can help to identify profitable investment opportunities and inform smarter financial decision-making.
 
-## **File Structure
+## File Structure
 
 **1-Stock Selection**		
 
