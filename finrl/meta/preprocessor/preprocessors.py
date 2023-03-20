@@ -27,7 +27,7 @@ def data_split(df, start, end, target_date_col="date"):
     :param data: (df) pandas dataframe, start, end
     :return: (df) pandas dataframe
     """
-    data = df[(df[target_date_col] >= start) & (df[target_date_col] < end)]
+    data = df[(df[target_date_col] >= start) & (df[target_date_col] <= end)]
     data = data.sort_values([target_date_col, "tic"], ignore_index=True)
     data.index = data[target_date_col].factorize()[0]
     return data
@@ -155,9 +155,11 @@ class FeatureEngineer:
                     temp_indicator["date"] = df[df.tic == unique_ticker[i]][
                         "date"
                     ].to_list()
-                    indicator_df = indicator_df.append(
-                        temp_indicator, ignore_index=True
-                    )
+                    # indicator_df = indicator_df.append(
+                    #     temp_indicator, ignore_index=True
+                    # )
+                    indicator_df = pd.concat([indicator_df, temp_indicator], axis=0,ignore_index=True)
+
                 except Exception as e:
                     print(e)
             df = df.merge(
