@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import copy
 import datetime
 import os
-import copy
+from datetime import date
+from datetime import timedelta
+from typing import List
+from typing import Tuple
+
 import numpy as np
-from datetime import date, timedelta
-from typing import List, Tuple
+
 
 # filename: str
 # output: stockname
@@ -64,14 +68,15 @@ def remove_all_files(remove, path_of_data):
 def date2str(dat: datetime.date) -> str:
     return datetime.date.strftime(dat, "%Y-%m-%d")
 
+
 def str2date(dat: str) -> datetime.date:
     return datetime.datetime.strptime(dat, "%Y-%m-%d").date()
 
 
 # include start_date, inclue end_date. step: delta
-def calc_dates(start_date: datetime.date,
-               end_date: datetime.date,
-               delta: datetime.timedelta) -> List[str]:
+def calc_dates(
+    start_date: datetime.date, end_date: datetime.date, delta: datetime.timedelta
+) -> list[str]:
     dates = []
     dat = copy.deepcopy(start_date)
     while dat <= end_date:
@@ -80,13 +85,16 @@ def calc_dates(start_date: datetime.date,
         dat += delta
     return dates
 
+
 # init_train_dates: the init train_dates, but not separated to subsets, e.g.,'2010-01-01', ...'2021-10-01'
 # init_trade_dates: the trade_dates, but not separated to subsets
 # num_subsets_during_trade: the num of subsets that trade_dates splits.
 # return: train_starts, train_ends, trade_starts, trade_ends, which has the same length num_subsets_during_trade
-def calc_train_trade_starts_ends_during_trade(init_train_dates: List[str],
-                                              init_trade_dates: List[str],
-                                              num_subsets_during_trade: int):
+def calc_train_trade_starts_ends_during_trade(
+    init_train_dates: list[str],
+    init_trade_dates: list[str],
+    num_subsets_during_trade: int,
+):
     trade_dates_length = len(init_trade_dates)
     train_window_length = len(init_train_dates)
     trade_window_length = int(np.ceil(trade_dates_length / num_subsets_during_trade))
@@ -100,15 +108,17 @@ def calc_train_trade_starts_ends_during_trade(init_train_dates: List[str],
         trade_start_index = train_window_length + i * trade_window_length
         trade_start = dates[trade_start_index]
         trade_starts.append(trade_start)
-        trade_end_index = min(trade_start_index + trade_window_length - 1, len(dates) - 1)
+        trade_end_index = min(
+            trade_start_index + trade_window_length - 1, len(dates) - 1
+        )
         trade_end = dates[trade_end_index]
         trade_ends.append(trade_end)
         train_start = dates[trade_start_index - train_window_length]
         train_starts.append(train_start)
         train_end = dates[trade_start_index - 1]
         train_ends.append(train_end)
-    print('train_starts: ', train_starts)
-    print('train_ends__: ', train_ends)
-    print('trade_starts: ', trade_starts)
-    print('trade_ends__: ', trade_ends)
+    print("train_starts: ", train_starts)
+    print("train_ends__: ", train_ends)
+    print("trade_starts: ", trade_starts)
+    print("trade_ends__: ", trade_ends)
     return train_starts, train_ends, trade_starts, trade_ends
