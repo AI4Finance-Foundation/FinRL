@@ -45,7 +45,7 @@ def train_process(**kwargs):
 if __name__ == '__main__':
     import streamlit as st
 
-    log_dict = {}
+    save_dir = f'./log/'
 
     st.header('FinRL GUI', anchor=None)
     st.subheader('Train', anchor=None)
@@ -60,7 +60,6 @@ if __name__ == '__main__':
 
     ticker_list = eval(StockPool)[:int(NumStock)]
     env = StockTradingEnv
-    save_dir = f'./log/'
     # get the current date and time
     now = dt.datetime.now()
     time = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}-{now.second}"
@@ -69,6 +68,8 @@ if __name__ == '__main__':
     # os.makedirs(save_path, exist_ok=True)
 
     if st.button('Train'):
+          log_dict = {}
+
           ErlParams = {"learning_rate": 3e-6, "batch_size": 2048, "gamma": 0.985,
                   "seed": 312, "net_dimension": 512, "target_step": 5000, "eval_gap": 30,
                   "eval_times": 1}
@@ -150,7 +151,34 @@ if __name__ == '__main__':
     # print(TestStartDate, TestEndDate, TestTradeInterval)
     # st.image(img, width=1000)
 
+    # get all current ckpts
+    ckpt_list = []
+
+    if not os.path.exists(save_dir):
+        os.mkdir(save_dir)
+    for filename in os.listdir(save_dir):
+        # check if the item is a directory
+          if os.path.isdir(os.path.join(save_dir, filename)):
+                # print(os.path.join(save_path, filename))
+                ckpt_list.append(filename)
+    SelectedCKPT = st.selectbox("Select checkpoint", ckpt_list, key=4)  # select one ckpt
+    save_path = save_dir+SelectedCKPT
+
     if st.button('BackTest'):  # test
+          test_log_dict = {}
+
+          # logging above info
+          test_log_dict['StockPool'] = StockPool
+          test_log_dict['NumStock'] = NumStock
+      #     test_log_dict['TickerList'] = ticker_list
+          test_log_dict['DataSource'] = 'alpaca'
+      #     test_log_dict['IndicatorList'] = INDICATORS
+          test_log_dict['TestStartDate'] = TestStartDate
+          test_log_dict['TestEndDate'] = TestEndDate
+          test_log_dict['TestTradeInterval'] = TestTradeInterval
+          Hyperparams = st.json(test_log_dict)
+
+      #     print(test_log_dict)
 
           account_value = test(start_date = TestStartDate,
                 end_date = TestEndDate,
@@ -168,6 +196,7 @@ if __name__ == '__main__':
                 cwd=save_path, #current_working_dir
                 if_plot=True, # to return a dataframe for backtest_plot
                 break_step=1e7)
+
 
           #baseline stats
           print("==============Get Baseline Stats===========")
@@ -195,8 +224,8 @@ if __name__ == '__main__':
     st.subheader('Compare', anchor=None)
     CompareStartDate = st.date_input("Select a start date for compare", value=dt.date(2022, 6, 1)).strftime("%Y-%-m-%-d")
     CompareEndDate = st.date_input("Select an end date for compare", value=dt.date(2022, 9, 1)).strftime("%Y-%-m-%-d")
-    CompareTradeInterval = st.radio("Select a trade interval", ['5Min', '1Min', '15Min', '30Min', '60Min'], key=4)
-    Baseline = st.selectbox("Select a baseline", ['^DJI',], key=5)
+    CompareTradeInterval = st.radio("Select a trade interval", ['5Min', '1Min', '15Min', '30Min', '60Min'], key=5)
+    Baseline = st.selectbox("Select a baseline", ['^DJI',], key=6)
 
     print(os.getcwd())
     # get all current ckpts
@@ -209,7 +238,7 @@ if __name__ == '__main__':
           if os.path.isdir(os.path.join(save_dir, filename)):
                 # print(os.path.join(save_path, filename))
                 ckpt_list.append(filename)
-    SelectedCKPT = st.multiselect("Select checkpoints", ckpt_list)
+    SelectedCKPT = st.multiselect("Select checkpoints", ckpt_list)  # select multiple checkpoints
 
     if st.button('Compare'):  # test
 
