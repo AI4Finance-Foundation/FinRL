@@ -214,9 +214,10 @@ if __name__ == '__main__':
           # NASDAQ 100: ^NDX
           figs = backtest_plot(account_value, baseline_df)
           from PIL import Image
-
-          figs.savefig(save_path + 'backtest.png')
-          image = Image.open(save_path + 'backtest.png')
+      
+          image_path = os.path.join(save_path, 'backtest.png')
+          figs.savefig(os.path.join(image_path))
+          image = Image.open(image_path)
           st.subheader('BackTest Results', anchor=None)
           st.image(image, caption='Results')
 
@@ -275,8 +276,8 @@ if __name__ == '__main__':
           # NASDAQ 100: ^NDX
           figs = backtest_plot(account_value, baseline_df)
           from PIL import Image
-
-          figs.savefig(save_path + 'backtest.png')
-          image = Image.open(save_path + 'backtest.png')
+          image_path = os.path.join(save_path, 'compare.png')
+          figs.savefig(image_path)
+          image = Image.open(image_path)
           st.subheader('BackTest Results', anchor=None)
           st.image(image, caption='Results')
