@@ -84,7 +84,7 @@ def calc_dates(start_date: datetime.date,
 # init_trade_dates: the trade_dates, but not separated to subsets
 # num_days_if_rolling: the num of days in a subset if trade_dates splits.
 # return: train_starts, train_ends, trade_starts, trade_ends, which has the same length num_subsets_if_rolling
-# start is include, end is not include. If endIndex is len(dates), end is None
+# start is include, end is not include. The max of endIndex is len(dates) - 1.
 def calc_train_trade_starts_ends_if_rolling(init_train_dates: List[str],
                                             init_trade_dates: List[str],
                                             trade_window_length2: int) \
