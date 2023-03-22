@@ -267,50 +267,6 @@ def plot_return(result: pd.DataFrame(),
                 num_days_xticks=num_days_xticks,
                 xrotation=xrotation)
 
-    # x = result[column_as_x].values.tolist()
-    #
-    # plt.rcParams["figure.figsize"] = (15, 5)
-    # plt.figure();
-    # # result.plot();
-    #
-    # ax = plt.subplot(1, 1, 1)
-    # colors = ['black', 'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', ]
-    # for i in range(len(columns_strtegy)):
-    #     col = columns_strtegy[i]
-    #     ax.plot(x, result[col], color=colors[i], linewidth=1, linestyle='-', )
-    #
-    # plt.title('', fontsize=20)
-    # plt.xlabel(xlabel, fontsize=20)
-    # plt.ylabel(ylabel, fontsize=20)
-    #
-    # plt.legend(labels=columns_strtegy, loc='best')
-    #
-    # # plt.legend(labels=['PPO', 'DJIA'], loc='best')
-    #
-    # # set grid
-    # plt.grid()
-    #
-    # # 设置每月定位符
-    # ax.xaxis.set_major_locator(mdates.MonthLocator())  # interval = 1
-    #
-    # # # 配置横坐标
-    # # plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    # # plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
-    # # plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
-    #
-    # plt.xticks(size=15)  # 设置刻度大小
-    # plt.yticks(size=15)  # 设置刻度大小
-    #
-    # # #设置每隔多少距离⼀个刻度
-    # # plt.xticks(x[::60])
-    #
-    # # plt.gcf().autofmt_xdate()  # ⾃动旋转⽇期标记
-    #
-    # # plt.setp(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
-    #
-    # plt.savefig(savefig_filename)
-    #
-    # plt.show()
 
 def plot_return_from_csv(csv_file: str,
                          column_as_x: str,
