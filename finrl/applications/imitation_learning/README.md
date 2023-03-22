@@ -8,13 +8,13 @@ By automating this workflow, we can analogously save valuable time and resources
 
 ## File Structure
 
-**1-Stock Selection**		
+**1-Stock Selection**
 
 We identify a pool of stocks that are favoured by retail investors and have a high correlation between their trading preference and return rates. By analyzing the trading behaviour of retail investors, we can gain valuable insights into the stocks that are popular among this group and understand how their trading preferences affect the performance of these stocks.
 
 **2-Weight Initialization**
 
-We construct the action space, which will serve as data labels. The action space is a critical component of a machine learning approach, as it represents the set of actions that our algorithm can take in response to a data input. There are two key sources to inform the action construction: MVO (mean-variance optimization) and retail investor preferred weights.  
+We construct the action space, which will serve as data labels. The action space is a critical component of a machine learning approach, as it represents the set of actions that our algorithm can take in response to a data input. There are two key sources to inform the action construction: MVO (mean-variance optimization) and retail investor preferred weights.
 
 **3-Imitation Sandbox**
 
