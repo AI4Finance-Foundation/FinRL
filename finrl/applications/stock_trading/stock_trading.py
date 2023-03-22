@@ -15,7 +15,7 @@ from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.agents.stablebaselines3.models import DRLAgent
 from stable_baselines3.common.logger import configure
 from finrl.meta.data_processor import DataProcessor
-
+from config_tickers import DOW_30_TICKER
 from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline, plot_return
 import itertools
 
@@ -54,7 +54,7 @@ def main():
 
     df = YahooDownloader(start_date=TRAIN_START_DATE,
                          end_date=TRADE_END_DATE,
-                         ticker_list=config_tickers.DOW_30_TICKER).fetch_data()
+                         ticker_list=DOW_30_TICKER).fetch_data()
     df.sort_values(['date', 'tic'], ignore_index=True).head()
     fe = FeatureEngineer(
         use_technical_indicator=True,
@@ -282,9 +282,7 @@ def main():
     result = result.reset_index(drop=True)
     print('result: ', result)
     result.to_csv('result.csv')
-    # plt.rcParams['figure.figsize'] = (15, 5)
-    # plt.figure()
-    # result.plot()
+
     # plot fig
     plot_return(result=result, \
                 column_as_x='date', \
