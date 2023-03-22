@@ -155,8 +155,11 @@ class FeatureEngineer:
                     temp_indicator["date"] = df[df.tic == unique_ticker[i]][
                         "date"
                     ].to_list()
-                    indicator_df = indicator_df.append(
-                        temp_indicator, ignore_index=True
+                    # indicator_df = indicator_df.append(
+                    #     temp_indicator, ignore_index=True
+                    # )
+                    indicator_df = pd.concat(
+                        [indicator_df, temp_indicator], axis=0, ignore_index=True
                     )
                 except Exception as e:
                     print(e)
