@@ -158,7 +158,9 @@ class FeatureEngineer:
                     # indicator_df = indicator_df.append(
                     #     temp_indicator, ignore_index=True
                     # )
-                    indicator_df = pd.concat([indicator_df, temp_indicator], axis=0, ignore_index=True)
+                    indicator_df = pd.concat(
+                        [indicator_df, temp_indicator], axis=0, ignore_index=True
+                    )
                 except Exception as e:
                     print(e)
             df = df.merge(
