@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import copy
+import datetime
 from copy import deepcopy
 
 import matplotlib.dates as mdates
@@ -8,15 +10,11 @@ import numpy as np
 import pandas as pd
 import pyfolio
 from pyfolio import timeseries
-import matplotlib.pyplot as plt
-import pandas as pd
-import matplotlib.dates as mdates
-import numpy as np
-import copy
-import datetime
+
 from finrl import config
+from finrl.meta.data_processors.func import date2str
+from finrl.meta.data_processors.func import str2date
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
-from finrl.meta.data_processors.func import date2str, str2date
 
 
 def get_daily_return(df, value_col_name="account_value"):
@@ -125,38 +123,47 @@ def trx_plot(df_trade, df_actions, ticker_list):
         plt.xticks(rotation=45, ha="right")
         plt.show()
 
+
 # 2022-01-15 -> 01/15/2022
 def transfer_date(str_dat):
-    return datetime.datetime.strptime(str_dat, "%Y-%m-%d").date().strftime('%m/%d/%Y')
+    return datetime.datetime.strptime(str_dat, "%Y-%m-%d").date().strftime("%m/%d/%Y")
 
 
-
-    
-def plot_result_from_csv(csv_file: str,
-                        column_as_x: str,
-                        savefig_filename: str = 'fig/result.png',
-                        xlabel: str = 'Date',
-                        ylabel: str = 'Result',
-                        num_days_xticks: int = 20,
-                        xrotation: int = 0
-                         ):
+def plot_result_from_csv(
+    csv_file: str,
+    column_as_x: str,
+    savefig_filename: str = "fig/result.png",
+    xlabel: str = "Date",
+    ylabel: str = "Result",
+    num_days_xticks: int = 20,
+    xrotation: int = 0,
+):
     result = pd.read_csv(csv_file)
-    plot_result(result, column_as_x, savefig_filename, xlabel, ylabel, num_days_xticks, xrotation)
-    
-                
+    plot_result(
+        result,
+        column_as_x,
+        savefig_filename,
+        xlabel,
+        ylabel,
+        num_days_xticks,
+        xrotation,
+    )
+
+
 # select_start_date: included
 # select_end_date: included
 # is if_need_calc_return is True, it is account_value, and then transfer it to return
 # it is better that column_as_x is the first column, and the other columns are strategies
 # xrotation: the rotation of xlabel, may be used in dates
-def plot_result(result: pd.DataFrame(),
-                column_as_x: str,
-                savefig_filename: str = 'fig/result.png',
-                xlabel: str = 'Date',
-                ylabel: str = 'Result',
-                num_days_xticks: int = 20,
-                xrotation: int = 0
-                ):
+def plot_result(
+    result: pd.DataFrame(),
+    column_as_x: str,
+    savefig_filename: str = "fig/result.png",
+    xlabel: str = "Date",
+    ylabel: str = "Result",
+    num_days_xticks: int = 20,
+    xrotation: int = 0,
+):
     columns = result.columns
     columns_strtegy = []
     for i in range(len(columns)):
@@ -171,16 +178,35 @@ def plot_result(result: pd.DataFrame(),
     plt.figure()
 
     ax = plt.subplot(1, 1, 1)
-    colors = ['black', 'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'aliceblue', 'coral', 'darksalmon', 'firebrick', 'honeydew']
+    colors = [
+        "black",
+        "red",
+        "green",
+        "blue",
+        "cyan",
+        "magenta",
+        "yellow",
+        "aliceblue",
+        "coral",
+        "darksalmon",
+        "firebrick",
+        "honeydew",
+    ]
     for i in range(len(columns_strtegy)):
         col = columns_strtegy[i]
-        ax.plot(x, result[col], color=colors[i], linewidth=1, linestyle='-', )
+        ax.plot(
+            x,
+            result[col],
+            color=colors[i],
+            linewidth=1,
+            linestyle="-",
+        )
 
-    plt.title('', fontsize=20)
+    plt.title("", fontsize=20)
     plt.xlabel(xlabel, fontsize=20)
     plt.ylabel(ylabel, fontsize=20)
 
-    plt.legend(labels=columns_strtegy, loc='best')
+    plt.legend(labels=columns_strtegy, loc="best")
 
     # set grid
     plt.grid()
@@ -200,25 +226,26 @@ def plot_result(result: pd.DataFrame(),
 
     # plt.gcf().autofmt_xdate()  # ⾃动旋转⽇期标记
 
-    plt.setp(ax.get_xticklabels(), rotation=xrotation, horizontalalignment='right')
+    plt.setp(ax.get_xticklabels(), rotation=xrotation, horizontalalignment="right")
 
     plt.savefig(savefig_filename)
 
     plt.show()
 
 
-def plot_return(result: pd.DataFrame(),
-                column_as_x: str,
-                if_need_calc_return: bool,
-                savefig_filename: str = 'fig/result.png',
-                xlabel:str = 'Date',
-                ylabel:str = 'Return',
-                if_transfer_date: bool = True,
-                select_start_date: str = None,
-                select_end_date: str = None,
-                num_days_xticks: int = 20,
-                xrotation: int = 0
-                ):
+def plot_return(
+    result: pd.DataFrame(),
+    column_as_x: str,
+    if_need_calc_return: bool,
+    savefig_filename: str = "fig/result.png",
+    xlabel: str = "Date",
+    ylabel: str = "Return",
+    if_transfer_date: bool = True,
+    select_start_date: str = None,
+    select_end_date: str = None,
+    num_days_xticks: int = 20,
+    xrotation: int = 0,
+):
     if select_start_date is None:
         select_start_date: str = result[column_as_x].iloc[0]
         select_end_date: str = result[column_as_x].iloc[-1]
@@ -242,8 +269,12 @@ def plot_return(result: pd.DataFrame(),
     tmp_result = copy.deepcopy(result)
     result = pd.DataFrame()
     for i in range(num_rows):
-        if str2date(select_start_date) <= str2date(tmp_result[column_as_x][i]) <= str2date(select_end_date):
-            if '-' in tmp_result.iloc[i][column_as_x] and if_transfer_date:
+        if (
+            str2date(select_start_date)
+            <= str2date(tmp_result[column_as_x][i])
+            <= str2date(select_end_date)
+        ):
+            if "-" in tmp_result.iloc[i][column_as_x] and if_transfer_date:
                 new_date = transfer_date(tmp_result.iloc[i][column_as_x])
             else:
                 new_date = tmp_result.iloc[i][column_as_x]
@@ -259,36 +290,41 @@ def plot_return(result: pd.DataFrame(),
 
     result.reindex()
 
-    plot_result(result=result,
-                column_as_x=column_as_x,
-                savefig_filename=savefig_filename,
-                xlabel=xlabel,
-                ylabel=ylabel,
-                num_days_xticks=num_days_xticks,
-                xrotation=xrotation)
+    plot_result(
+        result=result,
+        column_as_x=column_as_x,
+        savefig_filename=savefig_filename,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        num_days_xticks=num_days_xticks,
+        xrotation=xrotation,
+    )
 
 
-def plot_return_from_csv(csv_file: str,
-                         column_as_x: str,
-                         if_need_calc_return: bool,
-                         savefig_filename: str = 'fig/result.png',
-                         xlabel: str = 'Date',
-                         ylabel: str = 'Return',
-                         if_transfer_date: bool = True,
-                         select_start_date: str = None,
-                         select_end_date: str = None,
-                         num_days_xticks: int = 20,
-                         xrotation: int = 0
-                         ):
+def plot_return_from_csv(
+    csv_file: str,
+    column_as_x: str,
+    if_need_calc_return: bool,
+    savefig_filename: str = "fig/result.png",
+    xlabel: str = "Date",
+    ylabel: str = "Return",
+    if_transfer_date: bool = True,
+    select_start_date: str = None,
+    select_end_date: str = None,
+    num_days_xticks: int = 20,
+    xrotation: int = 0,
+):
     result = pd.read_csv(csv_file)
-    plot_return(result,
-                column_as_x,
-                if_need_calc_return,
-                savefig_filename,
-                xlabel,
-                ylabel,
-                if_transfer_date,
-                select_start_date,
-                select_end_date,
-                num_days_xticks,
-                xrotation)
+    plot_return(
+        result,
+        column_as_x,
+        if_need_calc_return,
+        savefig_filename,
+        xlabel,
+        ylabel,
+        if_transfer_date,
+        select_start_date,
+        select_end_date,
+        num_days_xticks,
+        xrotation,
+    )
