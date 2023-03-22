@@ -4,7 +4,7 @@ We show a workflow of applying RL in algorithmic trading, which is a reproductio
 
 ## Step I. Data
 
-First, run the notebook: *Stock_NeurIPS2018_1_Data.ipynb*. 
+First, run the notebook: *Stock_NeurIPS2018_1_Data.ipynb*.
 
 It downloads and preprocesses stocks' OHLCV data.
 
@@ -12,7 +12,7 @@ It generates two csv files: *train.csv*, *trade.csv*. You can check the provided
 
 ## Step II. Train a Trading Agent
 
-Second, run the notebook: *Stock_NeurIPS2018_2_Train.ipynb*. 
+Second, run the notebook: *Stock_NeurIPS2018_2_Train.ipynb*.
 
 It shows how to process the data into an OpenAI gym-style envrionment, and then train a DRL agent.
 
