@@ -272,3 +272,31 @@ def main():
         result_sac.rename(columns={'account_value': 'SAC'}, inplace=True)
         result = pd.merge(result, result_sac, how='left')
 
+    # remove the rows with nan
+    result = result.dropna(axis=0, how='any')
+    # make sure that the first row is env_kwargs['initial_amount']
+    for col in result.columns:
+        if col != 'date' and result[col].tolist()[0] != env_kwargs['initial_amount']:
+            result[col] = result[col] / result[col].tolist()[0] * env_kwargs['initial_amount']
+
+    result = result.reset_index(drop=True)
+    print('result: ', result)
+    result.to_csv('result.csv')
+    # plt.rcParams['figure.figsize'] = (15, 5)
+    # plt.figure()
+    # result.plot()
+    # plot fig
+    plot_return(result=result, \
+                column_as_x='date', \
+                if_need_calc_return=True, \
+                savefig_filename='stock.png', \
+                xlabel='Date', \
+                ylabel='Return',
+                if_transfer_date=True,
+                num_days_xticks = 20,
+                )
+
+
+
+if __name__ == '__main__':
+    main()
