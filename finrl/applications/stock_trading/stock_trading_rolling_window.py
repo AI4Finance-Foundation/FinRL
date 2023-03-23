@@ -437,7 +437,7 @@ def main():
         result=result,
         column_as_x=date_col,
         if_need_calc_return=True,
-        savefig_filename="stock.png",
+        savefig_filename="stock_trading_rolling_window.png",
         xlabel="Date",
         ylabel="Return",
         if_transfer_date=True,
