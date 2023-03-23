@@ -168,7 +168,7 @@ def plot_result(
     columns_strtegy = []
     for i in range(len(columns)):
         col = columns[i]
-        if col != column_as_x:
+        if "Unnamed" not in col and col != column_as_x:
             columns_strtegy.append(col)
 
     result.reindex()
@@ -258,7 +258,7 @@ def plot_return(
         col = columns[i]
         if col == column_as_x:
             column_as_x_index = i
-        else:
+        elif "Unnamed" not in col:
             columns_strtegy.append(col)
             if if_need_calc_return:
                 result[col] = result[col] / result[col][select_start_date_index] - 1
@@ -268,6 +268,8 @@ def plot_return(
     num_rows, num_cols = result.shape
     tmp_result = copy.deepcopy(result)
     result = pd.DataFrame()
+    if_first_row = True
+    columns = []
     for i in range(num_rows):
         if (
             str2date(select_start_date)
@@ -280,7 +282,16 @@ def plot_return(
                 new_date = tmp_result.iloc[i][column_as_x]
             tmp_result.iloc[i, column_as_x_index] = new_date
             # print("tmp_result.iloc[i]: ", tmp_result.iloc[i])
-            result = result.append(tmp_result.iloc[i])
+            # result = result.append(tmp_result.iloc[i])
+            if if_first_row:
+                columns = tmp_result.iloc[i].index.tolist()
+                result = pd.DataFrame(columns=columns)
+                # result = pd.concat([result, tmp_result.iloc[i]], axis=1)
+                # result = pd.DataFrame(tmp_result.iloc[i])
+                # result.columns = tmp_result.iloc[i].index.tolist()
+                if_first_row = False
+            row = pd.DataFrame([tmp_result.iloc[i].tolist()], columns=columns)
+            result = pd.concat([result, row], axis=0)
 
     # print final return of each strategy
     final_return = {}
