@@ -82,9 +82,9 @@ def main():
     )
     combination = list(itertools.product(list_date, list_ticker))
 
-    init_train_trade_data = pd.DataFrame(combination, columns=[date_col, tic_col]).merge(
-        processed, on=[date_col, tic_col], how="left"
-    )
+    init_train_trade_data = pd.DataFrame(
+        combination, columns=[date_col, tic_col]
+    ).merge(processed, on=[date_col, tic_col], how="left")
     init_train_trade_data = init_train_trade_data[
         init_train_trade_data[date_col].isin(processed[date_col])
     ]
@@ -377,7 +377,9 @@ def main():
         # dji_i.rename(columns={'account_value': 'DJI'}, inplace=True)
 
         # select the rows between trade_start and trade_end (not included), since some values may not in this region
-        dji_i = dji_i.loc[(dji_i[date_col] >= trade_start) & (dji_i[date_col] < trade_end)]
+        dji_i = dji_i.loc[
+            (dji_i[date_col] >= trade_start) & (dji_i[date_col] < trade_end)
+        ]
 
         # init result_i by dji_i
         result_i = dji_i
@@ -428,7 +430,7 @@ def main():
 
     # stats
     for col in result.columns:
-        if col != date_col and col != '':
+        if col != date_col and col != "":
             stats = backtest_stats(result, value_col_name=col)
             print("stats of " + col + ": ", stats)
 
