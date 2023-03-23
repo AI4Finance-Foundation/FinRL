@@ -48,25 +48,25 @@ from finrl.plot import plot_return
 def main():
     if_store_actions = True
     trade_window_length = 22  # num of trading days in a rolling window
-    TRAIN_START_DATE = "2015-01-01"
-    TRAIN_END_DATE = "2022-10-01"
-    TRADE_START_DATE = "2022-10-01"
-    TRADE_END_DATE = "2023-02-01"
-    if_using_a2c = False
-    if_using_ddpg = False
-    if_using_ppo = False
-    if_using_sac = False
-    if_using_td3 = False
+    TRAIN_START_DATE = "2011-01-01"
+    TRAIN_END_DATE = "2022-07-01"
+    TRADE_START_DATE = "2022-07-01"
+    TRADE_END_DATE = "2022-11-01"
+    if_using_a2c = True
+    if_using_ddpg = True
+    if_using_ppo = True
+    if_using_sac = True
+    if_using_td3 = True
 
     sys.path.append("../FinRL")
     check_and_make_directories(
         [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
     )
-
+    date_col = "date"
+    tic_col = "tic"
     df = YahooDownloader(
         start_date=TRAIN_START_DATE, end_date=TRADE_END_DATE, ticker_list=DOW_30_TICKER
     ).fetch_data()
-    df.sort_values(["date", "tic"], ignore_index=True).head()
     fe = FeatureEngineer(
         use_technical_indicator=True,
         tech_indicator_list=INDICATORS,
@@ -76,23 +76,21 @@ def main():
     )
 
     processed = fe.preprocess_data(df)
-    list_ticker = processed["tic"].unique().tolist()
+    list_ticker = processed[tic_col].unique().tolist()
     list_date = list(
-        pd.date_range(processed["date"].min(), processed["date"].max()).astype(str)
+        pd.date_range(processed[date_col].min(), processed[date_col].max()).astype(str)
     )
     combination = list(itertools.product(list_date, list_ticker))
 
-    init_train_trade_data = pd.DataFrame(combination, columns=["date", "tic"]).merge(
-        processed, on=["date", "tic"], how="left"
+    init_train_trade_data = pd.DataFrame(combination, columns=[date_col, tic_col]).merge(
+        processed, on=[date_col, tic_col], how="left"
     )
     init_train_trade_data = init_train_trade_data[
-        init_train_trade_data["date"].isin(processed["date"])
+        init_train_trade_data[date_col].isin(processed[date_col])
     ]
-    init_train_trade_data = init_train_trade_data.sort_values(["date", "tic"])
+    init_train_trade_data = init_train_trade_data.sort_values([date_col, tic_col])
 
     init_train_trade_data = init_train_trade_data.fillna(0)
-
-    init_train_trade_data.sort_values(["date", "tic"], ignore_index=True).head(10)
 
     init_train_data = data_split(
         init_train_trade_data, TRAIN_START_DATE, TRAIN_END_DATE
@@ -122,8 +120,8 @@ def main():
     }
 
     # split the init_train_data and init_trade_data to subsets
-    init_train_dates = init_train_data["date"].unique()
-    init_trade_dates = init_trade_data["date"].unique()
+    init_train_dates = init_train_data[date_col].unique()
+    init_trade_dates = init_trade_data[date_col].unique()
 
     (
         train_starts,
@@ -142,21 +140,21 @@ def main():
     actions_td3 = pd.DataFrame(columns=DOW_30_TICKER)
 
     for i in range(len(train_starts)):
-        target_date_col = "date"
+        print("i: ", i)
         train_start = train_starts[i]
         train_end = train_ends[i]
         trade_start = trade_starts[i]
         trade_end = trade_ends[i]
         train_data = init_train_data.loc[
-            (init_train_data["date"] >= train_start)
-            & (init_train_data["date"] < train_end)
+            (init_train_data[date_col] >= train_start)
+            & (init_train_data[date_col] < train_end)
         ]
-        train_data.index = train_data[target_date_col].factorize()[0]
+        train_data.index = train_data[date_col].factorize()[0]
         trade_data = init_trade_data.loc[
-            (init_trade_data["date"] >= trade_start)
-            & (init_trade_data["date"] < trade_end)
+            (init_trade_data[date_col] >= trade_start)
+            & (init_trade_data[date_col] < trade_end)
         ]
-        trade_data.index = trade_data[target_date_col].factorize()[0]
+        trade_data.index = trade_data[date_col].factorize()[0]
 
         e_train_gym = StockTradingEnv(df=train_data, **env_kwargs)
         env_train, _ = e_train_gym.get_sb_env()
@@ -371,16 +369,15 @@ def main():
             pd.merge(actions_td3, actions_i_td3, how="left") if if_using_td3 else None
         )
 
-        # baseline stats
-        print("==============Get Baseline Stats===========")
+        # dji_i
         dji_i_ = get_baseline(ticker="^DJI", start=trade_start, end=trade_end)
         dji_i = pd.DataFrame()
-        dji_i["date"] = dji_i_["date"]
+        dji_i[date_col] = dji_i_[date_col]
         dji_i["DJI"] = dji_i_["close"]
         # dji_i.rename(columns={'account_value': 'DJI'}, inplace=True)
 
         # select the rows between trade_start and trade_end (not included), since some values may not in this region
-        dji_i = dji_i.loc[(dji_i["date"] >= trade_start) & (dji_i["date"] < trade_end)]
+        dji_i = dji_i.loc[(dji_i[date_col] >= trade_start) & (dji_i[date_col] < trade_end)]
 
         # init result_i by dji_i
         result_i = dji_i
@@ -392,15 +389,15 @@ def main():
         if if_using_ddpg:
             result_ddpg.rename(columns={"account_value": "DDPG"}, inplace=True)
             result_i = pd.merge(result_i, result_ddpg, how="left")
-        if if_using_td3:
-            result_td3.rename(columns={"account_value": "TD3"}, inplace=True)
-            result_i = pd.merge(result_i, result_td3, how="left")
         if if_using_ppo:
             result_ppo.rename(columns={"account_value": "PPO"}, inplace=True)
             result_i = pd.merge(result_i, result_ppo, how="left")
         if if_using_sac:
             result_sac.rename(columns={"account_value": "SAC"}, inplace=True)
             result_i = pd.merge(result_i, result_sac, how="left")
+        if if_using_td3:
+            result_td3.rename(columns={"account_value": "TD3"}, inplace=True)
+            result_i = pd.merge(result_i, result_td3, how="left")
 
         # remove the rows with nan
         result_i = result_i.dropna(axis=0, how="any")
@@ -409,7 +406,8 @@ def main():
         result = pd.concat([result, result_i], axis=0)
 
     # modify DJI in result
-    result["DJI"] = result["DJI"] / result["DJI"].iloc[0] * env_kwargs["initial_amount"]
+    result["DJI"] = result["DJI"] / result["DJI"].iloc[0] * initial_amount
+
     # store actions
     if if_store_actions:
         actions_a2c.to_csv("actions_a2c.csv") if if_using_a2c else None
@@ -418,25 +416,26 @@ def main():
         actions_sac.to_csv("actions_sac.csv") if if_using_sac else None
         actions_td3.to_csv("actions_td3.csv") if if_using_td3 else None
 
-    # make sure that the first row is env_kwargs['initial_amount']
+    # make sure that the first row is initial_amount
     for col in result.columns:
-        if col != "date" and result[col].iloc[0] != initial_amount:
+        if col != date_col and result[col].iloc[0] != initial_amount:
             result[col] = result[col] / result[col].iloc[0] * initial_amount
     result = result.reset_index(drop=True)
+
     # print and save result
     print("result: ", result)
     result.to_csv("result.csv")
 
     # stats
     for col in result.columns:
-        if col != "date":
+        if col != date_col and col != '':
             stats = backtest_stats(result, value_col_name=col)
-            print("stats of" + col + ": ", stats)
+            print("stats of " + col + ": ", stats)
 
     # plot fig
     plot_return(
         result=result,
-        column_as_x="date",
+        column_as_x=date_col,
         if_need_calc_return=True,
         savefig_filename="stock.png",
         xlabel="Date",
