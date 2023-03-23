@@ -10,7 +10,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from finrl.config_tickers import DOW_30_TICKER
 from stable_baselines3.common.logger import configure
 
 from finrl import config
@@ -27,6 +26,7 @@ from finrl.config import TRADE_START_DATE
 from finrl.config import TRAIN_END_DATE
 from finrl.config import TRAIN_START_DATE
 from finrl.config import TRAINED_MODEL_DIR
+from finrl.config_tickers import DOW_30_TICKER
 from finrl.main import check_and_make_directories
 from finrl.meta.data_processor import DataProcessor
 from finrl.meta.data_processors.func import date2str
@@ -80,9 +80,9 @@ def main():
     )
     combination = list(itertools.product(list_date, list_ticker))
 
-    init_train_trade_data = pd.DataFrame(combination, columns=[date_col, tic_col]).merge(
-        processed, on=[date_col, tic_col], how="left"
-    )
+    init_train_trade_data = pd.DataFrame(
+        combination, columns=[date_col, tic_col]
+    ).merge(processed, on=[date_col, tic_col], how="left")
     init_train_trade_data = init_train_trade_data[
         init_train_trade_data[date_col].isin(processed[date_col])
     ]
@@ -130,7 +130,9 @@ def main():
         new_logger_a2c = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_a2c.set_logger(new_logger_a2c)
-        trained_a2c = agent.train_model(model=model_a2c, tb_log_name="a2c", total_timesteps=50000)
+        trained_a2c = agent.train_model(
+            model=model_a2c, tb_log_name="a2c", total_timesteps=50000
+        )
 
     if if_using_ddpg:
         agent = DRLAgent(env=env_train)
@@ -140,7 +142,9 @@ def main():
         new_logger_ddpg = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_ddpg.set_logger(new_logger_ddpg)
-        trained_ddpg = agent.train_model(model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000)
+        trained_ddpg = agent.train_model(
+            model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000
+        )
 
     if if_using_ppo:
         agent = DRLAgent(env=env_train)
@@ -156,7 +160,9 @@ def main():
         new_logger_ppo = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_ppo.set_logger(new_logger_ppo)
-        trained_ppo = agent.train_model(model=model_ppo, tb_log_name="ppo", total_timesteps=50000)
+        trained_ppo = agent.train_model(
+            model=model_ppo, tb_log_name="ppo", total_timesteps=50000
+        )
 
     if if_using_sac:
         agent = DRLAgent(env=env_train)
@@ -173,7 +179,9 @@ def main():
         new_logger_sac = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_sac.set_logger(new_logger_sac)
-        trained_sac = agent.train_model(model=model_sac, tb_log_name="sac", total_timesteps=50000)
+        trained_sac = agent.train_model(
+            model=model_sac, tb_log_name="sac", total_timesteps=50000
+        )
 
     if if_using_td3:
         agent = DRLAgent(env=env_train)
@@ -184,8 +192,9 @@ def main():
         new_logger_td3 = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_td3.set_logger(new_logger_td3)
-        trained_td3 = agent.train_model(model=model_td3, tb_log_name="td3", total_timesteps=50000)
-
+        trained_td3 = agent.train_model(
+            model=model_td3, tb_log_name="td3", total_timesteps=50000
+        )
 
     # trade
     e_trade_gym = StockTradingEnv(
@@ -197,19 +206,29 @@ def main():
     # env_trade, obs_trade = e_trade_gym.get_sb_env()
 
     if if_using_a2c:
-        result_a2c, actions_a2c = DRLAgent.DRL_prediction(model=trained_a2c, environment=e_trade_gym)
+        result_a2c, actions_a2c = DRLAgent.DRL_prediction(
+            model=trained_a2c, environment=e_trade_gym
+        )
 
     if if_using_ddpg:
-        result_ddpg, actions_ddpg = DRLAgent.DRL_prediction(model=trained_ddpg, environment=e_trade_gym)
+        result_ddpg, actions_ddpg = DRLAgent.DRL_prediction(
+            model=trained_ddpg, environment=e_trade_gym
+        )
 
     if if_using_ppo:
-        result_ppo, actions_ppo = DRLAgent.DRL_prediction(model=trained_ppo, environment=e_trade_gym)
+        result_ppo, actions_ppo = DRLAgent.DRL_prediction(
+            model=trained_ppo, environment=e_trade_gym
+        )
 
     if if_using_sac:
-        result_sac, actions_sac = DRLAgent.DRL_prediction(model=trained_sac, environment=e_trade_gym)
+        result_sac, actions_sac = DRLAgent.DRL_prediction(
+            model=trained_sac, environment=e_trade_gym
+        )
 
     if if_using_td3:
-        result_td3, actions_td3 = DRLAgent.DRL_prediction(model=trained_td3, environment=e_trade_gym)
+        result_td3, actions_td3 = DRLAgent.DRL_prediction(
+            model=trained_td3, environment=e_trade_gym
+        )
 
     # in python version, we should check isinstance, but in notebook version, it is not necessary
     if if_using_a2c and isinstance(result_a2c, tuple):
@@ -240,9 +259,7 @@ def main():
     dji_ = get_baseline(ticker="^DJI", start=TRADE_START_DATE, end=TRADE_END_DATE)
     dji = pd.DataFrame()
     dji[date_col] = dji_[date_col]
-    dji["account_value"] = (
-        dji_["close"] / dji_["close"].tolist()[0] * initial_amount
-    )
+    dji["account_value"] = dji_["close"] / dji_["close"].tolist()[0] * initial_amount
     dji.to_csv("df_dji.csv")
     dji.rename(columns={"account_value": "DJI"}, inplace=True)
 
@@ -278,7 +295,7 @@ def main():
 
     # stats
     for col in result.columns:
-        if col != date_col and col != '':
+        if col != date_col and col != "":
             stats = backtest_stats(result, value_col_name=col)
             print("stats of" + col + ": ", stats)
 
