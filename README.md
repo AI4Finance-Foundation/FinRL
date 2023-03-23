@@ -68,6 +68,8 @@ The main folder **finrl** has three subfolders **applications, agents, meta**. W
 FinRL
 ├── finrl (main folder)
 │   ├── applications
+│   	├── Stock_NeurIPS2018	
+│   	├── imitation_learning
 │   	├── cryptocurrency_trading
 │   	├── high_frequency_trading
 │   	├── portfolio_allocation
