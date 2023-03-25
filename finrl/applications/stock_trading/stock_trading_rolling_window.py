@@ -21,12 +21,12 @@ from finrl.config import RESULTS_DIR
 from finrl.config import TENSORBOARD_LOG_DIR
 from finrl.config import TEST_END_DATE
 from finrl.config import TEST_START_DATE
-
 from finrl.config import TRAINED_MODEL_DIR
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.main import check_and_make_directories
 from finrl.meta.data_processor import DataProcessor
-from finrl.meta.data_processors.func import calc_train_trade_starts_ends_if_rolling, calc_train_trade_data
+from finrl.meta.data_processors.func import calc_train_trade_data
+from finrl.meta.data_processors.func import calc_train_trade_starts_ends_if_rolling
 from finrl.meta.data_processors.func import date2str
 from finrl.meta.data_processors.func import str2date
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
@@ -42,18 +42,19 @@ from finrl.plot import plot_return
 # matplotlib.use('Agg')
 
 
-def stock_trading_rolling_window(train_start_date,
-                                train_end_date,
-                                trade_start_date,
-                                trade_end_date,
-                                rolling_window_length,
-                                if_store_actions = True,
-                                if_using_a2c = True,
-                                if_using_ddpg = True,
-                                if_using_ppo = True,
-                                if_using_sac = True,
-                                if_using_td3 = True,
-                                 ):
+def stock_trading_rolling_window(
+    train_start_date,
+    train_end_date,
+    trade_start_date,
+    trade_end_date,
+    rolling_window_length,
+    if_store_actions=True,
+    if_using_a2c=True,
+    if_using_ddpg=True,
+    if_using_ppo=True,
+    if_using_sac=True,
+    if_using_td3=True,
+):
     sys.path.append("../FinRL")
     check_and_make_directories(
         [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
@@ -137,14 +138,16 @@ def stock_trading_rolling_window(train_start_date,
 
     for i in range(len(train_starts)):
         print("i: ", i)
-        train_data, trade_data = calc_train_trade_data(i,
-                                                       train_starts,
-                                                       train_ends,
-                                                       trade_starts,
-                                                       trade_ends,
-                                                       init_train_data,
-                                                       init_trade_data,
-                                                       date_col)
+        train_data, trade_data = calc_train_trade_data(
+            i,
+            train_starts,
+            train_ends,
+            trade_starts,
+            trade_ends,
+            init_train_data,
+            init_trade_data,
+            date_col,
+        )
         e_train_gym = StockTradingEnv(df=train_data, **env_kwargs)
         env_train, _ = e_train_gym.get_sb_env()
 
@@ -340,21 +343,13 @@ def stock_trading_rolling_window(train_start_date,
             result_td3 = result_td3[0]
 
         # merge actions
-        actions_a2c = (
-            pd.concat([actions_a2c, actions_i_a2c]) if if_using_a2c else None
-        )
+        actions_a2c = pd.concat([actions_a2c, actions_i_a2c]) if if_using_a2c else None
         actions_ddpg = (
             pd.concat([actions_ddpg, actions_i_ddpg]) if if_using_ddpg else None
         )
-        actions_ppo = (
-            pd.concat([actions_ppo, actions_i_ppo]) if if_using_ppo else None
-        )
-        actions_sac = (
-            pd.concat([actions_sac, actions_i_sac]) if if_using_sac else None
-        )
-        actions_td3 = (
-            pd.concat([actions_td3, actions_i_td3]) if if_using_td3 else None
-        )
+        actions_ppo = pd.concat([actions_ppo, actions_i_ppo]) if if_using_ppo else None
+        actions_sac = pd.concat([actions_sac, actions_i_sac]) if if_using_sac else None
+        actions_td3 = pd.concat([actions_td3, actions_i_td3]) if if_using_td3 else None
 
         # dji_i
         dji_i_ = get_baseline(ticker="^DJI", start=trade_start, end=trade_end)
@@ -448,15 +443,16 @@ if __name__ == "__main__":
     if_using_ppo = False
     if_using_sac = False
     if_using_td3 = False
-    stock_trading_rolling_window(train_start_date,
-                                 train_end_date,
-                                 trade_start_date,
-                                 trade_end_date,
-                                 rolling_window_length,
-                                 if_store_actions = if_store_actions,
-                                 if_using_a2c = if_using_a2c,
-                                 if_using_ddpg = if_using_ddpg,
-                                 if_using_ppo = if_using_ppo,
-                                 if_using_sac = if_using_sac,
-                                 if_using_td3 = if_using_td3,
-                                 )
+    stock_trading_rolling_window(
+        train_start_date,
+        train_end_date,
+        trade_start_date,
+        trade_end_date,
+        rolling_window_length,
+        if_store_actions=if_store_actions,
+        if_using_a2c=if_using_a2c,
+        if_using_ddpg=if_using_ddpg,
+        if_using_ppo=if_using_ppo,
+        if_using_sac=if_using_sac,
+        if_using_td3=if_using_td3,
+    )
