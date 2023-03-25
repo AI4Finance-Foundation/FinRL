@@ -49,13 +49,14 @@ def stock_trading_rolling_window(
     trade_end_date,
     rolling_window_length,
     if_store_actions=True,
+    if_store_result=True,
     if_using_a2c=True,
     if_using_ddpg=True,
     if_using_ppo=True,
     if_using_sac=True,
     if_using_td3=True,
 ):
-    sys.path.append("../FinRL")
+    # sys.path.append("../FinRL")
     check_and_make_directories(
         [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
     )
@@ -410,7 +411,8 @@ def stock_trading_rolling_window(
 
     # print and save result
     print("result: ", result)
-    result.to_csv("result.csv")
+    if if_store_result:
+        result.to_csv("result.csv")
 
     # stats
     for col in result.columns:
@@ -437,12 +439,13 @@ if __name__ == "__main__":
     trade_start_date = "2022-07-01"
     trade_end_date = "2022-11-01"
     rolling_window_length = 22  # num of trading days in a rolling window
-    if_store_actions = True
+    if_store_actions = False
+    if_store_result = False
     if_using_a2c = True
-    if_using_ddpg = False
-    if_using_ppo = False
-    if_using_sac = False
-    if_using_td3 = False
+    if_using_ddpg = True
+    if_using_ppo = True
+    if_using_sac = True
+    if_using_td3 = True
     stock_trading_rolling_window(
         train_start_date,
         train_end_date,
@@ -451,6 +454,7 @@ if __name__ == "__main__":
         rolling_window_length,
         if_store_actions=if_store_actions,
         if_using_a2c=if_using_a2c,
+        if_store_result=if_store_result,
         if_using_ddpg=if_using_ddpg,
         if_using_ppo=if_using_ppo,
         if_using_sac=if_using_sac,
