@@ -260,7 +260,7 @@ def main():
     dji = pd.DataFrame()
     dji[date_col] = dji_[date_col]
     dji["account_value"] = dji_["close"] / dji_["close"].tolist()[0] * initial_amount
-    dji.to_csv("df_dji.csv")
+    dji.to_csv("dji.csv")
     dji.rename(columns={"account_value": "DJI"}, inplace=True)
 
     result = dji
