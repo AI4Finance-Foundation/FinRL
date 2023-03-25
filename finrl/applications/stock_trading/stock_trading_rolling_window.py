@@ -21,15 +21,12 @@ from finrl.config import RESULTS_DIR
 from finrl.config import TENSORBOARD_LOG_DIR
 from finrl.config import TEST_END_DATE
 from finrl.config import TEST_START_DATE
-from finrl.config import TRADE_END_DATE
-from finrl.config import TRADE_START_DATE
-from finrl.config import TRAIN_END_DATE
-from finrl.config import TRAIN_START_DATE
+
 from finrl.config import TRAINED_MODEL_DIR
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.main import check_and_make_directories
 from finrl.meta.data_processor import DataProcessor
-from finrl.meta.data_processors.func import calc_train_trade_starts_ends_if_rolling
+from finrl.meta.data_processors.func import calc_train_trade_starts_ends_if_rolling, calc_train_trade_data
 from finrl.meta.data_processors.func import date2str
 from finrl.meta.data_processors.func import str2date
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
@@ -45,19 +42,18 @@ from finrl.plot import plot_return
 # matplotlib.use('Agg')
 
 
-def main():
-    if_store_actions = True
-    trade_window_length = 22  # num of trading days in a rolling window
-    TRAIN_START_DATE = "2011-01-01"
-    TRAIN_END_DATE = "2022-07-01"
-    TRADE_START_DATE = "2022-07-01"
-    TRADE_END_DATE = "2022-11-01"
-    if_using_a2c = True
-    if_using_ddpg = True
-    if_using_ppo = True
-    if_using_sac = True
-    if_using_td3 = True
-
+def stock_trading_rolling_window(train_start_date,
+                                train_end_date,
+                                trade_start_date,
+                                trade_end_date,
+                                rolling_window_length,
+                                if_store_actions = True,
+                                if_using_a2c = True,
+                                if_using_ddpg = True,
+                                if_using_ppo = True,
+                                if_using_sac = True,
+                                if_using_td3 = True,
+                                 ):
     sys.path.append("../FinRL")
     check_and_make_directories(
         [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
@@ -65,7 +61,7 @@ def main():
     date_col = "date"
     tic_col = "tic"
     df = YahooDownloader(
-        start_date=TRAIN_START_DATE, end_date=TRADE_END_DATE, ticker_list=DOW_30_TICKER
+        start_date=train_start_date, end_date=trade_end_date, ticker_list=DOW_30_TICKER
     ).fetch_data()
     fe = FeatureEngineer(
         use_technical_indicator=True,
@@ -93,10 +89,10 @@ def main():
     init_train_trade_data = init_train_trade_data.fillna(0)
 
     init_train_data = data_split(
-        init_train_trade_data, TRAIN_START_DATE, TRAIN_END_DATE
+        init_train_trade_data, train_start_date, train_end_date
     )
     init_trade_data = data_split(
-        init_train_trade_data, TRADE_START_DATE, TRADE_END_DATE
+        init_train_trade_data, trade_start_date, trade_end_date
     )
 
     stock_dimension = len(init_train_data.tic.unique())
@@ -129,7 +125,7 @@ def main():
         trade_starts,
         trade_ends,
     ) = calc_train_trade_starts_ends_if_rolling(
-        init_train_dates, init_trade_dates, trade_window_length
+        init_train_dates, init_trade_dates, rolling_window_length
     )
 
     result = pd.DataFrame()
@@ -141,21 +137,14 @@ def main():
 
     for i in range(len(train_starts)):
         print("i: ", i)
-        train_start = train_starts[i]
-        train_end = train_ends[i]
-        trade_start = trade_starts[i]
-        trade_end = trade_ends[i]
-        train_data = init_train_data.loc[
-            (init_train_data[date_col] >= train_start)
-            & (init_train_data[date_col] < train_end)
-        ]
-        train_data.index = train_data[date_col].factorize()[0]
-        trade_data = init_trade_data.loc[
-            (init_trade_data[date_col] >= trade_start)
-            & (init_trade_data[date_col] < trade_end)
-        ]
-        trade_data.index = trade_data[date_col].factorize()[0]
-
+        train_data, trade_data = calc_train_trade_data(i,
+                                                       train_starts,
+                                                       train_ends,
+                                                       trade_starts,
+                                                       trade_ends,
+                                                       init_train_data,
+                                                       init_trade_data,
+                                                       date_col)
         e_train_gym = StockTradingEnv(df=train_data, **env_kwargs)
         env_train, _ = e_train_gym.get_sb_env()
 
@@ -352,21 +341,19 @@ def main():
 
         # merge actions
         actions_a2c = (
-            pd.merge(actions_a2c, actions_i_a2c, how="left") if if_using_a2c else None
+            pd.concat([actions_a2c, actions_i_a2c]) if if_using_a2c else None
         )
         actions_ddpg = (
-            pd.merge(actions_ddpg, actions_i_ddpg, how="left")
-            if if_using_ddpg
-            else None
+            pd.concat([actions_ddpg, actions_i_ddpg]) if if_using_ddpg else None
         )
         actions_ppo = (
-            pd.merge(actions_ppo, actions_i_ppo, how="left") if if_using_ppo else None
+            pd.concat([actions_ppo, actions_i_ppo]) if if_using_ppo else None
         )
         actions_sac = (
-            pd.merge(actions_sac, actions_i_sac, how="left") if if_using_sac else None
+            pd.concat([actions_sac, actions_i_sac]) if if_using_sac else None
         )
         actions_td3 = (
-            pd.merge(actions_td3, actions_i_td3, how="left") if if_using_td3 else None
+            pd.concat([actions_td3, actions_i_td3]) if if_using_td3 else None
         )
 
         # dji_i
@@ -377,6 +364,8 @@ def main():
         # dji_i.rename(columns={'account_value': 'DJI'}, inplace=True)
 
         # select the rows between trade_start and trade_end (not included), since some values may not in this region
+        trade_start = trade_starts[i]
+        trade_end = trade_ends[i]
         dji_i = dji_i.loc[
             (dji_i[date_col] >= trade_start) & (dji_i[date_col] < trade_end)
         ]
@@ -430,9 +419,9 @@ def main():
 
     # stats
     for col in result.columns:
-        if col != date_col and col != "":
+        if col != date_col and col != "" and "Unnamed" not in col:
             stats = backtest_stats(result, value_col_name=col)
-            print("stats of " + col + ": ", stats)
+            print("stats of " + col + ": \n", stats)
 
     # plot fig
     plot_return(
@@ -448,4 +437,26 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    train_start_date = "2009-01-01"
+    train_end_date = "2022-07-01"
+    trade_start_date = "2022-07-01"
+    trade_end_date = "2022-11-01"
+    rolling_window_length = 22  # num of trading days in a rolling window
+    if_store_actions = True
+    if_using_a2c = True
+    if_using_ddpg = False
+    if_using_ppo = False
+    if_using_sac = False
+    if_using_td3 = False
+    stock_trading_rolling_window(train_start_date,
+                                 train_end_date,
+                                 trade_start_date,
+                                 trade_end_date,
+                                 rolling_window_length,
+                                 if_store_actions = if_store_actions,
+                                 if_using_a2c = if_using_a2c,
+                                 if_using_ddpg = if_using_ddpg,
+                                 if_using_ppo = if_using_ppo,
+                                 if_using_sac = if_using_sac,
+                                 if_using_td3 = if_using_td3,
+                                 )
