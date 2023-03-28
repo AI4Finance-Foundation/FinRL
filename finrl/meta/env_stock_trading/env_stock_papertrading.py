@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime
+import pytz
 import threading
 import time
 
@@ -207,7 +208,9 @@ class AlpacaPaperTrading:
             #     time.sleep(self.time_interval)
 
             # a non-stop across days version
-            est_time = clock.timestamp.replace(tzinfo=datetime.timezone.est).timestamp()
+            # est_time = clock.timestamp.replace(tzinfo=datetime.timezone.est).timestamp()  # bug fix:est_time
+            est_time = clock.timestamp.replace(tzinfo=pytz.timezone('US/Eastern')).timestamp()
+
             print('Current time in EST: ', datetime.datetime.fromtimestamp(est_time).isoformat(), \
                 ' Time to close: ', int(self.timeToClose/60), ' minutes')
             if self.timeToClose < (self.time_interval+60):  # this needs to adapt to trade interval
