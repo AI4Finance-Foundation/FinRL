@@ -206,13 +206,13 @@ def plot_result(
     plt.xlabel(xlabel, fontsize=20)
     plt.ylabel(ylabel, fontsize=20)
 
-    plt.legend(labels=columns_strtegy, loc="best")
+    plt.legend(labels=columns_strtegy, loc="best", fontsize=16)
 
     # set grid
     plt.grid()
 
-    # plt.xticks(size=15)  # 设置刻度大小
-    # plt.yticks(size=15)  # 设置刻度大小
+    plt.xticks(size=22)  # 设置刻度大小
+    plt.yticks(size=22)  # 设置刻度大小
 
     # #设置每隔多少距离⼀个刻度
     # plt.xticks(x[::60])
