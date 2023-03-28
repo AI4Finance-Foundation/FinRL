@@ -206,7 +206,7 @@ def plot_result(
     plt.xlabel(xlabel, fontsize=20)
     plt.ylabel(ylabel, fontsize=20)
 
-    plt.legend(labels=columns_strtegy, loc="best")
+    plt.legend(labels=columns_strtegy, loc="best", fontsize=16)
 
     # set grid
     plt.grid()
