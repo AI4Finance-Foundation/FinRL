@@ -211,8 +211,8 @@ def plot_result(
     # set grid
     plt.grid()
 
-    # plt.xticks(size=15)  # 设置刻度大小
-    # plt.yticks(size=15)  # 设置刻度大小
+    plt.xticks(size=22)  # 设置刻度大小
+    plt.yticks(size=22)  # 设置刻度大小
 
     # #设置每隔多少距离⼀个刻度
     # plt.xticks(x[::60])
