@@ -353,6 +353,8 @@ def stock_trading_rolling_window(
         actions_td3 = pd.concat([actions_td3, actions_i_td3]) if if_using_td3 else None
 
         # dji_i
+        trade_start = trade_starts[i]
+        trade_end = trade_ends[i]
         dji_i_ = get_baseline(ticker="^DJI", start=trade_start, end=trade_end)
         dji_i = pd.DataFrame()
         dji_i[date_col] = dji_i_[date_col]
@@ -360,8 +362,6 @@ def stock_trading_rolling_window(
         # dji_i.rename(columns={'account_value': 'DJI'}, inplace=True)
 
         # select the rows between trade_start and trade_end (not included), since some values may not in this region
-        trade_start = trade_starts[i]
-        trade_end = trade_ends[i]
         dji_i = dji_i.loc[
             (dji_i[date_col] >= trade_start) & (dji_i[date_col] < trade_end)
         ]
@@ -439,8 +439,8 @@ if __name__ == "__main__":
     trade_start_date = "2022-07-01"
     trade_end_date = "2022-11-01"
     rolling_window_length = 22  # num of trading days in a rolling window
-    if_store_actions = False
-    if_store_result = False
+    if_store_actions = True
+    if_store_result = True
     if_using_a2c = True
     if_using_ddpg = True
     if_using_ppo = True
