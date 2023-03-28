@@ -79,8 +79,8 @@ def download_data(
         os.makedirs(data_path, exist_ok=True)
         data.to_pickle(file_path)
 
-    print('The data looks like: \n', data.head(20).to_string, data.tail(20).to_string)  # display the data
-    print(f'Full data shape: {data.shape}')
+    # print('The data looks like: \n', data.head(20).to_string, data.tail(20).to_string)  # display the data
+    # print(f'Full data shape: {data.shape}')
     price_array, tech_array, turbulence_array = dp.df_to_array(data, if_vix)
     env_config = {
         "price_array": price_array,
