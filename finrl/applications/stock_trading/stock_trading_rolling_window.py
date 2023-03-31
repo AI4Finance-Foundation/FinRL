@@ -392,9 +392,6 @@ def stock_trading_rolling_window(
         # merge result_i to result
         result = pd.concat([result, result_i], axis=0)
 
-    # modify DJI in result
-    result["DJI"] = result["DJI"] / result["DJI"].iloc[0] * initial_amount
-
     # store actions
     if if_store_actions:
         actions_a2c.to_csv("actions_a2c.csv") if if_using_a2c else None
@@ -411,18 +408,19 @@ def stock_trading_rolling_window(
 
     # make sure that the first row is initial_amount
     for col in col_strategies:
-        result[col] = result[col] / result[col].iloc[0] * initial_amount
+        if result[col].iloc[0] != initial_amount:
+            result[col] = result[col] / result[col].iloc[0] * initial_amount
     result = result.reset_index(drop=True)
-
-    # print and save result
-    print("result: ", result)
-    if if_store_result:
-        result.to_csv("result.csv")
 
     # stats
     for col in col_strategies:
         stats = backtest_stats(result, value_col_name=col)
         print("stats of " + col + ": \n", stats)
+
+    # print and save result
+    print("result: ", result)
+    if if_store_result:
+        result.to_csv("result.csv")
 
     # plot fig
     plot_return(
