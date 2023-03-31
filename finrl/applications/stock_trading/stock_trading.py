@@ -1,19 +1,10 @@
 from __future__ import annotations
 
-import copy
-import datetime
 import itertools
-import os
 import sys
 
-import matplotlib
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 from stable_baselines3.common.logger import configure
-
-from finrl import config
-from finrl import config_tickers
 from finrl.agents.stablebaselines3.models import DRLAgent
 from finrl.config import DATA_SAVE_DIR
 from finrl.config import INDICATORS
@@ -23,17 +14,12 @@ from finrl.config import TENSORBOARD_LOG_DIR
 from finrl.config import TRAINED_MODEL_DIR
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.main import check_and_make_directories
-from finrl.meta.data_processor import DataProcessor
-from finrl.meta.data_processors.func import date2str
-from finrl.meta.data_processors.func import str2date
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.meta.preprocessor.preprocessors import data_split
 from finrl.meta.preprocessor.preprocessors import FeatureEngineer
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
-from finrl.plot import backtest_plot
 from finrl.plot import backtest_stats
 from finrl.plot import get_baseline
-from finrl.plot import get_daily_return
 from finrl.plot import plot_return
 
 # matplotlib.use('Agg')
@@ -316,26 +302,26 @@ def stock_trading(
 
 
 if __name__ == "__main__":
-    if_store_actions = True
-    if_store_result = True
     train_start_date = "2009-01-01"
     train_end_date = "2022-09-01"
     trade_start_date = "2022-09-01"
     trade_end_date = "2023-11-01"
+    if_store_actions = True
+    if_store_result = True
     if_using_a2c = True
     if_using_ddpg = True
     if_using_ppo = True
-    if_using_td3 = True
     if_using_sac = True
+    if_using_td3 = True
 
     stock_trading(
-        train_start_date,
-        train_end_date,
-        trade_start_date,
-        trade_end_date,
+        train_start_date=train_start_date,
+        train_end_date=train_end_date,
+        trade_start_date=trade_start_date,
+        trade_end_date=trade_end_date,
         if_store_actions=if_store_actions,
-        if_using_a2c=if_using_a2c,
         if_store_result=if_store_result,
+        if_using_a2c=if_using_a2c,
         if_using_ddpg=if_using_ddpg,
         if_using_ppo=if_using_ppo,
         if_using_sac=if_using_sac,
