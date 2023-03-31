@@ -48,13 +48,13 @@ def stock_trading_rolling_window(
     trade_start_date: str,
     trade_end_date: str,
     rolling_window_length: int,
-    if_store_actions: bool=True,
-    if_store_result: bool=True,
-    if_using_a2c: bool=True,
-    if_using_ddpg: bool=True,
-    if_using_ppo: bool=True,
-    if_using_sac: bool=True,
-    if_using_td3: bool=True,
+    if_store_actions: bool = True,
+    if_store_result: bool = True,
+    if_using_a2c: bool = True,
+    if_using_ddpg: bool = True,
+    if_using_ppo: bool = True,
+    if_using_sac: bool = True,
+    if_using_td3: bool = True,
 ):
     # sys.path.append("../FinRL")
     check_and_make_directories(
