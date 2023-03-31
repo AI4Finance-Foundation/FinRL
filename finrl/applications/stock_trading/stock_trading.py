@@ -5,12 +5,12 @@ import sys
 
 import pandas as pd
 from stable_baselines3.common.logger import configure
+
 from finrl.agents.stablebaselines3.models import DRLAgent
 from finrl.config import DATA_SAVE_DIR
 from finrl.config import INDICATORS
 from finrl.config import RESULTS_DIR
 from finrl.config import TENSORBOARD_LOG_DIR
-
 from finrl.config import TRAINED_MODEL_DIR
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.main import check_and_make_directories
@@ -26,20 +26,18 @@ from finrl.plot import plot_return
 
 
 def stock_trading(
-        train_start_date: str,
-        train_end_date: str,
-        trade_start_date: str,
-        trade_end_date: str,
-        if_store_actions: bool = True,
-        if_store_result: bool = True,
-        if_using_a2c: bool = True,
-        if_using_ddpg: bool = True,
-        if_using_ppo: bool = True,
-        if_using_sac: bool = True,
-        if_using_td3: bool = True,
+    train_start_date: str,
+    train_end_date: str,
+    trade_start_date: str,
+    trade_end_date: str,
+    if_store_actions: bool = True,
+    if_store_result: bool = True,
+    if_using_a2c: bool = True,
+    if_using_ddpg: bool = True,
+    if_using_ppo: bool = True,
+    if_using_sac: bool = True,
+    if_using_td3: bool = True,
 ):
-
-
     sys.path.append("../FinRL")
     check_and_make_directories(
         [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
@@ -247,7 +245,7 @@ def stock_trading(
     # select the rows between trade_start and trade_end (not included), since some values may not in this region
     dji = dji.loc[
         (dji[date_col] >= trade_start_date) & (dji[date_col] < trade_end_date)
-        ]
+    ]
 
     result = dji
 
