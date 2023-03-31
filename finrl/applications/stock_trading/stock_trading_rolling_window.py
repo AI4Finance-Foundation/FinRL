@@ -183,7 +183,7 @@ def stock_trading_rolling_window(
             # Set new logger
             model_ddpg.set_logger(new_logger_ddpg)
             trained_ddpg = agent.train_model(
-                model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000
+                model=model_ddpg, tb_log_name="ddpg", total_timesteps=40000
             )
 
         if if_using_ppo:
@@ -194,9 +194,9 @@ def stock_trading_rolling_window(
             agent = DRLAgent(env=env_train)
             PPO_PARAMS = {
                 "n_steps": 2048,
-                "ent_coef": 0.01,
-                "learning_rate": 0.00025,
-                "batch_size": 128,
+                "ent_coef": 0.005,
+                "learning_rate": 0.0001,
+                "batch_size": 64,
             }
             model_ppo = agent.get_model("ppo", model_kwargs=PPO_PARAMS)
             # set up logger
@@ -215,9 +215,9 @@ def stock_trading_rolling_window(
             env_train, _ = e_train_gym.get_sb_env()
             agent = DRLAgent(env=env_train)
             SAC_PARAMS = {
-                "batch_size": 128,
+                "batch_size": 64,
                 "buffer_size": 100000,
-                "learning_rate": 0.0001,
+                "learning_rate": 0.00015,
                 "learning_starts": 100,
                 "ent_coef": "auto_0.1",
             }
@@ -238,9 +238,9 @@ def stock_trading_rolling_window(
             env_train, _ = e_train_gym.get_sb_env()
             agent = DRLAgent(env=env_train)
             TD3_PARAMS = {
-                "batch_size": 100,
-                "buffer_size": 1000000,
-                "learning_rate": 0.001,
+                "batch_size": 64,
+                "buffer_size": 100000,
+                "learning_rate": 0.0008,
             }
             model_td3 = agent.get_model("td3", model_kwargs=TD3_PARAMS)
             # set up logger
