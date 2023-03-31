@@ -328,4 +328,16 @@ if __name__ == "__main__":
     if_using_td3 = True
     if_using_sac = True
 
-    stock_trading()
+    stock_trading(
+        train_start_date,
+        train_end_date,
+        trade_start_date,
+        trade_end_date,
+        if_store_actions=if_store_actions,
+        if_using_a2c=if_using_a2c,
+        if_store_result=if_store_result,
+        if_using_ddpg=if_using_ddpg,
+        if_using_ppo=if_using_ppo,
+        if_using_sac=if_using_sac,
+        if_using_td3=if_using_td3,
+    )
