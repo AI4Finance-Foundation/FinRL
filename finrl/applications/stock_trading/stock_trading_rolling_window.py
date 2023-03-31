@@ -43,18 +43,18 @@ from finrl.plot import plot_return
 
 
 def stock_trading_rolling_window(
-    train_start_date,
-    train_end_date,
-    trade_start_date,
-    trade_end_date,
-    rolling_window_length,
-    if_store_actions=True,
-    if_store_result=True,
-    if_using_a2c=True,
-    if_using_ddpg=True,
-    if_using_ppo=True,
-    if_using_sac=True,
-    if_using_td3=True,
+    train_start_date: str,
+    train_end_date: str,
+    trade_start_date: str,
+    trade_end_date: str,
+    rolling_window_length: int,
+    if_store_actions: bool = True,
+    if_store_result: bool = True,
+    if_using_a2c: bool = True,
+    if_using_ddpg: bool = True,
+    if_using_ppo: bool = True,
+    if_using_sac: bool = True,
+    if_using_td3: bool = True,
 ):
     # sys.path.append("../FinRL")
     check_and_make_directories(
@@ -392,9 +392,6 @@ def stock_trading_rolling_window(
         # merge result_i to result
         result = pd.concat([result, result_i], axis=0)
 
-    # modify DJI in result
-    result["DJI"] = result["DJI"] / result["DJI"].iloc[0] * initial_amount
-
     # store actions
     if if_store_actions:
         actions_a2c.to_csv("actions_a2c.csv") if if_using_a2c else None
@@ -403,22 +400,27 @@ def stock_trading_rolling_window(
         actions_sac.to_csv("actions_sac.csv") if if_using_sac else None
         actions_td3.to_csv("actions_td3.csv") if if_using_td3 else None
 
-    # make sure that the first row is initial_amount
+    # calc the column name of strategies, including DJI
+    col_strategies = []
     for col in result.columns:
-        if col != date_col and result[col].iloc[0] != initial_amount:
+        if col != date_col and col != "" and "Unnamed" not in col:
+            col_strategies.append(col)
+
+    # make sure that the first row is initial_amount
+    for col in col_strategies:
+        if result[col].iloc[0] != initial_amount:
             result[col] = result[col] / result[col].iloc[0] * initial_amount
     result = result.reset_index(drop=True)
+
+    # stats
+    for col in col_strategies:
+        stats = backtest_stats(result, value_col_name=col)
+        print("\nstats of " + col + ": \n", stats)
 
     # print and save result
     print("result: ", result)
     if if_store_result:
         result.to_csv("result.csv")
-
-    # stats
-    for col in result.columns:
-        if col != date_col and col != "" and "Unnamed" not in col:
-            stats = backtest_stats(result, value_col_name=col)
-            print("stats of " + col + ": \n", stats)
 
     # plot fig
     plot_return(
@@ -447,14 +449,14 @@ if __name__ == "__main__":
     if_using_sac = True
     if_using_td3 = True
     stock_trading_rolling_window(
-        train_start_date,
-        train_end_date,
-        trade_start_date,
-        trade_end_date,
-        rolling_window_length,
+        train_start_date=train_start_date,
+        train_end_date=train_end_date,
+        trade_start_date=trade_start_date,
+        trade_end_date=trade_end_date,
+        rolling_window_length=rolling_window_length,
         if_store_actions=if_store_actions,
-        if_using_a2c=if_using_a2c,
         if_store_result=if_store_result,
+        if_using_a2c=if_using_a2c,
         if_using_ddpg=if_using_ddpg,
         if_using_ppo=if_using_ppo,
         if_using_sac=if_using_sac,
