@@ -1,61 +1,43 @@
 from __future__ import annotations
 
-import copy
-import datetime
 import itertools
-import os
 import sys
 
-import matplotlib
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 from stable_baselines3.common.logger import configure
 
-from finrl import config
-from finrl import config_tickers
 from finrl.agents.stablebaselines3.models import DRLAgent
 from finrl.config import DATA_SAVE_DIR
 from finrl.config import INDICATORS
 from finrl.config import RESULTS_DIR
 from finrl.config import TENSORBOARD_LOG_DIR
-from finrl.config import TEST_END_DATE
-from finrl.config import TEST_START_DATE
-from finrl.config import TRADE_END_DATE
-from finrl.config import TRADE_START_DATE
-from finrl.config import TRAIN_END_DATE
-from finrl.config import TRAIN_START_DATE
 from finrl.config import TRAINED_MODEL_DIR
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.main import check_and_make_directories
-from finrl.meta.data_processor import DataProcessor
-from finrl.meta.data_processors.func import date2str
-from finrl.meta.data_processors.func import str2date
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.meta.preprocessor.preprocessors import data_split
 from finrl.meta.preprocessor.preprocessors import FeatureEngineer
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
-from finrl.plot import backtest_plot
 from finrl.plot import backtest_stats
 from finrl.plot import get_baseline
-from finrl.plot import get_daily_return
 from finrl.plot import plot_return
 
 # matplotlib.use('Agg')
 
 
-def main():
-    if_store_actions = True
-    TRAIN_START_DATE = "2009-01-01"
-    TRAIN_END_DATE = "2022-09-01"
-    TRADE_START_DATE = "2022-09-01"
-    TRADE_END_DATE = "2023-11-01"
-    if_using_a2c = True
-    if_using_ddpg = True
-    if_using_ppo = True
-    if_using_td3 = True
-    if_using_sac = True
-
+def stock_trading(
+    train_start_date: str,
+    train_end_date: str,
+    trade_start_date: str,
+    trade_end_date: str,
+    if_store_actions: bool = True,
+    if_store_result: bool = True,
+    if_using_a2c: bool = True,
+    if_using_ddpg: bool = True,
+    if_using_ppo: bool = True,
+    if_using_sac: bool = True,
+    if_using_td3: bool = True,
+):
     sys.path.append("../FinRL")
     check_and_make_directories(
         [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
@@ -63,7 +45,7 @@ def main():
     date_col = "date"
     tic_col = "tic"
     df = YahooDownloader(
-        start_date=TRAIN_START_DATE, end_date=TRADE_END_DATE, ticker_list=DOW_30_TICKER
+        start_date=train_start_date, end_date=trade_end_date, ticker_list=DOW_30_TICKER
     ).fetch_data()
     fe = FeatureEngineer(
         use_technical_indicator=True,
@@ -91,10 +73,10 @@ def main():
     init_train_trade_data = init_train_trade_data.fillna(0)
 
     init_train_data = data_split(
-        init_train_trade_data, TRAIN_START_DATE, TRAIN_END_DATE
+        init_train_trade_data, train_start_date, train_end_date
     )
     init_trade_data = data_split(
-        init_train_trade_data, TRADE_START_DATE, TRADE_END_DATE
+        init_train_trade_data, trade_start_date, trade_end_date
     )
 
     stock_dimension = len(init_train_data.tic.unique())
@@ -106,7 +88,7 @@ def main():
     initial_amount = 1000000
     env_kwargs = {
         "hmax": 100,
-        "initial_amount": 1000000,
+        "initial_amount": initial_amount,
         "num_stock_shares": num_stock_shares,
         "buy_cost_pct": buy_cost_list,
         "sell_cost_pct": sell_cost_list,
@@ -256,12 +238,14 @@ def main():
         actions_sac.to_csv("actions_sac.csv") if if_using_sac else None
 
     # dji
-    dji_ = get_baseline(ticker="^DJI", start=TRADE_START_DATE, end=TRADE_END_DATE)
+    dji_ = get_baseline(ticker="^DJI", start=trade_start_date, end=trade_end_date)
     dji = pd.DataFrame()
     dji[date_col] = dji_[date_col]
-    dji["account_value"] = dji_["close"] / dji_["close"].tolist()[0] * initial_amount
-    dji.to_csv("dji.csv")
-    dji.rename(columns={"account_value": "DJI"}, inplace=True)
+    dji["DJI"] = dji_["close"]
+    # select the rows between trade_start and trade_end (not included), since some values may not in this region
+    dji = dji.loc[
+        (dji[date_col] >= trade_start_date) & (dji[date_col] < trade_end_date)
+    ]
 
     result = dji
 
@@ -284,20 +268,27 @@ def main():
     # remove the rows with nan
     result = result.dropna(axis=0, how="any")
 
-    # make sure that the first row is initial_amount
+    # calc the column name of strategies, including DJI
+    col_strategies = []
     for col in result.columns:
-        if col != date_col and result[col].iloc[0] != initial_amount:
+        if col != date_col and col != "" and "Unnamed" not in col:
+            col_strategies.append(col)
+
+    # make sure that the first row is initial_amount
+    for col in col_strategies:
+        if result[col].iloc[0] != initial_amount:
             result[col] = result[col] / result[col].iloc[0] * initial_amount
     result = result.reset_index(drop=True)
 
-    print("result: ", result)
-    result.to_csv("result.csv")
-
     # stats
-    for col in result.columns:
-        if col != date_col and col != "":
-            stats = backtest_stats(result, value_col_name=col)
-            print("stats of" + col + ": ", stats)
+    for col in col_strategies:
+        stats = backtest_stats(result, value_col_name=col)
+        print("\nstats of " + col + ": \n", stats)
+
+    # print and save result
+    print("result: ", result)
+    if if_store_result:
+        result.to_csv("result.csv")
 
     # plot fig
     plot_return(
@@ -313,4 +304,28 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    train_start_date = "2009-01-01"
+    train_end_date = "2022-09-01"
+    trade_start_date = "2022-09-01"
+    trade_end_date = "2023-11-01"
+    if_store_actions = True
+    if_store_result = True
+    if_using_a2c = True
+    if_using_ddpg = True
+    if_using_ppo = True
+    if_using_sac = True
+    if_using_td3 = True
+
+    stock_trading(
+        train_start_date=train_start_date,
+        train_end_date=train_end_date,
+        trade_start_date=trade_start_date,
+        trade_end_date=trade_end_date,
+        if_store_actions=if_store_actions,
+        if_store_result=if_store_result,
+        if_using_a2c=if_using_a2c,
+        if_using_ddpg=if_using_ddpg,
+        if_using_ppo=if_using_ppo,
+        if_using_sac=if_using_sac,
+        if_using_td3=if_using_td3,
+    )
