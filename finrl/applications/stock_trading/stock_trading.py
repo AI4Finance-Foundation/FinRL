@@ -19,12 +19,7 @@ from finrl.config import DATA_SAVE_DIR
 from finrl.config import INDICATORS
 from finrl.config import RESULTS_DIR
 from finrl.config import TENSORBOARD_LOG_DIR
-from finrl.config import TEST_END_DATE
-from finrl.config import TEST_START_DATE
-from finrl.config import TRADE_END_DATE
-from finrl.config import TRADE_START_DATE
-from finrl.config import TRAIN_END_DATE
-from finrl.config import TRAIN_START_DATE
+
 from finrl.config import TRAINED_MODEL_DIR
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.main import check_and_make_directories
@@ -44,17 +39,20 @@ from finrl.plot import plot_return
 # matplotlib.use('Agg')
 
 
-def main():
-    if_store_actions = True
-    TRAIN_START_DATE = "2009-01-01"
-    TRAIN_END_DATE = "2022-09-01"
-    TRADE_START_DATE = "2022-09-01"
-    TRADE_END_DATE = "2023-11-01"
-    if_using_a2c = True
-    if_using_ddpg = True
-    if_using_ppo = True
-    if_using_td3 = True
-    if_using_sac = True
+def stock_trading(
+        train_start_date: str,
+        train_end_date: str,
+        trade_start_date: str,
+        trade_end_date: str,
+        if_store_actions: bool = True,
+        if_store_result: bool = True,
+        if_using_a2c: bool = True,
+        if_using_ddpg: bool = True,
+        if_using_ppo: bool = True,
+        if_using_sac: bool = True,
+        if_using_td3: bool = True,
+):
+
 
     sys.path.append("../FinRL")
     check_and_make_directories(
@@ -63,7 +61,7 @@ def main():
     date_col = "date"
     tic_col = "tic"
     df = YahooDownloader(
-        start_date=TRAIN_START_DATE, end_date=TRADE_END_DATE, ticker_list=DOW_30_TICKER
+        start_date=train_start_date, end_date=trade_end_date, ticker_list=DOW_30_TICKER
     ).fetch_data()
     fe = FeatureEngineer(
         use_technical_indicator=True,
@@ -91,10 +89,10 @@ def main():
     init_train_trade_data = init_train_trade_data.fillna(0)
 
     init_train_data = data_split(
-        init_train_trade_data, TRAIN_START_DATE, TRAIN_END_DATE
+        init_train_trade_data, train_start_date, train_end_date
     )
     init_trade_data = data_split(
-        init_train_trade_data, TRADE_START_DATE, TRADE_END_DATE
+        init_train_trade_data, trade_start_date, trade_end_date
     )
 
     stock_dimension = len(init_train_data.tic.unique())
@@ -256,11 +254,9 @@ def main():
         actions_sac.to_csv("actions_sac.csv") if if_using_sac else None
 
     # dji
-    dji_ = get_baseline(ticker="^DJI", start=TRADE_START_DATE, end=TRADE_END_DATE)
+    dji_ = get_baseline(ticker="^DJI", start=trade_start_date, end=trade_end_date)
     dji = pd.DataFrame()
     dji[date_col] = dji_[date_col]
-    dji["account_value"] = dji_["close"] / dji_["close"].tolist()[0] * initial_amount
-    dji.to_csv("dji.csv")
     dji.rename(columns={"account_value": "DJI"}, inplace=True)
 
     result = dji
@@ -284,6 +280,12 @@ def main():
     # remove the rows with nan
     result = result.dropna(axis=0, how="any")
 
+    # cal the column name of strategies, including DJI
+    col_strategies = []
+    for col in result.columns:
+        if col != date_col and col != "" and "Unnamed" not in col:
+            col_strategies.append(col)
+
     # make sure that the first row is initial_amount
     for col in result.columns:
         if col != date_col and result[col].iloc[0] != initial_amount:
@@ -291,7 +293,8 @@ def main():
     result = result.reset_index(drop=True)
 
     print("result: ", result)
-    result.to_csv("result.csv")
+    if if_store_result:
+        result.to_csv("result.csv")
 
     # stats
     for col in result.columns:
@@ -313,4 +316,16 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if_store_actions = True
+    if_store_result = True
+    train_start_date = "2009-01-01"
+    train_end_date = "2022-09-01"
+    trade_start_date = "2022-09-01"
+    trade_end_date = "2023-11-01"
+    if_using_a2c = True
+    if_using_ddpg = True
+    if_using_ppo = True
+    if_using_td3 = True
+    if_using_sac = True
+
+    stock_trading()
