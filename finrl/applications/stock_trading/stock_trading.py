@@ -287,20 +287,20 @@ def stock_trading(
             col_strategies.append(col)
 
     # make sure that the first row is initial_amount
-    for col in result.columns:
-        if col != date_col and result[col].iloc[0] != initial_amount:
+    for col in col_strategies:
+        if result[col].iloc[0] != initial_amount:
             result[col] = result[col] / result[col].iloc[0] * initial_amount
     result = result.reset_index(drop=True)
 
+    # stats
+    for col in col_strategies:
+        stats = backtest_stats(result, value_col_name=col)
+        print("stats of " + col + ": \n", stats)
+
+    # print and save result
     print("result: ", result)
     if if_store_result:
         result.to_csv("result.csv")
-
-    # stats
-    for col in result.columns:
-        if col != date_col and col != "":
-            stats = backtest_stats(result, value_col_name=col)
-            print("stats of" + col + ": ", stats)
 
     # plot fig
     plot_return(
