@@ -61,7 +61,7 @@ Data for the chosen ticker
     df_raw = YahooDownloader(start_date = TRAIN_START_DATE,
                              end_date = TRADE_END_DATE,
                              ticker_list = config_tickers.DOW_30_TICKER).fetch_data()
-     
+
 Part 3. Preprocess Data
 ==================================
 
