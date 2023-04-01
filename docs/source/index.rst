@@ -69,10 +69,11 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Tutorials
 
    tutorial/Guide
+   tutorial/Homegrown_example
    tutorial/1-Introduction
    tutorial/2-Advance
    tutorial/3-Practical
