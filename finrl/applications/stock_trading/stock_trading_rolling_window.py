@@ -406,10 +406,9 @@ def stock_trading_rolling_window(
         if col != date_col and col != "" and "Unnamed" not in col:
             col_strategies.append(col)
 
-    # make sure that the first row is initial_amount
-    for col in col_strategies:
-        if result[col].iloc[0] != initial_amount:
-            result[col] = result[col] / result[col].iloc[0] * initial_amount
+    # make sure that the first row of DJI is initial_amount
+    col = "DJI"
+    result[col] = result[col] / result[col].iloc[0] * initial_amount
     result = result.reset_index(drop=True)
 
     # stats
