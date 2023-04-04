@@ -55,7 +55,7 @@ ERL_PARAMS = {
     "net_dimension": 512,
     "target_step": 5000,
     "eval_gap": 30,
-    "eval_times": 64,  # bug fix:KeyError: 'eval_times' line 68, in get_model model.eval_times = model_kwargs["eval_times"]
+    "eval_times": 64,
 }
 RLlib_PARAMS = {"lr": 5e-5, "train_batch_size": 500, "gamma": 0.99}
 
