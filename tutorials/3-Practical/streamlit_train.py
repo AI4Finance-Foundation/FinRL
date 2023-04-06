@@ -253,12 +253,18 @@ if __name__ == "__main__":
     )  # select one ckpt
     save_path = save_dir + SelectedCKPT
 
+    # set test stock pool same as training
+    with open(os.path.join(save_path, 'conf.json'), 'r') as file:
+        conf = json.load(file)
+    ticker_list = conf['TickerList'] 
+    TestNumStock = len(ticker_list)
+
     if st.button("BackTest"):  # test
         test_log_dict = {}
 
         # logging above info
         test_log_dict["StockPool"] = StockPool
-        test_log_dict["NumStock"] = NumStock
+        test_log_dict["NumStock"] = TestNumStock
         #     test_log_dict['TickerList'] = ticker_list
         test_log_dict["DataSource"] = "alpaca"
         #     test_log_dict['IndicatorList'] = INDICATORS
