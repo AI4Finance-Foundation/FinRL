@@ -273,7 +273,7 @@ if __name__ == "__main__":
         test_log_dict["TestTradeInterval"] = TestTradeInterval
         Hyperparams = st.json(test_log_dict)
 
-        #     print(test_log_dict)
+        print(test_log_dict)
 
         account_value = test(
             start_date=TestStartDate,
