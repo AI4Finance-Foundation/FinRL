@@ -81,7 +81,7 @@ class YahooFinanceProcessor:
     def download_data(
         self, ticker_list: list[str], start_date: str, end_date: str, time_interval: str
     ) -> pd.DataFrame:
-        time_interval = convert_interval(time_interval)
+        time_interval = self.convert_interval(time_interval)
 
         self.start = start_date
         self.end = end_date
@@ -382,7 +382,7 @@ class YahooFinanceProcessor:
         tech_indicator_list: list[str],
         limit: int = 100,
     ) -> pd.DataFrame:
-        time_interval = convert_interval(time_interval)
+        time_interval = self.convert_interval(time_interval)
 
         end_datetime = datetime.datetime.now()
         start_datetime = end_datetime - datetime.timedelta(
