@@ -55,7 +55,7 @@ class YahooFinanceProcessor:
     ...
     """
 
-    def convert_interval(time_interval: str) -> str:
+    def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
         if time_interval in [
             "1Min",
