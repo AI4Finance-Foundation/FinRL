@@ -79,8 +79,12 @@ class YahooFinanceProcessor:
         return time_interval
 
     def download_data(
-            self, ticker_list: list[str], start_date: str, end_date: str, time_interval: str,
-            proxy: Union[str, dict] = None
+        self,
+        ticker_list: list[str],
+        start_date: str,
+        end_date: str,
+        time_interval: str,
+        proxy: str | dict = None,
     ) -> pd.DataFrame:
         time_interval = self.convert_interval(time_interval)
 
@@ -102,7 +106,7 @@ class YahooFinanceProcessor:
                     start=start_date,
                     end=start_date + delta,
                     interval=self.time_interval,
-                    proxy=proxy
+                    proxy=proxy,
                 )
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
