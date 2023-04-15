@@ -23,7 +23,7 @@ class TushareDownloader:
     -------
     fetch_data()
         Fetches data from tushare API
-    date：date
+    date: date
     Open: opening price
     High: the highest price
     Close: closing price
