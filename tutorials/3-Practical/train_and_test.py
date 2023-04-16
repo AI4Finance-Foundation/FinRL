@@ -8,6 +8,7 @@ from common import *
 import datetime as dt
 from finrl.plot import *
 import pandas as pd
+from custom_plt import create_returns_tear_sheet
 
 ticker_list = DOW_30_TICKER
 # ticker_list = CHINESE_STOCK_TICKER[:30]
@@ -60,7 +61,7 @@ def backtest_plot(
 
     with pyfolio.plotting.plotting_context(font_scale=1.1):
         # this will return figs: https://github.com/quantopian/pyfolio/blob/master/pyfolio/tears.py ; create_full_tear_sheet will not
-        figs = pyfolio.create_returns_tear_sheet(  
+        figs = create_returns_tear_sheet(
             returns=test_returns, benchmark_rets=baseline_returns, set_context=False, return_fig=True
         )
 
