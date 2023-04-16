@@ -95,7 +95,7 @@ def test_process(**kwargs):
     figs.savefig(os.path.join(image_path))
         
 
-
+# DOW 2022.01.02 - 2023.01.01
 if __name__ == "__main__":
     import streamlit as st
 
@@ -115,11 +115,11 @@ if __name__ == "__main__":
     TrainStartDate = st.date_input(
         "Select a start date for training", value=dt.date(2022, 6, 11)
     ).strftime(
-        "%Y-%-m-%-d"
+        "%Y-%m-%d"
     )  # datetime.data() to string
     TrainEndDate = st.date_input(
         "Select an end date for training", value=dt.date(2022, 8, 11)
-    ).strftime("%Y-%-m-%-d")
+    ).strftime("%Y-%m-%d")
     TrainTradeInterval = st.radio(
         "Select a trade interval", ["5Min", "1Min", "15Min", "30Min", "60Min"], key=1
     )
@@ -221,10 +221,10 @@ if __name__ == "__main__":
     st.subheader("BackTest", anchor=None)
     TestStartDate = st.date_input(
         "Select a start date for backtest", value=dt.date(2022, 6, 1)
-    ).strftime("%Y-%-m-%-d")
+    ).strftime("%Y-%m-%d")
     TestEndDate = st.date_input(
         "Select an end date for backtest", value=dt.date(2022, 9, 1)
-    ).strftime("%Y-%-m-%-d")
+    ).strftime("%Y-%m-%d")
     TestTradeInterval = st.radio(
         "Select a trade interval", ["5Min", "1Min", "15Min", "30Min", "60Min"], key=2
     )
@@ -322,10 +322,10 @@ if __name__ == "__main__":
     st.subheader("Compare", anchor=None)
     CompareStartDate = st.date_input(
         "Select a start date for compare", value=dt.date(2022, 6, 1)
-    ).strftime("%Y-%-m-%-d")
+    ).strftime("%Y-%m-%d")
     CompareEndDate = st.date_input(
         "Select an end date for compare", value=dt.date(2022, 9, 1)
-    ).strftime("%Y-%-m-%-d")
+    ).strftime("%Y-%m-%d")
     CompareTradeInterval = st.radio(
         "Select a trade interval", ["5Min", "1Min", "15Min", "30Min", "60Min"], key=5
     )
