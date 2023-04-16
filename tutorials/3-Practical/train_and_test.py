@@ -69,9 +69,14 @@ def backtest_plot(
 
 def get_baseline(ticker, start, end):
     baseline_df = load_df(start, end)
-    baseline_df = baseline_df[baseline_df['tic'] == ticker]
-    baseline_df = baseline_df.loc[baseline_df['timestamp'].dt.time == dt.time(15, 59)]
-    baseline_df['date'] = baseline_df['timestamp'].dt.date
+    baseline_df: pd.DataFrame = baseline_df[baseline_df['tic'] == ticker]
+    if baseline_df.empty:
+        baseline_df = YahooDownloader(
+            start_date=start, end_date=end, ticker_list=[ticker]
+        ).fetch_data()
+    else:
+        baseline_df = baseline_df.loc[baseline_df['timestamp'].dt.time == dt.time(15, 59)]
+        baseline_df['date'] = baseline_df['timestamp'].dt.date
     return baseline_df
 
 
