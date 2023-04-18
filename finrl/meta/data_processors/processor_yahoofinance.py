@@ -55,38 +55,38 @@ class YahooFinanceProcessor:
     ...
     """
 
-    def download_data(
-        self, ticker_list: list[str], start_date: str, end_date: str, time_interval: str
-    ) -> pd.DataFrame:
+    def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
-        if time_interval == "1Min":
-            time_interval = "1m"
-        elif time_interval == "2Min":
-            time_interval = "2m"
-        elif time_interval == "5Min":
-            time_interval = "5m"
-        elif time_interval == "15Min":
-            time_interval = "15m"
-        elif time_interval == "30Min":
-            time_interval = "30m"
-        elif time_interval == "60Min":
-            time_interval = "60m"
-        elif time_interval == "90Min":
-            time_interval = "90m"
-        elif time_interval == "1H":
-            time_interval = "1h"
-        elif time_interval == "1D":
-            time_interval = "1d"
-        elif time_interval == "5D":
-            time_interval = "5d"
+        if time_interval in [
+            "1Min",
+            "2Min",
+            "5Min",
+            "15Min",
+            "30Min",
+            "60Min",
+            "90Min",
+        ]:
+            time_interval = time_interval.replace("Min", "m")
+        elif time_interval in ["1H", "1D", "5D"]:
+            time_interval = time_interval.lower()
         elif time_interval == "1W":
             time_interval = "1wk"
-        elif time_interval == "1M":
-            time_interval = "1mo"
-        elif time_interval == "3M":
-            time_interval = "3mo"
+        elif time_interval in ["1M", "3M"]:
+            time_interval = time_interval.replace("M", "mo")
         else:
             raise ValueError("wrong time_interval")
+
+        return time_interval
+
+    def download_data(
+        self,
+        ticker_list: list[str],
+        start_date: str,
+        end_date: str,
+        time_interval: str,
+        proxy: str | dict = None,
+    ) -> pd.DataFrame:
+        time_interval = self.convert_interval(time_interval)
 
         self.start = start_date
         self.end = end_date
@@ -106,6 +106,7 @@ class YahooFinanceProcessor:
                     start=start_date,
                     end=start_date + delta,
                     interval=self.time_interval,
+                    proxy=proxy,
                 )
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
@@ -387,35 +388,7 @@ class YahooFinanceProcessor:
         tech_indicator_list: list[str],
         limit: int = 100,
     ) -> pd.DataFrame:
-        # Convert FinRL 'standardised' Alpaca time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
-        if time_interval == "1Min":
-            time_interval = "1m"
-        elif time_interval == "2Min":
-            time_interval = "2m"
-        elif time_interval == "5Min":
-            time_interval = "5m"
-        elif time_interval == "15Min":
-            time_interval = "15m"
-        elif time_interval == "30Min":
-            time_interval = "30m"
-        elif time_interval == "60Min":
-            time_interval = "60m"
-        elif time_interval == "90Min":
-            time_interval = "90m"
-        elif time_interval == "1H":
-            time_interval = "1h"
-        elif time_interval == "1D":
-            time_interval = "1d"
-        elif time_interval == "5D":
-            time_interval = "5d"
-        elif time_interval == "1W":
-            time_interval = "1wk"
-        elif time_interval == "1M":
-            time_interval = "1mo"
-        elif time_interval == "3M":
-            time_interval = "3mo"
-        else:
-            raise ValueError("wrong time_interval")
+        time_interval = self.convert_interval(time_interval)
 
         end_datetime = datetime.datetime.now()
         start_datetime = end_datetime - datetime.timedelta(

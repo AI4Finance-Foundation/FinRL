@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import copy
+import datetime
 from copy import deepcopy
 
 import matplotlib.dates as mdates
@@ -10,6 +12,8 @@ import pyfolio
 from pyfolio import timeseries
 
 from finrl import config
+from finrl.meta.data_processors.func import date2str
+from finrl.meta.data_processors.func import str2date
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 
 
@@ -118,3 +122,220 @@ def trx_plot(df_trade, df_actions, ticker_list):
         plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=25))
         plt.xticks(rotation=45, ha="right")
         plt.show()
+
+
+# 2022-01-15 -> 01/15/2022
+def transfer_date(str_dat):
+    return datetime.datetime.strptime(str_dat, "%Y-%m-%d").date().strftime("%m/%d/%Y")
+
+
+def plot_result_from_csv(
+    csv_file: str,
+    column_as_x: str,
+    savefig_filename: str = "fig/result.png",
+    xlabel: str = "Date",
+    ylabel: str = "Result",
+    num_days_xticks: int = 20,
+    xrotation: int = 0,
+):
+    result = pd.read_csv(csv_file)
+    plot_result(
+        result,
+        column_as_x,
+        savefig_filename,
+        xlabel,
+        ylabel,
+        num_days_xticks,
+        xrotation,
+    )
+
+
+# select_start_date: included
+# select_end_date: included
+# is if_need_calc_return is True, it is account_value, and then transfer it to return
+# it is better that column_as_x is the first column, and the other columns are strategies
+# xrotation: the rotation of xlabel, may be used in dates
+def plot_result(
+    result: pd.DataFrame(),
+    column_as_x: str,
+    savefig_filename: str = "fig/result.png",
+    xlabel: str = "Date",
+    ylabel: str = "Result",
+    num_days_xticks: int = 20,
+    xrotation: int = 0,
+):
+    columns = result.columns
+    columns_strtegy = []
+    for i in range(len(columns)):
+        col = columns[i]
+        if "Unnamed" not in col and col != column_as_x:
+            columns_strtegy.append(col)
+
+    result.reindex()
+
+    x = result[column_as_x].values.tolist()
+    plt.rcParams["figure.figsize"] = (15, 6)
+    plt.figure()
+
+    ax = plt.subplot(1, 1, 1)
+    colors = [
+        "black",
+        "red",
+        "green",
+        "blue",
+        "cyan",
+        "magenta",
+        "yellow",
+        "aliceblue",
+        "coral",
+        "darksalmon",
+        "firebrick",
+        "honeydew",
+    ]
+    for i in range(len(columns_strtegy)):
+        col = columns_strtegy[i]
+        ax.plot(
+            x,
+            result[col],
+            color=colors[i],
+            linewidth=1,
+            linestyle="-",
+        )
+
+    plt.title("", fontsize=20)
+    plt.xlabel(xlabel, fontsize=20)
+    plt.ylabel(ylabel, fontsize=20)
+
+    plt.legend(labels=columns_strtegy, loc="best", fontsize=16)
+
+    # set grid
+    plt.grid()
+
+    plt.xticks(size=22)  # 设置刻度大小
+    plt.yticks(size=22)  # 设置刻度大小
+
+    # #设置每隔多少距离⼀个刻度
+    # plt.xticks(x[::60])
+
+    # # 设置每月定位符
+    # if if_set_x_monthlocator:
+    #     ax.xaxis.set_major_locator(mdates.MonthLocator())  # interval = 1
+
+    # 设置每隔多少距离⼀个刻度
+    plt.xticks(x[::num_days_xticks])
+
+    # plt.gcf().autofmt_xdate()  # ⾃动旋转⽇期标记
+
+    plt.setp(ax.get_xticklabels(), rotation=xrotation, horizontalalignment="right")
+
+    plt.savefig(savefig_filename)
+
+    plt.show()
+
+
+def plot_return(
+    result: pd.DataFrame(),
+    column_as_x: str,
+    if_need_calc_return: bool,
+    savefig_filename: str = "fig/result.png",
+    xlabel: str = "Date",
+    ylabel: str = "Return",
+    if_transfer_date: bool = True,
+    select_start_date: str = None,
+    select_end_date: str = None,
+    num_days_xticks: int = 20,
+    xrotation: int = 0,
+):
+    if select_start_date is None:
+        select_start_date: str = result[column_as_x].iloc[0]
+        select_end_date: str = result[column_as_x].iloc[-1]
+    # calc returns if if_need_calc_return is True, so that result stores returns
+    select_start_date_index = result[column_as_x].tolist().index(select_start_date)
+    columns = result.columns
+    columns_strtegy = []
+    column_as_x_index = None
+    for i in range(len(columns)):
+        col = columns[i]
+        if col == column_as_x:
+            column_as_x_index = i
+        elif "Unnamed" not in col:
+            columns_strtegy.append(col)
+            if if_need_calc_return:
+                result[col] = result[col] / result[col][select_start_date_index] - 1
+
+    # select the result between select_start_date and select_end_date
+    # if date is 2020-01-15, transfer it to 01/15/2020
+    num_rows, num_cols = result.shape
+    tmp_result = copy.deepcopy(result)
+    result = pd.DataFrame()
+    if_first_row = True
+    columns = []
+    for i in range(num_rows):
+        if (
+            str2date(select_start_date)
+            <= str2date(tmp_result[column_as_x][i])
+            <= str2date(select_end_date)
+        ):
+            if "-" in tmp_result.iloc[i][column_as_x] and if_transfer_date:
+                new_date = transfer_date(tmp_result.iloc[i][column_as_x])
+            else:
+                new_date = tmp_result.iloc[i][column_as_x]
+            tmp_result.iloc[i, column_as_x_index] = new_date
+            # print("tmp_result.iloc[i]: ", tmp_result.iloc[i])
+            # result = result.append(tmp_result.iloc[i])
+            if if_first_row:
+                columns = tmp_result.iloc[i].index.tolist()
+                result = pd.DataFrame(columns=columns)
+                # result = pd.concat([result, tmp_result.iloc[i]], axis=1)
+                # result = pd.DataFrame(tmp_result.iloc[i])
+                # result.columns = tmp_result.iloc[i].index.tolist()
+                if_first_row = False
+            row = pd.DataFrame([tmp_result.iloc[i].tolist()], columns=columns)
+            result = pd.concat([result, row], axis=0)
+
+    # print final return of each strategy
+    final_return = {}
+    for col in columns_strtegy:
+        final_return[col] = result.iloc[-1][col]
+    print("final return: ", final_return)
+
+    result.reindex()
+
+    plot_result(
+        result=result,
+        column_as_x=column_as_x,
+        savefig_filename=savefig_filename,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        num_days_xticks=num_days_xticks,
+        xrotation=xrotation,
+    )
+
+
+def plot_return_from_csv(
+    csv_file: str,
+    column_as_x: str,
+    if_need_calc_return: bool,
+    savefig_filename: str = "fig/result.png",
+    xlabel: str = "Date",
+    ylabel: str = "Return",
+    if_transfer_date: bool = True,
+    select_start_date: str = None,
+    select_end_date: str = None,
+    num_days_xticks: int = 20,
+    xrotation: int = 0,
+):
+    result = pd.read_csv(csv_file)
+    plot_return(
+        result,
+        column_as_x,
+        if_need_calc_return,
+        savefig_filename,
+        xlabel,
+        ylabel,
+        if_transfer_date,
+        select_start_date,
+        select_end_date,
+        num_days_xticks,
+        xrotation,
+    )

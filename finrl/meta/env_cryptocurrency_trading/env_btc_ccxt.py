@@ -149,7 +149,7 @@ class BitcoinEnv:  # custom env
             for i in range(self.max_step):
                 if i == 0:
                     init_price = self.day_price[0]
-                btc_returns.append(self.day_price[0] / init_price)
+                btc_returns.append(self.day_price[i] / init_price)
                 s_tensor = _torch.as_tensor((state,), device=device)
                 a_tensor = act(s_tensor)  # action_tanh = act.forward()
                 action = (
