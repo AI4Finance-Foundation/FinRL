@@ -3,6 +3,8 @@ ccxt>=1.66.32  # make sure that >=1.66.32
 elegantrl
 exchange_calendars==3.6.3 # because raise exception with 4.1.1, success tested with 3.6.3
 gputil
+swig
+box2d
 gymnasium
 importlib-metadata==4.13.0
 jqdatasdk
@@ -33,7 +35,6 @@ setuptools>=65.5.0
 SQLAlchemy
 stable-baselines3[extra]
 stockstats>=0.4.0
-swig
 
 
 tensorboardX
