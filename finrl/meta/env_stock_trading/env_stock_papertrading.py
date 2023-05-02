@@ -5,7 +5,7 @@ import threading
 import time
 
 import alpaca_trade_api as tradeapi
-import gymnasium as gym
+import gym
 import numpy as np
 import pandas as pd
 import torch
