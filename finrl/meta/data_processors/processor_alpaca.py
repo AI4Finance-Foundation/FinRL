@@ -63,8 +63,8 @@ class AlpacaProcessor:
 
         # reformat to finrl expected schema
         data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
-        #timestamp is already converted to NY timezone
-        #data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(NY))
+        # timestamp is already converted to NY timezone
+        # data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(NY))
 
         return data_df
 
