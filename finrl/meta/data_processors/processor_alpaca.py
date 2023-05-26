@@ -46,19 +46,25 @@ class AlpacaProcessor:
             end=end_date.isoformat(),
         ).df
 
+        # barset response has the timestamps in UTC - Convert to NY timezone
+        barset = barset.reset_index()
+        barset["timestamp"] = barset["timestamp"].apply(lambda x: x.tz_convert(NY))
+        barset = barset.set_index("timestamp")
+
         # from trepan.api import debug;debug()
         # filter opening time of the New York Stock Exchange (NYSE) (from 9:30 am to 4:00 pm) if time_interval < 1D
         day_delta = 86400000000000  # pd.Timedelta('1D').delta == 86400000000000
         if pd.Timedelta(time_interval).delta < day_delta:
-            NYSE_open_hour = "14:30"  # in UTC
-            NYSE_close_hour = "20:59"  # in UTC
+            NYSE_open_hour = "09:30"  # in NY
+            NYSE_close_hour = "15:59"  # in NY
             data_df = barset.between_time(NYSE_open_hour, NYSE_close_hour)
         else:
             data_df = barset
 
         # reformat to finrl expected schema
         data_df = data_df.reset_index().rename(columns={"symbol": "tic"})
-        data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(NY))
+        # timestamp is already converted to NY timezone
+        # data_df["timestamp"] = data_df["timestamp"].apply(lambda x: x.tz_convert(NY))
 
         return data_df
 
