@@ -1,7 +1,5 @@
-
-
-#%%
-
+# %%
+from __future__ import annotations
 
 import warnings
 
@@ -15,7 +13,8 @@ import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.use('Agg')
+
+matplotlib.use("Agg")
 import datetime
 
 # get_ipython().run_line_magic('matplotlib', 'inline')
@@ -36,10 +35,7 @@ sys.path.append("../FinRL-Library")
 import itertools
 
 
-
-
 # In[4]:
-
 
 
 import os
@@ -64,9 +60,8 @@ print(tickers)
 # In[6]:
 
 
-df = pd.read_csv('../datasets/DOW_30_TICKER.csv')
+df = pd.read_csv("../datasets/DOW_30_TICKER.csv")
 print(df.head())
-
 
 
 # In[9]:
@@ -90,7 +85,7 @@ print(df.shape)
 # In[12]:
 
 
-print(df.sort_values(['date', 'tic']).head())
+print(df.sort_values(["date", "tic"]).head())
 
 
 # In[13]:
@@ -113,10 +108,7 @@ print(df.tic.value_counts())
 # In[15]:
 
 
-tech_indicators = ['macd',
-                   'rsi_30',
-                   'cci_30',
-                   'dx_30']
+tech_indicators = ["macd", "rsi_30", "cci_30", "dx_30"]
 
 
 # In[16]:
@@ -126,7 +118,8 @@ fe = FeatureEngineer(
     use_technical_indicator=True,
     tech_indicator_list=tech_indicators,
     use_turbulence=True,
-    user_defined_feature=False)
+    user_defined_feature=False,
+)
 
 processed = fe.preprocess_data(df)
 processed = processed.copy()
@@ -160,8 +153,7 @@ env_kwargs = {
     "tech_indicator_list": tech_indicators,
     "action_space": stock_dimension,
     "reward_scaling": 1e-4,
-    "print_verbosity": 5
-
+    "print_verbosity": 5,
 }
 
 # In[20]:
@@ -170,58 +162,52 @@ env_kwargs = {
 rebalance_window = 63  # rebalance_window is the number of days to retrain the model
 validation_window = 63  # validation_window is the number of days to do validation and trading (e.g. if validation_window=63, then both validation and trading period will be 63 days)
 # TODO Updated start and end date with date time
-train_start = '2009-04-01'
-train_end = '2020-04-01'
-val_test_start = '2020-04-01'
+train_start = "2009-04-01"
+train_end = "2020-04-01"
+val_test_start = "2020-04-01"
 # val_test_end as current date
 
 
-val_test_end = '2022-06-01'
+val_test_end = "2022-06-01"
 
-ensemble_agent = DRLEnsembleAgent(df=processed,
-                                  train_period=(train_start, train_end),
-                                  val_test_period=(val_test_start, val_test_end),
-                                  rebalance_window=rebalance_window,
-                                  validation_window=validation_window,
-                                  **env_kwargs)
+ensemble_agent = DRLEnsembleAgent(
+    df=processed,
+    train_period=(train_start, train_end),
+    val_test_period=(val_test_start, val_test_end),
+    rebalance_window=rebalance_window,
+    validation_window=validation_window,
+    **env_kwargs,
+)
 
 
 # In[21]:
 
 
-A2C_model_kwargs = {
-    'n_steps': 5,
-    'ent_coef': 0.01,
-    'learning_rate': 0.0005
-}
+A2C_model_kwargs = {"n_steps": 5, "ent_coef": 0.01, "learning_rate": 0.0005}
 
 PPO_model_kwargs = {
     "ent_coef": 0.01,
     "n_steps": 2048,
     "learning_rate": 0.00025,
-    "batch_size": 512
+    "batch_size": 512,
 }
 
 DDPG_model_kwargs = {
     "action_noise": "ornstein_uhlenbeck",
     "buffer_size": 10_000,
     "learning_rate": 0.0005,
-    "batch_size": 512
+    "batch_size": 512,
 }
 
-timesteps_dict = {'a2c': 1_000,
-                  'ppo': 1_000,
-                  'ddpg': 1_000
-                  }
+timesteps_dict = {"a2c": 1_000, "ppo": 1_000, "ddpg": 1_000}
 
 
 # In[22]:
 
 
-df_summary = ensemble_agent.run_ensemble_strategy(A2C_model_kwargs,
-                                                  PPO_model_kwargs,
-                                                  DDPG_model_kwargs,
-                                                  timesteps_dict)
+df_summary = ensemble_agent.run_ensemble_strategy(
+    A2C_model_kwargs, PPO_model_kwargs, DDPG_model_kwargs, timesteps_dict
+)
 
 
 # In[23]:
@@ -244,22 +230,31 @@ print(df_summary)
 # In[39]:
 
 
-unique_trade_date = processed[(processed.date > val_test_start) & (processed.date <= val_test_end)].date.unique()
+unique_trade_date = processed[
+    (processed.date > val_test_start) & (processed.date <= val_test_end)
+].date.unique()
 
 
 # In[40]:
 
 
-df_trade_date = pd.DataFrame({'datadate': unique_trade_date})
+df_trade_date = pd.DataFrame({"datadate": unique_trade_date})
 
 df_account_value = pd.DataFrame()
-for i in range(rebalance_window + validation_window, len(unique_trade_date) + 1, rebalance_window):
-    temp = pd.read_csv(f'results/account_value_trade_ensemble_{i}.csv')
+for i in range(
+    rebalance_window + validation_window, len(unique_trade_date) + 1, rebalance_window
+):
+    temp = pd.read_csv(f"results/account_value_trade_ensemble_{i}.csv")
     df_account_value = df_account_value.append(temp, ignore_index=True)
-sharpe = (252 ** 0.5) * df_account_value.account_value.pct_change(1).mean() / df_account_value.account_value.pct_change(
-    1).std()
-print('Sharpe Ratio: ', sharpe)
-df_account_value = df_account_value.join(df_trade_date[validation_window:].reset_index(drop=True))
+sharpe = (
+    (252**0.5)
+    * df_account_value.account_value.pct_change(1).mean()
+    / df_account_value.account_value.pct_change(1).std()
+)
+print("Sharpe Ratio: ", sharpe)
+df_account_value = df_account_value.join(
+    df_trade_date[validation_window:].reset_index(drop=True)
+)
 
 
 # In[41]:
@@ -279,22 +274,22 @@ df_account_value.account_value.plot()
 
 
 print("==============Get Backtest Results===========")
-now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
+now = datetime.datetime.now().strftime("%Y%m%d-%Hh%M")
 
 perf_stats_all = backtest_stats(account_value=df_account_value)
 perf_stats_all = pd.DataFrame(perf_stats_all)
 
 
 # In[44]:
-#baseline stats
+# baseline stats
 print("==============Get Baseline Stats===========")
 baseline_df = get_baseline(
     ticker="^DJI",
-    start=df_account_value.loc[0, 'date'],
-    end=df_account_value.loc[len(df_account_value) - 1, 'date'])
+    start=df_account_value.loc[0, "date"],
+    end=df_account_value.loc[len(df_account_value) - 1, "date"],
+)
 
-stats = backtest_stats(baseline_df, value_col_name='close')
-
+stats = backtest_stats(baseline_df, value_col_name="close")
 
 
 # In[49]:
@@ -305,8 +300,9 @@ print("==============Compare to DJIA===========")
 # S&P 500: ^GSPC
 # Dow Jones Index: ^DJI
 # NASDAQ 100: ^NDX
-backtest_plot(df_account_value,
-              baseline_ticker='^DJI',
-              baseline_start=df_account_value.loc[0, 'date'],
-              baseline_end=df_account_value.loc[len(df_account_value) - 1, 'date'])
-
+backtest_plot(
+    df_account_value,
+    baseline_ticker="^DJI",
+    baseline_start=df_account_value.loc[0, "date"],
+    baseline_end=df_account_value.loc[len(df_account_value) - 1, "date"],
+)

@@ -1,5 +1,6 @@
 alpaca_trade_api>=2.1.0
 ccxt>=1.66.32  # make sure that >=1.66.32
+dm_tree
 # elegantrl
 exchange_calendars==3.6.3 # because raise exception with 4.1.1, success tested with 3.6.3
 gputil
@@ -42,4 +43,3 @@ wrds
 
 # market data & paper trading API
 yfinance
-dm_tree

@@ -1,16 +1,16 @@
-
-
 # In[60]:
+from __future__ import annotations
 
-
-import pandas as pd
-import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-# matplotlib.use('Agg')
 import datetime
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+# matplotlib.use('Agg')
+
+get_ipython().run_line_magic("matplotlib", "inline")
 from finrl import config
 from finrl import config_tickers
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
@@ -22,6 +22,7 @@ from finrl.main import check_and_make_directories
 from pprint import pprint
 from stable_baselines3.common.logger import configure
 import sys
+
 sys.path.append("../FinRL")
 
 import itertools
@@ -53,7 +54,9 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 # In[61]:
 
 
-check_and_make_directories([DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR])
+check_and_make_directories(
+    [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
+)
 
 
 # <a id='2'></a>
@@ -61,14 +64,14 @@ check_and_make_directories([DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DI
 # Yahoo Finance provides stock data, financial news, financial reports, etc. Yahoo Finance is free.
 # * FinRL uses a class **YahooDownloader** in FinRL-Meta to fetch data via Yahoo Finance API
 # * Call Limit: Using the Public API (without authentication), you are limited to 2,000 requests per hour per IP (or up to a total of 48,000 requests a day).
-# 
+#
 
-# 
-# 
+#
+#
 # -----
 # class YahooDownloader:
 #     Retrieving daily stock data from Yahoo Finance API
-# 
+#
 #     Attributes
 #     ----------
 #         start_date : str
@@ -77,7 +80,7 @@ check_and_make_directories([DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DI
 #             end date of the data (modified from config.py)
 #         ticker_list : list
 #             a list of stock tickers (modified from config.py)
-# 
+#
 #     Methods
 #     -------
 #     fetch_data()
@@ -91,13 +94,13 @@ print(DOW_30_TICKER)
 # In[63]:
 
 
-TRAIN_START_DATE = '2009-01-01'
-TRAIN_END_DATE = '2019-01-01'
-TEST_START_DATE = '2019-01-01'
-TEST_END_DATE = '2021-01-01'
+TRAIN_START_DATE = "2009-01-01"
+TRAIN_END_DATE = "2019-01-01"
+TEST_START_DATE = "2019-01-01"
+TEST_END_DATE = "2021-01-01"
 
 
-df = pd.read_csv('../datasets/DOW30.csv')
+df = pd.read_csv("../datasets/DOW30.csv")
 # df = YahooDownloader(start_date = TRAIN_START_DATE,
 #                      end_date = TEST_END_DATE,
 #                      ticker_list = DOW_30_TICKER).fetch_data()
@@ -118,13 +121,13 @@ df.head()
 # In[66]:
 
 
-df['date'] = pd.to_datetime(df['date'],format='%Y-%m-%d')
+df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d")
 
 
 # In[67]:
 
 
-df.sort_values(['date','tic'],ignore_index=True).head()
+df.sort_values(["date", "tic"], ignore_index=True).head()
 
 
 # # Part 4: Preprocess fundamental data
@@ -139,7 +142,7 @@ df.sort_values(['date','tic'],ignore_index=True).head()
 
 
 # Import fundamental data from my GitHub repository
-url = 'https://raw.githubusercontent.com/mariko-sawada/FinRL_with_fundamental_data/main/dow_30_fundamental_wrds.csv'
+url = "https://raw.githubusercontent.com/mariko-sawada/FinRL_with_fundamental_data/main/dow_30_fundamental_wrds.csv"
 
 fund = pd.read_csv(url)
 
@@ -160,27 +163,27 @@ fund.head()
 # List items that are used to calculate financial ratios
 
 items = [
-    'datadate', # Date
-    'tic', # Ticker
-    'oiadpq', # Quarterly operating income
-    'revtq', # Quartely revenue
-    'niq', # Quartely net income
-    'atq', # Total asset
-    'teqq', # Shareholder's equity
-    'epspiy', # EPS(Basic) incl. Extraordinary items
-    'ceqq', # Common Equity
-    'cshoq', # Common Shares Outstanding
-    'dvpspq', # Dividends per share
-    'actq', # Current assets
-    'lctq', # Current liabilities
-    'cheq', # Cash & Equivalent
-    'rectq', # Recievalbles
-    'cogsq', # Cost of  Goods Sold
-    'invtq', # Inventories
-    'apq',# Account payable
-    'dlttq', # Long term debt
-    'dlcq', # Debt in current liabilites
-    'ltq' # Liabilities   
+    "datadate",  # Date
+    "tic",  # Ticker
+    "oiadpq",  # Quarterly operating income
+    "revtq",  # Quartely revenue
+    "niq",  # Quartely net income
+    "atq",  # Total asset
+    "teqq",  # Shareholder's equity
+    "epspiy",  # EPS(Basic) incl. Extraordinary items
+    "ceqq",  # Common Equity
+    "cshoq",  # Common Shares Outstanding
+    "dvpspq",  # Dividends per share
+    "actq",  # Current assets
+    "lctq",  # Current liabilities
+    "cheq",  # Cash & Equivalent
+    "rectq",  # Recievalbles
+    "cogsq",  # Cost of  Goods Sold
+    "invtq",  # Inventories
+    "apq",  # Account payable
+    "dlttq",  # Long term debt
+    "dlcq",  # Debt in current liabilites
+    "ltq",  # Liabilities
 ]
 
 # Omit items that will not be used
@@ -191,28 +194,30 @@ fund_data = fund[items]
 
 
 # Rename column names for the sake of readability
-fund_data = fund_data.rename(columns={
-    'datadate':'date', # Date
-    'oiadpq':'op_inc_q', # Quarterly operating income
-    'revtq':'rev_q', # Quartely revenue
-    'niq':'net_inc_q', # Quartely net income
-    'atq':'tot_assets', # Assets
-    'teqq':'sh_equity', # Shareholder's equity
-    'epspiy':'eps_incl_ex', # EPS(Basic) incl. Extraordinary items
-    'ceqq':'com_eq', # Common Equity
-    'cshoq':'sh_outstanding', # Common Shares Outstanding
-    'dvpspq':'div_per_sh', # Dividends per share
-    'actq':'cur_assets', # Current assets
-    'lctq':'cur_liabilities', # Current liabilities
-    'cheq':'cash_eq', # Cash & Equivalent
-    'rectq':'receivables', # Receivalbles
-    'cogsq':'cogs_q', # Cost of  Goods Sold
-    'invtq':'inventories', # Inventories
-    'apq': 'payables',# Account payable
-    'dlttq':'long_debt', # Long term debt
-    'dlcq':'short_debt', # Debt in current liabilites
-    'ltq':'tot_liabilities' # Liabilities   
-})
+fund_data = fund_data.rename(
+    columns={
+        "datadate": "date",  # Date
+        "oiadpq": "op_inc_q",  # Quarterly operating income
+        "revtq": "rev_q",  # Quartely revenue
+        "niq": "net_inc_q",  # Quartely net income
+        "atq": "tot_assets",  # Assets
+        "teqq": "sh_equity",  # Shareholder's equity
+        "epspiy": "eps_incl_ex",  # EPS(Basic) incl. Extraordinary items
+        "ceqq": "com_eq",  # Common Equity
+        "cshoq": "sh_outstanding",  # Common Shares Outstanding
+        "dvpspq": "div_per_sh",  # Dividends per share
+        "actq": "cur_assets",  # Current assets
+        "lctq": "cur_liabilities",  # Current liabilities
+        "cheq": "cash_eq",  # Cash & Equivalent
+        "rectq": "receivables",  # Receivalbles
+        "cogsq": "cogs_q",  # Cost of  Goods Sold
+        "invtq": "inventories",  # Inventories
+        "apq": "payables",  # Account payable
+        "dlttq": "long_debt",  # Long term debt
+        "dlcq": "short_debt",  # Debt in current liabilites
+        "ltq": "tot_liabilities",  # Liabilities
+    }
+)
 
 
 # In[72]:
@@ -230,118 +235,173 @@ fund_data.head()
 
 
 # Calculate financial ratios
-date = pd.to_datetime(fund_data['date'],format='%Y%m%d')
+date = pd.to_datetime(fund_data["date"], format="%Y%m%d")
 
-tic = fund_data['tic'].to_frame('tic')
+tic = fund_data["tic"].to_frame("tic")
 
 # Profitability ratios
 # Operating Margin
-OPM = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='OPM')
+OPM = pd.Series(np.empty(fund_data.shape[0], dtype=object), name="OPM")
 for i in range(0, fund_data.shape[0]):
-    if i-3 < 0:
+    if i - 3 < 0:
         OPM[i] = np.nan
-    elif fund_data.iloc[i,1] != fund_data.iloc[i-3,1]:
+    elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
         OPM.iloc[i] = np.nan
     else:
-        OPM.iloc[i] = np.sum(fund_data['op_inc_q'].iloc[i-3:i])/np.sum(fund_data['rev_q'].iloc[i-3:i])
+        OPM.iloc[i] = np.sum(fund_data["op_inc_q"].iloc[i - 3 : i]) / np.sum(
+            fund_data["rev_q"].iloc[i - 3 : i]
+        )
 
-# Net Profit Margin        
-NPM = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='NPM')
+# Net Profit Margin
+NPM = pd.Series(np.empty(fund_data.shape[0], dtype=object), name="NPM")
 for i in range(0, fund_data.shape[0]):
-    if i-3 < 0:
+    if i - 3 < 0:
         NPM[i] = np.nan
-    elif fund_data.iloc[i,1] != fund_data.iloc[i-3,1]:
+    elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
         NPM.iloc[i] = np.nan
     else:
-        NPM.iloc[i] = np.sum(fund_data['net_inc_q'].iloc[i-3:i])/np.sum(fund_data['rev_q'].iloc[i-3:i])
+        NPM.iloc[i] = np.sum(fund_data["net_inc_q"].iloc[i - 3 : i]) / np.sum(
+            fund_data["rev_q"].iloc[i - 3 : i]
+        )
 
 # Return On Assets
-ROA = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='ROA')
+ROA = pd.Series(np.empty(fund_data.shape[0], dtype=object), name="ROA")
 for i in range(0, fund_data.shape[0]):
-    if i-3 < 0:
+    if i - 3 < 0:
         ROA[i] = np.nan
-    elif fund_data.iloc[i,1] != fund_data.iloc[i-3,1]:
+    elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
         ROA.iloc[i] = np.nan
     else:
-        ROA.iloc[i] = np.sum(fund_data['net_inc_q'].iloc[i-3:i])/fund_data['tot_assets'].iloc[i]
+        ROA.iloc[i] = (
+            np.sum(fund_data["net_inc_q"].iloc[i - 3 : i])
+            / fund_data["tot_assets"].iloc[i]
+        )
 
 # Return on Equity
-ROE = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='ROE')
+ROE = pd.Series(np.empty(fund_data.shape[0], dtype=object), name="ROE")
 for i in range(0, fund_data.shape[0]):
-    if i-3 < 0:
+    if i - 3 < 0:
         ROE[i] = np.nan
-    elif fund_data.iloc[i,1] != fund_data.iloc[i-3,1]:
+    elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
         ROE.iloc[i] = np.nan
     else:
-        ROE.iloc[i] = np.sum(fund_data['net_inc_q'].iloc[i-3:i])/fund_data['sh_equity'].iloc[i]        
+        ROE.iloc[i] = (
+            np.sum(fund_data["net_inc_q"].iloc[i - 3 : i])
+            / fund_data["sh_equity"].iloc[i]
+        )
 
 # For calculating valuation ratios in the next subpart, calculate per share items in advance
-# Earnings Per Share       
-EPS = fund_data['eps_incl_ex'].to_frame('EPS')
+# Earnings Per Share
+EPS = fund_data["eps_incl_ex"].to_frame("EPS")
 
 # Book Per Share
-BPS = (fund_data['com_eq']/fund_data['sh_outstanding']).to_frame('BPS') # Need to check units
+BPS = (fund_data["com_eq"] / fund_data["sh_outstanding"]).to_frame(
+    "BPS"
+)  # Need to check units
 
-#Dividend Per Share
-DPS = fund_data['div_per_sh'].to_frame('DPS')
+# Dividend Per Share
+DPS = fund_data["div_per_sh"].to_frame("DPS")
 
 # Liquidity ratios
 # Current ratio
-cur_ratio = (fund_data['cur_assets']/fund_data['cur_liabilities']).to_frame('cur_ratio')
+cur_ratio = (fund_data["cur_assets"] / fund_data["cur_liabilities"]).to_frame(
+    "cur_ratio"
+)
 
 # Quick ratio
-quick_ratio = ((fund_data['cash_eq'] + fund_data['receivables'] )/fund_data['cur_liabilities']).to_frame('quick_ratio')
+quick_ratio = (
+    (fund_data["cash_eq"] + fund_data["receivables"]) / fund_data["cur_liabilities"]
+).to_frame("quick_ratio")
 
 # Cash ratio
-cash_ratio = (fund_data['cash_eq']/fund_data['cur_liabilities']).to_frame('cash_ratio')
+cash_ratio = (fund_data["cash_eq"] / fund_data["cur_liabilities"]).to_frame(
+    "cash_ratio"
+)
 
 
 # Efficiency ratios
 # Inventory turnover ratio
-inv_turnover = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='inv_turnover')
+inv_turnover = pd.Series(
+    np.empty(fund_data.shape[0], dtype=object), name="inv_turnover"
+)
 for i in range(0, fund_data.shape[0]):
-    if i-3 < 0:
+    if i - 3 < 0:
         inv_turnover[i] = np.nan
-    elif fund_data.iloc[i,1] != fund_data.iloc[i-3,1]:
+    elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
         inv_turnover.iloc[i] = np.nan
     else:
-        inv_turnover.iloc[i] = np.sum(fund_data['cogs_q'].iloc[i-3:i])/fund_data['inventories'].iloc[i]
+        inv_turnover.iloc[i] = (
+            np.sum(fund_data["cogs_q"].iloc[i - 3 : i])
+            / fund_data["inventories"].iloc[i]
+        )
 
-# Receivables turnover ratio       
-acc_rec_turnover = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='acc_rec_turnover')
+# Receivables turnover ratio
+acc_rec_turnover = pd.Series(
+    np.empty(fund_data.shape[0], dtype=object), name="acc_rec_turnover"
+)
 for i in range(0, fund_data.shape[0]):
-    if i-3 < 0:
+    if i - 3 < 0:
         acc_rec_turnover[i] = np.nan
-    elif fund_data.iloc[i,1] != fund_data.iloc[i-3,1]:
+    elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
         acc_rec_turnover.iloc[i] = np.nan
     else:
-        acc_rec_turnover.iloc[i] = np.sum(fund_data['rev_q'].iloc[i-3:i])/fund_data['receivables'].iloc[i]
+        acc_rec_turnover.iloc[i] = (
+            np.sum(fund_data["rev_q"].iloc[i - 3 : i])
+            / fund_data["receivables"].iloc[i]
+        )
 
 # Payable turnover ratio
-acc_pay_turnover = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='acc_pay_turnover')
+acc_pay_turnover = pd.Series(
+    np.empty(fund_data.shape[0], dtype=object), name="acc_pay_turnover"
+)
 for i in range(0, fund_data.shape[0]):
-    if i-3 < 0:
+    if i - 3 < 0:
         acc_pay_turnover[i] = np.nan
-    elif fund_data.iloc[i,1] != fund_data.iloc[i-3,1]:
+    elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
         acc_pay_turnover.iloc[i] = np.nan
     else:
-        acc_pay_turnover.iloc[i] = np.sum(fund_data['cogs_q'].iloc[i-3:i])/fund_data['payables'].iloc[i]
-        
+        acc_pay_turnover.iloc[i] = (
+            np.sum(fund_data["cogs_q"].iloc[i - 3 : i]) / fund_data["payables"].iloc[i]
+        )
+
 ## Leverage financial ratios
 # Debt ratio
-debt_ratio = (fund_data['tot_liabilities']/fund_data['tot_assets']).to_frame('debt_ratio')
+debt_ratio = (fund_data["tot_liabilities"] / fund_data["tot_assets"]).to_frame(
+    "debt_ratio"
+)
 
 # Debt to Equity ratio
-debt_to_equity = (fund_data['tot_liabilities']/fund_data['sh_equity']).to_frame('debt_to_equity')
+debt_to_equity = (fund_data["tot_liabilities"] / fund_data["sh_equity"]).to_frame(
+    "debt_to_equity"
+)
 
 
 # In[74]:
 
 
 # Create a dataframe that merges all the ratios
-ratios = pd.concat([date,tic,OPM,NPM,ROA,ROE,EPS,BPS,DPS,
-                    cur_ratio,quick_ratio,cash_ratio,inv_turnover,acc_rec_turnover,acc_pay_turnover,
-                   debt_ratio,debt_to_equity], axis=1)
+ratios = pd.concat(
+    [
+        date,
+        tic,
+        OPM,
+        NPM,
+        ROA,
+        ROE,
+        EPS,
+        BPS,
+        DPS,
+        cur_ratio,
+        quick_ratio,
+        cash_ratio,
+        inv_turnover,
+        acc_rec_turnover,
+        acc_pay_turnover,
+        debt_ratio,
+        debt_to_equity,
+    ],
+    axis=1,
+)
 
 
 # In[75]:
@@ -366,7 +426,7 @@ ratios.tail()
 # Replace NAs infinite values with zero
 final_ratios = ratios.copy()
 final_ratios = final_ratios.fillna(0)
-final_ratios = final_ratios.replace(np.inf,0)
+final_ratios = final_ratios.replace(np.inf, 0)
 
 
 # In[78]:
@@ -389,47 +449,49 @@ final_ratios.tail()
 
 
 list_ticker = df["tic"].unique().tolist()
-list_date = list(pd.date_range(df['date'].min(),df['date'].max()))
-combination = list(itertools.product(list_date,list_ticker))
+list_date = list(pd.date_range(df["date"].min(), df["date"].max()))
+combination = list(itertools.product(list_date, list_ticker))
 
 # Merge stock price data and ratios into one dataframe
-processed_full = pd.DataFrame(combination,columns=["date","tic"]).merge(df,on=["date","tic"],how="left")
-processed_full = processed_full.merge(final_ratios,how='left',on=['date','tic'])
-processed_full = processed_full.sort_values(['tic','date'])
+processed_full = pd.DataFrame(combination, columns=["date", "tic"]).merge(
+    df, on=["date", "tic"], how="left"
+)
+processed_full = processed_full.merge(final_ratios, how="left", on=["date", "tic"])
+processed_full = processed_full.sort_values(["tic", "date"])
 
 # Backfill the ratio data to make them daily
-processed_full = processed_full.bfill(axis='rows')
+processed_full = processed_full.bfill(axis="rows")
 
 
-# ## 4.6 Calculate market valuation ratios using daily stock price data 
+# ## 4.6 Calculate market valuation ratios using daily stock price data
 
 # In[81]:
 
 
 # Calculate P/E, P/B and dividend yield using daily closing price
-processed_full['PE'] = processed_full['close']/processed_full['EPS']
-processed_full['PB'] = processed_full['close']/processed_full['BPS']
-processed_full['Div_yield'] = processed_full['DPS']/processed_full['close']
+processed_full["PE"] = processed_full["close"] / processed_full["EPS"]
+processed_full["PB"] = processed_full["close"] / processed_full["BPS"]
+processed_full["Div_yield"] = processed_full["DPS"] / processed_full["close"]
 
 # Drop per share items used for the above calculation
-processed_full = processed_full.drop(columns=['day','EPS','BPS','DPS'])
+processed_full = processed_full.drop(columns=["day", "EPS", "BPS", "DPS"])
 # Replace NAs infinite values with zero
 processed_full = processed_full.copy()
 processed_full = processed_full.fillna(0)
-processed_full = processed_full.replace(np.inf,0)
+processed_full = processed_full.replace(np.inf, 0)
 
 
 # In[82]:
 
 
 # Check the final data
-processed_full.sort_values(['date','tic'],ignore_index=True).head(10)
+processed_full.sort_values(["date", "tic"], ignore_index=True).head(10)
 
 
 # <a id='4'></a>
 # # Part 5. A Market Environment in OpenAI Gym-style
 # The training process involves observing stock price change, taking an action and reward's calculation. By interacting with the market environment, the agent will eventually derive a trading strategy that may maximize (expected) rewards.
-# 
+#
 # Our market environment, based on OpenAI Gym, simulates stock markets with historical market data.
 
 # ## 5.1 Data Split
@@ -647,7 +709,7 @@ class StockTradingEnv(gym.Env):
 
     def _make_plot(self):
         plt.plot(self.asset_memory, "r")
-        plt.savefig("results/account_value_trade_{}.png".format(self.episode))
+        plt.savefig(f"results/account_value_trade_{self.episode}.png")
         plt.close()
 
     def step(self, actions):
@@ -678,7 +740,7 @@ class StockTradingEnv(gym.Env):
             )
             if df_total_value["daily_return"].std() != 0:
                 sharpe = (
-                    (252 ** 0.5)
+                    (252**0.5)
                     * df_total_value["daily_return"].mean()
                     / df_total_value["daily_return"].std()
                 )
@@ -734,7 +796,6 @@ class StockTradingEnv(gym.Env):
             return self.state, self.reward, self.terminal, {}
 
         else:
-
             actions = actions * self.hmax  # actions initially is scaled between 0 to 1
             actions = actions.astype(
                 int
@@ -950,11 +1011,26 @@ class StockTradingEnv(gym.Env):
 # In[87]:
 
 
-ratio_list = ['OPM', 'NPM','ROA', 'ROE', 'cur_ratio', 'quick_ratio', 'cash_ratio', 'inv_turnover','acc_rec_turnover', 'acc_pay_turnover', 'debt_ratio', 'debt_to_equity',
-       'PE', 'PB', 'Div_yield']
+ratio_list = [
+    "OPM",
+    "NPM",
+    "ROA",
+    "ROE",
+    "cur_ratio",
+    "quick_ratio",
+    "cash_ratio",
+    "inv_turnover",
+    "acc_rec_turnover",
+    "acc_pay_turnover",
+    "debt_ratio",
+    "debt_to_equity",
+    "PE",
+    "PB",
+    "Div_yield",
+]
 
 stock_dimension = len(train_data.tic.unique())
-state_space = 1 + 2*stock_dimension + len(ratio_list)*stock_dimension
+state_space = 1 + 2 * stock_dimension + len(ratio_list) * stock_dimension
 print(f"Stock Dimension: {stock_dimension}, State Space: {state_space}")
 
 
@@ -963,25 +1039,24 @@ print(f"Stock Dimension: {stock_dimension}, State Space: {state_space}")
 
 # Parameters for the environment
 env_kwargs = {
-    "hmax": 100, 
+    "hmax": 100,
     "initial_amount": 10_000,
     "buy_cost_pct": 0.001,
     "sell_cost_pct": 0.001,
-    "state_space": state_space, 
-    "stock_dim": stock_dimension, 
-    "tech_indicator_list": ratio_list, 
-    "action_space": stock_dimension, 
-    "reward_scaling": 1e-4
-    
+    "state_space": state_space,
+    "stock_dim": stock_dimension,
+    "tech_indicator_list": ratio_list,
+    "action_space": stock_dimension,
+    "reward_scaling": 1e-4,
 }
 
-#Establish the training environment using StockTradingEnv() class
-e_train_gym = StockTradingEnv(df = train_data, **env_kwargs)
+# Establish the training environment using StockTradingEnv() class
+e_train_gym = StockTradingEnv(df=train_data, **env_kwargs)
 
 
 # ## Environment for Training
-# 
-# 
+#
+#
 
 # In[89]:
 
@@ -1001,7 +1076,7 @@ print(type(env_train))
 
 
 # Set up the agent using DRLAgent() class using the environment created in the previous part
-agent = DRLAgent(env = env_train)
+agent = DRLAgent(env=env_train)
 
 if_using_a2c = True
 if_using_ddpg = True
@@ -1017,29 +1092,31 @@ if_using_sac = True
 # In[91]:
 
 
-agent = DRLAgent(env = env_train)
+agent = DRLAgent(env=env_train)
 PPO_PARAMS = {
     "n_steps": 2048,
     "ent_coef": 0.01,
     "learning_rate": 0.00025,
     "batch_size": 2048,
 }
-model_ppo = agent.get_model("ppo",model_kwargs = PPO_PARAMS)
+model_ppo = agent.get_model("ppo", model_kwargs=PPO_PARAMS)
 
 if if_using_ppo:
-  # set up logger
-  tmp_path = RESULTS_DIR + '/ppo'
-  new_logger_ppo = configure(tmp_path, ["stdout", "csv", "tensorboard"])
-  # Set new logger
-  model_ppo.set_logger(new_logger_ppo)
+    # set up logger
+    tmp_path = RESULTS_DIR + "/ppo"
+    new_logger_ppo = configure(tmp_path, ["stdout", "csv", "tensorboard"])
+    # Set new logger
+    model_ppo.set_logger(new_logger_ppo)
 
 
 # In[92]:
 
 
-trained_ppo = agent.train_model(model=model_ppo, 
-                             tb_log_name='ppo',
-                             total_timesteps=75_000) if if_using_ppo else None
+trained_ppo = (
+    agent.train_model(model=model_ppo, tb_log_name="ppo", total_timesteps=75_000)
+    if if_using_ppo
+    else None
+)
 
 
 # ### Model 2: DDPG
@@ -1047,48 +1124,52 @@ trained_ppo = agent.train_model(model=model_ppo,
 # In[93]:
 
 
-agent = DRLAgent(env = env_train)
+agent = DRLAgent(env=env_train)
 model_ddpg = agent.get_model("ddpg")
 
 if if_using_ddpg:
-  # set up logger
-  tmp_path = RESULTS_DIR + '/ddpg'
-  new_logger_ddpg = configure(tmp_path, ["stdout", "csv", "tensorboard"])
-  # Set new logger
-  model_ddpg.set_logger(new_logger_ddpg)
+    # set up logger
+    tmp_path = RESULTS_DIR + "/ddpg"
+    new_logger_ddpg = configure(tmp_path, ["stdout", "csv", "tensorboard"])
+    # Set new logger
+    model_ddpg.set_logger(new_logger_ddpg)
 
 
 # In[94]:
 
 
-trained_ddpg = agent.train_model(model=model_ddpg, 
-                             tb_log_name='ddpg',
-                             total_timesteps=75_000) if if_using_ddpg else None
+trained_ddpg = (
+    agent.train_model(model=model_ddpg, tb_log_name="ddpg", total_timesteps=75_000)
+    if if_using_ddpg
+    else None
+)
 
 
 # ### Model 3: A2C
-# 
+#
 
 # In[95]:
 
 
-agent = DRLAgent(env = env_train)
+agent = DRLAgent(env=env_train)
 model_a2c = agent.get_model("a2c")
 
 if if_using_a2c:
-  # set up logger
-  tmp_path = RESULTS_DIR + '/a2c'
-  new_logger_a2c = configure(tmp_path, ["stdout", "csv", "tensorboard"])
-  # Set new logger
-  model_a2c.set_logger(new_logger_a2c)
+    # set up logger
+    tmp_path = RESULTS_DIR + "/a2c"
+    new_logger_a2c = configure(tmp_path, ["stdout", "csv", "tensorboard"])
+    # Set new logger
+    model_a2c.set_logger(new_logger_a2c)
 
 
 # In[96]:
 
 
-trained_a2c = agent.train_model(model=model_a2c, 
-                             tb_log_name='a2c',
-                             total_timesteps=75_000) if if_using_a2c else None
+trained_a2c = (
+    agent.train_model(model=model_a2c, tb_log_name="a2c", total_timesteps=75_000)
+    if if_using_a2c
+    else None
+)
 
 
 # ### Model 4: TD3
@@ -1096,27 +1177,27 @@ trained_a2c = agent.train_model(model=model_a2c,
 # In[97]:
 
 
-agent = DRLAgent(env = env_train)
-TD3_PARAMS = {"batch_size": 512,
-              "buffer_size": 10_000,
-              "learning_rate": 0.001}
+agent = DRLAgent(env=env_train)
+TD3_PARAMS = {"batch_size": 512, "buffer_size": 10_000, "learning_rate": 0.001}
 
-model_td3 = agent.get_model("td3",model_kwargs = TD3_PARAMS)
+model_td3 = agent.get_model("td3", model_kwargs=TD3_PARAMS)
 
 if if_using_td3:
-  # set up logger
-  tmp_path = RESULTS_DIR + '/td3'
-  new_logger_td3 = configure(tmp_path, ["stdout", "csv", "tensorboard"])
-  # Set new logger
-  model_td3.set_logger(new_logger_td3)
+    # set up logger
+    tmp_path = RESULTS_DIR + "/td3"
+    new_logger_td3 = configure(tmp_path, ["stdout", "csv", "tensorboard"])
+    # Set new logger
+    model_td3.set_logger(new_logger_td3)
 
 
 # In[98]:
 
 
-trained_td3 = agent.train_model(model=model_td3, 
-                             tb_log_name='td3',
-                             total_timesteps=75_000) if if_using_td3 else None
+trained_td3 = (
+    agent.train_model(model=model_td3, tb_log_name="td3", total_timesteps=75_000)
+    if if_using_td3
+    else None
+)
 
 
 # ### Model 5: SAC
@@ -1124,7 +1205,7 @@ trained_td3 = agent.train_model(model=model_td3,
 # In[99]:
 
 
-agent = DRLAgent(env = env_train)
+agent = DRLAgent(env=env_train)
 SAC_PARAMS = {
     "batch_size": 512,
     "buffer_size": 10_000,
@@ -1133,38 +1214,40 @@ SAC_PARAMS = {
     "ent_coef": "auto_0.1",
 }
 
-model_sac = agent.get_model("sac",model_kwargs = SAC_PARAMS)
+model_sac = agent.get_model("sac", model_kwargs=SAC_PARAMS)
 
 if if_using_sac:
-  # set up logger
-  tmp_path = RESULTS_DIR + '/sac'
-  new_logger_sac = configure(tmp_path, ["stdout", "csv", "tensorboard"])
-  # Set new logger
-  model_sac.set_logger(new_logger_sac)
+    # set up logger
+    tmp_path = RESULTS_DIR + "/sac"
+    new_logger_sac = configure(tmp_path, ["stdout", "csv", "tensorboard"])
+    # Set new logger
+    model_sac.set_logger(new_logger_sac)
 
 
 # In[100]:
 
 
-trained_sac = agent.train_model(model=model_sac, 
-                             tb_log_name='sac',
-                             total_timesteps=75_000) if if_using_sac else None
+trained_sac = (
+    agent.train_model(model=model_sac, tb_log_name="sac", total_timesteps=75_000)
+    if if_using_sac
+    else None
+)
 
 
 # ## Trading
 # Assume that we have $1,000,000 initial capital at TEST_START_DATE. We use the DDPG model to trade Dow jones 30 stocks.
 
 # ### Trade
-# 
-# DRL model needs to update periodically in order to take full advantage of the data, ideally we need to retrain our model yearly, quarterly, or monthly. We also need to tune the parameters along the way, in this notebook I only use the in-sample data from 2009-01 to 2018-12 to tune the parameters once, so there is some alpha decay here as the length of trade date extends. 
-# 
+#
+# DRL model needs to update periodically in order to take full advantage of the data, ideally we need to retrain our model yearly, quarterly, or monthly. We also need to tune the parameters along the way, in this notebook I only use the in-sample data from 2009-01 to 2018-12 to tune the parameters once, so there is some alpha decay here as the length of trade date extends.
+#
 # Numerous hyperparameters – e.g. the learning rate, the total number of samples to train on – influence the learning process and are usually determined by testing some variations.
 
 # In[101]:
 
 
 trade_data = data_split(processed_full, TEST_START_DATE, TEST_END_DATE)
-e_trade_gym = StockTradingEnv(df = trade_data, **env_kwargs)
+e_trade_gym = StockTradingEnv(df=trade_data, **env_kwargs)
 # env_trade, obs_trade = e_trade_gym.get_sb_env()
 
 
@@ -1177,25 +1260,35 @@ trade_data.head()
 # In[103]:
 
 
-df_account_value_ppo, df_actions_ppo = DRLAgent.DRL_prediction(
-    model=trained_ppo, 
-    environment = e_trade_gym) if if_using_ppo else [None, None]
+df_account_value_ppo, df_actions_ppo = (
+    DRLAgent.DRL_prediction(model=trained_ppo, environment=e_trade_gym)
+    if if_using_ppo
+    else [None, None]
+)
 
-df_account_value_ddpg, df_actions_ddpg = DRLAgent.DRL_prediction(
-    model=trained_ddpg, 
-    environment = e_trade_gym) if if_using_ddpg else [None, None]
+df_account_value_ddpg, df_actions_ddpg = (
+    DRLAgent.DRL_prediction(model=trained_ddpg, environment=e_trade_gym)
+    if if_using_ddpg
+    else [None, None]
+)
 
-df_account_value_a2c, df_actions_a2c = DRLAgent.DRL_prediction(
-    model=trained_a2c, 
-    environment = e_trade_gym) if if_using_a2c else [None, None]
+df_account_value_a2c, df_actions_a2c = (
+    DRLAgent.DRL_prediction(model=trained_a2c, environment=e_trade_gym)
+    if if_using_a2c
+    else [None, None]
+)
 
-df_account_value_td3, df_actions_td3 = DRLAgent.DRL_prediction(
-    model=trained_td3, 
-    environment = e_trade_gym) if if_using_td3 else [None, None]
+df_account_value_td3, df_actions_td3 = (
+    DRLAgent.DRL_prediction(model=trained_td3, environment=e_trade_gym)
+    if if_using_td3
+    else [None, None]
+)
 
-df_account_value_sac, df_actions_sac = DRLAgent.DRL_prediction(
-    model=trained_sac, 
-    environment = e_trade_gym) if if_using_sac else [None, None]
+df_account_value_sac, df_actions_sac = (
+    DRLAgent.DRL_prediction(model=trained_sac, environment=e_trade_gym)
+    if if_using_sac
+    else [None, None]
+)
 
 
 # In[104]:
@@ -1235,56 +1328,63 @@ df_account_value_sac, df_actions_sac = DRLAgent.DRL_prediction(
 # <a id='6.1'></a>
 # ## 7.1 BackTestStats
 # pass in df_account_value, this information is stored in env class
-# 
+#
 
 # In[107]:
 
 
 print("==============Get Backtest Results===========")
-now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
+now = datetime.datetime.now().strftime("%Y%m%d-%Hh%M")
 
 if if_using_ppo:
-  print("\n ppo:")
-  perf_stats_all_ppo = backtest_stats(account_value=df_account_value_ppo)
-  perf_stats_all_ppo = pd.DataFrame(perf_stats_all_ppo)
-  perf_stats_all_ppo.to_csv("./"+config.RESULTS_DIR+"/perf_stats_all_ppo_"+now+'.csv')
+    print("\n ppo:")
+    perf_stats_all_ppo = backtest_stats(account_value=df_account_value_ppo)
+    perf_stats_all_ppo = pd.DataFrame(perf_stats_all_ppo)
+    perf_stats_all_ppo.to_csv(
+        "./" + config.RESULTS_DIR + "/perf_stats_all_ppo_" + now + ".csv"
+    )
 
 if if_using_ddpg:
-  print("\n ddpg:")
-  perf_stats_all_ddpg = backtest_stats(account_value=df_account_value_ddpg)
-  perf_stats_all_ddpg = pd.DataFrame(perf_stats_all_ddpg)
-  perf_stats_all_ddpg.to_csv("./"+config.RESULTS_DIR+"/perf_stats_all_ddpg_"+now+'.csv')
+    print("\n ddpg:")
+    perf_stats_all_ddpg = backtest_stats(account_value=df_account_value_ddpg)
+    perf_stats_all_ddpg = pd.DataFrame(perf_stats_all_ddpg)
+    perf_stats_all_ddpg.to_csv(
+        "./" + config.RESULTS_DIR + "/perf_stats_all_ddpg_" + now + ".csv"
+    )
 
 if if_using_a2c:
-  print("\n a2c:")
-  perf_stats_all_a2c = backtest_stats(account_value=df_account_value_a2c)
-  perf_stats_all_a2c = pd.DataFrame(perf_stats_all_a2c)
-  perf_stats_all_a2c.to_csv("./"+config.RESULTS_DIR+"/perf_stats_all_a2c_"+now+'.csv')
+    print("\n a2c:")
+    perf_stats_all_a2c = backtest_stats(account_value=df_account_value_a2c)
+    perf_stats_all_a2c = pd.DataFrame(perf_stats_all_a2c)
+    perf_stats_all_a2c.to_csv(
+        "./" + config.RESULTS_DIR + "/perf_stats_all_a2c_" + now + ".csv"
+    )
 
 if if_using_td3:
-  print("\n atd3:")
-  perf_stats_all_td3 = backtest_stats(account_value=df_account_value_td3)
-  perf_stats_all_td3 = pd.DataFrame(perf_stats_all_td3)
-  perf_stats_all_td3.to_csv("./"+config.RESULTS_DIR+"/perf_stats_all_td3_"+now+'.csv')
+    print("\n atd3:")
+    perf_stats_all_td3 = backtest_stats(account_value=df_account_value_td3)
+    perf_stats_all_td3 = pd.DataFrame(perf_stats_all_td3)
+    perf_stats_all_td3.to_csv(
+        "./" + config.RESULTS_DIR + "/perf_stats_all_td3_" + now + ".csv"
+    )
 
 if if_using_sac:
-  print("\n sac:")
-  perf_stats_all_sac = backtest_stats(account_value=df_account_value_sac)
-  perf_stats_all_sac = pd.DataFrame(perf_stats_all_sac)
-  perf_stats_all_sac.to_csv("./"+config.RESULTS_DIR+"/perf_stats_all_sac_"+now+'.csv')
+    print("\n sac:")
+    perf_stats_all_sac = backtest_stats(account_value=df_account_value_sac)
+    perf_stats_all_sac = pd.DataFrame(perf_stats_all_sac)
+    perf_stats_all_sac.to_csv(
+        "./" + config.RESULTS_DIR + "/perf_stats_all_sac_" + now + ".csv"
+    )
 
 
 # In[108]:
 
 
-#baseline stats
+# baseline stats
 print("==============Get Baseline Stats===========")
-baseline_df = get_baseline(
-        ticker="^DJI", 
-        start = TEST_START_DATE,
-        end = TEST_END_DATE)
+baseline_df = get_baseline(ticker="^DJI", start=TEST_START_DATE, end=TEST_END_DATE)
 
-stats = backtest_stats(baseline_df, value_col_name = 'close')
+stats = backtest_stats(baseline_df, value_col_name="close")
 
 
 # <a id='6.2'></a>
@@ -1294,16 +1394,18 @@ stats = backtest_stats(baseline_df, value_col_name = 'close')
 
 
 print("==============Compare to DJIA===========")
-get_ipython().run_line_magic('matplotlib', 'inline')
+get_ipython().run_line_magic("matplotlib", "inline")
 # S&P 500: ^GSPC
 # Dow Jones Index: ^DJI
 # NASDAQ 100: ^NDX
 print("==============PPO===========")
 if if_using_ppo:
-  backtest_plot(df_account_value_ppo, 
-              baseline_ticker = '^DJI', 
-              baseline_start = TEST_START_DATE,
-              baseline_end = TEST_END_DATE)
+    backtest_plot(
+        df_account_value_ppo,
+        baseline_ticker="^DJI",
+        baseline_start=TEST_START_DATE,
+        baseline_end=TEST_END_DATE,
+    )
 
 
 # In[110]:
@@ -1311,10 +1413,12 @@ if if_using_ppo:
 
 print("==============DDPG===========")
 if if_using_ddpg:
-  backtest_plot(df_account_value_ddpg,
-              baseline_ticker = '^DJI',
-              baseline_start = TEST_START_DATE,
-              baseline_end = TEST_END_DATE)
+    backtest_plot(
+        df_account_value_ddpg,
+        baseline_ticker="^DJI",
+        baseline_start=TEST_START_DATE,
+        baseline_end=TEST_END_DATE,
+    )
 
 
 # In[111]:
@@ -1322,15 +1426,17 @@ if if_using_ddpg:
 
 print("==============A2C===========")
 if if_using_a2c:
-    backtest_plot(df_account_value_a2c,
-                  baseline_ticker = '^DJI',
-                  baseline_start = TEST_START_DATE,
-                  baseline_end = TEST_END_DATE)
+    backtest_plot(
+        df_account_value_a2c,
+        baseline_ticker="^DJI",
+        baseline_start=TEST_START_DATE,
+        baseline_end=TEST_END_DATE,
+    )
 
 # save the plot
 
 
-plt.savefig("./"+config.RESULTS_DIR+"/backtest_plot_"+now+'.png')
+plt.savefig("./" + config.RESULTS_DIR + "/backtest_plot_" + now + ".png")
 
 
 # In[112]:
@@ -1338,10 +1444,12 @@ plt.savefig("./"+config.RESULTS_DIR+"/backtest_plot_"+now+'.png')
 
 print("==============TD3===========")
 if if_using_td3:
-    backtest_plot(df_account_value_td3,
-                  baseline_ticker = '^DJI',
-                  baseline_start = TEST_START_DATE,
-                  baseline_end = TEST_END_DATE)
+    backtest_plot(
+        df_account_value_td3,
+        baseline_ticker="^DJI",
+        baseline_start=TEST_START_DATE,
+        baseline_end=TEST_END_DATE,
+    )
 
 
 # In[113]:
@@ -1349,14 +1457,12 @@ if if_using_td3:
 
 print("==============SAC===========")
 if if_using_sac:
-    backtest_plot(df_account_value_sac,
-                  baseline_ticker = '^DJI',
-                  baseline_start = TEST_START_DATE,
-                  baseline_end = TEST_END_DATE)
+    backtest_plot(
+        df_account_value_sac,
+        baseline_ticker="^DJI",
+        baseline_start=TEST_START_DATE,
+        baseline_end=TEST_END_DATE,
+    )
 
 
 # In[113]:
-
-
-
-
