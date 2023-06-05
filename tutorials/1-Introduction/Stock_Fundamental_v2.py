@@ -33,6 +33,9 @@ from finrl import config_tickers
 import time
 
 # sys.path.append("../FinRL")
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 # abspath = os.path.realpath('__file__')
 # print(abspath)
@@ -43,7 +46,8 @@ print("cwd", cwd)
 start_date = '2019-01-01'
 end_date = '2021-01-01'
 # total_steps = config.TOTAL_TIME_STEPS
-total_steps = 5_000
+total_steps = 150_000
+batch_size = 2048
 print(f'Total Steps: {total_steps}')
 
 matplotlib.use('Agg')
@@ -196,7 +200,7 @@ fund_data = fund_data.rename(columns={
     'ltq': 'tot_liabilities'  # Liabilities
 })
 
-# In[15]:
+#%%
 
 
 # Check the data
@@ -319,16 +323,7 @@ ratios = pd.concat([date, tic, OPM, NPM, ROA, ROE, EPS, BPS, DPS,
                     cur_ratio, quick_ratio, cash_ratio, inv_turnover, acc_rec_turnover, acc_pay_turnover,
                     debt_ratio, debt_to_equity], axis=1)
 
-# In[18]:
 
-
-# Check the ratio data
-ratios.head()
-
-# In[19]:
-
-
-ratios.tail()
 
 # ## 4.4 Deal with NAs and infinite values
 # - We replace N/A and infinite values with zero.
@@ -343,13 +338,6 @@ final_ratios = final_ratios.replace(np.inf, 0)
 
 # In[21]:
 
-
-final_ratios.head()
-
-# In[22]:
-
-
-final_ratios.tail()
 
 # ## 4.5 Merge stock price data and ratios into one dataframe
 # - Merge the price dataframe preprocessed in Part 3 and the ratio dataframe created in this part
@@ -414,14 +402,6 @@ print(len(trade_data))
 
 # In[27]:
 
-
-train_data.head()
-
-# In[28]:
-
-
-trade_data.head()
-
 # ## 5.2 Set up the training environment
 
 # In[29]:
@@ -447,8 +427,8 @@ print(f"Stock Dimension: {stock_dimension}, State Space: {state_space}")
 env_kwargs = {
     "hmax": 100,
     "initial_amount": 10_000,
-    "buy_cost_pct": 0.001,
-    "sell_cost_pct": 0.001,
+    "buy_cost_pct": 0.00001,
+    "sell_cost_pct": 0.00001,
     "state_space": state_space,
     "stock_dim": stock_dimension,
     "tech_indicator_list": ratio_list,
@@ -490,7 +470,7 @@ agent = DRLAgent(env=env_train)
 
 # In[34]:
 
-def train_ppo(total_timesteps=50000, batch_size=128, model_name='ppo'):
+def train_ppo(total_timesteps=total_steps, batch_size=batch_size, model_name='ppo'):
     global agent, model_ppo
     print("============== Model 1: PPO: ===========")
     agent = DRLAgent(env=env_train)
@@ -700,8 +680,6 @@ def trade(trained_model, trade_gym):
 # %%
 
 
-# In[ ]:
-
 
 print("==============Get Backtest Results===========")
 now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
@@ -714,26 +692,7 @@ def backtesting(df_account_value, model_name):
     perf_stats_all.to_csv("./" + config.RESULTS_DIR + "/perf_stats_all_" + model_name + "_" + now + '.csv')
 
 
-# %%
 
-
-# In[ ]:
-
-
-# baseline stats
-# print("==============Get Baseline Stats===========")
-# baseline_df = get_baseline(
-#     ticker="^DJI",
-#     start='2019-01-01',
-#     end='2021-01-01')
-# print(baseline_df)
-# # %%
-# stats = backtest_stats(baseline_df, value_col_name='close')
-# print(stats)
-
-
-# <a id='6.2'></a>
-# ## 7.2 BackTestPlot
 # %%
 
 def get_baseline_returns(account_value, baseline_end=config.TEST_END_DATE, baseline_start=config.TEST_START_DATE,

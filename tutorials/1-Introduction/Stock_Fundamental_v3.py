@@ -34,9 +34,9 @@ from finrl import config
 from finrl import config_tickers
 import time
 
-# sys.path.append("../FinRL")
+sys.path.append("../FinRL")
 
-# abspath = os.path.realpath('__file__')
+abspath = os.path.realpath('__file__')
 # print(abspath)
 # dname = os.path.dirname(abspath)
 # os.chdir('/home/james/Dropbox/Investing/RL_Agent_Examples/FinRL_JDB/tutorials/1-Introduction')
