@@ -355,7 +355,7 @@ class StockTradingEnv(gym.Env):
 
         return self.state, self.reward, self.terminal, False, {}
 
-    def reset(self):
+    def reset(self, seed=None):
         # initiate state
         self.state = self._initiate_state()
 
