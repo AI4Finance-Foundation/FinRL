@@ -77,7 +77,12 @@ class StockTradingEnv(gym.Env):
             low=-1, high=1, shape=(self.action_dim,), dtype=np.float32
         )
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed = None,
+        options = None,
+    ):
         self.day = 0
         price = self.price_ary[self.day]
 
