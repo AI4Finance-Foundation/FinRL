@@ -53,8 +53,8 @@ class BitcoinEnv:  # custom env
     def reset(
         self,
         *,
-        seed = None,
-        options = None,
+        seed=None,
+        options=None,
     ) -> np.ndarray:
         self.day = 0
         self.day_price = self.price_ary[self.day]

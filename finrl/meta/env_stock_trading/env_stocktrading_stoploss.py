@@ -134,8 +134,8 @@ class StockTradingEnvStopLoss(gym.Env):
     def reset(
         self,
         *,
-        seed = None,
-        options = None,
+        seed=None,
+        options=None,
     ):
         self.seed()
         self.sum_trades = 0

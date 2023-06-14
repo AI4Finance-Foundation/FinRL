@@ -403,8 +403,8 @@ class PendulumEnv(gym.Wrapper):  # a demo of custom gym env
     def reset(
         self,
         *,
-        seed = None,
-        options = None,
+        seed=None,
+        options=None,
     ) -> np.ndarray:  # reset the agent in env
         return self.env.reset()
 

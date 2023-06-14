@@ -202,8 +202,8 @@ class StockPortfolioEnv(gym.Env):
     def reset(
         self,
         *,
-        seed = None,
-        options = None,
+        seed=None,
+        options=None,
     ):
         self.asset_memory = [self.initial_amount]
         self.day = 0

@@ -413,8 +413,8 @@ class StockEnvEmpty(gym.Env):
     def reset(
         self,
         *,
-        seed = None,
-        options = None,
+        seed=None,
+        options=None,
     ):
         return
 

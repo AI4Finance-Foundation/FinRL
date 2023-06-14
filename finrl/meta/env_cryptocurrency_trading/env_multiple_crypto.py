@@ -49,8 +49,8 @@ class CryptoEnv:  # custom env
     def reset(
         self,
         *,
-        seed = None,
-        options = None,
+        seed=None,
+        options=None,
     ) -> np.ndarray:
         self.time = self.lookback - 1
         self.current_price = self.price_array[self.time]

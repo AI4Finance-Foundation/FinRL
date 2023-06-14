@@ -93,8 +93,8 @@ class StockEnvNAS100:
     def reset(
         self,
         *,
-        seed = None,
-        options = None,
+        seed=None,
+        options=None,
     ):
         self.day = 0
         price = self.price_ary[self.day]
