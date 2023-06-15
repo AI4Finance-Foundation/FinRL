@@ -316,7 +316,7 @@ class DRLEnsembleAgent:
             trade_obs, rewards, dones, info = trade_env.step(action)
             if i == (len(trade_data.index.unique()) - 2):
                 # print(env_test.render())
-                last_state = trade_env.render()
+                last_state = trade_env.envs[0].render()
 
         df_last_state = pd.DataFrame({"last_state": last_state})
         df_last_state.to_csv(f"results/last_state_{name}_{i}.csv", index=False)
