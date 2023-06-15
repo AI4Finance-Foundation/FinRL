@@ -50,7 +50,12 @@ class BitcoinEnv:  # custom env
         self.target_return = 10
         self.max_step = self.price_ary.shape[0]
 
-    def reset(self) -> np.ndarray:
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ) -> np.ndarray:
         self.day = 0
         self.day_price = self.price_ary[self.day]
         self.day_tech = self.tech_ary[self.day]

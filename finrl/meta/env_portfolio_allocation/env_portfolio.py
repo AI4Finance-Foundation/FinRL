@@ -199,7 +199,12 @@ class StockPortfolioEnv(gym.Env):
 
         return self.state, self.reward, self.terminal, {}
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ):
         self.asset_memory = [self.initial_amount]
         self.day = 0
         self.data = self.df.loc[self.day, :]
