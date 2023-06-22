@@ -355,12 +355,7 @@ class StockTradingEnv(gym.Env):
 
         return self.state, self.reward, self.terminal, False, {}
 
-    def reset(
-        self,
-        *,
-        seed=None,
-        options=None,
-    ):
+    def reset(self, seed=None):
         # initiate state
         self.day = 0
         self.data = self.df.loc[self.day, :]
