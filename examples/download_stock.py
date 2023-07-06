@@ -1,14 +1,18 @@
 # %%
+from __future__ import annotations
+
 import os
+import time
+
+import pandas as pd
+import yfinance as yf
+
+from finrl import config
+from finrl import config_tickers
 
 # from alpha_vantage.timeseries import TimeSeries
-import yfinance as yf
-from finrl import config_tickers
-import pandas as pd
-import time
-from finrl import config
-key = '9GZN1AFPSBK42IM7'
-polygon_key = '_mg7FDMEkjIXAh7YvyTCqROWkpLCvJbu'
+key = "9GZN1AFPSBK42IM7"
+polygon_key = "_mg7FDMEkjIXAh7YvyTCqROWkpLCvJbu"
 tickers = config_tickers.SP_500_TICKER
 # ts = TimeSeries(key=key, output_format='pandas')
 
@@ -20,7 +24,7 @@ def get_data(tickers, start_date, end_date):
     df = pd.DataFrame()
     for t in tickers:
         temp = yf.download(t, start_date, end_date)
-        data, meta_data = ts.get_daily(symbol='MSFT', outputsize='full')
+        data, meta_data = ts.get_daily(symbol="MSFT", outputsize="full")
 
         df = df.dropna()
         df = df.sort_index()
@@ -28,9 +32,12 @@ def get_data(tickers, start_date, end_date):
     # Get json object with the intraday data and another with  the call's metadata
     # data, meta_data = ts.get_intraday('GOOGL')
 
+
 def read_ticker_list(fp):
-    df =pd.read_csv(fp)
+    df = pd.read_csv(fp)
     return df.Symbol.to_list()
+
+
 # %%
 # df = get_data(tickers, '2009-01-01', '2022-09-01')
 # print(df)
@@ -51,15 +58,14 @@ def fetch_data(tickers, start_date, end_date, proxy) -> pd.DataFrame:
     for tic in tickers:
         # temp_df = yf.download(
         #     tic, start=start_date, end=end_date, proxy=proxy, auto_adjust=True, period="max")
-        temp_df = yf.download(
-            tic, proxy=proxy, auto_adjust=True, period="10y")
+        temp_df = yf.download(tic, proxy=proxy, auto_adjust=True, period="10y")
 
         # temp_df, meta_data = ts.get_daily(symbol=tic, outputsize='full')
 
         temp_df["tic"] = tic
         # data_df = data_df.append(temp_df)
         data_df = pd.concat([data_df, temp_df])
-        time.sleep(.2)
+        time.sleep(0.2)
     # reset the index, we want to use numbers as index instead of dates
     data_df = data_df.reset_index()
     try:
@@ -99,8 +105,8 @@ def fetch_data(tickers, start_date, end_date, proxy) -> pd.DataFrame:
 # df = fetch_data(tickers, '2009-01-01', '2022-09-01', proxy=None)
 # df.to_csv('../datasets/SP500_10yr.csv')
 # %%
-if __name__ == '__main__':
-    fp = '../datasets/tickers/sp-600-index-10-18-2022.csv'
+if __name__ == "__main__":
+    fp = "../datasets/tickers/sp-600-index-10-18-2022.csv"
     fp_split = os.path.split(fp)
     # get directory
     dir = fp_split[0]
@@ -112,11 +118,9 @@ if __name__ == '__main__':
     ext = os.path.splitext(filename)[1]
     # remove date from filename
 
-
-
     tickers = read_ticker_list(fp)
     print(tickers)
     start_date = config.TRAIN_START_DATE
     end_date = config.TEST_END_DATE
     df = fetch_data(tickers, start_date, end_date, proxy=None)
-    df.to_csv(f'../datasets/{filename}_data_{start_date}_{end_date}.csv', index=False)
+    df.to_csv(f"../datasets/{filename}_data_{start_date}_{end_date}.csv", index=False)
