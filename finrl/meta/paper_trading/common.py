@@ -400,7 +400,12 @@ class PendulumEnv(gym.Wrapper):  # a demo of custom gym env
         self.action_dim = self.action_space.shape[0]  # feature number of action
         self.if_discrete = False  # discrete action or continuous action
 
-    def reset(self) -> np.ndarray:  # reset the agent in env
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ) -> np.ndarray:  # reset the agent in env
         return self.env.reset()
 
     def step(

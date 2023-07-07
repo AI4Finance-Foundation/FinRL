@@ -410,7 +410,12 @@ class StockEnvEmpty(gym.Env):
             low=-1, high=1, shape=(action_dim,), dtype=np.float32
         )
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ):
         return
 
     def step(self, actions):
