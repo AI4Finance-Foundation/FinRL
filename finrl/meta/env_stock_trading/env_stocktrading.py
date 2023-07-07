@@ -355,8 +355,15 @@ class StockTradingEnv(gym.Env):
 
         return self.state, self.reward, self.terminal, False, {}
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ):
         # initiate state
+        self.day = 0
+        self.data = self.df.loc[self.day, :]
         self.state = self._initiate_state()
 
         if self.initial:
@@ -376,8 +383,6 @@ class StockTradingEnv(gym.Env):
             )
             self.asset_memory = [previous_total_asset]
 
-        self.day = 0
-        self.data = self.df.loc[self.day, :]
         self.turbulence = 0
         self.cost = 0
         self.trades = 0
