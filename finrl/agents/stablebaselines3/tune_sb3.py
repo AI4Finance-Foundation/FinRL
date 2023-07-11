@@ -1,16 +1,12 @@
 from __future__ import annotations
 
 import datetime
-import sys
-from pprint import pprint
-from typing import Tuple
-from typing import Union
 
-import hyperparams_opt as hpt
+import finrl.agents.stablebaselines3.hyperparams_opt as hpt
 import joblib
 import optuna
 import pandas as pd
-from main import check_and_make_directories
+from finrl.main import check_and_make_directories
 from stable_baselines3 import A2C
 from stable_baselines3 import DDPG
 from stable_baselines3 import PPO
@@ -19,10 +15,7 @@ from stable_baselines3 import TD3
 
 from finrl import config
 from finrl.agents.stablebaselines3.models import DRLAgent
-from finrl.plot import backtest_plot
 from finrl.plot import backtest_stats
-from finrl.plot import get_baseline
-from finrl.plot import get_daily_return
 
 
 class LoggingCallback:
