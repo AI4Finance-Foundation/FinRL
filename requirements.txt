@@ -43,3 +43,4 @@ wrds
 
 # market data & paper trading API
 yfinance
+dm_tree
