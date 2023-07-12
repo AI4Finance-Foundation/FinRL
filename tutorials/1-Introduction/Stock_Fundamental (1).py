@@ -1,3 +1,4 @@
+from __future__ import annotations
 <<<<<<< HEAD
 # %%
 # !/usr/bin/env python
@@ -258,7 +259,7 @@ items = [
     'apq',# Account payable
     'dlttq', # Long term debt
     'dlcq', # Debt in current liabilites
-    'ltq' # Liabilities   
+    'ltq' # Liabilities
 >>>>>>> dev-jdb
 ]
 
@@ -316,7 +317,7 @@ fund_data = fund_data.rename(columns={
     'apq': 'payables',# Account payable
     'dlttq':'long_debt', # Long term debt
     'dlcq':'short_debt', # Debt in current liabilites
-    'ltq':'tot_liabilities' # Liabilities   
+    'ltq':'tot_liabilities' # Liabilities
 })
 >>>>>>> dev-jdb
 
@@ -435,7 +436,7 @@ for i in range(0, fund_data.shape[0]):
     else:
         OPM.iloc[i] = np.sum(fund_data['op_inc_q'].iloc[i-3:i])/np.sum(fund_data['rev_q'].iloc[i-3:i])
 
-# Net Profit Margin        
+# Net Profit Margin
 NPM = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='NPM')
 for i in range(0, fund_data.shape[0]):
     if i-3 < 0:
@@ -463,10 +464,10 @@ for i in range(0, fund_data.shape[0]):
     elif fund_data.iloc[i,1] != fund_data.iloc[i-3,1]:
         ROE.iloc[i] = np.nan
     else:
-        ROE.iloc[i] = np.sum(fund_data['net_inc_q'].iloc[i-3:i])/fund_data['sh_equity'].iloc[i]        
+        ROE.iloc[i] = np.sum(fund_data['net_inc_q'].iloc[i-3:i])/fund_data['sh_equity'].iloc[i]
 
 # For calculating valuation ratios in the next subpart, calculate per share items in advance
-# Earnings Per Share       
+# Earnings Per Share
 EPS = fund_data['eps_incl_ex'].to_frame('EPS')
 
 # Book Per Share
@@ -553,7 +554,7 @@ for i in range(0, fund_data.shape[0]):
     else:
         inv_turnover.iloc[i] = np.sum(fund_data['cogs_q'].iloc[i-3:i])/fund_data['inventories'].iloc[i]
 
-# Receivables turnover ratio       
+# Receivables turnover ratio
 acc_rec_turnover = pd.Series(np.empty(fund_data.shape[0],dtype=object),name='acc_rec_turnover')
 for i in range(0, fund_data.shape[0]):
     if i-3 < 0:
@@ -572,7 +573,7 @@ for i in range(0, fund_data.shape[0]):
         acc_pay_turnover.iloc[i] = np.nan
     else:
         acc_pay_turnover.iloc[i] = np.sum(fund_data['cogs_q'].iloc[i-3:i])/fund_data['payables'].iloc[i]
-        
+
 ## Leverage financial ratios
 # Debt ratio
 debt_ratio = (fund_data['tot_liabilities']/fund_data['tot_assets']).to_frame('debt_ratio')
@@ -694,7 +695,7 @@ processed_full = processed_full.sort_values(['tic','date'])
 processed_full = processed_full.bfill(axis='rows')
 
 
-# ## 4.6 Calculate market valuation ratios using daily stock price data 
+# ## 4.6 Calculate market valuation ratios using daily stock price data
 >>>>>>> dev-jdb
 
 # In[24]:
@@ -743,7 +744,7 @@ processed_full.sort_values(['date','tic'],ignore_index=True).head(10)
 <<<<<<< HEAD
 #
 =======
-# 
+#
 >>>>>>> dev-jdb
 # Our market environment, based on OpenAI Gym, simulates stock markets with historical market data.
 
@@ -1339,16 +1340,16 @@ e_train_gym = StockTradingEnv(df=train_data, **env_kwargs)
 #
 #
 =======
-    "hmax": 100, 
-    "initial_amount": 1000000, 
+    "hmax": 100,
+    "initial_amount": 1000000,
     "buy_cost_pct": 0.001,
     "sell_cost_pct": 0.001,
-    "state_space": state_space, 
-    "stock_dim": stock_dimension, 
-    "tech_indicator_list": ratio_list, 
-    "action_space": stock_dimension, 
+    "state_space": state_space,
+    "stock_dim": stock_dimension,
+    "tech_indicator_list": ratio_list,
+    "action_space": stock_dimension,
     "reward_scaling": 1e-4
-    
+
 }
 
 #Establish the training environment using StockTradingEnv() class
@@ -1356,8 +1357,8 @@ e_train_gym = StockTradingEnv(df = train_data, **env_kwargs)
 
 
 # ## Environment for Training
-# 
-# 
+#
+#
 >>>>>>> dev-jdb
 
 # In[32]:
@@ -1475,7 +1476,7 @@ def train_ddpg():
 
 
 =======
-# 
+#
 
 # In[ ]:
 
@@ -1735,7 +1736,7 @@ df_account_value_sac, df_actions_sac = DRLAgent.DRL_prediction(
 <<<<<<< HEAD
 #
 =======
-# 
+#
 >>>>>>> dev-jdb
 
 # In[ ]:
