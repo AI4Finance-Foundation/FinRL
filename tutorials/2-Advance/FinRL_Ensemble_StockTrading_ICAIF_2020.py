@@ -306,3 +306,5 @@ backtest_plot(
     baseline_start=df_account_value.loc[0, "date"],
     baseline_end=df_account_value.loc[len(df_account_value) - 1, "date"],
 )
+
+#%%
