@@ -36,18 +36,19 @@
 
 ## Outline
 
-- [Overview](#Overview)
-- [File Structure](#File-Structure)
-- [Supported Data Sources](#Supported-Data-Sources)
-- [Installation](#Installation)
-- [Status Update](#Status-Update)
-- [Tutorials](#Tutorials)
-- [Publications](#Publications)
-- [News](#News)
-- [Citing FinRL](#Citing-FinRL)
-- [Welcome Contributions](#To-Contribute)
-- [Sponsorship](#Sponsorship)
-- [LICENSE](#LICENSE)
+  - [Overview](#overview)
+  - [File Structure](#file-structure)
+  - [Supported Data Sources](#supported-data-sources)
+  - [Installation](#installation)
+  - [Status Update](#status-update)
+  - [Tutorials](#tutorials)
+  - [Publications](#publications)
+  - [News](#news)
+  - [Citing FinRL](#citing-finrl)
+  - [Join and Contribute](#join-and-contribute)
+    - [Contributors](#contributors)
+    - [Sponsorship](#sponsorship)
+  - [LICENSE](#license)
 
 ## Overview
 
