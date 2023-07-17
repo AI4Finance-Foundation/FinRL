@@ -284,7 +284,7 @@ Discuss FinRL via [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4f
 	</div>
 </b>
 
-Please check [Contributing Guidances](https://github.com/AI4Finance-Foundation/FinRL/blob/master/tutorials/Contributing.md).
+Please check [Contributing Guidances](https://github.com/AI4Finance-Foundation/FinRL-Tutorials/blob/master/Contributing.md).
 
 ### Contributors
 
