@@ -38,6 +38,7 @@ Feel free to leave us feedback: report bugs using `Github issues`_ or discuss Fi
    :width: 400
    :align: center
 
+|
 
 .. toctree::
    :maxdepth: 1

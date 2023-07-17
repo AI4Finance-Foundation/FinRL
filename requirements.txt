@@ -42,3 +42,9 @@ wrds
 
 # market data & paper trading API
 yfinance
+
+
+# to build docs using sphinx
+sphinx
+sphinx_rtd_theme
+recommonmark
