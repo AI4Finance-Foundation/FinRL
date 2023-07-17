@@ -22,6 +22,7 @@ pytest
 ray[default]
 ray[tune]
 recommonmark
+recommonmark
 
 # Model Building Requirements
 scikit-learn>=0.21.0
@@ -33,6 +34,11 @@ setuptools>=65.5.0
 
 # to build docs using sphinx
 sphinx
+
+
+# to build docs using sphinx
+sphinx
+sphinx_rtd_theme
 sphinx_rtd_theme
 
 
@@ -48,9 +54,3 @@ wrds
 
 # market data & paper trading API
 yfinance
-
-
-# to build docs using sphinx
-sphinx
-sphinx_rtd_theme
-recommonmark
