@@ -80,17 +80,17 @@ If it raises errors "AttributeError: module '_Box2D' has no attribute 'RAND_LIMI
 Step 6: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
-Download the FinRL repository either use terminal:
+Download the FinRL-Tutorials repository either use terminal:
 
 .. code-block:: bash
 
-   git clone https://github.com/AI4Finance-Foundation/FinRL.git
+   git clone https://github.com/AI4Finance-Foundation/FinRL-Tutorials.git
 
 or download it manually
 
 .. image:: ../image/download_FinRL.png
 
-Open Jupyter Notebook through Anaconda Navigator and locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
+Open Jupyter Notebook through Anaconda Navigator and locate one of the stock trading notebook in FinRL-Tutorials you just downloaded. You should be able to run it.
 
 
 Ubuntu
@@ -224,12 +224,12 @@ Step 5: Install box2d (if using box2d)
 Step 6: Run `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
 --------------------------------------------------------------------------
 
-Download the FinRL repository in terminal:
+Download the FinRL-Tutorials repository in terminal:
 
 .. code-block:: bash
 
-   git clone https://github.com/AI4Finance-Foundation/FinRL.git
+   git clone https://github.com/AI4Finance-Foundation/FinRL-Tutorials.git
 
 Open Jupyter Notebook by typing 'jupyter notebook' in your ubuntu terminal. Please see `jupyter notebook <https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/execute.html>`_
 
-Locate one of the stock trading notebook in FinRL/tutorials you just downloaded. You should be able to run it.
+Locate one of the stock trading notebook in FinRL-Tutorials you just downloaded. You should be able to run it.

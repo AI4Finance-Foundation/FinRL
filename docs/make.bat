@@ -2,7 +2,7 @@
 
 pushd %~dp0
 
-REM Command file for Sphinx documentation
+REM Command file for Sphinx documentation. Run using .\make.bat html.
 
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
