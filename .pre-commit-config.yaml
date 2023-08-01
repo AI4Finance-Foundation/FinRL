@@ -16,7 +16,7 @@ repos:
       - id: reorder-python-imports
         args: [--py37-plus, --add-import, "from __future__ import annotations"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.9.0
+    rev: v3.10.1
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
@@ -25,6 +25,6 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
       - id: flake8
