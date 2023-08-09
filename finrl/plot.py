@@ -154,7 +154,7 @@ def plot_result_from_csv(
 # select_end_date: included
 # is if_need_calc_return is True, it is account_value, and then transfer it to return
 # it is better that column_as_x is the first column, and the other columns are strategies
-# xrotation: the rotation of xlabel, may be used in dates
+# xrotation: the rotation of xlabel, may be used in dates. Default=0 (adaptive adjustment)
 def plot_result(
     result: pd.DataFrame(),
     column_as_x: str,
@@ -175,9 +175,9 @@ def plot_result(
 
     x = result[column_as_x].values.tolist()
     plt.rcParams["figure.figsize"] = (15, 6)
-    plt.figure()
+    # plt.figure()
 
-    ax = plt.subplot(1, 1, 1)
+    fig, ax = plt.subplots()
     colors = [
         "black",
         "red",
@@ -224,13 +224,35 @@ def plot_result(
     # 设置每隔多少距离⼀个刻度
     plt.xticks(x[::num_days_xticks])
 
-    # plt.gcf().autofmt_xdate()  # ⾃动旋转⽇期标记
+    plt.setp(ax.get_xticklabels(), rotation=xrotation, horizontalalignment="center")
 
-    plt.setp(ax.get_xticklabels(), rotation=xrotation, horizontalalignment="right")
+    # 为防止x轴label重叠，自动调整label旋转角度
+    if xrotation == 0:
+        if_overlap = get_if_overlap(fig, ax)
+
+        if if_overlap == True:
+            plt.gcf().autofmt_xdate(ha="right")  # ⾃动旋转⽇期标记
+
+    plt.tight_layout()  # 自动调整子图间距
 
     plt.savefig(savefig_filename)
 
     plt.show()
+
+
+def get_if_overlap(fig, ax):
+    fig.canvas.draw()
+    # 获取日期标签的边界框
+    bboxes = [label.get_window_extent() for label in ax.get_xticklabels()]
+    # 计算日期标签之间的距离
+    distances = [bboxes[i + 1].x0 - bboxes[i].x1 for i in range(len(bboxes) - 1)]
+    # 如果有任何距离小于0，说明有重叠
+    if any(distance < 0 for distance in distances):
+        if_overlap = True
+    else:
+        if_overlap = False
+
+    return if_overlap
 
 
 def plot_return(
