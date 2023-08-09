@@ -175,7 +175,7 @@ def plot_result(
 
     x = result[column_as_x].values.tolist()
     plt.rcParams["figure.figsize"] = (15, 6)
-    #plt.figure()
+    # plt.figure()
 
     fig, ax = plt.subplots()
     colors = [
@@ -231,7 +231,7 @@ def plot_result(
         if_overlap = get_if_overlap(fig, ax)
 
         if if_overlap == True:
-            plt.gcf().autofmt_xdate(ha='right')  # ⾃动旋转⽇期标记
+            plt.gcf().autofmt_xdate(ha="right")  # ⾃动旋转⽇期标记
 
     plt.tight_layout()  # 自动调整子图间距
 
@@ -239,12 +239,13 @@ def plot_result(
 
     plt.show()
 
+
 def get_if_overlap(fig, ax):
     fig.canvas.draw()
     # 获取日期标签的边界框
     bboxes = [label.get_window_extent() for label in ax.get_xticklabels()]
     # 计算日期标签之间的距离
-    distances = [bboxes[i+1].x0 - bboxes[i].x1 for i in range(len(bboxes)-1)]
+    distances = [bboxes[i + 1].x0 - bboxes[i].x1 for i in range(len(bboxes) - 1)]
     # 如果有任何距离小于0，说明有重叠
     if any(distance < 0 for distance in distances):
         if_overlap = True
@@ -252,6 +253,7 @@ def get_if_overlap(fig, ax):
         if_overlap = False
 
     return if_overlap
+
 
 def plot_return(
     result: pd.DataFrame(),
