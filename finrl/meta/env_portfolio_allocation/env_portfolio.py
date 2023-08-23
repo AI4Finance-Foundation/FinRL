@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import gym
+import gymnasium as gym
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from gym import spaces
-from gym.utils import seeding
+from gymnasium import spaces
+from gymnasium.utils import seeding
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 matplotlib.use("Agg")
@@ -153,14 +153,15 @@ class StockPortfolioEnv(gym.Env):
                 print("Sharpe: ", sharpe)
             print("=================================")
 
-            return self.state, self.reward, self.terminal, {}
+            return self.state, self.reward, self.terminal, False, {}
 
         else:
             # print("Model actions: ",actions)
             # actions are the portfolio weight
             # normalize to sum of 1
             # if (np.array(actions) - np.array(actions).min()).sum() != 0:
-            #  norm_actions = (np.array(actions) - np.array(actions).min()) / (np.array(actions) - np.array(actions).min()).sum()
+            #  norm_actions = (np.array(actions) - np.array(actions).min()) /
+            #                   (np.array(actions) - np.array(actions).min()).sum()
             # else:
             #  norm_actions = actions
             weights = self.softmax_normalization(actions)
@@ -197,7 +198,7 @@ class StockPortfolioEnv(gym.Env):
             # print("Step reward: ", self.reward)
             # self.reward = self.reward*self.reward_scaling
 
-        return self.state, self.reward, self.terminal, {}
+        return self.state, self.reward, self.terminal, False, {}
 
     def reset(
         self,
@@ -222,7 +223,7 @@ class StockPortfolioEnv(gym.Env):
         self.portfolio_return_memory = [0]
         self.actions_memory = [[1 / self.stock_dim] * self.stock_dim]
         self.date_memory = [self.data.date.unique()[0]]
-        return self.state
+        return self.state, {}
 
     def render(self, mode="human"):
         return self.state
