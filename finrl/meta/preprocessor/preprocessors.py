@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import datetime
 import math
+
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
 
-from finrl import config, config_tickers
+from finrl import config
+from finrl import config_tickers
 from finrl.config import DATA_SET
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 
@@ -61,12 +63,12 @@ class FeatureEngineer:
     """
 
     def __init__(
-            self,
-            use_technical_indicator=True,
-            tech_indicator_list=config.INDICATORS,
-            use_vix=False,
-            use_turbulence=False,
-            user_defined_feature=False,
+        self,
+        use_technical_indicator=True,
+        tech_indicator_list=config.INDICATORS,
+        use_vix=False,
+        use_turbulence=False,
+        user_defined_feature=False,
     ):
         self.use_technical_indicator = use_technical_indicator
         self.tech_indicator_list = tech_indicator_list
@@ -181,13 +183,12 @@ class FeatureEngineer:
         df = data.copy()
         df["daily_return"] = df.close.pct_change(1)
         advancing_data, declining_data = self.calculate_advancing_declining(df)
-        mco = self.calculate_mcclellan_oscillator(advancing_data,
-                                                  declining_data)
+        mco = self.calculate_mcclellan_oscillator(advancing_data, declining_data)
         df = df.merge(mco.to_frame(), left_on="date", right_index=True, how="left")
-        df.rename(columns={0: 'mco'}, inplace=True)
-        df['mco'].replace(np.nan, 0, inplace=True)
+        df.rename(columns={0: "mco"}, inplace=True)
+        df["mco"].replace(np.nan, 0, inplace=True)
         df = self.calculate_hindenburg_omen(df)
-        df['mco'] = df.apply(self.transform_row, axis=1)
+        df["mco"] = df.apply(self.transform_row, axis=1)
         df = self.update_turbulence_vix(df)
         # df['return_lag_1']=df.close.pct_change(2)
         # df['return_lag_2']=df.close.pct_change(3)
@@ -196,15 +197,15 @@ class FeatureEngineer:
         return df
 
     def transform_row(self, row):
-        if row['mco'] < 0:
-            if row['hindenburg']:
+        if row["mco"] < 0:
+            if row["hindenburg"]:
                 factor = 10000
-                return abs(row['mco']) * factor
+                return abs(row["mco"]) * factor
             else:
                 factor = 1000
-                return abs(row['mco']) * factor
+                return abs(row["mco"]) * factor
         else:
-            return -(row['mco']*1000)
+            return -(row["mco"] * 1000)
 
     def add_vix(self, data):
         """
@@ -246,8 +247,8 @@ class FeatureEngineer:
         df
         """
         # df= df['turbulence', 'mco'].sum(axis = 1, skipna = True)
-        df['turbulence'] = df['turbulence'] + df['mco']
-        df['vix'] = df['vix'] + df['mco']
+        df["turbulence"] = df["turbulence"] + df["mco"]
+        df["vix"] = df["vix"] + df["mco"]
         return df
 
     def calculate_turbulence(self, data):
@@ -270,11 +271,11 @@ class FeatureEngineer:
             hist_price = df_price_pivot[
                 (df_price_pivot.index < unique_date[i])
                 & (df_price_pivot.index >= unique_date[i - 252])
-                ]
+            ]
             # Drop tickers which has number missing values more than the "oldest" ticker
             filtered_hist_price = hist_price.iloc[
-                                  hist_price.isna().sum().min():
-                                  ].dropna(axis=1)
+                hist_price.isna().sum().min() :
+            ].dropna(axis=1)
 
             cov_temp = filtered_hist_price.cov()
             current_temp = current_price[[x for x in filtered_hist_price]] - np.mean(
@@ -306,55 +307,97 @@ class FeatureEngineer:
 
     def calculate_hindenburg_omen(self, df_raw):
         """
-            Calculates the Hindenburg Omen signal for a given DataFrame of market data.
+        Calculates the Hindenburg Omen signal for a given DataFrame of market data.
 
-            Args:
-                df (pd.DataFrame): DataFrame containing historical market data.
-                threshold (float): Threshold value for the number of new highs and new lows.
+        Args:
+            df (pd.DataFrame): DataFrame containing historical market data.
+            threshold (float): Threshold value for the number of new highs and new lows.
 
-            Returns:
-                bool: True if the Hindenburg Omen signal is triggered, False otherwise.
-            """
+        Returns:
+            bool: True if the Hindenburg Omen signal is triggered, False otherwise.
+        """
         TRAIN_START_DATE = config.TRAIN_START_DATE
         TRADE_END_DATE = config.TRADE_END_DATE
-        #df_raw_s_p = self.get_sp_raw() )# VIXTRIAL
-        if DATA_SET == 'nasdaq':
-            stock_ticker = ['^NDX']
-        elif DATA_SET == 'dow':
-            stock_ticker = ['^DJI']
+        # df_raw_s_p = self.get_sp_raw() )# VIXTRIAL
+        if DATA_SET == "nasdaq":
+            stock_ticker = ["^NDX"]
+        elif DATA_SET == "dow":
+            stock_ticker = ["^DJI"]
         else:
-            stock_ticker = ['^GSPC']
-        df_raw['date1'] = pd.to_datetime(df_raw['date'])
-        df_raw.sort_values(by=['tic', 'date1'], inplace=True)
-        df_raw['rollinghigh'] = df_raw.groupby('tic')['high'].rolling(365).max().reset_index(level=0, drop=True)
-        df_raw['rollinglow'] = df_raw.groupby('tic')['low'].rolling(365).min().reset_index(level=0, drop=True)
-        df_raw['52_week_high'] = (df_raw['high'] >= df_raw['rollinghigh']).astype(int)
-        df_raw['52_week_low'] = (df_raw['low'] <= df_raw['rollinglow']).astype(int)
-        df_raw['52_week_high_tic'] = df_raw.groupby('date')['52_week_high'].transform('sum')
-        df_raw['52_week_low_tic'] = df_raw.groupby('date')['52_week_low'].transform('sum')
-        df_raw['threshold_high'] = df_raw['52_week_high_tic'] / df_raw['tic'].nunique() * 100
-        df_raw['threshold_low'] = df_raw['52_week_low_tic'] / df_raw['tic'].nunique() * 100
-        stock_index_raw = YahooDownloader(start_date=TRAIN_START_DATE,  # dji= ^DJI or nasdaq= ^NDX
-                                          end_date=TRADE_END_DATE,
-                                          ticker_list=stock_ticker).fetch_data()# VIXTRIAL
+            stock_ticker = ["^GSPC"]
+        df_raw["date1"] = pd.to_datetime(df_raw["date"])
+        df_raw.sort_values(by=["tic", "date1"], inplace=True)
+        df_raw["rollinghigh"] = (
+            df_raw.groupby("tic")["high"]
+            .rolling(365)
+            .max()
+            .reset_index(level=0, drop=True)
+        )
+        df_raw["rollinglow"] = (
+            df_raw.groupby("tic")["low"]
+            .rolling(365)
+            .min()
+            .reset_index(level=0, drop=True)
+        )
+        df_raw["52_week_high"] = (df_raw["high"] >= df_raw["rollinghigh"]).astype(int)
+        df_raw["52_week_low"] = (df_raw["low"] <= df_raw["rollinglow"]).astype(int)
+        df_raw["52_week_high_tic"] = df_raw.groupby("date")["52_week_high"].transform(
+            "sum"
+        )
+        df_raw["52_week_low_tic"] = df_raw.groupby("date")["52_week_low"].transform(
+            "sum"
+        )
+        df_raw["threshold_high"] = (
+            df_raw["52_week_high_tic"] / df_raw["tic"].nunique() * 100
+        )
+        df_raw["threshold_low"] = (
+            df_raw["52_week_low_tic"] / df_raw["tic"].nunique() * 100
+        )
+        stock_index_raw = YahooDownloader(
+            start_date=TRAIN_START_DATE,  # dji= ^DJI or nasdaq= ^NDX
+            end_date=TRADE_END_DATE,
+            ticker_list=stock_ticker,
+        ).fetch_data()  # VIXTRIAL
         # stock_index_raw = YahooDownloader(start_date=TRAIN_START_DATE,  # dji= ^DJI or nasdaq= ^NDX
         #                                   end_date=TRADE_END_DATE,
         #                                   ticker_list=['^GSPC']).fetch_data()
-        stock_index_raw['week10_ma'] = stock_index_raw['close'].rolling(window=10 * 5).mean()
+        stock_index_raw["week10_ma"] = (
+            stock_index_raw["close"].rolling(window=10 * 5).mean()
+        )
         # %%
-        stock_index_raw['trend'] = (stock_index_raw['close'] > stock_index_raw['week10_ma'])
+        stock_index_raw["trend"] = (
+            stock_index_raw["close"] > stock_index_raw["week10_ma"]
+        )
         # %%
-        stock_index_raw['date1'] = pd.to_datetime(stock_index_raw['date'])
+        stock_index_raw["date1"] = pd.to_datetime(stock_index_raw["date"])
         # %%
-        final_raw = pd.merge(df_raw, stock_index_raw[['trend', 'date1']], on='date1', how='left')
+        final_raw = pd.merge(
+            df_raw, stock_index_raw[["trend", "date1"]], on="date1", how="left"
+        )
         # %%
-        final_raw['hindenburg'] = (final_raw['threshold_high'] > 2.2) & (final_raw['threshold_low'] > 2.2) & (
-                final_raw['52_week_high_tic'] <= (2 * final_raw['52_week_low_tic'])) & (
-                                          final_raw['52_week_low_tic'] != 0) & (final_raw['52_week_high_tic'] != 0) & (
-                                          final_raw['trend'] == True) & (final_raw['mco'] < 0)
+        final_raw["hindenburg"] = (
+            (final_raw["threshold_high"] > 2.2)
+            & (final_raw["threshold_low"] > 2.2)
+            & (final_raw["52_week_high_tic"] <= (2 * final_raw["52_week_low_tic"]))
+            & (final_raw["52_week_low_tic"] != 0)
+            & (final_raw["52_week_high_tic"] != 0)
+            & (final_raw["trend"] == True)
+            & (final_raw["mco"] < 0)
+        )
         final_raw = final_raw.drop(
-            ['rollinghigh', 'rollinglow', '52_week_high', '52_week_low', '52_week_high_tic', '52_week_low_tic',
-             'threshold_high', 'threshold_low', 'date1'], axis=1)
+            [
+                "rollinghigh",
+                "rollinglow",
+                "52_week_high",
+                "52_week_low",
+                "52_week_high_tic",
+                "52_week_low_tic",
+                "threshold_high",
+                "threshold_low",
+                "date1",
+            ],
+            axis=1,
+        )
         return final_raw
 
     def calculate_advancing_declining(self, data):
@@ -369,16 +412,18 @@ class FeatureEngineer:
             pd.Series: Series containing the number of declining issues for each period.
         """
         # Calculate the number of advancing issues for each period
-        data['advancing'] = (data['close'] > data['close'].shift(1))
+        data["advancing"] = data["close"] > data["close"].shift(1)
 
         # Calculate the number of declining issues for each period
-        data['declining'] = (data['close'] < data['close'].shift(1))
+        data["declining"] = data["close"] < data["close"].shift(1)
 
         advancing = data.query("advancing == True").groupby(["date"]).sum()
         declining = data.query("declining == True").groupby(["date"]).sum()
         return advancing, declining
 
-    def calculate_mcclellan_oscillator(self, advancing, declining, ema_short=19, ema_long=39):
+    def calculate_mcclellan_oscillator(
+        self, advancing, declining, ema_short=19, ema_long=39
+    ):
         """
         Calculates the McClellan Oscillator (MCO) for a given set of advancing and declining issues.
 
@@ -397,10 +442,10 @@ class FeatureEngineer:
         advancing
         data
         """
-        advancing = pd.Series(advancing['advancing']).astype(float)
-        declining = pd.Series(declining['declining']).astype(float)
+        advancing = pd.Series(advancing["advancing"]).astype(float)
+        declining = pd.Series(declining["declining"]).astype(float)
 
-        ratio_change = ((advancing - declining) / (advancing + declining))
+        ratio_change = (advancing - declining) / (advancing + declining)
 
         day_19_sma = ratio_change.rolling(window=ema_short).mean()
         day_39_sma = ratio_change.rolling(window=ema_long).mean()
@@ -417,7 +462,9 @@ class FeatureEngineer:
                     ema = ((ratio_change[idx] - x) * 0.10) + x
                     first_calc = False
                 else:
-                    ema = ((ratio_change[idx] - day_19_ema.iloc[idx - 1]) * 0.10) + day_19_ema.iloc[idx - 1]
+                    ema = (
+                        (ratio_change[idx] - day_19_ema.iloc[idx - 1]) * 0.10
+                    ) + day_19_ema.iloc[idx - 1]
                 day_19_ema = pd.concat([day_19_ema, pd.Series([ema], index=[index])])
 
         first_calc = True
@@ -431,16 +478,16 @@ class FeatureEngineer:
                     ema = ((ratio_change[idx] - x) * 0.05) + x
                     first_calc = False
                 else:
-                    ema = ((ratio_change[idx] - day_39_ema.iloc[idx - 1]) * 0.05) + day_39_ema.iloc[idx - 1]
+                    ema = (
+                        (ratio_change[idx] - day_39_ema.iloc[idx - 1]) * 0.05
+                    ) + day_39_ema.iloc[idx - 1]
                 day_39_ema = pd.concat([day_39_ema, pd.Series([ema], index=[index])])
         # day_39_ema = (ratio_change - day_39_sma.shift(1)) * 0.05 + day_39_sma.shift(1)
         mco = day_19_ema - day_39_ema
 
         return mco
 
-    def calculate_mcclellan_oscillator_sp(self,df_raw_s_p):
+    def calculate_mcclellan_oscillator_sp(self, df_raw_s_p):
         advancing_data, declining_data = self.calculate_advancing_declining(df_raw_s_p)
-        mco = self.calculate_mcclellan_oscillator(advancing_data,
-                                                  declining_data)
+        mco = self.calculate_mcclellan_oscillator(advancing_data, declining_data)
         return mco
-

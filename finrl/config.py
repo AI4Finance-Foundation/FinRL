@@ -1,11 +1,11 @@
 # directory
 from __future__ import annotations
 
-DATA_SET = 'snp'
-DATA_SAVE_DIR = "datasets/"+DATA_SET
-TRAINED_MODEL_DIR = "trained_models/"+DATA_SET
-TENSORBOARD_LOG_DIR = "tensorboard_log/"+DATA_SET
-RESULTS_DIR = "results/"+DATA_SET
+DATA_SET = "snp"
+DATA_SAVE_DIR = "datasets/" + DATA_SET
+TRAINED_MODEL_DIR = "trained_models/" + DATA_SET
+TENSORBOARD_LOG_DIR = "tensorboard_log/" + DATA_SET
+RESULTS_DIR = "results/" + DATA_SET
 
 # date format: '%Y-%m-%d'
 TRAIN_START_DATE = "1980-01-06"  # bug fix: set Monday right, start date set 2014-01-01 ValueError: all the input array dimensions for the concatenation axis must match exactly, but along dimension 0, the array at index 0 has size 1658 and the array at index 1 has size 1657
