@@ -318,8 +318,9 @@ class DRLEnsembleAgent:
                 # print(env_test.render())
                 last_state = trade_env.envs[0].render()
 
-        df_last_state = pd.DataFrame({"last_state": last_state})
-        df_last_state.to_csv(f"results/last_state_{name}_{i}.csv", index=False)
+        if last_state is not None:
+            df_last_state = pd.DataFrame({"last_state": last_state})
+            df_last_state.to_csv(f"results/last_state_{name}_{i}.csv", index=False)
         return last_state
 
     def run_ensemble_strategy(
