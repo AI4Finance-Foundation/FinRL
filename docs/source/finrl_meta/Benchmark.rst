@@ -24,7 +24,7 @@ The following baseline trading strategies are provided for comparisons:
 Tutorials in Jupyter Notebooks
 ===========================================
 
-For educational purposes, we provide Jupyter notebooks as tutorials to help newcomers get familiar with the whole pipeline. Notebooks can be found `here <https://github.com/AI4Finance-Foundation/FinRL-Meta/tree/master/tutorials>`_
+For educational purposes, we provide Jupyter notebooks as tutorials to help newcomers get familiar with the whole pipeline. Notebooks can be found `here <https://github.com/AI4Finance-Foundation/FinRL-Tutorials>`_
 
 • Stock trading: We apply popular DRL algorithms to trade multiple stocks.
 • Portfolio allocation: We use DRL agents to optimize asset allocation in a set of stocks.
