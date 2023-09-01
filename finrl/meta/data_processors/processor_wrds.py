@@ -54,7 +54,8 @@ class WrdsProcessor:
                     + lib
                     + "."
                     + table
-                    + " where sym_root in %(syms)s and time_m between '9:30:00' and '16:00:00' and size > %(num_shares)s and sym_suffix is null",
+                    + " where sym_root in %(syms)s "
+                    + "and time_m between '9:30:00' and '16:00:00' and size > %(num_shares)s and sym_suffix is null",
                     params=parm,
                 )
                 if_empty = False
@@ -177,7 +178,8 @@ class WrdsProcessor:
                     [[time, np.nan, np.nan, np.nan, np.nan, 0, tic]],
                     columns=["time", "open", "high", "low", "close", "volume", "tic"],
                 )
-                df2 = df2.append(temp_df, ignore_index=True)
+                # df2 = df2.append(temp_df, ignore_index=True)
+                df2 = pd.concat([df2, temp_df], axis=0, ignore_index=True)
 
         # fill nan data
         df = df2.sort_values(by=["tic", "time"])
@@ -230,7 +232,11 @@ class WrdsProcessor:
                 temp_indicator["date"] = df[df.tic == unique_ticker[i]][
                     "date"
                 ].to_list()
-                indicator_df = indicator_df.append(temp_indicator, ignore_index=True)
+                # indicator_df = indicator_df.append(temp_indicator, ignore_index=True)
+                indicator_df = pd.concat(
+                    [indicator_df, temp_indicator], axis=0, ignore_index=True
+                )
+
             df = df.merge(
                 indicator_df[["tic", "date", indicator]], on=["tic", "date"], how="left"
             )
