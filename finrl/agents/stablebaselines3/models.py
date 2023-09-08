@@ -40,8 +40,17 @@ class TensorboardCallback(BaseCallback):
     def _on_step(self) -> bool:
         try:
             self.logger.record(key="train/reward", value=self.locals["rewards"][0])
-        except BaseException:
-            self.logger.record(key="train/reward", value=self.locals["reward"][0])
+
+        except BaseException as error:
+            try:
+                self.logger.record(key="train/reward", value=self.locals["reward"][0])
+
+            except BaseException as inner_error:
+                # Handle the case where neither "rewards" nor "reward" is found
+                self.logger.record(key="train/reward", value=None)
+                # Print the original error and the inner error for debugging
+                print("Original Error:", error)
+                print("Inner Error:", inner_error)
         return True
 
 
@@ -78,7 +87,9 @@ class DRLAgent:
         tensorboard_log=None,
     ):
         if model_name not in MODELS:
-            raise NotImplementedError("NotImplementedError")
+            raise ValueError(
+                f"Model '{model_name}' not found in MODELS."
+            )  # this is more informative than NotImplementedError("NotImplementedError")
 
         if model_kwargs is None:
             model_kwargs = MODEL_KWARGS[model_name]
@@ -99,7 +110,10 @@ class DRLAgent:
             **model_kwargs,
         )
 
-    def train_model(self, model, tb_log_name, total_timesteps=5000):
+    @staticmethod
+    def train_model(
+        model, tb_log_name, total_timesteps=5000
+    ):  # this function is static method, so it can be called without creating an instance of the class
         model = model.learn(
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
@@ -109,21 +123,29 @@ class DRLAgent:
 
     @staticmethod
     def DRL_prediction(model, environment, deterministic=True):
+        """make a prediction and get results"""
         test_env, test_obs = environment.get_sb_env()
-        """make a prediction"""
-        account_memory = []
-        actions_memory = []
-        #         state_memory=[] #add memory pool to store states
+        account_memory = None  # This help avoid unnecessary list creation
+        actions_memory = None  # optimize memory consumption
+        # state_memory=[] #add memory pool to store states
+
         test_env.reset()
+        max_steps = len(environment.df.index.unique()) - 1
+
         for i in range(len(environment.df.index.unique())):
             action, _states = model.predict(test_obs, deterministic=deterministic)
             # account_memory = test_env.env_method(method_name="save_asset_memory")
             # actions_memory = test_env.env_method(method_name="save_action_memory")
             test_obs, rewards, dones, info = test_env.step(action)
-            if i == (len(environment.df.index.unique()) - 2):
+
+            if (
+                i == max_steps - 1
+            ):  # more descriptive condition for early termination to clarify the logic
                 account_memory = test_env.env_method(method_name="save_asset_memory")
                 actions_memory = test_env.env_method(method_name="save_action_memory")
-            #                 state_memory=test_env.env_method(method_name="save_state_memory") # add current state to state memory
+            # add current state to state memory
+            # state_memory=test_env.env_method(method_name="save_state_memory")
+
             if dones[0]:
                 print("hit end!")
                 break
@@ -132,13 +154,15 @@ class DRLAgent:
     @staticmethod
     def DRL_prediction_load_from_file(model_name, environment, cwd, deterministic=True):
         if model_name not in MODELS:
-            raise NotImplementedError("NotImplementedError")
+            raise ValueError(
+                f"Model '{model_name}' not found in MODELS."
+            )  # this is more informative than NotImplementedError("NotImplementedError")
         try:
             # load agent
             model = MODELS[model_name].load(cwd)
             print("Successfully load model", cwd)
-        except BaseException:
-            raise ValueError("Fail to load agent!")
+        except BaseException as error:
+            raise ValueError(f"Failed to load agent. Error: {str(error)}") from error
 
         # test on the testing env
         state = environment.reset()
@@ -174,7 +198,9 @@ class DRLEnsembleAgent:
         verbose=1,
     ):
         if model_name not in MODELS:
-            raise NotImplementedError("NotImplementedError")
+            raise ValueError(
+                f"Model '{model_name}' not found in MODELS."
+            )  # this is more informative than NotImplementedError("NotImplementedError")
 
         if model_kwargs is None:
             temp_model_kwargs = MODEL_KWARGS[model_name]
@@ -278,7 +304,7 @@ class DRLEnsembleAgent:
     ):
         """make a prediction based on trained model"""
 
-        ## trading env
+        # trading env
         trade_data = data_split(
             self.df,
             start=self.unique_trade_date[iter_num - self.rebalance_window],
@@ -364,7 +390,7 @@ class DRLEnsembleAgent:
             iteration_list.append(i)
 
             print("============================================")
-            ## initial state is empty
+            # initial state is empty
             if i - self.rebalance_window - self.validation_window == 0:
                 # inital state
                 initial = True
@@ -414,8 +440,8 @@ class DRLEnsembleAgent:
             )
             print("turbulence_threshold: ", turbulence_threshold)
 
-            ############## Environment Setup starts ##############
-            ## training env
+            # Environment Setup starts
+            # training env
             train = data_split(
                 self.df,
                 start=self.train_period[0],
@@ -449,9 +475,9 @@ class DRLEnsembleAgent:
                 ],
                 end=self.unique_trade_date[i - self.rebalance_window],
             )
-            ############## Environment Setup ends ##############
+            # Environment Setup ends
 
-            ############## Training and Validation starts ##############
+            # Training and Validation starts
             print(
                 "======Model training from: ",
                 self.train_period[0],
@@ -623,41 +649,64 @@ class DRLEnsembleAgent:
                 self.unique_trade_date[i - self.rebalance_window],
             )
             # Environment setup for model retraining up to first trade date
-            # train_full = data_split(self.df, start=self.train_period[0], end=self.unique_trade_date[i - self.rebalance_window])
+            # train_full = data_split(self.df, start=self.train_period[0],
+            # end=self.unique_trade_date[i - self.rebalance_window])
             # self.train_full_env = DummyVecEnv([lambda: StockTradingEnv(train_full,
-            #                                                    self.stock_dim,
-            #                                                    self.hmax,
-            #                                                    self.initial_amount,
-            #                                                    self.buy_cost_pct,
-            #                                                    self.sell_cost_pct,
-            #                                                    self.reward_scaling,
-            #                                                    self.state_space,
-            #                                                    self.action_space,
-            #                                                    self.tech_indicator_list,
-            #                                                    print_verbosity=self.print_verbosity)])
+            #                                               self.stock_dim,
+            #                                               self.hmax,
+            #                                               self.initial_amount,
+            #                                               self.buy_cost_pct,
+            #                                               self.sell_cost_pct,
+            #                                               self.reward_scaling,
+            #                                               self.state_space,
+            #                                               self.action_space,
+            #                                               self.tech_indicator_list,
+            #                                              print_verbosity=self.print_verbosity
+            # )])
             # Model Selection based on sharpe ratio
             if (sharpe_ppo >= sharpe_a2c) & (sharpe_ppo >= sharpe_ddpg):
                 model_use.append("PPO")
                 model_ensemble = model_ppo
 
-                # model_ensemble = self.get_model("ppo",self.train_full_env,policy="MlpPolicy",model_kwargs=PPO_model_kwargs)
-                # model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ppo']) #100_000
+                # model_ensemble = self.get_model("ppo",
+                # self.train_full_env,
+                # policy="MlpPolicy",
+                # model_kwargs=PPO_model_kwargs)
+                # model_ensemble = self.train_model(model_ensemble,
+                # "ensemble",
+                # tb_log_name="ensemble_{}".format(i),
+                # iter_num = i,
+                # total_timesteps=timesteps_dict['ppo']) #100_000
             elif (sharpe_a2c > sharpe_ppo) & (sharpe_a2c > sharpe_ddpg):
                 model_use.append("A2C")
                 model_ensemble = model_a2c
 
-                # model_ensemble = self.get_model("a2c",self.train_full_env,policy="MlpPolicy",model_kwargs=A2C_model_kwargs)
-                # model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['a2c']) #100_000
+                # model_ensemble = self.get_model("a2c",
+                # self.train_full_env,
+                # policy="MlpPolicy",
+                # model_kwargs=A2C_model_kwargs)
+                # model_ensemble = self.train_model(model_ensemble,
+                # "ensemble",
+                # tb_log_name="ensemble_{}".format(i),
+                # iter_num = i,
+                # total_timesteps=timesteps_dict['a2c']) #100_000
             else:
                 model_use.append("DDPG")
                 model_ensemble = model_ddpg
 
-                # model_ensemble = self.get_model("ddpg",self.train_full_env,policy="MlpPolicy",model_kwargs=DDPG_model_kwargs)
-                # model_ensemble = self.train_model(model_ensemble, "ensemble", tb_log_name="ensemble_{}".format(i), iter_num = i, total_timesteps=timesteps_dict['ddpg']) #50_000
+                # model_ensemble = self.get_model("ddpg",
+                # self.train_full_env,
+                # policy="MlpPolicy",
+                # model_kwargs=DDPG_model_kwargs)
+                # model_ensemble = self.train_model(model_ensemble,
+                # "ensemble",
+                # tb_log_name="ensemble_{}".format(i),
+                #  iter_num = i,
+                # total_timesteps=timesteps_dict['ddpg']) #50_000
 
-            ############## Training and Validation ends ##############
+            # Training and Validation ends
 
-            ############## Trading starts ##############
+            # Trading starts
             print(
                 "======Trading from: ",
                 self.unique_trade_date[i - self.rebalance_window],
@@ -673,7 +722,7 @@ class DRLEnsembleAgent:
                 turbulence_threshold=turbulence_threshold,
                 initial=initial,
             )
-            ############## Trading ends ##############
+            # Trading ends
 
         end = time.time()
         print("Ensemble Strategy took: ", (end - start) / 60, " minutes")
