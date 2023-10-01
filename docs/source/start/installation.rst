@@ -142,8 +142,8 @@ Windows 10
 ======================
 Prepare for install
 --------------------------------------------------------------------------
-1. VPN is needed if using YahooFinance in china (pyfolio, elegantRL pip dependencies need pull code, YahooFinance has stopped the service in china). Othewise, please ignore it.
-2. python version >=3.7
+1. VPN is needed if using YahooFinance in china (pyfolio, elegantRL pip dependencies need pull code, YahooFinance has stopped the service in china). Otherwise, please ignore it.
+2. python version >=3.7 and python version < 3.11
 3. pip remove zipline, if your system has installed zipline, zipline has conflicts with the FinRL.
 
 Step 1: Clone `FinRL <https://github.com/AI4Finance-Foundation/FinRL>`_
