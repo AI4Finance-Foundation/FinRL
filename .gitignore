@@ -146,3 +146,4 @@ test_plugplay.py
 papertrading_test.py
 alpaca_processor_test.py
 /finrl/config_private.py
+.history/
