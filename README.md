@@ -24,6 +24,9 @@
 
 [FinGPT](https://github.com/AI4Finance-Foundation/ChatGPT-for-FinTech): Open-source for open-finance! Revolutionize FinTech.
 
+Check out our latest competition: [ACM ICAIF 2023 FinRL Contest](https://finrl-contest.github.io/)
+
+
 [![](https://dcbadge.vercel.app/api/server/trsr8SXpW5)](https://discord.gg/trsr8SXpW5)
 
 
