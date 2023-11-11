@@ -50,7 +50,12 @@ class BitcoinEnv:  # custom env
         self.target_return = 10
         self.max_step = self.price_ary.shape[0]
 
-    def reset(self) -> np.ndarray:
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ) -> np.ndarray:
         self.day = 0
         self.day_price = self.price_ary[self.day]
         self.day_tech = self.tech_ary[self.day]
@@ -149,7 +154,7 @@ class BitcoinEnv:  # custom env
             for i in range(self.max_step):
                 if i == 0:
                     init_price = self.day_price[0]
-                btc_returns.append(self.day_price[0] / init_price)
+                btc_returns.append(self.day_price[i] / init_price)
                 s_tensor = _torch.as_tensor((state,), device=device)
                 a_tensor = act(s_tensor)  # action_tanh = act.forward()
                 action = (

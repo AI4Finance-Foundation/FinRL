@@ -131,7 +131,12 @@ class StockTradingEnvStopLoss(gym.Env):
     def current_step(self):
         return self.date_index - self.starting_point
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ):
         self.seed()
         self.sum_trades = 0
         self.actual_num_trades = 0

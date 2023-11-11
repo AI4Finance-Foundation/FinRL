@@ -2,13 +2,13 @@ from __future__ import annotations
 
 from typing import List
 
-import gym
+import gymnasium as gym
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from gym import spaces
-from gym.utils import seeding
+from gymnasium import spaces
+from gymnasium.utils import seeding
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 matplotlib.use("Agg")
@@ -286,8 +286,7 @@ class StockTradingEnv(gym.Env):
                 plt.savefig(
                     "results/account_value_{}_{}_{}.png".format(
                         self.mode, self.model_name, self.iteration
-                    ),
-                    index=False,
+                    )
                 )
                 plt.close()
 
@@ -298,7 +297,7 @@ class StockTradingEnv(gym.Env):
             # logger.record("environment/total_cost", self.cost)
             # logger.record("environment/total_trades", self.trades)
 
-            return self.state, self.reward, self.terminal, {}
+            return self.state, self.reward, self.terminal, False, {}
 
         else:
             actions = actions * self.hmax  # actions initially is scaled between 0 to 1
@@ -354,10 +353,17 @@ class StockTradingEnv(gym.Env):
                 self.state
             )  # add current state in state_recorder for each step
 
-        return self.state, self.reward, self.terminal, {}
+        return self.state, self.reward, self.terminal, False, {}
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ):
         # initiate state
+        self.day = 0
+        self.data = self.df.loc[self.day, :]
         self.state = self._initiate_state()
 
         if self.initial:
@@ -377,8 +383,6 @@ class StockTradingEnv(gym.Env):
             )
             self.asset_memory = [previous_total_asset]
 
-        self.day = 0
-        self.data = self.df.loc[self.day, :]
         self.turbulence = 0
         self.cost = 0
         self.trades = 0
@@ -390,7 +394,7 @@ class StockTradingEnv(gym.Env):
 
         self.episode += 1
 
-        return self.state
+        return self.state, {}
 
     def render(self, mode="human", close=False):
         return self.state

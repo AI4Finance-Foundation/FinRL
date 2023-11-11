@@ -14,9 +14,8 @@ from finrl.meta.data_processors.fx_history_data.vo import BarData
 
 
 class DataProcessor:
-    def __init__(self, data_source, **kwargs):
+    def __init__(self, data_source, tech_indicator=None, vix=None, **kwargs):
         if data_source == "alpaca":
-
             try:
                 API_KEY = kwargs.get("API_KEY")
                 API_SECRET = kwargs.get("API_SECRET")
@@ -37,6 +36,10 @@ class DataProcessor:
 
         else:
             raise ValueError("Data source input is NOT supported yet.")
+
+        # Initialize variable in case it is using cache and does not use download_data() method
+        self.tech_indicator_list = tech_indicator
+        self.vix = vix
 
     def download_data(
         self, ticker_list, start_date, end_date, time_interval
@@ -76,6 +79,21 @@ class DataProcessor:
 
     def add_vix(self, df) -> pd.DataFrame:
         df = self.processor.add_vix(df)
+
+        return df
+
+    def add_turbulence(self, df) -> pd.DataFrame:
+        df = self.processor.add_turbulence(df)
+
+        return df
+
+    def add_vix(self, df) -> pd.DataFrame:
+        df = self.processor.add_vix(df)
+
+        return df
+
+    def add_vixor(self, df) -> pd.DataFrame:
+        df = self.processor.add_vixor(df)
 
         return df
 

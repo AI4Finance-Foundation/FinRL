@@ -28,7 +28,6 @@ class YahooDownloader:
     """
 
     def __init__(self, start_date: str, end_date: str, ticker_list: list):
-
         self.start_date = start_date
         self.end_date = end_date
         self.ticker_list = ticker_list
@@ -46,12 +45,19 @@ class YahooDownloader:
         """
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
+        num_failures = 0
         for tic in self.ticker_list:
             temp_df = yf.download(
                 tic, start=self.start_date, end=self.end_date, proxy=proxy
             )
             temp_df["tic"] = tic
-            data_df = data_df.append(temp_df)
+            if len(temp_df) > 0:
+                # data_df = data_df.append(temp_df)
+                data_df = pd.concat([data_df, temp_df], axis=0)
+            else:
+                num_failures += 1
+        if num_failures == len(self.ticker_list):
+            raise ValueError("no data is fetched.")
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:

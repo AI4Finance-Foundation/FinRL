@@ -123,7 +123,6 @@ def train(
 
 
 if __name__ == "__main__":
-
     env = StockTradingEnv
 
     # demo for elegantrl

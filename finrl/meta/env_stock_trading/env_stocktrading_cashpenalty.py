@@ -129,7 +129,12 @@ class StockTradingEnvCashpenalty(gym.Env):
     def closings(self):
         return np.array(self.get_date_vector(self.date_index, cols=["close"]))
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ):
         self.seed()
         self.sum_trades = 0
         if self.random_start:
@@ -205,7 +210,6 @@ class StockTradingEnvCashpenalty(gym.Env):
         return state, reward, True, {}
 
     def log_step(self, reason, terminal_reward=None):
-
         if terminal_reward is None:
             terminal_reward = self.account_information["reward"][-1]
         cash_pct = (

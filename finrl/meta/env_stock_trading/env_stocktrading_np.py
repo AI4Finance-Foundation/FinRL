@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import gym
+import gymnasium as gym
 import numpy as np
 from numpy import random as rd
 
@@ -77,7 +77,12 @@ class StockTradingEnv(gym.Env):
             low=-1, high=1, shape=(self.action_dim,), dtype=np.float32
         )
 
-    def reset(self):
+    def reset(
+        self,
+        *,
+        seed=None,
+        options=None,
+    ):
         self.day = 0
         price = self.price_ary[self.day]
 
@@ -98,7 +103,7 @@ class StockTradingEnv(gym.Env):
         self.total_asset = self.amount + (self.stocks * price).sum()
         self.initial_total_asset = self.total_asset
         self.gamma_reward = 0.0
-        return self.get_state(price)  # state
+        return self.get_state(price), {}  # state
 
     def step(self, actions):
         actions = (actions * self.max_stock).astype(int)
@@ -144,7 +149,7 @@ class StockTradingEnv(gym.Env):
             reward = self.gamma_reward
             self.episode_return = total_asset / self.initial_total_asset
 
-        return state, reward, done, dict()
+        return state, reward, done, False, dict()
 
     def get_state(self, price):
         amount = np.array(self.amount * (2**-12), dtype=np.float32)
