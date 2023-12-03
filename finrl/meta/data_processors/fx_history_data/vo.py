@@ -1,7 +1,12 @@
-from dataclasses import dataclass, field
+from __future__ import annotations
+
+from dataclasses import dataclass
+from dataclasses import field
 from datetime import datetime
 from logging import INFO
-from .constant import Exchange, Interval
+
+from .constant import Exchange
+from .constant import Interval
 
 
 @dataclass

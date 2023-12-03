@@ -53,18 +53,19 @@ class ObjDict(dict):
     """
     Makes a  dictionary behave like an object,with attribute-style access.
     """
-    def __getattr__(self,name):
+
+    def __getattr__(self, name):
         try:
             return self[name]
         except:
             raise AttributeError(name)
-    def __setattr__(self,name,value):
-        self[name]=value
+
+    def __setattr__(self, name, value):
+        self[name] = value
 
 
-options = ObjDict({
-    "mode": "train"
-})
+options = ObjDict({"mode": "train"})
+
 
 def main() -> int:
     # parser = build_parser()
@@ -79,11 +80,9 @@ def main() -> int:
         env = StockTradingEnv
 
         # demo for elegantrl
-        kwargs = (
-            {
-                "charts": "on"
-            }
-        )  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
+        kwargs = {
+            "charts": "on"
+        }  # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         train(
             start_date=TRAIN_START_DATE,
             end_date=TRAIN_END_DATE,

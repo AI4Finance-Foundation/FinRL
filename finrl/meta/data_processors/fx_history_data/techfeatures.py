@@ -1,6 +1,11 @@
-import talib
-from typing import Tuple, Union
+from __future__ import annotations
+
+from typing import Tuple
+from typing import Union
+
 import numpy as np
+import talib
+
 from .vo import BarData
 
 
@@ -98,7 +103,7 @@ class ArrayManager:
         """
         return self.open_interest_array
 
-    def sma(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def sma(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         Simple moving average.
         """
@@ -107,7 +112,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def ema(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def ema(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         Exponential moving average.
         """
@@ -116,7 +121,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def kama(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def kama(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         KAMA.
         """
@@ -125,7 +130,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def wma(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def wma(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         WMA.
         """
@@ -135,12 +140,8 @@ class ArrayManager:
         return result[-1]
 
     def apo(
-        self,
-        fast_period: int,
-        slow_period: int,
-        matype: int = 0,
-        array: bool = False
-    ) -> Union[float, np.ndarray]:
+        self, fast_period: int, slow_period: int, matype: int = 0, array: bool = False
+    ) -> float | np.ndarray:
         """
         APO.
         """
@@ -149,7 +150,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def cmo(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def cmo(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         CMO.
         """
@@ -158,7 +159,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def mom(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def mom(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         MOM.
         """
@@ -168,12 +169,8 @@ class ArrayManager:
         return result[-1]
 
     def ppo(
-        self,
-        fast_period: int,
-        slow_period: int,
-        matype: int = 0,
-        array: bool = False
-    ) -> Union[float, np.ndarray]:
+        self, fast_period: int, slow_period: int, matype: int = 0, array: bool = False
+    ) -> float | np.ndarray:
         """
         PPO.
         """
@@ -182,7 +179,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def roc(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def roc(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         ROC.
         """
@@ -191,7 +188,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def rocr(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def rocr(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         ROCR.
         """
@@ -200,7 +197,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def rocp(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def rocp(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         ROCP.
         """
@@ -209,7 +206,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def rocr_100(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def rocr_100(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         ROCR100.
         """
@@ -218,7 +215,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def trix(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def trix(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         TRIX.
         """
@@ -227,7 +224,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def std(self, n: int, nbdev: int = 1, array: bool = False) -> Union[float, np.ndarray]:
+    def std(self, n: int, nbdev: int = 1, array: bool = False) -> float | np.ndarray:
         """
         Standard deviation.
         """
@@ -236,7 +233,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def obv(self, array: bool = False) -> Union[float, np.ndarray]:
+    def obv(self, array: bool = False) -> float | np.ndarray:
         """
         OBV.
         """
@@ -245,7 +242,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def cci(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def cci(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         Commodity Channel Index (CCI).
         """
@@ -254,7 +251,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def atr(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def atr(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         Average True Range (ATR).
         """
@@ -263,7 +260,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def natr(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def natr(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         NATR.
         """
@@ -272,7 +269,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def rsi(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def rsi(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         Relative Strenght Index (RSI).
         """
@@ -286,11 +283,8 @@ class ArrayManager:
         fast_period: int,
         slow_period: int,
         signal_period: int,
-        array: bool = False
-    ) -> Union[
-        Tuple[np.ndarray, np.ndarray, np.ndarray],
-        Tuple[float, float, float]
-    ]:
+        array: bool = False,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray] | tuple[float, float, float]:
         """
         MACD.
         """
@@ -301,7 +295,7 @@ class ArrayManager:
             return macd, signal, hist
         return macd[-1], signal[-1], hist[-1]
 
-    def adx(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def adx(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         ADX.
         """
@@ -310,7 +304,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def adxr(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def adxr(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         ADXR.
         """
@@ -319,7 +313,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def dx(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def dx(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         DX.
         """
@@ -328,7 +322,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def minus_di(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def minus_di(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         MINUS_DI.
         """
@@ -337,7 +331,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def plus_di(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def plus_di(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         PLUS_DI.
         """
@@ -346,7 +340,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def willr(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def willr(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         WILLR.
         """
@@ -360,17 +354,19 @@ class ArrayManager:
         time_period1: int = 7,
         time_period2: int = 14,
         time_period3: int = 28,
-        array: bool = False
-    ) -> Union[float, np.ndarray]:
+        array: bool = False,
+    ) -> float | np.ndarray:
         """
         Ultimate Oscillator.
         """
-        result: np.ndarray = talib.ULTOSC(self.high, self.low, self.close, time_period1, time_period2, time_period3)
+        result: np.ndarray = talib.ULTOSC(
+            self.high, self.low, self.close, time_period1, time_period2, time_period3
+        )
         if array:
             return result
         return result[-1]
 
-    def trange(self, array: bool = False) -> Union[float, np.ndarray]:
+    def trange(self, array: bool = False) -> float | np.ndarray:
         """
         TRANGE.
         """
@@ -380,51 +376,36 @@ class ArrayManager:
         return result[-1]
 
     def boll(
-        self,
-        n: int,
-        dev: float,
-        array: bool = False
-    ) -> Union[
-        Tuple[np.ndarray, np.ndarray],
-        Tuple[float, float]
-    ]:
+        self, n: int, dev: float, array: bool = False
+    ) -> tuple[np.ndarray, np.ndarray] | tuple[float, float]:
         """
         Bollinger Channel.
         """
-        mid: Union[float, np.ndarray] = self.sma(n, array)
-        std: Union[float, np.ndarray] = self.std(n, 1, array)
+        mid: float | np.ndarray = self.sma(n, array)
+        std: float | np.ndarray = self.std(n, 1, array)
 
-        up: Union[float, np.ndarray] = mid + std * dev
-        down: Union[float, np.ndarray] = mid - std * dev
+        up: float | np.ndarray = mid + std * dev
+        down: float | np.ndarray = mid - std * dev
 
         return up, down
 
     def keltner(
-        self,
-        n: int,
-        dev: float,
-        array: bool = False
-    ) -> Union[
-        Tuple[np.ndarray, np.ndarray],
-        Tuple[float, float]
-    ]:
+        self, n: int, dev: float, array: bool = False
+    ) -> tuple[np.ndarray, np.ndarray] | tuple[float, float]:
         """
         Keltner Channel.
         """
-        mid: Union[float, np.ndarray] = self.sma(n, array)
-        atr: Union[float, np.ndarray] = self.atr(n, array)
+        mid: float | np.ndarray = self.sma(n, array)
+        atr: float | np.ndarray = self.atr(n, array)
 
-        up: Union[float, np.ndarray] = mid + atr * dev
-        down: Union[float, np.ndarray] = mid - atr * dev
+        up: float | np.ndarray = mid + atr * dev
+        down: float | np.ndarray = mid - atr * dev
 
         return up, down
 
     def donchian(
         self, n: int, array: bool = False
-    ) -> Union[
-        Tuple[np.ndarray, np.ndarray],
-        Tuple[float, float]
-    ]:
+    ) -> tuple[np.ndarray, np.ndarray] | tuple[float, float]:
         """
         Donchian Channel.
         """
@@ -436,13 +417,8 @@ class ArrayManager:
         return up[-1], down[-1]
 
     def aroon(
-        self,
-        n: int,
-        array: bool = False
-    ) -> Union[
-        Tuple[np.ndarray, np.ndarray],
-        Tuple[float, float]
-    ]:
+        self, n: int, array: bool = False
+    ) -> tuple[np.ndarray, np.ndarray] | tuple[float, float]:
         """
         Aroon indicator.
         """
@@ -452,7 +428,7 @@ class ArrayManager:
             return aroon_up, aroon_down
         return aroon_up[-1], aroon_down[-1]
 
-    def aroonosc(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def aroonosc(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         Aroon Oscillator.
         """
@@ -462,7 +438,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def minus_dm(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def minus_dm(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         MINUS_DM.
         """
@@ -472,7 +448,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def plus_dm(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def plus_dm(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         PLUS_DM.
         """
@@ -482,7 +458,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def mfi(self, n: int, array: bool = False) -> Union[float, np.ndarray]:
+    def mfi(self, n: int, array: bool = False) -> float | np.ndarray:
         """
         Money Flow Index.
         """
@@ -491,7 +467,7 @@ class ArrayManager:
             return result
         return result[-1]
 
-    def ad(self, array: bool = False) -> Union[float, np.ndarray]:
+    def ad(self, array: bool = False) -> float | np.ndarray:
         """
         AD.
         """
@@ -501,20 +477,19 @@ class ArrayManager:
         return result[-1]
 
     def adosc(
-        self,
-        fast_period: int,
-        slow_period: int,
-        array: bool = False
-    ) -> Union[float, np.ndarray]:
+        self, fast_period: int, slow_period: int, array: bool = False
+    ) -> float | np.ndarray:
         """
         ADOSC.
         """
-        result: np.ndarray = talib.ADOSC(self.high, self.low, self.close, self.volume, fast_period, slow_period)
+        result: np.ndarray = talib.ADOSC(
+            self.high, self.low, self.close, self.volume, fast_period, slow_period
+        )
         if array:
             return result
         return result[-1]
 
-    def bop(self, array: bool = False) -> Union[float, np.ndarray]:
+    def bop(self, array: bool = False) -> float | np.ndarray:
         """
         BOP.
         """
@@ -531,11 +506,8 @@ class ArrayManager:
         slowk_matype: int,
         slowd_period: int,
         slowd_matype: int,
-        array: bool = False
-    ) -> Union[
-        Tuple[float, float],
-        Tuple[np.ndarray, np.ndarray]
-    ]:
+        array: bool = False,
+    ) -> tuple[float, float] | tuple[np.ndarray, np.ndarray]:
         """
         Stochastic Indicator
         """
@@ -547,7 +519,7 @@ class ArrayManager:
             slowk_period,
             slowk_matype,
             slowd_period,
-            slowd_matype
+            slowd_matype,
         )
         if array:
             return k, d

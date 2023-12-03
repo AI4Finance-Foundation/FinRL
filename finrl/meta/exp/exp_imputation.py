@@ -1,21 +1,26 @@
-from data_provider.data_factory import data_provider
-from exp.exp_basic import Exp_Basic
-from utils.tools import EarlyStopping, adjust_learning_rate, visual
-from utils.metrics import metric
-import torch
-import torch.nn as nn
-from torch import optim
+from __future__ import annotations
+
 import os
 import time
 import warnings
-import numpy as np
 
-warnings.filterwarnings('ignore')
+import numpy as np
+import torch
+import torch.nn as nn
+from data_provider.data_factory import data_provider
+from exp.exp_basic import Exp_Basic
+from torch import optim
+from utils.metrics import metric
+from utils.tools import adjust_learning_rate
+from utils.tools import EarlyStopping
+from utils.tools import visual
+
+warnings.filterwarnings("ignore")
 
 
 class Exp_Imputation(Exp_Basic):
     def __init__(self, args):
-        super(Exp_Imputation, self).__init__(args)
+        super().__init__(args)
 
     def _build_model(self):
         model = self.model_dict[self.args.model].Model(self.args).float()
@@ -40,7 +45,9 @@ class Exp_Imputation(Exp_Basic):
         total_loss = []
         self.model.eval()
         with torch.no_grad():
-            for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(vali_loader):
+            for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(
+                vali_loader
+            ):
                 batch_x = batch_x.float().to(self.device)
                 batch_x_mark = batch_x_mark.float().to(self.device)
 
@@ -53,7 +60,7 @@ class Exp_Imputation(Exp_Basic):
 
                 outputs = self.model(inp, batch_x_mark, None, None, mask)
 
-                f_dim = -1 if self.args.features == 'MS' else 0
+                f_dim = -1 if self.args.features == "MS" else 0
                 outputs = outputs[:, :, f_dim:]
                 pred = outputs.detach().cpu()
                 true = batch_x.detach().cpu()
@@ -66,9 +73,9 @@ class Exp_Imputation(Exp_Basic):
         return total_loss
 
     def train(self, setting):
-        train_data, train_loader = self._get_data(flag='train')
-        vali_data, vali_loader = self._get_data(flag='val')
-        test_data, test_loader = self._get_data(flag='test')
+        train_data, train_loader = self._get_data(flag="train")
+        vali_data, vali_loader = self._get_data(flag="val")
+        test_data, test_loader = self._get_data(flag="test")
 
         path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
@@ -88,7 +95,9 @@ class Exp_Imputation(Exp_Basic):
 
             self.model.train()
             epoch_time = time.time()
-            for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(train_loader):
+            for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(
+                train_loader
+            ):
                 iter_count += 1
                 model_optim.zero_grad()
 
@@ -104,56 +113,67 @@ class Exp_Imputation(Exp_Basic):
 
                 outputs = self.model(inp, batch_x_mark, None, None, mask)
 
-                f_dim = -1 if self.args.features == 'MS' else 0
+                f_dim = -1 if self.args.features == "MS" else 0
                 outputs = outputs[:, :, f_dim:]
                 loss = criterion(outputs[mask == 0], batch_x[mask == 0])
                 train_loss.append(loss.item())
 
                 if (i + 1) % 100 == 0:
-                    print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
+                    print(
+                        f"\titers: {i + 1}, epoch: {epoch + 1} | loss: {loss.item():.7f}"
+                    )
                     speed = (time.time() - time_now) / iter_count
-                    left_time = speed * ((self.args.train_epochs - epoch) * train_steps - i)
-                    print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
+                    left_time = speed * (
+                        (self.args.train_epochs - epoch) * train_steps - i
+                    )
+                    print(f"\tspeed: {speed:.4f}s/iter; left time: {left_time:.4f}s")
                     iter_count = 0
                     time_now = time.time()
 
                 loss.backward()
                 model_optim.step()
 
-            print("Epoch: {} cost time: {}".format(epoch + 1, time.time() - epoch_time))
+            print(f"Epoch: {epoch + 1} cost time: {time.time() - epoch_time}")
             train_loss = np.average(train_loss)
             vali_loss = self.vali(vali_data, vali_loader, criterion)
             test_loss = self.vali(test_data, test_loader, criterion)
 
-            print("Epoch: {0}, Steps: {1} | Train Loss: {2:.7f} Vali Loss: {3:.7f} Test Loss: {4:.7f}".format(
-                epoch + 1, train_steps, train_loss, vali_loss, test_loss))
+            print(
+                "Epoch: {}, Steps: {} | Train Loss: {:.7f} Vali Loss: {:.7f} Test Loss: {:.7f}".format(
+                    epoch + 1, train_steps, train_loss, vali_loss, test_loss
+                )
+            )
             early_stopping(vali_loss, self.model, path)
             if early_stopping.early_stop:
                 print("Early stopping")
                 break
             adjust_learning_rate(model_optim, epoch + 1, self.args)
 
-        best_model_path = path + '/' + 'checkpoint.pth'
+        best_model_path = path + "/" + "checkpoint.pth"
         self.model.load_state_dict(torch.load(best_model_path))
 
         return self.model
 
     def test(self, setting, test=0):
-        test_data, test_loader = self._get_data(flag='test')
+        test_data, test_loader = self._get_data(flag="test")
         if test:
-            print('loading model')
-            self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
+            print("loading model")
+            self.model.load_state_dict(
+                torch.load(os.path.join("./checkpoints/" + setting, "checkpoint.pth"))
+            )
 
         preds = []
         trues = []
         masks = []
-        folder_path = './test_results/' + setting + '/'
+        folder_path = "./test_results/" + setting + "/"
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
         self.model.eval()
         with torch.no_grad():
-            for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(test_loader):
+            for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(
+                test_loader
+            ):
                 batch_x = batch_x.float().to(self.device)
                 batch_x_mark = batch_x_mark.float().to(self.device)
 
@@ -168,7 +188,7 @@ class Exp_Imputation(Exp_Basic):
                 outputs = self.model(inp, batch_x_mark, None, None, mask)
 
                 # eval
-                f_dim = -1 if self.args.features == 'MS' else 0
+                f_dim = -1 if self.args.features == "MS" else 0
                 outputs = outputs[:, :, f_dim:]
                 outputs = outputs.detach().cpu().numpy()
                 pred = outputs
@@ -179,30 +199,35 @@ class Exp_Imputation(Exp_Basic):
 
                 if i % 20 == 0:
                     filled = true[0, :, -1].copy()
-                    filled = filled * mask[0, :, -1].detach().cpu().numpy() + \
-                             pred[0, :, -1] * (1 - mask[0, :, -1].detach().cpu().numpy())
-                    visual(true[0, :, -1], filled, os.path.join(folder_path, str(i) + '.pdf'))
+                    filled = filled * mask[0, :, -1].detach().cpu().numpy() + pred[
+                        0, :, -1
+                    ] * (1 - mask[0, :, -1].detach().cpu().numpy())
+                    visual(
+                        true[0, :, -1],
+                        filled,
+                        os.path.join(folder_path, str(i) + ".pdf"),
+                    )
 
         preds = np.concatenate(preds, 0)
         trues = np.concatenate(trues, 0)
         masks = np.concatenate(masks, 0)
-        print('test shape:', preds.shape, trues.shape)
+        print("test shape:", preds.shape, trues.shape)
 
         # result save
-        folder_path = './results/' + setting + '/'
+        folder_path = "./results/" + setting + "/"
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
         mae, mse, rmse, mape, mspe = metric(preds[masks == 0], trues[masks == 0])
-        print('mse:{}, mae:{}'.format(mse, mae))
-        f = open("result_imputation.txt", 'a')
+        print(f"mse:{mse}, mae:{mae}")
+        f = open("result_imputation.txt", "a")
         f.write(setting + "  \n")
-        f.write('mse:{}, mae:{}'.format(mse, mae))
-        f.write('\n')
-        f.write('\n')
+        f.write(f"mse:{mse}, mae:{mae}")
+        f.write("\n")
+        f.write("\n")
         f.close()
 
-        np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
-        np.save(folder_path + 'pred.npy', preds)
-        np.save(folder_path + 'true.npy', trues)
+        np.save(folder_path + "metrics.npy", np.array([mae, mse, rmse, mape, mspe]))
+        np.save(folder_path + "pred.npy", preds)
+        np.save(folder_path + "true.npy", trues)
         return

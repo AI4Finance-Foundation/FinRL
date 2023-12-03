@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import time
+
 from finrl.config import ERL_PARAMS
 from finrl.config import INDICATORS
 from finrl.config import RLlib_PARAMS
@@ -10,7 +12,6 @@ from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.data_processor import DataProcessor
 from finrl.meta.data_processors.fx_history_data.minutebars import MinuteBar
 from finrl.meta.env_stock_trading.env_stocktrading_np import StockTradingEnv
-import time
 
 
 def timer(func):
@@ -18,8 +19,9 @@ def timer(func):
         start_time = time.time()
         func()
         end_time = time.time()
-        spend_time = (end_time - start_time)/60
-        print("Spend_time:{} min".format(spend_time))
+        spend_time = (end_time - start_time) / 60
+        print(f"Spend_time:{spend_time} min")
+
     return func_in
 
 

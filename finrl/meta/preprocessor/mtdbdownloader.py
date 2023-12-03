@@ -3,9 +3,10 @@ Download Forex Data from DB
 """
 from __future__ import annotations
 
-import pandas as pd
 from datetime import datetime
-from.preprocessors import convert_to_datetime
+
+import pandas as pd
+from .preprocessors import convert_to_datetime
 from typing import List
 
 from ..data_processors.fx_history_data.constant import Interval, Exchange
@@ -36,13 +37,12 @@ class MtDbDownloader:
     """
 
     def __init__(self, start_date: datetime, end_date: datetime, ticker_list: list):
-
         self.start_date = convert_to_datetime(start_date)
         self.end_date = convert_to_datetime(end_date)
         self.ticker_list = ticker_list
         self.interval = Interval.MINUTE
 
-    def fetch_data(self) -> List[BarData]:
+    def fetch_data(self) -> list[BarData]:
         """Fetches data from DB
         Parameters
         ----------
@@ -54,9 +54,9 @@ class MtDbDownloader:
             for the specified stock ticker
         """
         # Download and save the data in a pandas DataFrame:
-        #data_df = pd.DataFrame()
+        # data_df = pd.DataFrame()
         database: BaseDatabase = Database()
-        bars: List[BarData] = []
+        bars: list[BarData] = []
         for tic in self.ticker_list:
             tic, exchange = extract_atp_symbol(tic)
             temp = database.load_bar_data(
@@ -64,7 +64,7 @@ class MtDbDownloader:
                 exchange=exchange,
                 start=self.start_date,
                 end=self.end_date,
-                interval=self.interval
+                interval=self.interval,
             )
             if temp:
                 bars = temp
@@ -77,7 +77,7 @@ class MtDbDownloader:
         # reset the index, we want to use numbers as index instead of dates
         # data_df.reset_index(inplace=True)
         return bars
-        '''
+        """
         try:
             # only select below columns
             data_df= data_df[[
@@ -103,7 +103,7 @@ class MtDbDownloader:
         data_df = data_df.sort_values(by=["time", "symbol"]).reset_index(drop=True)
 
         return data_df
-        '''
+        """
 
     def select_equal_rows_stock(self, df):
         df_check = df.symbol.value_counts()

@@ -11,15 +11,16 @@
 # materials are the property of Element AI Inc. and may be subject to patent
 # protection. No license to patents is granted hereunder (whether express or
 # implied). Copyright © 2020 Element AI Inc. All rights reserved.
-
 """
 Loss functions for PyTorch.
 """
+from __future__ import annotations
 
+import pdb
+
+import numpy as np
 import torch as t
 import torch.nn as nn
-import numpy as np
-import pdb
 
 
 def divide_no_nan(a, b):
@@ -27,17 +28,23 @@ def divide_no_nan(a, b):
     a/b where the resulted NaN or Inf are replaced by 0.
     """
     result = a / b
-    result[result != result] = .0
-    result[result == np.inf] = .0
+    result[result != result] = 0.0
+    result[result == np.inf] = 0.0
     return result
 
 
 class mape_loss(nn.Module):
     def __init__(self):
-        super(mape_loss, self).__init__()
+        super().__init__()
 
-    def forward(self, insample: t.Tensor, freq: int,
-                forecast: t.Tensor, target: t.Tensor, mask: t.Tensor) -> t.float:
+    def forward(
+        self,
+        insample: t.Tensor,
+        freq: int,
+        forecast: t.Tensor,
+        target: t.Tensor,
+        mask: t.Tensor,
+    ) -> t.float:
         """
         MAPE loss as defined in: https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
 
@@ -52,10 +59,16 @@ class mape_loss(nn.Module):
 
 class smape_loss(nn.Module):
     def __init__(self):
-        super(smape_loss, self).__init__()
+        super().__init__()
 
-    def forward(self, insample: t.Tensor, freq: int,
-                forecast: t.Tensor, target: t.Tensor, mask: t.Tensor) -> t.float:
+    def forward(
+        self,
+        insample: t.Tensor,
+        freq: int,
+        forecast: t.Tensor,
+        target: t.Tensor,
+        mask: t.Tensor,
+    ) -> t.float:
         """
         sMAPE loss as defined in https://robjhyndman.com/hyndsight/smape/ (Makridakis 1993)
 
@@ -64,16 +77,26 @@ class smape_loss(nn.Module):
         :param mask: 0/1 mask. Shape: batch, time
         :return: Loss value
         """
-        return 200 * t.mean(divide_no_nan(t.abs(forecast - target),
-                                          t.abs(forecast.data) + t.abs(target.data)) * mask)
+        return 200 * t.mean(
+            divide_no_nan(
+                t.abs(forecast - target), t.abs(forecast.data) + t.abs(target.data)
+            )
+            * mask
+        )
 
 
 class mase_loss(nn.Module):
     def __init__(self):
-        super(mase_loss, self).__init__()
+        super().__init__()
 
-    def forward(self, insample: t.Tensor, freq: int,
-                forecast: t.Tensor, target: t.Tensor, mask: t.Tensor) -> t.float:
+    def forward(
+        self,
+        insample: t.Tensor,
+        freq: int,
+        forecast: t.Tensor,
+        target: t.Tensor,
+        mask: t.Tensor,
+    ) -> t.float:
         """
         MASE loss as defined in "Scaled Errors" https://robjhyndman.com/papers/mase.pdf
 

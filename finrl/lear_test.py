@@ -82,22 +82,36 @@
 #     min30_bar = MinuteBar(x, window_mn=30).all_bars
 #
 #     print(min5_bar)
+from __future__ import annotations
 
 import argparse
 
 
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='TimesNet')
+    parser = argparse.ArgumentParser(description="TimesNet")
 
     # basic config
-    parser.add_argument('--task_name', type=str, required=False, default='long_term_forecast_mt4',
-                        help='task name, options:[long_term_forecast, short_term_forecast, imputation, classification, anomaly_detection, long_term_forecast_mt4]')
-    parser.add_argument('--is_training', type=int, required=False, default=1, help='status')
-    parser.add_argument('--model_id', type=str, required=False, default='mt4_train', help='model id')
-    parser.add_argument('--model', type=str, required=False, default='TimesNet',
-                        help='model name, options: [Autoformer, Transformer, TimesNet]')
-    parser.add_argument('--itr', type=int, default=1, help='experiments times')
+    parser.add_argument(
+        "--task_name",
+        type=str,
+        required=False,
+        default="long_term_forecast_mt4",
+        help="task name, options:[long_term_forecast, short_term_forecast, imputation, classification, anomaly_detection, long_term_forecast_mt4]",
+    )
+    parser.add_argument(
+        "--is_training", type=int, required=False, default=1, help="status"
+    )
+    parser.add_argument(
+        "--model_id", type=str, required=False, default="mt4_train", help="model id"
+    )
+    parser.add_argument(
+        "--model",
+        type=str,
+        required=False,
+        default="TimesNet",
+        help="model name, options: [Autoformer, Transformer, TimesNet]",
+    )
+    parser.add_argument("--itr", type=int, default=1, help="experiments times")
     args = parser.parse_args()
     for ii in range(args.itr):
         print(ii)

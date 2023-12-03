@@ -1,20 +1,24 @@
+from __future__ import annotations
+
 import datetime
 from typing import List
-from mongoengine import (
-    Document,
-    DateTimeField,
-    FloatField,
-    StringField,
-    IntField,
-    connect,
-    QuerySet
-)
+
+from mongoengine import connect
+from mongoengine import DateTimeField
+from mongoengine import Document
+from mongoengine import FloatField
+from mongoengine import IntField
+from mongoengine import QuerySet
+from mongoengine import StringField
 from mongoengine.errors import DoesNotExist
-from .database import BaseDatabase
-from .vo import BarData, BarOverview
+
 from .config import SETTINGS
-from .constant import Interval, Exchange
+from .constant import Exchange
+from .constant import Interval
+from .database import BaseDatabase
 from .utility import ZoneInfo
+from .vo import BarData
+from .vo import BarOverview
 
 
 class HistMarketData(Document):
@@ -31,13 +35,8 @@ class HistMarketData(Document):
     close_price: float = FloatField()
 
     meta = {
-        'collection': 'HistMarketData',
-        "indexes": [
-            {
-                "fields": ("symbol", "time", "time_frame"),
-                "unique": True
-            }
-        ]
+        "collection": "HistMarketData",
+        "indexes": [{"fields": ("symbol", "time", "time_frame"), "unique": True}],
     }
 
 
@@ -94,7 +93,7 @@ class Database(BaseDatabase):
             authentication_source=self.authentication_source,
         )
 
-    def save_bar_data(self, bars: List[BarData]) -> bool:
+    def save_bar_data(self, bars: list[BarData]) -> bool:
         """"""
         # Store key parameters
         bar = bars[0]
@@ -120,13 +119,11 @@ class Database(BaseDatabase):
         # Update bar overview
         try:
             overview: DbBarOverview = DbBarOverview.objects(
-                symbol=symbol,
-                time_frame=interval.value
+                symbol=symbol, time_frame=interval.value
             ).get()
         except DoesNotExist:
             overview: DbBarOverview = DbBarOverview(
-                symbol=symbol,
-                time_frame=interval.value
+                symbol=symbol, time_frame=interval.value
             )
 
         if not overview.start:
@@ -137,29 +134,28 @@ class Database(BaseDatabase):
             overview.start = min(bars[0].time, overview.start)
             overview.end = max(bars[-1].time, overview.end)
             overview.count = DbBarData.objects(
-                symbol=symbol,
-                time_frame=interval.value
+                symbol=symbol, time_frame=interval.value
             ).count()
 
         overview.save()
 
     def load_bar_data(
-            self,
-            symbol: str,
-            exchange: Exchange,
-            interval: Interval,
-            start: datetime,
-            end: datetime
-    ) -> List[BarData]:
+        self,
+        symbol: str,
+        exchange: Exchange,
+        interval: Interval,
+        start: datetime,
+        end: datetime,
+    ) -> list[BarData]:
         """"""
         s: QuerySet = HistMarketData.objects(
             symbol=symbol,
             time_frame=interval.value,
             time__gte=convert_tz(start),
-            time__lte=convert_tz(end)
+            time__lte=convert_tz(end),
         )
         atp_symbol = f"{symbol}.{exchange.value}"
-        bars: List[BarData] = []
+        bars: list[BarData] = []
         for db_bar in s:
             # db_bar.time = DB_TZ.localize(db_bar.time)
             db_bar.interval = Interval(db_bar.time_frame)
@@ -171,26 +167,16 @@ class Database(BaseDatabase):
 
         return bars
 
-    def delete_bar_data(
-            self,
-            symbol: str,
-            time_frame: Interval
-    ) -> int:
+    def delete_bar_data(self, symbol: str, time_frame: Interval) -> int:
         """"""
-        count = DbBarData.objects(
-            symbol=symbol,
-            time_frame=interval.value
-        ).delete()
+        count = DbBarData.objects(symbol=symbol, time_frame=interval.value).delete()
 
         # Delete bar overview
-        DbBarOverview.objects(
-            symbol=symbol,
-            time_frame=interval.value
-        ).delete()
+        DbBarOverview.objects(symbol=symbol, time_frame=interval.value).delete()
 
         return count
 
-    def get_bar_overview(self) -> List[BarOverview]:
+    def get_bar_overview(self) -> list[BarOverview]:
         """
         Return data avaible in database.
         """
@@ -211,16 +197,16 @@ class Database(BaseDatabase):
         """
         Init overview table if not exists.
         """
-        s: QuerySet = (
-            HistMarketData.objects.aggregate({
+        s: QuerySet = HistMarketData.objects.aggregate(
+            {
                 "$group": {
                     "_id": {
                         "symbol": "$symbol",
                         "time_frame": "$interval",
                     },
-                    "count": {"$sum": 1}
+                    "count": {"$sum": 1},
                 }
-            })
+            }
         )
 
         for d in s:

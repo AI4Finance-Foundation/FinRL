@@ -40,6 +40,7 @@ def convert_to_datetime(time):
     if isinstance(time, str):
         return datetime.datetime.strptime(time, time_fmt)
 
+
 class FeatureEngineer:
     """Provides methods for preprocessing the stock price data
 

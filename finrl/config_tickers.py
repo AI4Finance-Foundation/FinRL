@@ -1430,14 +1430,12 @@ FX_TICKER = [
     "ZARJPY.MT4",
     "EURDKK.MT4",
 ]
-'''
+"""
 FX_STUDY = [
     "EURUSD.MT4",
     "GBPUSD.MT4",
     "USDJPY.MT4",
     "XAGUSD.MT4",
     "XAUUSD.MT4",
-]'''
-FX_STUDY = [
-    "EURUSD.MT4"
-]
+]"""
+FX_STUDY = ["EURUSD.MT4"]

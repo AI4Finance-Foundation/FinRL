@@ -1,26 +1,31 @@
-from data_provider.data_factory import data_provider
-from exp.exp_basic import Exp_Basic
-from utils.tools import EarlyStopping, adjust_learning_rate, cal_accuracy
-import torch
-import torch.nn as nn
-from torch import optim
+from __future__ import annotations
+
 import os
+import pdb
 import time
 import warnings
-import numpy as np
-import pdb
 
-warnings.filterwarnings('ignore')
+import numpy as np
+import torch
+import torch.nn as nn
+from data_provider.data_factory import data_provider
+from exp.exp_basic import Exp_Basic
+from torch import optim
+from utils.tools import adjust_learning_rate
+from utils.tools import cal_accuracy
+from utils.tools import EarlyStopping
+
+warnings.filterwarnings("ignore")
 
 
 class Exp_Classification(Exp_Basic):
     def __init__(self, args):
-        super(Exp_Classification, self).__init__(args)
+        super().__init__(args)
 
     def _build_model(self):
         # model input depends on data
-        train_data, train_loader = self._get_data(flag='TRAIN')
-        test_data, test_loader = self._get_data(flag='TEST')
+        train_data, train_loader = self._get_data(flag="TRAIN")
+        test_data, test_loader = self._get_data(flag="TEST")
         self.args.seq_len = max(train_data.max_seq_len, test_data.max_seq_len)
         self.args.pred_len = 0
         self.args.enc_in = train_data.feature_df.shape[1]
@@ -67,8 +72,12 @@ class Exp_Classification(Exp_Basic):
 
         preds = torch.cat(preds, 0)
         trues = torch.cat(trues, 0)
-        probs = torch.nn.functional.softmax(preds)  # (total_samples, num_classes) est. prob. for each class and sample
-        predictions = torch.argmax(probs, dim=1).cpu().numpy()  # (total_samples,) int class index for each sample
+        probs = torch.nn.functional.softmax(
+            preds
+        )  # (total_samples, num_classes) est. prob. for each class and sample
+        predictions = (
+            torch.argmax(probs, dim=1).cpu().numpy()
+        )  # (total_samples,) int class index for each sample
         trues = trues.flatten().cpu().numpy()
         accuracy = cal_accuracy(predictions, trues)
 
@@ -76,9 +85,9 @@ class Exp_Classification(Exp_Basic):
         return total_loss, accuracy
 
     def train(self, setting):
-        train_data, train_loader = self._get_data(flag='TRAIN')
-        vali_data, vali_loader = self._get_data(flag='TEST')
-        test_data, test_loader = self._get_data(flag='TEST')
+        train_data, train_loader = self._get_data(flag="TRAIN")
+        vali_data, vali_loader = self._get_data(flag="TEST")
+        test_data, test_loader = self._get_data(flag="TEST")
 
         path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
@@ -111,10 +120,14 @@ class Exp_Classification(Exp_Basic):
                 train_loss.append(loss.item())
 
                 if (i + 1) % 100 == 0:
-                    print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
+                    print(
+                        f"\titers: {i + 1}, epoch: {epoch + 1} | loss: {loss.item():.7f}"
+                    )
                     speed = (time.time() - time_now) / iter_count
-                    left_time = speed * ((self.args.train_epochs - epoch) * train_steps - i)
-                    print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
+                    left_time = speed * (
+                        (self.args.train_epochs - epoch) * train_steps - i
+                    )
+                    print(f"\tspeed: {speed:.4f}s/iter; left time: {left_time:.4f}s")
                     iter_count = 0
                     time_now = time.time()
 
@@ -122,14 +135,22 @@ class Exp_Classification(Exp_Basic):
                 nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=4.0)
                 model_optim.step()
 
-            print("Epoch: {} cost time: {}".format(epoch + 1, time.time() - epoch_time))
+            print(f"Epoch: {epoch + 1} cost time: {time.time() - epoch_time}")
             train_loss = np.average(train_loss)
             vali_loss, val_accuracy = self.vali(vali_data, vali_loader, criterion)
             test_loss, test_accuracy = self.vali(test_data, test_loader, criterion)
 
             print(
-                "Epoch: {0}, Steps: {1} | Train Loss: {2:.3f} Vali Loss: {3:.3f} Vali Acc: {4:.3f} Test Loss: {5:.3f} Test Acc: {6:.3f}"
-                .format(epoch + 1, train_steps, train_loss, vali_loss, val_accuracy, test_loss, test_accuracy))
+                "Epoch: {}, Steps: {} | Train Loss: {:.3f} Vali Loss: {:.3f} Vali Acc: {:.3f} Test Loss: {:.3f} Test Acc: {:.3f}".format(
+                    epoch + 1,
+                    train_steps,
+                    train_loss,
+                    vali_loss,
+                    val_accuracy,
+                    test_loss,
+                    test_accuracy,
+                )
+            )
             early_stopping(-val_accuracy, self.model, path)
             if early_stopping.early_stop:
                 print("Early stopping")
@@ -137,20 +158,22 @@ class Exp_Classification(Exp_Basic):
             if (epoch + 1) % 5 == 0:
                 adjust_learning_rate(model_optim, epoch + 1, self.args)
 
-        best_model_path = path + '/' + 'checkpoint.pth'
+        best_model_path = path + "/" + "checkpoint.pth"
         self.model.load_state_dict(torch.load(best_model_path))
 
         return self.model
 
     def test(self, setting, test=0):
-        test_data, test_loader = self._get_data(flag='TEST')
+        test_data, test_loader = self._get_data(flag="TEST")
         if test:
-            print('loading model')
-            self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
+            print("loading model")
+            self.model.load_state_dict(
+                torch.load(os.path.join("./checkpoints/" + setting, "checkpoint.pth"))
+            )
 
         preds = []
         trues = []
-        folder_path = './test_results/' + setting + '/'
+        folder_path = "./test_results/" + setting + "/"
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -168,23 +191,27 @@ class Exp_Classification(Exp_Basic):
 
         preds = torch.cat(preds, 0)
         trues = torch.cat(trues, 0)
-        print('test shape:', preds.shape, trues.shape)
+        print("test shape:", preds.shape, trues.shape)
 
-        probs = torch.nn.functional.softmax(preds)  # (total_samples, num_classes) est. prob. for each class and sample
-        predictions = torch.argmax(probs, dim=1).cpu().numpy()  # (total_samples,) int class index for each sample
+        probs = torch.nn.functional.softmax(
+            preds
+        )  # (total_samples, num_classes) est. prob. for each class and sample
+        predictions = (
+            torch.argmax(probs, dim=1).cpu().numpy()
+        )  # (total_samples,) int class index for each sample
         trues = trues.flatten().cpu().numpy()
         accuracy = cal_accuracy(predictions, trues)
 
         # result save
-        folder_path = './results/' + setting + '/'
+        folder_path = "./results/" + setting + "/"
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
-        print('accuracy:{}'.format(accuracy))
-        f = open("result_classification.txt", 'a')
+        print(f"accuracy:{accuracy}")
+        f = open("result_classification.txt", "a")
         f.write(setting + "  \n")
-        f.write('accuracy:{}'.format(accuracy))
-        f.write('\n')
-        f.write('\n')
+        f.write(f"accuracy:{accuracy}")
+        f.write("\n")
+        f.write("\n")
         f.close()
         return

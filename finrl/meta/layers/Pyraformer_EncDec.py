@@ -1,10 +1,15 @@
+from __future__ import annotations
+
+import math
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.modules.linear import Linear
-from .SelfAttention_Family import AttentionLayer, FullAttention
+
 from .Embed import DataEmbedding
-import math
+from .SelfAttention_Family import AttentionLayer
+from .SelfAttention_Family import FullAttention
 
 
 def get_mask(input_size, window_size, inner_size):
@@ -32,13 +37,15 @@ def get_mask(input_size, window_size, inner_size):
     for layer_idx in range(1, len(all_size)):
         start = sum(all_size[:layer_idx])
         for i in range(start, start + all_size[layer_idx]):
-            left_side = (start - all_size[layer_idx - 1]) + \
-                (i - start) * window_size[layer_idx - 1]
+            left_side = (start - all_size[layer_idx - 1]) + (i - start) * window_size[
+                layer_idx - 1
+            ]
             if i == (start + all_size[layer_idx] - 1):
                 right_side = start
             else:
-                right_side = (
-                    start - all_size[layer_idx - 1]) + (i - start + 1) * window_size[layer_idx - 1]
+                right_side = (start - all_size[layer_idx - 1]) + (
+                    i - start + 1
+                ) * window_size[layer_idx - 1]
             mask[i, left_side:right_side] = 1
             mask[left_side:right_side, i] = 1
 
@@ -58,8 +65,9 @@ def refer_points(all_sizes, window_size):
         for j in range(1, len(all_sizes)):
             start = sum(all_sizes[:j])
             inner_layer_idx = former_index - (start - all_sizes[j - 1])
-            former_index = start + \
-                min(inner_layer_idx // window_size[j - 1], all_sizes[j] - 1)
+            former_index = start + min(
+                inner_layer_idx // window_size[j - 1], all_sizes[j] - 1
+            )
             indexes[i][j] = former_index
 
     indexes = indexes.unsqueeze(0).unsqueeze(3)
@@ -67,7 +75,7 @@ def refer_points(all_sizes, window_size):
     return indexes.long()
 
 
-class RegularMask():
+class RegularMask:
     def __init__(self, mask):
         self._mask = mask.unsqueeze(1)
 
@@ -77,46 +85,63 @@ class RegularMask():
 
 
 class EncoderLayer(nn.Module):
-    """ Compose with two layers """
+    """Compose with two layers"""
 
     def __init__(self, d_model, d_inner, n_head, dropout=0.1, normalize_before=True):
-        super(EncoderLayer, self).__init__()
+        super().__init__()
 
         self.slf_attn = AttentionLayer(
-            FullAttention(mask_flag=True, factor=0,
-                          attention_dropout=dropout, output_attention=False),
-            d_model, n_head)
+            FullAttention(
+                mask_flag=True,
+                factor=0,
+                attention_dropout=dropout,
+                output_attention=False,
+            ),
+            d_model,
+            n_head,
+        )
         self.pos_ffn = PositionwiseFeedForward(
-            d_model, d_inner, dropout=dropout, normalize_before=normalize_before)
+            d_model, d_inner, dropout=dropout, normalize_before=normalize_before
+        )
 
     def forward(self, enc_input, slf_attn_mask=None):
         attn_mask = RegularMask(slf_attn_mask)
         enc_output, _ = self.slf_attn(
-            enc_input, enc_input, enc_input, attn_mask=attn_mask)
+            enc_input, enc_input, enc_input, attn_mask=attn_mask
+        )
         enc_output = self.pos_ffn(enc_output)
         return enc_output
 
 
 class Encoder(nn.Module):
-    """ A encoder model with self attention mechanism. """
+    """A encoder model with self attention mechanism."""
 
     def __init__(self, configs, window_size, inner_size):
         super().__init__()
 
-        d_bottleneck = configs.d_model//4
+        d_bottleneck = configs.d_model // 4
 
-        self.mask, self.all_size = get_mask(
-            configs.seq_len, window_size, inner_size)
+        self.mask, self.all_size = get_mask(configs.seq_len, window_size, inner_size)
         self.indexes = refer_points(self.all_size, window_size)
-        self.layers = nn.ModuleList([
-            EncoderLayer(configs.d_model, configs.d_ff, configs.n_heads, dropout=configs.dropout,
-                         normalize_before=False) for _ in range(configs.e_layers)
-        ])  # naive pyramid attention
+        self.layers = nn.ModuleList(
+            [
+                EncoderLayer(
+                    configs.d_model,
+                    configs.d_ff,
+                    configs.n_heads,
+                    dropout=configs.dropout,
+                    normalize_before=False,
+                )
+                for _ in range(configs.e_layers)
+            ]
+        )  # naive pyramid attention
 
         self.enc_embedding = DataEmbedding(
-            configs.enc_in, configs.d_model, configs.dropout)
+            configs.enc_in, configs.d_model, configs.dropout
+        )
         self.conv_layers = Bottleneck_Construct(
-            configs.d_model, window_size, d_bottleneck)
+            configs.d_model, window_size, d_bottleneck
+        )
 
     def forward(self, x_enc, x_mark_enc):
         seq_enc = self.enc_embedding(x_enc, x_mark_enc)
@@ -127,8 +152,9 @@ class Encoder(nn.Module):
         for i in range(len(self.layers)):
             seq_enc = self.layers[i](seq_enc, mask)
 
-        indexes = self.indexes.repeat(seq_enc.size(
-            0), 1, 1, seq_enc.size(2)).to(seq_enc.device)
+        indexes = self.indexes.repeat(seq_enc.size(0), 1, 1, seq_enc.size(2)).to(
+            seq_enc.device
+        )
         indexes = indexes.view(seq_enc.size(0), -1, seq_enc.size(2))
         all_enc = torch.gather(seq_enc, 1, indexes)
         seq_enc = all_enc.view(seq_enc.size(0), self.all_size[0], -1)
@@ -138,11 +164,13 @@ class Encoder(nn.Module):
 
 class ConvLayer(nn.Module):
     def __init__(self, c_in, window_size):
-        super(ConvLayer, self).__init__()
-        self.downConv = nn.Conv1d(in_channels=c_in,
-                                  out_channels=c_in,
-                                  kernel_size=window_size,
-                                  stride=window_size)
+        super().__init__()
+        self.downConv = nn.Conv1d(
+            in_channels=c_in,
+            out_channels=c_in,
+            kernel_size=window_size,
+            stride=window_size,
+        )
         self.norm = nn.BatchNorm1d(c_in)
         self.activation = nn.ELU()
 
@@ -157,13 +185,15 @@ class Bottleneck_Construct(nn.Module):
     """Bottleneck convolution CSCM"""
 
     def __init__(self, d_model, window_size, d_inner):
-        super(Bottleneck_Construct, self).__init__()
+        super().__init__()
         if not isinstance(window_size, list):
-            self.conv_layers = nn.ModuleList([
-                ConvLayer(d_inner, window_size),
-                ConvLayer(d_inner, window_size),
-                ConvLayer(d_inner, window_size)
-            ])
+            self.conv_layers = nn.ModuleList(
+                [
+                    ConvLayer(d_inner, window_size),
+                    ConvLayer(d_inner, window_size),
+                    ConvLayer(d_inner, window_size),
+                ]
+            )
         else:
             self.conv_layers = []
             for i in range(len(window_size)):
@@ -189,7 +219,7 @@ class Bottleneck_Construct(nn.Module):
 
 
 class PositionwiseFeedForward(nn.Module):
-    """ Two-layer position-wise feed-forward neural network. """
+    """Two-layer position-wise feed-forward neural network."""
 
     def __init__(self, d_in, d_hid, dropout=0.1, normalize_before=True):
         super().__init__()

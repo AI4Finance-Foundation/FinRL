@@ -1,16 +1,17 @@
 from __future__ import annotations
 
-import numpy as np
-import pandas as pd
 from typing import List
 
+import numpy as np
+import pandas as pd
+
+from finrl.meta.data_processors.fx_history_data.vo import BarData
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
+from finrl.meta.data_processors.processor_forex import ForexEngineer as Forex
 from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
-from finrl.meta.data_processors.processor_forex import ForexEngineer as Forex
-from finrl.meta.data_processors.fx_history_data.vo import BarData
 
 
 class DataProcessor:
@@ -43,8 +44,8 @@ class DataProcessor:
 
     def download_data(
         self, ticker_list, start_date, end_date, time_interval
-    ) -> List[BarData]:
-        bars: List[BarData] = []
+    ) -> list[BarData]:
+        bars: list[BarData] = []
         bars = self.processor.download_data(
             ticker_list=ticker_list,
             start_date=start_date,
@@ -64,11 +65,11 @@ class DataProcessor:
 
         return df
 
-    def add_time_features(self,df) -> pd.DataFrame:
+    def add_time_features(self, df) -> pd.DataFrame:
         df = self.processor.add_time_features(df)
         return df
 
-    def add_technical_indicator_by_talib(self,df, tech_indicator_list):
+    def add_technical_indicator_by_talib(self, df, tech_indicator_list):
         arr = self.processor.add_technical_indicator_by_talib(df, tech_indicator_list)
         return arr
 

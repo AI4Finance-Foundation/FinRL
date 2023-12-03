@@ -1,23 +1,36 @@
 from __future__ import annotations
+
 from datetime import datetime
-
-from stockstats import StockDataFrame as Sdf
-import pandas as pd
-import numpy as np
 from typing import List
-from torch.utils.data import Dataset, DataLoader
-from sklearn.preprocessing import StandardScaler
 
-from ..preprocessor.mtdbdownloader import MtDbDownloader
-from ..data_processors.fx_history_data.utility import timer
-from ..utils.timefeatures import time_features
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from stockstats import StockDataFrame as Sdf
+from torch.utils.data import DataLoader
+from torch.utils.data import Dataset
+
 from ..data_processors.fx_history_data.techfeatures import ArrayManager
+from ..data_processors.fx_history_data.utility import timer
 from ..data_processors.fx_history_data.vo import BarData
+from ..preprocessor.mtdbdownloader import MtDbDownloader
+from ..utils.timefeatures import time_features
 
 
 class Dataset_MT4(Dataset):
-    def __init__(self, bars, feature_cols, features, flag='train', size=None,
-                 target='close', scale=True, timeenc=0, freq='h', seasonal_patterns=None):
+    def __init__(
+        self,
+        bars,
+        feature_cols,
+        features,
+        flag="train",
+        size=None,
+        target="close",
+        scale=True,
+        timeenc=0,
+        freq="h",
+        seasonal_patterns=None,
+    ):
         # size [seq_len, label_len, pred_len]
         # info
         if size == None:
@@ -29,8 +42,8 @@ class Dataset_MT4(Dataset):
             self.label_len = size[1]
             self.pred_len = size[2]
         # init
-        assert flag in ['train', 'test', 'val']
-        type_map = {'train': 0, 'val': 1, 'test': 2}
+        assert flag in ["train", "test", "val"]
+        type_map = {"train": 0, "val": 1, "test": 2}
         self.set_type = type_map[flag]
 
         self.features = features
@@ -47,9 +60,9 @@ class Dataset_MT4(Dataset):
         # df_raw = pd.read_csv(os.path.join(self.root_path,
         #                                   self.data_path))
 
-        '''
+        """
         df_raw.columns: ['date', ...(other features), target feature]
-        '''
+        """
 
         # ### Using Mt4downloader
         # downloader = MtDbDownloader(
@@ -59,12 +72,12 @@ class Dataset_MT4(Dataset):
         # )
         # bars_vo = downloader.fetch_data()
         df_raw = pd.DataFrame(self.bars)
-        df_raw.rename(columns={'time': 'date'}, inplace=True)
+        df_raw.rename(columns={"time": "date"}, inplace=True)
         df_raw = df_raw[self.feature_cols]
         cols = list(df_raw.columns)
         cols.remove(self.target)
-        cols.remove('date')
-        df_raw = df_raw[['date'] + cols + [self.target]]
+        cols.remove("date")
+        df_raw = df_raw[["date"] + cols + [self.target]]
         num_train = int(len(df_raw) * 0.7)
         num_test = int(len(df_raw) * 0.2)
         num_vali = len(df_raw) - num_train - num_test
@@ -73,29 +86,31 @@ class Dataset_MT4(Dataset):
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
 
-        if self.features == 'M' or self.features == 'MS':
+        if self.features == "M" or self.features == "MS":
             cols_data = df_raw.columns[1:]
             df_data = df_raw[cols_data]
-        elif self.features == 'S':
+        elif self.features == "S":
             df_data = df_raw[[self.target]]
 
         if self.scale:
-            train_data = df_data[border1s[0]:border2s[0]]
+            train_data = df_data[border1s[0] : border2s[0]]
             self.scaler.fit(train_data.values)
             data = self.scaler.transform(df_data.values)
         else:
             data = df_data.values
 
-        df_stamp = df_raw[['date']][border1:border2]
-        df_stamp['date'] = pd.to_datetime(df_stamp.date)
+        df_stamp = df_raw[["date"]][border1:border2]
+        df_stamp["date"] = pd.to_datetime(df_stamp.date)
         if self.timeenc == 0:
-            df_stamp['month'] = df_stamp.date.apply(lambda row: row.month, 1)
-            df_stamp['day'] = df_stamp.date.apply(lambda row: row.day, 1)
-            df_stamp['weekday'] = df_stamp.date.apply(lambda row: row.weekday(), 1)
-            df_stamp['hour'] = df_stamp.date.apply(lambda row: row.hour, 1)
-            data_stamp = df_stamp.drop(['date'], 1).values
+            df_stamp["month"] = df_stamp.date.apply(lambda row: row.month, 1)
+            df_stamp["day"] = df_stamp.date.apply(lambda row: row.day, 1)
+            df_stamp["weekday"] = df_stamp.date.apply(lambda row: row.weekday(), 1)
+            df_stamp["hour"] = df_stamp.date.apply(lambda row: row.hour, 1)
+            data_stamp = df_stamp.drop(["date"], 1).values
         elif self.timeenc == 1:
-            data_stamp = time_features(pd.to_datetime(df_stamp['date'].values), freq=self.freq)
+            data_stamp = time_features(
+                pd.to_datetime(df_stamp["date"].values), freq=self.freq
+            )
             data_stamp = data_stamp.transpose(1, 0)
 
         self.data_x = data[border1:border2]
@@ -123,19 +138,17 @@ class Dataset_MT4(Dataset):
 
 
 class ForexEngineer:
-
     @timer
-    def download_data(self,
-            ticker_list: list,
-            time_interval: str,
-            start_date: datetime,
-            end_date: datetime
-    ) -> List[BarData]:
+    def download_data(
+        self,
+        ticker_list: list,
+        time_interval: str,
+        start_date: datetime,
+        end_date: datetime,
+    ) -> list[BarData]:
         """"""
         downloader = MtDbDownloader(
-            start_date=start_date,
-            end_date=end_date,
-            ticker_list=ticker_list
+            start_date=start_date, end_date=end_date, ticker_list=ticker_list
         )
         bars = downloader.fetch_data()
 
@@ -153,17 +166,17 @@ class ForexEngineer:
         df = df.reset_index()
         df = df.sort_values(by=["level_1", "level_0"])
         df = df.fillna(method="pad")
-        df.rename(columns={"level_1":"symbol", "level_0":"time"}, inplace=True)
+        df.rename(columns={"level_1": "symbol", "level_0": "time"}, inplace=True)
         return df
 
     @timer
-    def add_time_features(self, df:pd.DataFrame) -> pd.DataFrame:
+    def add_time_features(self, df: pd.DataFrame) -> pd.DataFrame:
         df_time = time_features(df, timeenc=1, freq="t")
         return df_time
 
     @timer
     def add_technical_indicator(
-            self, data: pd.DataFrame, tech_indicator_list: list[str]
+        self, data: pd.DataFrame, tech_indicator_list: list[str]
     ):
         """
         calculate technical indicators
@@ -200,11 +213,13 @@ class ForexEngineer:
         return df
 
     @timer
-    def add_technical_indicator_by_talib(self, data: pd.DataFrame, tech_indicator_list: list[str]):
+    def add_technical_indicator_by_talib(
+        self, data: pd.DataFrame, tech_indicator_list: list[str]
+    ):
         return tech_features(data, tech_indicator_list)
 
     def calculate_turbulence(
-            self, data: pd.DataFrame, time_period: int = 24*60*15
+        self, data: pd.DataFrame, time_period: int = 24 * 60 * 15
     ) -> pd.DataFrame:
         # can add other market assets
         df = data.copy()
@@ -225,11 +240,11 @@ class ForexEngineer:
             hist_price = df_price_pivot[
                 (df_price_pivot.index < unique_date[i])
                 & (df_price_pivot.index >= unique_date[i - time_period])
-                ]
+            ]
             # Drop tickers which has number missing values more than the "oldest" ticker
             filtered_hist_price = hist_price.iloc[
-                                  hist_price.isna().sum().min():
-                                  ].dropna(axis=1)
+                hist_price.isna().sum().min() :
+            ].dropna(axis=1)
 
             cov_temp = filtered_hist_price.cov()
             current_temp = current_price[[x for x in filtered_hist_price]] - np.mean(
@@ -256,7 +271,7 @@ class ForexEngineer:
 
     @timer
     def add_turbulence(
-            self, data: pd.DataFrame, time_period: int = 24*60*15
+        self, data: pd.DataFrame, time_period: int = 24 * 60 * 15
     ) -> pd.DataFrame:
         """
         add turbulence index from a precalcualted dataframe
@@ -271,7 +286,7 @@ class ForexEngineer:
 
     @timer
     def df_to_array(
-            self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool
+        self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool
     ) -> list[np.ndarray]:
         df = df.copy()
         unique_ticker = df.symbol.unique()
@@ -298,7 +313,10 @@ class ForexEngineer:
                     )
                 else:
                     turbulence_array = np.hstack(
-                        [turbulence_array, df[df.symbol == symbol][["turbulence"]].values]
+                        [
+                            turbulence_array,
+                            df[df.symbol == symbol][["turbulence"]].values,
+                        ]
                     )
 
         #        print("Successfully transformed into array")

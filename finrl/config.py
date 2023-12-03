@@ -1,6 +1,8 @@
 # directory
 from __future__ import annotations
+
 from datetime import datetime
+
 import pytz
 
 DATA_SAVE_DIR = "datasets"
@@ -31,13 +33,7 @@ INDICATORS = [
     "close_60_sma",
 ]
 
-FEATURE_COLS = [
-    "date",
-    "open",
-    "high",
-    "low",
-    "close"
-]
+FEATURE_COLS = ["date", "open", "high", "low", "close"]
 
 
 # Model Parameters

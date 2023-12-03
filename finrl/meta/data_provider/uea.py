@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import os
+
 import numpy as np
 import pandas as pd
 import torch
@@ -25,18 +28,23 @@ def collate_fn(data, max_len=None):
     features, labels = zip(*data)
 
     # Stack and pad features and masks (convert 2D to 3D tensors, i.e. add batch dimension)
-    lengths = [X.shape[0] for X in features]  # original sequence length for each time series
+    lengths = [
+        X.shape[0] for X in features
+    ]  # original sequence length for each time series
     if max_len is None:
         max_len = max(lengths)
-    X = torch.zeros(batch_size, max_len, features[0].shape[-1])  # (batch_size, padded_length, feat_dim)
+    X = torch.zeros(
+        batch_size, max_len, features[0].shape[-1]
+    )  # (batch_size, padded_length, feat_dim)
     for i in range(batch_size):
         end = min(lengths[i], max_len)
         X[i, :end, :] = features[i][:end, :]
 
     targets = torch.stack(labels, dim=0)  # (batch_size, num_labels)
 
-    padding_masks = padding_mask(torch.tensor(lengths, dtype=torch.int16),
-                                 max_len=max_len)  # (batch_size, padded_length) boolean tensor, "1" means keep
+    padding_masks = padding_mask(
+        torch.tensor(lengths, dtype=torch.int16), max_len=max_len
+    )  # (batch_size, padded_length) boolean tensor, "1" means keep
 
     return X, targets, padding_masks
 
@@ -47,19 +55,30 @@ def padding_mask(lengths, max_len=None):
     where 1 means keep element at this position (time step)
     """
     batch_size = lengths.numel()
-    max_len = max_len or lengths.max_val()  # trick works because of overloading of 'or' operator for non-boolean types
-    return (torch.arange(0, max_len, device=lengths.device)
-            .type_as(lengths)
-            .repeat(batch_size, 1)
-            .lt(lengths.unsqueeze(1)))
+    max_len = (
+        max_len or lengths.max_val()
+    )  # trick works because of overloading of 'or' operator for non-boolean types
+    return (
+        torch.arange(0, max_len, device=lengths.device)
+        .type_as(lengths)
+        .repeat(batch_size, 1)
+        .lt(lengths.unsqueeze(1))
+    )
 
 
-class Normalizer(object):
+class Normalizer:
     """
     Normalizes dataframe across ALL contained rows (time steps). Different from per-sample normalization.
     """
 
-    def __init__(self, norm_type='standardization', mean=None, std=None, min_val=None, max_val=None):
+    def __init__(
+        self,
+        norm_type="standardization",
+        mean=None,
+        std=None,
+        min_val=None,
+        max_val=None,
+    ):
         """
         Args:
             norm_type: choose from:
@@ -91,16 +110,20 @@ class Normalizer(object):
             if self.max_val is None:
                 self.max_val = df.max()
                 self.min_val = df.min()
-            return (df - self.min_val) / (self.max_val - self.min_val + np.finfo(float).eps)
+            return (df - self.min_val) / (
+                self.max_val - self.min_val + np.finfo(float).eps
+            )
 
         elif self.norm_type == "per_sample_std":
             grouped = df.groupby(by=df.index)
-            return (df - grouped.transform('mean')) / grouped.transform('std')
+            return (df - grouped.transform("mean")) / grouped.transform("std")
 
         elif self.norm_type == "per_sample_minmax":
             grouped = df.groupby(by=df.index)
-            min_vals = grouped.transform('min')
-            return (df - min_vals) / (grouped.transform('max') - min_vals + np.finfo(float).eps)
+            min_vals = grouped.transform("min")
+            return (df - min_vals) / (
+                grouped.transform("max") - min_vals + np.finfo(float).eps
+            )
 
         else:
             raise (NameError(f'Normalize method "{self.norm_type}" not implemented'))
@@ -111,7 +134,7 @@ def interpolate_missing(y):
     Replaces NaN values in pd.Series `y` using linear interpolation
     """
     if y.isna().any():
-        y = y.interpolate(method='linear', limit_direction='both')
+        y = y.interpolate(method="linear", limit_direction="both")
     return y
 
 

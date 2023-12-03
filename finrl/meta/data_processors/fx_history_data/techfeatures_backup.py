@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 from typing import List
 
 import numpy as np
 import pandas as pd
 import talib as ta
+
 
 class TechFeature:
     def __init__(self):
@@ -21,15 +24,18 @@ class macd(TechFeature):
     def __call__(self, df: pd.DataFrame) -> np.ndarray:
         return ta.MACD(df.close, fastperiod=12, slowperiod=26, signalperiod=9)
 
+
 class boll(TechFeature):
     """boll"""
 
-    def __call__(self, df: pd.DataFrame) -> (np.ndarray):
-        upperband, middleband, lowerband = ta.BBANDS(df.close, timeperiod=5, nbdevup=2, nbdevdn=2, matype=0)
+    def __call__(self, df: pd.DataFrame) -> np.ndarray:
+        upperband, middleband, lowerband = ta.BBANDS(
+            df.close, timeperiod=5, nbdevup=2, nbdevdn=2, matype=0
+        )
         return (upperband, middleband, lowerband)
 
 
-def tech_features_from_feature_list() -> List[TechFeature]:
+def tech_features_from_feature_list() -> list[TechFeature]:
     """
     Returns a list of time features that will be appropriate for the given frequency string.
     Parameters
@@ -51,8 +57,9 @@ def tech_features_from_feature_list() -> List[TechFeature]:
     return [cls() for cls in features]
 
 
-
 def tech_features(df, feature_list):
-    x = np.vstack([feat(df) for feat in tech_features_from_feature_list()]).transpose(1, 0)
+    x = np.vstack([feat(df) for feat in tech_features_from_feature_list()]).transpose(
+        1, 0
+    )
 
     return x

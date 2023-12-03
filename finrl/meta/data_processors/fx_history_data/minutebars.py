@@ -1,8 +1,14 @@
+from __future__ import annotations
+
 from datetime import datetime
-from typing import Callable, Optional, List
+from typing import Callable
+from typing import List
+from typing import Optional
+
 from .constant import Interval
-from .vo import BarData, TickData
 from .utility import timer
+from .vo import BarData
+from .vo import TickData
 
 
 class BarGenerator:
@@ -20,7 +26,7 @@ class BarGenerator:
         on_bar: Callable,
         window: int = 0,
         on_window_bar: Callable = None,
-        interval: Interval = Interval.MINUTE
+        interval: Interval = Interval.MINUTE,
     ) -> None:
         """Constructor"""
         self.bar: BarData = None
@@ -53,13 +59,10 @@ class BarGenerator:
 
         if not self.bar:
             new_minute = True
-        elif (
-            (self.bar.datetime.minute != tick.datetime.minute)
-            or (self.bar.datetime.hour != tick.datetime.hour)
+        elif (self.bar.datetime.minute != tick.datetime.minute) or (
+            self.bar.datetime.hour != tick.datetime.hour
         ):
-            self.bar.datetime = self.bar.datetime.replace(
-                second=0, microsecond=0
-            )
+            self.bar.datetime = self.bar.datetime.replace(second=0, microsecond=0)
             self.on_bar(self.bar)
 
             new_minute = True
@@ -75,7 +78,7 @@ class BarGenerator:
                 high_price=tick.last_price,
                 low_price=tick.last_price,
                 close_price=tick.last_price,
-                open_interest=tick.open_interest
+                open_interest=tick.open_interest,
             )
         else:
             self.bar.high_price = max(self.bar.high_price, tick.last_price)
@@ -120,18 +123,12 @@ class BarGenerator:
                 gateway_name=bar.gateway_name,
                 open=bar.open,
                 high=bar.high,
-                low=bar.low
+                low=bar.low,
             )
         # Otherwise, update high/low price into window bar
         else:
-            self.window_bar.high = max(
-                self.window_bar.high,
-                bar.high
-            )
-            self.window_bar.low = min(
-                self.window_bar.low,
-                bar.low
-            )
+            self.window_bar.high = max(self.window_bar.high, bar.high)
+            self.window_bar.low = min(self.window_bar.low, bar.low)
 
         # Update close price/volume/turnover into window bar
         self.window_bar.close = bar.close
@@ -141,7 +138,7 @@ class BarGenerator:
 
         # Check if window bar completed
         if not (bar.time.minute + 1) % self.window:
-            self.on_window_bar(self.window_bar) #get tech
+            self.on_window_bar(self.window_bar)  # get tech
             # why 29 min set window_bar = None?
             self.window_bar = None
 
@@ -161,7 +158,7 @@ class BarGenerator:
                 close=bar.close,
                 volume=bar.volume,
                 turnover=bar.turnover,
-                open_interest=bar.open_interest
+                open_interest=bar.open_interest,
             )
             return
 
@@ -169,14 +166,8 @@ class BarGenerator:
 
         # If minute is 59, update minute bar into window bar and push
         if bar.time.minute == 59:
-            self.hour_bar.high = max(
-                self.hour_bar.high,
-                bar.high
-            )
-            self.hour_bar.low = min(
-                self.hour_bar.low,
-                bar.low
-            )
+            self.hour_bar.high = max(self.hour_bar.high, bar.high)
+            self.hour_bar.low = min(self.hour_bar.low, bar.low)
 
             self.hour_bar.close = bar.close
             self.hour_bar.volume += bar.volume
@@ -202,18 +193,12 @@ class BarGenerator:
                 close=bar.close,
                 volume=bar.volume,
                 turnover=bar.turnover,
-                open_interest=bar.open_interest
+                open_interest=bar.open_interest,
             )
         # Otherwise only update minute bar
         else:
-            self.hour_bar.high = max(
-                self.hour_bar.high,
-                bar.high
-            )
-            self.hour_bar.low = min(
-                self.hour_bar.low,
-                bar.low
-            )
+            self.hour_bar.high = max(self.hour_bar.high, bar.high)
+            self.hour_bar.low = min(self.hour_bar.low, bar.low)
 
             self.hour_bar.close = bar.close
             self.hour_bar.volume += bar.volume
@@ -237,17 +222,11 @@ class BarGenerator:
                     gateway_name=bar.gateway_name,
                     open=bar.open,
                     high=bar.high,
-                    low=bar.low
+                    low=bar.low,
                 )
             else:
-                self.window_bar.high = max(
-                    self.window_bar.high,
-                    bar.high
-                )
-                self.window_bar.low = min(
-                    self.window_bar.low,
-                    bar.low
-                )
+                self.window_bar.high = max(self.window_bar.high, bar.high)
+                self.window_bar.low = min(self.window_bar.low, bar.low)
 
             self.window_bar.close = bar.close
             self.window_bar.volume += bar.volume
@@ -260,7 +239,7 @@ class BarGenerator:
                 self.on_window_bar(self.window_bar)
                 self.window_bar = None
 
-    def generate(self) -> Optional[BarData]:
+    def generate(self) -> BarData | None:
         """
         Generate the bar data and call callback immediately.
         """
@@ -282,8 +261,13 @@ class MinuteBar:
 
     def __init__(self, bar_data, window_mn):
         self.bar_data = bar_data
-        self.bg = BarGenerator(self.on_bar, interval=Interval.MINUTE, window=window_mn, on_window_bar=self.on_minute_bar)
-        self.all_bars:List[BarData] = []
+        self.bg = BarGenerator(
+            self.on_bar,
+            interval=Interval.MINUTE,
+            window=window_mn,
+            on_window_bar=self.on_minute_bar,
+        )
+        self.all_bars: list[BarData] = []
         self.load_bar()
 
     def on_minute_bar(self, bar):
@@ -303,10 +287,7 @@ class MinuteBar:
         if not callback:
             callback: Callable = self.on_bar
 
-        bars: List[BarData] = self.bar_data
+        bars: list[BarData] = self.bar_data
 
         for bar in bars:
             callback(bar)
-
-
-

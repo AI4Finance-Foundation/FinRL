@@ -1,13 +1,19 @@
-from abc import ABC, abstractmethod
-from datetime import datetime
-from typing import List
-from types import ModuleType
-from importlib import import_module
+from __future__ import annotations
 
-from .constant import Interval, Exchange
-from .vo import BarData, BarOverview, TickOverview
+from abc import ABC
+from abc import abstractmethod
+from datetime import datetime
+from importlib import import_module
+from types import ModuleType
+from typing import List
+
 from .config import SETTINGS
+from .constant import Exchange
+from .constant import Interval
 from .utility import ZoneInfo
+from .vo import BarData
+from .vo import BarOverview
+from .vo import TickOverview
 
 
 DB_TZ = ZoneInfo(SETTINGS["database.timezone"])
@@ -27,7 +33,7 @@ class BaseDatabase(ABC):
     """
 
     @abstractmethod
-    def save_bar_data(self, bars: List[BarData]) -> bool:
+    def save_bar_data(self, bars: list[BarData]) -> bool:
         """
         Save bar data into database.
         """
@@ -40,26 +46,22 @@ class BaseDatabase(ABC):
         exchange: Exchange,
         interval: Interval,
         start: datetime,
-        end: datetime
-    ) -> List[BarData]:
+        end: datetime,
+    ) -> list[BarData]:
         """
         Load bar data from database.
         """
         pass
 
     @abstractmethod
-    def delete_bar_data(
-        self,
-        symbol: str,
-        interval: Interval
-    ) -> int:
+    def delete_bar_data(self, symbol: str, interval: Interval) -> int:
         """
         Delete all bar data with given symbol + exchange + interval.
         """
         pass
 
     @abstractmethod
-    def get_bar_overview(self) -> List[BarOverview]:
+    def get_bar_overview(self) -> list[BarOverview]:
         """
         Return data available in database.
         """

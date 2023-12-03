@@ -1,18 +1,27 @@
 """"""
+from __future__ import annotations
+
 from datetime import datetime
 from typing import List
-import pandas as pd
 
-from pymongo import ASCENDING, MongoClient, ReplaceOne
-from pymongo.database import Database
-from pymongo.cursor import Cursor
+import pandas as pd
+from pymongo import ASCENDING
+from pymongo import MongoClient
+from pymongo import ReplaceOne
 from pymongo.collection import Collection
+from pymongo.cursor import Cursor
+from pymongo.database import Database
 from pymongo.results import DeleteResult
 
-from .constant import Exchange, Interval
-from .vo import BarData, TickData
-from .database import BaseDatabase, BarOverview, TickOverview, DB_TZ
 from .config import SETTINGS
+from .constant import Exchange
+from .constant import Interval
+from .database import BarOverview
+from .database import BaseDatabase
+from .database import DB_TZ
+from .database import TickOverview
+from .vo import BarData
+from .vo import TickData
 
 
 class Database(BaseDatabase):
@@ -37,14 +46,11 @@ class Database(BaseDatabase):
                 username=self.username,
                 password=self.password,
                 tzinfo=DB_TZ,
-                authSource=self.authSource
+                authSource=self.authSource,
             )
         else:
             self.client: MongoClient = MongoClient(
-                host=self.host,
-                port=self.port,
-                tz_aware=True,
-                tzinfo=DB_TZ
+                host=self.host, port=self.port, tz_aware=True, tzinfo=DB_TZ
             )
 
         # 初始化数据库
@@ -59,7 +65,7 @@ class Database(BaseDatabase):
                 ("time_frame", ASCENDING),
                 ("time", ASCENDING),
             ],
-            unique=True
+            unique=True,
         )
 
         # 初始化Tick数据表
@@ -70,7 +76,7 @@ class Database(BaseDatabase):
                 ("symbol", ASCENDING),
                 ("time", ASCENDING),
             ],
-            unique=True
+            unique=True,
         )
 
         # 初始化K线概览表
@@ -81,7 +87,7 @@ class Database(BaseDatabase):
                 ("symbol", ASCENDING),
                 ("interval", ASCENDING),
             ],
-            unique=True
+            unique=True,
         )
 
         # 初始化Tick概览表
@@ -91,12 +97,12 @@ class Database(BaseDatabase):
                 ("exchange", ASCENDING),
                 ("symbol", ASCENDING),
             ],
-            unique=True
+            unique=True,
         )
 
-    def save_bar_data(self, bars: List[BarData], stream: bool = False) -> bool:
+    def save_bar_data(self, bars: list[BarData], stream: bool = False) -> bool:
         """保存K线数据"""
-        requests: List[ReplaceOne] = []
+        requests: list[ReplaceOne] = []
 
         for bar in bars:
             # 逐个插入
@@ -129,7 +135,7 @@ class Database(BaseDatabase):
         filter: dict = {
             "symbol": bar.symbol,
             "exchange": bar.exchange.value,
-            "interval": bar.interval.value
+            "interval": bar.interval.value,
         }
 
         overview: dict = self.bar_overview_collection.find_one(filter)
@@ -141,7 +147,7 @@ class Database(BaseDatabase):
                 "interval": bar.interval.value,
                 "count": len(bars),
                 "start": bars[0].datetime,
-                "end": bars[-1].datetime
+                "end": bars[-1].datetime,
             }
         elif stream:
             overview["end"] = bars[-1].datetime
@@ -155,9 +161,9 @@ class Database(BaseDatabase):
 
         return True
 
-    def save_tick_data(self, ticks: List[TickData], stream: bool = False) -> bool:
+    def save_tick_data(self, ticks: list[TickData], stream: bool = False) -> bool:
         """保存TICK数据"""
-        requests: List[ReplaceOne] = []
+        requests: list[ReplaceOne] = []
 
         for tick in ticks:
             filter: dict = {
@@ -210,10 +216,7 @@ class Database(BaseDatabase):
         self.tick_collection.bulk_write(requests, ordered=False)
 
         # 更新Tick汇总
-        filter: dict = {
-            "symbol": tick.symbol,
-            "exchange": tick.exchange.value
-        }
+        filter: dict = {"symbol": tick.symbol, "exchange": tick.exchange.value}
 
         overview: dict = self.tick_overview_collection.find_one(filter)
 
@@ -223,7 +226,7 @@ class Database(BaseDatabase):
                 "exchange": tick.exchange.value,
                 "count": len(ticks),
                 "start": ticks[0].datetime,
-                "end": ticks[-1].datetime
+                "end": ticks[-1].datetime,
             }
         elif stream:
             overview["end"] = ticks[-1].datetime
@@ -233,7 +236,9 @@ class Database(BaseDatabase):
             overview["end"] = max(ticks[-1].datetime, overview["end"])
             overview["count"] = self.bar_collection.count_documents(filter)
 
-        self.tick_overview_collection.update_one(filter, {"$set": overview}, upsert=True)
+        self.tick_overview_collection.update_one(
+            filter, {"$set": overview}, upsert=True
+        )
 
         return True
 
@@ -243,22 +248,19 @@ class Database(BaseDatabase):
         exchange: Exchange,
         interval: Interval,
         start: datetime,
-        end: datetime
-    ) -> List[BarData]:
+        end: datetime,
+    ) -> list[BarData]:
         """读取K线数据"""
         filter: dict = {
             "symbol": symbol,
             # "exchange": exchange.value,
             "time_frame": interval.value,
-            "time": {
-                "$gte": start.astimezone(DB_TZ),
-                "$lte": end.astimezone(DB_TZ)
-            }
+            "time": {"$gte": start.astimezone(DB_TZ), "$lte": end.astimezone(DB_TZ)},
         }
 
         c: Cursor = self.bar_collection.find(filter)
 
-        bars: List[BarData] = []
+        bars: list[BarData] = []
         for d in c:
             d["exchange"] = exchange
             d["interval"] = Interval(d["time_frame"]).value
@@ -275,25 +277,21 @@ class Database(BaseDatabase):
         return bars
 
     def load_tick_data(
-        self,
-        symbol: str,
-        exchange: Exchange,
-        start: datetime,
-        end: datetime
-    ) -> List[TickData]:
+        self, symbol: str, exchange: Exchange, start: datetime, end: datetime
+    ) -> list[TickData]:
         """读取TICK数据"""
         filter: dict = {
             "symbol": symbol,
             "exchange": exchange.value,
             "datetime": {
                 "$gte": start.astimezone(DB_TZ),
-                "$lte": end.astimezone(DB_TZ)
-            }
+                "$lte": end.astimezone(DB_TZ),
+            },
         }
 
         c: Cursor = self.tick_collection.find(filter)
 
-        ticks: List[TickData] = []
+        ticks: list[TickData] = []
         for d in c:
             d["exchange"] = Exchange(d["exchange"])
             d["gateway_name"] = "DB"
@@ -305,10 +303,7 @@ class Database(BaseDatabase):
         return ticks
 
     def delete_bar_data(
-        self,
-        symbol: str,
-        exchange: Exchange,
-        interval: Interval
+        self, symbol: str, exchange: Exchange, interval: Interval
     ) -> int:
         """删除K线数据"""
         filter: dict = {
@@ -322,27 +317,20 @@ class Database(BaseDatabase):
 
         return result.deleted_count
 
-    def delete_tick_data(
-        self,
-        symbol: str,
-        exchange: Exchange
-    ) -> int:
+    def delete_tick_data(self, symbol: str, exchange: Exchange) -> int:
         """删除TICK数据"""
-        filter: dict = {
-            "symbol": symbol,
-            "exchange": exchange.value
-        }
+        filter: dict = {"symbol": symbol, "exchange": exchange.value}
 
         result: DeleteResult = self.tick_collection.delete_many(filter)
         self.tick_overview_collection.delete_one(filter)
 
         return result.deleted_count
 
-    def get_bar_overview(self) -> List[BarOverview]:
+    def get_bar_overview(self) -> list[BarOverview]:
         """查询数据库中的K线汇总信息"""
         c: Cursor = self.bar_overview_collection.find()
 
-        overviews: List[BarOverview] = []
+        overviews: list[BarOverview] = []
         for d in c:
             d["exchange"] = Exchange(d["exchange"])
             d["interval"] = Interval(d["interval"])
@@ -353,11 +341,11 @@ class Database(BaseDatabase):
 
         return overviews
 
-    def get_tick_overview(self) -> List[TickOverview]:
+    def get_tick_overview(self) -> list[TickOverview]:
         """查询数据库中的Tick汇总信息"""
         c: Cursor = self.tick_overview_collection.find()
 
-        overviews: List[TickOverview] = []
+        overviews: list[TickOverview] = []
         for d in c:
             d["exchange"] = Exchange(d["exchange"])
             d.pop("_id")

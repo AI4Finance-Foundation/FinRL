@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -5,12 +7,14 @@ import torch.nn.functional as F
 
 class ConvLayer(nn.Module):
     def __init__(self, c_in):
-        super(ConvLayer, self).__init__()
-        self.downConv = nn.Conv1d(in_channels=c_in,
-                                  out_channels=c_in,
-                                  kernel_size=3,
-                                  padding=2,
-                                  padding_mode='circular')
+        super().__init__()
+        self.downConv = nn.Conv1d(
+            in_channels=c_in,
+            out_channels=c_in,
+            kernel_size=3,
+            padding=2,
+            padding_mode="circular",
+        )
         self.norm = nn.BatchNorm1d(c_in)
         self.activation = nn.ELU()
         self.maxPool = nn.MaxPool1d(kernel_size=3, stride=2, padding=1)
@@ -26,7 +30,7 @@ class ConvLayer(nn.Module):
 
 class EncoderLayer(nn.Module):
     def __init__(self, attention, d_model, d_ff=None, dropout=0.1, activation="relu"):
-        super(EncoderLayer, self).__init__()
+        super().__init__()
         d_ff = d_ff or 4 * d_model
         self.attention = attention
         self.conv1 = nn.Conv1d(in_channels=d_model, out_channels=d_ff, kernel_size=1)
@@ -37,11 +41,7 @@ class EncoderLayer(nn.Module):
         self.activation = F.relu if activation == "relu" else F.gelu
 
     def forward(self, x, attn_mask=None, tau=None, delta=None):
-        new_x, attn = self.attention(
-            x, x, x,
-            attn_mask=attn_mask,
-            tau=tau, delta=delta
-        )
+        new_x, attn = self.attention(x, x, x, attn_mask=attn_mask, tau=tau, delta=delta)
         x = x + self.dropout(new_x)
 
         y = x = self.norm1(x)
@@ -53,17 +53,21 @@ class EncoderLayer(nn.Module):
 
 class Encoder(nn.Module):
     def __init__(self, attn_layers, conv_layers=None, norm_layer=None):
-        super(Encoder, self).__init__()
+        super().__init__()
         self.attn_layers = nn.ModuleList(attn_layers)
-        self.conv_layers = nn.ModuleList(conv_layers) if conv_layers is not None else None
+        self.conv_layers = (
+            nn.ModuleList(conv_layers) if conv_layers is not None else None
+        )
         self.norm = norm_layer
 
     def forward(self, x, attn_mask=None, tau=None, delta=None):
         # x [B, L, D]
         attns = []
         if self.conv_layers is not None:
-            for i, (attn_layer, conv_layer) in enumerate(zip(self.attn_layers, self.conv_layers)):
-                delta = delta if i==0 else None
+            for i, (attn_layer, conv_layer) in enumerate(
+                zip(self.attn_layers, self.conv_layers)
+            ):
+                delta = delta if i == 0 else None
                 x, attn = attn_layer(x, attn_mask=attn_mask, tau=tau, delta=delta)
                 x = conv_layer(x)
                 attns.append(attn)
@@ -81,9 +85,16 @@ class Encoder(nn.Module):
 
 
 class DecoderLayer(nn.Module):
-    def __init__(self, self_attention, cross_attention, d_model, d_ff=None,
-                 dropout=0.1, activation="relu"):
-        super(DecoderLayer, self).__init__()
+    def __init__(
+        self,
+        self_attention,
+        cross_attention,
+        d_model,
+        d_ff=None,
+        dropout=0.1,
+        activation="relu",
+    ):
+        super().__init__()
         d_ff = d_ff or 4 * d_model
         self.self_attention = self_attention
         self.cross_attention = cross_attention
@@ -96,18 +107,16 @@ class DecoderLayer(nn.Module):
         self.activation = F.relu if activation == "relu" else F.gelu
 
     def forward(self, x, cross, x_mask=None, cross_mask=None, tau=None, delta=None):
-        x = x + self.dropout(self.self_attention(
-            x, x, x,
-            attn_mask=x_mask,
-            tau=tau, delta=None
-        )[0])
+        x = x + self.dropout(
+            self.self_attention(x, x, x, attn_mask=x_mask, tau=tau, delta=None)[0]
+        )
         x = self.norm1(x)
 
-        x = x + self.dropout(self.cross_attention(
-            x, cross, cross,
-            attn_mask=cross_mask,
-            tau=tau, delta=delta
-        )[0])
+        x = x + self.dropout(
+            self.cross_attention(
+                x, cross, cross, attn_mask=cross_mask, tau=tau, delta=delta
+            )[0]
+        )
 
         y = x = self.norm2(x)
         y = self.dropout(self.activation(self.conv1(y.transpose(-1, 1))))
@@ -118,14 +127,16 @@ class DecoderLayer(nn.Module):
 
 class Decoder(nn.Module):
     def __init__(self, layers, norm_layer=None, projection=None):
-        super(Decoder, self).__init__()
+        super().__init__()
         self.layers = nn.ModuleList(layers)
         self.norm = norm_layer
         self.projection = projection
 
     def forward(self, x, cross, x_mask=None, cross_mask=None, tau=None, delta=None):
         for layer in self.layers:
-            x = layer(x, cross, x_mask=x_mask, cross_mask=cross_mask, tau=tau, delta=delta)
+            x = layer(
+                x, cross, x_mask=x_mask, cross_mask=cross_mask, tau=tau, delta=delta
+            )
 
         if self.norm is not None:
             x = self.norm(x)
@@ -133,4 +144,3 @@ class Decoder(nn.Module):
         if self.projection is not None:
             x = self.projection(x)
         return x
-

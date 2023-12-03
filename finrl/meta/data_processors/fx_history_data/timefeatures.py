@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List
 
 import numpy as np
@@ -73,7 +75,7 @@ class WeekOfYear(TimeFeature):
         return (index.week - 1) / 52.0 - 0.5
 
 
-def time_features_from_frequency_str(freq_str: str) -> List[TimeFeature]:
+def time_features_from_frequency_str(freq_str: str) -> list[TimeFeature]:
     """
     Returns a list of time features that will be appropriate for the given frequency string.
     Parameters
@@ -130,7 +132,7 @@ def time_features_from_frequency_str(freq_str: str) -> List[TimeFeature]:
     raise RuntimeError(supported_freq_msg)
 
 
-def time_features(dates, timeenc=1, freq='h'):
+def time_features(dates, timeenc=1, freq="h"):
     """
     > `time_features` takes in a `dates` dataframe with a 'dates' column and extracts the date down to `freq` where freq can be any of the following if `timeenc` is 0:
     > * m - [month]
@@ -153,19 +155,25 @@ def time_features(dates, timeenc=1, freq='h'):
     *minute returns a number from 0-3 corresponding to the 15 minute period it falls into.
     """
     if timeenc == 0:
-        dates['month'] = dates.date.apply(lambda row: row.month, 1)
-        dates['day'] = dates.date.apply(lambda row: row.day, 1)
-        dates['weekday'] = dates.date.apply(lambda row: row.weekday(), 1)
-        dates['hour'] = dates.date.apply(lambda row: row.hour, 1)
-        dates['minute'] = dates.date.apply(lambda row: row.minute, 1)
-        dates['minute'] = dates.minute.map(lambda x: x // 15)
+        dates["month"] = dates.date.apply(lambda row: row.month, 1)
+        dates["day"] = dates.date.apply(lambda row: row.day, 1)
+        dates["weekday"] = dates.date.apply(lambda row: row.weekday(), 1)
+        dates["hour"] = dates.date.apply(lambda row: row.hour, 1)
+        dates["minute"] = dates.date.apply(lambda row: row.minute, 1)
+        dates["minute"] = dates.minute.map(lambda x: x // 15)
         freq_map = {
-            'y': [], 'm': ['month'], 'w': ['month'], 'd': ['month', 'day', 'weekday'],
-            'b': ['month', 'day', 'weekday'], 'h': ['month', 'day', 'weekday', 'hour'],
-            't': ['month', 'day', 'weekday', 'hour', 'minute'],
+            "y": [],
+            "m": ["month"],
+            "w": ["month"],
+            "d": ["month", "day", "weekday"],
+            "b": ["month", "day", "weekday"],
+            "h": ["month", "day", "weekday", "hour"],
+            "t": ["month", "day", "weekday", "hour", "minute"],
         }
         return dates[freq_map[freq.lower()]].values
     if timeenc == 1:
         dates = pd.to_datetime(dates.time.values)
-        arr = np.vstack([feat(dates) for feat in time_features_from_frequency_str(freq)]).transpose(1, 0)
+        arr = np.vstack(
+            [feat(dates) for feat in time_features_from_frequency_str(freq)]
+        ).transpose(1, 0)
         return arr
