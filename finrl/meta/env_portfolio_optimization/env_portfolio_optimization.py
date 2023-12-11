@@ -1,7 +1,6 @@
 """From FinRL https://github.com/AI4Finance-LLC/FinRL/tree/master/finrl/env"""
-import math
-
 import gym
+import math
 import matplotlib
 import numpy as np
 import pandas as pd
@@ -105,8 +104,7 @@ class PortfolioOptimizationEnv(gym.Env):
             comission_fee_pct: Percentage to be used in comission fee. It must be a value
                 between 0 and 1.
             features: List of features to be considered in the observation space. The
-                items
-                of the list must be names of columns of the input dataframe.
+                items of the list must be names of columns of the input dataframe.
             valuation_feature: Feature to be considered in the portfolio value calculation.
             time_column: Name of the dataframe's column that contain the datetimes that
                 index the dataframe.
@@ -317,6 +315,7 @@ class PortfolioOptimizationEnv(gym.Env):
                         - (2 * self._comission_fee_pct - self._comission_fee_pct**2)
                         * np.sum(np.maximum(last_weights[1:] - mu * weights[1:], 0))
                     ) / (1 - self._comission_fee_pct * weights[0])
+                self._info["trf_mu"] = mu
                 self._portfolio_value = mu * self._portfolio_value
 
             # save initial portfolio value of this time step
