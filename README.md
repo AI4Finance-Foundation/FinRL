@@ -237,7 +237,7 @@ A complete list at [blogs](https://github.com/AI4Finance-Foundation/Blogs)
 @article{dynamic_datasets,
     author = {Liu, Xiao-Yang and Xia, Ziyi and Yang, Hongyang and Gao, Jiechao and Zha, Daochen and Zhu, Ming and Wang, Christina Dan and Wang, Zhaoran and Guo, Jian},
     title = {Dynamic Datasets and Market Environments for Financial Reinforcement Learning},
-    journal = {Machine Learning Journal - Springer Nature},
+    journal = {Machine Learning - Springer Nature},
     year = {2024}
 }
 ```
