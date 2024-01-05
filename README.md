@@ -234,6 +234,16 @@ A complete list at [blogs](https://github.com/AI4Finance-Foundation/Blogs)
 ## Citing FinRL
 
 ```
+@article{dynamic_datasets,
+    author = {Liu, Xiao-Yang and Xia, Ziyi and Yang, Hongyang and Gao, Jiechao and Zha, Daochen and Zhu, Ming and Wang, Christina Dan and Wang, Zhaoran and Guo, Jian},
+    title = {Dynamic Datasets and Market Environments for Financial Reinforcement Learning},
+    journal = {Machine Learning Journal - Springer Nature},
+    year = {2024}
+}
+```
+
+
+```
 @article{liu2022finrl_meta,
   title={FinRL-Meta: Market Environments and Benchmarks for Data-Driven Financial Reinforcement Learning},
   author={Liu, Xiao-Yang and Xia, Ziyi and Rui, Jingyang and Gao, Jiechao and Yang, Hongyang and Zhu, Ming and Wang, Christina Dan and Wang, Zhaoran and Guo, Jian},
