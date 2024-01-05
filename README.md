@@ -203,7 +203,7 @@ A complete list at [blogs](https://github.com/AI4Finance-Foundation/Blogs)
 
 ## Publications
 
-|Title |Conference |Link|Citations|Year|
+|Title |Conference/Journal |Link|Citations|Year|
 |  ----  |  ----  |  ----  |  ----  |  ----  |
 |Dynamic Datasets and Market Environments for Financial Reinforcement Learning| Machine Learning Journal - Springer Nature| [paper](https://arxiv.org/abs/2304.13174) [code](https://github.com/AI4Finance-Foundation/FinRL-Meta) | 1 | 2024 |
 |**FinRL-Meta**: FinRL-Meta: Market Environments and Benchmarks for Data-Driven Financial Reinforcement Learning| NeurIPS 2022| [paper](https://arxiv.org/abs/2211.03107) [code](https://github.com/AI4Finance-Foundation/FinRL-Meta) | 12 | 2022 |
