@@ -11,10 +11,25 @@ from .utils import ReplayBuffer, PVM, RLDataset
 
 
 class PolicyGradient:
+    """Class implementing policy gradient algorithm to train portfolio
+    optimization agents.
+
+    Note:
+        During testing, the agent is optimized through online learning.
+        The parameters of the policy is updated repeatedly after a constant
+        period of time. To disable it, set learning rate to 0.
+
+    Attributes:
+        train_env: Environment used to train the agent
+        train_policy: Policy used in training.
+        test_env: Environment used to test the agent.
+        test_policy: Policy after test online learning.
+    """
     def __init__(
         self,
         env,
         policy=EIIE,
+        policy_kwargs=None,
         validation_env=None,
         batch_size=100,
         lr=1e-3,
@@ -26,6 +41,7 @@ class PolicyGradient:
         Args:
           env: Training Environment.
           policy: Policy architecture to be used.
+          policy_kwargs: Arguments to be used in the policy network.
           validation_env: Validation environment.
           batch_size: Batch size to train neural network.
           lr: policy Neural network learning rate.
@@ -33,6 +49,7 @@ class PolicyGradient:
           device: Device where neural network is run.
         """
         self.policy = policy
+        self.policy_kwargs = {} if policy_kwargs is None else policy_kwargs
         self.validation_env = validation_env
         self.batch_size = batch_size
         self.lr = lr
@@ -46,15 +63,15 @@ class PolicyGradient:
         Args:
           env: environment.
           policy: Policy architecture to be used.
-          batch_size: batch size to train neural network.
-          lr: policy neural network learning rate.
+          batch_size: Batch size to train neural network.
+          lr: Policy neural network learning rate.
           optimizer: Optimizer of neural network.
         """
         # environment
         self.train_env = env
 
         # neural networks
-        self.train_policy = policy().to(self.device)
+        self.train_policy = policy(**self.policy_kwargs).to(self.device)
         self.train_optimizer = optimizer(self.train_policy.parameters(), lr=lr)
 
         # replay buffer and portfolio vector memory
@@ -157,6 +174,10 @@ class PolicyGradient:
             learning rate
           optimizer: Optimizer of neural network. If None, it will use the training
             optimizer
+
+        Note:
+            To disable online learning, set learning rate to 0 or a very big online
+            training period.
         """
         self._setup_test(env, policy, online_training_period, lr, optimizer)
 
@@ -189,7 +210,7 @@ class PolicyGradient:
 
     def _gradient_ascent(self, test=False):
         """Performs the gradient ascent step in the policy gradient algorithm.
-        
+
         Args:
             test: If true, it uses the test dataloader and policy.
         """

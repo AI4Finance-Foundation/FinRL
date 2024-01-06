@@ -25,7 +25,7 @@ except ModuleNotFoundError:
 
 
 class PortfolioOptimizationEnv(gym.Env):
-    """A portfolio allocantion environment for OpenAI gym.
+    """A portfolio allocation environment for OpenAI gym.
 
     This environment simulates the interactions between an agent and the financial market
     based on data provided by a dataframe. The dataframe contains the time series of

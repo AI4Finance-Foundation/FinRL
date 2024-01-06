@@ -5,24 +5,42 @@ from torch import nn
 
 
 class EIIE(nn.Module):
-    def __init__(self, device="cpu"):
-        """EIIE policy network initializer.
+    def __init__(self,
+        initial_features=3,
+        k_size=3,
+        conv_mid_features=2,
+        conv_final_features=20,
+        time_window=50,
+        device="cpu",
+    ):
+        """EIIE (ensemble of identical independent evaluators) policy network
+        initializer.
 
         Args:
-            device: device in which the neural network will be run.
+            initial_features: Number of input features.
+            k_size: Size of first convolutional kernel.
+            conv_mid_features: Size of intermediate convolutional channels.
+            conv_final_features: Size of final convolutional channels.
+            time_window: Size of time window used as agent's state.
+            device: Device in which the neural network will be run.
+
+        Note:
+            Reference article: https://doi.org/10.48550/arXiv.1706.10059.
         """
         super().__init__()
         self.device = device
 
+        n_size = time_window - k_size + 1
+
         self.sequential = nn.Sequential(
-            nn.Conv2d(in_channels=3, out_channels=2, kernel_size=(1, 3)),
+            nn.Conv2d(in_channels=initial_features, out_channels=conv_mid_features, kernel_size=(1, k_size)),
             nn.ReLU(),
-            nn.Conv2d(in_channels=2, out_channels=20, kernel_size=(1, 48)),
+            nn.Conv2d(in_channels=conv_mid_features, out_channels=conv_final_features, kernel_size=(1, n_size)),
             nn.ReLU(),
         )
 
         self.final_convolution = nn.Conv2d(
-            in_channels=21, out_channels=1, kernel_size=(1, 1)
+            in_channels=conv_final_features + 1, out_channels=1, kernel_size=(1, 1)
         )
 
         self.softmax = nn.Sequential(nn.Softmax(dim=-1))
@@ -44,7 +62,7 @@ class EIIE(nn.Module):
             last_action = torch.from_numpy(last_action).to(self.device)
 
         last_stocks, cash_bias = self._process_last_action(last_action)
-        cash_bias = torch.zeros_like(cash_bias).to(self.device)
+        cash_bias = torch.zeros_like(cash_bias).to(self.device) 
 
         output = self.sequential(observation)  # shape [N, 20, PORTFOLIO_SIZE, 1]
         output = torch.cat(
@@ -105,15 +123,20 @@ class EI3(nn.Module):
         time_window=50,
         device="cpu",
     ):
-        """EI3 policy network initializer.
+        """EI3 (ensemble of identical independent inception) policy network
+        initializer.
 
         Args:
             initial_features: Number of input features.
             k_short: Size of short convolutional kernel.
             k_medium: Size of medium convolutional kernel.
             conv_mid_features: Size of intermediate convolutional channels.
-            conv_finak_features: Size of final convolutional channels.
+            conv_final_features: Size of final convolutional channels.
+            time_window: Size of time window used as agent's state.
             device: Device in which the neural network will be run.
+
+        Reference:
+            Reference article: https://doi.org/10.1145/3357384.3357961.
         """
         super().__init__()
         self.device = device
@@ -124,7 +147,7 @@ class EI3(nn.Module):
 
         self.short_term = nn.Sequential(
             nn.Conv2d(
-                in_channels=3, out_channels=conv_mid_features, kernel_size=(1, k_short)
+                in_channels=initial_features, out_channels=conv_mid_features, kernel_size=(1, k_short)
             ),
             nn.ReLU(),
             nn.Conv2d(
