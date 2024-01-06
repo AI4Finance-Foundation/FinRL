@@ -25,6 +25,7 @@ class PolicyGradient:
         test_env: Environment used to test the agent.
         test_policy: Policy after test online learning.
     """
+
     def __init__(
         self,
         env,

@@ -5,7 +5,8 @@ from torch import nn
 
 
 class EIIE(nn.Module):
-    def __init__(self,
+    def __init__(
+        self,
         initial_features=3,
         k_size=3,
         conv_mid_features=2,
@@ -33,9 +34,17 @@ class EIIE(nn.Module):
         n_size = time_window - k_size + 1
 
         self.sequential = nn.Sequential(
-            nn.Conv2d(in_channels=initial_features, out_channels=conv_mid_features, kernel_size=(1, k_size)),
+            nn.Conv2d(
+                in_channels=initial_features,
+                out_channels=conv_mid_features,
+                kernel_size=(1, k_size),
+            ),
             nn.ReLU(),
-            nn.Conv2d(in_channels=conv_mid_features, out_channels=conv_final_features, kernel_size=(1, n_size)),
+            nn.Conv2d(
+                in_channels=conv_mid_features,
+                out_channels=conv_final_features,
+                kernel_size=(1, n_size),
+            ),
             nn.ReLU(),
         )
 
@@ -62,7 +71,7 @@ class EIIE(nn.Module):
             last_action = torch.from_numpy(last_action).to(self.device)
 
         last_stocks, cash_bias = self._process_last_action(last_action)
-        cash_bias = torch.zeros_like(cash_bias).to(self.device) 
+        cash_bias = torch.zeros_like(cash_bias).to(self.device)
 
         output = self.sequential(observation)  # shape [N, 20, PORTFOLIO_SIZE, 1]
         output = torch.cat(
@@ -147,7 +156,9 @@ class EI3(nn.Module):
 
         self.short_term = nn.Sequential(
             nn.Conv2d(
-                in_channels=initial_features, out_channels=conv_mid_features, kernel_size=(1, k_short)
+                in_channels=initial_features,
+                out_channels=conv_mid_features,
+                kernel_size=(1, k_short),
             ),
             nn.ReLU(),
             nn.Conv2d(

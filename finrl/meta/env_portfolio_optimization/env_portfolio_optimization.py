@@ -165,7 +165,11 @@ class PortfolioOptimizationEnv(gym.Env):
                     "state": spaces.Box(
                         low=-np.inf,
                         high=np.inf,
-                        shape=(len(self._features), self.portfolio_size, self._time_window),
+                        shape=(
+                            len(self._features),
+                            self.portfolio_size,
+                            self._time_window,
+                        ),
                     ),
                     "last_action": spaces.Box(low=0, high=1, shape=(action_space,)),
                 }
@@ -522,9 +526,13 @@ class PortfolioOptimizationEnv(gym.Env):
         self._portfolio_return_memory = [0]
         self._portfolio_reward_memory = [0]
         # initial action: all money is allocated in cash
-        self._actions_memory = [np.array([1] + [0] * self.portfolio_size, dtype=np.float32)]
+        self._actions_memory = [
+            np.array([1] + [0] * self.portfolio_size, dtype=np.float32)
+        ]
         # memorize portfolio weights at the ending of time step
-        self._final_weights = [np.array([1] + [0] * self.portfolio_size, dtype=np.float32)]
+        self._final_weights = [
+            np.array([1] + [0] * self.portfolio_size, dtype=np.float32)
+        ]
         # memorize datetimes
         self._date_memory = [date_time]
 
