@@ -203,8 +203,9 @@ A complete list at [blogs](https://github.com/AI4Finance-Foundation/Blogs)
 
 ## Publications
 
-|Title |Conference |Link|Citations|Year|
+|Title |Conference/Journal |Link|Citations|Year|
 |  ----  |  ----  |  ----  |  ----  |  ----  |
+|Dynamic Datasets and Market Environments for Financial Reinforcement Learning| Machine Learning - Nature| [paper](https://arxiv.org/abs/2304.13174) [code](https://github.com/AI4Finance-Foundation/FinRL-Meta) | 1 | 2024 |
 |**FinRL-Meta**: FinRL-Meta: Market Environments and Benchmarks for Data-Driven Financial Reinforcement Learning| NeurIPS 2022| [paper](https://arxiv.org/abs/2211.03107) [code](https://github.com/AI4Finance-Foundation/FinRL-Meta) | 12 | 2022 |
 |**FinRL**: Deep reinforcement learning framework to automate trading in quantitative finance| ACM International Conference on AI in Finance (ICAIF) | [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3955949) | 49 | 2021 |
 |**FinRL**: A deep reinforcement learning library for automated stock trading in quantitative finance| NeurIPS 2020 Deep RL Workshop  | [paper](https://arxiv.org/abs/2011.09607) | 87 | 2020 |
@@ -231,6 +232,16 @@ A complete list at [blogs](https://github.com/AI4Finance-Foundation/Blogs)
 + [知乎] [FinRL的W&B化+超参数搜索和模型优化(基于Stable Baselines 3）](https://zhuanlan.zhihu.com/p/498115373)
 +
 ## Citing FinRL
+
+```
+@article{dynamic_datasets,
+    author = {Liu, Xiao-Yang and Xia, Ziyi and Yang, Hongyang and Gao, Jiechao and Zha, Daochen and Zhu, Ming and Wang, Christina Dan and Wang, Zhaoran and Guo, Jian},
+    title = {Dynamic Datasets and Market Environments for Financial Reinforcement Learning},
+    journal = {Machine Learning - Springer Nature},
+    year = {2024}
+}
+```
+
 
 ```
 @article{liu2022finrl_meta,
