@@ -1,7 +1,8 @@
-import numpy as np
+from __future__ import annotations
 
 from collections import deque
 
+import numpy as np
 from torch.utils.data.dataset import IterableDataset
 
 
@@ -90,5 +91,4 @@ class RLDataset(IterableDataset):
         Returns:
           Every experience of a sample from replay buffer.
         """
-        for experience in self.buffer.sample():
-            yield experience
+        yield from self.buffer.sample()

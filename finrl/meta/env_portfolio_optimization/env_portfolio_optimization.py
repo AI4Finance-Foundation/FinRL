@@ -1,6 +1,9 @@
 """From FinRL https://github.com/AI4Finance-LLC/FinRL/tree/master/finrl/env"""
-import gym
+from __future__ import annotations
+
 import math
+
+import gym
 import matplotlib
 import numpy as np
 import pandas as pd
@@ -249,7 +252,7 @@ class PortfolioOptimizationEnv(gym.Env):
 
             print("=================================")
             print("Initial portfolio value:{}".format(self._asset_memory["final"][0]))
-            print("Final portfolio value: {}".format(self._portfolio_value))
+            print(f"Final portfolio value: {self._portfolio_value}")
             print(
                 "Final accumulative portfolio value: {}".format(
                     self._portfolio_value / self._asset_memory["final"][0]
@@ -482,7 +485,7 @@ class PortfolioOptimizationEnv(gym.Env):
         """
         print("Index: 0. Tic: Cash")
         for index, tic in enumerate(self._tic_list):
-            print("Index: {}. Tic: {}".format(index + 1, tic))
+            print(f"Index: {index + 1}. Tic: {tic}")
 
     def _preprocess_data(self, order, normalize):
         """Orders and normalizes the environment's dataframe.
@@ -574,11 +577,11 @@ class PortfolioOptimizationEnv(gym.Env):
                 )
                 self._df = self._temporal_variation_df(self._time_window - 1)
             elif normalize == "by_previous_time":
-                print("Normalizing {} by previous time...".format(self._features))
+                print(f"Normalizing {self._features} by previous time...")
                 self._df = self._temporal_variation_df()
             elif normalize.startswith("by_"):
                 normalizer_column = normalize[3:]
-                print("Normalizing {} by {}".format(self._features, normalizer_column))
+                print(f"Normalizing {self._features} by {normalizer_column}")
                 for column in self._features:
                     self._df[column] = self._df[column] / self._df[normalizer_column]
         elif callable(normalize):
@@ -601,7 +604,7 @@ class PortfolioOptimizationEnv(gym.Env):
         df_temporal_variation = self._df.copy()
         prev_columns = []
         for column in self._features:
-            prev_column = "prev_{}".format(column)
+            prev_column = f"prev_{column}"
             prev_columns.append(prev_column)
             df_temporal_variation[prev_column] = df_temporal_variation.groupby(
                 self._tic_column

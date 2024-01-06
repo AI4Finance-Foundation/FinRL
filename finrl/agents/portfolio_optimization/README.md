@@ -1,6 +1,6 @@
 # Portfolio Optimization Agents
 
-This directory contains architectures and algorithms commonly used in portfolio optimization agents. 
+This directory contains architectures and algorithms commonly used in portfolio optimization agents.
 
 To instantiate the model, it's necessary to have an instance of [PortfolioOptimizationEnv](/finrl/meta/env_portfolio_optimization/). In the example below, we use the `DRLAgent` class to instantiate a policy gradient ("pg") model. With the dictionary `model_kwargs`, we can set the `PolicyGradient` class parameters and, whith the dictionary `policy_kwargs`, it's possible to change the parameters of the chosen architecture.
 
@@ -12,7 +12,7 @@ from finrl.agents.portfolio_optimization.architectures import EIIE
 model_kwargs = {
     "lr": 0.01,
     "policy": EIIE,
-} 
+}
 
 # set EIIE architecture arguments
 policy_kwargs = {
@@ -32,7 +32,7 @@ It's important that the architecture and the environment have the same `time_win
 
 ### Policy Gradient Algorithm
 
-The class `PolicyGradient` implements the Policy Gradient algorithm used in *Jiang et al* paper. This algorithm is inspired by DDPG (deep deterministic policy gradient), but there are a couple of differences: 
+The class `PolicyGradient` implements the Policy Gradient algorithm used in *Jiang et al* paper. This algorithm is inspired by DDPG (deep deterministic policy gradient), but there are a couple of differences:
 - DDPG is an actor-critic algorithm, so it has an actor and a critic neural network. The algorithm below, however, doesn't have a critic neural network and uses the portfolio value as value function: the policy will be updated to maximize the portfolio value.
 - DDPG usually makes use of a noise parameter in the action during training to create an exploratory behavior. PG algorithm, on the other hand, has a full-exploit approach.
 - DDPG randomly samples experiences from its replay buffer. The implemented policy gradient, however, samples a sequential batch of experiences in time, to make it possible to calculate the variation of the portfolio value in the batch and use it as value function.
@@ -56,7 +56,7 @@ If you are using one of them in your research, you can use the following referen
 [A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem](https://doi.org/10.48550/arXiv.1706.10059)
 ```
 @misc{jiang2017deep,
-      title={A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem}, 
+      title={A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem},
       author={Zhengyao Jiang and Dixing Xu and Jinjun Liang},
       year={2017},
       eprint={1706.10059},
@@ -70,18 +70,18 @@ If you are using one of them in your research, you can use the following referen
 [A Multi-Scale Temporal Feature Aggregation Convolutional Neural Network for Portfolio Management](https://doi.org/10.1145/3357384.3357961)
 ```
 @inproceedings{shi2018multiscale,
-               author = {Shi, Si and Li, Jianjun and Li, Guohui and Pan, Peng}, 
+               author = {Shi, Si and Li, Jianjun and Li, Guohui and Pan, Peng},
                title = {A Multi-Scale Temporal Feature Aggregation Convolutional Neural Network for Portfolio Management},
-               year = {2019}, 
-               isbn = {9781450369763}, 
-               publisher = {Association for Computing Machinery}, 
-               address = {New York, NY, USA}, 
-               url = {https://doi.org/10.1145/3357384.3357961}, 
-               doi = {10.1145/3357384.3357961},  
-               booktitle = {Proceedings of the 28th ACM International Conference on Information and Knowledge Management}, 
-               pages = {1613–1622}, 
-               numpages = {10}, 
-               keywords = {portfolio management, reinforcement learning, inception network, convolution neural network}, 
-               location = {Beijing, China}, 
+               year = {2019},
+               isbn = {9781450369763},
+               publisher = {Association for Computing Machinery},
+               address = {New York, NY, USA},
+               url = {https://doi.org/10.1145/3357384.3357961},
+               doi = {10.1145/3357384.3357961},
+               booktitle = {Proceedings of the 28th ACM International Conference on Information and Knowledge Management},
+               pages = {1613–1622},
+               numpages = {10},
+               keywords = {portfolio management, reinforcement learning, inception network, convolution neural network},
+               location = {Beijing, China},
                series = {CIKM '19} }
 ```

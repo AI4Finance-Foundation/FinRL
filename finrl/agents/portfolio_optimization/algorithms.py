@@ -1,13 +1,17 @@
-import copy
-import torch
-import numpy as np
+from __future__ import annotations
 
-from tqdm import tqdm
+import copy
+
+import numpy as np
+import torch
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 from .architectures import EIIE
-from .utils import ReplayBuffer, PVM, RLDataset
+from .utils import PVM
+from .utils import ReplayBuffer
+from .utils import RLDataset
 
 
 class PolicyGradient:
