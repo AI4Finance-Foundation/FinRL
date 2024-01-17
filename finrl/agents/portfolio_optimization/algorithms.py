@@ -149,7 +149,7 @@ class PolicyGradient:
 
         # neural networks
         # define policy
-        self.test_policy = copy.deepcopy(policy)
+        self.test_policy = copy.deepcopy(policy).to(self.device)
         self.test_optimizer = optimizer(self.test_policy.parameters(), lr=lr)
 
         # replay buffer and portfolio vector memory

@@ -31,14 +31,23 @@ class DRLAgent:
     def __init__(self, env):
         self.env = env
 
-    def get_model(self, model_name, model_kwargs=None, policy_kwargs=None):
+    def get_model(
+        self, model_name, device="cpu", model_kwargs=None, policy_kwargs=None
+    ):
         if model_name not in MODELS:
             raise NotImplementedError("The model requested was not implemented.")
 
         model = MODELS[model_name]
         model_kwargs = {} if model_kwargs is None else model_kwargs
-        if policy_kwargs is not None:
-            model_kwargs["policy_kwargs"] = policy_kwargs
+        policy_kwargs = {} if policy_kwargs is None else policy_kwargs
+
+        # add device settings
+        model_kwargs["device"] = device
+        policy_kwargs["device"] = device
+
+        # add policy_kwargs inside model_kwargs
+        model_kwargs["policy_kwargs"] = policy_kwargs
+
         return model(self.env, **model_kwargs)
 
     @staticmethod
