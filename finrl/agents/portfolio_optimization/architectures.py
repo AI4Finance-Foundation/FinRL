@@ -145,7 +145,7 @@ class EI3(nn.Module):
             time_window: Size of time window used as agent's state.
             device: Device in which the neural network will be run.
 
-        Reference:
+        Note:
             Reference article: https://doi.org/10.1145/3357384.3357961.
         """
         super().__init__()
