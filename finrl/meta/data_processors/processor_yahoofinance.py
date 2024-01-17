@@ -67,7 +67,7 @@ class YahooFinanceProcessor:
             "90Min",
         ]:
             time_interval = time_interval.replace("Min", "m")
-        elif time_interval in ["1H", "1D", "5D"]:
+        elif time_interval in ["1H", "1D", "5D", "1h", "1d", "5d"]:
             time_interval = time_interval.lower()
         elif time_interval == "1W":
             time_interval = "1wk"
@@ -372,7 +372,7 @@ class YahooFinanceProcessor:
     def get_trading_days(self, start: str, end: str) -> list[str]:
         nyse = tc.get_calendar("NYSE")
         df = nyse.sessions_in_range(
-            pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
+            pd.Timestamp(start), pd.Timestamp(end)
         )
         trading_days = []
         for day in df:
