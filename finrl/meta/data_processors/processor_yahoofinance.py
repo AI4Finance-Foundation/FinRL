@@ -371,9 +371,7 @@ class YahooFinanceProcessor:
 
     def get_trading_days(self, start: str, end: str) -> list[str]:
         nyse = tc.get_calendar("NYSE")
-        df = nyse.sessions_in_range(
-            pd.Timestamp(start), pd.Timestamp(end)
-        )
+        df = nyse.sessions_in_range(pd.Timestamp(start), pd.Timestamp(end))
         trading_days = []
         for day in df:
             trading_days.append(str(day)[:10])
