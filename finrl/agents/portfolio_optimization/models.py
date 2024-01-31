@@ -2,6 +2,7 @@
 DRL models to solve the portfolio optimization task with reinforcement learning.
 This agent was developed to work with environments like PortfolioOptimizationEnv.
 """
+
 from __future__ import annotations
 
 from .algorithms import PolicyGradient

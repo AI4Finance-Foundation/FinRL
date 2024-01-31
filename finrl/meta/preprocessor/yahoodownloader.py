@@ -1,6 +1,7 @@
 """Contains methods and classes to collect data from
 Yahoo Finance API
 """
+
 from __future__ import annotations
 
 import pandas as pd
