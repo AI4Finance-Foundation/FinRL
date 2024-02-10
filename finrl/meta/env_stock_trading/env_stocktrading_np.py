@@ -149,7 +149,7 @@ class StockTradingEnv(gym.Env):
             reward = self.gamma_reward
             self.episode_return = total_asset / self.initial_total_asset
 
-        return state, reward, done, False, dict()
+        return state, reward, done, dict()
 
     def get_state(self, price):
         amount = np.array(self.amount * (2**-12), dtype=np.float32)
