@@ -221,7 +221,7 @@ class YahooFinanceProcessor:
         new_df = new_df.rename(columns={"index": "timestamp"})
 
         #        print("Data clean all finished!")
-
+        new_df['timestamp'] = pd.to_datetime(new_df['timestamp'], utc=True).dt.tz_convert('America/New_York')
         return new_df
 
     def add_technical_indicator(
@@ -253,6 +253,7 @@ class YahooFinanceProcessor:
                     )
                 except Exception as e:
                     print(e)
+            df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True).dt.tz_convert('America/New_York')
             df = df.merge(
                 indicator_df[["tic", "timestamp", indicator]],
                 on=["tic", "timestamp"],
