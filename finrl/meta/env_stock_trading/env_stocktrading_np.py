@@ -103,7 +103,7 @@ class StockTradingEnv(gym.Env):
         self.total_asset = self.amount + (self.stocks * price).sum()
         self.initial_total_asset = self.total_asset
         self.gamma_reward = 0.0
-        return self.get_state(price) # state
+        return self.get_state(price)  # state
 
     def step(self, actions):
         actions = (actions * self.max_stock).astype(int)
