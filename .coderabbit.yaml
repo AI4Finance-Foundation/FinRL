@@ -25,5 +25,6 @@ reviews:
         base_branches:
             - "develop"
             - "feat/*"
+            - "bug/*"
 chat:
     auto_reply: true
