@@ -29,12 +29,14 @@ class YahooFinanceProcessor:
     """
 
     def __init__(self):
-        self.logger = logbook.Logger(type(self).__name__)
+        
         try:
+            self.logger = logbook.Logger(type(self).__name__)
             self.logger.info("YahooFinance successfully connected")
+            pass
         except Exception as e:
+            self.logger.error(str(e))
             # Fallback logging mechanism or handle the exception appropriately
-        pass
 
     """
     Param
