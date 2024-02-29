@@ -73,7 +73,7 @@ class PaperTradingAlpaca:
                 try:
                     trainer.restore(cwd)
                     self.agent = trainer
-                    self.logger.info("Restoring from checkpoint path", cwd)
+                    self.logger.info(f"Restoring from checkpoint path {cwd}")
                 except:
                     raise ValueError("Fail to load agent!")
 
