@@ -19,6 +19,7 @@ import numpy as np
 import pandas as pd
 import pytz
 import yfinance as yf
+import logbook
 from stockstats import StockDataFrame as Sdf
 
 
@@ -28,6 +29,11 @@ class YahooFinanceProcessor:
     """
 
     def __init__(self):
+        self.logger = logbook.Logger(type(self).__name__)
+        try:
+            self.logger.info("YahooFinance successfully connected")
+        except Exception as e:
+            # Fallback logging mechanism or handle the exception appropriately
         pass
 
     """
@@ -161,12 +167,12 @@ class YahooFinanceProcessor:
                 tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(NY)] = tic_df.iloc[
                     i
                 ][["open", "high", "low", "close", "volume"]]
-            # print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
+            # self.logger.info("(9) tmp_df\n", tmp_df.to_string()) # self.logger.info ALL dataframe to check for missing rows from download
 
             # if close on start date is NaN, fill data with first valid close
             # and set volume to 0.
             if str(tmp_df.iloc[0]["close"]) == "nan":
-                print("NaN data on start date, fill using first valid data.")
+                self.logger.info("NaN data on start date, fill using first valid data.")
                 for i in range(tmp_df.shape[0]):
                     if str(tmp_df.iloc[i]["close"]) != "nan":
                         first_valid_close = tmp_df.iloc[i]["close"]
@@ -181,7 +187,7 @@ class YahooFinanceProcessor:
 
             # if the close price of the first row is still NaN (All the prices are NaN in this case)
             if str(tmp_df.iloc[0]["close"]) == "nan":
-                print(
+                self.logger.info(
                     "Missing data for ticker: ",
                     tic,
                     " . The prices are all NaN. Fill with 0.",
@@ -207,20 +213,20 @@ class YahooFinanceProcessor:
                         previous_close,
                         0.0,
                     ]
-                    # print(tmp_df.iloc[i], " Filled NaN data with previous close and set volume to 0. ticker: ", tic)
+                    # self.logger.info(tmp_df.iloc[i], " Filled NaN data with previous close and set volume to 0. ticker: ", tic)
 
             # merge single ticker data to new DataFrame
             tmp_df = tmp_df.astype(float)
             tmp_df["tic"] = tic
             new_df = pd.concat([new_df, tmp_df])
 
-        #            print(("Data clean for ") + tic + (" is finished."))
+        #            self.logger.info(("Data clean for ") + tic + (" is finished."))
 
         # reset index and rename columns
         new_df = new_df.reset_index()
         new_df = new_df.rename(columns={"index": "timestamp"})
 
-        #        print("Data clean all finished!")
+        #        self.logger.info("Data clean all finished!")
         new_df['timestamp'] = pd.to_datetime(new_df['timestamp'], utc=True).dt.tz_convert('America/New_York')
         return new_df
 
@@ -252,7 +258,7 @@ class YahooFinanceProcessor:
                         [indicator_df, temp_indicator], ignore_index=True
                     )
                 except Exception as e:
-                    print(e)
+                    self.logger.info(e)
             df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True).dt.tz_convert('America/New_York')
             df = df.merge(
                 indicator_df[["tic", "timestamp", indicator]],
@@ -270,14 +276,14 @@ class YahooFinanceProcessor:
         """
         vix_df = self.download_data(["VIXY"], self.start, self.end, self.time_interval)
         cleaned_vix = self.clean_data(vix_df)
-        print("cleaned_vix\n", cleaned_vix)
+        self.logger.info("cleaned_vix\n", cleaned_vix)
         vix = cleaned_vix[["timestamp", "close"]]
-        print('cleaned_vix[["timestamp", "close"]\n', vix)
+        self.logger.info('cleaned_vix[["timestamp", "close"]\n', vix)
         vix = vix.rename(columns={"close": "VIXY"})
-        print('vix.rename(columns={"close": "VIXY"}\n', vix)
+        self.logger.info('vix.rename(columns={"close": "VIXY"}\n', vix)
 
         df = data.copy()
-        print("df\n", df)
+        self.logger.info("df\n", df)
         df = df.merge(vix, on="timestamp")
         df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         return df
@@ -368,7 +374,7 @@ class YahooFinanceProcessor:
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-        #        print("Successfully transformed into array")
+        #        self.logger.info("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
     def get_trading_days(self, start: str, end: str) -> list[str]:
@@ -451,7 +457,7 @@ class YahooFinanceProcessor:
                             ]
                             break
                 if str(tmp_df.iloc[0]["close"]) == "nan":
-                    print(
+                    self.logger.info(
                         "Missing data for ticker: ",
                         tic,
                         " . The prices are all NaN. Fill with 0.",

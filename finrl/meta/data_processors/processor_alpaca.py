@@ -18,7 +18,7 @@ class AlpacaProcessor:
         if api is None:
             try:
                 self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
-                self.logger = logbook.Logger("AlpacaProcessor")
+                self.logger = logbook.Logger(type(self).__name__)
             except BaseException:
                 raise ValueError("Wrong Account Info!")
             except Exception as e:

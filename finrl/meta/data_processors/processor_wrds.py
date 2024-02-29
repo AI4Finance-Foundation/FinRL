@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import pytz
 import wrds
+import logbook
 from stockstats import StockDataFrame as Sdf
 
 pd.options.mode.chained_assignment = None
@@ -14,8 +15,13 @@ pd.options.mode.chained_assignment = None
 
 class WrdsProcessor:
     def __init__(self, if_offline=False):
-        if not if_offline:
-            self.db = wrds.Connection()
+        try : 
+            if not if_offline:
+                self.db = wrds.Connection()
+            self.logger = logbook.Logger(self.__class__.__name__)
+        except Exception as e:
+            self.logger.error(e)
+        
 
     def download_data(
         self,
@@ -61,13 +67,13 @@ class WrdsProcessor:
                 if_empty = False
                 return data, if_empty
             except BaseException:
-                print("Data for date: " + date + " error")
+                self.logger.info("Data for date: " + date + " error")
                 if_empty = True
                 return None, if_empty
 
         dates = get_trading_days(start_date, end_date)
-        print("Trading days: ")
-        print(dates)
+        self.logger.info("Trading days: ")
+        self.logger.info(dates)
         first_time = True
         empty = True
         stock_set = tuple(ticker_list)
@@ -81,13 +87,13 @@ class WrdsProcessor:
                     dataset, time_interval=(str(time_interval) + "S")
                 )
                 if first_time:
-                    print("Data for date: " + i + " finished")
+                    self.logger.info("Data for date: " + i + " finished")
                     temp = dataset
                     first_time = False
                     if if_save_tempfile:
                         temp.to_csv("./temp.csv")
                 else:
-                    print("Data for date: " + i + " finished")
+                    self.logger.info("Data for date: " + i + " finished")
                     temp = pd.concat([temp, dataset])
                     if if_save_tempfile:
                         temp.to_csv("./temp.csv")
@@ -198,7 +204,7 @@ class WrdsProcessor:
         # final preprocess
         df = df[["time", "open", "high", "low", "close", "volume", "tic"]]
         df = df.reset_index(drop=True)
-        print("Data clean finished")
+        self.logger.info("Data clean finished")
         return df
 
     def add_technical_indicator(
@@ -224,11 +230,11 @@ class WrdsProcessor:
         for indicator in tech_indicator_list:
             indicator_df = pd.DataFrame()
             for i in range(len(unique_ticker)):
-                # print(unique_ticker[i], i)
+                # self.logger.info(unique_ticker[i], i)
                 temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
                 temp_indicator = pd.DataFrame(temp_indicator)
                 temp_indicator["tic"] = unique_ticker[i]
-                # print(len(df[df.tic == unique_ticker[i]]['date'].to_list()))
+                # self.logger.info(len(df[df.tic == unique_ticker[i]]['date'].to_list()))
                 temp_indicator["date"] = df[df.tic == unique_ticker[i]][
                     "date"
                 ].to_list()
@@ -241,7 +247,7 @@ class WrdsProcessor:
                 indicator_df[["tic", "date", indicator]], on=["tic", "date"], how="left"
             )
         df = df.sort_values(by=["date", "tic"])
-        print("Succesfully add technical indicators")
+        self.logger.info("Succesfully add technical indicators")
         return df
 
     def calculate_turbulence(self, data, time_period=252):
@@ -319,7 +325,7 @@ class WrdsProcessor:
 
     def df_to_array(self, df, tech_indicator_list):
         unique_ticker = df.tic.unique()
-        print(unique_ticker)
+        self.logger.info(unique_ticker)
         if_first_time = True
         for tic in unique_ticker:
             if if_first_time:
@@ -335,5 +341,5 @@ class WrdsProcessor:
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-        print("Successfully transformed into array")
+        self.logger.info("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
