@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime
 import threading
 import time
+import logbook
 
 import alpaca_trade_api as tradeapi
 import gymnasium as gym
@@ -34,6 +35,8 @@ class AlpacaPaperTrading:
     ):
         # load agent
         self.drl_lib = drl_lib
+        self.logger = logbook.Logger(self.__class__.__name__)
+
         if agent == "ppo":
             if drl_lib == "elegantrl":
                 from elegantrl.agents import AgentPPO
@@ -74,7 +77,7 @@ class AlpacaPaperTrading:
                 try:
                     trainer.restore(cwd)
                     self.agent = trainer
-                    print("Restoring from checkpoint path", cwd)
+                    self.logger.info(f"Restoring from checkpoint path {cwd}")
                 except:
                     raise ValueError("Fail to load agent!")
 
@@ -84,7 +87,7 @@ class AlpacaPaperTrading:
                 try:
                     # load agent
                     self.model = PPO.load(cwd)
-                    print("Successfully load model", cwd)
+                    self.logger.info(f"Successfully load model {cwd}")
                 except:
                     raise ValueError("Fail to load agent!")
 
@@ -149,7 +152,7 @@ class AlpacaPaperTrading:
             temp_time = time1 - time0
             total_time += temp_time
         latency = total_time / test_times
-        print("latency for data processing: ", latency)
+        self.logger.info("latency for data processing: {latency}")
         return latency
 
     def run(self):
@@ -158,11 +161,11 @@ class AlpacaPaperTrading:
             self.alpaca.cancel_order(order.id)
 
         # Wait for market to open.
-        print("Waiting for market to open...")
+        self.logger.info("Waiting for market to open...")
         tAMO = threading.Thread(target=self.awaitMarketOpen)
         tAMO.start()
         tAMO.join()
-        print("Market opened.")
+        self.logger.info("Market opened.")
         while True:
             # Figure out when the market will close so we can prepare to sell beforehand.
             clock = self.alpaca.get_clock()
@@ -174,11 +177,11 @@ class AlpacaPaperTrading:
 
             if self.timeToClose < (60):
                 # Close all positions when 1 minutes til market close.
-                print("Market closing soon. Stop trading.")
+                self.logger.info("Market closing soon. Stop trading.")
                 break
 
                 """# Close all positions when 1 minutes til market close.
-            print("Market closing soon.  Closing positions.")
+            self.logger.info("Market closing soon.  Closing positions.")
 
             positions = self.alpaca.list_positions()
             for position in positions:
@@ -193,7 +196,7 @@ class AlpacaPaperTrading:
               tSubmitOrder.join()
 
             # Run script again after market close for next trading day.
-            print("Sleeping until market close (15 minutes).")
+            self.logger.info("Sleeping until market close (15 minutes).")
             time.sleep(60 * 15)"""
 
             else:
@@ -214,7 +217,7 @@ class AlpacaPaperTrading:
             ).timestamp()
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
             timeToOpen = int((openingTime - currTime) / 60)
-            print(str(timeToOpen) + " minutes til market open.")
+            self.logger.info(str(timeToOpen) + " minutes til market open.")
             time.sleep(60)
             isOpen = self.alpaca.get_clock().is_open
 
@@ -334,14 +337,14 @@ class AlpacaPaperTrading:
                 tech,
             )
         ).astype(np.float32)
-        print(len(self.stockUniverse))
+        self.logger.info(len(self.stockUniverse))
         return state
 
     def submitOrder(self, qty, stock, side, resp):
         if qty > 0:
             try:
                 self.alpaca.submit_order(stock, qty, side, "market", "day")
-                print(
+                self.logger.info(
                     "Market order of | "
                     + str(qty)
                     + " "
@@ -352,7 +355,7 @@ class AlpacaPaperTrading:
                 )
                 resp.append(True)
             except:
-                print(
+                self.logger.error(
                     "Order of | "
                     + str(qty)
                     + " "
@@ -363,7 +366,7 @@ class AlpacaPaperTrading:
                 )
                 resp.append(False)
         else:
-            print(
+            self.logger.info(
                 "Quantity is 0, order of | "
                 + str(qty)
                 + " "
