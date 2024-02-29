@@ -39,6 +39,7 @@ stable-baselines3 = {version = ">=2.0.0a5", extras = ["extra"]}
 stockstats = "^0.5"
 wrds = "^3"
 yfinance = "^0.2"
+logbook = "^1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23"
