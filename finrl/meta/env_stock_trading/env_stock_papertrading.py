@@ -152,7 +152,7 @@ class AlpacaPaperTrading:
             temp_time = time1 - time0
             total_time += temp_time
         latency = total_time / test_times
-        self.logger.info("latency for data processing: {latency}")
+        self.logger.info(f"latency for data processing: {latency}")
         return latency
 
     def run(self):
