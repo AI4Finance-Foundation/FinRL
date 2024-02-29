@@ -5,6 +5,7 @@ DRL models from ElegantRL: https://github.com/AI4Finance-Foundation/ElegantRL
 from __future__ import annotations
 
 import torch
+import logbook
 from elegantrl.agents import *
 from elegantrl.train.config import Config
 from elegantrl.train.run import train_agent
@@ -44,10 +45,16 @@ class DRLAgent:
     """
 
     def __init__(self, env, price_array, tech_array, turbulence_array):
-        self.env = env
-        self.price_array = price_array
-        self.tech_array = tech_array
-        self.turbulence_array = turbulence_array
+        try :
+            self.env = env
+            self.price_array = price_array
+            self.tech_array = tech_array
+            self.turbulence_array = turbulence_array
+            self.logger = logbook.Logger(self.__class__.__name__)
+        except Exception as e:
+            self.logger.error(e)
+        
+        
 
     def get_model(self, model_name, model_kwargs):
         self.env_config = {
@@ -164,6 +171,6 @@ class DRLAgent:
             episode_returns.append(episode_return)
             if done:
                 break
-        print("Test Finished!")
-        print("episode_retuen", episode_return)
+        self.logger.info("Test Finished!")
+        self.logger.info("episode_retuen", episode_return)
         return episode_total_assets
