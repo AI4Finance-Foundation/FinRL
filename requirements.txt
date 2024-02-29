@@ -54,3 +54,7 @@ wrds
 
 # market data & paper trading API
 yfinance
+
+
+logbook>=1.7.0
+python-dotenv>=1.0.1
