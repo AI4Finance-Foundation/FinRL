@@ -15,16 +15,21 @@ import logbook
 
 class AlpacaProcessor:
     def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, api=None):
-        if api is None:
-            try:
-                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
-                self.logger = logbook.Logger(type(self).__name__)
-            except BaseException:
-                raise ValueError("Wrong Account Info!")
-            except Exception as e:
-                self.logger.error(str(e))
-        else:
-            self.api = api
+        try:
+            self.logger = logbook.Logger(type(self).__name__)
+            if api is None:
+                try:
+                    self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+                    
+                except BaseException:
+                    raise ValueError("Wrong Account Info!")
+                except Exception as e:
+                    self.logger.error(f"Error initializing Alpaca API: {e}")
+            else:
+                self.api = api
+        except Exception as e:
+            self.logger.error(str(e))
+        
 
     def _fetch_data_for_ticker(self, ticker, start_date, end_date, time_interval):
         bars = self.api.get_bars(
