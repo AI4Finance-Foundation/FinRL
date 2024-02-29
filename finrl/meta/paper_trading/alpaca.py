@@ -208,7 +208,7 @@ class PaperTradingAlpaca:
             ).timestamp()
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
             timeToOpen = int((openingTime - currTime) / 60)
-            self.logger.info(str(timeToOpen) + " minutes til market open.")
+            self.logger.info(f"{timeToOpen} minutes til market open.")
             time.sleep(60)
             isOpen = self.alpaca.get_clock().is_open
 
