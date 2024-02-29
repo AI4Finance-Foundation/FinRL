@@ -34,7 +34,7 @@ class YahooFinanceProcessor:
             self.logger = logbook.Logger(type(self).__name__)
             self.logger.info("YahooFinance successfully connected")
         except Exception as e:
-            self.logger.error(str(e))
+            self.logger.error(f"Failed to initialize YahooFinanceProcessor logger: {e}")
             # Fallback logging mechanism or handle the exception appropriately
 
     """
