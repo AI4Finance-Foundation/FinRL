@@ -24,7 +24,7 @@ class AlpacaProcessor:
                 except BaseException:
                     raise ValueError("Wrong Account Info!")
                 except Exception as e:
-                    self.logger.error(str(e))
+                    self.logger.error(f"Error initializing Alpaca API: {e}")
             else:
                 self.api = api
         except Exception as e:
