@@ -21,6 +21,8 @@ class AlpacaProcessor:
                 self.logger = logbook.Logger("AlpacaProcessor")
             except BaseException:
                 raise ValueError("Wrong Account Info!")
+            except Exception as e:
+                self.logger.error(str(e))
         else:
             self.api = api
 
