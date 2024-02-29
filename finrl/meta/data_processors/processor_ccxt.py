@@ -4,6 +4,7 @@ import calendar
 from datetime import datetime
 
 import ccxt
+import logbook
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
@@ -11,7 +12,14 @@ from stockstats import StockDataFrame as Sdf
 
 class CCXTEngineer:
     def __init__(self):
-        self.binance = ccxt.binance()
+        try :
+            self.binance = ccxt.binance()
+            self.logger = logbook.Logger(self.__class__.__name__)
+        except Exception as e:
+            self.logger.error(e)
+
+        
+        
 
     def data_fetch(self, start, end, pair_list=["BTC/USDT"], period="1m"):
         def min_ohlcv(dt, pair, limit):
@@ -83,7 +91,7 @@ class CCXTEngineer:
                 [[pair], ["open", "high", "low", "close", "volume"]]
             )
             dataset[temp_col] = df[["open", "high", "low", "close", "volume"]].values
-        print("Actual end time: " + str(df["time"].values[-1]))
+        self.logger.info("Actual end time: " + str(df["time"].values[-1]))
         return dataset
 
     def add_technical_indicators(
@@ -120,7 +128,7 @@ class CCXTEngineer:
             for indicator in tech_indicator_list:
                 temp_indicator = crypto_df[indicator].values.tolist()
                 dataset[(pair, indicator)] = temp_indicator
-        print("Succesfully add technical indicators")
+        self.logger.info("Succesfully add technical indicators")
         return dataset
 
     def df_to_ary(
