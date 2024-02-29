@@ -83,7 +83,7 @@ class PaperTradingAlpaca:
                 try:
                     # load agent
                     self.model = PPO.load(cwd)
-                    self.logger.info("Successfully load model", cwd)
+                    self.logger.info(f"Successfully load model {cwd}")
                 except:
                     raise ValueError("Fail to load agent!")
 
