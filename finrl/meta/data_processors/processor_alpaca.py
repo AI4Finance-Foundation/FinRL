@@ -120,12 +120,12 @@ class AlpacaProcessor:
             first_valid_index = tmp_df["close"].first_valid_index()
             if first_valid_index is not None:
                 first_valid_price = tmp_df.loc[first_valid_index, "close"]
-                self.logger.info(
+                logbook.info(
                     f"The price of the first row for ticker {tic} is NaN. It will be filled with the first valid price."
                 )
                 tmp_df.iloc[0] = [first_valid_price] * 4 + [0.0]  # Set volume to zero
             else:
-                self.logger.info(
+                logbook.info(
                     f"Missing data for ticker: {tic}. The prices are all NaN. Fill with 0."
                 )
                 tmp_df.iloc[0] = [0.0] * 5
