@@ -24,6 +24,7 @@ from finrl.plot import backtest_plot
 from finrl.plot import backtest_stats
 from finrl.plot import get_baseline
 from finrl.plot import get_daily_return
+import logbook
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
 # PPO
@@ -32,6 +33,7 @@ from finrl.plot import get_daily_return
 class ActorPPO(nn.Module):
     def __init__(self, dims: [int], state_dim: int, action_dim: int):
         super().__init__()
+        self.logger = logbook.Logger(self.__class__.__name__)
         self.net = build_mlp(dims=[state_dim, *dims, action_dim])
         self.action_std_log = nn.Parameter(
             torch.zeros((1, action_dim)), requires_grad=True
@@ -41,12 +43,14 @@ class ActorPPO(nn.Module):
         return self.net(state).tanh()  # action.tanh()
 
     def get_action(self, state: Tensor) -> (Tensor, Tensor):  # for exploration
+        
         action_avg = self.net(state)
         action_std = self.action_std_log.exp()
 
         dist = Normal(action_avg, action_std)
         action = dist.sample()
         logprob = dist.log_prob(action).sum(1)
+        self.logger.info(f"Action taken: {action}, Log probability: {logprob}")
         return action, logprob
 
     def get_logprob_entropy(self, state: Tensor, action: Tensor) -> (Tensor, Tensor):
@@ -646,7 +650,7 @@ class DRLAgent:
         # load agent
         try:
             cwd = cwd + "/actor.pth"
-            print(f"| load actor from: {cwd}")
+            logbook.Logger('DRL_prediction').info(f"| load actor from: {cwd}")
             actor.load_state_dict(
                 torch.load(cwd, map_location=lambda storage, loc: storage)
             )
@@ -667,7 +671,9 @@ class DRLAgent:
                 action = (
                     a_tensor.detach().cpu().numpy()[0]
                 )  # not need detach(), because with torch.no_grad() outside
+                logbook.Logger('DRL_prediction').info (f"action {action}")
                 state, reward, done, _ = environment.step(action)
+                logbook.Logger('DRL_prediction').info (f"reward {reward}, done {done}, state {state}")
 
                 total_asset = (
                     environment.amount
@@ -680,9 +686,9 @@ class DRLAgent:
                 episode_returns.append(episode_return)
                 if done:
                     break
-        print("Test Finished!")
+        logbook.Logger('DRL_prediction').info("Test Finished!")
         # return episode total_assets on testing data
-        print("episode_return", episode_return)
+        logbook.Logger('DRL_prediction').info(f"Episode return: {episode_return}")
         return episode_total_assets
 
 
@@ -697,6 +703,8 @@ from finrl.config import TRAIN_END_DATE
 from finrl.config import TRAIN_START_DATE
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.data_processor import DataProcessor
+
+import logbook
 
 # construct environment
 
@@ -714,6 +722,8 @@ def train(
     if_vix=True,
     **kwargs,
 ):
+    logger = logbook.Logger('common')
+    logger.info ( 'train')
     # download data
     dp = DataProcessor(data_source, **kwargs)
     data = dp.download_data(ticker_list, start_date, end_date, time_interval)

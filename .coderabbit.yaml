@@ -1,7 +1,7 @@
 language: "en"
 early_access: false
 reviews:
-    request_changes_workflow: false
+    request_changes_workflow: true
     high_level_summary: true
     poem: true
     review_status: true
