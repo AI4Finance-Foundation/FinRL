@@ -688,7 +688,7 @@ class DRLAgent:
                     break
         logbook.Logger('DRL_prediction').info("Test Finished!")
         # return episode total_assets on testing data
-        logbook.Logger('DRL_prediction').info("episode_return", episode_return)
+        logbook.Logger('DRL_prediction').info(f"Episode return: {episode_return}")
         return episode_total_assets
 
 
