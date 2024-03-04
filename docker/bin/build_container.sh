@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -f docker/Dockerfile -t finrl .
+docker build -f Dockerfile -t grantchiu/fein-finrl .

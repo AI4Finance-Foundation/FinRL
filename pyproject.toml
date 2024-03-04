@@ -3,7 +3,7 @@ name = "finrl"
 version = "0.3.6"
 
 description = "FinRL: Financial Reinforcement Learning Framework. Version 0.3.5 notes: stable version, code refactoring, more tutorials, clear documentation"
-authors = ["Hongyang Yang, Xiaoyang Liu"]
+authors = ["Grant Fong"]
 license = "MIT"
 
 readme = "README.md"
@@ -39,6 +39,7 @@ stable-baselines3 = {version = ">=2.0.0a5", extras = ["extra"]}
 stockstats = "^0.5"
 wrds = "^3"
 yfinance = "^0.2"
+logbook = "^1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23"
