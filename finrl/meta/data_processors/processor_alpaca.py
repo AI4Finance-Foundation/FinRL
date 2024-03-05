@@ -10,16 +10,26 @@ import pandas as pd
 import pytz
 from stockstats import StockDataFrame as Sdf
 
+import logbook
+
 
 class AlpacaProcessor:
     def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, api=None):
-        if api is None:
-            try:
-                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
-            except BaseException:
-                raise ValueError("Wrong Account Info!")
-        else:
-            self.api = api
+        try:
+            self.logger = logbook.Logger(type(self).__name__)
+            if api is None:
+                try:
+                    self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+                    
+                except BaseException:
+                    raise ValueError("Wrong Account Info!")
+                except Exception as e:
+                    self.logger.error(f"Error initializing Alpaca API: {e}")
+            else:
+                self.api = api
+        except Exception as e:
+            self.logger.error(str(e))
+        
 
     def _fetch_data_for_ticker(self, ticker, start_date, end_date, time_interval):
         bars = self.api.get_bars(
@@ -110,12 +120,12 @@ class AlpacaProcessor:
             first_valid_index = tmp_df["close"].first_valid_index()
             if first_valid_index is not None:
                 first_valid_price = tmp_df.loc[first_valid_index, "close"]
-                print(
+                logbook.info(
                     f"The price of the first row for ticker {tic} is NaN. It will be filled with the first valid price."
                 )
                 tmp_df.iloc[0] = [first_valid_price] * 4 + [0.0]  # Set volume to zero
             else:
-                print(
+                logbook.info(
                     f"Missing data for ticker: {tic}. The prices are all NaN. Fill with 0."
                 )
                 tmp_df.iloc[0] = [0.0] * 5
@@ -136,11 +146,11 @@ class AlpacaProcessor:
         return tmp_df
 
     def clean_data(self, df):
-        print("Data cleaning started")
+        self.logger.info("Data cleaning started")
         tic_list = np.unique(df.tic.values)
         n_tickers = len(tic_list)
 
-        print("align start and end dates")
+        self.logger.info("align start and end dates")
         grouped = df.groupby("timestamp")
         filter_mask = grouped.transform("count")["tic"] >= n_tickers
         df = df[filter_mask]
@@ -150,7 +160,7 @@ class AlpacaProcessor:
         trading_days = self.get_trading_days(start=self.start, end=self.end)
 
         # produce full timestamp index
-        print("produce full timestamp index")
+        self.logger.info("produce full timestamp index")
         times = []
         for day in trading_days:
             NY = "America/New_York"
@@ -159,21 +169,21 @@ class AlpacaProcessor:
                 times.append(current_time)
                 current_time += pd.Timedelta(minutes=1)
 
-        print("Start processing tickers")
+        self.logger.info("Start processing tickers")
 
         future_results = []
         for tic in tic_list:
             result = self.clean_individual_ticker((tic, df.copy(), times))
             future_results.append(result)
 
-        print("ticker list complete")
+        self.logger.info("ticker list complete")
 
-        print("Start concat and rename")
+        self.logger.info("Start concat and rename")
         new_df = pd.concat(future_results)
         new_df = new_df.reset_index()
         new_df = new_df.rename(columns={"index": "timestamp"})
 
-        print("Data clean finished!")
+        self.logger.info("Data clean finished!")
 
         return new_df
 
@@ -190,7 +200,7 @@ class AlpacaProcessor:
             "close_60_sma",
         ],
     ):
-        print("Started adding Indicators")
+        self.logger.info("Started adding Indicators")
 
         # Store the original data type of the 'timestamp' column
         original_timestamp_dtype = df["timestamp"].dtype
@@ -202,7 +212,7 @@ class AlpacaProcessor:
         # Convert timestamp to a consistent datatype (timezone-naive) before entering the loop
         df["timestamp"] = df["timestamp"].dt.tz_convert(None)
 
-        print("Running Loop")
+        self.logger.info("Running Loop")
         for indicator in tech_indicator_list:
             indicator_dfs = []
             for tic in unique_ticker:
@@ -231,7 +241,7 @@ class AlpacaProcessor:
                 how="left",
             ).drop(columns="date")
 
-        print("Restore Timestamps")
+        self.logger.info("Restore Timestamps")
         # Restore the original data type of the 'timestamp' column
         if isinstance(original_timestamp_dtype, pd.DatetimeTZDtype):
             if df["timestamp"].dt.tz is None:
@@ -240,7 +250,7 @@ class AlpacaProcessor:
         else:
             df["timestamp"] = df["timestamp"].astype(original_timestamp_dtype)
 
-        print("Finished adding Indicators")
+        self.logger.info("Finished adding Indicators")
         return df
 
     # Allows to multithread the add_vix function for quicker execution
@@ -316,7 +326,7 @@ class AlpacaProcessor:
             {"timestamp": df_price_pivot.index, "turbulence": turbulence_index}
         )
 
-        # print("turbulence_index\n", turbulence_index)
+        # self.logger.info("turbulence_index\n", turbulence_index)
 
         return turbulence_index
 
@@ -352,7 +362,7 @@ class AlpacaProcessor:
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-        #        print("Successfully transformed into array")
+        #        self.logger.info("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
 
     def get_trading_days(self, start, end):
@@ -411,7 +421,7 @@ class AlpacaProcessor:
                             ]
                             break
                 if str(tmp_df.iloc[0]["close"]) == "nan":
-                    print(
+                    self.logger.info(
                         "Missing data for ticker: ",
                         tic,
                         " . The prices are all NaN. Fill with 0.",
