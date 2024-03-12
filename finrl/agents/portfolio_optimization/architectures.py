@@ -5,7 +5,7 @@ import torch
 from torch import nn
 from torch_geometric.nn import RGCNConv, GCNConv, Sequential
 from torch_geometric.data import Batch, Data
-
+from torch_geometric.utils import to_dense_batch
 
 class EIIE(nn.Module):
     def __init__(
@@ -69,9 +69,9 @@ class EIIE(nn.Module):
         """
 
         if isinstance(observation, np.ndarray):
-            observation = torch.from_numpy(observation).to(self.device)
+            observation = torch.from_numpy(observation).to(self.device).float()
         if isinstance(last_action, np.ndarray):
-            last_action = torch.from_numpy(last_action).to(self.device)
+            last_action = torch.from_numpy(last_action).to(self.device).float()
 
         last_stocks, cash_bias = self._process_last_action(last_action)
         cash_bias = torch.zeros_like(cash_bias).to(self.device)
@@ -207,16 +207,16 @@ class EI3(nn.Module):
         """
 
         if isinstance(observation, np.ndarray):
-            observation = torch.from_numpy(observation).to(self.device)
+            observation = torch.from_numpy(observation).to(self.device).float()
         if isinstance(last_action, np.ndarray):
-            last_action = torch.from_numpy(last_action).to(self.device)
+            last_action = torch.from_numpy(last_action).to(self.device).float()
 
         last_stocks, cash_bias = self._process_last_action(last_action)
         cash_bias = torch.zeros_like(cash_bias).to(self.device)
 
-        short_features = self.short_term(observation.float())
-        medium_features = self.mid_term(observation.float())
-        long_features = self.long_term(observation.float())
+        short_features = self.short_term(observation)
+        medium_features = self.mid_term(observation)
+        long_features = self.long_term(observation)
 
         features = torch.cat(
             [last_stocks, short_features, medium_features, long_features], dim=1
@@ -334,18 +334,19 @@ class GPM(nn.Module):
 
         self.long_term = nn.Sequential(nn.MaxPool2d(kernel_size=(1, n_long)), nn.ReLU())
 
-        self.final_convolution = nn.Conv2d(
-            in_channels=2 * conv_final_features + initial_features + 1, # ERROR: FIX
-            out_channels=1,
-            kernel_size=(1, 1),
-        )
+        feature_size = 2 * conv_final_features + initial_features
 
         self.gcn = Sequential("x, edge_index", [
-            (GCNConv(num_nodes, num_nodes), "x, edge_index -> x"),
+            (GCNConv(feature_size, feature_size), "x, edge_index -> x"),
             nn.LeakyReLU(),
-            (GCNConv(num_nodes, num_nodes), "x, edge_index -> x"),
+            (GCNConv(feature_size, feature_size), "x, edge_index -> x"),
             nn.LeakyReLU(),
-        ] 
+        ])
+
+        self.final_convolution = nn.Conv2d(
+            in_channels=2 * feature_size + 1,
+            out_channels=1,
+            kernel_size=(1, 1),
         )
 
         self.softmax = nn.Sequential(nn.Softmax(dim=-1))
@@ -363,34 +364,38 @@ class GPM(nn.Module):
         """
 
         if isinstance(observation, np.ndarray):
-            observation = torch.from_numpy(observation).to(self.device)
+            observation = torch.from_numpy(observation).to(self.device).float()
         if isinstance(last_action, np.ndarray):
-            last_action = torch.from_numpy(last_action).to(self.device)
+            last_action = torch.from_numpy(last_action).to(self.device).float()
+        if isinstance(edge_index, np.ndarray):
+            edge_index = torch.from_numpy(edge_index).to(self.device).long()
 
         last_stocks, cash_bias = self._process_last_action(last_action)
         cash_bias = torch.zeros_like(cash_bias).to(self.device)
 
-        short_features = self.short_term(observation.float())
-        medium_features = self.mid_term(observation.float())
-        long_features = self.long_term(observation.float())
+        short_features = self.short_term(observation)
+        medium_features = self.mid_term(observation)
+        long_features = self.long_term(observation)
 
         temporal_features = torch.cat(
-            [last_stocks, short_features, medium_features, long_features], dim=1
+            [short_features, medium_features, long_features], dim=1
         ) # shape [N, feature_size, num_stocks, 1]
 
         # add features to graph
         graph_batch = self._create_graph_batch(temporal_features, edge_index)
 
         # perform graph convolution
-        graph_features = self.gcn(graph_batch, edge_index) # shape [N, num_stocks, feature_size]
+        graph_features = self.gcn(graph_batch.x, graph_batch.edge_index) # shape [N * num_stocks, feature_size]
+        graph_features, _ = to_dense_batch(graph_features, graph_batch.batch) # shape [N, num_stocks, feature_size]
         graph_features = torch.transpose(graph_features, 1, 2) # shape [N, feature_size, num_stocks]
         graph_features = torch.unsqueeze(graph_features, 3) # shape [N, feature_size, num_stocks, 1]
-
+        
         # concatenate graph features and temporal features
         features = torch.cat([temporal_features, graph_features], dim=1) # shape [N, 2 * feature_size, num_stocks, 1]
-
-        # perform selection
+        
+        # perform selection and add last stocks
         features = torch.index_select(features, dim=2, index=self.nodes_to_select) # shape [N, 2 * feature_size, portfolio_size, 1]
+        features = torch.cat([last_stocks, features], dim=1)
 
         # final convolution 
         output = self.final_convolution(features) # shape [N, 1, portfolio_size, 1]
@@ -448,7 +453,7 @@ class GPM(nn.Module):
         batch_size = features.shape[0]
         graphs = []
         for i in range(batch_size):
-            x = features[i, :, :, 0] # shape [feature_size, num_stocks] -> CONFIRM
+            x = features[i, :, :, 0] # shape [feature_size, num_stocks]
             x = torch.transpose(x, 0, 1) # shape [num_stocks, feature_size]
             new_graph = Data(x=x, edge_index=edge_index).to(self.device)
             graphs.append(new_graph)
