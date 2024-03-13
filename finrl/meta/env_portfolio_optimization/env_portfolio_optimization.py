@@ -85,6 +85,7 @@ class PortfolioOptimizationEnv(gym.Env):
         time_column="date",
         time_format="%Y-%m-%d",
         tic_column="tic",
+        tics_in_portfolio="all",
         time_window=1,
         cwd="./",
         new_gym_api=False,
@@ -115,6 +116,8 @@ class PortfolioOptimizationEnv(gym.Env):
                 index the dataframe.
             time_format: Formatting string of time column.
             tic_name: Name of the dataframe's column that contain ticker symbols.
+            tics_in_portfolio: List of ticker symbols to be considered as part of the
+                portfolio. If "all", all tickers of input data are considered.
             time_window: Size of time window.
             cwd: Local repository in which resulting graphs will be saved.
             new_gym_api: If True, the environment will use the new gym api standard for
@@ -142,11 +145,11 @@ class PortfolioOptimizationEnv(gym.Env):
         self._results_file = self._cwd / "results" / "rl"
         self._results_file.mkdir(parents=True, exist_ok=True)
 
-        # price variation
+        # initialize price variation
         self._df_price_variation = None
 
         # preprocess data
-        self._preprocess_data(order_df, normalize_df)
+        self._preprocess_data(order_df, normalize_df, tics_in_portfolio)
 
         # dims and spaces
         self._tic_list = self._df[self._tic_column].unique()
@@ -488,7 +491,7 @@ class PortfolioOptimizationEnv(gym.Env):
         for index, tic in enumerate(self._tic_list):
             print(f"Index: {index + 1}. Tic: {tic}")
 
-    def _preprocess_data(self, order, normalize):
+    def _preprocess_data(self, order, normalize, tics_in_portfolio):
         """Orders and normalizes the environment's dataframe.
 
         Args:
@@ -498,12 +501,19 @@ class PortfolioOptimizationEnv(gym.Env):
                 Possible values are "by_previous_time", "by_fist_time_window_value",
                 "by_COLUMN_NAME" (where COLUMN_NAME must be changed to a real column
                 name) and a custom function. If None no normalization is done.
+            tics_in_portfolio: List of ticker symbols to be considered as part of the
+                portfolio. If "all", all tickers of input data are considered.
         """
         # order time dataframe by tic and time
         if order:
             self._df = self._df.sort_values(by=[self._tic_column, self._time_column])
         # defining price variation after ordering dataframe
         self._df_price_variation = self._temporal_variation_df()
+        # select only stocks in portfolio
+        if tics_in_portfolio != "all":
+            self._df_price_variation = self._df_price_variation[
+                self._df_price_variation[self._tic_column].isin(tics_in_portfolio)
+            ]
         # apply normalization
         if normalize:
             self._normalize_dataframe(normalize)
