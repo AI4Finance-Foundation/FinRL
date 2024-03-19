@@ -266,7 +266,7 @@ class EI3(nn.Module):
 class GPM(nn.Module):
     def __init__(
         self,
-        num_nodes,
+        edge_index,
         nodes_to_select,
         initial_features=3,
         k_short=3,
@@ -279,7 +279,7 @@ class GPM(nn.Module):
         """GPM (Graph-based Portfolio Management) policy network initializer.
 
         Args:
-            num_nodes: Number of nodes.
+            edge_index: Graph connectivity in COO format.
             initial_features: Number of input features.
             k_short: Size of short convolutional kernel.
             k_medium: Size of medium convolutional kernel.
@@ -299,6 +299,10 @@ class GPM(nn.Module):
         elif isinstance(nodes_to_select, list):
             nodes_to_select = torch.tensor(nodes_to_select)
         self.nodes_to_select = nodes_to_select
+
+        if isinstance(edge_index, np.ndarray):
+            edge_index = torch.from_numpy(edge_index).to(self.device).long()
+        self.edge_index = edge_index
 
         n_short = time_window - k_short + 1
         n_medium = time_window - k_medium + 1
@@ -351,13 +355,12 @@ class GPM(nn.Module):
 
         self.softmax = nn.Sequential(nn.Softmax(dim=-1))
 
-    def mu(self, observation, last_action, edge_index):
+    def mu(self, observation, last_action):
         """Defines a most favorable action of this policy given input x.
 
         Args:
           observation: environment observation.
           last_action: Last action performed by agent.
-          edge_index: Graph connectivity in COO format.
 
         Returns:
           Most favorable action.
@@ -367,8 +370,6 @@ class GPM(nn.Module):
             observation = torch.from_numpy(observation).to(self.device).float()
         if isinstance(last_action, np.ndarray):
             last_action = torch.from_numpy(last_action).to(self.device).float()
-        if isinstance(edge_index, np.ndarray):
-            edge_index = torch.from_numpy(edge_index).to(self.device).long()
 
         last_stocks, cash_bias = self._process_last_action(last_action)
         cash_bias = torch.zeros_like(cash_bias).to(self.device)
@@ -382,7 +383,7 @@ class GPM(nn.Module):
         ) # shape [N, feature_size, num_stocks, 1]
 
         # add features to graph
-        graph_batch = self._create_graph_batch(temporal_features, edge_index)
+        graph_batch = self._create_graph_batch(temporal_features, self.edge_index)
 
         # perform graph convolution
         graph_features = self.gcn(graph_batch.x, graph_batch.edge_index) # shape [N * num_stocks, feature_size]
@@ -409,18 +410,17 @@ class GPM(nn.Module):
 
         return output
 
-    def forward(self, observation, last_action, edge_index):
+    def forward(self, observation, last_action):
         """Policy network's forward propagation.
 
         Args:
           observation: Environment observation (dictionary).
           last_action: Last action performed by the agent.
-          edge_index: Graph connectivity in COO format.
 
         Returns:
           Action to be taken (numpy array).
         """
-        mu = self.mu(observation, last_action, edge_index)
+        mu = self.mu(observation, last_action)
         action = mu.cpu().detach().numpy().squeeze()
         return action
 
