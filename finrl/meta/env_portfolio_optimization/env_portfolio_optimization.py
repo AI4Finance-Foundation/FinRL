@@ -153,7 +153,7 @@ class PortfolioOptimizationEnv(gym.Env):
 
         # dims and spaces
         self._tic_list = self._df[self._tic_column].unique()
-        self.portfolio_size = len(self._tic_list)
+        self.portfolio_size = len(self._tic_list) if tics_in_portfolio == "all" else len(tics_in_portfolio)
         action_space = 1 + self.portfolio_size
 
         # sort datetimes and define episode length
@@ -174,7 +174,7 @@ class PortfolioOptimizationEnv(gym.Env):
                         high=np.inf,
                         shape=(
                             len(self._features),
-                            self.portfolio_size,
+                            len(self._tic_list),
                             self._time_window,
                         ),
                     ),
@@ -187,7 +187,7 @@ class PortfolioOptimizationEnv(gym.Env):
             self.observation_space = spaces.Box(
                 low=-np.inf,
                 high=np.inf,
-                shape=(len(self._features), self.portfolio_size, self._time_window),
+                shape=(len(self._features), len(self._tic_list), self._time_window),
             )
 
         self._reset_memory()
