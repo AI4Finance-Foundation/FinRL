@@ -280,6 +280,7 @@ class GPM(nn.Module):
 
         Args:
             edge_index: Graph connectivity in COO format.
+            nodes_to_select: ID of nodes to be selected to the portfolio.
             initial_features: Number of input features.
             k_short: Size of short convolutional kernel.
             k_medium: Size of medium convolutional kernel.
@@ -295,9 +296,9 @@ class GPM(nn.Module):
         self.device = device
 
         if isinstance(nodes_to_select, np.ndarray):
-            nodes_to_select = torch.from_numpy(nodes_to_select)
+            nodes_to_select = torch.from_numpy(nodes_to_select).to(self.device)
         elif isinstance(nodes_to_select, list):
-            nodes_to_select = torch.tensor(nodes_to_select)
+            nodes_to_select = torch.tensor(nodes_to_select).to(self.device)
         self.nodes_to_select = nodes_to_select
 
         if isinstance(edge_index, np.ndarray):
@@ -381,7 +382,7 @@ class GPM(nn.Module):
         temporal_features = torch.cat(
             [short_features, medium_features, long_features], dim=1
         ) # shape [N, feature_size, num_stocks, 1]
-
+        
         # add features to graph
         graph_batch = self._create_graph_batch(temporal_features, self.edge_index)
 
@@ -390,7 +391,8 @@ class GPM(nn.Module):
         graph_features, _ = to_dense_batch(graph_features, graph_batch.batch) # shape [N, num_stocks, feature_size]
         graph_features = torch.transpose(graph_features, 1, 2) # shape [N, feature_size, num_stocks]
         graph_features = torch.unsqueeze(graph_features, 3) # shape [N, feature_size, num_stocks, 1]
-        
+        graph_features = graph_features.to(self.device)
+
         # concatenate graph features and temporal features
         features = torch.cat([temporal_features, graph_features], dim=1) # shape [N, 2 * feature_size, num_stocks, 1]
         
