@@ -41,7 +41,7 @@ wrds = "^3"
 yfinance = "^0.2"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23"
+black = "^24"
 isort = "^5"
 jupyter = "^1"
 mypy = "^1"
