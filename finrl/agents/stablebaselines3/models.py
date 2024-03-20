@@ -349,8 +349,18 @@ class DRLEnsembleAgent:
         df_last_state.to_csv(f"results/last_state_{name}_{i}.csv", index=False)
         return last_state
 
-    def _train_window(self, model_name, model_kwargs, sharpe_list, validation_start_date, validation_end_date,
-                 timesteps_dict, i, validation, turbulence_threshold):
+    def _train_window(
+        self,
+        model_name,
+        model_kwargs,
+        sharpe_list,
+        validation_start_date,
+        validation_end_date,
+        timesteps_dict,
+        i,
+        validation,
+        turbulence_threshold,
+    ):
         """
         Train the model for a single window.
         """
@@ -409,20 +419,24 @@ class DRLEnsembleAgent:
         return model, sharpe_list, sharpe
 
     def run_ensemble_strategy(
-        self, A2C_model_kwargs, PPO_model_kwargs, DDPG_model_kwargs, SAC_model_kwargs,
-        TD3_model_kwargs, timesteps_dict
-        ):
+        self,
+        A2C_model_kwargs,
+        PPO_model_kwargs,
+        DDPG_model_kwargs,
+        SAC_model_kwargs,
+        TD3_model_kwargs,
+        timesteps_dict,
+    ):
         # Model Parameters
         kwargs = {
             "a2c": A2C_model_kwargs,
             "ppo": PPO_model_kwargs,
             "ddpg": DDPG_model_kwargs,
             "sac": SAC_model_kwargs,
-            "td3": TD3_model_kwargs
+            "td3": TD3_model_kwargs,
         }
         # Model Sharpe Ratios
-        model_dct = {k: {'sharpe_list': [],
-                'sharpe' : -1} for k in MODELS.keys()}
+        model_dct = {k: {"sharpe_list": [], "sharpe": -1} for k in MODELS.keys()}
 
         """Ensemble Strategy that combines A2C, PPO, DDPG, SAC, and TD3"""
         print("============Start Ensemble Strategy============")
@@ -561,14 +575,20 @@ class DRLEnsembleAgent:
             for model_name in MODELS.keys():
                 # Train The Model
                 model, sharpe_list, sharpe = self._train_window(
-                    model_name, kwargs[model_name], model_dct[model_name]['sharpe_list'],
-                    validation_start_date, validation_end_date,
-                    timesteps_dict, i, validation, turbulence_threshold
-                    )
+                    model_name,
+                    kwargs[model_name],
+                    model_dct[model_name]["sharpe_list"],
+                    validation_start_date,
+                    validation_end_date,
+                    timesteps_dict,
+                    i,
+                    validation,
+                    turbulence_threshold,
+                )
                 # Save the model's sharpe ratios, and the model itself
-                model_dct[model_name]['sharpe_list'] = sharpe_list
-                model_dct[model_name]['model'] = model
-                model_dct[model_name]['sharpe'] = sharpe
+                model_dct[model_name]["sharpe_list"] = sharpe_list
+                model_dct[model_name]["model"] = model
+                model_dct[model_name]["sharpe"] = sharpe
 
             print(
                 "======Best Model Retraining from: ",
@@ -593,11 +613,11 @@ class DRLEnsembleAgent:
             # )])
             # Model Selection based on sharpe ratio
             # Same order as MODELS: {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
-            sharpes = [model_dct[k]['sharpe'] for k in MODELS.keys()]
+            sharpes = [model_dct[k]["sharpe"] for k in MODELS.keys()]
             # Find the model with the highest sharpe ratio
             max_mod = list(MODELS.keys())[np.argmax(sharpes)]
             model_use.append(max_mod.upper())
-            model_ensemble = model_dct[max_mod]['model']
+            model_ensemble = model_dct[max_mod]["model"]
             # Training and Validation ends
 
             # Trading starts
@@ -627,11 +647,11 @@ class DRLEnsembleAgent:
                 validation_start_date_list,
                 validation_end_date_list,
                 model_use,
-                model_dct["a2c"]['sharpe_list'],
-                model_dct["ppo"]['sharpe_list'],
-                model_dct["ddpg"]['sharpe_list'],
-                model_dct["sac"]['sharpe_list'],
-                model_dct["td3"]['sharpe_list']
+                model_dct["a2c"]["sharpe_list"],
+                model_dct["ppo"]["sharpe_list"],
+                model_dct["ddpg"]["sharpe_list"],
+                model_dct["sac"]["sharpe_list"],
+                model_dct["td3"]["sharpe_list"],
             ]
         ).T
         df_summary.columns = [
@@ -643,7 +663,7 @@ class DRLEnsembleAgent:
             "PPO Sharpe",
             "DDPG Sharpe",
             "SAC Sharpe",
-            "TD3 Sharpe"
+            "TD3 Sharpe",
         ]
 
         return df_summary
