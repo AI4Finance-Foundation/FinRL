@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import torch
 from torch import nn
-from torch_geometric.nn import RGCNConv, GCNConv, Sequential
+from torch_geometric.nn import RGCNConv, Sequential
 from torch_geometric.data import Batch, Data
 from torch_geometric.utils import to_dense_batch
 
@@ -267,6 +267,7 @@ class GPM(nn.Module):
     def __init__(
         self,
         edge_index,
+        edge_type,
         nodes_to_select,
         initial_features=3,
         k_short=3,
@@ -280,6 +281,7 @@ class GPM(nn.Module):
 
         Args:
             edge_index: Graph connectivity in COO format.
+            edge_type: Type of each edge in edge_index.
             nodes_to_select: ID of nodes to be selected to the portfolio.
             initial_features: Number of input features.
             k_short: Size of short convolutional kernel.
@@ -295,15 +297,21 @@ class GPM(nn.Module):
         super().__init__()
         self.device = device
 
+        num_relations = np.unique(edge_type).shape[0]
+
+        if isinstance(edge_index, np.ndarray):
+            edge_index = torch.from_numpy(edge_index).to(self.device).long()
+        self.edge_index = edge_index
+
+        if isinstance(edge_type, np.ndarray):
+            edge_type = torch.from_numpy(edge_type).to(self.device).long()
+        self.edge_type = edge_type
+
         if isinstance(nodes_to_select, np.ndarray):
             nodes_to_select = torch.from_numpy(nodes_to_select).to(self.device)
         elif isinstance(nodes_to_select, list):
             nodes_to_select = torch.tensor(nodes_to_select).to(self.device)
         self.nodes_to_select = nodes_to_select
-
-        if isinstance(edge_index, np.ndarray):
-            edge_index = torch.from_numpy(edge_index).to(self.device).long()
-        self.edge_index = edge_index
 
         n_short = time_window - k_short + 1
         n_medium = time_window - k_medium + 1
@@ -341,10 +349,10 @@ class GPM(nn.Module):
 
         feature_size = 2 * conv_final_features + initial_features
 
-        self.gcn = Sequential("x, edge_index", [
-            (GCNConv(feature_size, feature_size), "x, edge_index -> x"),
+        self.gcn = Sequential("x, edge_index, edge_type", [
+            (RGCNConv(feature_size, feature_size, num_relations), "x, edge_index, edge_type -> x"),
             nn.LeakyReLU(),
-            (GCNConv(feature_size, feature_size), "x, edge_index -> x"),
+            (RGCNConv(feature_size, feature_size, num_relations), "x, edge_index, edge_type -> x"),
             nn.LeakyReLU(),
         ])
 
@@ -386,8 +394,11 @@ class GPM(nn.Module):
         # add features to graph
         graph_batch = self._create_graph_batch(temporal_features, self.edge_index)
 
+        # set edge index for the batch
+        edge_type = self._create_edge_type_for_batch(graph_batch, self.edge_type)
+
         # perform graph convolution
-        graph_features = self.gcn(graph_batch.x, graph_batch.edge_index) # shape [N * num_stocks, feature_size]
+        graph_features = self.gcn(graph_batch.x, graph_batch.edge_index, edge_type) # shape [N * num_stocks, feature_size]
         graph_features, _ = to_dense_batch(graph_features, graph_batch.batch) # shape [N, num_stocks, feature_size]
         graph_features = torch.transpose(graph_features, 1, 2) # shape [N, feature_size, num_stocks]
         graph_features = torch.unsqueeze(graph_features, 3) # shape [N, feature_size, num_stocks, 1]
@@ -442,11 +453,10 @@ class GPM(nn.Module):
         return last_stocks, cash_bias
     
     def _create_graph_batch(self, features, edge_index):
-        """Create a btach of graphs with the features
+        """Create a batch of graphs with the features.
         
         Args:
-          features: Tensor of shape [batch_size, feature_size, num_stocks, 1]
-          graph: A graph with num_stocks nodes.
+          features: Tensor of shape [batch_size, feature_size, num_stocks, 1].
           edge_index: Graph connectivity in COO format.
         
         Returns:
@@ -460,3 +470,18 @@ class GPM(nn.Module):
             new_graph = Data(x=x, edge_index=edge_index).to(self.device)
             graphs.append(new_graph)
         return Batch.from_data_list(graphs)
+    
+    def _create_edge_type_for_batch(self, batch, edge_type):
+        """Create the edge type tensor for a batch of graphs.
+        
+        Args:
+          batch: Batch of graph data.
+          edge_type: Original edge type tensor.
+        
+        Returns:
+          Edge type tensor adapted for the batch.
+        """
+        batch_edge_type = torch.clone(edge_type).detach()
+        for i in range(1, batch.batch_size):
+            batch_edge_type = torch.cat([batch_edge_type, torch.clone(edge_type).detach()])
+        return batch_edge_type
