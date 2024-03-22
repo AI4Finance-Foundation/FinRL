@@ -69,9 +69,12 @@ class EIIE(nn.Module):
         """
 
         if isinstance(observation, np.ndarray):
-            observation = torch.from_numpy(observation).to(self.device).float()
+            observation = torch.from_numpy(observation)
+        observation = observation.to(self.device).float()
+
         if isinstance(last_action, np.ndarray):
-            last_action = torch.from_numpy(last_action).to(self.device).float()
+            last_action = torch.from_numpy(last_action)
+        last_action = last_action.to(self.device).float()
 
         last_stocks, cash_bias = self._process_last_action(last_action)
         cash_bias = torch.zeros_like(cash_bias).to(self.device)
@@ -207,9 +210,12 @@ class EI3(nn.Module):
         """
 
         if isinstance(observation, np.ndarray):
-            observation = torch.from_numpy(observation).to(self.device).float()
+            observation = torch.from_numpy(observation)
+        observation = observation.to(self.device).float()
+
         if isinstance(last_action, np.ndarray):
-            last_action = torch.from_numpy(last_action).to(self.device).float()
+            last_action = torch.from_numpy(last_action)
+        last_action = last_action.to(self.device).float()
 
         last_stocks, cash_bias = self._process_last_action(last_action)
         cash_bias = torch.zeros_like(cash_bias).to(self.device)
@@ -300,18 +306,18 @@ class GPM(nn.Module):
         num_relations = np.unique(edge_type).shape[0]
 
         if isinstance(edge_index, np.ndarray):
-            edge_index = torch.from_numpy(edge_index).to(self.device).long()
-        self.edge_index = edge_index
+            edge_index = torch.from_numpy(edge_index)
+        self.edge_index = edge_index.to(self.device).long()
 
         if isinstance(edge_type, np.ndarray):
-            edge_type = torch.from_numpy(edge_type).to(self.device).long()
-        self.edge_type = edge_type
+            edge_type = torch.from_numpy(edge_type)
+        self.edge_type = edge_type.to(self.device).long()
 
         if isinstance(nodes_to_select, np.ndarray):
-            nodes_to_select = torch.from_numpy(nodes_to_select).to(self.device)
+            nodes_to_select = torch.from_numpy(nodes_to_select)
         elif isinstance(nodes_to_select, list):
-            nodes_to_select = torch.tensor(nodes_to_select).to(self.device)
-        self.nodes_to_select = nodes_to_select
+            nodes_to_select = torch.tensor(nodes_to_select)
+        self.nodes_to_select = nodes_to_select.to(self.device)
 
         n_short = time_window - k_short + 1
         n_medium = time_window - k_medium + 1
@@ -376,9 +382,12 @@ class GPM(nn.Module):
         """
 
         if isinstance(observation, np.ndarray):
-            observation = torch.from_numpy(observation).to(self.device).float()
+            observation = torch.from_numpy(observation)
+        observation = observation.to(self.device).float()
+
         if isinstance(last_action, np.ndarray):
-            last_action = torch.from_numpy(last_action).to(self.device).float()
+            last_action = torch.from_numpy(last_action)
+        last_action = last_action.to(self.device).float()
 
         last_stocks, cash_bias = self._process_last_action(last_action)
         cash_bias = torch.zeros_like(cash_bias).to(self.device)
