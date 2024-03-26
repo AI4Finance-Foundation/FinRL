@@ -1430,3 +1430,6 @@ FX_TICKER = [
     "ZARJPY=X",
     "EURDKK=X",
 ]
+
+
+CRYPTO_TICKER_LIST = ['BTCUSD']
