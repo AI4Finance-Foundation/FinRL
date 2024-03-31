@@ -11,6 +11,9 @@ from ray.rllib.algorithms.td3 import td3
 MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
 
 
+# MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
+
+
 class DRLAgent:
     """Implementations for DRL algorithms
 
@@ -44,18 +47,25 @@ class DRLAgent:
     def get_model(
         self,
         model_name,
+        # policy="MlpPolicy",
+        # policy_kwargs=None,
+        # model_kwargs=None,
     ):
         if model_name not in MODELS:
             raise NotImplementedError("NotImplementedError")
 
+        # if model_kwargs is None:
+        #    model_kwargs = MODEL_KWARGS[model_name]
+
         model = MODELS[model_name]
+        # get algorithm default configration based on algorithm in RLlib
         if model_name == "a2c":
             model_config = model.A2C_DEFAULT_CONFIG.copy()
         elif model_name == "td3":
             model_config = model.TD3_DEFAULT_CONFIG.copy()
         else:
             model_config = model.DEFAULT_CONFIG.copy()
-
+        # pass env, log_level, price_array, tech_array, and turbulence_array to config
         model_config["env"] = self.env
         model_config["log_level"] = "WARN"
         model_config["env_config"] = {
@@ -75,7 +85,7 @@ class DRLAgent:
         if init_ray:
             ray.init(
                 ignore_reinit_error=True
-            )
+            )  # Other Ray APIs will not work until `ray.init()` is called.
 
         if model_name == "ppo":
             trainer = model.PPOTrainer(env=self.env, config=model_config)
@@ -93,6 +103,7 @@ class DRLAgent:
 
         ray.shutdown()
 
+        # save the trained model
         cwd = "./test_" + str(model_name)
         trainer.save(cwd)
 
@@ -116,7 +127,6 @@ class DRLAgent:
             model_config = MODELS[model_name].TD3_DEFAULT_CONFIG.copy()
         else:
             model_config = MODELS[model_name].DEFAULT_CONFIG.copy()
-
         model_config["env"] = env
         model_config["log_level"] = "WARN"
         model_config["env_config"] = {
@@ -133,6 +143,7 @@ class DRLAgent:
         }
         env_instance = env(config=env_config)
 
+        # ray.init() # Other Ray APIs will not work until `ray.init()` is called.
         if model_name == "ppo":
             trainer = MODELS[model_name].PPOTrainer(env=env, config=model_config)
         elif model_name == "a2c":
@@ -150,8 +161,9 @@ class DRLAgent:
         except BaseException as e:
             raise ValueError("Fail to load agent!") from e
 
+        # test on the testing env
         state = env_instance.reset()
-        episode_returns = []
+        episode_returns = []  # the cumulative_return / initial_account
         episode_total_assets = [env_instance.initial_total_asset]
         done = False
         while not done:
@@ -165,8 +177,8 @@ class DRLAgent:
             episode_total_assets.append(total_asset)
             episode_return = total_asset / env_instance.initial_total_asset
             episode_returns.append(episode_return)
-
         ray.shutdown()
         print("episode return: " + str(episode_return))
         print("Test Finished!")
         return episode_total_assets
+
