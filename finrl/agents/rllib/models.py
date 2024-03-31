@@ -181,4 +181,3 @@ class DRLAgent:
         print("episode return: " + str(episode_return))
         print("Test Finished!")
         return episode_total_assets
-
