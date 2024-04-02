@@ -1,6 +1,7 @@
 from __future__ import annotations
-from bs4 import BeautifulSoup
+
 import requests
+from bs4 import BeautifulSoup
 
 SINGLE_TICKER = ["AAPL"]
 
