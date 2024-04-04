@@ -281,6 +281,7 @@ class GPM(nn.Module):
         conv_mid_features=3,
         conv_final_features=20,
         time_window=50,
+        softmax_temperature=1,
         device="cpu",
     ):
         """GPM (Graph-based Portfolio Management) policy network initializer.
@@ -295,6 +296,7 @@ class GPM(nn.Module):
             conv_mid_features: Size of intermediate convolutional channels.
             conv_final_features: Size of final convolutional channels.
             time_window: Size of time window used as agent's state.
+            softmax_temperature: Temperature parameter to softmax function.
             device: Device in which the neural network will be run.
 
         Note:
@@ -302,6 +304,7 @@ class GPM(nn.Module):
         """
         super().__init__()
         self.device = device
+        self.softmax_temperature = softmax_temperature
 
         num_relations = np.unique(edge_type).shape[0]
 
@@ -428,7 +431,7 @@ class GPM(nn.Module):
         output = torch.squeeze(output, 3)
         output = torch.squeeze(output, 1)  # shape [N, portfolio_size + 1]
 
-        output = self.softmax(output)
+        output = self.softmax(output/self.softmax_temperature)
 
         return output
 
