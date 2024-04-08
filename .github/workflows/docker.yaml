@@ -56,11 +56,8 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
-          docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 --push -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-          docker buildx build --platform linxu/amd64,linux/arm64 --tag ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} --push .
-          # docker build -t ${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
-          # docker tag ${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          docker build -t ${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
+          docker tag ${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
       - name: Push Docker image to Amazon ECR
         run: |
