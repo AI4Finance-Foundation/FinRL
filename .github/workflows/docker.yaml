@@ -18,17 +18,17 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/amd64
-          # - linux/arm/v6
-          # - linux/arm/v7
-          # - linux/arm64
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     platform:
+    #       - linux/amd64
+    #       - linux/arm/v6
+    #       - linux/arm/v7
+    #       - linux/arm64
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
