@@ -14,7 +14,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: fein-main
+  ECR_REPOSITORY: fein-base
   IMAGE_TAG: latest
 
 jobs:
