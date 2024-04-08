@@ -11,6 +11,9 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: fein-base
 
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build:
