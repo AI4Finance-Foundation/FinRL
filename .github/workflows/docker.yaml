@@ -30,8 +30,8 @@ jobs:
         with:
           # role-skip-session-tagging: true
           # audience: sts.amazonaws.com
-          role-to-assume: github-action-role
-          # role-to-assume: arn:aws:iam::767397949599:role/github-action-role
+          # role-to-assume: github-action-role
+          role-to-assume: arn:aws:iam::767397949599:role/github-action-role
           # role-session-name: GitHubActions
           # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
