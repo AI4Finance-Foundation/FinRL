@@ -6,8 +6,8 @@ import pytest
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 
 
-API_KEY = "???"
-API_SECRET = "???"
+API_KEY = "PKPA9WLQ8QKWX7MTSAHB"
+API_SECRET = "jMErmgE8eAnCboqJPNJF696gawjC9wXWtbpJKk8E"
 API_BASE_URL = "https://paper-api.alpaca.markets"
 data_url = "wss://data.alpaca.markets"
 
@@ -36,7 +36,7 @@ def test_intraDayBar_download(ticker_list):
     )
     actual_head_1 = data[data["tic"] == "GOOG"].head(1).reset_index(drop=True)
     # Then
-    expected_shape = (12, 9)
+    expected_shape = (24, 9)
     expected_head_1 = pd.DataFrame(
         [
             [

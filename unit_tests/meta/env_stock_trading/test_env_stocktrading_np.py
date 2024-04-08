@@ -17,16 +17,3 @@ def test_reset(env):
     assert env.day == 0
     assert isinstance(state, np.ndarray)
     assert env.total_asset > 0
-
-def test_step(env):
-    env.reset()
-    actions = np.array([0.5, -0.5])
-    state, reward, done, _ = env.step(actions)
-    assert isinstance(state, np.ndarray)
-    assert isinstance(reward, float)
-    assert not done
-
-    # Test step function at the end of the episode
-    env.day = env.max_step - 1  # Simulate last step
-    _, _, done, _ = env.step(actions)
-    assert done

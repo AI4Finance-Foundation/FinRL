@@ -5,7 +5,7 @@ FROM python:3.10.12-slim
 WORKDIR /app
 
 # Add the current directory contents into the container at /app
-ADD . /app
+COPY . .
 
 # Add models/a2c.zip file to Docker image
 # ADD models/a2c.zip /app/models/

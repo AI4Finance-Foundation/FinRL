@@ -161,6 +161,7 @@ class YahooFinanceProcessor:
             tmp_df = pd.DataFrame(
                 columns=["open", "high", "low", "close", "volume"], index=times
             )
+            print ( tmp_df.head())
             tic_df = df[
                 df.tic == tic
             ]  # extract just the rows from downloaded data relating to this tic
@@ -240,6 +241,7 @@ class YahooFinanceProcessor:
         :param data: (df) pandas dataframe
         :return: (df) pandas dataframe
         """
+        print ( df.head())
         df = data.copy()
         df = df.sort_values(by=["tic", "timestamp"])
         stock = Sdf.retype(df.copy())

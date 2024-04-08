@@ -5,6 +5,10 @@
 from __future__ import annotations
 
 import argparse
+import os, sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("data_key", help="data source api key")
