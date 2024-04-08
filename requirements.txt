@@ -1,5 +1,5 @@
 alpaca_trade_api
-ccxt
+ccxt>=4.0.14
 elegantrl@git+https://github.com/kineticengines/ElegantRL.git@master
 
 exchange_calendars==3.6.3 # because raise exception with 4.1.1, success tested with 3.6.3
