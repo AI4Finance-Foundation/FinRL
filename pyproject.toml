@@ -26,16 +26,16 @@ github = "https://github.com/finrl/finrl-library"
 
 [tool.poetry.dependencies]
 python = "~3.10"
-elegantrl = {git="https://github.com/kineticengines/ElegantRL.git@master"}
-alpaca-trade-api = ">=3"
+elegantrl = {git="https://github.com/kineticengines/ElegantRL.git@develop"}
+alpaca-trade-api = ">=1.4.3"
 ccxt = ">=4.0.14"
 exchange-calendars = ">=4"
 jqdatasdk = "^1"
 pyfolio = "^0.9"
 pyportfolioopt = "^1"
 ray = {extras=["default", "tune"], version = "^2"}
-scikit-learn = "^1"
-stable-baselines3 = {version = ">=2.0.0a5", extras = ["extra"]}
+scikit-learn = ">=1.4.1.post1"
+stable-baselines3 = {version = "==2.3.0"}
 stockstats = "^0.5"
 wrds = "^3"
 yfinance = "^0.2"
