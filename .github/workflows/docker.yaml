@@ -3,6 +3,7 @@ name: Build and Push Docker Image to ECR
 on:
   push:
     branches:
+      - master
       - main
       - feat/*
 permissions:
