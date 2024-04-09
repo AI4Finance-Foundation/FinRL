@@ -1,0 +1,63 @@
+name: Build and Push Docker Image to ECR
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - feat/*
+
+permissions:
+  id-token: write
+  contents: read
+  
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: fein-base
+  IMAGE_TAG: latest
+
+jobs:
+  build-ecr-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          # role-skip-session-tagging: true
+          # audience: sts.amazonaws.com
+          # role-to-assume: github-action-role
+          role-to-assume: arn:aws:iam::767397949599:role/github-action-role
+          # role-session-name: GitHubActions
+          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Check if ECR repository exists
+        id: check-repo
+        run: |
+          aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --region ${{ env.AWS_REGION }} || echo "::set-output name=repo_exists::false"
+
+      - name: Create an AWS ECR repository
+        uses: uspacy/aws-ecr-action@v1
+        if: steps.check-repo.outputs.repo_exists != 'true'
+        with:
+          repositoryName: ${{ env.ECR_REPOSITORY }}
+
+
+      - name: Build and tag Docker image
+        run: |
+          docker build -t ${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
+          docker tag ${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+
+      - name: Push Docker image to Amazon ECR
+        run: |
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
