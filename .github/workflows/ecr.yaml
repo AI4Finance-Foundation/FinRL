@@ -52,17 +52,17 @@ jobs:
         with:
           repositoryName: ${{ env.ECR_REPOSITORY }}
 
-      - name: Get ECR Image List
-        id: get-images
-        run: |
-          image_list=$(aws ecr describe-images --repository-name <your-repo-name> --query 'imageDetails[*].imageDigest' --output text)
-          echo "::set-output name=images::$image_list"
+      # - name: Get ECR Image List
+      #   id: get-images
+      #   run: |
+      #     image_list=$(aws ecr describe-images --repository-name <your-repo-name> --query 'imageDetails[*].imageDigest' --output text)
+      #     echo "::set-output name=images::$image_list"
 
-      - name: Delete ECR Images
-        run: |
-          for image_digest in ${{ steps.get-images.outputs.images }}; do
-            aws ecr batch-delete-image --repository-name <your-repo-name> --image-ids imageDigest="$image_digest"
-          done
+      # - name: Delete ECR Images
+      #   run: |
+      #     for image_digest in ${{ steps.get-images.outputs.images }}; do
+      #       aws ecr batch-delete-image --repository-name <your-repo-name> --image-ids imageDigest="$image_digest"
+      #     done
 
 
       - name: Build and tag Docker image
