@@ -153,7 +153,11 @@ class PortfolioOptimizationEnv(gym.Env):
 
         # dims and spaces
         self._tic_list = self._df[self._tic_column].unique()
-        self.portfolio_size = len(self._tic_list) if tics_in_portfolio == "all" else len(tics_in_portfolio)
+        self.portfolio_size = (
+            len(self._tic_list)
+            if tics_in_portfolio == "all"
+            else len(tics_in_portfolio)
+        )
         action_space = 1 + self.portfolio_size
 
         # sort datetimes and define episode length

@@ -9,10 +9,10 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from .architectures import EIIE
+from .utils import apply_portfolio_noise
 from .utils import PVM
 from .utils import ReplayBuffer
 from .utils import RLDataset
-from .utils import apply_portfolio_noise
 
 
 class PolicyGradient:
@@ -111,7 +111,9 @@ class PolicyGradient:
                 last_action = self.train_pvm.retrieve()
                 obs_batch = np.expand_dims(obs, axis=0)
                 last_action_batch = np.expand_dims(last_action, axis=0)
-                action = apply_portfolio_noise(self.train_policy(obs_batch, last_action_batch), self.action_noise)
+                action = apply_portfolio_noise(
+                    self.train_policy(obs_batch, last_action_batch), self.action_noise
+                )
                 self.train_pvm.add(action)
 
                 # run simulation step
