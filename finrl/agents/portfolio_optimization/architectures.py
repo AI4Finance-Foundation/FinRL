@@ -3,9 +3,12 @@ from __future__ import annotations
 import numpy as np
 import torch
 from torch import nn
-from torch_geometric.nn import RGCNConv, Sequential
-from torch_geometric.data import Batch, Data
+from torch_geometric.data import Batch
+from torch_geometric.data import Data
+from torch_geometric.nn import RGCNConv
+from torch_geometric.nn import Sequential
 from torch_geometric.utils import to_dense_batch
+
 
 class EIIE(nn.Module):
     def __init__(
@@ -358,12 +361,21 @@ class GPM(nn.Module):
 
         feature_size = 2 * conv_final_features + initial_features
 
-        self.gcn = Sequential("x, edge_index, edge_type", [
-            (RGCNConv(feature_size, feature_size, num_relations), "x, edge_index, edge_type -> x"),
-            nn.LeakyReLU(),
-            (RGCNConv(feature_size, feature_size, num_relations), "x, edge_index, edge_type -> x"),
-            nn.LeakyReLU(),
-        ])
+        self.gcn = Sequential(
+            "x, edge_index, edge_type",
+            [
+                (
+                    RGCNConv(feature_size, feature_size, num_relations),
+                    "x, edge_index, edge_type -> x",
+                ),
+                nn.LeakyReLU(),
+                (
+                    RGCNConv(feature_size, feature_size, num_relations),
+                    "x, edge_index, edge_type -> x",
+                ),
+                nn.LeakyReLU(),
+            ],
+        )
 
         self.final_convolution = nn.Conv2d(
             in_channels=2 * feature_size + 1,
@@ -401,8 +413,8 @@ class GPM(nn.Module):
 
         temporal_features = torch.cat(
             [short_features, medium_features, long_features], dim=1
-        ) # shape [N, feature_size, num_stocks, 1]
-        
+        )  # shape [N, feature_size, num_stocks, 1]
+
         # add features to graph
         graph_batch = self._create_graph_batch(temporal_features, self.edge_index)
 
@@ -410,28 +422,42 @@ class GPM(nn.Module):
         edge_type = self._create_edge_type_for_batch(graph_batch, self.edge_type)
 
         # perform graph convolution
-        graph_features = self.gcn(graph_batch.x, graph_batch.edge_index, edge_type) # shape [N * num_stocks, feature_size]
-        graph_features, _ = to_dense_batch(graph_features, graph_batch.batch) # shape [N, num_stocks, feature_size]
-        graph_features = torch.transpose(graph_features, 1, 2) # shape [N, feature_size, num_stocks]
-        graph_features = torch.unsqueeze(graph_features, 3) # shape [N, feature_size, num_stocks, 1]
+        graph_features = self.gcn(
+            graph_batch.x, graph_batch.edge_index, edge_type
+        )  # shape [N * num_stocks, feature_size]
+        graph_features, _ = to_dense_batch(
+            graph_features, graph_batch.batch
+        )  # shape [N, num_stocks, feature_size]
+        graph_features = torch.transpose(
+            graph_features, 1, 2
+        )  # shape [N, feature_size, num_stocks]
+        graph_features = torch.unsqueeze(
+            graph_features, 3
+        )  # shape [N, feature_size, num_stocks, 1]
         graph_features = graph_features.to(self.device)
 
         # concatenate graph features and temporal features
-        features = torch.cat([temporal_features, graph_features], dim=1) # shape [N, 2 * feature_size, num_stocks, 1]
-        
+        features = torch.cat(
+            [temporal_features, graph_features], dim=1
+        )  # shape [N, 2 * feature_size, num_stocks, 1]
+
         # perform selection and add last stocks
-        features = torch.index_select(features, dim=2, index=self.nodes_to_select) # shape [N, 2 * feature_size, portfolio_size, 1]
+        features = torch.index_select(
+            features, dim=2, index=self.nodes_to_select
+        )  # shape [N, 2 * feature_size, portfolio_size, 1]
         features = torch.cat([last_stocks, features], dim=1)
 
-        # final convolution 
-        output = self.final_convolution(features) # shape [N, 1, portfolio_size, 1]
-        output = torch.cat([cash_bias, output], dim=2) # shape [N, 1, portfolio_size + 1, 1]
+        # final convolution
+        output = self.final_convolution(features)  # shape [N, 1, portfolio_size, 1]
+        output = torch.cat(
+            [cash_bias, output], dim=2
+        )  # shape [N, 1, portfolio_size + 1, 1]
 
         # output shape must be [N, portfolio_size + 1] = [1, portfolio_size + 1], being N batch size
         output = torch.squeeze(output, 3)
         output = torch.squeeze(output, 1)  # shape [N, portfolio_size + 1]
 
-        output = self.softmax(output/self.softmax_temperature)
+        output = self.softmax(output / self.softmax_temperature)
 
         return output
 
@@ -463,37 +489,39 @@ class GPM(nn.Module):
         last_stocks = last_action[:, 1:].reshape((batch_size, 1, stocks, 1))
         cash_bias = last_action[:, 0].reshape((batch_size, 1, 1, 1))
         return last_stocks, cash_bias
-    
+
     def _create_graph_batch(self, features, edge_index):
         """Create a batch of graphs with the features.
-        
+
         Args:
           features: Tensor of shape [batch_size, feature_size, num_stocks, 1].
           edge_index: Graph connectivity in COO format.
-        
+
         Returns:
           A batch of graphs with temporal features associated with each node.
         """
         batch_size = features.shape[0]
         graphs = []
         for i in range(batch_size):
-            x = features[i, :, :, 0] # shape [feature_size, num_stocks]
-            x = torch.transpose(x, 0, 1) # shape [num_stocks, feature_size]
+            x = features[i, :, :, 0]  # shape [feature_size, num_stocks]
+            x = torch.transpose(x, 0, 1)  # shape [num_stocks, feature_size]
             new_graph = Data(x=x, edge_index=edge_index).to(self.device)
             graphs.append(new_graph)
         return Batch.from_data_list(graphs)
-    
+
     def _create_edge_type_for_batch(self, batch, edge_type):
         """Create the edge type tensor for a batch of graphs.
-        
+
         Args:
           batch: Batch of graph data.
           edge_type: Original edge type tensor.
-        
+
         Returns:
           Edge type tensor adapted for the batch.
         """
         batch_edge_type = torch.clone(edge_type).detach()
         for i in range(1, batch.batch_size):
-            batch_edge_type = torch.cat([batch_edge_type, torch.clone(edge_type).detach()])
+            batch_edge_type = torch.cat(
+                [batch_edge_type, torch.clone(edge_type).detach()]
+            )
         return batch_edge_type
