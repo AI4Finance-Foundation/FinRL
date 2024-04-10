@@ -337,7 +337,7 @@ class StockTradingEnv(gym.Env):
                 if len(self.df.tic.unique()) == 1:
                     self.turbulence = self.data[self.risk_indicator_col]
                 elif len(self.df.tic.unique()) > 1:
-                    self.turbulence = self.data[self.risk_indicator_col].values[0]
+                    self.turbulence = self.data[self.risk_indicator_col][0]
             self.state = self._update_state()
 
             end_total_asset = self.state[0] + sum(
@@ -406,11 +406,11 @@ class StockTradingEnv(gym.Env):
                 # for multiple stock
                 state = (
                     [self.initial_amount]
-                    + self.data.close.values.tolist()
+                    + self.data.close.tolist()
                     + self.num_stock_shares
                     + sum(
                         (
-                            self.data[tech].values.tolist()
+                            self.data[tech].tolist()
                             for tech in self.tech_indicator_list
                         ),
                         [],
@@ -430,13 +430,13 @@ class StockTradingEnv(gym.Env):
                 # for multiple stock
                 state = (
                     [self.previous_state[0]]
-                    + self.data.close.values.tolist()
+                    + self.data.close.tolist()
                     + self.previous_state[
                         (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
                     ]
                     + sum(
                         (
-                            self.data[tech].values.tolist()
+                            self.data[tech].tolist()
                             for tech in self.tech_indicator_list
                         ),
                         [],
@@ -459,11 +459,11 @@ class StockTradingEnv(gym.Env):
             # for multiple stock
             state = (
                 [self.state[0]]
-                + self.data.close.values.tolist()
+                + self.data.close.tolist()
                 + list(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
                 + sum(
                     (
-                        self.data[tech].values.tolist()
+                        self.data[tech].tolist()
                         for tech in self.tech_indicator_list
                     ),
                     [],
@@ -483,7 +483,7 @@ class StockTradingEnv(gym.Env):
 
     def _get_date(self):
         if len(self.df.tic.unique()) > 1:
-            date = self.data.date.unique()[0]
+            date = set(self.data.date[0])
         else:
             date = self.data.date
         return date
@@ -537,7 +537,7 @@ class StockTradingEnv(gym.Env):
 
             action_list = self.actions_memory
             df_actions = pd.DataFrame(action_list)
-            df_actions.columns = self.data.tic.values
+            df_actions.columns = self.data.tic
             df_actions.index = df_date.date
             # df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
         else:
