@@ -409,10 +409,7 @@ class StockTradingEnv(gym.Env):
                     + self.data.close.tolist()
                     + self.num_stock_shares
                     + sum(
-                        (
-                            self.data[tech].tolist()
-                            for tech in self.tech_indicator_list
-                        ),
+                        (self.data[tech].tolist() for tech in self.tech_indicator_list),
                         [],
                     )
                 )  # append initial stocks_share to initial state, instead of all zero
@@ -435,10 +432,7 @@ class StockTradingEnv(gym.Env):
                         (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
                     ]
                     + sum(
-                        (
-                            self.data[tech].tolist()
-                            for tech in self.tech_indicator_list
-                        ),
+                        (self.data[tech].tolist() for tech in self.tech_indicator_list),
                         [],
                     )
                 )
@@ -462,10 +456,7 @@ class StockTradingEnv(gym.Env):
                 + self.data.close.tolist()
                 + list(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
                 + sum(
-                    (
-                        self.data[tech].tolist()
-                        for tech in self.tech_indicator_list
-                    ),
+                    (self.data[tech].tolist() for tech in self.tech_indicator_list),
                     [],
                 )
             )
