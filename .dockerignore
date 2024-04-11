@@ -14,8 +14,6 @@ docs
 figs
 
 
-finrl
-
 results
 tensorboard_log
 trained_models
