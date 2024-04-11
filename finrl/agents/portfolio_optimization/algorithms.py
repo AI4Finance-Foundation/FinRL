@@ -9,6 +9,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from .architectures import EIIE
+from .utils import apply_portfolio_noise
 from .utils import PVM
 from .utils import ReplayBuffer
 from .utils import RLDataset
@@ -38,6 +39,7 @@ class PolicyGradient:
         validation_env=None,
         batch_size=100,
         lr=1e-3,
+        action_noise=0,
         optimizer=AdamW,
         device="cpu",
     ):
@@ -50,6 +52,8 @@ class PolicyGradient:
           validation_env: Validation environment.
           batch_size: Batch size to train neural network.
           lr: policy Neural network learning rate.
+          action_noise: Noise parameter (between 0 and 1) to be applied
+            during training.
           optimizer: Optimizer of neural network.
           device: Device where neural network is run.
         """
@@ -58,6 +62,7 @@ class PolicyGradient:
         self.validation_env = validation_env
         self.batch_size = batch_size
         self.lr = lr
+        self.action_noise = action_noise
         self.optimizer = optimizer
         self.device = device
         self._setup_train(env, self.policy, self.batch_size, self.lr, self.optimizer)
@@ -106,7 +111,9 @@ class PolicyGradient:
                 last_action = self.train_pvm.retrieve()
                 obs_batch = np.expand_dims(obs, axis=0)
                 last_action_batch = np.expand_dims(last_action, axis=0)
-                action = self.train_policy(obs_batch, last_action_batch)
+                action = apply_portfolio_noise(
+                    self.train_policy(obs_batch, last_action_batch), self.action_noise
+                )
                 self.train_pvm.add(action)
 
                 # run simulation step
