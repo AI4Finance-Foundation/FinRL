@@ -47,16 +47,23 @@ def build_parser():
 
 # "./" will be added in front of each directory
 def check_and_make_directories(directories: list[str]):
+    print ( directories)
     for directory in directories:
-        if not os.path.exists("./" + directory):
-            os.makedirs("./" + directory)
+        if not os.path.exists( directory):
+            os.makedirs( directory)
 
 
 def main() -> int:
     parser = build_parser()
     options = parser.parse_args()
+    
     check_and_make_directories(
-        [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
+        [
+            os.getenv("DATA_SAVE_DIR", DATA_SAVE_DIR),
+            os.getenv("TRAINED_MODEL_DIR", TRAINED_MODEL_DIR),
+            os.getenv("TENSORBOARD_LOG_DIR", TENSORBOARD_LOG_DIR),
+            os.getenv("RESULTS_DIR", RESULTS_DIR),
+        ]
     )
 
     if options.mode == "train":
@@ -94,8 +101,8 @@ def main() -> int:
         kwargs = {}
 
         account_value_erl = test(  # noqa
-            start_date=TEST_START_DATE,
-            end_date=TEST_END_DATE,
+            start_date=os.getenv("TEST_START_DATE", TEST_START_DATE),
+            end_date=os.getenv("TEST_END_DATE", TEST_END_DATE),
             ticker_list=DOW_30_TICKER,
             data_source="yahoofinance",
             time_interval="1D",
@@ -103,7 +110,7 @@ def main() -> int:
             drl_lib="elegantrl",
             env=env,
             model_name="ppo",
-            cwd="./test_ppo",
+            cwd=os.getenv("TRAINED_MODEL_DIR", TRAINED_MODEL_DIR),
             net_dimension=512,
             kwargs=kwargs,
         )
@@ -119,8 +126,8 @@ def main() -> int:
         env = StockTradingEnv
         kwargs = {}
         trade(
-            start_date=TRADE_START_DATE,
-            end_date=TRADE_END_DATE,
+            start_date=os.getenv("TRADE_START_DATE", TRADE_START_DATE),
+            end_date=os.getenv("TRADE_END_DATE", TRADE_END_DATE),
             ticker_list=DOW_30_TICKER,
             data_source="yahoofinance",
             time_interval="1D",
@@ -128,9 +135,9 @@ def main() -> int:
             drl_lib="elegantrl",
             env=env,
             model_name="ppo",
-            API_KEY=ALPACA_API_KEY,
-            API_SECRET=ALPACA_API_SECRET,
-            API_BASE_URL=ALPACA_API_BASE_URL,
+            API_KEY=os.getenv("ALPACA_API_KEY", ALPACA_API_KEY),
+            API_SECRET=os.getenv("ALPACA_API_SECRET", ALPACA_API_SECRET),
+            API_BASE_URL=os.getenv("ALPACA_API_BASE_URL", ALPACA_API_BASE_URL),
             trade_mode="paper_trading",
             if_vix=True,
             kwargs=kwargs,
