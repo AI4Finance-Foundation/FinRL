@@ -18,18 +18,18 @@ except FileNotFoundError:
     REQUIRES = list()
 
 setup(
-    name="finrl",
-    version="0.3.6",
+    name="FinRL",
+    version="0.3.7",
     include_package_data=True,
-    author="Hongyang Yang, Xiaoyang Liu, Ming Zhu",
-    author_email="hy2500@columbia.edu",
-    url="https://github.com/finrl/finrl-library",
+    author="AI4Finance Foundation",
+    author_email="contact@ai4finance.org",
+    url="https://github.com/AI4Finance-Foundation/FinRL",
     license="MIT",
     packages=find_packages(),
     description="FinRL: Financial Reinforcement Learning Framework.",
     long_description="Version 0.3.5 notes: stable version, code refactoring, more tutorials, clear documentation",
     # It is developed by `AI4Finance`_. \
-    # _AI4Finance: https://github.com/AI4Finance-Foundation",
+    # _AI4Finance: https://ai4finance.org/",
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
