@@ -283,6 +283,7 @@ class GPM(nn.Module):
         k_medium=21,
         conv_mid_features=3,
         conv_final_features=20,
+        graph_layers=1,
         time_window=50,
         softmax_temperature=1,
         device="cpu",
@@ -298,6 +299,7 @@ class GPM(nn.Module):
             k_medium: Size of medium convolutional kernel.
             conv_mid_features: Size of intermediate convolutional channels.
             conv_final_features: Size of final convolutional channels.
+            graph_layers: Number of graph neural network layers.
             time_window: Size of time window used as agent's state.
             softmax_temperature: Temperature parameter to softmax function.
             device: Device in which the neural network will be run.
@@ -361,21 +363,17 @@ class GPM(nn.Module):
 
         feature_size = 2 * conv_final_features + initial_features
 
-        self.gcn = Sequential(
-            "x, edge_index, edge_type",
-            [
+        graph_layers_list = []
+        for i in range(graph_layers):
+            graph_layers_list += [
                 (
                     RGCNConv(feature_size, feature_size, num_relations),
                     "x, edge_index, edge_type -> x",
                 ),
-                nn.LeakyReLU(),
-                (
-                    RGCNConv(feature_size, feature_size, num_relations),
-                    "x, edge_index, edge_type -> x",
-                ),
-                nn.LeakyReLU(),
-            ],
-        )
+                nn.LeakyReLU()
+            ]
+
+        self.gcn = Sequential("x, edge_index, edge_type", graph_layers_list)
 
         self.final_convolution = nn.Conv2d(
             in_channels=2 * feature_size + 1,
