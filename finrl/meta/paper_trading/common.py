@@ -50,7 +50,7 @@ class ActorPPO(nn.Module):
         dist = Normal(action_avg, action_std)
         action = dist.sample()
         logprob = dist.log_prob(action).sum(1)
-        self.logger.info(f"Action taken: {action}, Log probability: {logprob}")
+        # self.logger.info(f"Action taken: {action}, Log probability: {logprob}")
         return action, logprob
 
     def get_logprob_entropy(self, state: Tensor, action: Tensor) -> (Tensor, Tensor):
