@@ -312,7 +312,7 @@ class PaperTradingAlpaca:
         alpaca = AlpacaProcessor(api=self.alpaca)
         price, tech, turbulence = alpaca.fetch_latest_data(
             ticker_list=self.stockUniverse,
-            time_interval=self.time_interval,
+            time_interval="`1Min`",  # "1Min", "5Min", "15Min", "1H", "1D
             tech_indicator_list=self.tech_indicator_list,
         )
         turbulence_bool = 1 if turbulence >= self.turbulence_thresh else 0
