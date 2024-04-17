@@ -5,9 +5,10 @@ from multiprocessing.sharedctypes import Value
 
 import numpy as np
 import pandas as pd
+
 from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MaxAbsScaler
 from stockstats import StockDataFrame as Sdf
 
 from finrl import config
@@ -50,18 +51,20 @@ class GroupByScaler(BaseEstimator, TransformerMixin):
     data for each ticker independently.
     """
 
-    def __init__(self, by, scaler=MinMaxScaler, columns=None):
+    def __init__(self, by, scaler=MaxAbsScaler, columns=None, scaler_kwargs=None):
         """Initializes GoupBy scaler.
 
         Args:
             by: Name of column that will be used to group.
             scaler: Scikit-learn scaler class to be used.
             columns: List of columns that will be scaled.
+            scaler_kwargs: Keyword arguments for chosen scaler.
         """
         self.scalers = {}  # dictionary with scalers
         self.by = by
         self.scaler = scaler
         self.columns = columns
+        self.scaler_kwargs = {} if scaler_kwargs is None else scaler_kwargs
 
     def fit(self, X, y=None):
         """Fits the scaler to input data.
@@ -79,7 +82,7 @@ class GroupByScaler(BaseEstimator, TransformerMixin):
         # fit one scaler for each group
         for value in X[self.by].unique():
             X_group = X.loc[X[self.by] == value, self.columns]
-            self.scalers[value] = self.scaler().fit(X_group)
+            self.scalers[value] = self.scaler(**self.scaler_kwargs).fit(X_group)
         return self
 
     def transform(self, X, y=None):
