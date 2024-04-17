@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pandas as pd
 import pytest
-
 from sklearn.preprocessing import MinMaxScaler
+
 from finrl.meta.preprocessor.preprocessors import GroupByScaler
 
 test_dataframe = pd.DataFrame(
@@ -13,6 +13,7 @@ test_dataframe = pd.DataFrame(
         "feature_2": [9.0, 11.0, 7.0, 3.0, 9.0, 13.0],
     }
 )
+
 
 def test_fit_transform():
     scaler = GroupByScaler(by="tic")
@@ -34,6 +35,7 @@ def test_fit_transform():
         1.0,
     ]
 
+
 def test_fit_transform_specific_column():
     scaler = GroupByScaler(by="tic", columns=["feature_1"])
     transformed_df = scaler.fit_transform(test_dataframe)
@@ -53,6 +55,7 @@ def test_fit_transform_specific_column():
         9.0,
         13.0,
     ]
+
 
 def test_fit_transform_other_df():
     scaler = GroupByScaler(by="tic")
@@ -77,6 +80,7 @@ def test_fit_transform_other_df():
         2 / 9,
         5 / 13,
     ]
+
 
 def test_minmax_fit_transform():
     scaler = GroupByScaler(by="tic", scaler=MinMaxScaler)
