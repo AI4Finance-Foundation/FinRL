@@ -13,17 +13,48 @@ test_dataframe = pd.DataFrame(
     }
 )
 
+
 def test_fit_transform():
     scaler = GroupByScaler(by="tic")
     transformed_df = scaler.fit_transform(test_dataframe)
-    assert pytest.approx(transformed_df["feature_1"].tolist()) == [5/9, 0.0, 1.0, 1.0, 0.0, 2/9]
-    assert pytest.approx(transformed_df["feature_2"].tolist()) == [1.0, 4/5, 0.0, 0.0, 1.0, 1.0]
+    assert pytest.approx(transformed_df["feature_1"].tolist()) == [
+        5 / 9,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        2 / 9,
+    ]
+    assert pytest.approx(transformed_df["feature_2"].tolist()) == [
+        1.0,
+        4 / 5,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+    ]
+
 
 def test_fit_transform_specific_column():
     scaler = GroupByScaler(by="tic", columns=["feature_1"])
     transformed_df = scaler.fit_transform(test_dataframe)
-    assert pytest.approx(transformed_df["feature_1"].tolist()) == [5/9, 0.0, 1.0, 1.0, 0.0, 2/9]
-    assert pytest.approx(transformed_df["feature_2"].tolist()) == [9.0, 11.0, 7.0, 3.0, 9.0, 13.0]
+    assert pytest.approx(transformed_df["feature_1"].tolist()) == [
+        5 / 9,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        2 / 9,
+    ]
+    assert pytest.approx(transformed_df["feature_2"].tolist()) == [
+        9.0,
+        11.0,
+        7.0,
+        3.0,
+        9.0,
+        13.0,
+    ]
+
 
 def test_fit_transform_other_df():
     scaler = GroupByScaler(by="tic")
@@ -36,5 +67,15 @@ def test_fit_transform_other_df():
         }
     )
     transformed_df = scaler.transform(another_dataframe)
-    assert pytest.approx(transformed_df["feature_1"].tolist()) == [7/9, 2/9, 8/9, 7/9]
-    assert pytest.approx(transformed_df["feature_2"].tolist()) == [-3.0, 0.0, -5/2, 0.2]
+    assert pytest.approx(transformed_df["feature_1"].tolist()) == [
+        7 / 9,
+        2 / 9,
+        8 / 9,
+        7 / 9,
+    ]
+    assert pytest.approx(transformed_df["feature_2"].tolist()) == [
+        -3.0,
+        0.0,
+        -5 / 2,
+        0.2,
+    ]

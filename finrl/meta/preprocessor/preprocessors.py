@@ -39,7 +39,7 @@ def convert_to_datetime(time):
     time_fmt = "%Y-%m-%dT%H:%M:%S"
     if isinstance(time, str):
         return datetime.datetime.strptime(time, time_fmt)
-    
+
 
 class GroupByScaler(BaseEstimator, TransformerMixin):
     """Sklearn-like scaler that scales considering groups of data.
@@ -48,6 +48,7 @@ class GroupByScaler(BaseEstimator, TransformerMixin):
     with time series of multiple tickers. The scaler will fit and transform
     data for each ticker independently.
     """
+
     def __init__(self, by, scaler=MinMaxScaler, columns=None):
         """Initializes GoupBy scaler.
 
@@ -56,37 +57,37 @@ class GroupByScaler(BaseEstimator, TransformerMixin):
             scaler: Scikit-learn scaler class to be used.
             columns: List of columns that will be scaled.
         """
-        self.scalers = {} # dictionary with scalers
+        self.scalers = {}  # dictionary with scalers
         self.by = by
         self.scaler = scaler
         self.columns = columns
 
-    def fit(self, X, y = None):
+    def fit(self, X, y=None):
         """Fits the scaler to input data.
 
         Args:
             X: DataFrame to fit.
             y: Not used.
-        
+
         Returns:
             Fitted GroupBy scaler.
         """
         # if columns aren't specified, considered all numeric columns
         if self.columns is None:
-            self.columns = X.select_dtypes(exclude=['object']).columns
+            self.columns = X.select_dtypes(exclude=["object"]).columns
         # fit one scaler for each group
         for value in X[self.by].unique():
             X_group = X.loc[X[self.by] == value, self.columns]
             self.scalers[value] = self.scaler().fit(X_group)
         return self
 
-    def transform(self, X, y = None):
+    def transform(self, X, y=None):
         """Transforms unscaled data.
 
         Args:
             X: DataFrame to transform.
             y: Not used.
-        
+
         Returns:
             Transformed DataFrame.
         """
@@ -94,8 +95,11 @@ class GroupByScaler(BaseEstimator, TransformerMixin):
         X = X.copy()
         for value in X[self.by].unique():
             select_mask = X[self.by] == value
-            X.loc[select_mask, self.columns] = self.scalers[value].transform(X.loc[select_mask, self.columns])
+            X.loc[select_mask, self.columns] = self.scalers[value].transform(
+                X.loc[select_mask, self.columns]
+            )
         return X
+
 
 class FeatureEngineer:
     """Provides methods for preprocessing the stock price data
