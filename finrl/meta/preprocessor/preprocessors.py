@@ -5,9 +5,10 @@ from multiprocessing.sharedctypes import Value
 
 import numpy as np
 import pandas as pd
-from stockstats import StockDataFrame as Sdf
-from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.base import BaseEstimator
+from sklearn.base import TransformerMixin
 from sklearn.preprocessing import MinMaxScaler
+from stockstats import StockDataFrame as Sdf
 
 from finrl import config
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader

@@ -370,7 +370,7 @@ class GPM(nn.Module):
                     RGCNConv(feature_size, feature_size, num_relations),
                     "x, edge_index, edge_type -> x",
                 ),
-                nn.LeakyReLU()
+                nn.LeakyReLU(),
             ]
 
         self.gcn = Sequential("x, edge_index, edge_type", graph_layers_list)
