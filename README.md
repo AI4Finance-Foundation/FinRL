@@ -287,20 +287,6 @@ We published [FinRL papers](http://tensorlet.org/projects/ai-in-finance/) that a
 
 Welcome to **AI4Finance** community!
 
-Discuss FinRL via [AI4Finance mailing list](https://groups.google.com/u/1/g/ai4finance) and AI4Finance Slack channel:
-
-
-<a href="https://join.slack.com/t/ai4financeworkspace/shared_invite/zt-v670l1jm-dzTgIT9fHZIjjrqprrY0kg" target="\_blank">
-	<div align="center">
-		<img src=figs/join_slack.png width="35%"/>
-	</div>
-</a>
-<b>Follow us on WeChat:</b>
-	<div align="center">
-		<img src=http://www.tensorlet.org/wp-content/uploads/2021/01/qrcode_for_gh_feece88824ab_258.jpg width="25%" />
-	</div>
-</b>
-
 Please check [Contributing Guidances](https://github.com/AI4Finance-Foundation/FinRL-Tutorials/blob/master/Contributing.md).
 
 ### Contributors
@@ -310,19 +296,6 @@ Thank you!
 <a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
 </a>
-
-### Sponsorship
-
-Welcome gift money to support AI4Finance, a non-profit community.
-
-Network: USDT-TRC20
-
-<a target="\_blank">
-	<div align="center">
-		<img src=figs/okx.jpeg width="35%"/>
-	</div>
-</a>
-
 
 
 ## LICENSE
