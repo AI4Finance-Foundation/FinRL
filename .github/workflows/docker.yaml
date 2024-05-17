@@ -13,7 +13,7 @@ permissions:
   
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: fein-base
+  REGISTRY_IMAGE: grantchiu/fein-base
   IMAGE_TAG: latest
 
 jobs:
@@ -55,14 +55,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push by digest
+        name: Build and push
         id: build
         uses: docker/build-push-action@v5
         with:
-          context: .
-          platforms: ${{ matrix.platform }}
-          labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          # context: .
+          push: true
+          # labels: ${{ steps.meta.outputs.labels }}
+          # outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
           tags: ${{ steps.meta.outputs.tags }}
   #     -
   #       name: Export digest

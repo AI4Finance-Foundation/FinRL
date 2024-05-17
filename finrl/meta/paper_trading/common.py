@@ -671,9 +671,9 @@ class DRLAgent:
                 action = (
                     a_tensor.detach().cpu().numpy()[0]
                 )  # not need detach(), because with torch.no_grad() outside
-                logbook.Logger('DRL_prediction').info (f"action {action}")
+                # logbook.Logger('DRL_prediction').info (f"action {action}")
                 state, reward, done, _ = environment.step(action)
-                logbook.Logger('DRL_prediction').info (f"reward {reward}, done {done}, state {state}")
+                # logbook.Logger('DRL_prediction').info (f"reward {reward}, done {done}, state {state}")
 
                 total_asset = (
                     environment.amount

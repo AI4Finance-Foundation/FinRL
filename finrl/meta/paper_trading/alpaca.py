@@ -114,6 +114,12 @@ class PaperTradingAlpaca:
             self.time_interval = 60 * 5
         elif time_interval == "15Min":
             self.time_interval = 60 * 15
+        elif time_interval == "1Hour":
+            self.time_interval = 60 * 1
+        elif time_interval == "3Hour":
+            self.time_interval = 60 * 3
+        elif time_interval == "6Hour":
+            self.time_interval = 60 * 6
         else:
             raise ValueError("Time interval input is NOT supported yet.")
 
@@ -306,7 +312,7 @@ class PaperTradingAlpaca:
         alpaca = AlpacaProcessor(api=self.alpaca)
         price, tech, turbulence = alpaca.fetch_latest_data(
             ticker_list=self.stockUniverse,
-            time_interval="1Min",
+            time_interval="`1Min`",  # "1Min", "5Min", "15Min", "1H", "1D
             tech_indicator_list=self.tech_indicator_list,
         )
         turbulence_bool = 1 if turbulence >= self.turbulence_thresh else 0
