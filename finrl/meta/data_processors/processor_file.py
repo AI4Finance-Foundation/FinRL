@@ -1,3 +1,4 @@
+import os
 import logbook
 import pandas as pd
 import numpy as np
@@ -13,15 +14,26 @@ class FileProcessor:
             self.logger.error(e)
 
 
-    def download_data(self, ticker_list, start_date, end_date, time_interval, file_path: str = DATA_SAVE_DIR + "raw.csv") -> pd.DataFrame:
+    def download_data(self, ticker_list, start_date, end_date, time_interval, directory_path: str = DATA_SAVE_DIR ) -> pd.DataFrame:
         self.logger.info ( f"Loading data from {file_path}")
-        data = pd.read_csv(file_path,
-                parse_dates=['timestamp'],
-                infer_datetime_format=True,
-                index_col=0, 
-                date_parser=lambda x: pd.to_datetime(x, utc=True).tz_convert('America/New_York')
-            )
-        return data;
+        
+        dfs = []
+        # Loop through all files in the directory
+        for filename in os.listdir(directory_path):
+            if filename.endswith('.csv'):
+                # Construct the full file path
+                file_path = os.path.join(directory_path, filename)
+                
+                # Read the CSV file and append the DataFrame to the list
+                dfs.append(pd.read_csv(file_path,
+                    parse_dates=['timestamp'],
+                    infer_datetime_format=True,
+                    index_col=0, 
+                    date_parser=lambda x: pd.to_datetime(x, utc=True).tz_convert('America/New_York')
+                ))
+
+        combined_df = pd.concat(dfs, ignore_index=True)
+        return combined_df;
 
     def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.dropna()
