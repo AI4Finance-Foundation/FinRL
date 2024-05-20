@@ -13,7 +13,7 @@ class FileProcessor:
             self.logger.error(e)
 
 
-    def download_data(self, file_path: str = DATA_SAVE_DIR + "raw.csv") -> pd.DataFrame:
+    def download_data(self, ticker_list, start_date, end_date, time_interval, file_path: str = DATA_SAVE_DIR + "raw.csv") -> pd.DataFrame:
         self.logger.info ( f"Loading data from {file_path}")
         data = pd.read_csv(file_path,
                 parse_dates=['timestamp'],
