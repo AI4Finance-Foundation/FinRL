@@ -31,7 +31,7 @@ class FileProcessor:
                 # Read the CSV file and append the DataFrame to the list
                 dfs.append(pd.read_csv(file_path,
                     parse_dates=['timestamp'],
-                    infer_datetime_format=True,
+                    # infer_datetime_format=True,
                     index_col=0, 
                     date_parser=lambda x: pd.to_datetime(x, utc=True).tz_convert('America/New_York')
                 ))
