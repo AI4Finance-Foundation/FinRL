@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import logbook
 
-
+from finrl.meta.data_processors.processor_file import FileProcessor
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
 from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.meta.data_processors.processor_yahoofinance import (
@@ -32,6 +32,9 @@ class DataProcessor:
 
         elif data_source == "yahoofinance":
             self.processor = YahooFinance()
+
+        elif data_source == 'file':
+            self.processor = FileProcessor()
 
         else:
             raise ValueError("Data source input is NOT supported yet.")
