@@ -9,7 +9,6 @@ from finrl.config import (
 class FileProcessor:
     def __init__(self, directory_path: str) -> None:
         try:
-            print ( self)
             self.logger = logbook.Logger(self.__class__.__name__)
             self.directory_path = directory_path
         except Exception as e:
