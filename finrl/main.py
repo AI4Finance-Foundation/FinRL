@@ -85,10 +85,9 @@ def main() -> int:
             drl_lib="elegantrl",
             env=env,
             model_name="ppo",
-            # cwd="./test_ppo",
             cwd=os.getenv("TRAINED_MODEL_DIR", TRAINED_MODEL_DIR),
             erl_params=ERL_PARAMS,
-            break_step=1e5,
+            break_step= int(os.getenv("BREAK_STEP", 1e5)),
             kwargs=kwargs,
         )
     elif options.mode == "test":
@@ -99,6 +98,9 @@ def main() -> int:
         # demo for elegantrl
         # in current meta, with respect yahoofinance, kwargs is {}. For other data sources, such as joinquant, kwargs is not empty
         kwargs = {}
+
+        print ( os.getenv("TEST_START_DATE", TEST_START_DATE))
+        print ( os.getenv("TEST_END_DATE", TEST_END_DATE))
 
         account_value_erl = test(  # noqa
             start_date=os.getenv("TEST_START_DATE", TEST_START_DATE),
