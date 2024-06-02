@@ -180,7 +180,7 @@ class EI3(nn.Module):
 
         self.mid_term = nn.Sequential(
             nn.Conv2d(
-                in_channels=3, out_channels=conv_mid_features, kernel_size=(1, k_medium)
+                in_channels=initial_features, out_channels=conv_mid_features, kernel_size=(1, k_medium)
             ),
             nn.ReLU(),
             nn.Conv2d(
@@ -348,7 +348,7 @@ class GPM(nn.Module):
 
         self.mid_term = nn.Sequential(
             nn.Conv2d(
-                in_channels=3, out_channels=conv_mid_features, kernel_size=(1, k_medium)
+                in_channels=initial_features, out_channels=conv_mid_features, kernel_size=(1, k_medium)
             ),
             nn.ReLU(),
             nn.Conv2d(
