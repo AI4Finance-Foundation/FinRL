@@ -324,6 +324,8 @@ class PaperTradingAlpaca:
         tech = tech * 2**-7
         positions = self.alpaca.list_positions()
         stocks = [0] * len(self.stockUniverse)
+        
+        # filter positions in stockUniverse
         def filter_positions(position):
             return position.symbol in self.stockUniverse
         filtered_positions = list(filter(filter_positions, positions))
