@@ -99,19 +99,20 @@ class YahooFinanceProcessor:
         delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
+            current_tic_start_date = start_date
             while (
-                start_date <= end_date
+                current_tic_start_date <= end_date
             ):  # downloading daily to workaround yfinance only allowing  max 7 calendar (not trading) days of 1 min data per single download
                 temp_df = yf.download(
                     tic,
-                    start=start_date,
-                    end=start_date + delta,
+                    start=current_tic_start_date,
+                    end=current_tic_start_date + delta,
                     interval=self.time_interval,
                     proxy=proxy,
                 )
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
-                start_date += delta
+                current_tic_start_date += delta
 
         data_df = data_df.reset_index().drop(columns=["Adj Close"])
         # convert the column names to match processor_alpaca.py as far as poss
