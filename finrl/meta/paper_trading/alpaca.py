@@ -324,7 +324,13 @@ class PaperTradingAlpaca:
         tech = tech * 2**-7
         positions = self.alpaca.list_positions()
         stocks = [0] * len(self.stockUniverse)
-        for position in positions:
+        
+        # filter positions in stockUniverse
+        def filter_positions(position):
+            return position.symbol in self.stockUniverse
+        filtered_positions = list(filter(filter_positions, positions))
+
+        for position in filtered_positions:
             ind = self.stockUniverse.index(position.symbol)
             stocks[ind] = abs(int(float(position.qty)))
 

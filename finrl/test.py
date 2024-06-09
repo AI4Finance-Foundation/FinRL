@@ -45,7 +45,7 @@ def test(
     # load elegantrl needs state dim, action dim and net dim
     net_dimension = kwargs.get("net_dimension", 2**7)
     cwd = kwargs.get("cwd", "./" + str(model_name))
-    print("price_array: ", len(price_array))
+    print("hihi price_array: ", len(price_array))
 
     if drl_lib == "elegantrl":
         from finrl.agents.elegantrl.models import DRLAgent as DRLAgent_erl
@@ -56,6 +56,7 @@ def test(
             net_dimension=net_dimension,
             environment=env_instance,
         )
+        print ( f"episode_total_assets: {episode_total_assets}")
         return episode_total_assets
     elif drl_lib == "rllib":
         from finrl.agents.rllib.models import DRLAgent as DRLAgent_rllib
