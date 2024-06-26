@@ -34,7 +34,7 @@ class DataProcessor:
             self.processor = YahooFinance()
 
         elif data_source == 'file':
-            self.processor = FileProcessor()
+            self.processor = FileProcessor( kwargs.get("data_path", '/data/stocks/datasets/'))
 
         else:
             raise ValueError("Data source input is NOT supported yet.")
