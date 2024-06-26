@@ -1,4 +1,5 @@
 {
+  "name": "finrl",
   "build": {
       "dockerfile": "Dockerfile",
       "context": ".."
