@@ -464,3 +464,6 @@ class AlpacaProcessor:
         turb_df = self.api.get_bars(["VIXY"], time_interval, limit=1).df
         latest_turb = turb_df["close"].values
         return latest_price, latest_tech, latest_turb
+
+    def close_conn(self):
+        self.logger.info("Connection closed")
