@@ -2,20 +2,13 @@
 # Setup Alpaca Paper trading environment
 from __future__ import annotations
 
-import datetime
-import threading
-import time
+
 import logbook
 
 import alpaca_trade_api as tradeapi
-import gym
-import numpy as np
-import pandas as pd
-import torch
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.meta.paper_trading.broker import IBroker
-from finrl.meta.paper_trading.common import AgentPPO
 
 
 class PaperTradingAlpaca(IBroker):
