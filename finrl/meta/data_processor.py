@@ -10,6 +10,7 @@ from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
+from finrl.meta.data_processors.processor_futu import FutuProcessor
 
 
 class DataProcessor:
@@ -32,9 +33,12 @@ class DataProcessor:
 
         elif data_source == "yahoofinance":
             self.processor = YahooFinance()
+        
+        elif data_source == "futu":
+            self.processor = FutuProcessor()
 
         elif data_source == 'file':
-            self.processor = FileProcessor()
+            self.processor = FileProcessor( kwargs.get("data_path", '/data/stocks/datasets/'))
 
         else:
             raise ValueError("Data source input is NOT supported yet.")
@@ -101,3 +105,6 @@ class DataProcessor:
         tech_array[tech_inf_positions] = 0
 
         return price_array, tech_array, turbulence_array
+
+    def close_conn(self):
+        self.processor.close_conn()
