@@ -12,7 +12,7 @@ import torch
 
 from finrl.meta.paper_trading.broker import IBroker
 from finrl.meta.data_processors.processor_futu import FutuProcessor
-from futu import *
+from futu import TrdEnv, SysConfig, OpenSecTradeContext, TrdMarket, SecurityFirm
 from exchange_calendars import get_calendar
 
 class PaperTradingFutu(IBroker):
@@ -24,6 +24,8 @@ class PaperTradingFutu(IBroker):
         SysConfig.set_init_rsa_file("futu.pem")
         self.trd_ctx = OpenSecTradeContext(filter_trdmarket=TrdMarket.HK, host=host, port=port, security_firm=SecurityFirm.FUTUSECURITIES)
         self.processor = FutuProcessor()    
+
+        self.pwd_unlock = '123456'
 
     # https://openapi.futunn.com/futu-api-doc/en/trade/get-order-list.html
 
@@ -49,10 +51,21 @@ class PaperTradingFutu(IBroker):
 
     def cancel_order(self, order_id):
         self.logger.info ( f"cancel order {order_id}")
+        ret, data = trd_ctx.unlock_trade(self.pwd_unlock)  # If you use a live trading account to modify or cancel an order, you need to unlock the account first. The example here is to cancel an order on a paper trading account, and unlocking is not necessary.
+        if ret == RET_OK:
+            ret, data = trd_ctx.modify_order(ModifyOrderOp.CANCEL, order_id, 0, 0)
+            if ret == RET_OK:
+                self.logger.info ( data)
+                self.logger.info ( data['order_id'][0])  # Get the order ID of the modified order
+                self.logger.info ( data['order_id'].values.tolist())  # Convert to list
+            else:
+                self.logger.info ( 'modify_order error: ', data)
+        else:
+            self.logger.info ( 'unlock_trade failed: ', data)
         
 
     def get_clock(self):
-        self.logger.info ( f"get clock")
+        self.logger.info ( "get clock")
         now = datetime.now()
         is_open = False
 
@@ -88,6 +101,14 @@ class PaperTradingFutu(IBroker):
         
     def list_positions(self):
         self.logger.info ( f"list postitions")
+        ret, data = self.trd_ctx.position_list_query()
+        if ret == RET_OK:
+            self.logger.info ( data)
+            if data.shape[0] > 0:  # 如果持仓列表不为空
+                self.logger.info ( data['stock_name'][0])  # 获取持仓第一个股票名称
+                self.logger.info ( data['stock_name'].values.tolist())  # 转为 list
+        else:
+            self.logger.info ( 'position_list_query error: ', data)
     
     def get_account(self):
         self.logger.info ( f"get account")
@@ -100,11 +121,9 @@ class PaperTradingFutu(IBroker):
             self.logger.info ( data['cash'])
             return data 
         else:
-            self.logger.info('accinfo_query error: ', data)
+            self.logger.info ('accinfo_query error: ', data)
 
-    def close_conn(self):
-        self.trd_ctx.close()
-        self.processor.close_conn()
+    
         
 
     def fetch_latest_data(self, ticker_list, time_interval, tech_indicator_list):
@@ -117,7 +136,23 @@ class PaperTradingFutu(IBroker):
 
     def submit_order(self, stock, qty, order_type, time_in_force):
         self.logger.info ( f"submit order {stock} {qty} {order_type} {time_in_force}")
+        
+        ret, data = self.trd_ctx.unlock_trade(self.pwd_unlock)  # If you use a live trading account to place an order, you need to unlock the account first. The example here is to place an order on a paper trading account, and unlocking is not necessary.
+        if ret == RET_OK || ret == RET_ERROR:
+            ret, data = trd_ctx.place_order(price=0.0, qty=qtr, code=stock, trd_side=TrdSide.BUY, trd_env=TrdEnv.SIMULATE)
+            if ret == RET_OK:
+                self.logger.info ( data)
+                self.logger.info ( data['order_id'][0])  # Get the order ID of the placed order
+                self.logger.info ( data['order_id'].values.tolist())  # Convert to list
+            else:
+                self.logger.info ( 'place_order error: ', data)
+        else:
+            self.logger.info ( 'unlock_trade failed: ', data)
+        
 
+    def close_conn(self):
+        self.trd_ctx.close()
+        self.processor.close_conn()
 
 
 @attr.s(auto_attribs=True)
