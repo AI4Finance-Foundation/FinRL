@@ -39,7 +39,6 @@ class DataProcessor:
             self.processor = FutuProcessor()
 
         elif data_source == "polygon":
-            # self.processor = PolygonProcessor(api_key="XXjj7pIigTo6OrQsxi0L7pnBt83EU5b7")
             self.processor = PolygonProcessor(api_key=kwargs.get("POLYGON_API_KEY"))
 
         elif data_source == 'file':
