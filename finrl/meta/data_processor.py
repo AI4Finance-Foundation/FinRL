@@ -83,16 +83,6 @@ class DataProcessor:
 
         return df
 
-    def add_turbulence(self, df) -> pd.DataFrame:
-        df = self.processor.add_turbulence(df)
-
-        return df
-
-    def add_vix(self, df) -> pd.DataFrame:
-        df = self.processor.add_vix(df)
-
-        return df
-
     def add_vixor(self, df) -> pd.DataFrame:
         df = self.processor.add_vixor(df)
 
