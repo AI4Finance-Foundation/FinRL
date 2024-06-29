@@ -25,7 +25,7 @@ class DataProcessor:
                 self.logger = logbook.Logger(type(self).__name__)
                 self.logger.info("Alpaca successfully connected")
             except BaseException:
-                raise ValueError("Please input correct account info for alpaca!")
+                raise ValueError("Please input correct account info for data processor!") from None
             except Exception as e:
                 self.logger.error(e)
 
