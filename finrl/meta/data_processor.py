@@ -24,8 +24,8 @@ class DataProcessor:
                 self.processor = Alpaca(API_KEY, API_SECRET, API_BASE_URL)
                 self.logger = logbook.Logger(type(self).__name__)
                 self.logger.info("Alpaca successfully connected")
-            except BaseException:
-                raise ValueError("Please input correct account info for alpaca!")
+            except BaseException as e:
+                raise ValueError("Please input correct account info for alpaca!") from e
             except Exception as e:
                 self.logger.error(e)
 
@@ -70,16 +70,6 @@ class DataProcessor:
     def add_technical_indicator(self, df, tech_indicator_list) -> pd.DataFrame:
         self.tech_indicator_list = tech_indicator_list
         df = self.processor.add_technical_indicator(df, tech_indicator_list)
-
-        return df
-
-    def add_turbulence(self, df) -> pd.DataFrame:
-        df = self.processor.add_turbulence(df)
-
-        return df
-
-    def add_vix(self, df) -> pd.DataFrame:
-        df = self.processor.add_vix(df)
 
         return df
 
