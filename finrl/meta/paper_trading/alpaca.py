@@ -41,11 +41,11 @@ class PaperTradingAlpaca(IBroker):
         return self.alpaca.get_account()
 
     def close_conn(self):
-        self.logger.info ( f"close connection")
+        self.logger.info ( "close connection")
         
 
     def fetch_latest_data(self, ticker_list, time_interval, tech_indicator_list):
-        self.logger.info ( f"fetch latest data!!!")
+        self.logger.info ( "fetch latest data!!!")
         data = self.processor.fetch_latest_data(
             ticker_list=ticker_list,
             time_interval=time_interval, # "1Min", "5Min", "15Min", "1H", "1D
