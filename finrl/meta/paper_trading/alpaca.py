@@ -12,13 +12,11 @@ from finrl.meta.paper_trading.broker import IBroker
 
 
 class PaperTradingAlpaca(IBroker):
-    def __init__(
-        self,
-        def __init__(self, alpaca_api_key, alpaca_api_secret, alpaca_api_base_url):
+    def __init__( self, alpaca_api_key, alpaca_api_secret, alpaca_api_base_url):
         self.logger = logbook.Logger(self.__class__.__name__)
 
-        self.alpaca = tradeapi.REST(ALPACA_API_KEY, ALPACA_API_SECRET, ALPACA_API_BASE_URL, "v2")
-        self.processor = AlpacaProcessor(ALPACA_API_KEY, ALPACA_API_SECRET, ALPACA_API_BASE_URL)
+        self.alpaca = tradeapi.REST(alpaca_api_key, alpaca_api_secret, alpaca_api_base_url, "v2")
+        self.processor = AlpacaProcessor(alpaca_api_key, alpaca_api_secret, alpaca_api_base_url)
     
 
     def list_orders(self, status="open"):
