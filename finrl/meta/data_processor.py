@@ -7,6 +7,7 @@ import logbook
 from finrl.meta.data_processors.processor_file import FileProcessor
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
 from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
+from finrl.meta.data_processors.processor_polygon import PolygonProcessor
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
@@ -36,6 +37,9 @@ class DataProcessor:
         
         elif data_source == "futu":
             self.processor = FutuProcessor()
+
+        elif data_source == "polygon":
+            self.processor = PolygonProcessor(api_key=kwargs.get("POLYGON_API_KEY"))
 
         elif data_source == 'file':
             self.processor = FileProcessor( kwargs.get("data_path", '/data/stocks/datasets/'))

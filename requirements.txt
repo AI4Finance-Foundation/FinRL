@@ -57,3 +57,6 @@ yfinance
 
 logbook>=1.7.0
 python-dotenv>=1.0.1
+
+# https://github.com/polygon-io/client-python
+polygon-api-client
