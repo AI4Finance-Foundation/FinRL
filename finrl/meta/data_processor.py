@@ -24,8 +24,8 @@ class DataProcessor:
                 self.processor = Alpaca(API_KEY, API_SECRET, API_BASE_URL)
                 self.logger = logbook.Logger(type(self).__name__)
                 self.logger.info("Alpaca successfully connected")
-            except BaseException:
-                raise ValueError("Please input correct account info for alpaca!")
+            except BaseException as e:
+                raise ValueError("Please input correct account info for alpaca!") from e
             except Exception as e:
                 self.logger.error(e)
 
