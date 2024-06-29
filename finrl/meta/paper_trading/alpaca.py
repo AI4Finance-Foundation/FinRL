@@ -46,8 +46,6 @@ class PaperTradingAlpaca(IBroker):
 
     def fetch_latest_data(self, ticker_list, time_interval, tech_indicator_list):
         self.logger.info ( f"fetch latest data!!!")
-        (array([214.12]), array([ 5.70769136e-03,  2.14227649e+02,  2.14112931e+02,  4.99760911e+01,
-       -1.93160228e+01,  5.72512439e+01,  2.14190193e+02,  2.14109930e+02]), array([10.78]))
         data = self.processor.fetch_latest_data(
             ticker_list=ticker_list,
             time_interval=time_interval, # "1Min", "5Min", "15Min", "1H", "1D
