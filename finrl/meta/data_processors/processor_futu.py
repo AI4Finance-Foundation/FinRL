@@ -17,12 +17,11 @@ from stockstats import StockDataFrame as Sdf
 from finrl.meta.data_processors.schemas import DownloadDataSchema
 
 class FutuProcessor:
-    def __init__(self):
-        self.host = 'futu-opend'
-        self.port = 11111
+    def __init__(self, host='futu-opend', port=11111):
+        
         SysConfig.enable_proto_encrypt(True)
         SysConfig.set_init_rsa_file("futu.pem")
-        self.quote_ctx = OpenQuoteContext(host=self.host, port=self.port)
+        self.quote_ctx = OpenQuoteContext(host=host, port=port)
         self.logger = logbook.Logger(type(self).__name__)
 
     def _fetch_data_for_ticker(self, ticker, start_date, end_date, time_interval):

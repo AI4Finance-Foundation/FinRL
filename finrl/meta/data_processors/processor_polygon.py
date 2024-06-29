@@ -25,7 +25,7 @@ class DataProcessor:
                 self.logger = logbook.Logger(type(self).__name__)
                 self.logger.info("Alpaca successfully connected")
             except BaseException:
-                raise ValueError("Please input correct account info for alpaca!")
+                raise ValueError("Please input correct account info for data processor!") from None
             except Exception as e:
                 self.logger.error(e)
 
@@ -75,27 +75,14 @@ class DataProcessor:
 
     def add_turbulence(self, df) -> pd.DataFrame:
         df = self.processor.add_turbulence(df)
-
         return df
 
     def add_vix(self, df) -> pd.DataFrame:
         df = self.processor.add_vix(df)
-
-        return df
-
-    def add_turbulence(self, df) -> pd.DataFrame:
-        df = self.processor.add_turbulence(df)
-
-        return df
-
-    def add_vix(self, df) -> pd.DataFrame:
-        df = self.processor.add_vix(df)
-
         return df
 
     def add_vixor(self, df) -> pd.DataFrame:
         df = self.processor.add_vixor(df)
-
         return df
 
     def df_to_array(self, df, if_vix) -> np.array:

@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import pytz
 from stockstats import StockDataFrame as Sdf
-
+from finrl.meta.data_processors.schemas import DownloadDataSchema
 import logbook
 
 
@@ -99,7 +99,13 @@ class AlpacaProcessor:
         # Reset the index and drop the old index column
         data_df = data_df.reset_index(drop=True)
 
-        return data_df
+        print ( data_df)
+        print ( data_df.dtypes)
+        print ( data_df.index)
+        
+        return DownloadDataSchema.validate(data_df)
+
+        # return data_df
 
     @staticmethod
     def clean_individual_ticker(args):
