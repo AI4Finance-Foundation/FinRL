@@ -137,8 +137,8 @@ class PaperTradingFutu(IBroker):
     def submit_order(self, stock, qty, order_type, time_in_force):
         self.logger.info ( f"submit order {stock} {qty} {order_type} {time_in_force}")
         
-        ret, data = self.trd_ctx.unlock_trade(self.pwd_unlock)  # If you use a live trading account to place an order, you need to unlock the account first. The example here is to place an order on a paper trading account, and unlocking is not necessary.
-        if ret == RET_OK || ret == RET_ERROR:
+         , data = self.trd_ctx.unlock_trade(self.pwd_unlock)  # If you use a live trading account to place an order, you need to unlock the account first. The example here is to place an order on a paper trading account, and unlocking is not necessary.
+        if ret == RET_OK or ret == RET_ERROR:
             ret, data = trd_ctx.place_order(price=0.0, qty=qtr, code=stock, trd_side=TrdSide.BUY, trd_env=TrdEnv.SIMULATE)
             if ret == RET_OK:
                 self.logger.info ( data)
