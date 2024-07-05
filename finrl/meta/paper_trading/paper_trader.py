@@ -107,7 +107,11 @@ class PaperTrader:
                     alpaca_api_secret=argv["ALPACA_API_SECRET"],
                     alpaca_api_base_url=argv["ALPACA_API_BASE_URL"])
             elif ( broker == "futu"):
-                self.broker = PaperTradingFutu()
+                self.broker = PaperTradingFutu(
+                    host = argv["FUTU_HOST"],
+                    port = argv["FUTU_PORT"],
+                    pwd_unlock = argv["FUTU_PWD_UNLOCK"]
+                )
             else:
                 raise ValueError("Broker input is NOT supported yet.")
         except Exception as e:

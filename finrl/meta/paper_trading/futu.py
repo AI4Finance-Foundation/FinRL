@@ -16,7 +16,7 @@ from futu import TrdEnv, SysConfig, OpenSecTradeContext, TrdMarket, SecurityFirm
 from exchange_calendars import get_calendar
 
 class PaperTradingFutu(IBroker):
-    def __init__(self, host = 'futu-opend', port = 11111):
+    def __init__(self, host = 'futu-opend', port = 11111, pwd_unlock = ''):
         
         self.logger = logbook.Logger(self.__class__.__name__)
         self.trd_env = TrdEnv.SIMULATE # important!
@@ -25,7 +25,7 @@ class PaperTradingFutu(IBroker):
         self.trd_ctx = OpenSecTradeContext(filter_trdmarket=TrdMarket.HK, host=host, port=port, security_firm=SecurityFirm.FUTUSECURITIES)
         self.processor = FutuProcessor()    
 
-        self.pwd_unlock = '123456'
+        self.pwd_unlock = pwd_unlock
 
     # https://openapi.futunn.com/futu-api-doc/en/trade/get-order-list.html
 
