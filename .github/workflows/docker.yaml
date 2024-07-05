@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - main
-      - feat/*
 
 permissions:
   id-token: write

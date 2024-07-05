@@ -1,70 +1,79 @@
 from __future__ import annotations
 
-from concurrent.futures import ProcessPoolExecutor
-from concurrent.futures import ThreadPoolExecutor
+import numpy as np
+import pandas as pd
+import logbook
 
 import alpaca_trade_api as tradeapi
 import exchange_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
+
+from futu import *
+from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from stockstats import StockDataFrame as Sdf
 from finrl.meta.data_processors.schemas import DownloadDataSchema
-import logbook
 
-
-class AlpacaProcessor:
-    def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, api=None):
-        try:
-            self.logger = logbook.Logger(type(self).__name__)
-            if api is None:
-                try:
-                    self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
-                    
-                except BaseException:
-                    raise ValueError("Wrong Account Info!")
-                except Exception as e:
-                    self.logger.error(f"Error initializing Alpaca API: {e}")
-            else:
-                self.api = api
-        except Exception as e:
-            self.logger.error(str(e))
+class FutuProcessor:
+    def __init__(self, host='futu-opend', port=11111):
         
+        SysConfig.enable_proto_encrypt(True)
+        SysConfig.set_init_rsa_file("futu.pem")
+        self.quote_ctx = OpenQuoteContext(host=host, port=port)
+        self.logger = logbook.Logger(type(self).__name__)
 
     def _fetch_data_for_ticker(self, ticker, start_date, end_date, time_interval):
-        bars = self.api.get_bars(
-            ticker,
-            time_interval,
-            start=start_date.isoformat(),
-            end=end_date.isoformat(),
-        ).df
-        bars["symbol"] = ticker
-        return bars
+        self.logger.info(f"Fetching data for {ticker}")
+        max_count = 1000
+        all_data = pd.DataFrame()
+        ret, data, page_req_key = self.quote_ctx.request_history_kline(ticker, start=start_date, end=end_date, max_count=max_count, ktype=KLType.K_1M) # 5 per page, request the first page
+        if ret == RET_OK:
+            all_data = pd.concat([all_data, data], ignore_index=True)
+        else:
+            self.logger.error('error:', data)
+
+        while page_req_key != None: # Request all results after
+            ret, data, page_req_key = self.quote_ctx.request_history_kline(ticker, start=start_date, end=end_date, max_count=max_count ,page_req_key=page_req_key, ktype=KLType.K_1M) # Request the page after turning data
+            if ret == RET_OK:
+                all_data = pd.concat([all_data, data], ignore_index=True)
+            else:
+                self.logger.error('error:', data)
+        self.logger.info('All pages are finished!')
+        
+        
+        
+        all_data = all_data.rename(columns={'time_key': 'timestamp', 'code': 'tic'})
+        all_data = all_data.filter([
+            'tic',
+            'timestamp',
+            'open',
+            'close',
+            'high',
+            'low',
+            'volume'
+        ])
+        all_data["timestamp"] = pd.to_datetime(all_data["timestamp"])
+        all_data['timestamp'] = all_data['timestamp'].dt.tz_localize('UTC').dt.tz_convert('America/New_York')
+        all_data.reset_index(drop=True)
+
+        
+        
+        self.logger.info(f"Data fetched for {ticker}")
+        return DownloadDataSchema.validate(all_data)
+
 
     def download_data(
         self, ticker_list, start_date, end_date, time_interval
     ) -> pd.DataFrame:
-        """
-        Downloads data using Alpaca's tradeapi.REST method.
-
-        Parameters:
-        - ticker_list : list of strings, each string is a ticker
-        - start_date : string in the format 'YYYY-MM-DD'
-        - end_date : string in the format 'YYYY-MM-DD'
-        - time_interval: string representing the interval ('1D', '1Min', etc.)
-
-        Returns:
-        - pd.DataFrame with the requested data
-        """
         self.start = start_date
         self.end = end_date
         self.time_interval = time_interval
 
         NY = "America/New_York"
-        start_date = pd.Timestamp(start_date + " 09:30:00", tz=NY)
-        end_date = pd.Timestamp(end_date + " 15:59:00", tz=NY)
 
-        # Use ThreadPoolExecutor to fetch data for multiple tickers concurrently
+        # data = pd.DataFrame()
         with ThreadPoolExecutor(max_workers=10) as executor:
             futures = [
                 executor.submit(
@@ -78,80 +87,39 @@ class AlpacaProcessor:
             ]
             data_list = [future.result() for future in futures]
 
+
+        
+        
         # Combine the data
         data_df = pd.concat(data_list, axis=0)
+        data_df.set_index("timestamp", inplace=True)
 
         # Convert the timezone
         data_df = data_df.tz_convert(NY)
+        
 
         # If time_interval is less than a day, filter out the times outside of NYSE trading hours
         if pd.Timedelta(time_interval) < pd.Timedelta(days=1):
             data_df = data_df.between_time("09:30", "15:59")
 
+
+        
         # Reset the index and rename the columns for consistency
         data_df = data_df.reset_index().rename(
             columns={"index": "timestamp", "symbol": "tic"}
         )
-
+        
         # Sort the data by both timestamp and tic for consistent ordering
         data_df = data_df.sort_values(by=["tic", "timestamp"])
-
+        
         # Reset the index and drop the old index column
         data_df = data_df.reset_index(drop=True)
 
-        print ( data_df)
-        print ( data_df.dtypes)
-        print ( data_df.index)
         
-        return DownloadDataSchema.validate(data_df)
+        validated_df = DownloadDataSchema.validate( data_df)
+        return data_df
 
-        # return data_df
-
-    @staticmethod
-    def clean_individual_ticker(args):
-        tic, df, times = args
-        tmp_df = pd.DataFrame(index=times)
-        tic_df = df[df.tic == tic].set_index("timestamp")
-
-        # Step 1: Merging dataframes to avoid loop
-        tmp_df = tmp_df.merge(
-            tic_df[["open", "high", "low", "close", "volume"]],
-            left_index=True,
-            right_index=True,
-            how="left",
-        )
-
-        # Step 2: Handling NaN values efficiently
-        if pd.isna(tmp_df.iloc[0]["close"]):
-            first_valid_index = tmp_df["close"].first_valid_index()
-            if first_valid_index is not None:
-                first_valid_price = tmp_df.loc[first_valid_index, "close"]
-                logbook.info(
-                    f"The price of the first row for ticker {tic} is NaN. It will be filled with the first valid price."
-                )
-                tmp_df.iloc[0] = [first_valid_price] * 4 + [0.0]  # Set volume to zero
-            else:
-                logbook.info(
-                    f"Missing data for ticker: {tic}. The prices are all NaN. Fill with 0."
-                )
-                tmp_df.iloc[0] = [0.0] * 5
-
-        for i in range(1, tmp_df.shape[0]):
-            if pd.isna(tmp_df.iloc[i]["close"]):
-                previous_close = tmp_df.iloc[i - 1]["close"]
-                tmp_df.iloc[i] = [previous_close] * 4 + [0.0]
-
-        # Setting the volume for the market opening timestamp to zero - Not needed
-        # tmp_df.loc[tmp_df.index.time == pd.Timestamp("09:30:00").time(), 'volume'] = 0.0
-
-        # Step 3: Data type conversion
-        tmp_df = tmp_df.astype(float)
-
-        tmp_df["tic"] = tic
-
-        return tmp_df
-
-    def clean_data(self, df):
+    def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         self.logger.info("Data cleaning started")
         tic_list = np.unique(df.tic.values)
         n_tickers = len(tic_list)
@@ -259,7 +227,7 @@ class AlpacaProcessor:
         self.logger.info("Finished adding Indicators")
         return df
 
-    # Allows to multithread the add_vix function for quicker execution
+
     def download_and_clean_data(self):
         vix_df = self.download_data(["VIXY"], self.start, self.end, self.time_interval)
         return self.clean_data(vix_df)
@@ -345,7 +313,7 @@ class AlpacaProcessor:
         df = data.copy()
         turbulence_index = self.calculate_turbulence(df, time_period=time_period)
         df = df.merge(turbulence_index, on="timestamp")
-        df = df.sort_values(["timestamp", "tic"]).reset_index(drop=True)
+        df = df.sort_values(["timestamp", "tic"])
         return df
 
     def df_to_array(self, df, tech_indicator_list, if_vix):
@@ -382,94 +350,54 @@ class AlpacaProcessor:
 
         return trading_days
 
+    @staticmethod
+    def clean_individual_ticker(args):
+        tic, df, times = args
+        tmp_df = pd.DataFrame(index=times)
+        tic_df = df[df.tic == tic].set_index("timestamp")
+
+        # Step 1: Merging dataframes to avoid loop
+        tmp_df = tmp_df.merge(
+            tic_df[["open", "high", "low", "close", "volume"]],
+            left_index=True,
+            right_index=True,
+            how="left",
+        )
+
+        # Step 2: Handling NaN values efficiently
+        if pd.isna(tmp_df.iloc[0]["close"]):
+            first_valid_index = tmp_df["close"].first_valid_index()
+            if first_valid_index is not None:
+                first_valid_price = tmp_df.loc[first_valid_index, "close"]
+                logbook.info(
+                    f"The price of the first row for ticker {tic} is NaN. It will be filled with the first valid price."
+                )
+                tmp_df.iloc[0] = [first_valid_price] * 4 + [0.0]  # Set volume to zero
+            else:
+                logbook.info(
+                    f"Missing data for ticker: {tic}. The prices are all NaN. Fill with 0."
+                )
+                tmp_df.iloc[0] = [0.0] * 5
+
+        for i in range(1, tmp_df.shape[0]):
+            if pd.isna(tmp_df.iloc[i]["close"]):
+                previous_close = tmp_df.iloc[i - 1]["close"]
+                tmp_df.iloc[i] = [previous_close] * 4 + [0.0]
+
+        # Setting the volume for the market opening timestamp to zero - Not needed
+        # tmp_df.loc[tmp_df.index.time == pd.Timestamp("09:30:00").time(), 'volume'] = 0.0
+
+        # Step 3: Data type conversion
+        tmp_df = tmp_df.astype(float)
+
+        tmp_df["tic"] = tic
+
+        return tmp_df
+
     def fetch_latest_data(
         self, ticker_list, time_interval, tech_indicator_list, limit=100
     ) -> pd.DataFrame:
-        data_df = pd.DataFrame()
-        for tic in ticker_list:
-            barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic]
-            barset["tic"] = tic
-            barset = barset.reset_index()
-            data_df = pd.concat([data_df, barset])
-
-        data_df = data_df.reset_index(drop=True)
-        start_time = data_df.timestamp.min()
-        end_time = data_df.timestamp.max()
-        times = []
-        current_time = start_time
-        end = end_time + pd.Timedelta(minutes=1)
-        while current_time != end:
-            times.append(current_time)
-            current_time += pd.Timedelta(minutes=1)
-
-        df = data_df.copy()
-        new_df = pd.DataFrame()
-        for tic in ticker_list:
-            tmp_df = pd.DataFrame(
-                columns=["open", "high", "low", "close", "volume"], index=times
-            )
-            tic_df = df[df.tic == tic]
-            for i in range(tic_df.shape[0]):
-                tmp_df.loc[tic_df.iloc[i]["timestamp"]] = tic_df.iloc[i][
-                    ["open", "high", "low", "close", "volume"]
-                ]
-
-                if str(tmp_df.iloc[0]["close"]) == "nan":
-                    for i in range(tmp_df.shape[0]):
-                        if str(tmp_df.iloc[i]["close"]) != "nan":
-                            first_valid_close = tmp_df.iloc[i]["close"]
-                            tmp_df.iloc[0] = [
-                                first_valid_close,
-                                first_valid_close,
-                                first_valid_close,
-                                first_valid_close,
-                                0.0,
-                            ]
-                            break
-                if str(tmp_df.iloc[0]["close"]) == "nan":
-                    self.logger.info(
-                        "Missing data for ticker: ",
-                        tic,
-                        " . The prices are all NaN. Fill with 0.",
-                    )
-                    tmp_df.iloc[0] = [
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                    ]
-
-            for i in range(tmp_df.shape[0]):
-                if str(tmp_df.iloc[i]["close"]) == "nan":
-                    previous_close = tmp_df.iloc[i - 1]["close"]
-                    if str(previous_close) == "nan":
-                        previous_close = 0.0
-                    tmp_df.iloc[i] = [
-                        previous_close,
-                        previous_close,
-                        previous_close,
-                        previous_close,
-                        0.0,
-                    ]
-            tmp_df = tmp_df.astype(float)
-            tmp_df["tic"] = tic
-            new_df = pd.concat([new_df, tmp_df])
-
-        new_df = new_df.reset_index()
-        new_df = new_df.rename(columns={"index": "timestamp"})
-
-        df = self.add_technical_indicator(new_df, tech_indicator_list)
-        df["VIXY"] = 0
-
-        price_array, tech_array, turbulence_array = self.df_to_array(
-            df, tech_indicator_list, if_vix=True
-        )
-        latest_price = price_array[-1]
-        latest_tech = tech_array[-1]
-        turb_df = self.api.get_bars(["VIXY"], time_interval, limit=1).df
-        latest_turb = turb_df["close"].values
-        return latest_price, latest_tech, latest_turb
+        pass
 
     def close_conn(self):
-        self.logger.info("Connection closed")
+        self.quote_ctx.close()

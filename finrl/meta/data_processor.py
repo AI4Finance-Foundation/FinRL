@@ -7,9 +7,11 @@ import logbook
 from finrl.meta.data_processors.processor_file import FileProcessor
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
 from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
+from finrl.meta.data_processors.processor_polygon import PolygonProcessor
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
+from finrl.meta.data_processors.processor_futu import FutuProcessor
 
 
 class DataProcessor:
@@ -22,8 +24,8 @@ class DataProcessor:
                 self.processor = Alpaca(API_KEY, API_SECRET, API_BASE_URL)
                 self.logger = logbook.Logger(type(self).__name__)
                 self.logger.info("Alpaca successfully connected")
-            except BaseException:
-                raise ValueError("Please input correct account info for alpaca!")
+            except BaseException as e:
+                raise ValueError("Please input correct account info for alpaca!") from e
             except Exception as e:
                 self.logger.error(e)
 
@@ -32,6 +34,12 @@ class DataProcessor:
 
         elif data_source == "yahoofinance":
             self.processor = YahooFinance()
+        
+        elif data_source == "futu":
+            self.processor = FutuProcessor()
+
+        elif data_source == "polygon":
+            self.processor = PolygonProcessor(api_key=kwargs.get("POLYGON_API_KEY"))
 
         elif data_source == 'file':
             self.processor = FileProcessor( kwargs.get("data_path", '/data/stocks/datasets/'))
@@ -75,16 +83,6 @@ class DataProcessor:
 
         return df
 
-    def add_turbulence(self, df) -> pd.DataFrame:
-        df = self.processor.add_turbulence(df)
-
-        return df
-
-    def add_vix(self, df) -> pd.DataFrame:
-        df = self.processor.add_vix(df)
-
-        return df
-
     def add_vixor(self, df) -> pd.DataFrame:
         df = self.processor.add_vixor(df)
 
@@ -101,3 +99,6 @@ class DataProcessor:
         tech_array[tech_inf_positions] = 0
 
         return price_array, tech_array, turbulence_array
+
+    def close_conn(self):
+        self.processor.close_conn()
