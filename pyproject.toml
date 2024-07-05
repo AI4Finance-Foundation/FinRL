@@ -40,10 +40,6 @@ stockstats = "^0.5"
 wrds = "^3"
 yfinance = "^0.2"
 logbook = "^1"
-polygon-api-client
-futu-api
-pandera
-pytz
 
 
 [tool.poetry.group.dev.dependencies]
