@@ -103,9 +103,9 @@ class PaperTrader:
         try:
             if ( broker == "alpaca"):
                 self.broker = PaperTradingAlpaca(
-                    ALPACA_API_KEY=argv["ALPACA_API_KEY"], 
-                    ALPACA_API_SECRET=argv["ALPACA_API_SECRET"],
-                    ALPACA_API_BASE_URL=argv["ALPACA_API_BASE_URL"])
+                    alpaca_api_key=argv["ALPACA_API_KEY"], 
+                    alpaca_api_secret=argv["ALPACA_API_SECRET"],
+                    alpaca_api_base_url=argv["ALPACA_API_BASE_URL"])
             elif ( broker == "futu"):
                 self.broker = PaperTradingFutu()
             else:
