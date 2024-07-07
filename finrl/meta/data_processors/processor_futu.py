@@ -17,7 +17,7 @@ from stockstats import StockDataFrame as Sdf
 from finrl.meta.data_processors.schemas import DownloadDataSchema
 
 class FutuProcessor:
-    def __init__(self, host='futu-opend', port=11111, rssa_file='futu.pem'):
+    def __init__(self, host='futu-opend', port=11111, rsa_file='futu.pem'):
         
         SysConfig.enable_proto_encrypt(True)
         SysConfig.set_init_rsa_file( rsa_file)
