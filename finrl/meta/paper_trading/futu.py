@@ -65,7 +65,6 @@ class PaperTradingFutu(IBroker):
         
 
     def get_clock(self):
-        self.logger.info ( "get clock")
         now = datetime.now()
         is_open = False
 
