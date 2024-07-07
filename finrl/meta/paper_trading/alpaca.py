@@ -28,11 +28,9 @@ class PaperTradingAlpaca(IBroker):
         return self.alpaca.cancel_order( order_id)
 
     def get_clock(self):
-        # self.logger.info ( f"get clock")
         return self.alpaca.get_clock()
         
     def list_positions(self):
-        # self.logger.info ( f"list postitions")
         return self.alpaca.list_positions()
     
 
