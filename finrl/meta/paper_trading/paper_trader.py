@@ -110,7 +110,8 @@ class PaperTrader:
                 self.broker = PaperTradingFutu(
                     host = argv["FUTU_HOST"],
                     port = argv["FUTU_PORT"],
-                    pwd_unlock = argv["FUTU_PWD_UNLOCK"]
+                    pwd_unlock = argv["FUTU_PWD_UNLOCK"],
+                    rsa_file = argv["FUTU_RSA_FILE"]
                 )
             else:
                 raise ValueError("Broker input is NOT supported yet.")

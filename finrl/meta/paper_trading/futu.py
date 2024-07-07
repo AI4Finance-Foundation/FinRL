@@ -16,14 +16,14 @@ from futu import *
 from exchange_calendars import get_calendar
 
 class PaperTradingFutu(IBroker):
-    def __init__(self, host = 'futu-opend', port = 11111, pwd_unlock = ''):
+    def __init__(self, host = 'futu-opend', port = 11111, pwd_unlock = '', rsa_file='futu.pem'):
         
         self.logger = logbook.Logger(self.__class__.__name__)
         self.trd_env = TrdEnv.SIMULATE # important!
         SysConfig.enable_proto_encrypt(True)
-        SysConfig.set_init_rsa_file("futu.pem")
+        SysConfig.set_init_rsa_file( rsa_file)
         self.trd_ctx = OpenSecTradeContext(filter_trdmarket=TrdMarket.HK, host=host, port=port, security_firm=SecurityFirm.FUTUSECURITIES)
-        self.processor = FutuProcessor(host=host, port=port)
+        self.processor = FutuProcessor(host=host, port=port, rsa_file=rsa_file)
 
         self.pwd_unlock = pwd_unlock
 
