@@ -112,6 +112,7 @@ class PaperTrader:
                     port = argv["FUTU_PORT"],
                     pwd_unlock = argv["FUTU_PWD_UNLOCK"],
                     rsa_file = argv["FUTU_RSA_FILE"]
+                    exchange = argv["EXCHANGE"] || "XNYS"
                 )
             else:
                 raise ValueError("Broker input is NOT supported yet.")

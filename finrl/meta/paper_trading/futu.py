@@ -16,7 +16,7 @@ from futu import *
 from exchange_calendars import get_calendar
 
 class PaperTradingFutu(IBroker):
-    def __init__(self, host = 'futu-opend', port = 11111, pwd_unlock = '', rsa_file='futu.pem'):
+    def __init__(self, host = 'futu-opend', port = 11111, pwd_unlock = '', rsa_file='futu.pem', exchange="XHKG"):
         
         self.logger = logbook.Logger(self.__class__.__name__)
         self.trd_env = TrdEnv.SIMULATE # important!
@@ -25,6 +25,7 @@ class PaperTradingFutu(IBroker):
         self.trd_ctx = OpenSecTradeContext(filter_trdmarket=TrdMarket.HK, host=host, port=port, security_firm=SecurityFirm.FUTUSECURITIES)
         self.processor = FutuProcessor(host=host, port=port, rsa_file=rsa_file)
 
+        self.exchange = exchange
         self.pwd_unlock = pwd_unlock
 
     # https://openapi.futunn.com/futu-api-doc/en/trade/get-order-list.html
@@ -71,7 +72,7 @@ class PaperTradingFutu(IBroker):
         # xnys = xcals.get_calendar("XNYS")  # New York Stock Exchange
         # xhkg = xcals.get_calendar("XHKG")  # Hong Kong Stock Exchange
         # https://pypi.org/project/exchange-calendars/ # calendar list
-        exchange_cal = get_calendar('XHKG')
+        exchange_cal = get_calendar( self.exchange)
 
         is_open = exchange_cal.is_trading_minute( now.strftime('%Y-%m-%d %H:%M'))
         
