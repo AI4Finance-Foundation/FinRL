@@ -239,13 +239,10 @@ class PaperTrader:
         isOpen = self.broker.get_clock().is_open
         while not isOpen:
             clock = self.broker.get_clock()
-            print ( 1)
             openingTime = clock.next_open.replace(
                 tzinfo=datetime.timezone.utc
             ).timestamp()
-            print ( 2)
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
-            print ( 3)
             timeToOpen = int((openingTime - currTime) / 60)
             self.logger.info(f"{timeToOpen} minutes til market open.")
             time.sleep(60)
