@@ -12,7 +12,7 @@ import torch
 
 from finrl.meta.paper_trading.broker import IBroker
 from finrl.meta.data_processors.processor_futu import FutuProcessor
-from futu import TrdEnv, SysConfig, OpenSecTradeContext, TrdMarket, SecurityFirm
+from futu import *
 from exchange_calendars import get_calendar
 
 class PaperTradingFutu(IBroker):
@@ -23,7 +23,7 @@ class PaperTradingFutu(IBroker):
         SysConfig.enable_proto_encrypt(True)
         SysConfig.set_init_rsa_file("futu.pem")
         self.trd_ctx = OpenSecTradeContext(filter_trdmarket=TrdMarket.HK, host=host, port=port, security_firm=SecurityFirm.FUTUSECURITIES)
-        self.processor = FutuProcessor()    
+        self.processor = FutuProcessor(host=host, port=port)
 
         self.pwd_unlock = pwd_unlock
 
@@ -76,24 +76,12 @@ class PaperTradingFutu(IBroker):
 
         is_open = exchange_cal.is_trading_minute( now.strftime('%Y-%m-%d %H:%M'))
         
-        today_sess = exchange_cal.session_open( now.strftime('%Y-%m-%d'))
-        
-        # Get the next open timestamp
-        next_open = exchange_cal.next_open(today_sess)
-
-
-        # Get the next close timestamp
-        next_close = exchange_cal.next_close(today_sess)
-        
         data = {
             "timestamp": now,
             "is_open": is_open,
-            "next_open": next_open, 
-            "next_close": next_close
+            "next_open": exchange_cal.next_open ( now.strftime('%Y-%m-%d %H:%M')), 
+            "next_close": exchange_cal.next_close ( now.strftime('%Y-%m-%d %H:%M'))
         }
-
-        print ( data)
-        
 
         return ExchangeClock.from_dict( data)
 
