@@ -43,25 +43,24 @@ class PaperTradingAlpaca(IBroker):
         
 
     def fetch_latest_data(self, ticker_list, time_interval, tech_indicator_list):
-        self.logger.info ( "fetch latest data!!!")
+        self.logger.info ( "fetch latest data")
         data = self.processor.fetch_latest_data(
             ticker_list=ticker_list,
             time_interval=time_interval, # "1Min", "5Min", "15Min", "1H", "1D
             tech_indicator_list=tech_indicator_list,
         )
     
-        self.logger.info ( f"{data} !!!")
         return data
 
-    def submit_order(self, stock, qty, order_type, time_in_force):
+    def submit_order(self, stock, qty, side, order_type, time_in_force):
         self.logger.info(f"Submitting order for {stock} with quantity {qty}, order type {order_type}, time in force {time_in_force}.")
         try:
             return self.alpaca.submit_order(
-                symbol=stock,
-                qty=qty,
-                side="buy",
-                type=order_type,
-                time_in_force=time_in_force,
+                stock,
+                qty,
+                "buy" if side == "buy" else "sell",
+                order_type,
+                time_in_force,
             )
         except Exception as e:
             self.logger.error(f"Error submitting order: {e}")
