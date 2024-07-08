@@ -43,14 +43,13 @@ class PaperTradingAlpaca(IBroker):
         
 
     def fetch_latest_data(self, ticker_list, time_interval, tech_indicator_list):
-        self.logger.info ( "fetch latest data!!!")
+        self.logger.info ( "fetch latest data")
         data = self.processor.fetch_latest_data(
             ticker_list=ticker_list,
             time_interval=time_interval, # "1Min", "5Min", "15Min", "1H", "1D
             tech_indicator_list=tech_indicator_list,
         )
     
-        self.logger.info ( f"{data} !!!")
         return data
 
     def submit_order(self, stock, qty, side, order_type, time_in_force):
