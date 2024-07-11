@@ -101,10 +101,7 @@ class FutuProcessor:
             data.reset_index(drop=True)
             data = self.add_technical_indicator(data, tech_indicator_list)
 
-            if self.if_vix:
-                data = self.add_vix(data)
-            else:
-                data = self.add_turbulence(data)
+            data = self.add_vix(data) if self.if_vix else self.add_turbulence(data)
             return DownloadDataSchema.validate(data)
         else:
             raise ValueError(f"Error fetching data for {ticker}: {data}")
