@@ -70,7 +70,6 @@ class PaperTradingFutu(IBroker):
         
 
     def get_clock(self):
-        self.logger.info ( f"get clock {self.exchange}")
         now = datetime.now()
         # now = datetime.strptime('2024-07-10 05:45:00', '%Y-%m-%d %H:%M:%S')
         is_open = False
@@ -87,20 +86,19 @@ class PaperTradingFutu(IBroker):
         
             today_sess = exchange_cal.session_open( now.strftime('%Y-%m-%d'))
             is_break = exchange_cal.is_break_minute( now.strftime('%Y-%m-%d %H:%M'))
-            
-            # Get the next open timestamp
-            next_open = exchange_cal.next_open(today_sess)
-            session_break_end = exchange_cal.session_break_end( now.strftime('%Y-%m-%d'))
 
+            next_minute = exchange_cal.next_minute( now.strftime('%Y-%m-%d %H:%M'))
+            
             # Get the next close timestamp
             next_close = exchange_cal.next_close(today_sess)
             
             data = {
                 "timestamp": now,
                 "is_open": is_open,
+                "is_open_on_minute": exchange_cal.is_open_on_minute( now.strftime('%Y-%m-%d %H:%M')),
                 "is_session": is_session,
                 "is_break": is_break,
-                "next_open": session_break_end if is_break else next_open, # if is break return break end, else return next open
+                "next_open": next_minute, # if is break return break end, else return next open
                 "next_close": next_close
             }
         else:
