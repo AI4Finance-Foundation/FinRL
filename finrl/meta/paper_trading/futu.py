@@ -16,16 +16,21 @@ from futu import *
 from exchange_calendars import get_calendar
 
 class PaperTradingFutu(IBroker):
-    def __init__(self, host = 'futu-opend', port = 11111, pwd_unlock = '', rsa_file='futu.pem'):
+    def __init__(self, host = 'futu-opend', port = 11111, pwd_unlock = '', rsa_file='futu.pem', exchange = 'XHKG'):
         
         self.logger = logbook.Logger(self.__class__.__name__)
         self.trd_env = TrdEnv.SIMULATE # important!
         SysConfig.enable_proto_encrypt(True)
         SysConfig.set_init_rsa_file( rsa_file)
+        self.logger.info ( f'PaperTradingFutu {host} {port}' )
         self.trd_ctx = OpenSecTradeContext(filter_trdmarket=TrdMarket.HK, host=host, port=port, security_firm=SecurityFirm.FUTUSECURITIES)
         self.processor = FutuProcessor(host=host, port=port, rsa_file=rsa_file)
 
         self.pwd_unlock = pwd_unlock
+
+        # https://pypi.org/project/exchange-calendars/#Calendars
+        self.exchange = exchange # exchange ISO code
+        
 
     # https://openapi.futunn.com/futu-api-doc/en/trade/get-order-list.html
 
@@ -65,50 +70,83 @@ class PaperTradingFutu(IBroker):
         
 
     def get_clock(self):
+        self.logger.info ( f"get clock {self.exchange}")
         now = datetime.now()
+        # now = datetime.strptime('2024-07-10 05:45:00', '%Y-%m-%d %H:%M:%S')
         is_open = False
 
         # xnys = xcals.get_calendar("XNYS")  # New York Stock Exchange
         # xhkg = xcals.get_calendar("XHKG")  # Hong Kong Stock Exchange
         # https://pypi.org/project/exchange-calendars/ # calendar list
-        exchange_cal = get_calendar('XHKG')
+        exchange_cal = get_calendar( self.exchange)
 
-        is_open = exchange_cal.is_trading_minute( now.strftime('%Y-%m-%d %H:%M'))
+        is_session = exchange_cal.is_session( now.strftime('%Y-%m-%d'))
+
+        if is_session:
+            is_open = exchange_cal.is_trading_minute( now.strftime('%Y-%m-%d %H:%M'))
         
-        data = {
-            "timestamp": now,
-            "is_open": is_open,
-            "next_open": exchange_cal.next_open ( now.strftime('%Y-%m-%d %H:%M')), 
-            "next_close": exchange_cal.next_close ( now.strftime('%Y-%m-%d %H:%M'))
-        }
+            today_sess = exchange_cal.session_open( now.strftime('%Y-%m-%d'))
+            is_break = exchange_cal.is_break_minute( now.strftime('%Y-%m-%d %H:%M'))
+            
+            # Get the next open timestamp
+            next_open = exchange_cal.next_open(today_sess)
+            session_break_end = exchange_cal.session_break_end( now.strftime('%Y-%m-%d'))
+
+            # Get the next close timestamp
+            next_close = exchange_cal.next_close(today_sess)
+            
+            data = {
+                "timestamp": now,
+                "is_open": is_open,
+                "is_session": is_session,
+                "is_break": is_break,
+                "next_open": session_break_end if is_break else next_open, # if is break return break end, else return next open
+                "next_close": next_close
+            }
+        else:
+            data = {
+                "timestamp": now,
+                "is_open": is_open,
+                "is_session": is_session,
+                "next_open": exchange_cal.next_open( now.strftime('%Y-%m-%d')),
+                "next_close": exchange_cal.next_close( now.strftime('%Y-%m-%d'))
+            }
 
         return ExchangeClock.from_dict( data)
 
+    # Define a function to create dynamic objects from a DataFrame row
+    def _create_position(self, row):
+        class Position:
+            def __init__(self, **kwargs):
+                for key, value in kwargs.items():
+                    setattr(self, key, value)
+
+            # def __repr__(self):
+            #     return f"{self.__class__.__name__}({', '.join(f'{k}="{v}"' for k, v in self.__dict__.items())})"
+
+        return Position(**row)
 
         
     def list_positions(self):
         self.logger.info ( f"list postitions")
+
+        
         ret, data = self.trd_ctx.position_list_query()
         if ret == RET_OK:
-            self.logger.info ( data)
-            if data.shape[0] > 0:  # 如果持仓列表不为空
-                self.logger.info ( data['stock_name'][0])  # 获取持仓第一个股票名称
-                self.logger.info ( data['stock_name'].values.tolist())  # 转为 list
+            data = data.rename(columns={'code': 'symbol', 'position_side': 'side'})
+            data['side'].str.lower()
+            return data.apply(self._create_position, axis=1).tolist()
         else:
             self.logger.info ( 'position_list_query error: ', data)
     
     def get_account(self):
-        self.logger.info ( f"get account")
-        
-        ret, data = self.trd_ctx.accinfo_query()
+        # https://openapi.futunn.com/futu-api-doc/en/trade/get-funds.html
+        ret, data = self.trd_ctx.accinfo_query(trd_env=self.trd_env)
         if ret == RET_OK:
-            self.logger.info ( data)
-            self.logger.info ( type( data))
-            self.logger.info ( data.dtypes)
-            self.logger.info ( data['cash'])
-            return data 
+            data['last_equity'] = data['market_val']
+            return data
         else:
-            self.logger.info ('accinfo_query error: ', data)
+            raise Exception(f"accinfo_query error: {data}")
 
     
         
@@ -119,22 +157,24 @@ class PaperTradingFutu(IBroker):
             ticker_list=ticker_list,
             time_interval=time_interval, # "1Min", "5Min", "15Min", "1H", "1D
             tech_indicator_list=tech_indicator_list,
+            limit=300
         )
 
     def submit_order(self, stock, qty, order_type, time_in_force):
-        self.logger.info ( f"submit order {stock} {qty} {order_type} {time_in_force}")
-        
         ret, data = self.trd_ctx.unlock_trade(self.pwd_unlock)  # If you use a live trading account to place an order, you need to unlock the account first. The example here is to place an order on a paper trading account, and unlocking is not necessary.
         if ret == RET_OK or ret == RET_ERROR:
-            ret, data = trd_ctx.place_order(price=0.0, qty=qtr, code=stock, trd_side=TrdSide.BUY, trd_env=TrdEnv.SIMULATE)
+            # https://openapi.futunn.com/futu-api-doc/en/trade/place-order.html
+            # place market order
+            ret, data = self.trd_ctx.place_order(price=0.0, qty=qty, code=stock, trd_side=TrdSide.BUY, trd_env=self.trd_env, order_type=OrderType.MARKET)
             if ret == RET_OK:
                 self.logger.info ( data)
                 self.logger.info ( data['order_id'][0])  # Get the order ID of the placed order
                 self.logger.info ( data['order_id'].values.tolist())  # Convert to list
             else:
-                self.logger.info ( 'place_order error: ', data)
+                raise Exception(f"place_order error: {data}")
+                
         else:
-            self.logger.info ( 'unlock_trade failed: ', data)
+            raise Exception(f"unlock_trade failed: {data}")
         
 
     def close_conn(self):
@@ -158,3 +198,10 @@ class ExchangeClock:
             next_open= data.get("next_open", None),
             next_close= data.get("next_close", None),
         )
+
+
+@attr.s(auto_attribs=True)
+class Position:
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
