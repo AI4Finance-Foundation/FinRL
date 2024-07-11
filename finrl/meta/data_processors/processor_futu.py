@@ -78,7 +78,9 @@ class FutuProcessor:
         
 
 
-    def _fetch_latest_data_for_ticker ( self, ticker, time_interval, limit = 100, tech_indicator_list = []):
+    def _fetch_latest_data_for_ticker ( self, ticker, time_interval, limit = 100, tech_indicator_list = None):
+        if tech_indicator_list is None:
+            tech_indicator_list = []
         self.logger.info(f"Fetching latest data for {ticker} limit {limit} time_interval {time_interval} tech_indicator_list {tech_indicator_list}")
         ret, data = self.quote_ctx.get_cur_kline( ticker, limit, KLType.K_1M, AuType.QFQ)  # 获取港股00700最近2个 K 线数据
         if ret == RET_OK:
