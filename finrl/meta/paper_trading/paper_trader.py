@@ -14,6 +14,7 @@ import pandas as pd
 import torch
 
 from abc import ABC, abstractmethod
+from datetime import timedelta
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.meta.paper_trading.alpaca import PaperTradingAlpaca
@@ -107,20 +108,19 @@ class PaperTrader:
                     alpaca_api_secret=argv["ALPACA_API_SECRET"],
                     alpaca_api_base_url=argv["ALPACA_API_BASE_URL"])
             elif ( broker == "futu"):
+                print ( f" argv: {argv}")
                 self.broker = PaperTradingFutu(
                     host = argv["FUTU_HOST"],
                     port = argv["FUTU_PORT"],
                     pwd_unlock = argv["FUTU_PWD_UNLOCK"],
-                    rsa_file = argv["FUTU_RSA_FILE"]
-                    exchange = argv["EXCHANGE"] || "XNYS"
+                    rsa_file = argv["FUTU_RSA_FILE"],
+                    exchange = argv["EXCHANGE"],
                 )
             else:
-                raise ValueError("Broker input is NOT supported yet.")
+                raise Exception("Broker input is NOT supported yet.")
         except Exception as e:
             self.logger.error ( e)
-            raise ValueError(
-                "Fail to connect Alpaca. Please check account info and internet connection."
-            )
+            raise Exception(f"Fail to connect broker: {broker}. Please check account info and internet connection. {e}")
 
         
 
@@ -199,9 +199,11 @@ class PaperTrader:
             closingTime = clock.next_close.replace(
                 tzinfo=datetime.timezone.utc
             ).timestamp()
+
+            
+            
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
             self.timeToClose = closingTime - currTime
-
             if self.timeToClose < (60 * 2):
                 # Close all positions when 2 minutes til market close.  Any less and it will be in danger of not closing positions in time.
 
@@ -231,7 +233,11 @@ class PaperTrader:
 
             else:
                 self.trade()
-                last_equity = float(self.broker.get_account().last_equity)
+                if not isinstance(self.broker.get_account().last_equity, float):
+                    last_equity = float(self.broker.get_account().last_equity)
+                else:
+                    last_equity = self.broker.get_account().last_equity
+
                 cur_time = time.time()
                 self.equities.append([cur_time, last_equity])
                 time.sleep(self.time_interval)
@@ -240,12 +246,15 @@ class PaperTrader:
         isOpen = self.broker.get_clock().is_open
         while not isOpen:
             clock = self.broker.get_clock()
+            
             openingTime = clock.next_open.replace(
                 tzinfo=datetime.timezone.utc
             ).timestamp()
+            
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
             timeToOpen = int((openingTime - currTime) / 60)
-            self.logger.info(f"{timeToOpen} minutes til market open.")
+            
+            self.logger.info(f"{str(timedelta( minutes = timeToOpen))} til market open.")
             time.sleep(60)
             isOpen = self.broker.get_clock().is_open
 
@@ -387,33 +396,18 @@ class PaperTrader:
         ).astype(np.float32)
         state[np.isnan(state)] = 0.0
         state[np.isinf(state)] = 0.0
-        # self.logger.info(len(self.stockUniverse))
         return state
 
     def submitOrder(self, qty, stock, side, resp):
         if qty > 0:
             try:
-                self.broker.submit_order(stock, qty, side, "market", "day")
-                self.logger.info(
-                    "Market order of | "
-                    + str(qty)
-                    + " "
-                    + stock
-                    + " "
-                    + side
-                    + " | completed."
-                )
+                # self.broker.submit_order(stock, qty, side, "market", "day")
+                self.broker.submit_order(stock, qty, side, "market")
+                self.logger.info ( f"Market order of | {qty} {stock} {side} | completed.")
                 resp.append(True)
-            except:
-                self.logger.error(
-                    "Order of | "
-                    + str(qty)
-                    + " "
-                    + stock
-                    + " "
-                    + side
-                    + " | did not go through."
-                )
+            except Exception as e:
+                self.logger.error ( f"Order of | {qty} {stock} {side} | did not go through.")
+                self.logger.error ( e)
                 resp.append(False)
         else:
             """
