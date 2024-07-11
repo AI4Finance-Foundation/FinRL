@@ -156,8 +156,10 @@ class FutuProcessor:
         validated_df = DownloadDataSchema.validate( data_df)
         return data_df
 
-    def download_latest_data ( self, ticker_list, time_interval, limit = 100, tech_indicator_list = []) -> pd.DataFrame:
+    def download_latest_data ( self, ticker_list, time_interval, limit = 100, tech_indicator_list = None) -> pd.DataFrame:
         self.logger.info ( f'subscribe {ticker_list}')
+        if tech_indicator_list is None:
+            tech_indicator_list = []
 
         ret_sub, err_message = self.quote_ctx.subscribe( ticker_list, [SubType.K_DAY, SubType.K_1M], subscribe_push=False)
         # 先订阅 K 线类型。订阅成功后 OpenD 将持续收到服务器的推送，False 代表暂时不需要推送给脚本, [SubType.K_DAY], subscribe_push=False)
