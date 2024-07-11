@@ -48,7 +48,7 @@ class FutuProcessor:
         else:
             raise ValueError(f"Error fetching data for {ticker}: {data}")
 
-        while page_req_key != None: # Request all results after
+        while page_req_key is not None: # Request all results after
             ret, data, page_req_key = self.quote_ctx.request_history_kline(ticker, start=start_date, end=end_date, max_count=max_count ,page_req_key=page_req_key, ktype=KLType.K_1M) # Request the page after turning data
             if ret == RET_OK:
                 all_data = pd.concat([all_data, data], ignore_index=True)
