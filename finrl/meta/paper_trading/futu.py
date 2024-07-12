@@ -158,12 +158,14 @@ class PaperTradingFutu(IBroker):
             limit=300
         )
 
-    def submit_order(self, stock, qty, order_type, time_in_force):
+    def submit_order(self, stock, qty, side, order_type, time_in_force):
         ret, data = self.trd_ctx.unlock_trade(self.pwd_unlock)  # If you use a live trading account to place an order, you need to unlock the account first. The example here is to place an order on a paper trading account, and unlocking is not necessary.
         if ret == RET_OK or ret == RET_ERROR:
             # https://openapi.futunn.com/futu-api-doc/en/trade/place-order.html
             # place market order
-            ret, data = self.trd_ctx.place_order(price=0.0, qty=qty, code=stock, trd_side=TrdSide.BUY, trd_env=self.trd_env, order_type=OrderType.MARKET)
+            trd_side = TrdSide.BUY if side == "buy" else TrdSide.SELL
+            order_type = OrderType.MARKET if order_type == "market" else OrderType.NORMAL
+            ret, data = self.trd_ctx.place_order(price=0.0, qty=qty, code=stock, trd_side=trd_side, trd_env=self.trd_env, order_type=order_type)
             if ret == RET_OK:
                 self.logger.info ( data)
                 self.logger.info ( data['order_id'][0])  # Get the order ID of the placed order
