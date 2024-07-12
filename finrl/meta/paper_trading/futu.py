@@ -160,7 +160,7 @@ class PaperTradingFutu(IBroker):
 
     def submit_order(self, stock: str, qty: int, side: str, order_type: str, time_in_force: str):
         ret, data = self.trd_ctx.unlock_trade(self.pwd_unlock)  # If you use a live trading account to place an order, you need to unlock the account first. The example here is to place an order on a paper trading account, and unlocking is not necessary.
-        if ret == RET_OK or ret == RET_ERROR:
+        if ret in (RET_OK, RET_ERROR):
             # https://openapi.futunn.com/futu-api-doc/en/trade/place-order.html
             # place market order
             trd_side = TrdSide.BUY if side == "buy" else TrdSide.SELL
