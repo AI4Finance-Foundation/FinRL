@@ -26,5 +26,6 @@ reviews:
             - "develop"
             - "feat/*"
             - "bug/*"
+            - "fix/*"
 chat:
     auto_reply: true
