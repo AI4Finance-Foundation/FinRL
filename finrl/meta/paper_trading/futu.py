@@ -12,7 +12,7 @@ import torch
 
 from finrl.meta.paper_trading.broker import IBroker
 from finrl.meta.data_processors.processor_futu import FutuProcessor
-from futu import *
+from futu import RET_OK, RET_ERROR, TrdSide, OrderType, TrdEnv, ModifyOrderOp, OpenSecTradeContext, SysConfig, SecurityFirm, TrdMarket
 from exchange_calendars import get_calendar
 
 class PaperTradingFutu(IBroker):
