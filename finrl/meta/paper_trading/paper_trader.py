@@ -401,8 +401,8 @@ class PaperTrader:
     def submitOrder(self, qty, stock, side, resp):
         if qty > 0:
             try:
-                # self.broker.submit_order(stock, qty, side, "market", "day")
-                self.broker.submit_order(stock, qty, side, "market")
+                self.broker.submit_order(stock, qty, side, "market", "day")
+                # self.broker.submit_order(stock, qty, side, "market")
                 self.logger.info ( f"Market order of | {qty} {stock} {side} | completed.")
                 resp.append(True)
             except Exception as e:
