@@ -10,7 +10,7 @@ import shioaji as sj
 
 class sinopacDownloader:
 
-    def __init__(self, api,start_date: str, end_date: str, ticker_list: list):
+    def __init__(self, api, start_date: str, end_date: str, ticker_list: list):
         if api is None:
             api = sj.Shioaji()
             api.login(
@@ -27,7 +27,7 @@ class sinopacDownloader:
         self.end_date = end_date
         self.ticker_list = ticker_list
 
-    def fetch_data(self, api,proxy=None) -> pd.DataFrame:
+    def fetch_data(self, api, proxy=None) -> pd.DataFrame:
         """Fetches data from Yahoo API
         Parameters
         ----------
@@ -42,14 +42,14 @@ class sinopacDownloader:
         data_df = pd.DataFrame()
         num_failures = 0
         for tic in self.ticker_list:
-            kbars =self.api.kbars(
+            kbars = self.api.kbars(
                 api.Contracts.Stocks[tic],
                 start=self.start_date,
                 end=self.end_date,
             )
             temp_df = pd.DataFrame({**kbars})
             temp_df.ts = pd.to_datetime(temp_df.ts)
-            temp_df['tic'] = tic
+            temp_df["tic"] = tic
             if len(temp_df) > 0:
                 # data_df = data_df.append(temp_df)
                 data_df = pd.concat([data_df, temp_df], axis=0)
@@ -67,7 +67,7 @@ class sinopacDownloader:
                 "Open",
                 "High",
                 "Low",
-                "Close",    
+                "Close",
                 "Volume",
                 "Amount",
                 "contract_symbol",
@@ -100,19 +100,18 @@ class sinopacDownloader:
         df = df[df.tic.isin(select_stocks_list)]
         return df
 
+
 if __name__ == "__main__":
     api = sj.Shioaji()
     api.login(
         api_key="3gNpFbPDW3YC7RhKzXRthtDJ2TDkkuevvNuqsq1Jese2",
         secret_key="NbHaa8brgXNmsckwvXLtCnrgCfBWKumrUbXyNgqsWXK",
-        contracts_cb=lambda security_type: print(
-            f"{repr(security_type)} fetch done."
-        ),
+        contracts_cb=lambda security_type: print(f"{repr(security_type)} fetch done."),
     )
     start_date = "2021-01-01"
     end_date = "2021-01-31"
     ticker_list = ["2330", "2317", "2454", "2303", "2412"]
-    data = sinopacDownloader(api,start_date, end_date, ticker_list)
+    data = sinopacDownloader(api, start_date, end_date, ticker_list)
     df = data.fetch_data(api)
     print(df)
     print(df.tic.value_counts())
