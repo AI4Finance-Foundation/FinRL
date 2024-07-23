@@ -138,6 +138,7 @@ FinRL
 |[JoinQuant](https://www.joinquant.com/)| CN Securities| 2005-now, 1min| 3 requests each time| OHLCV| Prices&Indicators|
 |[QuantConnect](https://www.quantconnect.com/docs/home/home)| US Securities| 1998-now, 1s| NA| OHLCV| Prices&Indicators|
 |[RiceQuant](https://www.ricequant.com/doc/rqdata/python/)| CN Securities| 2005-now, 1ms| Account-specific| OHLCV| Prices&Indicators|
+[](https://sinotrade.github.io/zh_TW/tutor/prepare/terms/) | Taiwan security | 2023-04-13~now | Account specific | OHLCV | Prices&Indicators|
 |[Tushare](https://tushare.pro/document/1?doc_id=131)| CN Securities, A share| -now, 1 min| Account-specific| OHLCV| Prices&Indicators|
 |[WRDS](https://wrds-www.wharton.upenn.edu/pages/about/data-vendors/nyse-trade-and-quote-taq/)| US Securities| 2003-now, 1ms| 5 requests each time| Intraday Trades|Prices&Indicators|
 |[YahooFinance](https://pypi.org/project/yfinance/)| US Securities| Frequency-specific, 1min| 2,000/hour| OHLCV | Prices&Indicators|
@@ -169,6 +170,7 @@ FinRL
 |    Quandl | 250+ sources |  1 day  |  OHLCV  | Prices, indicators |
 |    QuantConnect |  US Securities |  1 s |  OHLCV |  Prices, indicators |
 |    RiceQuant |  CN Securities |  1 ms  |  OHLCV |  Prices, indicators |
+|    
 |    Tiingo | Stocks, crypto |  1 day  |  OHLCV  | Prices, indicators |
 |    Tushare |  CN Securities | 1 min  |  OHLCV |  Prices, indicators |
 |    WRDS |  US Securities |  1 ms  |  Intraday Trades | Prices, indicators |
