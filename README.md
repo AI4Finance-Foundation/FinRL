@@ -170,7 +170,7 @@ FinRL
 |    Quandl | 250+ sources |  1 day  |  OHLCV  | Prices, indicators |
 |    QuantConnect |  US Securities |  1 s |  OHLCV |  Prices, indicators |
 |    RiceQuant |  CN Securities |  1 ms  |  OHLCV |  Prices, indicators |
-|    Sinopac   
+|    Sinopac   | Taiwan security | 1min | OHLCV |  Prices, indicators |
 |    Tiingo | Stocks, crypto |  1 day  |  OHLCV  | Prices, indicators |
 |    Tushare |  CN Securities | 1 min  |  OHLCV |  Prices, indicators |
 |    WRDS |  US Securities |  1 ms  |  Intraday Trades | Prices, indicators |
