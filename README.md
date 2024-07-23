@@ -242,6 +242,7 @@ A complete list at [blogs](https://github.com/AI4Finance-Foundation/Blogs)
 + [知乎] [基于深度强化学习的金融交易策略（FinRL+Stable baselines3，以道琼斯30股票为例）](https://zhuanlan.zhihu.com/p/563238735)
 + [知乎] [动态数据驱动的金融强化学习](https://zhuanlan.zhihu.com/p/616799055)
 + [知乎] [FinRL的W&B化+超参数搜索和模型优化(基于Stable Baselines 3）](https://zhuanlan.zhihu.com/p/498115373)
++ [知乎] [FinRL-Meta: 未来金融强化学习的元宇宙](https://zhuanlan.zhihu.com/p/544621882)
 +
 ## Citing FinRL
 
