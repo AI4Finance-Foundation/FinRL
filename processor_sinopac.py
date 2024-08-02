@@ -58,6 +58,8 @@ class SinopacProcessor:
         return tmp_df
 
     def clean_data(self, df):
+        if 'tic' not in df.columns:
+            raise KeyError("Expected 'tic' column in DataFrame but not found.")
         print("Data cleaning started")
         tic_list = df['tic'].unique()
         n_tickers = len(tic_list)
@@ -90,9 +92,7 @@ class SinopacProcessor:
         for indicator in tech_indicator_list:
             try:
                 if indicator == 'MAVP':
-                    periods = np.array([2, 3, 5, 10, 20, 30, 60], dtype=np.float64)
-                    df['close'] = df['close'].astype(np.float64)
-                    df['mavp'] = talib.MAVP(df['close'].values, periods)
+                    pass
                 else:
                     # 获取指标函数
                     indicator_function = getattr(talib.abstract, indicator)
@@ -118,18 +118,18 @@ class SinopacProcessor:
         #VIX_index start at 2023-04-12
         vix_kbars = self.api.kbars(
             contract=self.api.Contracts.Indexs.TAIFEX["TAIFEXTAIWANVIX"],
-            start=self.start,
-            end=self.end,
+            start=self.start.strftime('%Y-%m-%d'),
+            end=self.end.strftime('%Y-%m-%d'), 
         )
         vix_df = pd.DataFrame({**vix_kbars})
         vix_df.ts = pd.to_datetime(vix_df.ts)
-        return self.clean_data(vix_df)
+        return vix_df
 
     def add_vix(self, data):
         cleaned_vix = self.download_and_clean_data()
-        vix = cleaned_vix[["ts", "close"]]
+        vix = cleaned_vix[["ts", "Close"]]
         vix = vix.rename(
-            columns={"ts" : "timestamp","close": "VIXY"}
+            columns={"ts" : "timestamp","Close": "VIXY"}
         ) 
         
         data = data.copy()
