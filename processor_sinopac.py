@@ -12,7 +12,7 @@ from stockstats import StockDataFrame as Sdf
 
 import shioaji as sj
 from shioaji import TickSTKv1, Exchange
-from finrl.meta.preprocessor.shioajidownloader import sinopacDownloader
+from shioajidownloader import SinopacDownloader
 import talib
 from talib import abstract 
 
@@ -21,13 +21,9 @@ class SinopacProcessor:
         if api is None:
             try:
                 self.api = sj.Shioaji()
-                print("API connected")
-                print("enter API_KEY and API_SECRET")
-                API_KEY = input("API_KEY: ")
-                API_SECRET = input("API_SECRET: ")
                 self.api.login(
-                    API_KEY=API_KEY,
-                    API_SECRET=API_SECRET,
+                    api_key=API_KEY,
+                    secret_key=API_SECRET,
                     contracts_cb=lambda security_type: print(
                         f"{repr(security_type)} fetch done."
                     ),
@@ -37,16 +33,8 @@ class SinopacProcessor:
         else:
             self.api = api
     def download_data(self):
-        # 創建 sinopacDonwloader 的ticker_list
-        print("enter start date")
-        start_date = input("start date: ")
-        print("enter end date")
-        end_date = input("end date: ")
-        print("enter ticker list")
-        ticker_list = input("ticker list: ")
         ticker_list = ticker_list.astype(str).split(",")
-        # 創建 sinopacDownloader 實例
-        downloader = sinopacDownloader(api=self.api, start_date=self.start_date, end_date=self.end_date, ticker_list=self.ticker_list)
+        downloader = SinopacDownloader(api=self.api, start_date=self.start_date, end_date=self.end_date, ticker_list=self.ticker_list)
         # 使用 downloader 獲取數據
         data = downloader.fetch_data(api=self.api)
         return data
@@ -54,19 +42,18 @@ class SinopacProcessor:
     @staticmethod
     def clean_individual_ticker(args):
         tic, df, times = args
-        # 筛选特定股票并重设索引
         tic_df = df[df['tic'] == tic].set_index('timestamp')
 
-        # 创建一个新的 DataFrame 以确保所有时间点都被包括
+        # Create a new DataFrame to ensure all time points are included
         tmp_df = pd.DataFrame(index=times)
-        tmp_df = tmp_df.join(tic_df[["Open", "High", "Low", "Close", "Volume", "Amount"]], how='left')
+        tmp_df = tmp_df.join(tic_df[['Open', 'High', 'Low', 'Close', 'Volume', 'Amount']], how='left')
 
-        # 处理 NaN 值，使用前一个可用值填充
-        tmp_df.fillna(method='ffill', inplace=True)
+        # Fill NaN values using forward fill
+        tmp_df.ffill(inplace=True)
 
-        # 附加股票代码和日期
+        # Append ticker code and date
         tmp_df['tic'] = tic
-        tmp_df['date'] = tmp_df.index.strftime("%Y-%m-%d")
+        tmp_df['date'] = tmp_df.index.strftime('%Y-%m-%d')
 
         return tmp_df
 
@@ -74,11 +61,11 @@ class SinopacProcessor:
         print("Data cleaning started")
         tic_list = df['tic'].unique()
         n_tickers = len(tic_list)
-
+        self.start = df['timestamp'].min()
+        self.end = df['timestamp'].max()
+        
         # 生成全时间序列
-        start = pd.to_datetime(self.start_date)
-        end = pd.to_datetime(self.end_date)
-        times = pd.date_range(start=start, end=end, freq='T')  # 'T' 代表分钟级别的频率
+        times = pd.date_range(start=self.start, end=self.end, freq='min')  # 'T' 代表分钟级别的频率
 
         # 处理每个股票的数据
         results = []
@@ -102,23 +89,28 @@ class SinopacProcessor:
         # 循环添加每个指标
         for indicator in tech_indicator_list:
             try:
-                # 获取指标函数
-                indicator_function = getattr(talib.abstract, indicator)
-                # 计算指标
-                result = indicator_function(df)
-                
-                # 如果结果是 Series，转换为 DataFrame 并重命名列
-                if isinstance(result, pd.Series):
-                    df[indicator.lower()] = result
-                else:  # 如果结果是 DataFrame，合并所有列
-                    result.columns = [f"{indicator.lower()}_{col}" for col in result.columns]
-                    df = pd.concat([df, result], axis=1)
+                if indicator == 'MAVP':
+                    periods = np.array([2, 3, 5, 10, 20, 30, 60], dtype=np.float64)
+                    df['close'] = df['close'].astype(np.float64)
+                    df['mavp'] = talib.MAVP(df['close'].values, periods)
+                else:
+                    # 获取指标函数
+                    indicator_function = getattr(talib.abstract, indicator)
+                    # 计算指标
+                    result = indicator_function(df)
+                    
+                    # 如果结果是 Series，转换为 DataFrame 并重命名列
+                    if isinstance(result, pd.Series):
+                        df[indicator.lower()] = result
+                    else:  # 如果结果是 DataFrame，合并所有列
+                        result.columns = [f"{indicator.lower()}_{col}" for col in result.columns]
+                        df = pd.concat([df, result], axis=1)
             except Exception as e:
                 print(f"Error calculating {indicator}: {str(e)}")
         print(df.head())
-        print(df.shape())
         print(df.tail())
         print("Finished adding Indicators")
+        df.rename(columns={'open': 'Open', 'high': 'High', 'low': 'Low', 'close': 'Close', 'volume': 'Volume'}, inplace=True)
         return df
 
     # Allows to multithread the add_vix function for quicker execution
