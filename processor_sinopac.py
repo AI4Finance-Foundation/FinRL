@@ -55,11 +55,13 @@ class SinopacProcessor:
         tmp_df['tic'] = tic
         tmp_df['date'] = tmp_df.index.strftime('%Y-%m-%d')
 
+        tmp_df.reset_index(inplace=True)
+        tmp_df.rename(columns={'index': 'timestamp'}, inplace=True)
+
         return tmp_df
 
     def clean_data(self, df):
-        if 'tic' not in df.columns:
-            raise KeyError("Expected 'tic' column in DataFrame but not found.")
+        
         print("Data cleaning started")
         tic_list = df['tic'].unique()
         n_tickers = len(tic_list)
@@ -77,12 +79,13 @@ class SinopacProcessor:
 
         # 合并结果
         new_df = pd.concat(results)
-
+        print(new_df.columns)
         print("Data cleaning finished!")
         return new_df.reset_index(drop=True)
 
     def add_technical_indicator(self, df):
         print("Started adding Indicators")
+        print(df.columns)
         tech_indicator_list = talib.get_functions()  # 获取所有 TA-Lib 可用指标
 
         # 调整列名以匹配 TA-Lib 的需求
@@ -111,6 +114,7 @@ class SinopacProcessor:
         print(df.tail())
         print("Finished adding Indicators")
         df.rename(columns={'open': 'Open', 'high': 'High', 'low': 'Low', 'close': 'Close', 'volume': 'Volume'}, inplace=True)
+        print(df.columns)
         return df
 
     # Allows to multithread the add_vix function for quicker execution
@@ -131,11 +135,15 @@ class SinopacProcessor:
         vix = vix.rename(
             columns={"ts" : "timestamp","Close": "VIXY"}
         ) 
-        
+        print("Started adding VIX data")
+        print(vix.head())
+        print(data.columns)
+        if "timestamp" not in data.columns:
+            print("No timestamp column found")
         data = data.copy()
         data = data.merge(
             vix, on="timestamp"
-        )  
+        )
         data = data.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         print("Finished adding VIX data")
         return data
@@ -143,7 +151,7 @@ class SinopacProcessor:
     def calculate_turbulence(self, data, time_period=252):
         # can add other market assets
         df = data.copy()
-        df_price_pivot = df.pivot(index="timestamp", columns="tic", values="close")
+        df_price_pivot = df.pivot(index="timestamp", columns="tic", values="Close")
         # use returns to calculate turbulence
         df_price_pivot = df_price_pivot.pct_change()
 
@@ -209,7 +217,7 @@ class SinopacProcessor:
         if_first_time = True
         for tic in unique_ticker:
             if if_first_time:
-                price_array = df[df.tic == tic][["close"]].values
+                price_array = df[df.tic == tic][["Close"]].values
                 tech_array = df[df.tic == tic][tech_indicator_list].values
                 if if_vix:
                     turbulence_array = df[df.tic == tic]["VIXY"].values
@@ -218,7 +226,7 @@ class SinopacProcessor:
                 if_first_time = False
             else:
                 price_array = np.hstack(
-                    [price_array, df[df.tic == tic][["close"]].values]
+                    [price_array, df[df.tic == tic][["Close"]].values]
                 )
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
@@ -241,11 +249,11 @@ class SinopacProcessor:
         tick_data = {
             'timestamp': tick.datetime,
             'tic': tick.code,
-            'open': float(tick.open),
-            'high': float(tick.high),
-            'low': float(tick.low),
-            'close': float(tick.close),
-            'volume': tick.volume,
+            'Open': float(tick.open),
+            'High': float(tick.high),
+            'Low': float(tick.low),
+            'Close': float(tick.close),
+            'Volume': tick.volume,
         }
         self.data = self.data.append(tick_data, ignore_index=True)
 
@@ -269,7 +277,7 @@ class SinopacProcessor:
                 'volume': 'sum'
             }
             kbars = group.resample('1T').apply(ohlc_dict)
-            kbars.columns = ['open', 'high', 'low', 'close', 'volume']
+            kbars.columns = ['Open', 'High', 'Low', 'Close', 'Volume']
             return kbars
         kbars_data = []
         for tic in ticker_list:
@@ -288,6 +296,6 @@ class SinopacProcessor:
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
         turb_df = self.api.kbars(contract=self.api.Contracts.Indexs.TAIFEX["TAIFEXTAIWANVIX"], start=self.end_date, end=self.end_date)
-        latest_turb = pd.DataFrame({**turb_df})["close"].values
+        latest_turb = pd.DataFrame({**turb_df})["Close"].values
         return latest_price, latest_tech, latest_turb
     

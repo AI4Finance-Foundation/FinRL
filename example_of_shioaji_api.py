@@ -12,11 +12,6 @@ from processor_sinopac import SinopacProcessor
 import itertools
 import gc
 TAI_0050_TICKER = [
-    '2330',  # TSMC
-    '2317',  # Hon Hai Precision Industry Co., Ltd.
-    '2454',  # MediaTek Inc.
-    '6505',  # Taiwan Semiconductor Co., Ltd.
-    '2308',  # Delta Electronics, Inc.
     '3008',  # Largan Precision Co., Ltd.
     '1303',  # Nan Ya Plastics Corporation
     '2412',  # Chunghwa Telecom Co., Ltd.
