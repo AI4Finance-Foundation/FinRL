@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from concurrent.futures import ProcessPoolExecutor
@@ -9,13 +8,15 @@ import exchange_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
-from stockstats import StockDataFrame as Sdf
-
 import shioaji as sj
-from shioaji import TickSTKv1, Exchange
-from shioajidownloader import SinopacDownloader
 import talib
-from talib import abstract 
+from shioaji import Exchange
+from shioaji import TickSTKv1
+from stockstats import StockDataFrame as Sdf
+from talib import abstract
+
+from shioajidownloader import SinopacDownloader
+
 
 class SinopacProcessor:
     def __init__(self, API_KEY=None, API_SECRET=None, api=None):
@@ -33,44 +34,54 @@ class SinopacProcessor:
                 raise ValueError("Wrong Account Info!")
         else:
             self.api = api
+
     def download_data(self):
         ticker_list = ticker_list.astype(str).split(",")
-        downloader = SinopacDownloader(api=self.api, start_date=self.start_date, end_date=self.end_date, ticker_list=self.ticker_list)
+        downloader = SinopacDownloader(
+            api=self.api,
+            start_date=self.start_date,
+            end_date=self.end_date,
+            ticker_list=self.ticker_list,
+        )
         # 使用 downloader 獲取數據
         data = downloader.fetch_data(api=self.api)
         return data
-        
+
     @staticmethod
     def clean_individual_ticker(args):
         tic, df, times = args
-        tic_df = df[df['tic'] == tic].set_index('timestamp')
+        tic_df = df[df["tic"] == tic].set_index("timestamp")
 
         # Create a new DataFrame to ensure all time points are included
         tmp_df = pd.DataFrame(index=times)
-        tmp_df = tmp_df.join(tic_df[['Open', 'High', 'Low', 'Close', 'Volume', 'Amount']], how='left')
+        tmp_df = tmp_df.join(
+            tic_df[["Open", "High", "Low", "Close", "Volume", "Amount"]], how="left"
+        )
 
         # Fill NaN values using forward fill
         tmp_df.ffill(inplace=True)
 
         # Append ticker code and date
-        tmp_df['tic'] = tic
-        tmp_df['date'] = tmp_df.index.strftime('%Y-%m-%d')
+        tmp_df["tic"] = tic
+        tmp_df["date"] = tmp_df.index.strftime("%Y-%m-%d")
 
         tmp_df.reset_index(inplace=True)
-        tmp_df.rename(columns={'index': 'timestamp'}, inplace=True)
+        tmp_df.rename(columns={"index": "timestamp"}, inplace=True)
 
         return tmp_df
 
     def clean_data(self, df):
-        
+
         print("Data cleaning started")
-        tic_list = df['tic'].unique()
+        tic_list = df["tic"].unique()
         n_tickers = len(tic_list)
-        self.start = df['timestamp'].min()
-        self.end = df['timestamp'].max()
-        
+        self.start = df["timestamp"].min()
+        self.end = df["timestamp"].max()
+
         # 生成全时间序列
-        times = pd.date_range(start=self.start, end=self.end, freq='min')  # 'T' 代表分钟级别的频率
+        times = pd.date_range(
+            start=self.start, end=self.end, freq="min"
+        )  # 'T' 代表分钟级别的频率
 
         # 处理每个股票的数据
         results = []
@@ -90,41 +101,61 @@ class SinopacProcessor:
         tech_indicator_list = talib.get_functions()  # 获取所有 TA-Lib 可用指标
 
         # 调整列名以匹配 TA-Lib 的需求
-        df.rename(columns={'Open': 'open', 'High': 'high', 'Low': 'low', 'Close': 'close', 'Volume': 'volume'}, inplace=True)
+        df.rename(
+            columns={
+                "Open": "open",
+                "High": "high",
+                "Low": "low",
+                "Close": "close",
+                "Volume": "volume",
+            },
+            inplace=True,
+        )
 
         # 循环添加每个指标
         for indicator in tech_indicator_list:
             try:
-                if indicator == 'MAVP':
+                if indicator == "MAVP":
                     pass
                 else:
                     # 获取指标函数
                     indicator_function = getattr(talib.abstract, indicator)
                     # 计算指标
                     result = indicator_function(df)
-                    
+
                     # 如果结果是 Series，转换为 DataFrame 并重命名列
                     if isinstance(result, pd.Series):
                         df[indicator.lower()] = result
                     else:  # 如果结果是 DataFrame，合并所有列
-                        result.columns = [f"{indicator.lower()}_{col}" for col in result.columns]
+                        result.columns = [
+                            f"{indicator.lower()}_{col}" for col in result.columns
+                        ]
                         df = pd.concat([df, result], axis=1)
             except Exception as e:
                 print(f"Error calculating {indicator}: {str(e)}")
         print(df.head())
         print(df.tail())
         print("Finished adding Indicators")
-        df.rename(columns={'open': 'Open', 'high': 'High', 'low': 'Low', 'close': 'Close', 'volume': 'Volume'}, inplace=True)
+        df.rename(
+            columns={
+                "open": "Open",
+                "high": "High",
+                "low": "Low",
+                "close": "Close",
+                "volume": "Volume",
+            },
+            inplace=True,
+        )
         print(df.columns)
         return df
 
     # Allows to multithread the add_vix function for quicker execution
     def download_and_clean_data(self):
-        #VIX_index start at 2023-04-12
+        # VIX_index start at 2023-04-12
         vix_kbars = self.api.kbars(
             contract=self.api.Contracts.Indexs.TAIFEX["TAIFEXTAIWANVIX"],
-            start=self.start.strftime('%Y-%m-%d'),
-            end=self.end.strftime('%Y-%m-%d'), 
+            start=self.start.strftime("%Y-%m-%d"),
+            end=self.end.strftime("%Y-%m-%d"),
         )
         vix_df = pd.DataFrame({**vix_kbars})
         vix_df.ts = pd.to_datetime(vix_df.ts)
@@ -133,18 +164,14 @@ class SinopacProcessor:
     def add_vix(self, data):
         cleaned_vix = self.download_and_clean_data()
         vix = cleaned_vix[["ts", "Close"]]
-        vix = vix.rename(
-            columns={"ts" : "timestamp","Close": "VIXY"}
-        ) 
+        vix = vix.rename(columns={"ts": "timestamp", "Close": "VIXY"})
         print("Started adding VIX data")
         print(vix.head())
         print(data.columns)
         if "timestamp" not in data.columns:
             print("No timestamp column found")
         data = data.copy()
-        data = data.merge(
-            vix, on="timestamp"
-        )
+        data = data.merge(vix, on="timestamp")
         data = data.sort_values(["timestamp", "tic"]).reset_index(drop=True)
         print("Finished adding VIX data")
         return data
@@ -248,17 +275,15 @@ class SinopacProcessor:
 
     def on_tick(self, exchange: Exchange, tick: TickSTKv1):
         tick_data = {
-            'timestamp': tick.datetime,
-            'tic': tick.code,
-            'Open': float(tick.open),
-            'High': float(tick.high),
-            'Low': float(tick.low),
-            'Close': float(tick.close),
-            'Volume': tick.volume,
+            "timestamp": tick.datetime,
+            "tic": tick.code,
+            "Open": float(tick.open),
+            "High": float(tick.high),
+            "Low": float(tick.low),
+            "Close": float(tick.close),
+            "Volume": tick.volume,
         }
         self.data = self.data.append(tick_data, ignore_index=True)
-
-    
 
     def fetch_latest_data(
         self, ticker_list, time_interval, tech_indicator_list, limit=100
@@ -268,35 +293,39 @@ class SinopacProcessor:
             contract = self.api.Contracts.Stocks[tic]
             self.api.quote.subscribe(
                 contract,
-                quote_type = sj.constant.QuoteType.Tick,
-                version = sj.constant.QuoteVersion.v1,
-                )
+                quote_type=sj.constant.QuoteType.Tick,
+                version=sj.constant.QuoteVersion.v1,
+            )
+
         def resample_to_kbars(group):
-            group.set_index('timestamp', inplace=True)
-            ohlc_dict = {
-                'price': 'ohlc',
-                'volume': 'sum'
-            }
-            kbars = group.resample('1T').apply(ohlc_dict)
-            kbars.columns = ['Open', 'High', 'Low', 'Close', 'Volume']
+            group.set_index("timestamp", inplace=True)
+            ohlc_dict = {"price": "ohlc", "volume": "sum"}
+            kbars = group.resample("1T").apply(ohlc_dict)
+            kbars.columns = ["Open", "High", "Low", "Close", "Volume"]
             return kbars
+
         kbars_data = []
         for tic in ticker_list:
             tic_data = self.data[self.data.tic == tic]
             kbars = resample_to_kbars(tic_data)
-            kbars['tic'] = tic
+            kbars["tic"] = tic
             kbars_data.append(kbars)
 
         self.data = pd.concat(kbars_data).reset_index()
-        self.data = self.data.sort_values(['timestamp', 'tic']).reset_index(drop=True)
+        self.data = self.data.sort_values(["timestamp", "tic"]).reset_index(drop=True)
 
         df = self.add_technical_indicator(self.data, tech_indicator_list)
         df["VIXY"] = 0
 
-        price_array, tech_array, turbulence_array = self.df_to_array(df, tech_indicator_list, if_vix=True)
+        price_array, tech_array, turbulence_array = self.df_to_array(
+            df, tech_indicator_list, if_vix=True
+        )
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
-        turb_df = self.api.kbars(contract=self.api.Contracts.Indexs.TAIFEX["TAIFEXTAIWANVIX"], start=self.end_date, end=self.end_date)
+        turb_df = self.api.kbars(
+            contract=self.api.Contracts.Indexs.TAIFEX["TAIFEXTAIWANVIX"],
+            start=self.end_date,
+            end=self.end_date,
+        )
         latest_turb = pd.DataFrame({**turb_df})["Close"].values
         return latest_price, latest_tech, latest_turb
-    

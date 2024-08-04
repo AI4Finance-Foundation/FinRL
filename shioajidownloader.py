@@ -7,9 +7,16 @@ from __future__ import annotations
 import pandas as pd
 import shioaji as sj
 
+
 class SinopacDownloader:
 
-    def __init__(self, start_date: str, end_date: str, ticker_list: list = [], api: sj.Shioaji = None):
+    def __init__(
+        self,
+        start_date: str,
+        end_date: str,
+        ticker_list: list = [],
+        api: sj.Shioaji = None,
+    ):
         if api is None:
             self.api = sj.Shioaji()
             self.api.login(
@@ -44,15 +51,15 @@ class SinopacDownloader:
                 )
                 temp_df = pd.DataFrame({**kbars})
                 temp_df.ts = pd.to_datetime(temp_df.ts)
-                temp_df['tic'] = tic
+                temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df], axis=0)
             except Exception as e:
                 num_failures += 1
                 print(f"Failed to fetch data for ticker {tic}: {e}")
-        
+
         if num_failures == len(self.ticker_list):
             raise ValueError("No data is fetched.")
-        
+
         data_df = data_df.reset_index(drop=True)
         print("Original columns:", data_df.columns)
         try:
@@ -61,14 +68,14 @@ class SinopacDownloader:
                 "open",
                 "high",
                 "low",
-                "close",    
+                "close",
                 "volume",
                 "amount",
-                "tic"
+                "tic",
             ]
         except ValueError as e:
             print(f"Error renaming columns: {e}")
-        
+
         data_df["day"] = data_df["timestamp"].dt.dayofweek
         data_df["date"] = data_df.timestamp.apply(lambda x: x.strftime("%Y-%m-%d"))
         data_df = data_df.dropna().reset_index(drop=True)
@@ -83,17 +90,20 @@ class SinopacDownloader:
         df_check = df.ticker.value_counts().reset_index()
         df_check.columns = ["tic", "counts"]
         mean_df = df_check.counts.mean()
-        select_stocks_list = df_check[df_check.counts >= mean_df]['tic'].tolist()
+        select_stocks_list = df_check[df_check.counts >= mean_df]["tic"].tolist()
         df = df[df.ticker.isin(select_stocks_list)]
         return df
 
+
 if __name__ == "__main__":
-    start_date = '2023-04-13'
-    end_date = '2024-04-13'
+    start_date = "2023-04-13"
+    end_date = "2024-04-13"
     ticker_list = ["2330", "2317", "2454", "2303", "2412"]
-    
+
     # 测试 api 为 None 的情况
-    downloader = SinopacDownloader(start_date=start_date, end_date=end_date, ticker_list=ticker_list, api=None)
+    downloader = SinopacDownloader(
+        start_date=start_date, end_date=end_date, ticker_list=ticker_list, api=None
+    )
     df = downloader.fetch_data()
     print(df)
     print(df.ticker.value_counts())
