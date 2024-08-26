@@ -19,11 +19,13 @@ from finrl import config
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.meta.preprocessor.preprocessors import data_split
 
-MODELS = {"a2c": A2C, 
-          "ddpg": DDPG, 
-          #"td3": TD3, 
-          #"sac": SAC, 
-          "ppo": PPO}
+MODELS = {
+    "a2c": A2C,
+    "ddpg": DDPG,
+    # "td3": TD3,
+    # "sac": SAC,
+    "ppo": PPO,
+}
 
 MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
 
@@ -57,6 +59,7 @@ class TensorboardCallback(BaseCallback):
                 print("Inner Error:", inner_error)
         return True
 
+
 class DRLEnsembleTesting:
     @staticmethod
     def get_model(
@@ -66,7 +69,7 @@ class DRLEnsembleTesting:
         policy_kwargs=None,
         model_kwargs=None,
         seed=666,
-        #seed=110,
+        # seed=110,
         verbose=1,
     ):
         if model_name not in MODELS:
@@ -143,7 +146,6 @@ class DRLEnsembleTesting:
         action_space,
         tech_indicator_list,
         print_verbosity,
-
         ################################
         fixed_cost,
         ################################
@@ -247,7 +249,7 @@ class DRLEnsembleTesting:
         Train the model for a single window.
         """
 
-        '''
+        """
         if model_kwargs is None:
             return None, sharpe_list, -1
 
@@ -263,21 +265,20 @@ class DRLEnsembleTesting:
             total_timesteps=timesteps_dict[model_name],
         )  # 100_000
 
-        '''
+        """
 
         print(f"======{i} ITERATIONS========")
 
-        if model_name == 'a2c':
-            model = A2C.load('trained_models/A2C_10k_{}'.format(i))
-        elif model_name == 'ppo':
-            model = PPO.load('trained_models/PPO_10k_{}'.format(i))
-        elif model_name == 'ddpg':
-            model = DDPG.load('trained_models/DDPG_10k_{}'.format(i))
-        elif model_name == 'sac':
-            model = SAC.load('trained_models/SAC_10k_{}'.format(i))
-        elif model_name == 'td3':
-            model = TD3.load('trained_models/TD3_10k_{}'.format(i))
-
+        if model_name == "a2c":
+            model = A2C.load(f"trained_models/A2C_10k_{i}")
+        elif model_name == "ppo":
+            model = PPO.load(f"trained_models/PPO_10k_{i}")
+        elif model_name == "ddpg":
+            model = DDPG.load(f"trained_models/DDPG_10k_{i}")
+        elif model_name == "sac":
+            model = SAC.load(f"trained_models/SAC_10k_{i}")
+        elif model_name == "td3":
+            model = TD3.load(f"trained_models/TD3_10k_{i}")
 
         print(
             f"======{model_name} Validation from: ",
@@ -327,8 +328,8 @@ class DRLEnsembleTesting:
         A2C_model_kwargs,
         PPO_model_kwargs,
         DDPG_model_kwargs,
-        #SAC_model_kwargs,
-        #TD3_model_kwargs,
+        # SAC_model_kwargs,
+        # TD3_model_kwargs,
         timesteps_dict,
     ):
         # Model Parameters
@@ -336,8 +337,8 @@ class DRLEnsembleTesting:
             "a2c": A2C_model_kwargs,
             "ppo": PPO_model_kwargs,
             "ddpg": DDPG_model_kwargs,
-            #"sac": SAC_model_kwargs,
-            #"td3": TD3_model_kwargs,
+            # "sac": SAC_model_kwargs,
+            # "td3": TD3_model_kwargs,
         }
         # Model Sharpe Ratios
         model_dct = {k: {"sharpe_list": [], "sharpe": -1} for k in MODELS.keys()}
@@ -352,7 +353,6 @@ class DRLEnsembleTesting:
         validation_start_date_list = []
         validation_end_date_list = []
         iteration_list = []
-
 
         if "turbulence" not in self.df.columns:
             turbulence_threshold = None
@@ -533,8 +533,8 @@ class DRLEnsembleTesting:
                 model_dct["a2c"]["sharpe_list"],
                 model_dct["ppo"]["sharpe_list"],
                 model_dct["ddpg"]["sharpe_list"],
-                #model_dct["sac"]["sharpe_list"],
-                #model_dct["td3"]["sharpe_list"],
+                # model_dct["sac"]["sharpe_list"],
+                # model_dct["td3"]["sharpe_list"],
             ]
         ).T
         df_summary.columns = [
@@ -545,8 +545,8 @@ class DRLEnsembleTesting:
             "A2C Sharpe",
             "PPO Sharpe",
             "DDPG Sharpe",
-            #"SAC Sharpe",
-            #"TD3 Sharpe",
+            # "SAC Sharpe",
+            # "TD3 Sharpe",
         ]
 
         return df_summary

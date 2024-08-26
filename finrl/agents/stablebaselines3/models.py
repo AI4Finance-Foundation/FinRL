@@ -19,13 +19,14 @@ from finrl import config
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.meta.preprocessor.preprocessors import data_split
 
-MODELS = {"a2c": A2C, 
-          "ddpg": DDPG, 
-
-          # Um die Berechnungsdauer zu verkürzen, werden TD3 und SAC entfernt
-          #"td3": TD3, 
-          #"sac": SAC, 
-          "ppo": PPO}
+MODELS = {
+    "a2c": A2C,
+    "ddpg": DDPG,
+    # Um die Berechnungsdauer zu verkürzen, werden TD3 und SAC entfernt
+    # "td3": TD3,
+    # "sac": SAC,
+    "ppo": PPO,
+}
 
 MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
 
@@ -200,8 +201,7 @@ class DRLEnsembleAgent:
         policy="MlpPolicy",
         policy_kwargs=None,
         model_kwargs=None,
-
-        #Ein Seed wurde hinzugefügt, um die Vergleichbarkeit der Ergebnisse zu verbessern
+        # Ein Seed wurde hinzugefügt, um die Vergleichbarkeit der Ergebnisse zu verbessern
         seed=666,
         verbose=1,
     ):
@@ -279,10 +279,8 @@ class DRLEnsembleAgent:
         action_space,
         tech_indicator_list,
         print_verbosity,
-
         # Die Variable fixed_cost wurde hinzugefügt, um mögliche fixe Transaktionskostenstrukturen abbilden zu können
         fixed_cost,
-        
     ):
         self.df = df
         self.train_period = train_period
@@ -347,7 +345,6 @@ class DRLEnsembleAgent:
                     mode="trade",
                     iteration=iter_num,
                     print_verbosity=self.print_verbosity,
-
                     # Fixe Transaktionskosten werden dem Environment übergeben
                     fixed_cost=self.fixed_cost,
                 )
@@ -421,9 +418,7 @@ class DRLEnsembleAgent:
                     model_name=model_name,
                     mode="validation",
                     print_verbosity=self.print_verbosity,
-
                     fixed_cost=self.fixed_cost,
-
                 )
             ]
         )
@@ -444,8 +439,8 @@ class DRLEnsembleAgent:
         A2C_model_kwargs,
         PPO_model_kwargs,
         DDPG_model_kwargs,
-        #SAC_model_kwargs,
-        #TD3_model_kwargs,
+        # SAC_model_kwargs,
+        # TD3_model_kwargs,
         timesteps_dict,
     ):
         # Model Parameters
@@ -453,8 +448,8 @@ class DRLEnsembleAgent:
             "a2c": A2C_model_kwargs,
             "ppo": PPO_model_kwargs,
             "ddpg": DDPG_model_kwargs,
-            #"sac": SAC_model_kwargs,
-            #"td3": TD3_model_kwargs,
+            # "sac": SAC_model_kwargs,
+            # "td3": TD3_model_kwargs,
         }
         # Model Sharpe Ratios
         model_dct = {k: {"sharpe_list": [], "sharpe": -1} for k in MODELS.keys()}
@@ -471,7 +466,6 @@ class DRLEnsembleAgent:
         iteration_list = []
 
         # Der folgende Code ist eine notwendige Ergänzung, damit das use_turbulence=False Attribut im Rahmen der run_ensemble_strategy() Methode keine Fehler verursacht
-
 
         if "turbulence" not in self.df.columns:
             turbulence_threshold = None
@@ -683,8 +677,8 @@ class DRLEnsembleAgent:
                 model_dct["a2c"]["sharpe_list"],
                 model_dct["ppo"]["sharpe_list"],
                 model_dct["ddpg"]["sharpe_list"],
-                #model_dct["sac"]["sharpe_list"],
-                #model_dct["td3"]["sharpe_list"],
+                # model_dct["sac"]["sharpe_list"],
+                # model_dct["td3"]["sharpe_list"],
             ]
         ).T
         df_summary.columns = [
@@ -695,8 +689,8 @@ class DRLEnsembleAgent:
             "A2C Sharpe",
             "PPO Sharpe",
             "DDPG Sharpe",
-            #"SAC Sharpe",
-            #"TD3 Sharpe",
+            # "SAC Sharpe",
+            # "TD3 Sharpe",
         ]
 
         return df_summary
