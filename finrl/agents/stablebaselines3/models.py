@@ -19,7 +19,13 @@ from finrl import config
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.meta.preprocessor.preprocessors import data_split
 
-MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
+MODELS = {"a2c": A2C, 
+          "ddpg": DDPG, 
+
+          # Um die Berechnungsdauer zu verkürzen, werden TD3 und SAC entfernt
+          #"td3": TD3, 
+          #"sac": SAC, 
+          "ppo": PPO}
 
 MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
 
@@ -194,7 +200,9 @@ class DRLEnsembleAgent:
         policy="MlpPolicy",
         policy_kwargs=None,
         model_kwargs=None,
-        seed=None,
+
+        #Ein Seed wurde hinzugefügt, um die Vergleichbarkeit der Ergebnisse zu verbessern
+        seed=666,
         verbose=1,
     ):
         if model_name not in MODELS:
@@ -271,6 +279,10 @@ class DRLEnsembleAgent:
         action_space,
         tech_indicator_list,
         print_verbosity,
+
+        # Die Variable fixed_cost wurde hinzugefügt, um mögliche fixe Transaktionskostenstrukturen abbilden zu können
+        fixed_cost,
+        
     ):
         self.df = df
         self.train_period = train_period
@@ -292,6 +304,9 @@ class DRLEnsembleAgent:
         self.action_space = action_space
         self.tech_indicator_list = tech_indicator_list
         self.print_verbosity = print_verbosity
+
+        self.fixed_cost = fixed_cost
+
         self.train_env = None  # defined in train_validation() function
 
     def DRL_validation(self, model, test_data, test_env, test_obs):
@@ -332,6 +347,9 @@ class DRLEnsembleAgent:
                     mode="trade",
                     iteration=iter_num,
                     print_verbosity=self.print_verbosity,
+
+                    # Fixe Transaktionskosten werden dem Environment übergeben
+                    fixed_cost=self.fixed_cost,
                 )
             ]
         )
@@ -403,6 +421,9 @@ class DRLEnsembleAgent:
                     model_name=model_name,
                     mode="validation",
                     print_verbosity=self.print_verbosity,
+
+                    fixed_cost=self.fixed_cost,
+
                 )
             ]
         )
@@ -423,8 +444,8 @@ class DRLEnsembleAgent:
         A2C_model_kwargs,
         PPO_model_kwargs,
         DDPG_model_kwargs,
-        SAC_model_kwargs,
-        TD3_model_kwargs,
+        #SAC_model_kwargs,
+        #TD3_model_kwargs,
         timesteps_dict,
     ):
         # Model Parameters
@@ -432,8 +453,8 @@ class DRLEnsembleAgent:
             "a2c": A2C_model_kwargs,
             "ppo": PPO_model_kwargs,
             "ddpg": DDPG_model_kwargs,
-            "sac": SAC_model_kwargs,
-            "td3": TD3_model_kwargs,
+            #"sac": SAC_model_kwargs,
+            #"td3": TD3_model_kwargs,
         }
         # Model Sharpe Ratios
         model_dct = {k: {"sharpe_list": [], "sharpe": -1} for k in MODELS.keys()}
@@ -449,13 +470,20 @@ class DRLEnsembleAgent:
         validation_end_date_list = []
         iteration_list = []
 
-        insample_turbulence = self.df[
-            (self.df.date < self.train_period[1])
-            & (self.df.date >= self.train_period[0])
-        ]
-        insample_turbulence_threshold = np.quantile(
-            insample_turbulence.turbulence.values, 0.90
-        )
+        # Der folgende Code ist eine notwendige Ergänzung, damit das use_turbulence=False Attribut im Rahmen der run_ensemble_strategy() Methode keine Fehler verursacht
+
+
+        if "turbulence" not in self.df.columns:
+            turbulence_threshold = None
+            insample_turbulence_threshold = None
+        else:
+            insample_turbulence = self.df[
+                (self.df.date < self.train_period[1])
+                & (self.df.date >= self.train_period[0])
+            ]
+            insample_turbulence_threshold = np.quantile(
+                insample_turbulence.turbulence.values, 0.90
+            )
 
         start = time.time()
         for i in range(
@@ -481,47 +509,48 @@ class DRLEnsembleAgent:
                 # previous state
                 initial = False
 
-            # Tuning trubulence index based on historical data
-            # Turbulence lookback window is one quarter (63 days)
-            end_date_index = self.df.index[
-                self.df["date"]
-                == self.unique_trade_date[
-                    i - self.rebalance_window - self.validation_window
+            if insample_turbulence_threshold:
+                # Tuning trubulence index based on historical data
+                # Turbulence lookback window is one quarter (63 days)
+                end_date_index = self.df.index[
+                    self.df["date"]
+                    == self.unique_trade_date[
+                        i - self.rebalance_window - self.validation_window
+                    ]
+                ].to_list()[-1]
+                start_date_index = end_date_index - 63 + 1
+
+                historical_turbulence = self.df.iloc[
+                    start_date_index : (end_date_index + 1), :
                 ]
-            ].to_list()[-1]
-            start_date_index = end_date_index - 63 + 1
 
-            historical_turbulence = self.df.iloc[
-                start_date_index : (end_date_index + 1), :
-            ]
-
-            historical_turbulence = historical_turbulence.drop_duplicates(
-                subset=["date"]
-            )
-
-            historical_turbulence_mean = np.mean(
-                historical_turbulence.turbulence.values
-            )
-
-            # print(historical_turbulence_mean)
-
-            if historical_turbulence_mean > insample_turbulence_threshold:
-                # if the mean of the historical data is greater than the 90% quantile of insample turbulence data
-                # then we assume that the current market is volatile,
-                # therefore we set the 90% quantile of insample turbulence data as the turbulence threshold
-                # meaning the current turbulence can't exceed the 90% quantile of insample turbulence data
-                turbulence_threshold = insample_turbulence_threshold
-            else:
-                # if the mean of the historical data is less than the 90% quantile of insample turbulence data
-                # then we tune up the turbulence_threshold, meaning we lower the risk
-                turbulence_threshold = np.quantile(
-                    insample_turbulence.turbulence.values, 1
+                historical_turbulence = historical_turbulence.drop_duplicates(
+                    subset=["date"]
                 )
 
-            turbulence_threshold = np.quantile(
-                insample_turbulence.turbulence.values, 0.99
-            )
-            print("turbulence_threshold: ", turbulence_threshold)
+                historical_turbulence_mean = np.mean(
+                    historical_turbulence.turbulence.values
+                )
+
+                # print(historical_turbulence_mean)
+
+                if historical_turbulence_mean > insample_turbulence_threshold:
+                    # if the mean of the historical data is greater than the 90% quantile of insample turbulence data
+                    # then we assume that the current market is volatile,
+                    # therefore we set the 90% quantile of insample turbulence data as the turbulence threshold
+                    # meaning the current turbulence can't exceed the 90% quantile of insample turbulence data
+                    turbulence_threshold = insample_turbulence_threshold
+                else:
+                    # if the mean of the historical data is less than the 90% quantile of insample turbulence data
+                    # then we tune up the turbulence_threshold, meaning we lower the risk
+                    turbulence_threshold = np.quantile(
+                        insample_turbulence.turbulence.values, 1
+                    )
+
+                turbulence_threshold = np.quantile(
+                    insample_turbulence.turbulence.values, 0.99
+                )
+                print("turbulence_threshold: ", turbulence_threshold)
 
             # Environment Setup starts
             # training env
@@ -547,6 +576,9 @@ class DRLEnsembleAgent:
                         action_space=self.action_space,
                         tech_indicator_list=self.tech_indicator_list,
                         print_verbosity=self.print_verbosity,
+                        ################################
+                        fixed_cost=self.fixed_cost,
+                        ################################
                     )
                 ]
             )
@@ -618,6 +650,7 @@ class DRLEnsembleAgent:
             max_mod = list(MODELS.keys())[np.argmax(sharpes)]
             model_use.append(max_mod.upper())
             model_ensemble = model_dct[max_mod]["model"]
+
             # Training and Validation ends
 
             # Trading starts
@@ -650,8 +683,8 @@ class DRLEnsembleAgent:
                 model_dct["a2c"]["sharpe_list"],
                 model_dct["ppo"]["sharpe_list"],
                 model_dct["ddpg"]["sharpe_list"],
-                model_dct["sac"]["sharpe_list"],
-                model_dct["td3"]["sharpe_list"],
+                #model_dct["sac"]["sharpe_list"],
+                #model_dct["td3"]["sharpe_list"],
             ]
         ).T
         df_summary.columns = [
@@ -662,8 +695,8 @@ class DRLEnsembleAgent:
             "A2C Sharpe",
             "PPO Sharpe",
             "DDPG Sharpe",
-            "SAC Sharpe",
-            "TD3 Sharpe",
+            #"SAC Sharpe",
+            #"TD3 Sharpe",
         ]
 
         return df_summary

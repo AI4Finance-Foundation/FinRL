@@ -10,6 +10,8 @@ import pandas as pd
 from gymnasium import spaces
 from gymnasium.utils import seeding
 from stable_baselines3.common.vec_env import DummyVecEnv
+from decimal import Decimal
+
 
 matplotlib.use("Agg")
 
@@ -44,7 +46,22 @@ class StockTradingEnv(gym.Env):
         model_name="",
         mode="",
         iteration="",
+
+        # Die Initialisierungsvariable fixed_cost ermöglicht im Weiteren die Berechnung und Umsetzung von fixen Transaktionskostenstrukturen. 
+        fixed_cost = float
     ):
+        
+        # Die Klasse wurde um einige Listen ergänzt, um den Verlauf wesentlicher Informationen zu speichern und zu exportieren
+        self.current_balance = []
+        self.fixed_cost = fixed_cost
+
+        self.cost_step = 0
+        self.cost_history = []
+
+        self.turbulence_history = []
+        #################################################
+
+
         self.day = day
         self.df = df
         self.stock_dim = stock_dim
@@ -101,41 +118,63 @@ class StockTradingEnv(gym.Env):
 
     def _sell_stock(self, index, action):
         def _do_sell_normal():
+            '''
             if (
                 self.state[index + 2 * self.stock_dim + 1] != True
             ):  # check if the stock is able to sell, for simlicity we just add it in techical index
                 # if self.state[index + 1] > 0: # if we use price<0 to denote a stock is unable to trade in that day, the total asset calculation may be wrong for the price is unreasonable
                 # Sell only if the price is > 0 (no missing data in this particular date)
                 # perform sell action based on the sign of the action
-                if self.state[index + self.stock_dim + 1] > 0:
-                    # Sell only if current asset is > 0
-                    sell_num_shares = min(
-                        abs(action), self.state[index + self.stock_dim + 1]
-                    )
-                    sell_amount = (
-                        self.state[index + 1]
-                        * sell_num_shares
-                        * (1 - self.sell_cost_pct[index])
-                    )
-                    # update balance
-                    self.state[0] += sell_amount
+            '''
+            if self.state[index + self.stock_dim + 1] > 0:
+                # Sell only if current asset is > 0
+                sell_num_shares = min(
+                    abs(action), self.state[index + self.stock_dim + 1]
+                )
+                sell_amount = (
+                    self.state[index + 1]
+                    * sell_num_shares
+                    * (1 - self.sell_cost_pct[index])
 
-                    self.state[index + self.stock_dim + 1] -= sell_num_shares
-                    self.cost += (
-                        self.state[index + 1]
-                        * sell_num_shares
-                        * self.sell_cost_pct[index]
-                    )
-                    self.trades += 1
-                else:
-                    sell_num_shares = 0
+                    # mögliche fixe Transaktionskosten werden zur Berechnung der möglichen Verkaufsmenge hinzugefügt
+                    - (sell_num_shares * self.fixed_cost) 
+
+                                )
+                # update balance
+                self.state[0] += sell_amount
+
+                self.state[index + self.stock_dim + 1] -= sell_num_shares
+                self.cost += (
+                    self.state[index + 1]
+                    * sell_num_shares
+                    * self.sell_cost_pct[index]
+
+                    # mögliche fixe Transaktionskosten werden zur Berechnung der Transaktionskosten hinzugefügt
+                    + (sell_num_shares * self.fixed_cost) 
+
+                    
+                )
+
+                # Die Berechnung der Transaktionskosten wird nochmal in einer eigenen Variable festgehalten, um deren Verlauf zu speichern und zu exportieren
+                self.cost_step += (
+                    self.state[index + 1]
+                    * sell_num_shares
+                    * self.sell_cost_pct[index]
+
+                    + (sell_num_shares * self.fixed_cost) 
+
+                                    )
+                self.trades += 1
             else:
                 sell_num_shares = 0
+            #else:
+            #    sell_num_shares = 0
 
             return sell_num_shares
 
         # perform sell action based on the sign of the action
         if self.turbulence_threshold is not None:
+
             if self.turbulence >= self.turbulence_threshold:
                 if self.state[index + 1] > 0:
                     # Sell only if the price is > 0 (no missing data in this particular date)
@@ -147,6 +186,12 @@ class StockTradingEnv(gym.Env):
                             self.state[index + 1]
                             * sell_num_shares
                             * (1 - self.sell_cost_pct[index])
+
+
+                            - (sell_num_shares * self.fixed_cost) 
+
+                    
+
                         )
                         # update balance
                         self.state[0] += sell_amount
@@ -155,7 +200,21 @@ class StockTradingEnv(gym.Env):
                             self.state[index + 1]
                             * sell_num_shares
                             * self.sell_cost_pct[index]
+
+                            + (sell_num_shares * self.fixed_cost) 
+
                         )
+                    
+
+                        self.cost_step += (
+                            self.state[index + 1]
+                            * sell_num_shares
+                            * self.sell_cost_pct[index]
+
+                            + (sell_num_shares * self.fixed_cost) 
+
+                                                )
+
                         self.trades += 1
                     else:
                         sell_num_shares = 0
@@ -170,33 +229,59 @@ class StockTradingEnv(gym.Env):
 
     def _buy_stock(self, index, action):
         def _do_buy():
+            '''
             if (
                 self.state[index + 2 * self.stock_dim + 1] != True
             ):  # check if the stock is able to buy
-                # if self.state[index + 1] >0:
-                # Buy only if the price is > 0 (no missing data in this particular date)
-                available_amount = self.state[0] // (
-                    self.state[index + 1] * (1 + self.buy_cost_pct[index])
-                )  # when buying stocks, we should consider the cost of trading when calculating available_amount, or we may be have cash<0
-                # print('available_amount:{}'.format(available_amount))
 
-                # update balance
-                buy_num_shares = min(available_amount, action)
-                buy_amount = (
-                    self.state[index + 1]
-                    * buy_num_shares
-                    * (1 + self.buy_cost_pct[index])
-                )
-                self.state[0] -= buy_amount
 
-                self.state[index + self.stock_dim + 1] += buy_num_shares
+            '''
+            # if self.state[index + 1] >0:
+            # Buy only if the price is > 0 (no missing data in this particular date)
+            available_amount = self.state[0] // (
 
-                self.cost += (
-                    self.state[index + 1] * buy_num_shares * self.buy_cost_pct[index]
-                )
-                self.trades += 1
-            else:
-                buy_num_shares = 0
+
+                #Bei der Überprüfung der höhe des Restguthabens werden fixe Transaktionskosten ergänzt, um zu vermeiden, dass das Guthaben unter 0 fallen kann
+                self.state[index + 1] * (1 + self.buy_cost_pct[index]) + self.fixed_cost
+
+            )  # when buying stocks, we should consider the cost of trading when calculating available_amount, or we may be have cash<0
+            # print('available_amount:{}'.format(available_amount))
+
+            # update balance
+            buy_num_shares = min(available_amount, action)
+            buy_amount = (
+                self.state[index + 1]
+                * buy_num_shares
+                * (1 + self.buy_cost_pct[index])
+
+                # auch beim Kauf werden fixe Transaktionskosten hinzugefügt
+                + (buy_num_shares * self.fixed_cost) 
+
+                            )
+            self.state[0] -= buy_amount
+
+            self.state[index + self.stock_dim + 1] += buy_num_shares
+
+            self.cost += (
+                self.state[index + 1] * buy_num_shares * self.buy_cost_pct[index]
+                
+                + (buy_num_shares * self.fixed_cost) 
+
+                            )
+            
+            self.cost_step += (
+                self.state[index + 1]
+                * buy_num_shares
+                * self.buy_cost_pct[index]
+
+
+                + (buy_num_shares * self.fixed_cost) 
+
+                
+            )
+            self.trades += 1
+            #else:
+            #    buy_num_shares = 0
 
             return buy_num_shares
 
@@ -282,6 +367,37 @@ class StockTradingEnv(gym.Env):
                     ),
                     index=False,
                 )
+                    
+
+                # Zu den bestehenden Datenexporten werden die neu angelegten Listen ergänzt. Dabei wird das Benennungsschema bestehender Exporte zur besseren Zuordnbarkeit beibehalten.
+                balance_table = pd.DataFrame(self.current_balance, columns=["Guthaben"])
+
+                balance_table.to_csv(
+                    "results/balance_history_{}_{}_{}.csv".format(
+                        self.mode, self.model_name, self.iteration
+                    ),
+                    index=False,
+                )
+
+                cost_table = pd.DataFrame(self.cost_history, columns=["Kosten"])
+
+                cost_table.to_csv(
+                    "results/cost_history_{}_{}_{}.csv".format(
+                        self.mode, self.model_name, self.iteration
+                    ),
+                    index=False,
+                )
+
+                turbulence_table = pd.DataFrame(self.turbulence_history, columns=["Kosten"])
+
+                turbulence_table.to_csv(
+                    "results/turbulence_history_{}_{}_{}.csv".format(
+                        self.mode, self.model_name, self.iteration
+                    ),
+                    index=False,
+                )
+                
+                
                 plt.plot(self.asset_memory, "r")
                 plt.savefig(
                     "results/account_value_{}_{}_{}.png".format(
@@ -353,11 +469,21 @@ class StockTradingEnv(gym.Env):
                 self.state
             )  # add current state in state_recorder for each step
 
+            
+            # In jedem Schritt werden die aktuellen Werte an die oben erstellten Listen angehängt. Auf diese Weise kann der Verlauf der Werte nachvollzogen werden. 
+            self.current_balance.append(self.state[0])
+            self.cost_history.append(self.cost_step)
+            self.cost_step = 0
+            self.turbulence_history.append(self.turbulence)
+
+
+
         return self.state, self.reward, self.terminal, False, {}
 
     def reset(
         self,
         *,
+        #seed=666,
         seed=None,
         options=None,
     ):
@@ -547,7 +673,11 @@ class StockTradingEnv(gym.Env):
         return df_actions
 
     def _seed(self, seed=None):
-        self.np_random, seed = seeding.np_random(seed)
+
+        # Ein konkreter Seed wird definiert, um die Vergleichbarkeit der Ergebnisse zu verbessern.
+
+        #self.np_random, seed = seeding.np_random(seed)
+        seed = 666
         return [seed]
 
     def get_sb_env(self):
