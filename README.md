@@ -42,7 +42,7 @@ Check out our latest competition: [ACM ICAIF 2023 FinRL Contest](https://finrl-c
 
 **Financial reinforcement learning (FinRL)** ([Document website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** for financial reinforcement learning. FinRL has evolved into an **ecosystem**
 
-| Dev Roadmap  | Stage | Users | Project | Desription |
+| Dev Roadmap  | Stage | Users | Project | Description |
 |----|----|----|----|----|
 | 0.0 (Preparation) | entrance | practitioners | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta)| gym-style market environments |
 | 1.0 (Proof-of-Concept)| full-stack | developers | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | automatic pipeline |
