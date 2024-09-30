@@ -85,7 +85,7 @@ class DRLAgent:
         verbose=1,
         seed=None,
         tensorboard_log=None,
-        device="cpu",  # 添加device参数，默认为cpu
+        device="cpu"
     ):
         if model_name not in MODELS:
             raise ValueError(
@@ -108,7 +108,7 @@ class DRLAgent:
             verbose=verbose,
             policy_kwargs=policy_kwargs,
             seed=seed,
-            device=device,  # 传递device参数
+            device=device,
             **model_kwargs,
         )
 
@@ -198,7 +198,7 @@ class DRLEnsembleAgent:
         model_kwargs=None,
         seed=None,
         verbose=1,
-        device="cpu",  # 添加device参数，默认为cpu
+        device="cpu"
     ):
         if model_name not in MODELS:
             raise ValueError(
@@ -223,7 +223,7 @@ class DRLEnsembleAgent:
             verbose=verbose,
             policy_kwargs=policy_kwargs,
             seed=seed,
-            device=device,  # 传递device参数
+            device=device,
             **temp_model_kwargs,
         )
 
