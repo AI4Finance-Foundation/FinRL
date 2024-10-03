@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import pandas as pd
 import yfinance as yf
+from tqdm import tqdm
 
 
 class YahooDownloader:
@@ -47,9 +48,13 @@ class YahooDownloader:
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         num_failures = 0
-        for tic in self.ticker_list:
+        for tic in tqdm(self.ticker_list):
             temp_df = yf.download(
-                tic, start=self.start_date, end=self.end_date, proxy=proxy
+                tic,
+                start=self.start_date,
+                end=self.end_date,
+                proxy=proxy,
+                progress=False,
             )
             temp_df["tic"] = tic
             if len(temp_df) > 0:
