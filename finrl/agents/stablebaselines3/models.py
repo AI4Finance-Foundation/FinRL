@@ -85,7 +85,6 @@ class DRLAgent:
         verbose=1,
         seed=None,
         tensorboard_log=None,
-        device="cpu",
     ):
         if model_name not in MODELS:
             raise ValueError(
@@ -108,7 +107,6 @@ class DRLAgent:
             verbose=verbose,
             policy_kwargs=policy_kwargs,
             seed=seed,
-            device=device,
             **model_kwargs,
         )
 
@@ -198,7 +196,6 @@ class DRLEnsembleAgent:
         model_kwargs=None,
         seed=None,
         verbose=1,
-        device="cpu",
     ):
         if model_name not in MODELS:
             raise ValueError(
@@ -223,7 +220,6 @@ class DRLEnsembleAgent:
             verbose=verbose,
             policy_kwargs=policy_kwargs,
             seed=seed,
-            device=device,
             **temp_model_kwargs,
         )
 
