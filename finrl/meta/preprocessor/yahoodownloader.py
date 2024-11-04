@@ -51,6 +51,8 @@ class YahooDownloader:
             temp_df = yf.download(
                 tic, start=self.start_date, end=self.end_date, proxy=proxy
             )
+            if temp_df.columns.nlevels != 1:
+                temp_df.columns = temp_df.columns.droplevel(1)
             temp_df["tic"] = tic
             if len(temp_df) > 0:
                 # data_df = data_df.append(temp_df)
