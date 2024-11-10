@@ -15,6 +15,7 @@ class AlpacaProcessor:
     def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, api=None):
         if api is None:
             try:
+                print("!!!!", API_KEY, API_SECRET, API_BASE_URL)
                 self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
             except BaseException:
                 raise ValueError("Wrong Account Info!")

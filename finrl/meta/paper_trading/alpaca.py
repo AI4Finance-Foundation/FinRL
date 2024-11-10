@@ -11,10 +11,10 @@ import gym
 import numpy as np
 import pandas as pd
 import torch
+import os
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.meta.paper_trading.common import AgentPPO
-
 
 class PaperTradingAlpaca:
     def __init__(
@@ -37,6 +37,8 @@ class PaperTradingAlpaca:
     ):
         # load agent
         self.drl_lib = drl_lib
+        self.agent = agent  # Store agent type for later use
+
         if agent == "ppo":
             if drl_lib == "elegantrl":
                 agent_class = AgentPPO
@@ -46,14 +48,12 @@ class PaperTradingAlpaca:
                 try:
                     cwd = cwd + "/actor.pth"
                     print(f"| load actor from: {cwd}")
-                    actor.load_state_dict(
-                        torch.load(cwd, map_location=lambda storage, loc: storage)
-                    )
+                    actor.load_state_dict(torch.load(cwd, map_location=lambda storage, loc: storage))
                     self.act = actor
                     self.device = agent.device
                 except BaseException:
+                    print(os.getcwd())
                     raise ValueError("Fail to load agent!")
-
             elif drl_lib == "rllib":
                 from ray.rllib.agents import ppo
                 from ray.rllib.agents.ppo.ppo import PPOTrainer
@@ -66,30 +66,49 @@ class PaperTradingAlpaca:
                     "action_dim": action_dim,
                 }
                 trainer = PPOTrainer(env=StockEnvEmpty, config=config)
-                trainer.restore(cwd)
                 try:
                     trainer.restore(cwd)
                     self.agent = trainer
                     print("Restoring from checkpoint path", cwd)
                 except:
                     raise ValueError("Fail to load agent!")
-
             elif drl_lib == "stable_baselines3":
                 from stable_baselines3 import PPO
-
                 try:
                     # load agent
                     self.model = PPO.load(cwd)
                     print("Successfully load model", cwd)
                 except:
                     raise ValueError("Fail to load agent!")
-
             else:
-                raise ValueError(
-                    "The DRL library input is NOT supported yet. Please check your input."
-                )
+                raise ValueError("The DRL library input is NOT supported yet. Please check your input.")
+
+        elif agent == "ddpg":
+            if drl_lib == "stable_baselines3":
+                from stable_baselines3 import DDPG
+                try:
+                    # load DDPG model
+                    self.model = DDPG.load(cwd)
+                    print("Successfully loaded DDPG model", cwd)
+                except:
+                    raise ValueError("Failed to load DDPG model!")
+            else:
+                raise ValueError("The DRL library input is NOT supported yet for DDPG. Please check your input.")
+        elif agent == "a2c":
+            # Add A2C agent initialization
+            if drl_lib == "stable_baselines3":
+                from stable_baselines3 import A2C
+                try:
+                    # load A2C agent model
+                    self.model = A2C.load(cwd)
+                    print("Successfully load A2C model", cwd)
+                except:
+                    raise ValueError("Fail to load A2C agent!")
+            else:
+                raise ValueError("The DRL library input is NOT supported yet for A2C. Please check your input.")
 
         else:
+            print(f"Agent '{agent}' is not recognized.")
             raise ValueError("Agent input is NOT supported yet.")
 
         # connect to Alpaca trading API
