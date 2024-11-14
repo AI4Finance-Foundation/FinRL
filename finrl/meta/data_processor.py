@@ -44,6 +44,7 @@ class DataProcessor:
             end_date=end_date,
             time_interval=time_interval,
         )
+        print("Downloaded data: ", df)
         return df
 
     def clean_data(self, df) -> pd.DataFrame:
