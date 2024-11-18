@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import List
-
 import gymnasium as gym
 import matplotlib
 import matplotlib.pyplot as plt
@@ -11,6 +9,7 @@ from gymnasium import spaces
 from gymnasium.utils import seeding
 from stable_baselines3 import A2C, DDPG, TD3, SAC, PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
+
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
 
 # load 5 models
