@@ -9,8 +9,13 @@ import numpy as np
 import pandas as pd
 from gymnasium import spaces
 from gymnasium.utils import seeding
-from stable_baselines3 import A2C, DDPG, TD3, SAC, PPO
+from stable_baselines3 import A2C
+from stable_baselines3 import DDPG
+from stable_baselines3 import PPO
+from stable_baselines3 import SAC
+from stable_baselines3 import TD3
 from stable_baselines3.common.vec_env import DummyVecEnv
+
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
 
 # load 5 models
@@ -19,7 +24,7 @@ PRETRAINED_MODEL_CONFIGS = [
     {"model_type": "a2c", "model_path": "trained_models/A2C_10K_126.zip"},
     {"model_type": "ddpg", "model_path": "trained_models/DDPG_10K_126.zip"},
     {"model_type": "sac", "model_path": "trained_models/SAC_10K_126.zip"},
-    {"model_type": "td3", "model_path": "trained_models/TD3_10K_126.zip"}
+    {"model_type": "td3", "model_path": "trained_models/TD3_10K_126.zip"},
 ]
 
 matplotlib.use("Agg")
@@ -114,16 +119,15 @@ class StockTradingStackingEnv(gym.Env):
         self.stacking_models = {}
         for pretrained_model_info in PRETRAINED_MODEL_CONFIGS:
             _m = self._load_model(
-                model_type=pretrained_model_info['model_type'],
-                model_path=pretrained_model_info['model_path']
+                model_type=pretrained_model_info["model_type"],
+                model_path=pretrained_model_info["model_path"],
             )
-            self.stacking_models[pretrained_model_info['model_type']]=_m
+            self.stacking_models[pretrained_model_info["model_type"]] = _m
 
-    def _load_model(self, model_type:str, model_path: str):
+    def _load_model(self, model_type: str, model_path: str):
         """Load a model from the specified path."""
         model = MODELS[model_type].load(model_path)
         return model
-
 
     def _sell_stock(self, index, action):
         def _do_sell_normal():
@@ -478,8 +482,6 @@ class StockTradingStackingEnv(gym.Env):
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
                 )
 
-
-
         self.load_pretrained()
         agent_actions = []
         for model_name in self.stacking_models.keys():
@@ -494,7 +496,6 @@ class StockTradingStackingEnv(gym.Env):
         return state
 
     def _update_state(self):
-
 
         if len(self.df.tic.unique()) > 1:
             # for multiple stock
