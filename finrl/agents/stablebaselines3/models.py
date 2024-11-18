@@ -17,7 +17,9 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 
 from finrl import config
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
-from finrl.meta.env_stock_trading.env_stocktrading_stacking import StockTradingStackingEnv
+from finrl.meta.env_stock_trading.env_stocktrading_stacking import (
+    StockTradingStackingEnv,
+)
 from finrl.meta.preprocessor.preprocessors import data_split
 
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
@@ -656,9 +658,6 @@ class DRLEnsembleAgent:
         return df_summary
 
 
-
-
-
 class DRLStackingAgent:
     @staticmethod
     def get_model(
@@ -874,7 +873,7 @@ class DRLStackingAgent:
                     iteration=i,
                     model_name=model_name,
                     mode="validation",
-                    print_verbosity=self.print_verbosity
+                    print_verbosity=self.print_verbosity,
                 )
             ]
         )
@@ -895,10 +894,12 @@ class DRLStackingAgent:
         A2C_model_kwargs,
         timesteps_dict,
     ):
-        kwargs = {
-            "model_6": A2C_model_kwargs
+        kwargs = {"model_6": A2C_model_kwargs}
+        model_dct = {
+            k: {"sharpe_list": [], "sharpe": -1}
+            for k in STACKING_MODELS.keys()
+            if k in kwargs
         }
-        model_dct = {k: {"sharpe_list": [], "sharpe": -1} for k in STACKING_MODELS.keys() if k in kwargs}
 
         last_state_stacking = []
 
@@ -972,7 +973,6 @@ class DRLStackingAgent:
                 ],
             )
 
-
             self.train_env = DummyVecEnv(
                 [
                     lambda: StockTradingStackingEnv(
@@ -987,7 +987,7 @@ class DRLStackingAgent:
                         state_space=self.state_space,
                         action_space=self.action_space,
                         tech_indicator_list=self.tech_indicator_list,
-                        print_verbosity=self.print_verbosity
+                        print_verbosity=self.print_verbosity,
                     )
                 ]
             )
@@ -1061,7 +1061,7 @@ class DRLStackingAgent:
                 iteration_list,
                 validation_start_date_list,
                 validation_end_date_list,
-                model_use
+                model_use,
             ]
         ).T
         df_summary.columns = [

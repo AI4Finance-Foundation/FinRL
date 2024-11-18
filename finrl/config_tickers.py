@@ -1511,5 +1511,5 @@ CUSTOM_TICKER = [
     "HOOD",
     "SMCI",
     "GME",
-    "AMC"
+    "AMC",
 ]
