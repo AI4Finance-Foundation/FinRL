@@ -17,11 +17,14 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 
 from finrl import config
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
+from finrl.meta.env_stock_trading.env_stocktrading_stacking import StockTradingStackingEnv
 from finrl.meta.preprocessor.preprocessors import data_split
 
 MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
+STACKING_MODELS = {"model_6": A2C}
 
 MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
+
 
 NOISE = {
     "normal": NormalActionNoise,
@@ -596,23 +599,7 @@ class DRLEnsembleAgent:
                 "to ",
                 self.unique_trade_date[i - self.rebalance_window],
             )
-            # Environment setup for model retraining up to first trade date
-            # train_full = data_split(self.df, start=self.train_period[0],
-            # end=self.unique_trade_date[i - self.rebalance_window])
-            # self.train_full_env = DummyVecEnv([lambda: StockTradingEnv(train_full,
-            #                                               self.stock_dim,
-            #                                               self.hmax,
-            #                                               self.initial_amount,
-            #                                               self.buy_cost_pct,
-            #                                               self.sell_cost_pct,
-            #                                               self.reward_scaling,
-            #                                               self.state_space,
-            #                                               self.action_space,
-            #                                               self.tech_indicator_list,
-            #                                              print_verbosity=self.print_verbosity
-            # )])
-            # Model Selection based on sharpe ratio
-            # Same order as MODELS: {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
+
             sharpes = [model_dct[k]["sharpe"] for k in MODELS.keys()]
             # Find the model with the highest sharpe ratio
             max_mod = list(MODELS.keys())[np.argmax(sharpes)]
@@ -664,6 +651,424 @@ class DRLEnsembleAgent:
             "DDPG Sharpe",
             "SAC Sharpe",
             "TD3 Sharpe",
+        ]
+
+        return df_summary
+
+
+
+
+
+class DRLStackingAgent:
+    @staticmethod
+    def get_model(
+        model_name,
+        env,
+        policy="MlpPolicy",
+        policy_kwargs=None,
+        model_kwargs=None,
+        seed=None,
+        verbose=1,
+    ):
+        if model_name not in STACKING_MODELS:
+            raise ValueError(
+                f"Model '{model_name}' not found in MODELS."
+            )  # this is more informative than NotImplementedError("NotImplementedError")
+
+        if model_kwargs is None:
+            temp_model_kwargs = MODEL_KWARGS[model_name]
+        else:
+            temp_model_kwargs = model_kwargs.copy()
+
+        if "action_noise" in temp_model_kwargs:
+            n_actions = env.action_space.shape[-1]
+            temp_model_kwargs["action_noise"] = NOISE[
+                temp_model_kwargs["action_noise"]
+            ](mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions))
+        print(temp_model_kwargs)
+        return STACKING_MODELS[model_name](
+            policy=policy,
+            env=env,
+            tensorboard_log=f"{config.TENSORBOARD_LOG_DIR}/{model_name}",
+            verbose=verbose,
+            policy_kwargs=policy_kwargs,
+            seed=seed,
+            **temp_model_kwargs,
+        )
+
+    @staticmethod
+    def train_model(model, model_name, tb_log_name, iter_num, total_timesteps=5000):
+        model = model.learn(
+            total_timesteps=total_timesteps,
+            tb_log_name=tb_log_name,
+            callback=TensorboardCallback(),
+        )
+        model.save(
+            f"{config.TRAINED_MODEL_DIR}/{model_name.upper()}_{total_timesteps // 1000}k_{iter_num}"
+        )
+        return model
+
+    @staticmethod
+    def get_validation_sharpe(iteration, model_name):
+        """Calculate Sharpe ratio based on validation results"""
+        df_total_value = pd.read_csv(
+            f"results/account_value_validation_{model_name}_{iteration}.csv"
+        )
+        # If the agent did not make any transaction
+        if df_total_value["daily_return"].var() == 0:
+            if df_total_value["daily_return"].mean() > 0:
+                return np.inf
+            else:
+                return 0.0
+        else:
+            return (
+                (4**0.5)
+                * df_total_value["daily_return"].mean()
+                / df_total_value["daily_return"].std()
+            )
+
+    def __init__(
+        self,
+        df,
+        train_period,
+        val_test_period,
+        rebalance_window,
+        validation_window,
+        stock_dim,
+        hmax,
+        initial_amount,
+        buy_cost_pct,
+        sell_cost_pct,
+        reward_scaling,
+        state_space,
+        action_space,
+        tech_indicator_list,
+        print_verbosity,
+    ):
+        self.df = df
+        self.train_period = train_period
+        self.val_test_period = val_test_period
+
+        self.unique_trade_date = df[
+            (df.date > val_test_period[0]) & (df.date <= val_test_period[1])
+        ].date.unique()
+        self.rebalance_window = rebalance_window
+        self.validation_window = validation_window
+        self.stock_dim = stock_dim
+        self.hmax = hmax
+        self.initial_amount = initial_amount
+        self.buy_cost_pct = buy_cost_pct
+        self.sell_cost_pct = sell_cost_pct
+        self.reward_scaling = reward_scaling
+        self.state_space = state_space
+        self.action_space = action_space
+        self.tech_indicator_list = tech_indicator_list
+        self.print_verbosity = print_verbosity
+        self.train_env = None
+
+    def DRL_validation(self, model, test_data, test_env, test_obs):
+        """validation process"""
+        for _ in range(len(test_data.index.unique())):
+            action, _states = model.predict(test_obs)
+            test_obs, rewards, dones, info = test_env.step(action)
+
+    def DRL_prediction(
+        self, model, name, last_state, iter_num, turbulence_threshold, initial
+    ):
+        """make a prediction based on trained model"""
+
+        # trading env
+        trade_data = data_split(
+            self.df,
+            start=self.unique_trade_date[iter_num - self.rebalance_window],
+            end=self.unique_trade_date[iter_num],
+        )
+        trade_env = DummyVecEnv(
+            [
+                lambda: StockTradingStackingEnv(
+                    df=trade_data,
+                    stock_dim=self.stock_dim,
+                    hmax=self.hmax,
+                    initial_amount=self.initial_amount,
+                    num_stock_shares=[0] * self.stock_dim,
+                    buy_cost_pct=[self.buy_cost_pct] * self.stock_dim,
+                    sell_cost_pct=[self.sell_cost_pct] * self.stock_dim,
+                    reward_scaling=self.reward_scaling,
+                    state_space=self.state_space,
+                    action_space=self.action_space,
+                    tech_indicator_list=self.tech_indicator_list,
+                    turbulence_threshold=turbulence_threshold,
+                    initial=initial,
+                    previous_state=last_state,
+                    model_name=name,
+                    mode="trade",
+                    iteration=iter_num,
+                    print_verbosity=self.print_verbosity,
+                )
+            ]
+        )
+
+        trade_obs = trade_env.reset()
+
+        for i in range(len(trade_data.index.unique())):
+            action, _states = model.predict(trade_obs)
+            trade_obs, rewards, dones, info = trade_env.step(action)
+            if i == (len(trade_data.index.unique()) - 2):
+                # print(env_test.render())
+                last_state = trade_env.envs[0].render()
+
+        df_last_state = pd.DataFrame({"last_state": last_state})
+        df_last_state.to_csv(f"results/last_state_{name}_{i}.csv", index=False)
+        return last_state
+
+    def _train_window(
+        self,
+        model_name,
+        model_kwargs,
+        sharpe_list,
+        validation_start_date,
+        validation_end_date,
+        timesteps_dict,
+        i,
+        validation,
+        turbulence_threshold,
+    ):
+        """
+        Train the model for a single window.
+        """
+        if model_kwargs is None:
+            return None, sharpe_list, -1
+
+        print(f"======{model_name} Training========")
+        model = self.get_model(
+            model_name, self.train_env, policy="MlpPolicy", model_kwargs=model_kwargs
+        )
+        model = self.train_model(
+            model,
+            model_name,
+            tb_log_name=f"{model_name}_{i}",
+            iter_num=i,
+            total_timesteps=timesteps_dict[model_name],
+        )
+        print(
+            f"======{model_name} Validation from: ",
+            validation_start_date,
+            "to ",
+            validation_end_date,
+        )
+        val_env = DummyVecEnv(
+            [
+                lambda: StockTradingStackingEnv(
+                    df=validation,
+                    stock_dim=self.stock_dim,
+                    hmax=self.hmax,
+                    initial_amount=self.initial_amount,
+                    num_stock_shares=[0] * self.stock_dim,
+                    buy_cost_pct=[self.buy_cost_pct] * self.stock_dim,
+                    sell_cost_pct=[self.sell_cost_pct] * self.stock_dim,
+                    reward_scaling=self.reward_scaling,
+                    state_space=self.state_space,
+                    action_space=self.action_space,
+                    tech_indicator_list=self.tech_indicator_list,
+                    turbulence_threshold=turbulence_threshold,
+                    iteration=i,
+                    model_name=model_name,
+                    mode="validation",
+                    print_verbosity=self.print_verbosity
+                )
+            ]
+        )
+        val_obs = val_env.reset()
+        self.DRL_validation(
+            model=model,
+            test_data=validation,
+            test_env=val_env,
+            test_obs=val_obs,
+        )
+        sharpe = self.get_validation_sharpe(i, model_name=model_name)
+        print(f"{model_name} Sharpe Ratio: ", sharpe)
+        sharpe_list.append(sharpe)
+        return model, sharpe_list, sharpe
+
+    def run_stack_strategy(
+        self,
+        A2C_model_kwargs,
+        timesteps_dict,
+    ):
+        kwargs = {
+            "model_6": A2C_model_kwargs
+        }
+        model_dct = {k: {"sharpe_list": [], "sharpe": -1} for k in STACKING_MODELS.keys() if k in kwargs}
+
+        last_state_stacking = []
+
+        model_use = []
+        validation_start_date_list = []
+        validation_end_date_list = []
+        iteration_list = []
+
+        insample_turbulence = self.df[
+            (self.df.date < self.train_period[1])
+            & (self.df.date >= self.train_period[0])
+        ]
+        insample_turbulence_threshold = np.quantile(
+            insample_turbulence.turbulence.values, 0.90
+        )
+
+        start = time.time()
+        for i in range(
+            self.rebalance_window + self.validation_window,
+            len(self.unique_trade_date),
+            self.rebalance_window,
+        ):
+            validation_start_date = self.unique_trade_date[
+                i - self.rebalance_window - self.validation_window
+            ]
+            validation_end_date = self.unique_trade_date[i - self.rebalance_window]
+
+            validation_start_date_list.append(validation_start_date)
+            validation_end_date_list.append(validation_end_date)
+            iteration_list.append(i)
+
+            if i - self.rebalance_window - self.validation_window == 0:
+                initial = True
+            else:
+                initial = False
+
+            end_date_index = self.df.index[
+                self.df["date"]
+                == self.unique_trade_date[
+                    i - self.rebalance_window - self.validation_window
+                ]
+            ].to_list()[-1]
+            start_date_index = end_date_index - 63 + 1
+            historical_turbulence = self.df.iloc[
+                start_date_index : (end_date_index + 1), :
+            ]
+            historical_turbulence = historical_turbulence.drop_duplicates(
+                subset=["date"]
+            )
+            historical_turbulence_mean = np.mean(
+                historical_turbulence.turbulence.values
+            )
+
+            if historical_turbulence_mean > insample_turbulence_threshold:
+                turbulence_threshold = insample_turbulence_threshold
+            else:
+                turbulence_threshold = np.quantile(
+                    insample_turbulence.turbulence.values, 1
+                )
+
+            turbulence_threshold = np.quantile(
+                insample_turbulence.turbulence.values, 0.99
+            )
+            print("turbulence_threshold: ", turbulence_threshold)
+
+            train = data_split(
+                self.df,
+                start=self.train_period[0],
+                end=self.unique_trade_date[
+                    i - self.rebalance_window - self.validation_window
+                ],
+            )
+
+
+            self.train_env = DummyVecEnv(
+                [
+                    lambda: StockTradingStackingEnv(
+                        df=train,
+                        stock_dim=self.stock_dim,
+                        hmax=self.hmax,
+                        initial_amount=self.initial_amount,
+                        num_stock_shares=[0] * self.stock_dim,
+                        buy_cost_pct=[self.buy_cost_pct] * self.stock_dim,
+                        sell_cost_pct=[self.sell_cost_pct] * self.stock_dim,
+                        reward_scaling=self.reward_scaling,
+                        state_space=self.state_space,
+                        action_space=self.action_space,
+                        tech_indicator_list=self.tech_indicator_list,
+                        print_verbosity=self.print_verbosity
+                    )
+                ]
+            )
+
+            validation = data_split(
+                self.df,
+                start=self.unique_trade_date[
+                    i - self.rebalance_window - self.validation_window
+                ],
+                end=self.unique_trade_date[i - self.rebalance_window],
+            )
+            print(
+                "======Model training from: ",
+                self.train_period[0],
+                "to ",
+                self.unique_trade_date[
+                    i - self.rebalance_window - self.validation_window
+                ],
+            )
+            for model_name in STACKING_MODELS.keys():
+                # Train The Model
+                model, sharpe_list, sharpe = self._train_window(
+                    model_name,
+                    kwargs[model_name],
+                    model_dct[model_name]["sharpe_list"],
+                    validation_start_date,
+                    validation_end_date,
+                    timesteps_dict,
+                    i,
+                    validation,
+                    turbulence_threshold,
+                )
+
+                model_dct[model_name]["sharpe_list"] = sharpe_list
+                model_dct[model_name]["model"] = model
+                model_dct[model_name]["sharpe"] = sharpe
+
+            print(
+                "======Best Model Retraining from: ",
+                self.train_period[0],
+                "to ",
+                self.unique_trade_date[i - self.rebalance_window],
+            )
+
+            sharpes = [model_dct[k]["sharpe"] for k in STACKING_MODELS.keys()]
+            # Find the model with the highest sharpe ratio
+            max_mod = list(STACKING_MODELS.keys())[np.argmax(sharpes)]
+            model_use.append(max_mod.upper())
+            model_stacking = model_dct[max_mod]["model"]
+
+            print(
+                "======Trading from: ",
+                self.unique_trade_date[i - self.rebalance_window],
+                "to ",
+                self.unique_trade_date[i],
+            )
+            last_state_stacking = self.DRL_prediction(
+                model=model_stacking,
+                name="stacking",
+                last_state=last_state_stacking,
+                iter_num=i,
+                turbulence_threshold=turbulence_threshold,
+                initial=initial,
+            )
+
+        end = time.time()
+        print("Stacking Strategy took: ", (end - start) / 60, " minutes")
+
+        df_summary = pd.DataFrame(
+            [
+                iteration_list,
+                validation_start_date_list,
+                validation_end_date_list,
+                model_use
+            ]
+        ).T
+        df_summary.columns = [
+            "Iter",
+            "Val Start",
+            "Val End",
+            "Stacking Model Used",
         ]
 
         return df_summary
