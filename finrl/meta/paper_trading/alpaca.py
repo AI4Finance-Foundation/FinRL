@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import datetime
+import os
 import threading
 import time
-import os
 
 import alpaca_trade_api as tradeapi
 import gym
@@ -13,6 +13,7 @@ import torch
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.meta.paper_trading.common import AgentPPO
+
 
 class PaperTradingAlpaca:
     def __init__(
@@ -45,7 +46,9 @@ class PaperTradingAlpaca:
                 try:
                     cwd = cwd + "/actor.pth"
                     print(f"| load actor from: {cwd}")
-                    actor.load_state_dict(torch.load(cwd, map_location=lambda storage, loc: storage))
+                    actor.load_state_dict(
+                        torch.load(cwd, map_location=lambda storage, loc: storage)
+                    )
                     self.act = actor
                     self.device = agent.device
                 except BaseException:
@@ -71,28 +74,35 @@ class PaperTradingAlpaca:
                     raise ValueError("Fail to load agent!")
             elif drl_lib == "stable_baselines3":
                 from stable_baselines3 import PPO
+
                 try:
                     self.model = PPO.load(cwd)
                     print("Successfully load model", cwd)
                 except:
                     raise ValueError("Fail to load agent!")
             else:
-                raise ValueError("The DRL library input is NOT supported yet. Please check your input.")
+                raise ValueError(
+                    "The DRL library input is NOT supported yet. Please check your input."
+                )
 
         elif agent == "ddpg":
             if drl_lib == "stable_baselines3":
                 from stable_baselines3 import DDPG
+
                 try:
                     self.model = DDPG.load(cwd)
                     print("Successfully loaded DDPG model", cwd)
                 except:
                     raise ValueError("Failed to load DDPG model!")
             else:
-                raise ValueError("The DRL library input is NOT supported yet for DDPG. Please check your input.")
+                raise ValueError(
+                    "The DRL library input is NOT supported yet for DDPG. Please check your input."
+                )
 
         elif agent == "td3":
             if drl_lib == "stable_baselines3":
                 from stable_baselines3 import TD3
+
                 try:
                     # load TD3 model
                     self.model = TD3.load(cwd)
@@ -100,18 +110,23 @@ class PaperTradingAlpaca:
                 except:
                     raise ValueError("Failed to load TD3 model!")
             else:
-                raise ValueError("The DRL library input is NOT supported yet for TD3. Please check your input.")
+                raise ValueError(
+                    "The DRL library input is NOT supported yet for TD3. Please check your input."
+                )
 
         elif agent == "a2c":
             if drl_lib == "stable_baselines3":
                 from stable_baselines3 import A2C
+
                 try:
                     self.model = A2C.load(cwd)
                     print("Successfully load A2C model", cwd)
                 except:
                     raise ValueError("Fail to load A2C agent!")
             else:
-                raise ValueError("The DRL library input is NOT supported yet for A2C. Please check your input.")
+                raise ValueError(
+                    "The DRL library input is NOT supported yet for A2C. Please check your input."
+                )
 
         else:
             print(f"Agent '{agent}' is not recognized.")
@@ -121,7 +136,9 @@ class PaperTradingAlpaca:
         try:
             self.alpaca = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
         except:
-            raise ValueError("Fail to connect to Alpaca. Please check account info and internet connection.")
+            raise ValueError(
+                "Fail to connect to Alpaca. Please check account info and internet connection."
+            )
 
         # read trading time interval
         if time_interval == "1s":
@@ -146,7 +163,9 @@ class PaperTradingAlpaca:
         self.stocks = np.asarray([0] * len(ticker_list))  # stocks holding
         self.stocks_cd = np.zeros_like(self.stocks)
         self.cash = None  # cash record
-        self.stocks_df = pd.DataFrame(self.stocks, columns=["stocks"], index=ticker_list)
+        self.stocks_df = pd.DataFrame(
+            self.stocks, columns=["stocks"], index=ticker_list
+        )
         self.asset_list = []
         self.price = np.asarray([0] * len(ticker_list))
         self.stockUniverse = ticker_list
@@ -164,7 +183,9 @@ class PaperTradingAlpaca:
         print("Market opened.")
         while True:
             clock = self.alpaca.get_clock()
-            closingTime = clock.next_close.replace(tzinfo=datetime.timezone.utc).timestamp()
+            closingTime = clock.next_close.replace(
+                tzinfo=datetime.timezone.utc
+            ).timestamp()
             currTime = clock.timestamp.replace(tzinfo=datetime.timezone.utc).timestamp()
             self.timeToClose = closingTime - currTime
 
@@ -208,7 +229,7 @@ class PaperTradingAlpaca:
             time.sleep(60)
             isOpen = self.alpaca.get_clock().is_open
 
-    def trade(self):    
+    def trade(self):
         state = self.get_state()
         print(f"State at trading time: {state}")
 
@@ -226,7 +247,7 @@ class PaperTradingAlpaca:
 
         elif self.drl_lib == "stable_baselines3":
             action = self.model.predict(state)[0]
-            print(f"Stable Baselines action: {action}") 
+            print(f"Stable Baselines action: {action}")
 
         else:
             raise ValueError(
@@ -247,8 +268,10 @@ class PaperTradingAlpaca:
                 sell_num_shares = min(self.stocks[index], -action[index])
                 qty = abs(int(sell_num_shares))
                 print(f"Attempting to sell {qty} shares of {self.stockUniverse[index]}")
-                print(f"Stock holdings: {self.stocks[index]}, Sell action: {action[index]}")
-                
+                print(
+                    f"Stock holdings: {self.stocks[index]}, Sell action: {action[index]}"
+                )
+
                 # Check if qty is reasonable
                 if qty > 0:
                     respSO = []
@@ -262,7 +285,9 @@ class PaperTradingAlpaca:
                     self.cash = float(self.alpaca.get_account().cash)
                     self.stocks_cd[index] = 0
                 else:
-                    print(f"Skipping sell for {self.stockUniverse[index]} due to zero quantity.")
+                    print(
+                        f"Skipping sell for {self.stockUniverse[index]} due to zero quantity."
+                    )
 
             for x in threads:  #  wait for all threads to complete
                 x.join()
@@ -285,7 +310,9 @@ class PaperTradingAlpaca:
                     qty = abs(int(buy_num_shares))
 
                 print(f"Attempting to buy {qty} shares of {self.stockUniverse[index]}")
-                print(f"Available cash: {self.cash}, Price of {self.stockUniverse[index]}: {self.price[index]}, Buy action: {action[index]}")
+                print(
+                    f"Available cash: {self.cash}, Price of {self.stockUniverse[index]}: {self.price[index]}, Buy action: {action[index]}"
+                )
 
                 # Check if qty is reasonable
                 if qty > 0:
@@ -300,7 +327,9 @@ class PaperTradingAlpaca:
                     self.cash = float(self.alpaca.get_account().cash)
                     self.stocks_cd[index] = 0
                 else:
-                    print(f"Skipping buy for {self.stockUniverse[index]} due to zero quantity or insufficient funds.")
+                    print(
+                        f"Skipping buy for {self.stockUniverse[index]} due to zero quantity or insufficient funds."
+                    )
 
             for x in threads:  #  wait for all threads to complete
                 x.join()
@@ -337,13 +366,16 @@ class PaperTradingAlpaca:
             for index in np.where(action > min_action)[0]:  # buy
                 qty = min(self.cash // self.price[index], abs(action[index]))
                 if qty > 0:
-                    print(f"Attempting to buy {qty} of {self.stockUniverse[index]} with cash: {self.cash}")
+                    print(
+                        f"Attempting to buy {qty} of {self.stockUniverse[index]} with cash: {self.cash}"
+                    )
                     resp = []
                     self.submitOrder(qty, self.stockUniverse[index], "buy", resp)
                     print(f"Buy order response: {resp}")
                 else:
-                    print(f"Insufficient cash to buy {self.stockUniverse[index]}, qty: {qty}, cash: {self.cash}")
-
+                    print(
+                        f"Insufficient cash to buy {self.stockUniverse[index]}, qty: {qty}, cash: {self.cash}"
+                    )
 
     def get_state(self):
         alpaca = AlpacaProcessor(api=self.alpaca)
@@ -392,7 +424,7 @@ class PaperTradingAlpaca:
         return state
 
     def submitOrder(self, qty, stock, side, resp):
-        print(f"Order Attempt - Stock: {stock}, Quantity: {qty}, Side: {side}") 
+        print(f"Order Attempt - Stock: {stock}, Quantity: {qty}, Side: {side}")
         if qty > 0:
             try:
                 self.alpaca.submit_order(stock, qty, side, "market", "day")
@@ -406,7 +438,9 @@ class PaperTradingAlpaca:
                     + " | completed."
                 )
                 resp.append(True)
-                print(f"Order for {qty} shares of {stock} ({side}) submitted successfully.")
+                print(
+                    f"Order for {qty} shares of {stock} ({side}) submitted successfully."
+                )
             except:
                 print(
                     "Order of | "
