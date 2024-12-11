@@ -110,6 +110,9 @@ class YahooFinanceProcessor:
                     interval=self.time_interval,
                     proxy=proxy,
                 )
+                if temp_df.columns.nlevels != 1:
+                    temp_df.columns = temp_df.columns.droplevel(1)
+
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
                 current_tic_start_date += delta
