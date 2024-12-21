@@ -49,7 +49,11 @@ class YahooDownloader:
         num_failures = 0
         for tic in self.ticker_list:
             temp_df = yf.download(
-                tic, start=self.start_date, end=self.end_date, proxy=proxy, auto_adjust=auto_adjust
+                tic,
+                start=self.start_date,
+                end=self.end_date,
+                proxy=proxy,
+                auto_adjust=auto_adjust,
             )
             if temp_df.columns.nlevels != 1:
                 temp_df.columns = temp_df.columns.droplevel(1)
@@ -65,15 +69,20 @@ class YahooDownloader:
         data_df = data_df.reset_index()
         try:
             # convert the column names to standardized names
-            data_df.rename(columns={"Date": "date", 
-                        "Adj Close": "adjcp",
-                        "Close": "close",
-                        "High": "high", 
-                        "Low": "low", 
-                        "Volume": "volumne", 
-                        "Open": "open",
-                        "tic":"tic"}, inplace=True)
-            
+            data_df.rename(
+                columns={
+                    "Date": "date",
+                    "Adj Close": "adjcp",
+                    "Close": "close",
+                    "High": "high",
+                    "Low": "low",
+                    "Volume": "volumne",
+                    "Open": "open",
+                    "tic": "tic",
+                },
+                inplace=True,
+            )
+
             # use adjusted close price instead of close price
             data_df["close"] = data_df["adjcp"]
             # drop the adjusted close price column
