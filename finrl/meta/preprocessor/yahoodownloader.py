@@ -76,7 +76,7 @@ class YahooDownloader:
                     "Close": "close",
                     "High": "high",
                     "Low": "low",
-                    "Volume": "volumne",
+                    "Volume": "volume",
                     "Open": "open",
                     "tic": "tic",
                 },
