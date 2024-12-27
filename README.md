@@ -31,8 +31,6 @@
 
 [FinGPT](https://github.com/AI4Finance-Foundation/ChatGPT-for-FinTech): Open-source for open-finance! Revolutionize FinTech.
 
-Check out our latest competition: [ACM ICAIF 2023 FinRL Contest](https://finrl-contest.github.io/)
-
 
 [![](https://dcbadge.vercel.app/api/server/trsr8SXpW5)](https://discord.gg/trsr8SXpW5)
 
@@ -209,8 +207,6 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 ## Tutorials
 
 + [Towardsdatascience] [Deep Reinforcement Learning for Automated Stock Trading](https://towardsdatascience.com/deep-reinforcement-learning-for-automated-stock-trading-f1dad0126a02)
-
-A complete list at [blogs](https://github.com/AI4Finance-Foundation/Blogs)
 
 
 ## Publications
