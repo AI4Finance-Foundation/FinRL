@@ -3,34 +3,26 @@
 from __future__ import annotations
 
 import datetime
-from datetime import date
-from datetime import timedelta
+import time
+from datetime import date, timedelta
 from sqlite3 import Timestamp
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Type
-from typing import TypeVar
-from typing import Union
+from typing import Any, Dict, List, Optional, Type, TypeVar, Union
 
 import exchange_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
 import yfinance as yf
-from stockstats import StockDataFrame as Sdf
-
 
 ### Added by aymeric75 for scrap_data function
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from stockstats import StockDataFrame as Sdf
 from webdriver_manager.chrome import ChromeDriverManager
-import time
 
 
 class YahooFinanceProcessor:
@@ -67,19 +59,11 @@ class YahooFinanceProcessor:
     ...
     """
 
-
-
-
-
-
-
-
-
     ######## ADDED BY aymeric75 ###################
 
     def date_to_unix(self, date_str) -> int:
         """Convert a date string in yyyy-mm-dd format to Unix timestamp."""
-        dt = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+        dt = datetime.datetime.strptime(date_str, "%Y-%m-%d")
         return int(dt.timestamp())
 
     def fetch_stock_data(self, stock_name, period1, period2) -> pd.DataFrame:
@@ -90,7 +74,9 @@ class YahooFinanceProcessor:
         options = Options()
         options.add_argument("--headless")  # Headless for performance
         options.add_argument("--disable-gpu")  # Disable GPU for compatibility
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(
+            service=Service(ChromeDriverManager().install()), options=options
+        )
 
         # Navigate to the URL
         driver.get(url)
@@ -99,7 +85,9 @@ class YahooFinanceProcessor:
 
         # Handle potential popup
         try:
-            RejectAll = driver.find_element(By.XPATH, '//button[@class="btn secondary reject-all"]')
+            RejectAll = driver.find_element(
+                By.XPATH, '//button[@class="btn secondary reject-all"]'
+            )
             action = ActionChains(driver)
             action.click(on_element=RejectAll)
             action.perform()
@@ -109,21 +97,21 @@ class YahooFinanceProcessor:
             print("Popup not found or handled:", e)
 
         # Parse the page for the table
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        table = soup.find('table')
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        table = soup.find("table")
         if not table:
             raise Exception("No table found after handling redirection and popup.")
 
         # Extract headers
-        headers = [th.text.strip() for th in table.find_all('th')]
+        headers = [th.text.strip() for th in table.find_all("th")]
 
         headers[4] = "Close"
         headers[5] = "Adj Close"
 
         # Extract rows
         rows = []
-        for tr in table.find_all('tr')[1:]:  # Skip header row
-            cells = [td.text.strip() for td in tr.find_all('td')]
+        for tr in table.find_all("tr")[1:]:  # Skip header row
+            cells = [td.text.strip() for td in tr.find_all("td")]
             if len(cells) == len(headers):  # Only add rows with correct column count
                 rows.append(cells)
 
@@ -133,67 +121,55 @@ class YahooFinanceProcessor:
         # Convert columns to appropriate data types
         def safe_convert(value, dtype):
             try:
-                return dtype(value.replace(',', ''))
+                return dtype(value.replace(",", ""))
             except ValueError:
                 return value
 
-        df['Open'] = df['Open'].apply(lambda x: safe_convert(x, float))
-        df['High'] = df['High'].apply(lambda x: safe_convert(x, float))
-        df['Low'] = df['Low'].apply(lambda x: safe_convert(x, float))
-        df['Close'] = df['Close'].apply(lambda x: safe_convert(x, float))
-        df['Adj Close'] = df['Adj Close'].apply(lambda x: safe_convert(x, float))
-        df['Volume'] = df['Volume'].apply(lambda x: safe_convert(x, int))
+        df["Open"] = df["Open"].apply(lambda x: safe_convert(x, float))
+        df["High"] = df["High"].apply(lambda x: safe_convert(x, float))
+        df["Low"] = df["Low"].apply(lambda x: safe_convert(x, float))
+        df["Close"] = df["Close"].apply(lambda x: safe_convert(x, float))
+        df["Adj Close"] = df["Adj Close"].apply(lambda x: safe_convert(x, float))
+        df["Volume"] = df["Volume"].apply(lambda x: safe_convert(x, int))
 
         # Add 'tick' column
-        df['tick'] = stock_name
+        df["tick"] = stock_name
 
         # Add 'day' column
         start_date = datetime.datetime.fromtimestamp(period1)
-        df['Date'] = pd.to_datetime(df['Date'])
-        df['day'] = (df['Date'] - start_date).dt.days
-        df = df[df['day'] >= 0]  # Exclude rows with days before the start date
+        df["Date"] = pd.to_datetime(df["Date"])
+        df["day"] = (df["Date"] - start_date).dt.days
+        df = df[df["day"] >= 0]  # Exclude rows with days before the start date
 
         # Reverse the DataFrame rows
         df = df.iloc[::-1].reset_index(drop=True)
-        
+
         return df
 
     def scrap_data(self, stock_names, start_date, end_date) -> pd.DataFrame:
         """Fetch and combine stock data for multiple stock names."""
         period1 = self.date_to_unix(start_date)
         period2 = self.date_to_unix(end_date)
-        
+
         all_dataframes = []
         total_stocks = len(stock_names)
 
         for i, stock_name in enumerate(stock_names):
             try:
-                print(f"Processing {stock_name} ({i + 1}/{total_stocks})... {(i + 1) / total_stocks * 100:.2f}% complete.")
+                print(
+                    f"Processing {stock_name} ({i + 1}/{total_stocks})... {(i + 1) / total_stocks * 100:.2f}% complete."
+                )
                 df = self.fetch_stock_data(stock_name, period1, period2)
                 all_dataframes.append(df)
             except Exception as e:
                 print(f"Error fetching data for {stock_name}: {e}")
 
         combined_df = pd.concat(all_dataframes, ignore_index=True)
-        combined_df = combined_df.sort_values(by=['day', 'tick']).reset_index(drop=True)
+        combined_df = combined_df.sort_values(by=["day", "tick"]).reset_index(drop=True)
 
         return combined_df
 
     ######## END ADDED BY aymeric75 ###################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
@@ -217,9 +193,6 @@ class YahooFinanceProcessor:
             raise ValueError("wrong time_interval")
 
         return time_interval
-
-
-
 
     def download_data(
         self,
