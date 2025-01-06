@@ -77,6 +77,7 @@ class YahooFinanceProcessor:
         # Base URL
         url = f"https://finance.yahoo.com/quote/{stock_name}/history/?period1={period1}&period2={period2}&filter=history"
 
+
         # Selenium WebDriver Setup
         options = Options()
         options.add_argument("--headless")  # Headless for performance
@@ -111,9 +112,11 @@ class YahooFinanceProcessor:
 
         # Extract headers
         headers = [th.text.strip() for th in table.find_all("th")]
-
         headers[4] = "Close"
-        headers[5] = "Adj Close"
+        headers[5] = "Adj Close"        
+        headers = ['date', 'open', 'high', 'low', 'close', 'adjcp', 'volume']
+        # , 'tic', 'day'
+
 
         # Extract rows
         rows = []
@@ -132,20 +135,20 @@ class YahooFinanceProcessor:
             except ValueError:
                 return value
 
-        df["Open"] = df["Open"].apply(lambda x: safe_convert(x, float))
-        df["High"] = df["High"].apply(lambda x: safe_convert(x, float))
-        df["Low"] = df["Low"].apply(lambda x: safe_convert(x, float))
-        df["Close"] = df["Close"].apply(lambda x: safe_convert(x, float))
-        df["Adj Close"] = df["Adj Close"].apply(lambda x: safe_convert(x, float))
-        df["Volume"] = df["Volume"].apply(lambda x: safe_convert(x, int))
+        df["open"] = df["open"].apply(lambda x: safe_convert(x, float))
+        df["high"] = df["high"].apply(lambda x: safe_convert(x, float))
+        df["low"] = df["low"].apply(lambda x: safe_convert(x, float))
+        df["close"] = df["close"].apply(lambda x: safe_convert(x, float))
+        df["adjcp"] = df["adjcp"].apply(lambda x: safe_convert(x, float))
+        df["volume"] = df["volume"].apply(lambda x: safe_convert(x, int))
 
-        # Add 'tick' column
-        df["tick"] = stock_name
+        # Add 'tic' column
+        df["tic"] = stock_name
 
         # Add 'day' column
         start_date = datetime.datetime.fromtimestamp(period1)
-        df["Date"] = pd.to_datetime(df["Date"])
-        df["day"] = (df["Date"] - start_date).dt.days
+        df["date"] = pd.to_datetime(df["date"])
+        df["day"] = (df["date"] - start_date).dt.days
         df = df[df["day"] >= 0]  # Exclude rows with days before the start date
 
         # Reverse the DataFrame rows
@@ -177,6 +180,10 @@ class YahooFinanceProcessor:
         return combined_df
 
     ######## END ADDED BY aymeric75 ###################
+
+
+
+
 
     def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
