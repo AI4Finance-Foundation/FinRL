@@ -77,7 +77,6 @@ class YahooFinanceProcessor:
         # Base URL
         url = f"https://finance.yahoo.com/quote/{stock_name}/history/?period1={period1}&period2={period2}&filter=history"
 
-
         # Selenium WebDriver Setup
         options = Options()
         options.add_argument("--headless")  # Headless for performance
@@ -113,10 +112,9 @@ class YahooFinanceProcessor:
         # Extract headers
         headers = [th.text.strip() for th in table.find_all("th")]
         headers[4] = "Close"
-        headers[5] = "Adj Close"        
-        headers = ['date', 'open', 'high', 'low', 'close', 'adjcp', 'volume']
+        headers[5] = "Adj Close"
+        headers = ["date", "open", "high", "low", "close", "adjcp", "volume"]
         # , 'tic', 'day'
-
 
         # Extract rows
         rows = []
@@ -180,10 +178,6 @@ class YahooFinanceProcessor:
         return combined_df
 
     ######## END ADDED BY aymeric75 ###################
-
-
-
-
 
     def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
