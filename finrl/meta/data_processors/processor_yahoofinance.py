@@ -56,8 +56,6 @@ class YahooFinanceProcessor:
     ...
     """
 
-
-
     ######## ADDED BY aymeric75 ###################
 
     def date_to_unix(self, date_str) -> int:
@@ -77,7 +75,7 @@ class YahooFinanceProcessor:
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-extensions")
         options.add_argument("--dns-prefetch-disable")
-        options.add_argument('--disable-dev-shm-usage')  
+        options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-gpu")
 
         driver = webdriver.Chrome(
@@ -107,8 +105,8 @@ class YahooFinanceProcessor:
         table = soup.find("table")
         if not table:
             raise Exception("No table found after handling redirection and popup.")
-    
-        headers = ['date', 'open', 'high', 'low', 'close', 'adjcp', 'volume']
+
+        headers = ["date", "open", "high", "low", "close", "adjcp", "volume"]
 
         # Extract rows
         rows = []
@@ -173,9 +171,6 @@ class YahooFinanceProcessor:
 
     ######## END ADDED BY aymeric75 ###################
 
-
-
-    
     def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
         if time_interval in [
