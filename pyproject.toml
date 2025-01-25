@@ -26,7 +26,7 @@ keywords=["Reinforcement Learning", "Finance"]
 github = "https://github.com/finrl/finrl-library"
 
 [tool.poetry.dependencies]
-python = "~3.10"
+python = "~3.11"
 elegantrl = {git="https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"}
 alpaca-trade-api = "^3"
 ccxt = "^3"
