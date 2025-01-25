@@ -28,7 +28,6 @@ github = "https://github.com/finrl/finrl-library"
 [tool.poetry.dependencies]
 python = "~3.11"
 elegantrl = {git="https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"}
-alpaca-trade-api = "^3"
 ccxt = "^3"
 exchange-calendars = "^4"
 jqdatasdk = "^1"
