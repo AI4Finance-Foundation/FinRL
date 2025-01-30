@@ -4,6 +4,7 @@ USER root
 #it will set the value this environment variable to 1
 ENV PYTHONUNBUFFERED 1
 RUN pip install --upgrade pip
+RUN pip install swig
 
 #create directory
 #RUN apt-get update -y && \ apt-get install -y python-pip python-dev
