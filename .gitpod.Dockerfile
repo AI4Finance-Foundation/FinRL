@@ -1,20 +1,15 @@
-FROM gitpod/workspace-full
+FROM python:3.10.5
+USER root
+#convention to create an environment variable
+#it will set the value this environment variable to 1
+ENV PYTHONUNBUFFERED 1
+RUN pip install --upgrade pip
 
-USER gitpod
+#create directory
+#RUN apt-get update -y && \ apt-get install -y python-pip python-dev
+RUN mkdir /src
 
+#working directory
 WORKDIR /src
 
-COPY requirements.txt .
-
-RUN pip install -r requirements.txt -I
-
-RUN pip install jupsyterlab
-
-# Install custom tools, runtime, etc. using apt-get
-# For example, the command below would install "bastet" - a command line tetris clone:
-#
-# RUN sudo apt-get -q update && \
-#     sudo apt-get install -yq bastet && \
-#     sudo rm -rf /var/lib/apt/lists/*
-#
-# More information: https://www.gitpod.io/docs/config-docker/
+#copy everything to this expected /code going to be created within oour container
