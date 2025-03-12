@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  finrl-crypto:
+    build:
+      context: ../..  # Build from root directory
+      dockerfile: docker/crypto/Dockerfile
+    ports:
+      - "8888:8888"  # Jupyter Lab
+    volumes:
+      - ../../examples:/app/examples  # Mount examples directory
+      - ../../data:/app/data  # Mount data directory
+    environment:
+      - PYTHONPATH=/app
+      # Add your API keys here when ready for real trading
+      - BINANCE_API_KEY=${BINANCE_API_KEY:-}
+      - BINANCE_SECRET_KEY=${BINANCE_SECRET_KEY:-}
+    restart: unless-stopped

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  btc-analysis-bot:
+    build:
+      context: ../..
+      dockerfile: docker/crypto/Dockerfile
+    volumes:
+      - ../../examples:/app/examples
+      - ../../logs:/app/logs
+    environment:
+      - PYTHONPATH=/app
+      - TZ=UTC
+    command: python /app/examples/btc_realtime_analysis.py
+    restart: unless-stopped
