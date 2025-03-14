@@ -1,7 +1,11 @@
+from __future__ import annotations
+
+from datetime import datetime
+from datetime import timedelta
+
+from finrl.agents.stablebaselines3.models import DRLAgent
 from finrl.meta.data_processors.processor_ccxt import CCXTEngineer
 from finrl.meta.env_cryptocurrency_trading.env_multiple_crypto import CryptoEnv
-from finrl.agents.stablebaselines3.models import DRLAgent
-from datetime import datetime, timedelta
 
 # Initialize data processor
 ccxt_eng = CCXTEngineer()
@@ -23,6 +27,7 @@ TECHNICAL_INDICATORS_LIST = [
     "dx",
 ]
 
+
 def main():
     # Download and preprocess data
     print("Fetching cryptocurrency data...")
@@ -30,26 +35,26 @@ def main():
         start=TRAIN_START_DATE,
         end=TRAIN_END_DATE,
         pair_list=CRYPTO_PAIRS,
-        period="1d"  # Using daily data, can be changed to '1m', '5m', '1h' etc.
+        period="1d",  # Using daily data, can be changed to '1m', '5m', '1h' etc.
     )
-    
+
     # Create training environment
     train_env_config = {
         "price_array": train_data["close"].values,
         "tech_array": train_data[TECHNICAL_INDICATORS_LIST].values,
         "if_train": True,
     }
-    
+
     env_instance = CryptoEnv(
         config=train_env_config,
         initial_capital=100000,  # Starting with 100k USDT
-        buy_cost_pct=0.001,     # 0.1% trading fee
-        sell_cost_pct=0.001,    # 0.1% trading fee
+        buy_cost_pct=0.001,  # 0.1% trading fee
+        sell_cost_pct=0.001,  # 0.1% trading fee
     )
-    
+
     # Initialize agent
     agent = DRLAgent(env=env_instance)
-    
+
     # Train PPO model
     print("Training model...")
     PPO_PARAMS = {
@@ -58,18 +63,19 @@ def main():
         "learning_rate": 0.00025,
         "batch_size": 128,
     }
-    
+
     model_ppo = agent.get_model("ppo", model_kwargs=PPO_PARAMS)
-    trained_ppo = agent.train_model(model=model_ppo, 
-                                  tb_log_name='ppo',
-                                  total_timesteps=100000)
-    
+    trained_ppo = agent.train_model(
+        model=model_ppo, tb_log_name="ppo", total_timesteps=100000
+    )
+
     print("Training finished!")
-    
+
     # Save the model
     trained_ppo.save("ppo_crypto_trading")
-    
+
     print("Model saved! You can now use it for trading or backtesting.")
+
 
 if __name__ == "__main__":
     main()

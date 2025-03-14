@@ -1,6 +1,6 @@
 ccxt==4.2.15
-pandas==2.2.0
-numpy==1.24.3
-stable-baselines3==2.2.1
 gym==0.26.2
+numpy==1.24.3
+pandas==2.2.0
+stable-baselines3==2.2.1
 torch==2.2.0
