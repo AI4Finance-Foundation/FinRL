@@ -7,7 +7,7 @@ FinRL contains fine-tuned standard DRL algorithms in ElegantRL, Stable Baseline 
 
 With those three powerful DRL libraries, FinRL provides the following algorithms for users:
 
-.. image:: ../image/alg_compare.png
+.. image:: ../../image/alg_compare.png
 
 As mentioned in the introduction, FinRL's DRL agents are built by fine-tuned standard DRL algorithms depending on three famous DRL library: ElegantRL, Stable Baseline 3, and RLlib.
 
