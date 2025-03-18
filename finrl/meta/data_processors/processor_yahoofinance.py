@@ -290,9 +290,9 @@ class YahooFinanceProcessor:
                     tmp_timestamp = tmp_timestamp.tz_localize(NY)
                 else:
                     tmp_timestamp = tmp_timestamp.tz_convert(NY)
-                tmp_df.loc[tmp_timestamp] = tic_df.iloc[
-                    i
-                ][["open", "high", "low", "close", "volume"]]
+                tmp_df.loc[tmp_timestamp] = tic_df.iloc[i][
+                    ["open", "high", "low", "close", "volume"]
+                ]
             # print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
 
             # if close on start date is NaN, fill data with first valid close
