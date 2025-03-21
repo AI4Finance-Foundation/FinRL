@@ -181,6 +181,23 @@ class YahooFinanceProcessor:
 
     def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+        yahoo_intervals = [
+            "1m",
+            "2m",
+            "5m",
+            "15m",
+            "30m",
+            "60m",
+            "90m",
+            "1h",
+            "1d",
+            "5d",
+            "1wk",
+            "1mo",
+            "3mo",
+        ]
+        if time_interval in yahoo_intervals:
+            return time_interval
         if time_interval in [
             "1Min",
             "2Min",
@@ -285,9 +302,14 @@ class YahooFinanceProcessor:
                 df.tic == tic
             ]  # extract just the rows from downloaded data relating to this tic
             for i in range(tic_df.shape[0]):  # fill empty DataFrame using original data
-                tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(NY)] = tic_df.iloc[
-                    i
-                ][["open", "high", "low", "close", "volume"]]
+                tmp_timestamp = tic_df.iloc[i]["timestamp"]
+                if tmp_timestamp.tzinfo is None:
+                    tmp_timestamp = tmp_timestamp.tz_localize(NY)
+                else:
+                    tmp_timestamp = tmp_timestamp.tz_convert(NY)
+                tmp_df.loc[tmp_timestamp] = tic_df.iloc[i][
+                    ["open", "high", "low", "close", "volume"]
+                ]
             # print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
 
             # if close on start date is NaN, fill data with first valid close
