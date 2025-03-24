@@ -177,7 +177,7 @@ files = [
 [package.dependencies]
 importlib-resources = "*"
 numpy = "*"
-typing-extensions = {version = "*", markers = "python_version < \"3.11\""}
+typing-extensions = {version = "*", markers = "python_version < \"3.14\""}
 
 [package.extras]
 test = ["gym (>=0.23,<1.0)", "pytest (>=7.0)"]
