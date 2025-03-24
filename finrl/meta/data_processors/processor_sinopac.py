@@ -4,7 +4,7 @@ from concurrent.futures import ProcessPoolExecutor
 from concurrent.futures import ThreadPoolExecutor
 
 import alpaca_trade_api as tradeapi
-import exchange_calendars as tc
+import pandas_market_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
