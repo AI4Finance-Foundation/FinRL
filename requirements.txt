@@ -37,7 +37,8 @@ selenium
 # packaging
 #setuptools>=41.4.0
 setuptools>=65.5.0
-shioaji
+TA-lib # conda install -c conda-forge ta-lib
+
 
 # to build docs using sphinx
 sphinx
@@ -50,7 +51,9 @@ swig
 tensorboard
 webdriver-manager
 wheel>=0.33.6
-wrds
+
 
 # market data & paper trading API
 yfinance
+wrds
+shioaji
