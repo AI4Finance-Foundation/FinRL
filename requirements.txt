@@ -50,6 +50,8 @@ wrds
 
 scipy
 joblib
+talib
 
 # market data & paper trading API
 yfinance
+shioaji
