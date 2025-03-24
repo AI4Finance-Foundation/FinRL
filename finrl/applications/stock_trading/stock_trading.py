@@ -39,11 +39,14 @@ def stock_trading(
     if_using_td3: bool = True,
 ):
     sys.path.append("../FinRL")
-    check_and_make_directories([DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR])
+    check_and_make_directories(
+        [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
+    )
     date_col = "date"
     tic_col = "tic"
-    df = (YahooDownloader(start_date=train_start_date, end_date=trade_end_date, ticker_list=DOW_30_TICKER)
-          .fetch_data())
+    df = YahooDownloader(
+        start_date=train_start_date, end_date=trade_end_date, ticker_list=DOW_30_TICKER
+    ).fetch_data()
     fe = FeatureEngineer(
         use_technical_indicator=True,
         tech_indicator_list=INDICATORS,
@@ -54,18 +57,27 @@ def stock_trading(
 
     processed = fe.preprocess_data(df)
     list_ticker = processed[tic_col].unique().tolist()
-    list_date = list(pd.date_range(processed[date_col].min(), processed[date_col].max()).astype(str))
+    list_date = list(
+        pd.date_range(processed[date_col].min(), processed[date_col].max()).astype(str)
+    )
     combination = list(itertools.product(list_date, list_ticker))
 
-    init_train_trade_data = (pd.DataFrame(combination, columns=[date_col, tic_col])
-                             .merge(processed, on=[date_col, tic_col], how="left"))
-    init_train_trade_data = init_train_trade_data[init_train_trade_data[date_col].isin(processed[date_col])]
+    init_train_trade_data = pd.DataFrame(
+        combination, columns=[date_col, tic_col]
+    ).merge(processed, on=[date_col, tic_col], how="left")
+    init_train_trade_data = init_train_trade_data[
+        init_train_trade_data[date_col].isin(processed[date_col])
+    ]
     init_train_trade_data = init_train_trade_data.sort_values([date_col, tic_col])
 
     init_train_trade_data = init_train_trade_data.fillna(0)
 
-    init_train_data = data_split(init_train_trade_data, train_start_date, train_end_date)
-    init_trade_data = data_split(init_train_trade_data, trade_start_date, trade_end_date)
+    init_train_data = data_split(
+        init_train_trade_data, train_start_date, train_end_date
+    )
+    init_trade_data = data_split(
+        init_train_trade_data, trade_start_date, trade_end_date
+    )
 
     stock_dimension = len(init_train_data.tic.unique())
     state_space = 1 + 2 * stock_dimension + len(INDICATORS) * stock_dimension

@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import datetime
 
-import pandas_market_calendars as tc
 import numpy as np
 import pandas as pd
+import pandas_market_calendars as tc
 import pytz
 import wrds
 from stockstats import StockDataFrame as Sdf

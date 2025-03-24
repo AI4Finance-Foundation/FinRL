@@ -5,9 +5,9 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from datetime import timedelta as td
 
-import pandas_market_calendars as tc
 import numpy as np
 import pandas as pd
+import pandas_market_calendars as tc
 import pytz
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
