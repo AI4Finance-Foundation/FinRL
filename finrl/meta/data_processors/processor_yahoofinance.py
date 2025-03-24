@@ -15,7 +15,7 @@ from typing import Type
 from typing import TypeVar
 from typing import Union
 
-import exchange_calendars as tc
+import pandas_market_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
