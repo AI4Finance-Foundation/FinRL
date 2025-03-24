@@ -15,9 +15,9 @@ from typing import Type
 from typing import TypeVar
 from typing import Union
 
-import exchange_calendars as tc
 import numpy as np
 import pandas as pd
+import pandas_market_calendars as tc
 import pytz
 import yfinance as yf
 from bs4 import BeautifulSoup
