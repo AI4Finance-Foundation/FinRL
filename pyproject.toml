@@ -18,6 +18,7 @@ classifiers=[
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ]
@@ -26,7 +27,7 @@ keywords=["Reinforcement Learning", "Finance"]
 github = "https://github.com/finrl/finrl-library"
 
 [tool.poetry.dependencies]
-python = "~3.11"
+python = "^3.7"
 elegantrl = {git="https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"}
 alpaca-trade-api = "^3"
 ccxt = "^3"
