@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "finrl"
-version = "0.3.6"
+version = "0.3.8"
 
 description = "FinRL: Financial Reinforcement Learning Framework. Version 0.3.5 notes: stable version, code refactoring, more tutorials, clear documentation"
 authors = ["Hongyang Yang, Xiaoyang Liu"]
@@ -18,7 +18,7 @@ classifiers=[
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ]
