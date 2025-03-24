@@ -2,7 +2,8 @@ alpaca-py
 alpaca_trade_api>=2.1.0
 ccxt>=1.66.32  # make sure that >=1.66.32
 elegantrl
-exchange_calendars==3.6.3 # because raise exception with 4.1.1, success tested with 3.6.3
+pandas_market_calendars
+
 gputil
 gymnasium
 importlib-metadata==4.13.0
