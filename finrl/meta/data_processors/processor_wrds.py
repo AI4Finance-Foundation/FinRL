@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 
-import exchange_calendars as tc
+import pandas_market_calendars as tc
 import numpy as np
 import pandas as pd
 import pytz
