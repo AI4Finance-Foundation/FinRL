@@ -19,7 +19,7 @@ except FileNotFoundError:
 
 setup(
     name="FinRL",
-    version="0.3.7",
+    version="0.3.8",
     include_package_data=True,
     author="AI4Finance Foundation",
     author_email="contact@ai4finance.org",
@@ -41,6 +41,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
