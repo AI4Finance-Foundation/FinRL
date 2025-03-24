@@ -1078,15 +1078,12 @@ scipy = ">=0.15.1"
 dev = ["flake8 (==2.5.1)", "nose (==1.3.7)", "parameterized (==0.6.1)"]
 
 [[package]]
-name = "exchange-calendars"
-version = "4.2.6"
-description = "Calendars for securities exchanges"
+name = "pandas_market_calendars"
+version = "4.6.1"
+description = "Market calendars to use with pandas for trading applications."
 optional = false
 python-versions = "~=3.8"
-files = [
-    {file = "exchange_calendars-4.2.6-py3-none-any.whl", hash = "sha256:2bd97d3f66116777c4358436f0e1987ce54f9da18b742c1f6c21851bf24231eb"},
-    {file = "exchange_calendars-4.2.6.tar.gz", hash = "sha256:acb258eae1dca0b63e0275e68d5f0718e388d569a8d24065ecb2c76d9d08099b"},
-]
+
 
 [package.dependencies]
 korean-lunar-calendar = "*"
