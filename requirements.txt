@@ -50,7 +50,6 @@ wrds
 
 scipy
 joblib
-TA-Lib # talib
 
 # market data & paper trading API
 yfinance
