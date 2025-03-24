@@ -43,10 +43,13 @@ stable-baselines3[extra]
 stockstats>=0.4.0
 swig
 
-tensorboardX
+tensorboard
 webdriver-manager
 wheel>=0.33.6
 wrds
+
+scipy
+joblib
 
 # market data & paper trading API
 yfinance
