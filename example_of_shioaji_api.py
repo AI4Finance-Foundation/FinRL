@@ -1,18 +1,11 @@
 from __future__ import annotations
 
-import datetime
 import gc
-import itertools
 
-import numpy as np
 import pandas as pd
-import yfinance as yf
 
-from finrl import config_tickers
-from finrl.config import INDICATORS
 from finrl.meta.preprocessor.preprocessors import data_split
-from finrl.meta.preprocessor.preprocessors import FeatureEngineer
-from processor_sinopac import SinopacProcessor
+from finrl.meta.data_processors.processor_sinopac import SinopacProcessor
 from shioajidownloader import SinopacDownloader
 
 TAI_0050_TICKER = [
