@@ -13,7 +13,7 @@ matplotlib
 # data handling
 numpy>=1.17.3
 pandas>=1.1.5
-pandas_market_calendars
+pandas_market_calendars  # calendars
 
 #hooks
 pre-commit
