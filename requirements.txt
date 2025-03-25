@@ -6,8 +6,7 @@ elegantrl
 gputil
 gymnasium
 importlib-metadata==4.13.0
-joblib
-jqdatasdk
+
 lz4
 # plot
 matplotlib
@@ -35,14 +34,14 @@ scipy
 selenium
 
 # packaging
-#setuptools>=41.4.0
 setuptools>=65.5.0
-TA-lib # conda install -c conda-forge ta-lib
 
+TA-lib # conda install -c conda-forge ta-lib
 
 # to build docs using sphinx
 sphinx
 sphinx_rtd_theme
+
 SQLAlchemy
 stable-baselines3[extra]
 stockstats>=0.4.0
@@ -56,3 +55,4 @@ wheel>=0.33.6
 # market data & paper trading API
 yfinance
 wrds
+jqdatasdk
