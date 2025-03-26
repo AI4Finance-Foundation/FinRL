@@ -829,9 +829,10 @@ import matplotlib.pyplot as plt
 
 def get_trading_days(start, end):
     nyse = tc.get_calendar("NYSE")
-    df = nyse.sessions_in_range(
-        pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
-    )
+    df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
+    # df = nyse.sessions_in_range(
+    #     pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
+    # )
     trading_days = []
     for day in df:
         trading_days.append(str(day)[:10])
