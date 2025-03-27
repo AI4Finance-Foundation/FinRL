@@ -521,11 +521,10 @@ class YahooFinanceProcessor:
 
     def get_trading_days(self, start: str, end: str) -> list[str]:
         nyse = tc.get_calendar("NYSE")
-        df = nyse.date_range_htf(self.time_interval.upper(), pd.Timestamp(start), pd.Timestamp(end))
+        df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
         trading_days = []
         for day in df:
             trading_days.append(str(day)[:10])
-
         return trading_days
 
     # ****** NB: YAHOO FINANCE DATA MAY BE IN REAL-TIME OR DELAYED BY 15 MINUTES OR MORE, DEPENDING ON THE EXCHANGE ******
