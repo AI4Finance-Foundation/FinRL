@@ -406,7 +406,6 @@ class AlpacaProcessor:
         trading_days = []
         for day in df:
             trading_days.append(str(day)[:10])
-
         return trading_days
 
     def fetch_latest_data(
