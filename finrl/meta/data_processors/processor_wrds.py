@@ -39,7 +39,6 @@ class WrdsProcessor:
             trading_days = []
             for day in df:
                 trading_days.append(str(day)[:10])
-
             return trading_days
 
         def data_fetch_wrds(date="2021-05-01", stock_set=("AAPL"), time_interval=60):
