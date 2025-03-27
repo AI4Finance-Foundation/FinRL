@@ -9,6 +9,7 @@ from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
 )
 
+
 class DataProcessor:
     def __init__(self, data_source, tech_indicator=None, vix=None, **kwargs):
         if data_source == "alpaca":

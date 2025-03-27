@@ -72,8 +72,12 @@ def stock_trading(
 
     init_train_trade_data = init_train_trade_data.fillna(0)
 
-    init_train_data = data_split(init_train_trade_data, train_start_date, train_end_date)
-    init_trade_data = data_split(init_train_trade_data, trade_start_date, trade_end_date)
+    init_train_data = data_split(
+        init_train_trade_data, train_start_date, train_end_date
+    )
+    init_trade_data = data_split(
+        init_train_trade_data, trade_start_date, trade_end_date
+    )
 
     stock_dimension = len(init_train_data.tic.unique())
     state_space = 1 + 2 * stock_dimension + len(INDICATORS) * stock_dimension
@@ -108,7 +112,9 @@ def stock_trading(
         new_logger_a2c = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_a2c.set_logger(new_logger_a2c)
-        trained_a2c = agent.train_model(model=model_a2c, tb_log_name="a2c", total_timesteps=50000)
+        trained_a2c = agent.train_model(
+            model=model_a2c, tb_log_name="a2c", total_timesteps=50000
+        )
 
     if if_using_ddpg:
         agent = DRLAgent(env=env_train)
@@ -118,7 +124,9 @@ def stock_trading(
         new_logger_ddpg = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_ddpg.set_logger(new_logger_ddpg)
-        trained_ddpg = agent.train_model(model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000)
+        trained_ddpg = agent.train_model(
+            model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000
+        )
 
     if if_using_ppo:
         agent = DRLAgent(env=env_train)
@@ -134,7 +142,9 @@ def stock_trading(
         new_logger_ppo = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_ppo.set_logger(new_logger_ppo)
-        trained_ppo = agent.train_model(model=model_ppo, tb_log_name="ppo", total_timesteps=50000)
+        trained_ppo = agent.train_model(
+            model=model_ppo, tb_log_name="ppo", total_timesteps=50000
+        )
 
     if if_using_sac:
         agent = DRLAgent(env=env_train)
