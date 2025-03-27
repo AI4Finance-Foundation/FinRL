@@ -35,11 +35,10 @@ class WrdsProcessor:
             # df = nyse.sessions_in_range(
             #     pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
             # )
-            df = nyse.date_range_htf(self.time_interval.upper(), pd.Timestamp(start), pd.Timestamp(end))
+            df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
             trading_days = []
             for day in df:
                 trading_days.append(str(day)[:10])
-
             return trading_days
 
         def data_fetch_wrds(date="2021-05-01", stock_set=("AAPL"), time_interval=60):
