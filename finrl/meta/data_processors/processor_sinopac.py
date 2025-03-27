@@ -260,11 +260,10 @@ class SinopacProcessor:
         # df = xtai.sessions_in_range(
         #     pd.Timestamp(start).tz_localize(None), pd.Timestamp(end).tz_localize(None)
         # )
-        df = xtai.date_range_htf(self.time_interval.upper(), pd.Timestamp(start), pd.Timestamp(end))
+        df = xtai.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
         trading_days = []
         for day in df:
             trading_days.append(str(day)[:10])
-
         return trading_days
 
     def on_tick(self, exchange: Exchange, tick: TickSTKv1):
