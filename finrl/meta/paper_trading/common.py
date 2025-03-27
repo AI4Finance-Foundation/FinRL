@@ -794,6 +794,7 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 
+
 def get_trading_days(start, end):
     nyse = tc.get_calendar("NYSE")
     df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
