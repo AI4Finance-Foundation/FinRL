@@ -112,9 +112,7 @@ def stock_trading(
         new_logger_a2c = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_a2c.set_logger(new_logger_a2c)
-        trained_a2c = agent.train_model(
-            model=model_a2c, tb_log_name="a2c", total_timesteps=50000
-        )
+        trained_a2c = agent.train_model(model=model_a2c, tb_log_name="a2c", total_timesteps=50000)
 
     if if_using_ddpg:
         agent = DRLAgent(env=env_train)
@@ -124,9 +122,7 @@ def stock_trading(
         new_logger_ddpg = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_ddpg.set_logger(new_logger_ddpg)
-        trained_ddpg = agent.train_model(
-            model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000
-        )
+        trained_ddpg = agent.train_model(model=model_ddpg, tb_log_name="ddpg", total_timesteps=50000)
 
     if if_using_ppo:
         agent = DRLAgent(env=env_train)
@@ -142,9 +138,7 @@ def stock_trading(
         new_logger_ppo = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_ppo.set_logger(new_logger_ppo)
-        trained_ppo = agent.train_model(
-            model=model_ppo, tb_log_name="ppo", total_timesteps=50000
-        )
+        trained_ppo = agent.train_model(model=model_ppo, tb_log_name="ppo", total_timesteps=50000)
 
     if if_using_sac:
         agent = DRLAgent(env=env_train)
@@ -161,9 +155,7 @@ def stock_trading(
         new_logger_sac = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_sac.set_logger(new_logger_sac)
-        trained_sac = agent.train_model(
-            model=model_sac, tb_log_name="sac", total_timesteps=50000
-        )
+        trained_sac = agent.train_model(model=model_sac, tb_log_name="sac", total_timesteps=50000)
 
     if if_using_td3:
         agent = DRLAgent(env=env_train)
@@ -174,9 +166,7 @@ def stock_trading(
         new_logger_td3 = configure(tmp_path, ["stdout", "csv", "tensorboard"])
         # Set new logger
         model_td3.set_logger(new_logger_td3)
-        trained_td3 = agent.train_model(
-            model=model_td3, tb_log_name="td3", total_timesteps=50000
-        )
+        trained_td3 = agent.train_model(model=model_td3, tb_log_name="td3", total_timesteps=50000)
 
     # trade
     e_trade_gym = StockTradingEnv(
@@ -188,29 +178,19 @@ def stock_trading(
     # env_trade, obs_trade = e_trade_gym.get_sb_env()
 
     if if_using_a2c:
-        result_a2c, actions_a2c = DRLAgent.DRL_prediction(
-            model=trained_a2c, environment=e_trade_gym
-        )
+        result_a2c, actions_a2c = DRLAgent.DRL_prediction(model=trained_a2c, environment=e_trade_gym)
 
     if if_using_ddpg:
-        result_ddpg, actions_ddpg = DRLAgent.DRL_prediction(
-            model=trained_ddpg, environment=e_trade_gym
-        )
+        result_ddpg, actions_ddpg = DRLAgent.DRL_prediction(model=trained_ddpg, environment=e_trade_gym)
 
     if if_using_ppo:
-        result_ppo, actions_ppo = DRLAgent.DRL_prediction(
-            model=trained_ppo, environment=e_trade_gym
-        )
+        result_ppo, actions_ppo = DRLAgent.DRL_prediction(model=trained_ppo, environment=e_trade_gym)
 
     if if_using_sac:
-        result_sac, actions_sac = DRLAgent.DRL_prediction(
-            model=trained_sac, environment=e_trade_gym
-        )
+        result_sac, actions_sac = DRLAgent.DRL_prediction(model=trained_sac, environment=e_trade_gym)
 
     if if_using_td3:
-        result_td3, actions_td3 = DRLAgent.DRL_prediction(
-            model=trained_td3, environment=e_trade_gym
-        )
+        result_td3, actions_td3 = DRLAgent.DRL_prediction(model=trained_td3, environment=e_trade_gym)
 
     # in python version, we should check isinstance, but in notebook version, it is not necessary
     if if_using_a2c and isinstance(result_a2c, tuple):
@@ -243,9 +223,7 @@ def stock_trading(
     dji[date_col] = dji_[date_col]
     dji["DJI"] = dji_["close"]
     # select the rows between trade_start and trade_end (not included), since some values may not in this region
-    dji = dji.loc[
-        (dji[date_col] >= trade_start_date) & (dji[date_col] < trade_end_date)
-    ]
+    dji = dji.loc[(dji[date_col] >= trade_start_date) & (dji[date_col] < trade_end_date)]
 
     result = dji
 
