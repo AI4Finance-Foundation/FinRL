@@ -3,8 +3,10 @@ from __future__ import annotations
 import copy
 import datetime
 import os
+
 import numpy as np
 import pandas as pd
+
 
 # filename: str
 # output: stockname

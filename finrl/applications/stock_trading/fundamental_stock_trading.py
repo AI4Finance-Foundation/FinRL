@@ -147,7 +147,9 @@ def main():
         elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
             NPM.iloc[i] = np.nan
         else:
-            NPM.iloc[i] = np.sum(fund_data["net_inc_q"].iloc[i - 3 : i]) / np.sum(fund_data["rev_q"].iloc[i - 3 : i])
+            NPM.iloc[i] = np.sum(fund_data["net_inc_q"].iloc[i - 3 : i]) / np.sum(
+                fund_data["rev_q"].iloc[i - 3 : i]
+            )
 
     # Return On Assets
     ROA = pd.Series(np.empty(fund_data.shape[0], dtype=object), name="ROA")
@@ -157,7 +159,10 @@ def main():
         elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
             ROA.iloc[i] = np.nan
         else:
-            ROA.iloc[i] = (np.sum(fund_data["net_inc_q"].iloc[i - 3 : i]) / fund_data["tot_assets"].iloc[i])
+            ROA.iloc[i] = (
+                np.sum(fund_data["net_inc_q"].iloc[i - 3 : i])
+                / fund_data["tot_assets"].iloc[i]
+            )
 
     # Return on Equity
     ROE = pd.Series(np.empty(fund_data.shape[0], dtype=object), name="ROE")
@@ -167,7 +172,10 @@ def main():
         elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
             ROE.iloc[i] = np.nan
         else:
-            ROE.iloc[i] = (np.sum(fund_data["net_inc_q"].iloc[i - 3 : i]) / fund_data["sh_equity"].iloc[i])
+            ROE.iloc[i] = (
+                np.sum(fund_data["net_inc_q"].iloc[i - 3 : i])
+                / fund_data["sh_equity"].iloc[i]
+            )
 
             # For calculating valuation ratios in the next subpart, calculate per share items in advance
     # Earnings Per Share
@@ -183,24 +191,35 @@ def main():
 
     # Liquidity ratios
     # Current ratio
-    cur_ratio = (fund_data["cur_assets"] / fund_data["cur_liabilities"]).to_frame("cur_ratio")
+    cur_ratio = (fund_data["cur_assets"] / fund_data["cur_liabilities"]).to_frame(
+        "cur_ratio"
+    )
 
     # Quick ratio
-    quick_ratio = ((fund_data["cash_eq"] + fund_data["receivables"]) / fund_data["cur_liabilities"]).to_frame("quick_ratio")
+    quick_ratio = (
+        (fund_data["cash_eq"] + fund_data["receivables"]) / fund_data["cur_liabilities"]
+    ).to_frame("quick_ratio")
 
     # Cash ratio
-    cash_ratio = (fund_data["cash_eq"] / fund_data["cur_liabilities"]).to_frame("cash_ratio")
+    cash_ratio = (fund_data["cash_eq"] / fund_data["cur_liabilities"]).to_frame(
+        "cash_ratio"
+    )
 
     # Efficiency ratios
     # Inventory turnover ratio
-    inv_turnover = pd.Series(np.empty(fund_data.shape[0], dtype=object), name="inv_turnover")
+    inv_turnover = pd.Series(
+        np.empty(fund_data.shape[0], dtype=object), name="inv_turnover"
+    )
     for i in range(0, fund_data.shape[0]):
         if i - 3 < 0:
             inv_turnover[i] = np.nan
         elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
             inv_turnover.iloc[i] = np.nan
         else:
-            inv_turnover.iloc[i] = (np.sum(fund_data["cogs_q"].iloc[i - 3 : i]) / fund_data["inventories"].iloc[i])
+            inv_turnover.iloc[i] = (
+                np.sum(fund_data["cogs_q"].iloc[i - 3 : i])
+                / fund_data["inventories"].iloc[i]
+            )
 
     # Receivables turnover ratio
     acc_rec_turnover = pd.Series(
@@ -212,7 +231,10 @@ def main():
         elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
             acc_rec_turnover.iloc[i] = np.nan
         else:
-            acc_rec_turnover.iloc[i] = (np.sum(fund_data["rev_q"].iloc[i - 3 : i]) / fund_data["receivables"].iloc[i])
+            acc_rec_turnover.iloc[i] = (
+                np.sum(fund_data["rev_q"].iloc[i - 3 : i])
+                / fund_data["receivables"].iloc[i]
+            )
 
     # Payable turnover ratio
     acc_pay_turnover = pd.Series(
@@ -224,14 +246,21 @@ def main():
         elif fund_data.iloc[i, 1] != fund_data.iloc[i - 3, 1]:
             acc_pay_turnover.iloc[i] = np.nan
         else:
-            acc_pay_turnover.iloc[i] = (np.sum(fund_data["cogs_q"].iloc[i - 3 : i]) / fund_data["payables"].iloc[i])
+            acc_pay_turnover.iloc[i] = (
+                np.sum(fund_data["cogs_q"].iloc[i - 3 : i])
+                / fund_data["payables"].iloc[i]
+            )
 
     ## Leverage financial ratios
     # Debt ratio
-    debt_ratio = (fund_data["tot_liabilities"] / fund_data["tot_assets"]).to_frame("debt_ratio")
+    debt_ratio = (fund_data["tot_liabilities"] / fund_data["tot_assets"]).to_frame(
+        "debt_ratio"
+    )
 
     # Debt to Equity ratio
-    debt_to_equity = (fund_data["tot_liabilities"] / fund_data["sh_equity"]).to_frame("debt_to_equity")
+    debt_to_equity = (fund_data["tot_liabilities"] / fund_data["sh_equity"]).to_frame(
+        "debt_to_equity"
+    )
 
     # Create a dataframe that merges all the ratios
     ratios = pd.concat(
@@ -388,13 +417,21 @@ def main():
                     # perform sell action based on the sign of the action
                     if self.state[index + self.stock_dim + 1] > 0:
                         # Sell only if current asset is > 0
-                        sell_num_shares = min(abs(action), self.state[index + self.stock_dim + 1])
-                        sell_amount = (self.state[index + 1] * sell_num_shares * (1 - self.sell_cost_pct))
+                        sell_num_shares = min(
+                            abs(action), self.state[index + self.stock_dim + 1]
+                        )
+                        sell_amount = (
+                            self.state[index + 1]
+                            * sell_num_shares
+                            * (1 - self.sell_cost_pct)
+                        )
                         # update balance
                         self.state[0] += sell_amount
 
                         self.state[index + self.stock_dim + 1] -= sell_num_shares
-                        self.cost += (self.state[index + 1] * sell_num_shares * self.sell_cost_pct)
+                        self.cost += (
+                            self.state[index + 1] * sell_num_shares * self.sell_cost_pct
+                        )
                         self.trades += 1
                     else:
                         sell_num_shares = 0
@@ -412,11 +449,19 @@ def main():
                         if self.state[index + self.stock_dim + 1] > 0:
                             # Sell only if current asset is > 0
                             sell_num_shares = self.state[index + self.stock_dim + 1]
-                            sell_amount = (self.state[index + 1] * sell_num_shares * (1 - self.sell_cost_pct))
+                            sell_amount = (
+                                self.state[index + 1]
+                                * sell_num_shares
+                                * (1 - self.sell_cost_pct)
+                            )
                             # update balance
                             self.state[0] += sell_amount
                             self.state[index + self.stock_dim + 1] = 0
-                            self.cost += (self.state[index + 1] * sell_num_shares * self.sell_cost_pct)
+                            self.cost += (
+                                self.state[index + 1]
+                                * sell_num_shares
+                                * self.sell_cost_pct
+                            )
                             self.trades += 1
                         else:
                             sell_num_shares = 0
@@ -438,12 +483,16 @@ def main():
 
                     # update balance
                     buy_num_shares = min(available_amount, action)
-                    buy_amount = (self.state[index + 1] * buy_num_shares * (1 + self.buy_cost_pct))
+                    buy_amount = (
+                        self.state[index + 1] * buy_num_shares * (1 + self.buy_cost_pct)
+                    )
                     self.state[0] -= buy_amount
 
                     self.state[index + self.stock_dim + 1] += buy_num_shares
 
-                    self.cost += (self.state[index + 1] * buy_num_shares * self.buy_cost_pct)
+                    self.cost += (
+                        self.state[index + 1] * buy_num_shares * self.buy_cost_pct
+                    )
                     self.trades += 1
                 else:
                     buy_num_shares = 0

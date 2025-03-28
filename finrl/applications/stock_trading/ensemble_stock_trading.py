@@ -116,9 +116,7 @@ def main():
         "batch_size": 64,
     }
 
-    timesteps_dict = {"a2c": 10_000,
-                      "ppo": 10_000,
-                      "ddpg": 10_000}
+    timesteps_dict = {"a2c": 10_000, "ppo": 10_000, "ddpg": 10_000}
     df_summary = ensemble_agent.run_ensemble_strategy(
         A2C_model_kwargs, PPO_model_kwargs, DDPG_model_kwargs, timesteps_dict
     )

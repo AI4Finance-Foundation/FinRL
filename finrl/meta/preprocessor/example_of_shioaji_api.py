@@ -4,10 +4,10 @@ import gc
 
 import pandas as pd
 
+from finrl.config_tickers import TAI_0050_TICKER
 from finrl.meta.data_processors.processor_sinopac import SinopacProcessor
 from finrl.meta.preprocessor.preprocessors import data_split
 from finrl.meta.preprocessor.shioajidownloader import SinopacDownloader
-from finrl.config_tickers import TAI_0050_TICKER
 
 
 TRAIN_START_DATE = "2023-04-13"
