@@ -1431,6 +1431,7 @@ FX_TICKER = [
     "EURDKK=X",
 ]
 
+# Taiwan
 TAI_0050_TICKER = [
     "3008",  # Largan Precision Co., Ltd.
     "1303",  # Nan Ya Plastics Corporation
