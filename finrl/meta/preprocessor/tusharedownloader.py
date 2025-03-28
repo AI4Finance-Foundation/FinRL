@@ -8,6 +8,7 @@ import pandas as pd
 import tushare as ts
 from tqdm import tqdm
 
+
 class TushareDownloader:
     """Provides methods for retrieving daily stock data from
     tushare API

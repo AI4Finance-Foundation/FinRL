@@ -314,7 +314,7 @@ MIT License
 ```
 Trademark Disclaimer
 
-FinRL® is a registered trademark.  
+FinRL® is a registered trademark.
 This license does not grant permission to use the FinRL name, logo, or related trademarks
 without prior written consent, except as permitted by applicable trademark law.
 ```

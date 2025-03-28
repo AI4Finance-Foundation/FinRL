@@ -5,7 +5,6 @@ import itertools
 import pandas as pd
 from stable_baselines3.common.logger import configure
 
-
 from finrl.agents.stablebaselines3.models import DRLAgent
 from finrl.config import DATA_SAVE_DIR
 from finrl.config import INDICATORS
@@ -28,6 +27,7 @@ from finrl.plot import plot_return
 
 # matplotlib.use('Agg')
 
+
 def stock_trading_rolling_window(
     train_start_date: str,
     train_end_date: str,
@@ -43,12 +43,14 @@ def stock_trading_rolling_window(
     if_using_td3: bool = True,
 ):
     # sys.path.append("../FinRL")
-    check_and_make_directories([DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR])
+    check_and_make_directories(
+        [DATA_SAVE_DIR, TRAINED_MODEL_DIR, TENSORBOARD_LOG_DIR, RESULTS_DIR]
+    )
     date_col = "date"
     tic_col = "tic"
-    df = YahooDownloader(start_date=train_start_date,
-                         end_date=trade_end_date,
-                         ticker_list=DOW_30_TICKER).fetch_data()
+    df = YahooDownloader(
+        start_date=train_start_date, end_date=trade_end_date, ticker_list=DOW_30_TICKER
+    ).fetch_data()
     fe = FeatureEngineer(
         use_technical_indicator=True,
         tech_indicator_list=INDICATORS,
@@ -59,19 +61,27 @@ def stock_trading_rolling_window(
 
     processed = fe.preprocess_data(df)
     list_ticker = processed[tic_col].unique().tolist()
-    list_date = list(pd.date_range(processed[date_col].min(), processed[date_col].max()).astype(str))
+    list_date = list(
+        pd.date_range(processed[date_col].min(), processed[date_col].max()).astype(str)
+    )
     combination = list(itertools.product(list_date, list_ticker))
 
     init_train_trade_data = pd.DataFrame(
         combination, columns=[date_col, tic_col]
     ).merge(processed, on=[date_col, tic_col], how="left")
-    init_train_trade_data = init_train_trade_data[init_train_trade_data[date_col].isin(processed[date_col])]
+    init_train_trade_data = init_train_trade_data[
+        init_train_trade_data[date_col].isin(processed[date_col])
+    ]
     init_train_trade_data = init_train_trade_data.sort_values([date_col, tic_col])
 
     init_train_trade_data = init_train_trade_data.fillna(0)
 
-    init_train_data = data_split(init_train_trade_data, train_start_date, train_end_date)
-    init_trade_data = data_split(init_train_trade_data, trade_start_date, trade_end_date)
+    init_train_data = data_split(
+        init_train_trade_data, train_start_date, train_end_date
+    )
+    init_trade_data = data_split(
+        init_train_trade_data, trade_start_date, trade_end_date
+    )
 
     stock_dimension = len(init_train_data.tic.unique())
     state_space = 1 + 2 * stock_dimension + len(INDICATORS) * stock_dimension
@@ -102,9 +112,9 @@ def stock_trading_rolling_window(
         train_ends,
         trade_starts,
         trade_ends,
-    ) = calc_train_trade_starts_ends_if_rolling(init_train_dates,
-                                                init_trade_dates,
-                                                rolling_window_length)
+    ) = calc_train_trade_starts_ends_if_rolling(
+        init_train_dates, init_trade_dates, rolling_window_length
+    )
 
     result = pd.DataFrame()
     actions_a2c = pd.DataFrame(columns=DOW_30_TICKER)
@@ -259,7 +269,9 @@ def stock_trading_rolling_window(
                     risk_indicator_col="vix",
                     **env_kwargs,
                 )
-            result_ddpg, actions_i_ddpg = DRLAgent.DRL_prediction(model=trained_ddpg, environment=e_trade_gym)
+            result_ddpg, actions_i_ddpg = DRLAgent.DRL_prediction(
+                model=trained_ddpg, environment=e_trade_gym
+            )
 
         if if_using_ppo:
             if len(result) >= 1:
@@ -270,7 +282,9 @@ def stock_trading_rolling_window(
                     risk_indicator_col="vix",
                     **env_kwargs,
                 )
-            result_ppo, actions_i_ppo = DRLAgent.DRL_prediction(model=trained_ppo, environment=e_trade_gym)
+            result_ppo, actions_i_ppo = DRLAgent.DRL_prediction(
+                model=trained_ppo, environment=e_trade_gym
+            )
 
         if if_using_sac:
             if len(result) >= 1:
@@ -281,7 +295,9 @@ def stock_trading_rolling_window(
                     risk_indicator_col="vix",
                     **env_kwargs,
                 )
-            result_sac, actions_i_sac = DRLAgent.DRL_prediction(model=trained_sac, environment=e_trade_gym)
+            result_sac, actions_i_sac = DRLAgent.DRL_prediction(
+                model=trained_sac, environment=e_trade_gym
+            )
 
         if if_using_td3:
             if len(result) >= 1:
@@ -292,7 +308,9 @@ def stock_trading_rolling_window(
                     risk_indicator_col="vix",
                     **env_kwargs,
                 )
-            result_td3, actions_i_td3 = DRLAgent.DRL_prediction(model=trained_td3, environment=e_trade_gym)
+            result_td3, actions_i_td3 = DRLAgent.DRL_prediction(
+                model=trained_td3, environment=e_trade_gym
+            )
 
         # in python version, we should check isinstance, but in notebook version, it is not necessary
         if if_using_a2c and isinstance(result_a2c, tuple):
@@ -313,7 +331,9 @@ def stock_trading_rolling_window(
 
         # merge actions
         actions_a2c = pd.concat([actions_a2c, actions_i_a2c]) if if_using_a2c else None
-        actions_ddpg = (pd.concat([actions_ddpg, actions_i_ddpg]) if if_using_ddpg else None)
+        actions_ddpg = (
+            pd.concat([actions_ddpg, actions_i_ddpg]) if if_using_ddpg else None
+        )
         actions_ppo = pd.concat([actions_ppo, actions_i_ppo]) if if_using_ppo else None
         actions_sac = pd.concat([actions_sac, actions_i_sac]) if if_using_sac else None
         actions_td3 = pd.concat([actions_td3, actions_i_td3]) if if_using_td3 else None
@@ -328,7 +348,9 @@ def stock_trading_rolling_window(
         # dji_i.rename(columns={'account_value': 'DJI'}, inplace=True)
 
         # select the rows between trade_start and trade_end (not included), since some values may not in this region
-        dji_i = dji_i.loc[(dji_i[date_col] >= trade_start) & (dji_i[date_col] < trade_end)]
+        dji_i = dji_i.loc[
+            (dji_i[date_col] >= trade_start) & (dji_i[date_col] < trade_end)
+        ]
 
         # init result_i by dji_i
         result_i = dji_i
