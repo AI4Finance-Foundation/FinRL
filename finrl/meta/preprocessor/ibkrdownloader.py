@@ -132,9 +132,9 @@ class ibkrdownloader:
 
 
 if __name__ == "__main__":
-    intr = ibkrdownloader(
-        "2023-01-01", "2023-04-12", ["AAPL", "MSFT", "CSCO", "WMT", "TSLA"]
-    )
+    intr = ibkrdownloader("2023-01-01",
+                          "2023-04-12",
+                          ["AAPL", "MSFT", "CSCO", "WMT", "TSLA"])
     try:
         df = intr.fetch_data()
         df.to_csv("data.csv", index=False)
