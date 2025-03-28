@@ -7,7 +7,6 @@ from __future__ import annotations
 import pandas as pd
 import yfinance as yf
 
-
 class YahooDownloader:
     """Provides methods for retrieving daily stock data from
     Yahoo Finance API
