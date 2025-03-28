@@ -7,7 +7,6 @@ from __future__ import annotations
 import pandas as pd
 import shioaji as sj
 
-
 class SinopacDownloader:
 
     def __init__(
