@@ -44,6 +44,11 @@ class YahooDownloader:
             7 columns: A date, open, high, low, close, volume and tick symbol
             for the specified stock ticker
         """
+        # Log debug message before fetching data
+        print(f"### Fetching data for {len(self.ticker_list)} tickers from {self.start_date} to {self.end_date}")
+        if proxy:
+            print(f"Using proxy: {proxy}")
+        print(f"Auto adjust is set to: {auto_adjust}")
         # Download and save the data in a pandas DataFrame:
         data_df = pd.DataFrame()
         num_failures = 0
@@ -53,7 +58,7 @@ class YahooDownloader:
                 start=self.start_date,
                 end=self.end_date,
                 proxy=proxy,
-                auto_adjust=auto_adjust,
+                auto_adjust=False,
             )
             if temp_df.columns.nlevels != 1:
                 temp_df.columns = temp_df.columns.droplevel(1)
@@ -68,28 +73,35 @@ class YahooDownloader:
         # reset the index, we want to use numbers as index instead of dates
         data_df = data_df.reset_index()
         try:
-            # convert the column names to standardized names
+            # Use rename instead of direct assignment for robustness
             data_df.rename(
                 columns={
-                    "Date": "date",
-                    "Adj Close": "adjcp",
-                    "Close": "close",
+                    "Date": "date",  # Original column name from yfinance
+                    "Open": "open",
                     "High": "high",
                     "Low": "low",
+                    "Close": "close", # Original close price
+                    "Adj Close": "adjcp", # Adjusted close price
                     "Volume": "volume",
-                    "Open": "open",
-                    "tic": "tic",
+                    # 'tic' is already added
                 },
                 inplace=True,
             )
-
+            # The rest of the logic expects 'adjcp' to exist now
             # use adjusted close price instead of close price
             data_df["close"] = data_df["adjcp"]
             # drop the adjusted close price column
             data_df = data_df.drop(labels="adjcp", axis=1)
-        except NotImplementedError:
-            print("the features are not supported currently")
+        except Exception as e: # Catch potential errors during rename/drop
+            print(f"Error processing columns: {e}")
+            # You might want to inspect data_df.columns here if errors persist
+            print("Columns available:", data_df.columns)
+            raise e # Re-raise the exception if needed
+
         # create day of the week column (monday = 0)
+        # Convert 'date' column to datetime objects if it's not already
+        if not pd.api.types.is_datetime64_any_dtype(data_df["date"]):
+             data_df["date"] = pd.to_datetime(data_df["date"])
         data_df["day"] = data_df["date"].dt.dayofweek
         # convert date to standard string format, easy to filter
         data_df["date"] = data_df.date.apply(lambda x: x.strftime("%Y-%m-%d"))
