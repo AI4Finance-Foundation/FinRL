@@ -8,6 +8,7 @@ from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
 from sklearn.preprocessing import MaxAbsScaler
 from stockstats import StockDataFrame as Sdf
+import yfinance as yf
 
 from finrl import config
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
@@ -257,14 +258,73 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        df_vix = YahooDownloader(
-            start_date=df.date.min(), end_date=df.date.max(), ticker_list=["^VIX"]
-        ).fetch_data()
-        vix = df_vix[["date", "close"]]
-        vix.columns = ["date", "vix"]
+        # Ensure the date column is in datetime format for min/max
+        # Store original date format if needed, though merge should handle strings
+        if not pd.api.types.is_datetime64_any_dtype(df["date"]):
+             df["date_dt"] = pd.to_datetime(df["date"])
+             start_date = df["date_dt"].min()
+             end_date = df["date_dt"].max()
+             df = df.drop(columns=["date_dt"]) # Drop temporary column
+        else:
+             start_date = df["date"].min()
+             end_date = df["date"].max()
 
-        df = df.merge(vix, on="date")
-        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
+        # Fetch VIX data directly using yfinance
+        try:
+            print("Fetching VIX data directly...")
+            df_vix = yf.download(
+                "^VIX",
+                start=start_date,
+                end=end_date + pd.Timedelta(days=1), # Add a day to ensure end_date is inclusive
+                auto_adjust=False, # Use non-adjusted close
+                actions=False, # No need for dividends/splits for VIX
+                progress=False, # Suppress progress bar for VIX download
+            )
+
+            if df_vix.empty:
+                print("Warning: VIX data fetch returned an empty DataFrame.")
+                # Decide how to handle: return original df, raise error, etc.
+                # For now, let's return the original df without VIX
+                return df
+
+            df_vix = df_vix.reset_index()
+
+            # Select and rename necessary columns - Use 'Close' as auto_adjust=False
+            # Check if expected columns exist
+            required_cols = {'Date', 'Close'}
+            if not required_cols.issubset(df_vix.columns):
+                 print(f"Error: VIX DataFrame missing required columns. Available: {df_vix.columns}")
+                 # Handle error appropriately, e.g., return original df
+                 return df
+
+            vix = df_vix[['Date', 'Close']].copy() # Explicitly copy to avoid SettingWithCopyWarning
+            vix.columns = ['date', 'vix']
+
+            # Convert date to string format YYYY-MM-DD to match the main df for merging
+            # Ensure the target 'date' column in the main df is also string
+            if pd.api.types.is_datetime64_any_dtype(vix["date"]):
+                 vix['date'] = vix['date'].dt.strftime('%Y-%m-%d')
+
+            # Ensure the main dataframe's date column is also string for merging
+            if pd.api.types.is_datetime64_any_dtype(df["date"]):
+                 df["date"] = df["date"].dt.strftime('%Y-%m-%d')
+
+
+            # Merge VIX data
+            df = df.merge(vix, on="date", how='left') # Use left merge to keep all original rows
+            df = df.sort_values(["date", "tic"]).reset_index(drop=True)
+
+            # Optional: Forward fill VIX for non-trading days if needed, then backfill
+            # df['vix'] = df['vix'].ffill().bfill()
+
+            print("Successfully added vix using direct yfinance call.")
+
+        except Exception as e:
+            print(f"Error adding VIX data: {e}")
+            # Decide how to handle: return original df, raise error, etc.
+            # Returning original df for now
+            return data # Return the original unmodified dataframe
+
         return df
 
     def add_turbulence(self, data):
