@@ -6,17 +6,18 @@ import numpy as np
 import pandas as pd
 import pandas_market_calendars as tc
 import pytz
-
+import os
 import requests
 import time
 
 class EodhdProcessor:
-    def __init__(self, if_offline=False):
+    def __init__(self, csv_folder="./"):
+        self.csv_folder = csv_folder
         pass
 
 
     # 
-    def download(self, api_token, data_path="./"):
+    def download(self, api_token, dl_vix=True):
         """Fetches data from EODHD API
         Parameters
         ----------
@@ -46,7 +47,10 @@ class EodhdProcessor:
         end_date = datetime.datetime(2016, 1, 5)  # 
         interval = "1m"  # 1-minute interval
 
-        for ticker in tockers:
+        if dl_vix:
+            tickers.append("VIX")
+
+        for ticker in tickers:
 
 
             all_ticker_data = []
@@ -60,8 +64,13 @@ class EodhdProcessor:
                 if next_timestamp > end_timestamp:
                     next_timestamp = end_timestamp
                 
-                url = f"https://eodhd.com/api/intraday/{ticker}.US?interval={interval}&api_token={API_TOKEN}&fmt=json&from={start_timestamp}&to={next_timestamp}"
+                if ticker == VIX:
+                    url = f"https://eodhd.com/api/intraday/VIX.INDX?interval={interval}&from={start_timestamp}&to={next_timestamp}&api_token={API_TOKEN}&fmt=json"
+                else:
+                    url = f"https://eodhd.com/api/intraday/{ticker}.US?interval={interval}&api_token={API_TOKEN}&fmt=json&from={start_timestamp}&to={next_timestamp}"
                 
+
+
                 response = requests.get(url)
                 
                 if response.status_code == 200:
@@ -81,7 +90,7 @@ class EodhdProcessor:
             if all_ticker_data:
 
                 final_df = pd.concat(all_ticker_data)
-                final_df.to_csv(data_path+"nasdaq_100_minute_data_"+ticker+".csv", index=False)
+                final_df.to_csv(self.csv_folder+"nasdaq_100_minute_data_"+ticker+".csv", index=False)
                 print("Data saved to nasdaq_100_minute_data_"+ticker+".csv")
 
             else:
@@ -90,11 +99,11 @@ class EodhdProcessor:
         return
 
 
-    def add_day_column(self, csv_folder="./"):
+    def add_day_column(self):
         """add a Day column to all csv in csv_folder
         Parameters
         ----------
-        csv_folder: path where are the csvs file (one for each tic)
+
         Returns
         -------
         the max number of days
@@ -105,9 +114,9 @@ class EodhdProcessor:
 
         max_days = 0
 
-        for filename in os.listdir(csv_folder):
+        for filename in os.listdir(self.csv_folder):
             if filename.endswith(".csv"):
-                file_path = os.path.join(csv_folder, filename)
+                file_path = os.path.join(self.csv_folder, filename)
                 df = pd.read_csv(file_path)
 
                 if "datetime" in df.columns:
@@ -124,9 +133,9 @@ class EodhdProcessor:
         print("Date index dictionary created.\n")
 
         # Step 2: Second pass to update each file with the 'Day' column
-        for filename in os.listdir(csv_folder):
+        for filename in os.listdir(self.csv_folder):
             if filename.endswith(".csv"):
-                file_path = os.path.join(csv_folder, filename)
+                file_path = os.path.join(self.csv_folder, filename)
                 df = pd.read_csv(file_path)
 
                 if "datetime" in df.columns:
@@ -151,9 +160,14 @@ class EodhdProcessor:
         sup_to_90=0
         tics_present_in_more_than_90_per = []
 
-        for filename in os.listdir(folder_path):
+        for filename in os.listdir(self.csv_folder):
+
+            print("self.csv_folder {}".format(self.csv_folder))
+            print("filename {}".format(filename))
+            exit()
+
             if filename.endswith('.csv'):
-                file_path = os.path.join(folder_path, filename)
+                file_path = os.path.join(self.csv_folder, filename)
                 try:
                     df = pd.read_csv(file_path)
 
@@ -177,15 +191,15 @@ class EodhdProcessor:
         return tics_present_in_more_than_90_per
 
 
-    def nber_present_tics_per_day(self, max_days, tics_in_more_than_90perc_days, folder_path):
+    def nber_present_tics_per_day(self, max_days, tics_in_more_than_90perc_days):
 
         dico_ints = {i:0 for i in range(max_days+1)}
         counter=0
 
-        for filename in os.listdir(folder_path):
+        for filename in os.listdir(self.csv_folder):
             if filename.endswith('.csv'):
                 print(counter)
-                file_path = os.path.join(folder_path, filename)
+                file_path = os.path.join(self.csv_folder, filename)
                 try:
                     df = pd.read_csv(file_path)
                     
@@ -208,17 +222,19 @@ class EodhdProcessor:
             
         return dico_ints
 
-    def process_after_dl(self, data_path="./"):
+    def process_after_dl(self):
 
 
         # add a day column
-        max_days = self.add_day_column(csv_folder=data_path)
+        max_days = self.add_day_column()
+
+        max_days = 1461
 
         # find the tics that are present in more than 90% of the days
         tics_in_more_than_90perc_days = self.tics_in_more_than_90perc_days(max_days)
 
         # create the dict of days (keys) and number of present tics (values)
-        dico_ints = self.nber_present_tics_per_day(max_days, tics_in_more_than_90perc_days, data_path)
+        dico_ints = self.nber_present_tics_per_day(max_days, tics_in_more_than_90perc_days)
 
         # for each key (day) if the number of present tics is = tics_in_90%, add the Day id to days_to_keep
         num_of_good_ticks = len(tics_present_in_more_than_90_per)
@@ -231,10 +247,10 @@ class EodhdProcessor:
 
         # loop over each tic CSV and remove non wished days
         df_list = []
-        for filename in os.listdir(data_path):
+        for filename in os.listdir(self.csv_folder):
             if filename.endswith('.csv'):
                 print("removed uncomplete days from {}".format(filename))
-                file_path = os.path.join(folder_path, filename)
+                file_path = os.path.join(self.csv_folder, filename)
                 try:
                     df = pd.read_csv(file_path)
                     filtered_df = df[df['Day'].isin(days_to_keep)]
