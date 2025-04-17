@@ -12,7 +12,6 @@ import time
 
 class EodhdProcessor:
     def __init__(self, if_offline=False):
-        a = 11
         pass
 
 
@@ -29,7 +28,7 @@ class EodhdProcessor:
         none
         """
 
-        API_TOKEN = api_token # "67d99c72a15b81.14035170"  # Replace with your API token
+        API_TOKEN = api_token # Replace with your API token
 
         # Step 1: Get NASDAQ 100 components
         nasdaq_100_ticker_url = f"https://eodhd.com/api/fundamentals/NDX.INDX?api_token={API_TOKEN}&fmt=json&filter=Components"
@@ -222,11 +221,129 @@ class EodhdProcessor:
         dico_ints = self.nber_present_tics_per_day(max_days, tics_in_more_than_90perc_days, data_path)
 
         # for each key (day) if the number of present tics is = tics_in_90%, add the Day id to days_to_keep
-
         num_of_good_ticks = len(tics_present_in_more_than_90_per)
         days_to_keep = []
         for k,v in dico_ints.items():
             if v == num_of_good_ticks:
                 days_to_keep.append(k)
 
+
+
+        # loop over each tic CSV and remove non wished days
+        df_list = []
+        for filename in os.listdir(data_path):
+            if filename.endswith('.csv'):
+                print("removed uncomplete days from {}".format(filename))
+                file_path = os.path.join(folder_path, filename)
+                try:
+                    df = pd.read_csv(file_path)
+                    filtered_df = df[df['Day'].isin(days_to_keep)]
+                    df_list.append(filtered_df.sort_values(by='Day'))
+                    #if str(df["ticker"][0]) in tics_present_in_more_than_90_per:
+                except Exception as e:
+                    print(f"{filename}: Error reading file - {e}")
+
+
+        df = pd.concat(df_list, ignore_index=True)
+
+        return df 
+
+
+    def clean_data(self, df):
+
+        df.rename(columns={'ticker': 'tic'}, inplace=True)
+        df.rename(columns={'datetime': 'time'}, inplace=True)
+
+        df = df[["time", "open", "high", "low", "close", "volume", "tic"]]
         
+        # remove 16:00 data
+        df.drop(df[df["time"].astype(str).str.endswith("16:00:00")].index, inplace=True)
+        df.sort_values(by=["tic", "time"], inplace=True)
+
+        # check missing rows
+        #tic_dic[tic][0] tells how many rows the tic have with non zero volume
+        #tic_dic[tic][1] tells how many rows the tic have in total
+        tic_list = np.unique(df["tic"].values)
+        tic_dic = {}
+        for tic in tic_list:
+            tic_dic[tic] = [0, 0]
+
+        volume_nonzero = df.query("volume != 0")["tic"].value_counts()
+        volume_total = df["tic"].value_counts()
+        for tic_num, tic in enumerate(tic_dic):
+            print("tic num is {}".format(str(tic_num)))
+            tic_dic[tic][0] = int(volume_nonzero.get(tic, 0)) # the get function, retrieves from volume_nonzero the value for the tic, if the tic not present, returns 0
+            tic_dic[tic][1] = int(volume_total.get(tic, 0))
+
+
+        # list all tics with nan values
+        constant = np.unique(df["time"].values).shape[0]
+        nan_tics = []
+        for tic in tic_dic:
+            if tic_dic[tic][1] != constant: # if the number of rows the tic have in total is different from the total number available times, then we add it as a tic with nans
+                nan_tics.append(tic)
+
+
+
+
+        # Fill the Nan values with closest close values
+
+        df.sort_values(by=["tic", "time"], inplace=True)
+
+        tics = df["tic"].unique()
+
+        for tic in tics:
+
+            print("filling Nans in tic {}".format(tic))
+
+            tic_mask = df["tic"] == tic
+            tic_indices = df.index[tic_mask]
+            
+            # Initialize last_val as the first non-NaN value in 'close' for this tic
+            first_valid_index = df.loc[tic_indices, "close"].first_valid_index()
+            if first_valid_index is not None:
+                last_val = df.at[first_valid_index, "close"]
+            else:
+                # All values are NaN for this tic — skip
+                continue
+
+            for i in tic_indices:
+                val = df.at[i, "close"]
+                if pd.notna(val):
+                    last_val = val
+                else:
+                    #df.at[i, "close"] = last_val
+                    df.iloc[i, 1] = last_val
+                    df.iloc[i, 2] = last_val
+                    df.iloc[i, 3] = last_val
+                    df.iloc[i, 4] = last_val
+                    
+        # return a clean df without nans
+        return df
+
+
+
+    # def add_technical_indicator(
+    #     self,
+    #     df,
+    #     tech_indicator_list=[
+    #         "macd",
+    #         "boll_ub",
+    #         "boll_lb",
+    #         "rsi_30",
+    #         "dx_30",
+    #         "close_30_sma",
+    #         "close_60_sma",
+    #     ],
+    # ):
+
+
+    # def calculate_turbulence(self, data, time_period=252):
+
+
+    # def add_turbulence(self, data, time_period=252):
+    #     """
+    #     add turbulence index from a precalcualted dataframe
+    #     :param data: (df) pandas dataframe
+    #     :return: (df) pandas dataframe
+    #     """
