@@ -436,67 +436,6 @@ class EodhdProcessor:
                 df.loc[df['tic'] == tic, cols_to_ffill].ffill().bfill()
             )
 
-            continue
-
-
-            tic_mask = df["tic"] == tic
-            tic_indices = df.index[tic_mask]
-
-            #### TAKING CARE OF THE NANS IN PRICES
-            # Initialize last_val as the first non-NaN value in 'close' for this tic
-            first_valid_index = df.loc[tic_indices, "close"].first_valid_index()
-
-            # if tic == "ADP":
-            #     print("first valid value")
-            #     print(df.at[first_valid_index, "close"]) # 83.75
-
-            if first_valid_index is not None:
-                last_val = df.at[first_valid_index, "close"]
-            else:
-                # All values are NaN for this tic — skip
-                continue
-
-
-            len_tic_indices = len(tic_indices)
-            for cc, i in enumerate(tic_indices):
-
-
-                #print("index {}/{}".format(str(cc), str(len_tic_indices)))
-                val = df.iat[i, 4]  # "close" is at column index 4
-
-                #print(df.iloc[max(i - 5, 0): i + 5 + 1])
-
-                if pd.notna(val):
-                    last_val = val
-                else:
-                    df.iat[i, 1] = last_val  # open
-                    df.iat[i, 2] = last_val  # high
-                    df.iat[i, 3] = last_val  # low
-                    df.iat[i, 4] = last_val # close
-
-
-            #### TAKING CARE OF THE NANS IN VOLUME
-                
-            # Filter the series to those that are not NaN and > 0
-            valid_volume = df.loc[tic_indices, "volume"]
-            valid_condition = valid_volume[(valid_volume.notna()) & (valid_volume > 0)]
-            first_valid_index = valid_condition.index[0] if not valid_condition.empty else None
-
-
-            if first_valid_index is not None:
-                last_val_vol = df.at[first_valid_index, "volume"]
-            else:
-                # All values are NaN for this tic — skip
-                continue
-
-            for cc, i in enumerate(tic_indices):
-                #print("index vol {}/{}".format(str(cc), str(len_tic_indices)))
-                val = df.iat[i, 5]  # "volume" is at column index 5
-                if pd.notna(val) and val > 0.0:
-                    last_val_vol = val
-                else:
-                    df.iat[i, 5] = last_val_vol # volume
-
 
         return df
 
