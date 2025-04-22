@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import datetime
-
+from datetime import datetime, timedelta
 import numpy as np
 import pandas as pd
 import pandas_market_calendars as tc
@@ -9,6 +9,7 @@ import pytz
 import os
 import requests
 import time
+from stockstats import StockDataFrame as Sdf
 
 class EodhdProcessor:
     def __init__(self, csv_folder="./"):
@@ -164,7 +165,7 @@ class EodhdProcessor:
 
             print("self.csv_folder {}".format(self.csv_folder))
             print("filename {}".format(filename))
-            exit()
+
 
             if filename.endswith('.csv'):
                 file_path = os.path.join(self.csv_folder, filename)
@@ -198,17 +199,23 @@ class EodhdProcessor:
 
         for filename in os.listdir(self.csv_folder):
             if filename.endswith('.csv'):
-                print(counter)
+                # print(counter)
+                # print(self.csv_folder)
+                # print(filename)
+                
                 file_path = os.path.join(self.csv_folder, filename)
                 try:
+                    #print("in try 0")
                     df = pd.read_csv(file_path)
-                    
-                    if str(df["ticker"][0]) in tics_present_in_more_than_90_per:
-                        
+                    #print("in try 1")
+                    if str(df["ticker"][0]) in tics_in_more_than_90perc_days:
+                        #print("in try 2")
                         if 'Day' not in df.columns:
+                            #print("in try 3")
                             print(f"{filename}: 'Day' column not found.")
                             continue
                         else:
+                            #print("in try 4")
                             unique_days = set(df['Day'].tolist())
             
                             for num in unique_days:
@@ -216,11 +223,13 @@ class EodhdProcessor:
 
                 except Exception as e:
                     print(f"{filename}: Error reading file - {e}")
+                    exit()
 
                 counter += 1
 
             
         return dico_ints
+
 
     def process_after_dl(self):
 
@@ -228,16 +237,16 @@ class EodhdProcessor:
         # add a day column
         max_days = self.add_day_column()
 
-        max_days = 1461
-
         # find the tics that are present in more than 90% of the days
         tics_in_more_than_90perc_days = self.tics_in_more_than_90perc_days(max_days)
+
+        # print(tics_in_more_than_90perc_days) # ['WDAY', 'ADP', 'XEL', 'VRTX', 'AAPL', 'VRSK', 'ADBE', 'ADI']
 
         # create the dict of days (keys) and number of present tics (values)
         dico_ints = self.nber_present_tics_per_day(max_days, tics_in_more_than_90perc_days)
 
         # for each key (day) if the number of present tics is = tics_in_90%, add the Day id to days_to_keep
-        num_of_good_ticks = len(tics_present_in_more_than_90_per)
+        num_of_good_ticks = len(tics_in_more_than_90perc_days)
         days_to_keep = []
         for k,v in dico_ints.items():
             if v == num_of_good_ticks:
@@ -248,118 +257,365 @@ class EodhdProcessor:
         # loop over each tic CSV and remove non wished days
         df_list = []
         for filename in os.listdir(self.csv_folder):
+
             if filename.endswith('.csv'):
                 print("removed uncomplete days from {}".format(filename))
                 file_path = os.path.join(self.csv_folder, filename)
                 try:
                     df = pd.read_csv(file_path)
-                    filtered_df = df[df['Day'].isin(days_to_keep)]
-                    df_list.append(filtered_df.sort_values(by='Day'))
+                    if df['ticker'].iloc[0] in tics_in_more_than_90perc_days:
+                        filtered_df = df[df['Day'].isin(days_to_keep)]
+                        df_list.append(filtered_df.sort_values(by='Day'))
                     #if str(df["ticker"][0]) in tics_present_in_more_than_90_per:
                 except Exception as e:
                     print(f"{filename}: Error reading file - {e}")
 
+        
+        df.loc[df['ticker'] != 'VIX', 'volume'] = df.loc[df['ticker'] != 'VIX', 'volume'].astype(int)
+
+
 
         df = pd.concat(df_list, ignore_index=True)
+
+
+        # Reset the Days integers
+        unique_days = df['Day'].unique()
+        mapping = {old: new for new, old in enumerate(sorted(unique_days))}
+        df['Day'] = df['Day'].map(mapping)
 
         return df 
 
 
-    def clean_data(self, df):
-
+    def clean_data(self, df, min_24 = True):
+        
         df.rename(columns={'ticker': 'tic'}, inplace=True)
         df.rename(columns={'datetime': 'time'}, inplace=True)
+        df['time'] = pd.to_datetime(df['time'])
 
-        df = df[["time", "open", "high", "low", "close", "volume", "tic"]]
+        print(df['tic'].drop_duplicates())
+        print(df['Day'].drop_duplicates())
+
+        # 1461 jours en tout , devrait faire 1440 rows par tic par jour
+        # 8 x 1461 x 1440 = 16 830 720 (= 16 millions de rows)
+
+        print(len(df))
+        # 4 580 346 au final on a 4 millions DONC perte de 4 x les données environ (ça va en vrai)
         
+
+
+        # print("BEFORE 0")
+        # filtered_df = df[(df['Day'] == 2) & (df['tic'] == 'ADP')]
+        # print(filtered_df)
+
+
+        df = df[["time", "open", "high", "low", "close", "volume", "tic", "Day"]]
+
         # remove 16:00 data
         df.drop(df[df["time"].astype(str).str.endswith("16:00:00")].index, inplace=True)
+        
         df.sort_values(by=["tic", "time"], inplace=True)
-
-        # check missing rows
-        #tic_dic[tic][0] tells how many rows the tic have with non zero volume
-        #tic_dic[tic][1] tells how many rows the tic have in total
-        tic_list = np.unique(df["tic"].values)
-        tic_dic = {}
-        for tic in tic_list:
-            tic_dic[tic] = [0, 0]
-
-        volume_nonzero = df.query("volume != 0")["tic"].value_counts()
-        volume_total = df["tic"].value_counts()
-        for tic_num, tic in enumerate(tic_dic):
-            print("tic num is {}".format(str(tic_num)))
-            tic_dic[tic][0] = int(volume_nonzero.get(tic, 0)) # the get function, retrieves from volume_nonzero the value for the tic, if the tic not present, returns 0
-            tic_dic[tic][1] = int(volume_total.get(tic, 0))
+        df.reset_index(drop=True, inplace=True)
 
 
-        # list all tics with nan values
-        constant = np.unique(df["time"].values).shape[0]
-        nan_tics = []
-        for tic in tic_dic:
-            if tic_dic[tic][1] != constant: # if the number of rows the tic have in total is different from the total number available times, then we add it as a tic with nans
-                nan_tics.append(tic)
+        
 
-
-
-
-        # Fill the Nan values with closest close values
-
-        df.sort_values(by=["tic", "time"], inplace=True)
 
         tics = df["tic"].unique()
+        days = df["Day"].unique()
 
+        start_time = df['time'].min()
+        end_time = df['time'].max()
+        start_time = df['time'].min().replace(hour=0, minute=0, second=0)
+        end_time = df['time'].max().replace(hour=23, minute=59, second=0)
+        time_range = pd.date_range(start=start_time, end=end_time, freq='min')  # 'T' is minute frequency
+        minute_df = pd.DataFrame({'time': time_range})
+
+
+
+
+        print("BEFORE  !!!!!!!!!!!!!!!!!!!!")
+        filtered_df = df[(df['Day'] == 12) & (df['tic'] == 'ADP')]
+        print(filtered_df)
+
+
+
+
+
+        # ADDING MISSING ROWS
+        for tic in tics:
+            
+            print("Adding Missing Rows for tic {}".format(tic))
+
+            for day in days:
+
+                #print("day is {}".format(str(day)))
+
+
+                # 0) Create the sub df of the missing times
+
+                times_for_this_tic_and_day = df.loc[(df['Day'] == day) & (df['tic'] == tic), 'time']
+                times_for_this_tic_and_day = pd.to_datetime(times_for_this_tic_and_day)
+   
+                
+                if min_24:
+                    specific_day  = df.loc[(df['Day'] == day) & (df['tic'] == tic), 'time'].iloc[0].date()
+                    filtered_minute_df = minute_df[minute_df['time'].dt.date == pd.to_datetime(specific_day).date()]
+                    filtered_minute_df['time'] = pd.to_datetime(filtered_minute_df['time'])
+                    missing_times = filtered_minute_df[~filtered_minute_df['time'].isin(times_for_this_tic_and_day)]
+                else:
+                    # all times across all tics, for the day
+                    # Filter the DataFrame for the given Day (e.g., day_value = 3)
+                    existing_time_values = df[df['Day'] == day]['time'].unique()
+
+
+
+                    # if day == 12 and tic == "ADP":
+                    #     print("existing_time_values for tic {}".format(tic))
+                    #     print(len(existing_time_values))
+                    #     exit() # 645
+
+
+                    existing_time_df = pd.DataFrame({'time': pd.to_datetime(existing_time_values)})
+                    missing_times = existing_time_df[~existing_time_df['time'].isin(times_for_this_tic_and_day)]
+                   
+
+
+                missing_times['open'] = np.nan               # float64
+                missing_times['high'] = np.nan               # float64
+                missing_times['low'] = np.nan                # float64
+                missing_times['close'] = np.nan              # float64
+                missing_times['volume'] = np.nan             # float64
+                missing_times['tic'] = tic                   # object (empty string is still an object)
+                missing_times['Day'] = day                     # int64
+                missing_times = missing_times.astype({
+                    'open': 'float64',
+                    'high': 'float64',
+                    'low': 'float64',
+                    'close': 'float64',
+                    'volume': 'float64',
+                    'tic': 'object',
+                    'Day': 'int64'
+                })
+   
+
+                # 1) Add the sub df (missing_times) to df
+                # Example: insert after the last row where Day = 2 and tic = "AAPL"
+                mask = (df['Day'] == day) & (df['tic'] == tic)
+                insert_index = df[mask].index.max()
+
+                # Split df_orig and insert df in between
+                df_before = df.iloc[:insert_index + 1]
+                df_after = df.iloc[insert_index + 1:]
+
+                df = pd.concat([df_before, missing_times, df_after], ignore_index=True)
+
+                df.sort_values(by=["tic", "time"], inplace=True)
+                df.reset_index(drop=True, inplace=True)
+
+                # if day == 2:
+                #     break
+
+
+            # if tic == "ADP":
+            #     break
+
+        # Replace all 0 volume with a Nan  (to allow for ffill and bfill to work)
+        df.loc[df['volume'] == 0, 'volume'] = np.nan
+
+
+
+        ## FILLING THE MISSING ROWS
         for tic in tics:
 
-            print("filling Nans in tic {}".format(tic))
+
+            print("Filling Missing Rows for tic {}".format(tic))
+
+
+            cols_to_ffill = ['close', 'open', 'high', 'low', 'volume']
+            df.loc[df['tic'] == tic, cols_to_ffill] = (
+                df.loc[df['tic'] == tic, cols_to_ffill].ffill().bfill()
+            )
+
+            continue
+
 
             tic_mask = df["tic"] == tic
             tic_indices = df.index[tic_mask]
-            
+
+            #### TAKING CARE OF THE NANS IN PRICES
             # Initialize last_val as the first non-NaN value in 'close' for this tic
             first_valid_index = df.loc[tic_indices, "close"].first_valid_index()
+
+            # if tic == "ADP":
+            #     print("first valid value")
+            #     print(df.at[first_valid_index, "close"]) # 83.75
+
             if first_valid_index is not None:
                 last_val = df.at[first_valid_index, "close"]
             else:
                 # All values are NaN for this tic — skip
                 continue
 
-            for i in tic_indices:
-                val = df.at[i, "close"]
+
+            len_tic_indices = len(tic_indices)
+            for cc, i in enumerate(tic_indices):
+
+
+                #print("index {}/{}".format(str(cc), str(len_tic_indices)))
+                val = df.iat[i, 4]  # "close" is at column index 4
+
+                #print(df.iloc[max(i - 5, 0): i + 5 + 1])
+
                 if pd.notna(val):
                     last_val = val
                 else:
-                    #df.at[i, "close"] = last_val
-                    df.iloc[i, 1] = last_val
-                    df.iloc[i, 2] = last_val
-                    df.iloc[i, 3] = last_val
-                    df.iloc[i, 4] = last_val
-                    
-        # return a clean df without nans
+                    df.iat[i, 1] = last_val  # open
+                    df.iat[i, 2] = last_val  # high
+                    df.iat[i, 3] = last_val  # low
+                    df.iat[i, 4] = last_val # close
+
+
+            #### TAKING CARE OF THE NANS IN VOLUME
+                
+            # Filter the series to those that are not NaN and > 0
+            valid_volume = df.loc[tic_indices, "volume"]
+            valid_condition = valid_volume[(valid_volume.notna()) & (valid_volume > 0)]
+            first_valid_index = valid_condition.index[0] if not valid_condition.empty else None
+
+
+            if first_valid_index is not None:
+                last_val_vol = df.at[first_valid_index, "volume"]
+            else:
+                # All values are NaN for this tic — skip
+                continue
+
+            for cc, i in enumerate(tic_indices):
+                #print("index vol {}/{}".format(str(cc), str(len_tic_indices)))
+                val = df.iat[i, 5]  # "volume" is at column index 5
+                if pd.notna(val) and val > 0.0:
+                    last_val_vol = val
+                else:
+                    df.iat[i, 5] = last_val_vol # volume
+
+
         return df
 
 
 
-    # def add_technical_indicator(
-    #     self,
-    #     df,
-    #     tech_indicator_list=[
-    #         "macd",
-    #         "boll_ub",
-    #         "boll_lb",
-    #         "rsi_30",
-    #         "dx_30",
-    #         "close_30_sma",
-    #         "close_60_sma",
-    #     ],
-    # ):
+    def add_technical_indicator(
+        self,
+        df,
+        tech_indicator_list=[
+            "macd",
+            "boll_ub",
+            "boll_lb",
+            "rsi_30",
+            "dx_30",
+            "close_30_sma",
+            "close_60_sma",
+        ],
+    ):
+        df = df.rename(columns={"time": "date"})
+        df = df.copy()
+        df = df.sort_values(by=["tic", "date"])
+        stock = Sdf.retype(df.copy())
+        unique_ticker = stock.tic.unique()
+        tech_indicator_list = tech_indicator_list
+
+        for indicator in tech_indicator_list:
+            print("doing indicator {}".format(indicator))
+            indicator_df = pd.DataFrame()
+            for i in range(len(unique_ticker)):
+                # print(unique_ticker[i], i)
+                temp_indicator = stock[stock.tic == unique_ticker[i]][indicator]
+                temp_indicator = pd.DataFrame(temp_indicator)
+                temp_indicator["tic"] = unique_ticker[i]
+                # print(len(df[df.tic == unique_ticker[i]]['date'].to_list()))
+                temp_indicator["date"] = df[df.tic == unique_ticker[i]][
+                    "date"
+                ].to_list()
+                # indicator_df = indicator_df.append(temp_indicator, ignore_index=True)
+                indicator_df = pd.concat(
+                    [indicator_df, temp_indicator], axis=0, ignore_index=True
+                )
+
+            df = df.merge(
+                indicator_df[["tic", "date", indicator]], on=["tic", "date"], how="left"
+            )
+        df = df.sort_values(by=["date", "tic"])
+        print("Succesfully add technical indicators")
+        return df
 
 
-    # def calculate_turbulence(self, data, time_period=252):
 
 
-    # def add_turbulence(self, data, time_period=252):
-    #     """
-    #     add turbulence index from a precalcualted dataframe
-    #     :param data: (df) pandas dataframe
-    #     :return: (df) pandas dataframe
-    #     """
+
+
+    def calculate_turbulence(self, data, time_period=252):
+        # can add other market assets
+        df = data.copy()
+        df_price_pivot = df.pivot(index="date", columns="tic", values="close")
+        # use returns to calculate turbulence
+        df_price_pivot = df_price_pivot.pct_change()
+
+        unique_date = df.date.unique()
+        # start after a fixed time period
+        start = time_period
+        turbulence_index = [0] * start
+        # turbulence_index = [0]
+        count = 0
+        for i in range(start, len(unique_date)):
+            current_price = df_price_pivot[df_price_pivot.index == unique_date[i]]
+            # use one year rolling window to calcualte covariance
+            hist_price = df_price_pivot[
+                (df_price_pivot.index < unique_date[i])
+                & (df_price_pivot.index >= unique_date[i - time_period])
+            ]
+            # Drop tickers which has number missing values more than the "oldest" ticker
+            filtered_hist_price = hist_price.iloc[
+                hist_price.isna().sum().min() :
+            ].dropna(axis=1)
+
+            cov_temp = filtered_hist_price.cov()
+            current_temp = current_price[[x for x in filtered_hist_price]] - np.mean(
+                filtered_hist_price, axis=0
+            )
+            temp = current_temp.values.dot(np.linalg.pinv(cov_temp)).dot(
+                current_temp.values.T
+            )
+            if temp > 0:
+                count += 1
+                if count > 2:
+                    turbulence_temp = temp[0][0]
+                else:
+                    # avoid large outlier because of the calculation just begins
+                    turbulence_temp = 0
+            else:
+                turbulence_temp = 0
+            turbulence_index.append(turbulence_temp)
+
+        turbulence_index = pd.DataFrame(
+            {"date": df_price_pivot.index, "turbulence": turbulence_index}
+        )
+        return turbulence_index
+
+
+
+
+
+
+
+
+
+
+    def add_turbulence(self, data, time_period=252):
+        """
+        add turbulence index from a precalcualted dataframe
+        :param data: (df) pandas dataframe
+        :return: (df) pandas dataframe
+        """
+        df = data.copy()
+        turbulence_index = self.calculate_turbulence(df, time_period=time_period)
+        df = df.merge(turbulence_index, on="date")
+        df = df.sort_values(["date", "tic"]).reset_index(drop=True)
+        return df
