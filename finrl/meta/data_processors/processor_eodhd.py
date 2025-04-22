@@ -273,8 +273,6 @@ class EodhdProcessor:
         
         df.loc[df['ticker'] != 'VIX', 'volume'] = df.loc[df['ticker'] != 'VIX', 'volume'].astype(int)
 
-
-
         df = pd.concat(df_list, ignore_index=True)
 
 
@@ -292,20 +290,6 @@ class EodhdProcessor:
         df.rename(columns={'datetime': 'time'}, inplace=True)
         df['time'] = pd.to_datetime(df['time'])
 
-        print(df['tic'].drop_duplicates())
-        print(df['Day'].drop_duplicates())
-
-        # 1461 jours en tout , devrait faire 1440 rows par tic par jour
-        # 8 x 1461 x 1440 = 16 830 720 (= 16 millions de rows)
-
-        print(len(df))
-        # 4 580 346 au final on a 4 millions DONC perte de 4 x les données environ (ça va en vrai)
-        
-
-
-        # print("BEFORE 0")
-        # filtered_df = df[(df['Day'] == 2) & (df['tic'] == 'ADP')]
-        # print(filtered_df)
 
 
         df = df[["time", "open", "high", "low", "close", "volume", "tic", "Day"]]
@@ -315,9 +299,6 @@ class EodhdProcessor:
         
         df.sort_values(by=["tic", "time"], inplace=True)
         df.reset_index(drop=True, inplace=True)
-
-
-        
 
 
         tics = df["tic"].unique()
@@ -333,13 +314,6 @@ class EodhdProcessor:
 
 
 
-        print("BEFORE  !!!!!!!!!!!!!!!!!!!!")
-        filtered_df = df[(df['Day'] == 12) & (df['tic'] == 'ADP')]
-        print(filtered_df)
-
-
-
-
 
         # ADDING MISSING ROWS
         for tic in tics:
@@ -348,7 +322,6 @@ class EodhdProcessor:
 
             for day in days:
 
-                #print("day is {}".format(str(day)))
 
 
                 # 0) Create the sub df of the missing times
@@ -367,12 +340,6 @@ class EodhdProcessor:
                     # Filter the DataFrame for the given Day (e.g., day_value = 3)
                     existing_time_values = df[df['Day'] == day]['time'].unique()
 
-
-
-                    # if day == 12 and tic == "ADP":
-                    #     print("existing_time_values for tic {}".format(tic))
-                    #     print(len(existing_time_values))
-                    #     exit() # 645
 
 
                     existing_time_df = pd.DataFrame({'time': pd.to_datetime(existing_time_values)})
@@ -412,12 +379,6 @@ class EodhdProcessor:
                 df.sort_values(by=["tic", "time"], inplace=True)
                 df.reset_index(drop=True, inplace=True)
 
-                # if day == 2:
-                #     break
-
-
-            # if tic == "ADP":
-            #     break
 
         # Replace all 0 volume with a Nan  (to allow for ffill and bfill to work)
         df.loc[df['volume'] == 0, 'volume'] = np.nan
@@ -537,13 +498,6 @@ class EodhdProcessor:
             {"date": df_price_pivot.index, "turbulence": turbulence_index}
         )
         return turbulence_index
-
-
-
-
-
-
-
 
 
 
