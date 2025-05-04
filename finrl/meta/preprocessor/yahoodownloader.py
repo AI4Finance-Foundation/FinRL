@@ -83,10 +83,8 @@ class YahooDownloader:
                 inplace=True,
             )
 
-            # use adjusted close price instead of close price
-            data_df["close"] = data_df["adjcp"]
-            # drop the adjusted close price column
-            data_df = data_df.drop(labels="adjcp", axis=1)
+            if not auto_adjust:
+                data_df = self._adjust_prices(data_df)
         except NotImplementedError:
             print("the features are not supported currently")
         # create day of the week column (monday = 0)
@@ -102,6 +100,15 @@ class YahooDownloader:
         data_df = data_df.sort_values(by=["date", "tic"]).reset_index(drop=True)
 
         return data_df
+
+    def _adjust_prices(self, data_df: pd.DataFrame) -> pd.DataFrame:
+        # use adjusted close price instead of close price
+        data_df["adj"] = data_df["adjcp"] / data_df["close"]
+        for col in ["open", "high", "low", "close"]:
+            data_df[col] *= data_df["adj"]
+
+        # drop the adjusted close price column
+        return data_df.drop(["adjcp", "adj"], axis=1)
 
     def select_equal_rows_stock(self, df):
         df_check = df.tic.value_counts()
