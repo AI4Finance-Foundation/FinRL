@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import datetime
 
+import exchange_calendars as tc
 import numpy as np
 import pandas as pd
-import pandas_market_calendars as tc
 import pytz
 import wrds
 from stockstats import StockDataFrame as Sdf
@@ -32,16 +32,16 @@ class WrdsProcessor:
 
         def get_trading_days(start, end):
             nyse = tc.get_calendar("NYSE")
-            # df = nyse.sessions_in_range(
-            #     pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
-            # )
-            df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
+            df = nyse.sessions_in_range(
+                pd.Timestamp(start, tz=pytz.UTC), pd.Timestamp(end, tz=pytz.UTC)
+            )
             trading_days = []
             for day in df:
                 trading_days.append(str(day)[:10])
+
             return trading_days
 
-        def data_fetch_wrds(date, stock_set):
+        def data_fetch_wrds(date="2021-05-01", stock_set=("AAPL"), time_interval=60):
             # start_date, end_date should be in the same year
             current_date = datetime.datetime.strptime(date, "%Y-%m-%d")
             lib = "taqm_" + str(current_date.year)  # taqm_2021

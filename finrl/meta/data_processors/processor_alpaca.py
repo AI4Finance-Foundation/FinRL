@@ -2,40 +2,33 @@ from __future__ import annotations
 
 from concurrent.futures import ProcessPoolExecutor
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
-from datetime import timedelta as td
 
+import alpaca_trade_api as tradeapi
+import exchange_calendars as tc
 import numpy as np
 import pandas as pd
-import pandas_market_calendars as tc
 import pytz
-from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.requests import StockBarsRequest
-from alpaca.data.timeframe import TimeFrame
 from stockstats import StockDataFrame as Sdf
-
-# import alpaca_trade_api as tradeapi
 
 
 class AlpacaProcessor:
-    def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, client=None):
-        if client is None:
+    def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, api=None):
+        if api is None:
             try:
-                self.client = StockHistoricalDataClient(API_KEY, API_SECRET)
+                self.api = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
             except BaseException:
                 raise ValueError("Wrong Account Info!")
         else:
-            self.client = client
+            self.api = api
 
     def _fetch_data_for_ticker(self, ticker, start_date, end_date, time_interval):
-        request_params = StockBarsRequest(
-            symbol_or_symbols=ticker,
-            timeframe=TimeFrame.Minute,
-            start=start_date,
-            end=end_date,
-        )
-        bars = self.client.get_stock_bars(request_params).df
-
+        bars = self.api.get_bars(
+            ticker,
+            time_interval,
+            start=start_date.isoformat(),
+            end=end_date.isoformat(),
+        ).df
+        bars["symbol"] = ticker
         return bars
 
     def download_data(
@@ -60,7 +53,7 @@ class AlpacaProcessor:
         NY = "America/New_York"
         start_date = pd.Timestamp(start_date + " 09:30:00", tz=NY)
         end_date = pd.Timestamp(end_date + " 15:59:00", tz=NY)
-        data_list = []
+
         # Use ThreadPoolExecutor to fetch data for multiple tickers concurrently
         with ThreadPoolExecutor(max_workers=10) as executor:
             futures = [
@@ -73,42 +66,7 @@ class AlpacaProcessor:
                 )
                 for ticker in ticker_list
             ]
-        for future in futures:
-
-            bars = future.result()
-            # fix start
-            # Reorganize the dataframes to be in original alpaca_trade_api structure
-            # Rename the existing 'symbol' column if it exists
-            if not bars.empty:
-
-                # Now reset the index
-                bars.reset_index(inplace=True)
-
-                # Set 'timestamp' as the new index
-                if "level_1" in bars.columns:
-                    bars.rename(columns={"level_1": "timestamp"}, inplace=True)
-                if "level_0" in bars.columns:
-                    bars.rename(columns={"level_0": "symbol"}, inplace=True)
-
-                bars.set_index("timestamp", inplace=True)
-
-                # Reorder and rename columns as needed
-                bars = bars[
-                    [
-                        "close",
-                        "high",
-                        "low",
-                        "trade_count",
-                        "open",
-                        "volume",
-                        "vwap",
-                        "symbol",
-                    ]
-                ]
-
-                data_list.append(bars)
-            else:
-                print("empty")
+            data_list = [future.result() for future in futures]
 
         # Combine the data
         data_df = pd.concat(data_list, axis=0)
@@ -399,13 +357,13 @@ class AlpacaProcessor:
 
     def get_trading_days(self, start, end):
         nyse = tc.get_calendar("NYSE")
-        # df = nyse.sessions_in_range(
-        #     pd.Timestamp(start).tz_localize(None), pd.Timestamp(end).tz_localize(None)
-        # )
-        df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
+        df = nyse.sessions_in_range(
+            pd.Timestamp(start).tz_localize(None), pd.Timestamp(end).tz_localize(None)
+        )
         trading_days = []
         for day in df:
             trading_days.append(str(day)[:10])
+
         return trading_days
 
     def fetch_latest_data(
@@ -413,40 +371,7 @@ class AlpacaProcessor:
     ) -> pd.DataFrame:
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            request_params = StockBarsRequest(
-                symbol_or_symbols=[tic], timeframe=TimeFrame.Minute, limit=limit
-            )
-
-            barset = self.client.get_stock_bars(request_params).df
-            # Reorganize the dataframes to be in original alpaca_trade_api structure
-            # Rename the existing 'symbol' column if it exists
-            if "symbol" in barset.columns:
-                barset.rename(columns={"symbol": "symbol_old"}, inplace=True)
-
-            # Now reset the index
-            barset.reset_index(inplace=True)
-
-            # Set 'timestamp' as the new index
-            if "level_0" in barset.columns:
-                barset.rename(columns={"level_0": "symbol"}, inplace=True)
-            if "level_1" in bars.columns:
-                barset.rename(columns={"level_1": "timestamp"}, inplace=True)
-            barset.set_index("timestamp", inplace=True)
-
-            # Reorder and rename columns as needed
-            barset = bars[
-                [
-                    "close",
-                    "high",
-                    "low",
-                    "trade_count",
-                    "open",
-                    "volume",
-                    "vwap",
-                    "symbol",
-                ]
-            ]
-
+            barset = self.api.get_bars([tic], time_interval, limit=limit).df  # [tic]
             barset["tic"] = tic
             barset = barset.reset_index()
             data_df = pd.concat([data_df, barset])
@@ -526,9 +451,6 @@ class AlpacaProcessor:
         )
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
-        request_params = StockBarsRequest(
-            symbol_or_symbols="VIXY", timeframe=TimeFrame.Minute, limit=1
-        )
-        turb_df = self.client.get_stock_bars(request_params).df
+        turb_df = self.api.get_bars(["VIXY"], time_interval, limit=1).df
         latest_turb = turb_df["close"].values
         return latest_price, latest_tech, latest_turb

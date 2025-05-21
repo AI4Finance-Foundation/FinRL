@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import datetime
-import time
 from datetime import date
 from datetime import timedelta
 from sqlite3 import Timestamp
@@ -15,21 +14,12 @@ from typing import Type
 from typing import TypeVar
 from typing import Union
 
+import exchange_calendars as tc
 import numpy as np
 import pandas as pd
-import pandas_market_calendars as tc
 import pytz
 import yfinance as yf
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.by import By
 from stockstats import StockDataFrame as Sdf
-from webdriver_manager.chrome import ChromeDriverManager
-
-### Added by aymeric75 for scrap_data function
 
 
 class YahooFinanceProcessor:
@@ -66,138 +56,8 @@ class YahooFinanceProcessor:
     ...
     """
 
-    ######## ADDED BY aymeric75 ###################
-
-    def date_to_unix(self, date_str) -> int:
-        """Convert a date string in yyyy-mm-dd format to Unix timestamp."""
-        dt = datetime.datetime.strptime(date_str, "%Y-%m-%d")
-        return int(dt.timestamp())
-
-    def fetch_stock_data(self, stock_name, period1, period2) -> pd.DataFrame:
-        # Base URL
-        url = f"https://finance.yahoo.com/quote/{stock_name}/history/?period1={period1}&period2={period2}&filter=history"
-
-        # Selenium WebDriver Setup
-        options = Options()
-        options.add_argument("--headless")  # Headless for performance
-        options.add_argument("--disable-gpu")  # Disable GPU for compatibility
-        driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager().install()), options=options
-        )
-
-        # Navigate to the URL
-        driver.get(url)
-        driver.maximize_window()
-        time.sleep(5)  # Wait for redirection and page load
-
-        # Handle potential popup
-        try:
-            RejectAll = driver.find_element(
-                By.XPATH, '//button[@class="btn secondary reject-all"]'
-            )
-            action = ActionChains(driver)
-            action.click(on_element=RejectAll)
-            action.perform()
-            time.sleep(5)
-
-        except Exception as e:
-            print("Popup not found or handled:", e)
-
-        # Parse the page for the table
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        table = soup.find("table")
-        if not table:
-            raise Exception("No table found after handling redirection and popup.")
-
-        # Extract headers
-        headers = [th.text.strip() for th in table.find_all("th")]
-        headers[4] = "Close"
-        headers[5] = "Adj Close"
-        headers = ["date", "open", "high", "low", "close", "adjcp", "volume"]
-        # , 'tic', 'day'
-
-        # Extract rows
-        rows = []
-        for tr in table.find_all("tr")[1:]:  # Skip header row
-            cells = [td.text.strip() for td in tr.find_all("td")]
-            if len(cells) == len(headers):  # Only add rows with correct column count
-                rows.append(cells)
-
-        # Create DataFrame
-        df = pd.DataFrame(rows, columns=headers)
-
-        # Convert columns to appropriate data types
-        def safe_convert(value, dtype):
-            try:
-                return dtype(value.replace(",", ""))
-            except ValueError:
-                return value
-
-        df["open"] = df["open"].apply(lambda x: safe_convert(x, float))
-        df["high"] = df["high"].apply(lambda x: safe_convert(x, float))
-        df["low"] = df["low"].apply(lambda x: safe_convert(x, float))
-        df["close"] = df["close"].apply(lambda x: safe_convert(x, float))
-        df["adjcp"] = df["adjcp"].apply(lambda x: safe_convert(x, float))
-        df["volume"] = df["volume"].apply(lambda x: safe_convert(x, int))
-
-        # Add 'tic' column
-        df["tic"] = stock_name
-
-        # Add 'day' column
-        start_date = datetime.datetime.fromtimestamp(period1)
-        df["date"] = pd.to_datetime(df["date"])
-        df["day"] = (df["date"] - start_date).dt.days
-        df = df[df["day"] >= 0]  # Exclude rows with days before the start date
-
-        # Reverse the DataFrame rows
-        df = df.iloc[::-1].reset_index(drop=True)
-
-        return df
-
-    def scrap_data(self, stock_names, start_date, end_date) -> pd.DataFrame:
-        """Fetch and combine stock data for multiple stock names."""
-        period1 = self.date_to_unix(start_date)
-        period2 = self.date_to_unix(end_date)
-
-        all_dataframes = []
-        total_stocks = len(stock_names)
-
-        for i, stock_name in enumerate(stock_names):
-            try:
-                print(
-                    f"Processing {stock_name} ({i + 1}/{total_stocks})... {(i + 1) / total_stocks * 100:.2f}% complete."
-                )
-                df = self.fetch_stock_data(stock_name, period1, period2)
-                all_dataframes.append(df)
-            except Exception as e:
-                print(f"Error fetching data for {stock_name}: {e}")
-
-        combined_df = pd.concat(all_dataframes, ignore_index=True)
-        combined_df = combined_df.sort_values(by=["day", "tick"]).reset_index(drop=True)
-
-        return combined_df
-
-    ######## END ADDED BY aymeric75 ###################
-
     def convert_interval(self, time_interval: str) -> str:
         # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
-        yahoo_intervals = [
-            "1m",
-            "2m",
-            "5m",
-            "15m",
-            "30m",
-            "60m",
-            "90m",
-            "1h",
-            "1d",
-            "5d",
-            "1wk",
-            "1mo",
-            "3mo",
-        ]
-        if time_interval in yahoo_intervals:
-            return time_interval
         if time_interval in [
             "1Min",
             "2Min",
@@ -239,32 +99,28 @@ class YahooFinanceProcessor:
         delta = timedelta(days=1)
         data_df = pd.DataFrame()
         for tic in ticker_list:
-            current_tic_start_date = start_date
             while (
-                current_tic_start_date <= end_date
+                start_date <= end_date
             ):  # downloading daily to workaround yfinance only allowing  max 7 calendar (not trading) days of 1 min data per single download
                 temp_df = yf.download(
                     tic,
-                    start=current_tic_start_date,
-                    end=current_tic_start_date + delta,
+                    start=start_date,
+                    end=start_date + delta,
                     interval=self.time_interval,
                     proxy=proxy,
                 )
-                if temp_df.columns.nlevels != 1:
-                    temp_df.columns = temp_df.columns.droplevel(1)
-
                 temp_df["tic"] = tic
                 data_df = pd.concat([data_df, temp_df])
-                current_tic_start_date += delta
+                start_date += delta
 
         data_df = data_df.reset_index().drop(columns=["Adj Close"])
         # convert the column names to match processor_alpaca.py as far as poss
         data_df.columns = [
             "timestamp",
-            "close",
+            "open",
             "high",
             "low",
-            "open",
+            "close",
             "volume",
             "tic",
         ]
@@ -302,14 +158,9 @@ class YahooFinanceProcessor:
                 df.tic == tic
             ]  # extract just the rows from downloaded data relating to this tic
             for i in range(tic_df.shape[0]):  # fill empty DataFrame using original data
-                tmp_timestamp = tic_df.iloc[i]["timestamp"]
-                if tmp_timestamp.tzinfo is None:
-                    tmp_timestamp = tmp_timestamp.tz_localize(NY)
-                else:
-                    tmp_timestamp = tmp_timestamp.tz_convert(NY)
-                tmp_df.loc[tmp_timestamp] = tic_df.iloc[i][
-                    ["open", "high", "low", "close", "volume"]
-                ]
+                tmp_df.loc[tic_df.iloc[i]["timestamp"].tz_localize(NY)] = tic_df.iloc[
+                    i
+                ][["open", "high", "low", "close", "volume"]]
             # print("(9) tmp_df\n", tmp_df.to_string()) # print ALL dataframe to check for missing rows from download
 
             # if close on start date is NaN, fill data with first valid close
@@ -521,10 +372,11 @@ class YahooFinanceProcessor:
 
     def get_trading_days(self, start: str, end: str) -> list[str]:
         nyse = tc.get_calendar("NYSE")
-        df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
+        df = nyse.sessions_in_range(pd.Timestamp(start), pd.Timestamp(end))
         trading_days = []
         for day in df:
             trading_days.append(str(day)[:10])
+
         return trading_days
 
     # ****** NB: YAHOO FINANCE DATA MAY BE IN REAL-TIME OR DELAYED BY 15 MINUTES OR MORE, DEPENDING ON THE EXCHANGE ******

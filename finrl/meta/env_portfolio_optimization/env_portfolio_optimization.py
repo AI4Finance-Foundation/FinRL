@@ -123,6 +123,8 @@ class PortfolioOptimizationEnv(gym.Env):
             new_gym_api: If True, the environment will use the new gym api standard for
                 step and reset methods.
         """
+        # super(StockEnv, self).__init__()
+        # money = 10 , scope = 1
         self._time_window = time_window
         self._time_index = time_window - 1
         self._time_column = time_column
