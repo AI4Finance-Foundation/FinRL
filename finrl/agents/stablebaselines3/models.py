@@ -11,9 +11,9 @@ from stable_baselines3 import PPO
 from stable_baselines3 import SAC
 from stable_baselines3 import TD3
 from stable_baselines3.common.callbacks import BaseCallback
-from stable_baselines3.common.type_aliases import MaybeCallback
 from stable_baselines3.common.noise import NormalActionNoise
 from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
+from stable_baselines3.common.type_aliases import MaybeCallback
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 from finrl import config
@@ -118,7 +118,11 @@ class DRLAgent:
         model = model.learn(
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
-            callback=[TensorboardCallback(), callback] if callback is not None else TensorboardCallback(),
+            callback=(
+                [TensorboardCallback(), callback]
+                if callback is not None
+                else TensorboardCallback()
+            ),
         )
         return model
 
@@ -225,11 +229,22 @@ class DRLEnsembleAgent:
         )
 
     @staticmethod
-    def train_model(model, model_name, tb_log_name, iter_num, total_timesteps=5000, callback: MaybeCallback = None):
+    def train_model(
+        model,
+        model_name,
+        tb_log_name,
+        iter_num,
+        total_timesteps=5000,
+        callback: MaybeCallback = None,
+    ):
         model = model.learn(
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
-            callback=[TensorboardCallback(), callback] if callback is not None else TensorboardCallback(),
+            callback=(
+                [TensorboardCallback(), callback]
+                if callback is not None
+                else TensorboardCallback()
+            ),
         )
         model.save(
             f"{config.TRAINED_MODEL_DIR}/{model_name.upper()}_{total_timesteps // 1000}k_{iter_num}"
