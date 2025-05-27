@@ -122,7 +122,9 @@ class DRLAgent:
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
             callback=(
-                CallbackList([TensorboardCallback()] + [callback for callback in callbacks])
+                CallbackList(
+                    [TensorboardCallback()] + [callback for callback in callbacks]
+                )
                 if callbacks is not None
                 else TensorboardCallback()
             ),
@@ -244,7 +246,9 @@ class DRLEnsembleAgent:
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
             callback=(
-                CallbackList([TensorboardCallback()] + [callback for callback in callbacks])
+                CallbackList(
+                    [TensorboardCallback()] + [callback for callback in callbacks]
+                )
                 if callbacks is not None
                 else TensorboardCallback()
             ),
