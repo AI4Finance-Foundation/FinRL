@@ -17,7 +17,18 @@ matplotlib.use("Agg")
 
 
 class StockTradingEnv(gym.Env):
-    """A stock trading environment for OpenAI gym"""
+    """
+    A stock trading environment for OpenAI gym
+
+    Parameters:
+        df (pandas.DataFrame): Dataframe containing data
+        hmax (int): Maximum cash to be traded in each trade per asset.
+        initial_amount (int): Amount of cash initially available
+        buy_cost_pct (float, array): Cost for buying shares, each index corresponds to each asset
+        sell_cost_pct (float, array): Cost for selling shares, each index corresponds to each asset
+        turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
+        print_verbosity(int): When iterating (step), how often to print stats about state of env
+    """
 
     metadata = {"render.modes": ["human"]}
 
