@@ -14,7 +14,6 @@ from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.callbacks import CallbackList
 from stable_baselines3.common.noise import NormalActionNoise
 from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
-from stable_baselines3.common.type_aliases import MaybeCallback
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 from finrl import config
@@ -114,14 +113,17 @@ class DRLAgent:
 
     @staticmethod
     def train_model(
-        model, tb_log_name, total_timesteps=5000, callback: MaybeCallback = None
+        model,
+        tb_log_name,
+        total_timesteps=5000,
+        callbacks: Type[BaseCallback] = None,
     ):  # this function is static method, so it can be called without creating an instance of the class
         model = model.learn(
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
             callback=(
-                CallbackList([TensorboardCallback(), callback])
-                if callback is not None
+                CallbackList([TensorboardCallback()] + [callback for callback in callbacks])
+                if callbacks is not None
                 else TensorboardCallback()
             ),
         )
@@ -236,14 +238,14 @@ class DRLEnsembleAgent:
         tb_log_name,
         iter_num,
         total_timesteps=5000,
-        callback: MaybeCallback = None,
+        callbacks: Type[BaseCallback] = None,
     ):
         model = model.learn(
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
             callback=(
-                CallbackList([TensorboardCallback(), callback])
-                if callback is not None
+                CallbackList([TensorboardCallback()] + [callback for callback in callbacks])
+                if callbacks is not None
                 else TensorboardCallback()
             ),
         )
