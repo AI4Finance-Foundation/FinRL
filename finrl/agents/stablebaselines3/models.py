@@ -10,7 +10,7 @@ from stable_baselines3 import DDPG
 from stable_baselines3 import PPO
 from stable_baselines3 import SAC
 from stable_baselines3 import TD3
-from stable_baselines3.common.callbacks import BaseCallback
+from stable_baselines3.common.callbacks import BaseCallback, CallbackList
 from stable_baselines3.common.noise import NormalActionNoise
 from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 from stable_baselines3.common.type_aliases import MaybeCallback
@@ -119,7 +119,7 @@ class DRLAgent:
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
             callback=(
-                [TensorboardCallback(), callback]
+                CallbackList([TensorboardCallback(), callback])
                 if callback is not None
                 else TensorboardCallback()
             ),
@@ -241,7 +241,7 @@ class DRLEnsembleAgent:
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
             callback=(
-                [TensorboardCallback(), callback]
+                CallbackList([TensorboardCallback(), callback])
                 if callback is not None
                 else TensorboardCallback()
             ),
