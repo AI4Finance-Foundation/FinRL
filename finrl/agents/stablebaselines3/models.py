@@ -54,6 +54,20 @@ class TensorboardCallback(BaseCallback):
                 print("Inner Error:", inner_error)
         return True
 
+   def _on_rollout_end(self) -> bool:
+        try:
+            rollout_buffer_rewards = self.locals['rollout_buffer'].rewards.flatten()
+            self.logger.record(key="train/reward_min", value=min(rollout_buffer_rewards))
+            self.logger.record(key="train/reward_mean", value=statistics.mean(rollout_buffer_rewards))
+            self.logger.record(key="train/reward_max", value=max(rollout_buffer_rewards))
+        except BaseException as error:
+            # Handle the case where "rewards" is not found
+            self.logger.record(key="train/reward_min", value=None)
+            self.logger.record(key="train/reward_mean", value=None)
+            self.logger.record(key="train/reward_max", value=None)
+            print("Logging Error:", error)
+        return True
+
 
 class DRLAgent:
     """Provides implementations for DRL algorithms
