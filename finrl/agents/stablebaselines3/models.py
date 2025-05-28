@@ -54,7 +54,7 @@ class TensorboardCallback(BaseCallback):
                 print("Inner Error:", inner_error)
         return True
 
-   def _on_rollout_end(self) -> bool:
+    def _on_rollout_end(self) -> bool:
         try:
             rollout_buffer_rewards = self.locals['rollout_buffer'].rewards.flatten()
             self.logger.record(key="train/reward_min", value=min(rollout_buffer_rewards))
