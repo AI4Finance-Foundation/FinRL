@@ -11,6 +11,7 @@ from stable_baselines3 import PPO
 from stable_baselines3 import SAC
 from stable_baselines3 import TD3
 from stable_baselines3.common.callbacks import BaseCallback
+from stable_baselines3.common.callbacks import CallbackList
 from stable_baselines3.common.noise import NormalActionNoise
 from stable_baselines3.common.noise import OrnsteinUhlenbeckActionNoise
 from stable_baselines3.common.vec_env import DummyVecEnv
@@ -51,6 +52,26 @@ class TensorboardCallback(BaseCallback):
                 # Print the original error and the inner error for debugging
                 print("Original Error:", error)
                 print("Inner Error:", inner_error)
+        return True
+
+    def _on_rollout_end(self) -> bool:
+        try:
+            rollout_buffer_rewards = self.locals["rollout_buffer"].rewards.flatten()
+            self.logger.record(
+                key="train/reward_min", value=min(rollout_buffer_rewards)
+            )
+            self.logger.record(
+                key="train/reward_mean", value=statistics.mean(rollout_buffer_rewards)
+            )
+            self.logger.record(
+                key="train/reward_max", value=max(rollout_buffer_rewards)
+            )
+        except BaseException as error:
+            # Handle the case where "rewards" is not found
+            self.logger.record(key="train/reward_min", value=None)
+            self.logger.record(key="train/reward_mean", value=None)
+            self.logger.record(key="train/reward_max", value=None)
+            print("Logging Error:", error)
         return True
 
 
@@ -112,12 +133,21 @@ class DRLAgent:
 
     @staticmethod
     def train_model(
-        model, tb_log_name, total_timesteps=5000
+        model,
+        tb_log_name,
+        total_timesteps=5000,
+        callbacks: Type[BaseCallback] = None,
     ):  # this function is static method, so it can be called without creating an instance of the class
         model = model.learn(
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
-            callback=TensorboardCallback(),
+            callback=(
+                CallbackList(
+                    [TensorboardCallback()] + [callback for callback in callbacks]
+                )
+                if callbacks is not None
+                else TensorboardCallback()
+            ),
         )
         return model
 
@@ -224,11 +254,24 @@ class DRLEnsembleAgent:
         )
 
     @staticmethod
-    def train_model(model, model_name, tb_log_name, iter_num, total_timesteps=5000):
+    def train_model(
+        model,
+        model_name,
+        tb_log_name,
+        iter_num,
+        total_timesteps=5000,
+        callbacks: Type[BaseCallback] = None,
+    ):
         model = model.learn(
             total_timesteps=total_timesteps,
             tb_log_name=tb_log_name,
-            callback=TensorboardCallback(),
+            callback=(
+                CallbackList(
+                    [TensorboardCallback()] + [callback for callback in callbacks]
+                )
+                if callbacks is not None
+                else TensorboardCallback()
+            ),
         )
         model.save(
             f"{config.TRAINED_MODEL_DIR}/{model_name.upper()}_{total_timesteps // 1000}k_{iter_num}"
