@@ -1,11 +1,11 @@
 # DRL models from Stable Baselines 3
 from __future__ import annotations
 
+import statistics
 import time
 
 import numpy as np
 import pandas as pd
-import statistics
 from stable_baselines3 import A2C
 from stable_baselines3 import DDPG
 from stable_baselines3 import PPO
