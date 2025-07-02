@@ -43,6 +43,7 @@ yfinance = "^0.2"
 alpaca-py = "^0.37"
 webdriver-manager = "^4"
 selenium = "^4"
+pandas-market-calendars = "^5"
 
 
 [tool.poetry.group.dev.dependencies]
