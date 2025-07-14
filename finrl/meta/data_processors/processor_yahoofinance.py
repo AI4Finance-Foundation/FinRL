@@ -261,10 +261,10 @@ class YahooFinanceProcessor:
         # convert the column names to match processor_alpaca.py as far as poss
         data_df.columns = [
             "timestamp",
-            "close",
+            "open",
             "high",
             "low",
-            "open",
+            "close",
             "volume",
             "tic",
         ]
