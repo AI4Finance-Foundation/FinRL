@@ -42,11 +42,10 @@ def build_parser():
     return parser
 
 
-# "./" will be added in front of each directory
 def check_and_make_directories(directories: list[str]):
     for directory in directories:
-        if not os.path.exists("./" + directory):
-            os.makedirs("./" + directory)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
 
 def main() -> int:
