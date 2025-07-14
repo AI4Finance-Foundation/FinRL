@@ -6,11 +6,12 @@ FinRL 包入口文件 (Package Entry Point)
 
 使用方法:
     python -m finrl --mode=train   # 训练模式
-    python -m finrl --mode=test    # 测试模式  
+    python -m finrl --mode=test    # 测试模式
     python -m finrl --mode=trade   # 交易模式
 
 这种设计符合 Python 包的标准实践，使得框架更易于使用和部署。
 """
+
 from __future__ import annotations
 
 from finrl.main import main

@@ -62,24 +62,24 @@ from webdriver_manager.chrome import ChromeDriverManager
 class YahooFinanceProcessor:
     """
     Yahoo Finance 数据处理器
-    
+
     这个类提供了从Yahoo Finance API获取股票数据的完整解决方案。
     Yahoo Finance是最受欢迎的免费金融数据源，提供全球股票市场的
     实时和历史数据。
-    
+
     主要特点：
     1. 免费使用：无需API密钥，开箱即用
     2. 数据丰富：支持全球主要交易所的股票数据
     3. 时间粒度灵活：从1分钟到1月的多种时间间隔
     4. 实时更新：提供准实时的市场数据
     5. 技术指标集成：内置多种技术分析指标
-    
+
     数据质量说明：
     - 实时性：有15-20分钟延迟（免费版限制）
     - 准确性：数据质量高，适合研究和回测
     - 完整性：偶尔可能有缺失数据，需要清洗处理
     - 稳定性：作为免费服务，可能有访问限制
-    
+
     使用场景：
     - 学术研究：免费获取历史数据进行学术分析
     - 策略回测：验证交易策略的历史表现
@@ -90,7 +90,7 @@ class YahooFinanceProcessor:
     def __init__(self):
         """
         初始化Yahoo Finance处理器
-        
+
         Yahoo Finance API是基于HTTP请求的，不需要认证，
         因此初始化过程很简单，主要是设置默认参数。
         """
@@ -100,7 +100,7 @@ class YahooFinanceProcessor:
 
     """
     数据下载方法说明
-    
+
     参数说明：
     ----------
         start_date : str
@@ -111,7 +111,7 @@ class YahooFinanceProcessor:
             股票代码列表，如['AAPL', 'MSFT', 'GOOGL']
         time_interval : str
             时间间隔，支持：1m, 5m, 15m, 30m, 1h, 1d, 1wk, 1mo
-    
+
     示例：
     -------
     输入参数：
@@ -126,7 +126,7 @@ class YahooFinanceProcessor:
     1   2020-01-02  MSFT    157.320007  158.139999  155.509995  156.529999   22834900.0
     2   2020-01-02  GOOGL   1347.010010 1347.010010 1337.000000 1339.390015   1715200.0
     ...
-    
+
     数据列说明：
     - date: 交易日期
     - tic: 股票代码（ticker symbol）
@@ -142,16 +142,16 @@ class YahooFinanceProcessor:
     def date_to_unix(self, date_str) -> int:
         """
         将日期字符串转换为Unix时间戳
-        
+
         Unix时间戳是从1970年1月1日开始的秒数，在网络API中广泛使用。
         Yahoo Finance的某些API接口需要Unix时间戳格式的日期参数。
-        
+
         Args:
             date_str (str): 日期字符串，格式为'YYYY-MM-DD'
-        
+
         Returns:
             int: Unix时间戳（秒）
-        
+
         示例：
             '2020-01-01' -> 1577836800
         """
@@ -161,32 +161,32 @@ class YahooFinanceProcessor:
     def fetch_stock_data(self, stock_name, period1, period2) -> pd.DataFrame:
         """
         使用网页爬虫获取单只股票的历史数据
-        
+
         这个方法通过Selenium自动化浏览器来爬取Yahoo Finance网页上的
         股票历史数据。当API访问受限时，这种方法可以作为备选方案。
-        
+
         技术实现：
         1. 使用Selenium启动无头Chrome浏览器
         2. 访问Yahoo Finance历史数据页面
         3. 处理可能的弹窗和广告
         4. 解析HTML表格数据
         5. 转换为pandas DataFrame格式
-        
+
         Args:
             stock_name (str): 股票代码，如'AAPL'
             period1 (int): 开始时间的Unix时间戳
             period2 (int): 结束时间的Unix时间戳
-        
+
         Returns:
             pd.DataFrame: 包含历史价格数据的DataFrame
-        
+
         注意：
         - 网页爬虫可能不稳定，建议优先使用API方法
         - 需要安装Chrome浏览器和ChromeDriver
         - 爬虫速度较慢，不适合大量数据获取
         """
         print(f"  🕷️ 爬取{stock_name}的历史数据...")
-        
+
         # 构建Yahoo Finance历史数据页面URL
         url = f"https://finance.yahoo.com/quote/{stock_name}/history/?period1={period1}&period2={period2}&filter=history"
 
@@ -226,8 +226,8 @@ class YahooFinanceProcessor:
 
             # 提取表头
             headers = [th.text.strip() for th in table.find_all("th")]
-            headers[4] = "Close"        # 修正收盘价列名
-            headers[5] = "Adj Close"    # 修正调整收盘价列名
+            headers[4] = "Close"  # 修正收盘价列名
+            headers[5] = "Adj Close"  # 修正调整收盘价列名
             headers = ["date", "open", "high", "low", "close", "adjcp", "volume"]
 
             # 提取数据行
@@ -270,7 +270,7 @@ class YahooFinanceProcessor:
 
             print(f"    ✅ 成功获取{len(df)}条{stock_name}数据记录")
             return df
-            
+
         finally:
             # 确保浏览器被关闭
             driver.quit()
@@ -278,31 +278,31 @@ class YahooFinanceProcessor:
     def scrap_data(self, stock_names, start_date, end_date) -> pd.DataFrame:
         """
         批量爬取多只股票的历史数据
-        
+
         这个方法对多只股票执行网页爬虫，获取它们的历史数据，
         然后合并成一个统一的DataFrame。
-        
+
         Args:
             stock_names (list): 股票代码列表
             start_date (str): 开始日期，格式'YYYY-MM-DD'
             end_date (str): 结束日期，格式'YYYY-MM-DD'
-        
+
         Returns:
             pd.DataFrame: 合并后的所有股票历史数据
-        
+
         处理流程：
         1. 转换日期为Unix时间戳
         2. 逐只股票进行数据爬取
         3. 合并所有股票的数据
         4. 按日期和股票代码排序
-        
+
         注意：
         - 爬虫过程可能较慢，请耐心等待
         - 部分股票可能爬取失败，会跳过并继续
         - 建议不要同时爬取过多股票，避免被网站限制
         """
         print(f"🕷️ 开始批量爬取{len(stock_names)}只股票数据...")
-        
+
         # 转换日期格式
         period1 = self.date_to_unix(start_date)
         period2 = self.date_to_unix(end_date)
@@ -319,14 +319,16 @@ class YahooFinanceProcessor:
                 )
                 df = self.fetch_stock_data(stock_name, period1, period2)
                 all_dataframes.append(df)
-                
+
             except Exception as e:
                 print(f"❌ 获取{stock_name}数据失败: {e}")
 
         # 合并所有数据
         if all_dataframes:
             combined_df = pd.concat(all_dataframes, ignore_index=True)
-            combined_df = combined_df.sort_values(by=["day", "tic"]).reset_index(drop=True)
+            combined_df = combined_df.sort_values(by=["day", "tic"]).reset_index(
+                drop=True
+            )
             print(f"✅ 成功爬取并合并{len(combined_df)}条数据记录")
             return combined_df
         else:
@@ -338,23 +340,23 @@ class YahooFinanceProcessor:
     def convert_interval(self, time_interval: str) -> str:
         """
         转换时间间隔格式
-        
+
         将FinRL标准化的时间周期转换为Yahoo Finance API支持的格式。
         不同的数据源对时间间隔有不同的表示方法，这个函数确保兼容性。
-        
+
         Args:
             time_interval (str): FinRL格式的时间间隔
-        
+
         Returns:
             str: Yahoo Finance API格式的时间间隔
-        
+
         支持的时间间隔：
         - 分钟级：1m, 2m, 5m, 15m, 30m, 60m, 90m
         - 小时级：1h
         - 日级：1d, 5d
         - 周级：1wk
         - 月级：1mo, 3mo
-        
+
         使用说明：
         - 1m到30m：适用于短线交易和高频策略
         - 1h到1d：适用于日内交易策略
@@ -362,21 +364,21 @@ class YahooFinanceProcessor:
         """
         # Yahoo Finance支持的所有时间间隔
         yahoo_intervals = [
-            "1m",    # 1分钟 - 超短线交易
-            "2m",    # 2分钟
-            "5m",    # 5分钟 - 短线交易常用
-            "15m",   # 15分钟 - 日内交易常用
-            "30m",   # 30分钟
-            "60m",   # 60分钟 = 1小时
-            "90m",   # 90分钟
-            "1h",    # 1小时 - 日内策略
-            "1d",    # 1天 - 最常用，适合中长期分析
-            "5d",    # 5天
-            "1wk",   # 1周 - 周线分析
-            "1mo",   # 1月 - 月线分析
-            "3mo",   # 3月 - 季度分析
+            "1m",  # 1分钟 - 超短线交易
+            "2m",  # 2分钟
+            "5m",  # 5分钟 - 短线交易常用
+            "15m",  # 15分钟 - 日内交易常用
+            "30m",  # 30分钟
+            "60m",  # 60分钟 = 1小时
+            "90m",  # 90分钟
+            "1h",  # 1小时 - 日内策略
+            "1d",  # 1天 - 最常用，适合中长期分析
+            "5d",  # 5天
+            "1wk",  # 1周 - 周线分析
+            "1mo",  # 1月 - 月线分析
+            "3mo",  # 3月 - 季度分析
         ]
-        
+
         if time_interval in yahoo_intervals:
             return time_interval
         if time_interval in [
