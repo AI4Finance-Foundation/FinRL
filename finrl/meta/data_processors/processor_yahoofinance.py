@@ -1,4 +1,31 @@
-"""Reference: https://github.com/AI4Finance-LLC/FinRL"""
+"""
+FinRL Yahoo Finance 数据处理器
+
+这是专门用于从Yahoo Finance API获取和处理股票数据的模块。
+Yahoo Finance是全球最流行的免费金融数据源之一，提供实时和历史
+股票价格、财务数据和市场统计信息。
+
+数据处理功能：
+1. 股票价格数据下载：支持多种时间间隔（1分钟到1月）
+2. 数据清洗和标准化：处理缺失值、异常值和格式统一
+3. 技术指标计算：集成stockstats库计算各种技术指标
+4. 市场风险指标：计算VIX恐慌指数和市场波动度
+5. 数据格式转换：转换为深度学习模型所需的数组格式
+
+支持的数据类型：
+- OHLCV数据：开盘价、最高价、最低价、收盘价、成交量
+- 技术指标：MACD、RSI、布林带、移动平均线等
+- 市场指标：VIX恐慌指数、市场波动度
+
+金融数据特点：
+- 时间序列性：数据按时间顺序排列，具有时间依赖性
+- 多维性：同时包含价格、成交量、技术指标等多个维度
+- 噪声性：市场数据包含大量噪声，需要适当的预处理
+- 非平稳性：金融时间序列通常是非平稳的
+
+参考来源：https://github.com/AI4Finance-LLC/FinRL
+作者：AI4Finance Foundation
+"""
 
 from __future__ import annotations
 
@@ -29,173 +56,327 @@ from selenium.webdriver.common.by import By
 from stockstats import StockDataFrame as Sdf
 from webdriver_manager.chrome import ChromeDriverManager
 
-### Added by aymeric75 for scrap_data function
+### 以下部分由 aymeric75 添加，用于网页爬虫功能
 
 
 class YahooFinanceProcessor:
-    """Provides methods for retrieving daily stock data from
-    Yahoo Finance API
+    """
+    Yahoo Finance 数据处理器
+    
+    这个类提供了从Yahoo Finance API获取股票数据的完整解决方案。
+    Yahoo Finance是最受欢迎的免费金融数据源，提供全球股票市场的
+    实时和历史数据。
+    
+    主要特点：
+    1. 免费使用：无需API密钥，开箱即用
+    2. 数据丰富：支持全球主要交易所的股票数据
+    3. 时间粒度灵活：从1分钟到1月的多种时间间隔
+    4. 实时更新：提供准实时的市场数据
+    5. 技术指标集成：内置多种技术分析指标
+    
+    数据质量说明：
+    - 实时性：有15-20分钟延迟（免费版限制）
+    - 准确性：数据质量高，适合研究和回测
+    - 完整性：偶尔可能有缺失数据，需要清洗处理
+    - 稳定性：作为免费服务，可能有访问限制
+    
+    使用场景：
+    - 学术研究：免费获取历史数据进行学术分析
+    - 策略回测：验证交易策略的历史表现
+    - 模型训练：为机器学习模型提供训练数据
+    - 实时监控：开发股票监控和分析工具
     """
 
     def __init__(self):
+        """
+        初始化Yahoo Finance处理器
+        
+        Yahoo Finance API是基于HTTP请求的，不需要认证，
+        因此初始化过程很简单，主要是设置默认参数。
+        """
+        print("🌐 初始化Yahoo Finance数据处理器")
+        print("  ✅ 无需API密钥，开箱即用")
         pass
 
     """
-    Param
+    数据下载方法说明
+    
+    参数说明：
     ----------
         start_date : str
-            start date of the data
+            数据开始日期，格式：'YYYY-MM-DD'
         end_date : str
-            end date of the data
+            数据结束日期，格式：'YYYY-MM-DD'
         ticker_list : list
-            a list of stock tickers
-    Example
+            股票代码列表，如['AAPL', 'MSFT', 'GOOGL']
+        time_interval : str
+            时间间隔，支持：1m, 5m, 15m, 30m, 1h, 1d, 1wk, 1mo
+    
+    示例：
     -------
-    input:
-    ticker_list = config_tickers.DOW_30_TICKER
-    start_date = '2009-01-01'
-    end_date = '2021-10-31'
-    time_interval == "1D"
+    输入参数：
+    ticker_list = ['AAPL', 'MSFT', 'GOOGL']
+    start_date = '2020-01-01'
+    end_date = '2021-12-31'
+    time_interval = "1D"  # 日线数据
 
-    output:
-        date	    tic	    open	    high	    low	        close	    volume
-    0	2009-01-02	AAPL	3.067143	3.251429	3.041429	2.767330	746015200.0
-    1	2009-01-02	AMGN	58.590000	59.080002	57.750000	44.523766	6547900.0
-    2	2009-01-02	AXP	    18.570000	19.520000	18.400000	15.477426	10955700.0
-    3	2009-01-02	BA	    42.799999	45.560001	42.779999	33.941093	7010200.0
+    输出数据格式：
+        date        tic     open        high        low         close       volume
+    0   2020-01-02  AAPL    74.059998   75.150002   73.797501   75.087502   135480400.0
+    1   2020-01-02  MSFT    157.320007  158.139999  155.509995  156.529999   22834900.0
+    2   2020-01-02  GOOGL   1347.010010 1347.010010 1337.000000 1339.390015   1715200.0
     ...
+    
+    数据列说明：
+    - date: 交易日期
+    - tic: 股票代码（ticker symbol）
+    - open: 开盘价
+    - high: 最高价
+    - low: 最低价
+    - close: 收盘价
+    - volume: 成交量
     """
 
-    ######## ADDED BY aymeric75 ###################
+    ######## 以下代码由 aymeric75 添加 ###################
 
     def date_to_unix(self, date_str) -> int:
-        """Convert a date string in yyyy-mm-dd format to Unix timestamp."""
+        """
+        将日期字符串转换为Unix时间戳
+        
+        Unix时间戳是从1970年1月1日开始的秒数，在网络API中广泛使用。
+        Yahoo Finance的某些API接口需要Unix时间戳格式的日期参数。
+        
+        Args:
+            date_str (str): 日期字符串，格式为'YYYY-MM-DD'
+        
+        Returns:
+            int: Unix时间戳（秒）
+        
+        示例：
+            '2020-01-01' -> 1577836800
+        """
         dt = datetime.datetime.strptime(date_str, "%Y-%m-%d")
         return int(dt.timestamp())
 
     def fetch_stock_data(self, stock_name, period1, period2) -> pd.DataFrame:
-        # Base URL
+        """
+        使用网页爬虫获取单只股票的历史数据
+        
+        这个方法通过Selenium自动化浏览器来爬取Yahoo Finance网页上的
+        股票历史数据。当API访问受限时，这种方法可以作为备选方案。
+        
+        技术实现：
+        1. 使用Selenium启动无头Chrome浏览器
+        2. 访问Yahoo Finance历史数据页面
+        3. 处理可能的弹窗和广告
+        4. 解析HTML表格数据
+        5. 转换为pandas DataFrame格式
+        
+        Args:
+            stock_name (str): 股票代码，如'AAPL'
+            period1 (int): 开始时间的Unix时间戳
+            period2 (int): 结束时间的Unix时间戳
+        
+        Returns:
+            pd.DataFrame: 包含历史价格数据的DataFrame
+        
+        注意：
+        - 网页爬虫可能不稳定，建议优先使用API方法
+        - 需要安装Chrome浏览器和ChromeDriver
+        - 爬虫速度较慢，不适合大量数据获取
+        """
+        print(f"  🕷️ 爬取{stock_name}的历史数据...")
+        
+        # 构建Yahoo Finance历史数据页面URL
         url = f"https://finance.yahoo.com/quote/{stock_name}/history/?period1={period1}&period2={period2}&filter=history"
 
-        # Selenium WebDriver Setup
+        # Selenium WebDriver 设置
         options = Options()
-        options.add_argument("--headless")  # Headless for performance
-        options.add_argument("--disable-gpu")  # Disable GPU for compatibility
+        options.add_argument("--headless")  # 无头模式，提高性能
+        options.add_argument("--disable-gpu")  # 禁用GPU，提高兼容性
         driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=options
         )
 
-        # Navigate to the URL
-        driver.get(url)
-        driver.maximize_window()
-        time.sleep(5)  # Wait for redirection and page load
-
-        # Handle potential popup
         try:
-            RejectAll = driver.find_element(
-                By.XPATH, '//button[@class="btn secondary reject-all"]'
-            )
-            action = ActionChains(driver)
-            action.click(on_element=RejectAll)
-            action.perform()
-            time.sleep(5)
+            # 访问URL
+            driver.get(url)
+            driver.maximize_window()
+            time.sleep(5)  # 等待页面加载
 
-        except Exception as e:
-            print("Popup not found or handled:", e)
-
-        # Parse the page for the table
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        table = soup.find("table")
-        if not table:
-            raise Exception("No table found after handling redirection and popup.")
-
-        # Extract headers
-        headers = [th.text.strip() for th in table.find_all("th")]
-        headers[4] = "Close"
-        headers[5] = "Adj Close"
-        headers = ["date", "open", "high", "low", "close", "adjcp", "volume"]
-        # , 'tic', 'day'
-
-        # Extract rows
-        rows = []
-        for tr in table.find_all("tr")[1:]:  # Skip header row
-            cells = [td.text.strip() for td in tr.find_all("td")]
-            if len(cells) == len(headers):  # Only add rows with correct column count
-                rows.append(cells)
-
-        # Create DataFrame
-        df = pd.DataFrame(rows, columns=headers)
-
-        # Convert columns to appropriate data types
-        def safe_convert(value, dtype):
+            # 处理可能的Cookie同意弹窗
             try:
-                return dtype(value.replace(",", ""))
-            except ValueError:
-                return value
+                RejectAll = driver.find_element(
+                    By.XPATH, '//button[@class="btn secondary reject-all"]'
+                )
+                action = ActionChains(driver)
+                action.click(on_element=RejectAll)
+                action.perform()
+                time.sleep(5)
+                print("    ✅ 已处理Cookie弹窗")
 
-        df["open"] = df["open"].apply(lambda x: safe_convert(x, float))
-        df["high"] = df["high"].apply(lambda x: safe_convert(x, float))
-        df["low"] = df["low"].apply(lambda x: safe_convert(x, float))
-        df["close"] = df["close"].apply(lambda x: safe_convert(x, float))
-        df["adjcp"] = df["adjcp"].apply(lambda x: safe_convert(x, float))
-        df["volume"] = df["volume"].apply(lambda x: safe_convert(x, int))
+            except Exception as e:
+                print(f"    ℹ️ 未发现弹窗或处理失败: {e}")
 
-        # Add 'tic' column
-        df["tic"] = stock_name
+            # 解析页面获取数据表格
+            soup = BeautifulSoup(driver.page_source, "html.parser")
+            table = soup.find("table")
+            if not table:
+                raise Exception("未找到数据表格")
 
-        # Add 'day' column
-        start_date = datetime.datetime.fromtimestamp(period1)
-        df["date"] = pd.to_datetime(df["date"])
-        df["day"] = (df["date"] - start_date).dt.days
-        df = df[df["day"] >= 0]  # Exclude rows with days before the start date
+            # 提取表头
+            headers = [th.text.strip() for th in table.find_all("th")]
+            headers[4] = "Close"        # 修正收盘价列名
+            headers[5] = "Adj Close"    # 修正调整收盘价列名
+            headers = ["date", "open", "high", "low", "close", "adjcp", "volume"]
 
-        # Reverse the DataFrame rows
-        df = df.iloc[::-1].reset_index(drop=True)
+            # 提取数据行
+            rows = []
+            for tr in table.find_all("tr")[1:]:  # 跳过表头行
+                cells = [td.text.strip() for td in tr.find_all("td")]
+                if len(cells) == len(headers):  # 只添加列数正确的行
+                    rows.append(cells)
 
-        return df
+            # 创建DataFrame
+            df = pd.DataFrame(rows, columns=headers)
+
+            # 数据类型转换函数
+            def safe_convert(value, dtype):
+                """安全转换数据类型，处理格式化数字（如包含逗号的数字）"""
+                try:
+                    return dtype(value.replace(",", ""))
+                except ValueError:
+                    return value
+
+            # 转换数值列的数据类型
+            df["open"] = df["open"].apply(lambda x: safe_convert(x, float))
+            df["high"] = df["high"].apply(lambda x: safe_convert(x, float))
+            df["low"] = df["low"].apply(lambda x: safe_convert(x, float))
+            df["close"] = df["close"].apply(lambda x: safe_convert(x, float))
+            df["adjcp"] = df["adjcp"].apply(lambda x: safe_convert(x, float))
+            df["volume"] = df["volume"].apply(lambda x: safe_convert(x, int))
+
+            # 添加股票代码列
+            df["tic"] = stock_name
+
+            # 添加交易日序号列
+            start_date = datetime.datetime.fromtimestamp(period1)
+            df["date"] = pd.to_datetime(df["date"])
+            df["day"] = (df["date"] - start_date).dt.days
+            df = df[df["day"] >= 0]  # 排除开始日期之前的数据
+
+            # 反转DataFrame行序（Yahoo返回的数据是倒序的）
+            df = df.iloc[::-1].reset_index(drop=True)
+
+            print(f"    ✅ 成功获取{len(df)}条{stock_name}数据记录")
+            return df
+            
+        finally:
+            # 确保浏览器被关闭
+            driver.quit()
 
     def scrap_data(self, stock_names, start_date, end_date) -> pd.DataFrame:
-        """Fetch and combine stock data for multiple stock names."""
+        """
+        批量爬取多只股票的历史数据
+        
+        这个方法对多只股票执行网页爬虫，获取它们的历史数据，
+        然后合并成一个统一的DataFrame。
+        
+        Args:
+            stock_names (list): 股票代码列表
+            start_date (str): 开始日期，格式'YYYY-MM-DD'
+            end_date (str): 结束日期，格式'YYYY-MM-DD'
+        
+        Returns:
+            pd.DataFrame: 合并后的所有股票历史数据
+        
+        处理流程：
+        1. 转换日期为Unix时间戳
+        2. 逐只股票进行数据爬取
+        3. 合并所有股票的数据
+        4. 按日期和股票代码排序
+        
+        注意：
+        - 爬虫过程可能较慢，请耐心等待
+        - 部分股票可能爬取失败，会跳过并继续
+        - 建议不要同时爬取过多股票，避免被网站限制
+        """
+        print(f"🕷️ 开始批量爬取{len(stock_names)}只股票数据...")
+        
+        # 转换日期格式
         period1 = self.date_to_unix(start_date)
         period2 = self.date_to_unix(end_date)
 
         all_dataframes = []
         total_stocks = len(stock_names)
 
+        # 逐只处理股票
         for i, stock_name in enumerate(stock_names):
             try:
                 print(
-                    f"Processing {stock_name} ({i + 1}/{total_stocks})... {(i + 1) / total_stocks * 100:.2f}% complete."
+                    f"正在处理 {stock_name} ({i + 1}/{total_stocks})... "
+                    f"进度: {(i + 1) / total_stocks * 100:.1f}%"
                 )
                 df = self.fetch_stock_data(stock_name, period1, period2)
                 all_dataframes.append(df)
+                
             except Exception as e:
-                print(f"Error fetching data for {stock_name}: {e}")
+                print(f"❌ 获取{stock_name}数据失败: {e}")
 
-        combined_df = pd.concat(all_dataframes, ignore_index=True)
-        combined_df = combined_df.sort_values(by=["day", "tick"]).reset_index(drop=True)
+        # 合并所有数据
+        if all_dataframes:
+            combined_df = pd.concat(all_dataframes, ignore_index=True)
+            combined_df = combined_df.sort_values(by=["day", "tic"]).reset_index(drop=True)
+            print(f"✅ 成功爬取并合并{len(combined_df)}条数据记录")
+            return combined_df
+        else:
+            print("❌ 未能获取任何股票数据")
+            return pd.DataFrame()
 
-        return combined_df
-
-    ######## END ADDED BY aymeric75 ###################
+    ######## aymeric75 添加的代码结束 ###################
 
     def convert_interval(self, time_interval: str) -> str:
-        # Convert FinRL 'standardised' time periods to Yahoo format: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+        """
+        转换时间间隔格式
+        
+        将FinRL标准化的时间周期转换为Yahoo Finance API支持的格式。
+        不同的数据源对时间间隔有不同的表示方法，这个函数确保兼容性。
+        
+        Args:
+            time_interval (str): FinRL格式的时间间隔
+        
+        Returns:
+            str: Yahoo Finance API格式的时间间隔
+        
+        支持的时间间隔：
+        - 分钟级：1m, 2m, 5m, 15m, 30m, 60m, 90m
+        - 小时级：1h
+        - 日级：1d, 5d
+        - 周级：1wk
+        - 月级：1mo, 3mo
+        
+        使用说明：
+        - 1m到30m：适用于短线交易和高频策略
+        - 1h到1d：适用于日内交易策略
+        - 1wk到1mo：适用于中长期投资策略
+        """
+        # Yahoo Finance支持的所有时间间隔
         yahoo_intervals = [
-            "1m",
-            "2m",
-            "5m",
-            "15m",
-            "30m",
-            "60m",
-            "90m",
-            "1h",
-            "1d",
-            "5d",
-            "1wk",
-            "1mo",
-            "3mo",
+            "1m",    # 1分钟 - 超短线交易
+            "2m",    # 2分钟
+            "5m",    # 5分钟 - 短线交易常用
+            "15m",   # 15分钟 - 日内交易常用
+            "30m",   # 30分钟
+            "60m",   # 60分钟 = 1小时
+            "90m",   # 90分钟
+            "1h",    # 1小时 - 日内策略
+            "1d",    # 1天 - 最常用，适合中长期分析
+            "5d",    # 5天
+            "1wk",   # 1周 - 周线分析
+            "1mo",   # 1月 - 月线分析
+            "3mo",   # 3月 - 季度分析
         ]
+        
         if time_interval in yahoo_intervals:
             return time_interval
         if time_interval in [
@@ -261,10 +442,10 @@ class YahooFinanceProcessor:
         # convert the column names to match processor_alpaca.py as far as poss
         data_df.columns = [
             "timestamp",
-            "open",
+            "close",
             "high",
             "low",
-            "close",
+            "open",
             "volume",
             "tic",
         ]
