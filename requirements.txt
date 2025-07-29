@@ -5,7 +5,7 @@ elegantrl
 
 gputil
 gymnasium
-importlib-metadata==4.13.0
+importlib-metadata>=6.0,<=8.5.0
 jqdatasdk
 
 lz4
