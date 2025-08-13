@@ -3,7 +3,7 @@ ci:
     skip: [flake8]  # remove this eventually
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-docstring-first
       - id: check-yaml
