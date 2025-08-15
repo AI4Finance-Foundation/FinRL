@@ -280,7 +280,10 @@ class AgentPPO(AgentBase):
             ary_action = convert(action).detach().cpu().numpy()
             ary_state, reward, done, _ = env.step(ary_action)
             if done:
-                ary_state = env.reset()
+                obs = env.reset()
+                if isinstance(obs, tuple):
+                    obs = obs[0]
+                ary_state = obs
 
             states[i] = state
             actions[i] = action
@@ -393,7 +396,10 @@ class PendulumEnv(gym.Wrapper):  # a demo of custom gym env
         seed=None,
         options=None,
     ) -> np.ndarray:  # reset the agent in env
-        return self.env.reset()
+        obs = self.env.reset()
+        if isinstance(obs, tuple):
+            obs = obs[0]
+        return obs
 
     def step(
         self, action: np.ndarray
@@ -410,7 +416,10 @@ def train_agent(args: Config):
     agent = args.agent_class(
         args.net_dims, args.state_dim, args.action_dim, gpu_id=args.gpu_id, args=args
     )
-    agent.states = env.reset()[np.newaxis, :]
+    obs = env.reset()
+    if isinstance(obs, tuple):
+        obs = obs[0]
+    agent.states = obs[np.newaxis, :]
 
     evaluator = Evaluator(
         eval_env=build_env(args.env_class, args.env_args),
@@ -516,8 +525,9 @@ def get_rewards_and_steps(
     env, actor, if_render: bool = False
 ) -> (float, int):  # cumulative_rewards and episode_steps
     device = next(actor.parameters()).device  # net.parameters() is a Python generator.
-
     state = env.reset()
+    if isinstance(state, tuple):
+        state = state[0]
     episode_steps = 0
     cumulative_returns = 0.0  # sum of rewards in an episode
     for episode_steps in range(12345):
