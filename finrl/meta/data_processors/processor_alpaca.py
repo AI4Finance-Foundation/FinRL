@@ -432,7 +432,7 @@ class AlpacaProcessor:
             barset.set_index("timestamp", inplace=True)
 
             # Reorder and rename columns as needed
-            barset = bars[
+            barset = barset[
                 [
                     "close",
                     "high",
