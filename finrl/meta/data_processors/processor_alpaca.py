@@ -425,7 +425,7 @@ class AlpacaProcessor:
             barset.reset_index(inplace=True)
 
             # If one column is returned, do not process
-            if(len(barset.columns) <= 1):
+            if len(barset.columns) <= 1:
                 continue
 
             # Set 'timestamp' as the new index
