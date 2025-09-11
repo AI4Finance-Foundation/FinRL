@@ -4,14 +4,15 @@ import datetime
 import threading
 import time
 
-import alpaca as tradeapi
+from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import GetOrdersRequest
+from alpaca.trading.enums import OrderSide, QueryOrderStatus
 import gymnasium as gym
 import numpy as np
 import pandas as pd
 import torch
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
-
 
 class AlpacaPaperTrading:
     def __init__(
@@ -26,7 +27,6 @@ class AlpacaPaperTrading:
         action_dim,
         API_KEY,
         API_SECRET,
-        API_BASE_URL,
         tech_indicator_list,
         turbulence_thresh=30,
         max_stock=1e2,
@@ -98,7 +98,9 @@ class AlpacaPaperTrading:
 
         # connect to Alpaca trading API
         try:
-            self.alpaca = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+            self.alpaca = TradingClient(
+                api_key=API_KEY, secret_key=API_SECRET, paper=True
+            )
         except:
             raise ValueError(
                 "Fail to connect Alpaca. Please check account info and internet connection."
@@ -153,7 +155,13 @@ class AlpacaPaperTrading:
         return latency
 
     def run(self):
-        orders = self.alpaca.list_orders(status="open")
+        # params to filter orders by
+        request_params = GetOrdersRequest(
+            status=QueryOrderStatus.OPEN
+            )
+
+        # orders that satisfy params
+        orders = self.alpaca.get_orders(filter=request_params)
         for order in orders:
             self.alpaca.cancel_order(order.id)
 
@@ -180,7 +188,7 @@ class AlpacaPaperTrading:
                 """# Close all positions when 1 minutes til market close.
             print("Market closing soon.  Closing positions.")
 
-            positions = self.alpaca.list_positions()
+            positions = self.alpaca.get_all_positions()
             for position in positions:
               if(position.side == 'long'):
                 orderSide = 'sell'
@@ -278,7 +286,7 @@ class AlpacaPaperTrading:
                 self.stocks_cd[index] = 0
 
         else:  # sell all when turbulence
-            positions = self.alpaca.list_positions()
+            positions = self.alpaca.get_all_positions()
             for position in positions:
                 if position.side == "long":
                     orderSide = "sell"
@@ -295,7 +303,7 @@ class AlpacaPaperTrading:
             self.stocks_cd[:] = 0
 
     def get_state(self):
-        alpaca = AlpacaProcessor(api=self.alpaca)
+        alpaca = AlpacaProcessor(API_KEY=API_KEY, API_SECRET=API_SECRET)
         price, tech, turbulence = alpaca.fetch_latest_data(
             ticker_list=self.stockUniverse,
             time_interval="1Min",
@@ -308,7 +316,7 @@ class AlpacaPaperTrading:
         ).astype(np.float32)
 
         tech = tech * 2**-7
-        positions = self.alpaca.list_positions()
+        positions = self.alpaca.get_all_positions()
         stocks = [0] * len(self.stockUniverse)
         for position in positions:
             ind = self.stockUniverse.index(position.symbol)
