@@ -16,7 +16,7 @@ from stockstats import StockDataFrame as Sdf
 
 
 class AlpacaProcessor:
-    def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, client=None):
+    def __init__(self, API_KEY=None, API_SECRET=None, client=None):
         if client is None:
             try:
                 self.client = StockHistoricalDataClient(API_KEY, API_SECRET)
