@@ -11,6 +11,8 @@ import numpy as np
 import pandas as pd
 import torch
 from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import GetOrdersRequest
+from alpaca.trading.enums import OrderSide, QueryOrderStatus
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.meta.paper_trading.common import AgentPPO
@@ -147,7 +149,13 @@ class PaperTradingAlpaca:
         return latency
 
     def run(self):
-        orders = self.alpaca.list_orders(status="open")
+        # params to filter orders by
+        request_params = GetOrdersRequest(
+            status=QueryOrderStatus.OPEN
+            )
+
+        # orders that satisfy params
+        orders = self.alpaca.get_orders(filter=request_params)
         for order in orders:
             self.alpaca.cancel_order(order.id)
 
