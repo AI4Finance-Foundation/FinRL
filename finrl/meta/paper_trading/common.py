@@ -806,6 +806,7 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 
+
 def get_trading_days(start, end):
     nyse = tc.get_calendar("NYSE")
     df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
@@ -824,22 +825,26 @@ def alpaca_history(key, secret, start, end):
     trading_days = get_trading_days(start, end)
     df = pd.DataFrame()
     for day in trading_days:
-        portfoil_history_request = GetPortfolioHistoryRequest(start=day, timeframe='1D')
-        portfoil_history = trading_client.get_portfolio_history(history_filter = portfoil_history_request)
+        portfoil_history_request = GetPortfolioHistoryRequest(start=day, timeframe="1D")
+        portfoil_history = trading_client.get_portfolio_history(
+            history_filter=portfoil_history_request
+        )
         # Create a DataFrame from the relevant parts of the JSON
-        df = pd.DataFrame({
-            'timestamp': portfoil_history.timestamp,
-            'equity': portfoil_history.equity,
-            'profit_loss': portfoil_history.profit_loss,
-            'profit_loss_pct': portfoil_history.profit_loss_pct
-        })
+        df = pd.DataFrame(
+            {
+                "timestamp": portfoil_history.timestamp,
+                "equity": portfoil_history.equity,
+                "profit_loss": portfoil_history.profit_loss,
+                "profit_loss_pct": portfoil_history.profit_loss_pct,
+            }
+        )
 
         # Convert the 'timestamp' column to a readable datetime format
-        df['timestamp'] = pd.to_datetime(df['timestamp'], unit='s')        
+        df["timestamp"] = pd.to_datetime(df["timestamp"], unit="s")
         # df= pd.concat([df, portfoil_history.df.iloc[:78]],ignore_index=True)
 
     equities = df.equity.values
-    cumu_returns = equities/equities[0]
+    cumu_returns = equities / equities[0]
     cumu_returns = cumu_returns[~np.isnan(cumu_returns)]
 
     return df, cumu_returns
