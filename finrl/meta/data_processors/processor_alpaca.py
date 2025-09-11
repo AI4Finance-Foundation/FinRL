@@ -424,6 +424,10 @@ class AlpacaProcessor:
             # Now reset the index
             barset.reset_index(inplace=True)
 
+            # If one column is returned, do not process
+            if(len(barset.columns) <= 1):
+                continue
+
             # Set 'timestamp' as the new index
             if "level_0" in barset.columns:
                 barset.rename(columns={"level_0": "symbol"}, inplace=True)
