@@ -6,7 +6,6 @@ import datetime
 import threading
 import time
 
-import alpaca
 import gymnasium as gym
 import numpy as np
 import pandas as pd
