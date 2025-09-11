@@ -4,15 +4,17 @@ import datetime
 import threading
 import time
 
-from alpaca.trading.client import TradingClient
-from alpaca.trading.requests import GetOrdersRequest
-from alpaca.trading.enums import OrderSide, QueryOrderStatus
 import gymnasium as gym
 import numpy as np
 import pandas as pd
 import torch
+from alpaca.trading.client import TradingClient
+from alpaca.trading.enums import OrderSide
+from alpaca.trading.enums import QueryOrderStatus
+from alpaca.trading.requests import GetOrdersRequest
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
+
 
 class AlpacaPaperTrading:
     def __init__(
@@ -156,9 +158,7 @@ class AlpacaPaperTrading:
 
     def run(self):
         # params to filter orders by
-        request_params = GetOrdersRequest(
-            status=QueryOrderStatus.OPEN
-            )
+        request_params = GetOrdersRequest(status=QueryOrderStatus.OPEN)
 
         # orders that satisfy params
         orders = self.alpaca.get_orders(filter=request_params)
