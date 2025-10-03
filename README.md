@@ -20,6 +20,7 @@
 
 [![Downloads](https://static.pepy.tech/badge/finrl)](https://pepy.tech/project/finrl)
 [![Downloads](https://static.pepy.tech/badge/finrl/week)](https://pepy.tech/project/finrl)
+[![Join Discord](https://img.shields.io/badge/Discord-Join-blue)](https://discord.gg/trsr8SXpW5)
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![PyPI](https://img.shields.io/pypi/v/finrl.svg)](https://pypi.org/project/finrl/)
 [![Documentation Status](https://readthedocs.org/projects/finrl/badge/?version=latest)](https://finrl.readthedocs.io/en/latest/?badge=latest)
