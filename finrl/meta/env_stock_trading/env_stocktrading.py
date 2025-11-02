@@ -565,3 +565,123 @@ class StockTradingEnv(gym.Env):
         e = DummyVecEnv([lambda: self])
         obs = e.reset()
         return e, obs
+
+
+class ExtendedStockTradingEnv(StockTradingEnv):
+
+    
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        stock_dim: int,
+        hmax: int,
+        initial_amount: int,
+        num_stock_shares: list[int],
+        buy_cost_pct: list[float],
+        sell_cost_pct: list[float],
+        reward_scaling: float,
+        state_space: int,
+        action_space: int,
+        tech_indicator_list: list[str],
+        extra_context: List[str],
+        turbulence_threshold=None,
+        risk_indicator_col="turbulence",
+        make_plots: bool = False,
+        print_verbosity=10,
+        day=0,
+        initial=True,
+        previous_state=[],
+        model_name="",
+        mode="",
+        iteration="",
+    ):        
+        self.extra_context = extra_context
+        super().__init__(df, stock_dim, hmax, initial_amount, num_stock_shares, buy_cost_pct, sell_cost_pct, reward_scaling, state_space, action_space, tech_indicator_list, turbulence_threshold, risk_indicator_col, make_plots, print_verbosity, day, initial, previous_state, model_name, mode, iteration)
+        
+    def _initiate_state(self):
+
+        extra_context = self.data.iloc[0][self.extra_context].astype(float).tolist()
+        if self.initial:
+            # For Initial State
+            if len(self.df.tic.unique()) > 1:
+                # for multiple stock
+                state = (
+                    [self.initial_amount]
+                    + self.data.close.values.tolist()
+                    + self.num_stock_shares
+                    + sum(
+                        (
+                            self.data[tech].values.tolist()
+                            for tech in self.tech_indicator_list
+                        ),
+                        [],
+                    )+extra_context
+                )  # append initial stocks_share to initial state, instead of all zero
+            else:
+                # for single stock
+                state = (
+                    [self.initial_amount]
+                    + [self.data.close]
+                    + [0] * self.stock_dim
+                    + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
+                    + extra_context
+                )
+        else:
+            # Using Previous State
+            if len(self.df.tic.unique()) > 1:
+                # for multiple stock
+                state = (
+                    [self.previous_state[0]]
+                    + self.data.close.values.tolist()
+                    + self.previous_state[
+                        (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
+                    ]
+                    + sum(
+                        (
+                            self.data[tech].values.tolist()
+                            for tech in self.tech_indicator_list
+                        ),
+                        [],
+                    ) + extra_context
+                )
+            else:
+                # for single stock
+                state = (
+                    [self.previous_state[0]]
+                    + [self.data.close]
+                    + self.previous_state[
+                        (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
+                    ]
+                    + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
+                    + extra_context
+                )
+        return state
+    
+    def _update_state(self):
+        extra_context = self.data.iloc[0][self.extra_context].astype(float).tolist()
+        
+        if len(self.df.tic.unique()) > 1:
+            # for multiple stock
+            state = (
+                [self.state[0]]
+                + self.data.close.values.tolist()
+                + list(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
+                + sum(
+                    (
+                        self.data[tech].values.tolist()
+                        for tech in self.tech_indicator_list
+                    ),
+                    [],
+                ) + extra_context
+            )
+
+        else:
+            # for single stock
+            state = (
+                [self.state[0]]
+                + [self.data.close]
+                + list(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
+                + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
+            ) + extra_context
+
+        return state
