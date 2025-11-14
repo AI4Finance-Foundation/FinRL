@@ -204,7 +204,6 @@ class TestEnvironmentStep:
         env = StockTradingEnv(df=data, **small_config)
 
         env.reset()
-        initial_cash = env.state[0]
 
         # Try to buy with max action
         env.step(np.array([1.0, 1.0]))
@@ -233,7 +232,6 @@ class TestTradingCosts:
     def test_buy_cost_applied(self, env):
         """Test that buy costs are properly applied"""
         env.reset()
-        initial_cash = env.state[0]
 
         # Buy some stock
         env.step(np.array([0.3, 0.0]))
@@ -283,9 +281,6 @@ class TestTurbulence:
 
         # Buy some stocks
         env.step(np.array([0.5, 0.5]))
-        holdings_start = env.stock_dim + 1
-        holdings_end = 2 * env.stock_dim + 1
-        holdings_after_buy = env.state[holdings_start:holdings_end].copy()
 
         # Manually set high turbulence
         env.turbulence = 200
