@@ -144,7 +144,7 @@ class TestEnvironmentStep:
         holdings_end = 2 * env.stock_dim + 1
         np.testing.assert_array_equal(
             next_state[holdings_start:holdings_end],
-            initial_state[holdings_start:holdings_end]
+            initial_state[holdings_start:holdings_end],
         )
 
     def test_step_returns_correct_tuple(self, env):
