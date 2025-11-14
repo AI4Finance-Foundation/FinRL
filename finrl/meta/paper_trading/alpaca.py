@@ -7,7 +7,7 @@ import threading
 import time
 
 import alpaca_trade_api as tradeapi
-import gym
+import gymnasium as gym
 import numpy as np
 import pandas as pd
 import torch
@@ -51,8 +51,8 @@ class PaperTradingAlpaca:
                     )
                     self.act = actor
                     self.device = agent.device
-                except BaseException:
-                    raise ValueError("Fail to load agent!")
+                except (FileNotFoundError, RuntimeError, KeyError) as e:
+                    raise ValueError(f"Fail to load agent: {e}")
 
             elif drl_lib == "rllib":
                 from ray.rllib.agents import ppo
@@ -71,8 +71,8 @@ class PaperTradingAlpaca:
                     trainer.restore(cwd)
                     self.agent = trainer
                     print("Restoring from checkpoint path", cwd)
-                except:
-                    raise ValueError("Fail to load agent!")
+                except (FileNotFoundError, ValueError, RuntimeError) as e:
+                    raise ValueError(f"Fail to load agent: {e}")
 
             elif drl_lib == "stable_baselines3":
                 from stable_baselines3 import PPO
@@ -81,8 +81,8 @@ class PaperTradingAlpaca:
                     # load agent
                     self.model = PPO.load(cwd)
                     print("Successfully load model", cwd)
-                except:
-                    raise ValueError("Fail to load agent!")
+                except (FileNotFoundError, ValueError, RuntimeError) as e:
+                    raise ValueError(f"Fail to load agent: {e}")
 
             else:
                 raise ValueError(
@@ -95,9 +95,9 @@ class PaperTradingAlpaca:
         # connect to Alpaca trading API
         try:
             self.alpaca = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
-        except:
+        except (ValueError, ConnectionError, Exception) as e:
             raise ValueError(
-                "Fail to connect Alpaca. Please check account info and internet connection."
+                f"Fail to connect Alpaca. Please check account info and internet connection. Error: {e}"
             )
 
         # read trading time interval
@@ -358,7 +358,7 @@ class PaperTradingAlpaca:
                     + " | completed."
                 )
                 resp.append(True)
-            except:
+            except Exception as e:
                 print(
                     "Order of | "
                     + str(qty)
@@ -366,7 +366,7 @@ class PaperTradingAlpaca:
                     + stock
                     + " "
                     + side
-                    + " | did not go through."
+                    + f" | did not go through. Error: {e}"
                 )
                 resp.append(False)
         else:
