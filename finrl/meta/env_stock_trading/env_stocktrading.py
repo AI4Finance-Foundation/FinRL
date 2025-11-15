@@ -583,7 +583,7 @@ class ExtendedStockTradingEnv(StockTradingEnv):
         state_space: int,
         action_space: int,
         tech_indicator_list: list[str],
-        extra_context: List[str],
+        extra_context: pd.DataFrame,
         turbulence_threshold=None,
         risk_indicator_col="turbulence",
         make_plots: bool = False,
@@ -595,12 +595,14 @@ class ExtendedStockTradingEnv(StockTradingEnv):
         mode="",
         iteration="",
     ):        
-        self.extra_context = extra_context
+        self._extra_context = extra_context
         super().__init__(df, stock_dim, hmax, initial_amount, num_stock_shares, buy_cost_pct, sell_cost_pct, reward_scaling, state_space, action_space, tech_indicator_list, turbulence_threshold, risk_indicator_col, make_plots, print_verbosity, day, initial, previous_state, model_name, mode, iteration)
+
+    @property
+    def extra_context(self) -> list[float]:
+        return self._extra_context.loc[self.day, :].astype(float).tolist()
         
     def _initiate_state(self):
-
-        extra_context = self.data.iloc[0][self.extra_context].astype(float).tolist()
         if self.initial:
             # For Initial State
             if len(self.df.tic.unique()) > 1:
@@ -615,7 +617,7 @@ class ExtendedStockTradingEnv(StockTradingEnv):
                             for tech in self.tech_indicator_list
                         ),
                         [],
-                    )+extra_context
+                    )+self.extra_context
                 )  # append initial stocks_share to initial state, instead of all zero
             else:
                 # for single stock
@@ -624,7 +626,7 @@ class ExtendedStockTradingEnv(StockTradingEnv):
                     + [self.data.close]
                     + [0] * self.stock_dim
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
-                    + extra_context
+                    + self.extra_context
                 )
         else:
             # Using Previous State
@@ -642,7 +644,7 @@ class ExtendedStockTradingEnv(StockTradingEnv):
                             for tech in self.tech_indicator_list
                         ),
                         [],
-                    ) + extra_context
+                    ) + self.extra_context
                 )
             else:
                 # for single stock
@@ -653,12 +655,11 @@ class ExtendedStockTradingEnv(StockTradingEnv):
                         (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
                     ]
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
-                    + extra_context
+                    + self.extra_context
                 )
         return state
     
     def _update_state(self):
-        extra_context = self.data.iloc[0][self.extra_context].astype(float).tolist()
         
         if len(self.df.tic.unique()) > 1:
             # for multiple stock
@@ -672,7 +673,7 @@ class ExtendedStockTradingEnv(StockTradingEnv):
                         for tech in self.tech_indicator_list
                     ),
                     [],
-                ) + extra_context
+                ) + self.extra_context
             )
 
         else:
@@ -682,6 +683,6 @@ class ExtendedStockTradingEnv(StockTradingEnv):
                 + [self.data.close]
                 + list(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
                 + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
-            ) + extra_context
+            ) + self.extra_context
 
         return state
