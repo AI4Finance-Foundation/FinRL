@@ -3,6 +3,8 @@
 This file contains all configurable parameters for the trading system.
 """
 
+from __future__ import annotations
+
 from typing import List
 
 # =====================================================================
@@ -10,7 +12,7 @@ from typing import List
 # =====================================================================
 
 # Stock ticker
-TICKER = 'SPY'
+TICKER = "SPY"
 
 # Initial trading capital
 INITIAL_CAPITAL = 10000
@@ -29,10 +31,10 @@ RISK_FREE_RATE = 0.05
 # =====================================================================
 
 # Timeframes to analyze and optimize
-TIMEFRAMES: List[str] = ['1m', '5m', '15m', '1h', '1d']
+TIMEFRAMES: list[str] = ["1m", "5m", "15m", "1h", "1d"]
 
 # Default timeframe for trading
-DEFAULT_TIMEFRAME = '1m'
+DEFAULT_TIMEFRAME = "1m"
 
 # Lookback period for each timeframe (number of periods)
 LOOKBACK_PERIOD = 100
@@ -45,30 +47,30 @@ REOPTIMIZE_FREQ = 60
 # =====================================================================
 
 # List of technical indicators to use
-TECH_INDICATORS: List[str] = [
-    'macd',           # Moving Average Convergence Divergence
-    'rsi_30',         # Relative Strength Index (30 period)
-    'rsi_14',         # Relative Strength Index (14 period)
-    'cci_30',         # Commodity Channel Index
-    'dx_30',          # Directional Index
-    'close_30_sma',   # Simple Moving Average (30 period)
-    'close_60_sma',   # Simple Moving Average (60 period)
-    'atr',            # Average True Range
-    'adx',            # Average Directional Index
-    'boll_ub',        # Bollinger Upper Band
-    'boll_lb',        # Bollinger Lower Band
+TECH_INDICATORS: list[str] = [
+    "macd",  # Moving Average Convergence Divergence
+    "rsi_30",  # Relative Strength Index (30 period)
+    "rsi_14",  # Relative Strength Index (14 period)
+    "cci_30",  # Commodity Channel Index
+    "dx_30",  # Directional Index
+    "close_30_sma",  # Simple Moving Average (30 period)
+    "close_60_sma",  # Simple Moving Average (60 period)
+    "atr",  # Average True Range
+    "adx",  # Average Directional Index
+    "boll_ub",  # Bollinger Upper Band
+    "boll_lb",  # Bollinger Lower Band
 ]
 
 # Options Greeks to use
-GREEKS_LIST: List[str] = [
-    'call_delta',
-    'call_gamma',
-    'call_theta',
-    'call_vega',
-    'put_delta',
-    'put_gamma',
-    'put_theta',
-    'put_vega',
+GREEKS_LIST: list[str] = [
+    "call_delta",
+    "call_gamma",
+    "call_theta",
+    "call_vega",
+    "put_delta",
+    "put_gamma",
+    "put_theta",
+    "put_vega",
 ]
 
 # Use VIX indicator
@@ -131,13 +133,13 @@ MAX_UPDATES = None
 AUTO_SAVE = True
 
 # Model save directory
-MODEL_SAVE_DIR = './spy_models'
+MODEL_SAVE_DIR = "./spy_models"
 
 # Results save directory
-RESULTS_DIR = './spy_results'
+RESULTS_DIR = "./spy_results"
 
 # Trade log file
-TRADE_LOG_FILE = './spy_results/trades.log'
+TRADE_LOG_FILE = "./spy_results/trades.log"
 
 # =====================================================================
 # VISUALIZATION SETTINGS
@@ -147,7 +149,7 @@ TRADE_LOG_FILE = './spy_results/trades.log'
 ENABLE_PLOTS = True
 
 # Plot save directory
-PLOT_SAVE_DIR = './spy_results/plots'
+PLOT_SAVE_DIR = "./spy_results/plots"
 
 # Plot DPI
 PLOT_DPI = 300
@@ -163,7 +165,7 @@ USE_OPTIONS_DATA = True
 OPTIONS_EXPIRATION = None
 
 # Strike selection strategy: 'aggressive', 'balanced', 'conservative'
-STRIKE_SELECTION_STRATEGY = 'balanced'
+STRIKE_SELECTION_STRATEGY = "balanced"
 
 # =====================================================================
 # RISK MANAGEMENT
@@ -189,11 +191,11 @@ DAILY_LOSS_LIMIT = 0.05  # 5% of capital
 ENABLE_EMAIL_NOTIFICATIONS = False
 
 # Email settings (if enabled)
-EMAIL_FROM = ''
-EMAIL_TO = ''
-EMAIL_SMTP_SERVER = 'smtp.gmail.com'
+EMAIL_FROM = ""
+EMAIL_TO = ""
+EMAIL_SMTP_SERVER = "smtp.gmail.com"
 EMAIL_SMTP_PORT = 587
-EMAIL_PASSWORD = ''
+EMAIL_PASSWORD = ""
 
 # Notification triggers
 NOTIFY_ON_TRADE = True
@@ -214,7 +216,7 @@ VERBOSE = 1
 DEBUG_MODE = False
 
 # Data cache directory
-CACHE_DIR = './cache'
+CACHE_DIR = "./cache"
 
 # Cache expiration (in minutes)
 CACHE_EXPIRATION = 5
@@ -224,7 +226,7 @@ CACHE_EXPIRATION = 5
 # =====================================================================
 
 # Backtest start date
-BACKTEST_START_DATE = '2023-01-01'
+BACKTEST_START_DATE = "2023-01-01"
 
 # Backtest end date (None = today)
 BACKTEST_END_DATE = None
@@ -236,6 +238,7 @@ TRAIN_TEST_SPLIT = 0.8
 # HELPER FUNCTIONS
 # =====================================================================
 
+
 def get_config() -> dict:
     """Get all configuration as a dictionary.
 
@@ -246,49 +249,43 @@ def get_config() -> dict:
     """
     return {
         # General
-        'ticker': TICKER,
-        'initial_capital': INITIAL_CAPITAL,
-        'transaction_cost': TRANSACTION_COST,
-        'max_options': MAX_OPTIONS,
-        'risk_free_rate': RISK_FREE_RATE,
-
+        "ticker": TICKER,
+        "initial_capital": INITIAL_CAPITAL,
+        "transaction_cost": TRANSACTION_COST,
+        "max_options": MAX_OPTIONS,
+        "risk_free_rate": RISK_FREE_RATE,
         # Timeframes
-        'timeframes': TIMEFRAMES,
-        'default_timeframe': DEFAULT_TIMEFRAME,
-        'lookback_period': LOOKBACK_PERIOD,
-        'reoptimize_freq': REOPTIMIZE_FREQ,
-
+        "timeframes": TIMEFRAMES,
+        "default_timeframe": DEFAULT_TIMEFRAME,
+        "lookback_period": LOOKBACK_PERIOD,
+        "reoptimize_freq": REOPTIMIZE_FREQ,
         # Indicators
-        'tech_indicators': TECH_INDICATORS,
-        'greeks_list': GREEKS_LIST,
-        'use_vix': USE_VIX,
-        'use_turbulence': USE_TURBULENCE,
-        'use_advanced_indicators': USE_ADVANCED_INDICATORS,
-        'use_volume_features': USE_VOLUME_FEATURES,
-        'use_regime_detection': USE_REGIME_DETECTION,
-
+        "tech_indicators": TECH_INDICATORS,
+        "greeks_list": GREEKS_LIST,
+        "use_vix": USE_VIX,
+        "use_turbulence": USE_TURBULENCE,
+        "use_advanced_indicators": USE_ADVANCED_INDICATORS,
+        "use_volume_features": USE_VOLUME_FEATURES,
+        "use_regime_detection": USE_REGIME_DETECTION,
         # Learning
-        'learning_rate': LEARNING_RATE,
-        'buffer_size': BUFFER_SIZE,
-        'update_frequency': UPDATE_FREQUENCY,
-        'initial_training_timesteps': INITIAL_TRAINING_TIMESTEPS,
-        'incremental_update_timesteps': INCREMENTAL_UPDATE_TIMESTEPS,
-
+        "learning_rate": LEARNING_RATE,
+        "buffer_size": BUFFER_SIZE,
+        "update_frequency": UPDATE_FREQUENCY,
+        "initial_training_timesteps": INITIAL_TRAINING_TIMESTEPS,
+        "incremental_update_timesteps": INCREMENTAL_UPDATE_TIMESTEPS,
         # Trading
-        'update_interval': UPDATE_INTERVAL,
-        'max_updates': MAX_UPDATES,
-        'auto_save': AUTO_SAVE,
-        'model_save_dir': MODEL_SAVE_DIR,
-        'results_dir': RESULTS_DIR,
-
+        "update_interval": UPDATE_INTERVAL,
+        "max_updates": MAX_UPDATES,
+        "auto_save": AUTO_SAVE,
+        "model_save_dir": MODEL_SAVE_DIR,
+        "results_dir": RESULTS_DIR,
         # Options
-        'use_options_data': USE_OPTIONS_DATA,
-        'strike_selection_strategy': STRIKE_SELECTION_STRATEGY,
-
+        "use_options_data": USE_OPTIONS_DATA,
+        "strike_selection_strategy": STRIKE_SELECTION_STRATEGY,
         # Risk
-        'max_drawdown_threshold': MAX_DRAWDOWN_THRESHOLD,
-        'max_position_size': MAX_POSITION_SIZE,
-        'daily_loss_limit': DAILY_LOSS_LIMIT,
+        "max_drawdown_threshold": MAX_DRAWDOWN_THRESHOLD,
+        "max_position_size": MAX_POSITION_SIZE,
+        "daily_loss_limit": DAILY_LOSS_LIMIT,
     }
 
 
@@ -296,15 +293,15 @@ def print_config():
     """Print current configuration."""
     config = get_config()
 
-    print("\n" + "="*70)
+    print("\n" + "=" * 70)
     print("SPY TRADING TOOL - CONFIGURATION")
-    print("="*70)
+    print("=" * 70)
 
     for key, value in config.items():
         print(f"{key:.<40} {value}")
 
-    print("="*70 + "\n")
+    print("=" * 70 + "\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print_config()

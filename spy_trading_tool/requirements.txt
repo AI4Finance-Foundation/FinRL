@@ -1,27 +1,27 @@
 # SPY Trading Tool - Python Dependencies
 
-# Core ML/RL Libraries
-stable-baselines3>=2.0.0
 gymnasium>=0.28.1
-torch>=2.0.0
-
-# Data Processing
-pandas>=1.5.0
-numpy>=1.23.0
-scipy>=1.10.0
-
-# Market Data
-yfinance>=0.2.0
-stockstats>=0.5.0
 
 # Visualization
 matplotlib>=3.6.0
-seaborn>=0.12.0
+numpy>=1.23.0
+
+# Data Processing
+pandas>=1.5.0
 
 # Utilities
 python-dateutil>=2.8.0
 pytz>=2023.3
+scipy>=1.10.0
+seaborn>=0.12.0
+# Core ML/RL Libraries
+stable-baselines3>=2.0.0
+stockstats>=0.5.0
+torch>=2.0.0
 tqdm>=4.65.0
+
+# Market Data
+yfinance>=0.2.0
 
 # FinRL Dependencies (already installed in main project)
 # gymnasium

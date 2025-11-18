@@ -6,12 +6,18 @@ using CAGR (Compound Annual Growth Rate) as the primary metric.
 
 from __future__ import annotations
 
+import warnings
+from datetime import datetime
+from datetime import timedelta
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Tuple, Optional
-from datetime import datetime, timedelta
-import warnings
-warnings.filterwarnings('ignore')
+
+warnings.filterwarnings("ignore")
 
 
 class TimeframeOptimizer:
@@ -39,7 +45,7 @@ class TimeframeOptimizer:
 
     def __init__(
         self,
-        timeframes: List[str] = None,
+        timeframes: list[str] = None,
         lookback_period: int = 100,
         reoptimize_freq: int = 60,
         risk_free_rate: float = 0.02,
@@ -57,7 +63,7 @@ class TimeframeOptimizer:
         risk_free_rate : float
             Annual risk-free rate for Sharpe calculation
         """
-        self.timeframes = timeframes or ['1m', '5m', '15m', '1h', '1d']
+        self.timeframes = timeframes or ["1m", "5m", "15m", "1h", "1d"]
         self.lookback_period = lookback_period
         self.reoptimize_freq = reoptimize_freq
         self.risk_free_rate = risk_free_rate
@@ -68,9 +74,7 @@ class TimeframeOptimizer:
         self.optimization_results = {}
 
     def calculate_cagr(
-        self,
-        portfolio_values: np.ndarray,
-        periods_per_year: int
+        self, portfolio_values: np.ndarray, periods_per_year: int
     ) -> float:
         """Calculate Compound Annual Growth Rate.
 
@@ -106,9 +110,7 @@ class TimeframeOptimizer:
         return cagr
 
     def calculate_sharpe_ratio(
-        self,
-        returns: np.ndarray,
-        periods_per_year: int
+        self, returns: np.ndarray, periods_per_year: int
     ) -> float:
         """Calculate annualized Sharpe ratio.
 
@@ -220,21 +222,17 @@ class TimeframeOptimizer:
         # Trading days per year: ~252
         # Trading hours per day: ~6.5 (9:30 AM - 4:00 PM ET)
         timeframe_to_periods = {
-            '1m': 252 * 6.5 * 60,      # ~98,280 minutes per year
-            '5m': 252 * 6.5 * 12,      # ~19,656 5-min periods
-            '15m': 252 * 6.5 * 4,      # ~6,552 15-min periods
-            '30m': 252 * 6.5 * 2,      # ~3,276 30-min periods
-            '1h': 252 * 6.5,           # ~1,638 hours
-            '1d': 252,                 # 252 trading days
+            "1m": 252 * 6.5 * 60,  # ~98,280 minutes per year
+            "5m": 252 * 6.5 * 12,  # ~19,656 5-min periods
+            "15m": 252 * 6.5 * 4,  # ~6,552 15-min periods
+            "30m": 252 * 6.5 * 2,  # ~3,276 30-min periods
+            "1h": 252 * 6.5,  # ~1,638 hours
+            "1d": 252,  # 252 trading days
         }
 
         return timeframe_to_periods.get(timeframe, 252)
 
-    def evaluate_timeframe(
-        self,
-        portfolio_values: np.ndarray,
-        timeframe: str
-    ) -> Dict:
+    def evaluate_timeframe(self, portfolio_values: np.ndarray, timeframe: str) -> dict:
         """Evaluate performance metrics for a timeframe.
 
         Parameters
@@ -251,13 +249,13 @@ class TimeframeOptimizer:
         """
         if len(portfolio_values) < 2:
             return {
-                'cagr': 0,
-                'sharpe': 0,
-                'max_drawdown': 0,
-                'calmar': 0,
-                'win_rate': 0,
-                'total_return': 0,
-                'score': 0,
+                "cagr": 0,
+                "sharpe": 0,
+                "max_drawdown": 0,
+                "calmar": 0,
+                "win_rate": 0,
+                "total_return": 0,
+                "score": 0,
             }
 
         periods_per_year = self.get_periods_per_year(timeframe)
@@ -271,31 +269,30 @@ class TimeframeOptimizer:
         max_dd = self.calculate_max_drawdown(portfolio_values)
         calmar = self.calculate_calmar_ratio(cagr, max_dd)
         win_rate = self.calculate_win_rate(returns)
-        total_return = (portfolio_values[-1] - portfolio_values[0]) / portfolio_values[0]
+        total_return = (portfolio_values[-1] - portfolio_values[0]) / portfolio_values[
+            0
+        ]
 
         # Calculate composite score
         # Weight: CAGR (40%), Sharpe (30%), Calmar (20%), Win Rate (10%)
         score = (
-            cagr * 0.4 +
-            sharpe * 0.05 * 0.3 +  # Normalize Sharpe to ~0-1 range
-            calmar * 0.1 * 0.2 +    # Normalize Calmar
-            win_rate * 0.1
+            cagr * 0.4
+            + sharpe * 0.05 * 0.3  # Normalize Sharpe to ~0-1 range
+            + calmar * 0.1 * 0.2  # Normalize Calmar
+            + win_rate * 0.1
         )
 
         return {
-            'cagr': cagr,
-            'sharpe': sharpe,
-            'max_drawdown': max_dd,
-            'calmar': calmar,
-            'win_rate': win_rate,
-            'total_return': total_return,
-            'score': score,
+            "cagr": cagr,
+            "sharpe": sharpe,
+            "max_drawdown": max_dd,
+            "calmar": calmar,
+            "win_rate": win_rate,
+            "total_return": total_return,
+            "score": score,
         }
 
-    def optimize(
-        self,
-        timeframe_data: Dict[str, np.ndarray]
-    ) -> Tuple[str, Dict]:
+    def optimize(self, timeframe_data: dict[str, np.ndarray]) -> tuple[str, dict]:
         """Optimize across timeframes and select the best one.
 
         Parameters
@@ -314,13 +311,13 @@ class TimeframeOptimizer:
         for tf in self.timeframes:
             if tf not in timeframe_data or len(timeframe_data[tf]) < 2:
                 results[tf] = {
-                    'cagr': 0,
-                    'sharpe': 0,
-                    'max_drawdown': 0,
-                    'calmar': 0,
-                    'win_rate': 0,
-                    'total_return': 0,
-                    'score': 0,
+                    "cagr": 0,
+                    "sharpe": 0,
+                    "max_drawdown": 0,
+                    "calmar": 0,
+                    "win_rate": 0,
+                    "total_return": 0,
+                    "score": 0,
                 }
                 continue
 
@@ -328,7 +325,7 @@ class TimeframeOptimizer:
             results[tf] = self.evaluate_timeframe(portfolio_values, tf)
 
         # Select best timeframe based on score
-        best_tf = max(results.keys(), key=lambda k: results[k]['score'])
+        best_tf = max(results.keys(), key=lambda k: results[k]["score"])
         self.current_best_tf = best_tf
         self.optimization_results = results
         self.last_optimization_time = datetime.now()
@@ -346,7 +343,9 @@ class TimeframeOptimizer:
         if self.last_optimization_time is None:
             return True
 
-        time_elapsed = (datetime.now() - self.last_optimization_time).total_seconds() / 60
+        time_elapsed = (
+            datetime.now() - self.last_optimization_time
+        ).total_seconds() / 60
         return time_elapsed >= self.reoptimize_freq
 
     def get_current_best_timeframe(self) -> str:
@@ -372,7 +371,7 @@ class TimeframeOptimizer:
 
         df = pd.DataFrame(self.optimization_results).T
         df = df.round(4)
-        df = df.sort_values('score', ascending=False)
+        df = df.sort_values("score", ascending=False)
 
         return df
 
@@ -391,13 +390,11 @@ class TimeframeOptimizer:
 
             # Keep only lookback period
             if len(self.performance_history[timeframe]) > self.lookback_period:
-                self.performance_history[timeframe] = \
-                    self.performance_history[timeframe][-self.lookback_period:]
+                self.performance_history[timeframe] = self.performance_history[
+                    timeframe
+                ][-self.lookback_period :]
 
-    def get_recommended_action(
-        self,
-        current_metrics: Dict
-    ) -> str:
+    def get_recommended_action(self, current_metrics: dict) -> str:
         """Get recommended action based on current metrics.
 
         Parameters
@@ -411,18 +408,18 @@ class TimeframeOptimizer:
             Recommendation: 'continue', 'switch_timeframe', 'reduce_risk'
         """
         # If max drawdown is too large, reduce risk
-        if current_metrics.get('max_drawdown', 0) < -0.15:
-            return 'reduce_risk'
+        if current_metrics.get("max_drawdown", 0) < -0.15:
+            return "reduce_risk"
 
         # If Sharpe ratio is negative, consider switching
-        if current_metrics.get('sharpe', 0) < 0:
-            return 'switch_timeframe'
+        if current_metrics.get("sharpe", 0) < 0:
+            return "switch_timeframe"
 
         # If win rate is too low
-        if current_metrics.get('win_rate', 0) < 0.4:
-            return 'switch_timeframe'
+        if current_metrics.get("win_rate", 0) < 0.4:
+            return "switch_timeframe"
 
-        return 'continue'
+        return "continue"
 
     def generate_report(self) -> str:
         """Generate a text report of optimization results.
@@ -435,19 +432,21 @@ class TimeframeOptimizer:
         if not self.optimization_results:
             return "No optimization results available."
 
-        report = "\n" + "="*60 + "\n"
+        report = "\n" + "=" * 60 + "\n"
         report += "TIMEFRAME OPTIMIZATION REPORT\n"
-        report += "="*60 + "\n\n"
+        report += "=" * 60 + "\n\n"
 
         report += f"Best Timeframe: {self.current_best_tf}\n"
         report += f"Optimization Time: {self.last_optimization_time}\n\n"
 
         report += "Performance by Timeframe:\n"
-        report += "-"*60 + "\n"
+        report += "-" * 60 + "\n"
 
-        for tf in sorted(self.optimization_results.keys(),
-                        key=lambda k: self.optimization_results[k]['score'],
-                        reverse=True):
+        for tf in sorted(
+            self.optimization_results.keys(),
+            key=lambda k: self.optimization_results[k]["score"],
+            reverse=True,
+        ):
             metrics = self.optimization_results[tf]
             report += f"\n{tf}:\n"
             report += f"  CAGR:         {metrics['cagr']*100:6.2f}%\n"
@@ -458,6 +457,6 @@ class TimeframeOptimizer:
             report += f"  Total Return: {metrics['total_return']*100:6.2f}%\n"
             report += f"  Score:        {metrics['score']:6.4f}\n"
 
-        report += "\n" + "="*60 + "\n"
+        report += "\n" + "=" * 60 + "\n"
 
         return report

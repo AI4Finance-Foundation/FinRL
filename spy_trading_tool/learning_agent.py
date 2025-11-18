@@ -10,14 +10,19 @@ This module implements a continuous learning agent that:
 
 from __future__ import annotations
 
+import os
+import pickle
+import warnings
+from datetime import datetime
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Optional, Tuple
-from datetime import datetime
-import pickle
-import os
-import warnings
-warnings.filterwarnings('ignore')
+
+warnings.filterwarnings("ignore")
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
@@ -37,14 +42,16 @@ class TradeLogger(BaseCallback):
 
     def _on_step(self) -> bool:
         # Log info if available
-        if len(self.locals.get('infos', [])) > 0:
-            info = self.locals['infos'][0]
-            if 'portfolio_value' in info:
-                self.trades.append({
-                    'step': self.num_timesteps,
-                    'portfolio_value': info['portfolio_value'],
-                    'cash': info.get('cash', 0),
-                })
+        if len(self.locals.get("infos", [])) > 0:
+            info = self.locals["infos"][0]
+            if "portfolio_value" in info:
+                self.trades.append(
+                    {
+                        "step": self.num_timesteps,
+                        "portfolio_value": info["portfolio_value"],
+                        "cash": info.get("cash", 0),
+                    }
+                )
         return True
 
 
@@ -81,9 +88,9 @@ class ContinuousLearningAgent:
         max_options: int = 10,
         buffer_size: int = 1000,
         update_frequency: int = 100,
-        model_path: Optional[str] = None,
-        tech_indicator_list: List[str] = None,
-        greeks_list: List[str] = None,
+        model_path: str | None = None,
+        tech_indicator_list: list[str] = None,
+        greeks_list: list[str] = None,
     ):
         """Initialize the continuous learning agent.
 
@@ -115,12 +122,24 @@ class ContinuousLearningAgent:
 
         # Feature engineering
         self.tech_indicator_list = tech_indicator_list or [
-            'macd', 'rsi_30', 'cci_30', 'dx_30',
-            'close_30_sma', 'close_60_sma', 'rsi_14', 'atr'
+            "macd",
+            "rsi_30",
+            "cci_30",
+            "dx_30",
+            "close_30_sma",
+            "close_60_sma",
+            "rsi_14",
+            "atr",
         ]
         self.greeks_list = greeks_list or [
-            'call_delta', 'call_gamma', 'call_theta', 'call_vega',
-            'put_delta', 'put_gamma', 'put_theta', 'put_vega'
+            "call_delta",
+            "call_gamma",
+            "call_theta",
+            "call_vega",
+            "put_delta",
+            "put_gamma",
+            "put_theta",
+            "put_vega",
         ]
 
         self.feature_engineer = SPYFeatureEngineer(
@@ -240,7 +259,9 @@ class ContinuousLearningAgent:
 
         print(f"Training complete. Total steps: {self.total_steps}")
 
-    def predict(self, observation: np.ndarray, deterministic: bool = True) -> Tuple[np.ndarray, Dict]:
+    def predict(
+        self, observation: np.ndarray, deterministic: bool = True
+    ) -> tuple[np.ndarray, dict]:
         """Make a prediction (action) given an observation.
 
         Parameters
@@ -264,13 +285,13 @@ class ContinuousLearningAgent:
         price_target = self._predict_price_target(observation)
 
         info = {
-            'price_target': price_target,
-            'confidence': self._calculate_confidence(observation),
+            "price_target": price_target,
+            "confidence": self._calculate_confidence(observation),
         }
 
         return action, info
 
-    def _predict_price_target(self, observation: np.ndarray) -> Dict[str, float]:
+    def _predict_price_target(self, observation: np.ndarray) -> dict[str, float]:
         """Predict price targets for SPY.
 
         Parameters
@@ -285,7 +306,9 @@ class ContinuousLearningAgent:
         """
         # Extract current price from observation
         # Assuming observation structure: [cash, call_pos, put_pos, price, indicators...]
-        current_price = observation[0][3] if len(observation.shape) > 1 else observation[3]
+        current_price = (
+            observation[0][3] if len(observation.shape) > 1 else observation[3]
+        )
 
         # Use technical indicators to estimate targets
         # This is a simplified approach - in practice, you'd want more sophisticated prediction
@@ -311,10 +334,10 @@ class ContinuousLearningAgent:
             expected_target = current_price
 
         return {
-            'upside': upside_target,
-            'downside': downside_target,
-            'expected': expected_target,
-            'current': current_price,
+            "upside": upside_target,
+            "downside": downside_target,
+            "expected": expected_target,
+            "current": current_price,
         }
 
     def _calculate_confidence(self, observation: np.ndarray) -> float:
@@ -344,7 +367,7 @@ class ContinuousLearningAgent:
 
         return confidence
 
-    def update_from_trade(self, trade_result: Dict):
+    def update_from_trade(self, trade_result: dict):
         """Update the agent based on a completed trade.
 
         Parameters
@@ -356,16 +379,16 @@ class ContinuousLearningAgent:
 
         # Update win rate
         if len(self.trade_outcomes) > 0:
-            wins = sum(1 for t in self.trade_outcomes if t.get('pnl', 0) > 0)
+            wins = sum(1 for t in self.trade_outcomes if t.get("pnl", 0) > 0)
             self.win_rate = wins / len(self.trade_outcomes)
 
         # Add to experience buffer
-        if 'experience' in trade_result:
-            self.experience_buffer.append(trade_result['experience'])
+        if "experience" in trade_result:
+            self.experience_buffer.append(trade_result["experience"])
 
             # Trim buffer if too large
             if len(self.experience_buffer) > self.buffer_size:
-                self.experience_buffer = self.experience_buffer[-self.buffer_size:]
+                self.experience_buffer = self.experience_buffer[-self.buffer_size :]
 
         print(f"Trade logged. Win rate: {self.win_rate:.2%}")
 
@@ -418,13 +441,13 @@ class ContinuousLearningAgent:
 
         # Save agent state
         agent_state = {
-            'total_steps': self.total_steps,
-            'total_updates': self.total_updates,
-            'win_rate': self.win_rate,
-            'trade_outcomes': self.trade_outcomes[-100:],  # Keep last 100
+            "total_steps": self.total_steps,
+            "total_updates": self.total_updates,
+            "win_rate": self.win_rate,
+            "trade_outcomes": self.trade_outcomes[-100:],  # Keep last 100
         }
 
-        with open(f"{path}_agent_state.pkl", 'wb') as f:
+        with open(f"{path}_agent_state.pkl", "wb") as f:
             pickle.dump(agent_state, f)
 
     def load_model(self, path: str):
@@ -444,14 +467,14 @@ class ContinuousLearningAgent:
         # Load agent state if available
         state_path = f"{path}_agent_state.pkl"
         if os.path.exists(state_path):
-            with open(state_path, 'rb') as f:
+            with open(state_path, "rb") as f:
                 agent_state = pickle.load(f)
-                self.total_steps = agent_state.get('total_steps', 0)
-                self.total_updates = agent_state.get('total_updates', 0)
-                self.win_rate = agent_state.get('win_rate', 0.0)
-                self.trade_outcomes = agent_state.get('trade_outcomes', [])
+                self.total_steps = agent_state.get("total_steps", 0)
+                self.total_updates = agent_state.get("total_updates", 0)
+                self.win_rate = agent_state.get("win_rate", 0.0)
+                self.trade_outcomes = agent_state.get("trade_outcomes", [])
 
-    def get_performance_summary(self) -> Dict:
+    def get_performance_summary(self) -> dict:
         """Get performance summary.
 
         Returns
@@ -459,10 +482,12 @@ class ContinuousLearningAgent:
         Dict
             Performance metrics
         """
-        recent_trades = self.trade_outcomes[-20:] if len(self.trade_outcomes) > 0 else []
+        recent_trades = (
+            self.trade_outcomes[-20:] if len(self.trade_outcomes) > 0 else []
+        )
 
         if len(recent_trades) > 0:
-            recent_pnl = [t.get('pnl', 0) for t in recent_trades]
+            recent_pnl = [t.get("pnl", 0) for t in recent_trades]
             recent_wins = sum(1 for p in recent_pnl if p > 0)
             recent_win_rate = recent_wins / len(recent_trades)
             avg_pnl = np.mean(recent_pnl)
@@ -471,15 +496,15 @@ class ContinuousLearningAgent:
             avg_pnl = 0
 
         return {
-            'total_trades': len(self.trade_outcomes),
-            'win_rate': self.win_rate,
-            'recent_win_rate': recent_win_rate,
-            'avg_pnl': avg_pnl,
-            'total_updates': self.total_updates,
-            'total_steps': self.total_steps,
+            "total_trades": len(self.trade_outcomes),
+            "win_rate": self.win_rate,
+            "recent_win_rate": recent_win_rate,
+            "avg_pnl": avg_pnl,
+            "total_updates": self.total_updates,
+            "total_steps": self.total_steps,
         }
 
-    def generate_signal(self, current_data: pd.DataFrame) -> Dict:
+    def generate_signal(self, current_data: pd.DataFrame) -> dict:
         """Generate trading signal from current data.
 
         Parameters
@@ -503,20 +528,20 @@ class ContinuousLearningAgent:
         position_size = action[0][1]  # 0 to 1
 
         if action_type < -0.5:
-            signal = 'CLOSE'
+            signal = "CLOSE"
         elif action_type > 0.5 and action_type < 1.5:
-            signal = 'BUY_CALL'
+            signal = "BUY_CALL"
         elif action_type >= 1.5:
-            signal = 'BUY_PUT'
+            signal = "BUY_PUT"
         else:
-            signal = 'HOLD'
+            signal = "HOLD"
 
         return {
-            'signal': signal,
-            'position_size': position_size,
-            'price_target': info['price_target'],
-            'confidence': info['confidence'],
-            'timestamp': datetime.now(),
+            "signal": signal,
+            "position_size": position_size,
+            "price_target": info["price_target"],
+            "confidence": info["confidence"],
+            "timestamp": datetime.now(),
         }
 
     def _prepare_observation(self, data: pd.DataFrame) -> np.ndarray:
@@ -545,16 +570,28 @@ class ContinuousLearningAgent:
         observation.extend([0, 0])
 
         # Current price
-        observation.append(data.get('close', 0) if isinstance(data, pd.Series) else data['close'].iloc[0])
+        observation.append(
+            data.get("close", 0)
+            if isinstance(data, pd.Series)
+            else data["close"].iloc[0]
+        )
 
         # Technical indicators
         for indicator in self.tech_indicator_list:
-            val = data.get(indicator, 0) if isinstance(data, pd.Series) else data[indicator].iloc[0]
+            val = (
+                data.get(indicator, 0)
+                if isinstance(data, pd.Series)
+                else data[indicator].iloc[0]
+            )
             observation.append(val)
 
         # Greeks
         for greek in self.greeks_list:
-            val = data.get(greek, 0) if isinstance(data, pd.Series) else data[greek].iloc[0]
+            val = (
+                data.get(greek, 0)
+                if isinstance(data, pd.Series)
+                else data[greek].iloc[0]
+            )
             observation.append(val)
 
         return np.array([observation], dtype=np.float32)

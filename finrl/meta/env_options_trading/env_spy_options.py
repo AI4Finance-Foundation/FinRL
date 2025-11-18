@@ -10,14 +10,19 @@ This environment supports options trading with:
 
 from __future__ import annotations
 
-from typing import List, Dict, Optional, Tuple
+import warnings
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+
+import gymnasium as gym
 import numpy as np
 import pandas as pd
-import gymnasium as gym
 from gymnasium import spaces
 from gymnasium.utils import seeding
-import warnings
-warnings.filterwarnings('ignore')
+
+warnings.filterwarnings("ignore")
 
 
 class SPYOptionsEnv(gym.Env):
@@ -61,8 +66,8 @@ class SPYOptionsEnv(gym.Env):
         make_plots: bool = False,
         print_verbosity: int = 10,
         day: int = 0,
-        tech_indicator_list: List[str] = None,
-        Greeks_list: List[str] = None,
+        tech_indicator_list: list[str] = None,
+        Greeks_list: list[str] = None,
     ):
         """Initialize the SPY options trading environment."""
         self.day = day
@@ -77,35 +82,36 @@ class SPYOptionsEnv(gym.Env):
         # Feature lists
         self.tech_indicator_list = tech_indicator_list or []
         self.greeks_list = greeks_list or [
-            'call_delta', 'call_gamma', 'call_theta', 'call_vega',
-            'put_delta', 'put_gamma', 'put_theta', 'put_vega'
+            "call_delta",
+            "call_gamma",
+            "call_theta",
+            "call_vega",
+            "put_delta",
+            "put_gamma",
+            "put_theta",
+            "put_vega",
         ]
 
         # Calculate state space size
         # State: [cash, options_positions, current_price, features, greeks]
         self.state_dim = (
-            1 +  # cash
-            2 +  # call_position, put_position
-            1 +  # current_price
-            len(self.tech_indicator_list) +  # technical indicators
-            len(self.greeks_list)  # greeks
+            1  # cash
+            + 2  # call_position, put_position
+            + 1  # current_price
+            + len(self.tech_indicator_list)  # technical indicators
+            + len(self.greeks_list)  # greeks
         )
 
         # Action space: [action_type, position_size]
         # action_type: -1 (sell/close), 0 (hold), 1 (buy call), 2 (buy put)
         # position_size: 0 to 1 (percentage of max_options)
         self.action_space = spaces.Box(
-            low=np.array([-1, 0]),
-            high=np.array([2, 1]),
-            dtype=np.float32
+            low=np.array([-1, 0]), high=np.array([2, 1]), dtype=np.float32
         )
 
         # Observation space
         self.observation_space = spaces.Box(
-            low=-np.inf,
-            high=np.inf,
-            shape=(self.state_dim,),
-            dtype=np.float32
+            low=-np.inf, high=np.inf, shape=(self.state_dim,), dtype=np.float32
         )
 
         # Initialize state
@@ -116,7 +122,7 @@ class SPYOptionsEnv(gym.Env):
         # Trading memory
         self.cash = initial_amount
         self.call_position = 0  # Number of call contracts
-        self.put_position = 0   # Number of put contracts
+        self.put_position = 0  # Number of put contracts
         self.call_entry_price = 0
         self.put_entry_price = 0
         self.call_strike = 0
@@ -167,7 +173,7 @@ class SPYOptionsEnv(gym.Env):
         state.extend([0, 0])  # call_position, put_position
 
         # Current price
-        state.append(self.data.get('close', 0))
+        state.append(self.data.get("close", 0))
 
         # Technical indicators
         for indicator in self.tech_indicator_list:
@@ -195,7 +201,7 @@ class SPYOptionsEnv(gym.Env):
         state.extend([self.call_position, self.put_position])
 
         # Current price
-        current_price = self.data.get('close', 0)
+        current_price = self.data.get("close", 0)
         state.append(current_price)
 
         # Technical indicators
@@ -212,7 +218,7 @@ class SPYOptionsEnv(gym.Env):
         """Get current date."""
         if self.data.empty:
             return None
-        return self.data.get('date', self.data.get('timestamp', None))
+        return self.data.get("date", self.data.get("timestamp", None))
 
     def _calculate_option_price(self, option_type: str) -> float:
         """Calculate current option price based on Greeks.
@@ -230,25 +236,25 @@ class SPYOptionsEnv(gym.Env):
         # In real trading, this would fetch actual option prices
         # For simulation, we'll estimate based on intrinsic value + time value
 
-        current_price = self.data.get('close', 0)
+        current_price = self.data.get("close", 0)
 
-        if option_type == 'call':
-            strike = self.data.get('call_strike', current_price)
+        if option_type == "call":
+            strike = self.data.get("call_strike", current_price)
             intrinsic = max(0, current_price - strike)
-            delta = abs(self.data.get('call_delta', 0.5))
-            gamma = self.data.get('call_gamma', 0.01)
-            vega = self.data.get('call_vega', 0.1)
-            iv = self.data.get('call_iv', 0.3)
+            delta = abs(self.data.get("call_delta", 0.5))
+            gamma = self.data.get("call_gamma", 0.01)
+            vega = self.data.get("call_vega", 0.1)
+            iv = self.data.get("call_iv", 0.3)
         else:
-            strike = self.data.get('put_strike', current_price)
+            strike = self.data.get("put_strike", current_price)
             intrinsic = max(0, strike - current_price)
-            delta = abs(self.data.get('put_delta', 0.5))
-            gamma = self.data.get('put_gamma', 0.01)
-            vega = self.data.get('put_vega', 0.1)
-            iv = self.data.get('put_iv', 0.3)
+            delta = abs(self.data.get("put_delta", 0.5))
+            gamma = self.data.get("put_gamma", 0.01)
+            vega = self.data.get("put_vega", 0.1)
+            iv = self.data.get("put_iv", 0.3)
 
         # Estimate time value
-        time_value = vega * iv + gamma * (current_price ** 2) * 0.01
+        time_value = vega * iv + gamma * (current_price**2) * 0.01
 
         # Total option price
         option_price = intrinsic + time_value
@@ -258,7 +264,7 @@ class SPYOptionsEnv(gym.Env):
 
         return option_price
 
-    def step(self, actions: np.ndarray) -> Tuple[np.ndarray, float, bool, bool, dict]:
+    def step(self, actions: np.ndarray) -> tuple[np.ndarray, float, bool, bool, dict]:
         """Execute one time step within the environment.
 
         Parameters
@@ -288,11 +294,11 @@ class SPYOptionsEnv(gym.Env):
             sharpe = self._calculate_sharpe_ratio()
 
             info = {
-                'final_value': final_value,
-                'total_return': total_return,
-                'sharpe_ratio': sharpe,
-                'num_trades': self.trades,
-                'win_rate': self.win_rate,
+                "final_value": final_value,
+                "total_return": total_return,
+                "sharpe_ratio": sharpe,
+                "num_trades": self.trades,
+                "win_rate": self.win_rate,
             }
 
             return self.state, 0, True, False, info
@@ -340,10 +346,10 @@ class SPYOptionsEnv(gym.Env):
         self.date_memory.append(self._get_date())
 
         info = {
-            'portfolio_value': end_value,
-            'cash': self.cash,
-            'call_position': self.call_position,
-            'put_position': self.put_position,
+            "portfolio_value": end_value,
+            "cash": self.cash,
+            "call_position": self.call_position,
+            "put_position": self.put_position,
         }
 
         return self.state, reward, False, False, info
@@ -363,7 +369,7 @@ class SPYOptionsEnv(gym.Env):
         if num_contracts <= 0:
             return
 
-        option_price = self._calculate_option_price('call')
+        option_price = self._calculate_option_price("call")
         cost = num_contracts * option_price * 100  # 100 shares per contract
         total_cost = cost * (1 + self.transaction_cost)
 
@@ -371,19 +377,21 @@ class SPYOptionsEnv(gym.Env):
             self.cash -= total_cost
             self.call_position += num_contracts
             self.call_entry_price = option_price
-            self.call_strike = self.data.get('call_strike', self.data.get('close', 0))
+            self.call_strike = self.data.get("call_strike", self.data.get("close", 0))
             self.cost += cost * self.transaction_cost
             self.trades += 1
 
             # Record trade
-            self.trades_memory.append({
-                'date': self._get_date(),
-                'type': 'BUY_CALL',
-                'contracts': num_contracts,
-                'price': option_price,
-                'strike': self.call_strike,
-                'cost': total_cost,
-            })
+            self.trades_memory.append(
+                {
+                    "date": self._get_date(),
+                    "type": "BUY_CALL",
+                    "contracts": num_contracts,
+                    "price": option_price,
+                    "strike": self.call_strike,
+                    "cost": total_cost,
+                }
+            )
 
     def _buy_put(self, position_size: float):
         """Buy put options.
@@ -400,7 +408,7 @@ class SPYOptionsEnv(gym.Env):
         if num_contracts <= 0:
             return
 
-        option_price = self._calculate_option_price('put')
+        option_price = self._calculate_option_price("put")
         cost = num_contracts * option_price * 100  # 100 shares per contract
         total_cost = cost * (1 + self.transaction_cost)
 
@@ -408,19 +416,21 @@ class SPYOptionsEnv(gym.Env):
             self.cash -= total_cost
             self.put_position += num_contracts
             self.put_entry_price = option_price
-            self.put_strike = self.data.get('put_strike', self.data.get('close', 0))
+            self.put_strike = self.data.get("put_strike", self.data.get("close", 0))
             self.cost += cost * self.transaction_cost
             self.trades += 1
 
             # Record trade
-            self.trades_memory.append({
-                'date': self._get_date(),
-                'type': 'BUY_PUT',
-                'contracts': num_contracts,
-                'price': option_price,
-                'strike': self.put_strike,
-                'cost': total_cost,
-            })
+            self.trades_memory.append(
+                {
+                    "date": self._get_date(),
+                    "type": "BUY_PUT",
+                    "contracts": num_contracts,
+                    "price": option_price,
+                    "strike": self.put_strike,
+                    "cost": total_cost,
+                }
+            )
 
     def _close_positions(self):
         """Close all open positions."""
@@ -428,9 +438,9 @@ class SPYOptionsEnv(gym.Env):
 
         # Close calls
         if self.call_position > 0:
-            current_price = self._calculate_option_price('call')
+            current_price = self._calculate_option_price("call")
             proceeds = self.call_position * current_price * 100
-            proceeds *= (1 - self.transaction_cost)
+            proceeds *= 1 - self.transaction_cost
             self.cash += proceeds
 
             # Calculate PnL
@@ -439,13 +449,15 @@ class SPYOptionsEnv(gym.Env):
             total_pnl += pnl
 
             # Record trade
-            self.trades_memory.append({
-                'date': self._get_date(),
-                'type': 'CLOSE_CALL',
-                'contracts': self.call_position,
-                'price': current_price,
-                'pnl': pnl,
-            })
+            self.trades_memory.append(
+                {
+                    "date": self._get_date(),
+                    "type": "CLOSE_CALL",
+                    "contracts": self.call_position,
+                    "price": current_price,
+                    "pnl": pnl,
+                }
+            )
 
             self.call_position = 0
             self.call_entry_price = 0
@@ -453,9 +465,9 @@ class SPYOptionsEnv(gym.Env):
 
         # Close puts
         if self.put_position > 0:
-            current_price = self._calculate_option_price('put')
+            current_price = self._calculate_option_price("put")
             proceeds = self.put_position * current_price * 100
-            proceeds *= (1 - self.transaction_cost)
+            proceeds *= 1 - self.transaction_cost
             self.cash += proceeds
 
             # Calculate PnL
@@ -464,13 +476,15 @@ class SPYOptionsEnv(gym.Env):
             total_pnl += pnl
 
             # Record trade
-            self.trades_memory.append({
-                'date': self._get_date(),
-                'type': 'CLOSE_PUT',
-                'contracts': self.put_position,
-                'price': current_price,
-                'pnl': pnl,
-            })
+            self.trades_memory.append(
+                {
+                    "date": self._get_date(),
+                    "type": "CLOSE_PUT",
+                    "contracts": self.put_position,
+                    "price": current_price,
+                    "pnl": pnl,
+                }
+            )
 
             self.put_position = 0
             self.put_entry_price = 0
@@ -492,12 +506,12 @@ class SPYOptionsEnv(gym.Env):
 
         # Add call position value
         if self.call_position > 0:
-            call_price = self._calculate_option_price('call')
+            call_price = self._calculate_option_price("call")
             portfolio_value += self.call_position * call_price * 100
 
         # Add put position value
         if self.put_position > 0:
-            put_price = self._calculate_option_price('put')
+            put_price = self._calculate_option_price("put")
             portfolio_value += self.put_position * put_price * 100
 
         return portfolio_value
@@ -535,7 +549,9 @@ class SPYOptionsEnv(gym.Env):
         if len(self.portfolio_value_memory) < 2:
             return 0
 
-        returns = np.diff(self.portfolio_value_memory) / self.portfolio_value_memory[:-1]
+        returns = (
+            np.diff(self.portfolio_value_memory) / self.portfolio_value_memory[:-1]
+        )
         if len(returns) < 2 or np.std(returns) == 0:
             return 0
 
@@ -578,11 +594,11 @@ class SPYOptionsEnv(gym.Env):
 
         return self.state, {}
 
-    def render(self, mode='human'):
+    def render(self, mode="human"):
         """Render the environment."""
         return self.state
 
-    def get_trade_stats(self) -> Dict:
+    def get_trade_stats(self) -> dict:
         """Get trading statistics.
 
         Returns
@@ -591,10 +607,12 @@ class SPYOptionsEnv(gym.Env):
             Trading statistics
         """
         return {
-            'total_trades': self.trades,
-            'win_rate': self.win_rate,
-            'avg_win': self.avg_win,
-            'avg_loss': self.avg_loss,
-            'total_pnl': self.cash + self._calculate_portfolio_value() - self.initial_amount,
-            'sharpe_ratio': self._calculate_sharpe_ratio(),
+            "total_trades": self.trades,
+            "win_rate": self.win_rate,
+            "avg_win": self.avg_win,
+            "avg_loss": self.avg_loss,
+            "total_pnl": self.cash
+            + self._calculate_portfolio_value()
+            - self.initial_amount,
+            "sharpe_ratio": self._calculate_sharpe_ratio(),
         }

@@ -8,9 +8,11 @@ A comprehensive trading system for SPY options that combines:
 - Minute-by-minute updates
 """
 
-from spy_trading_tool.spy_trader import SPYTradingTool
+from __future__ import annotations
+
 from spy_trading_tool.learning_agent import ContinuousLearningAgent
+from spy_trading_tool.spy_trader import SPYTradingTool
 from spy_trading_tool.timeframe_optimizer import TimeframeOptimizer
 
-__version__ = '1.0.0'
-__all__ = ['SPYTradingTool', 'ContinuousLearningAgent', 'TimeframeOptimizer']
+__version__ = "1.0.0"
+__all__ = ["SPYTradingTool", "ContinuousLearningAgent", "TimeframeOptimizer"]

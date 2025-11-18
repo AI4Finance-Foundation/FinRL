@@ -10,15 +10,20 @@ This is the main entry point for the SPY trading system that:
 
 from __future__ import annotations
 
-import numpy as np
-import pandas as pd
-from typing import Dict, List, Optional
-from datetime import datetime, timedelta
+import os
+import sys
 import time
 import warnings
-import sys
-import os
-warnings.filterwarnings('ignore')
+from datetime import datetime
+from datetime import timedelta
+from typing import Dict
+from typing import List
+from typing import Optional
+
+import numpy as np
+import pandas as pd
+
+warnings.filterwarnings("ignore")
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -58,15 +63,15 @@ class SPYTradingTool:
 
     def __init__(
         self,
-        ticker: str = 'SPY',
+        ticker: str = "SPY",
         initial_capital: float = 10000,
         transaction_cost: float = 0.001,
         max_options: int = 10,
-        timeframes: List[str] = None,
+        timeframes: list[str] = None,
         risk_free_rate: float = 0.05,
-        model_path: Optional[str] = None,
+        model_path: str | None = None,
         auto_save: bool = True,
-        save_dir: str = './models',
+        save_dir: str = "./models",
     ):
         """Initialize the SPY trading tool.
 
@@ -107,8 +112,7 @@ class SPYTradingTool:
 
         # Options processor
         self.options_processor = OptionsProcessor(
-            ticker=ticker,
-            risk_free_rate=risk_free_rate
+            ticker=ticker, risk_free_rate=risk_free_rate
         )
 
         # Feature engineer
@@ -132,7 +136,7 @@ class SPYTradingTool:
         )
 
         # Timeframe optimizer
-        self.timeframes = timeframes or ['1m', '5m', '15m', '1h']
+        self.timeframes = timeframes or ["1m", "5m", "15m", "1h"]
         self.timeframe_optimizer = TimeframeOptimizer(
             timeframes=self.timeframes,
             risk_free_rate=risk_free_rate,
@@ -149,8 +153,8 @@ class SPYTradingTool:
         self.portfolio_value = initial_capital
         self.cash = initial_capital
         self.positions = {
-            'calls': 0,
-            'puts': 0,
+            "calls": 0,
+            "puts": 0,
         }
         self.trade_log = []
 
@@ -160,7 +164,9 @@ class SPYTradingTool:
 
         print("SPY Trading Tool initialized successfully!")
 
-    def fetch_real_time_data(self, timeframe: str = '1m', lookback: int = 100) -> pd.DataFrame:
+    def fetch_real_time_data(
+        self, timeframe: str = "1m", lookback: int = 100
+    ) -> pd.DataFrame:
         """Fetch real-time market data.
 
         Parameters
@@ -179,8 +185,7 @@ class SPYTradingTool:
 
         # Fetch stock data
         stock_data = self.options_processor.get_real_time_data(
-            timeframe=timeframe,
-            period='5d' if timeframe in ['1m', '5m'] else '1mo'
+            timeframe=timeframe, period="5d" if timeframe in ["1m", "5m"] else "1mo"
         )
 
         if stock_data.empty:
@@ -188,11 +193,13 @@ class SPYTradingTool:
             return pd.DataFrame()
 
         # Add ticker column
-        stock_data['tic'] = self.ticker
+        stock_data["tic"] = self.ticker
 
         # Ensure required columns
-        if 'date' not in stock_data.columns and 'timestamp' in stock_data.columns:
-            stock_data['date'] = stock_data['timestamp'].dt.strftime('%Y-%m-%d %H:%M:%S')
+        if "date" not in stock_data.columns and "timestamp" in stock_data.columns:
+            stock_data["date"] = stock_data["timestamp"].dt.strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
 
         # Take last N rows
         stock_data = stock_data.tail(lookback).copy()
@@ -200,7 +207,9 @@ class SPYTradingTool:
         print(f"Fetched {len(stock_data)} data points")
         return stock_data
 
-    def engineer_features(self, data: pd.DataFrame, include_options: bool = True) -> pd.DataFrame:
+    def engineer_features(
+        self, data: pd.DataFrame, include_options: bool = True
+    ) -> pd.DataFrame:
         """Engineer features from raw data.
 
         Parameters
@@ -222,14 +231,13 @@ class SPYTradingTool:
 
         # Preprocess with feature engineering
         processed_data = self.feature_engineer.preprocess_spy_data(
-            data,
-            include_options=include_options
+            data, include_options=include_options
         )
 
         print(f"Features engineered: {len(processed_data.columns)} columns")
         return processed_data
 
-    def get_current_signal(self) -> Dict:
+    def get_current_signal(self) -> dict:
         """Get current trading signal.
 
         Returns
@@ -239,10 +247,10 @@ class SPYTradingTool:
         """
         if self.current_data is None or self.current_data.empty:
             return {
-                'signal': 'HOLD',
-                'confidence': 0,
-                'price_target': None,
-                'timestamp': datetime.now(),
+                "signal": "HOLD",
+                "confidence": 0,
+                "price_target": None,
+                "timestamp": datetime.now(),
             }
 
         # Get latest data point
@@ -254,7 +262,7 @@ class SPYTradingTool:
         self.current_signal = signal
         return signal
 
-    def get_price_target(self) -> Dict:
+    def get_price_target(self) -> dict:
         """Get current price target prediction.
 
         Returns
@@ -263,9 +271,9 @@ class SPYTradingTool:
             Price targets (upside, downside, expected)
         """
         signal = self.get_current_signal()
-        return signal.get('price_target', {})
+        return signal.get("price_target", {})
 
-    def update(self, timeframe: str = '1m') -> Dict:
+    def update(self, timeframe: str = "1m") -> dict:
         """Perform a complete update cycle.
 
         Parameters
@@ -288,14 +296,14 @@ class SPYTradingTool:
 
             if raw_data.empty:
                 print("No data available, skipping update")
-                return {'status': 'no_data'}
+                return {"status": "no_data"}
 
             # 2. Engineer features
             processed_data = self.engineer_features(raw_data, include_options=True)
 
             if processed_data.empty:
                 print("Feature engineering failed, skipping update")
-                return {'status': 'feature_error'}
+                return {"status": "feature_error"}
 
             self.current_data = processed_data
 
@@ -305,8 +313,8 @@ class SPYTradingTool:
             print(f"\nSignal: {signal['signal']}")
             print(f"Confidence: {signal['confidence']:.2%}")
 
-            if signal.get('price_target'):
-                targets = signal['price_target']
+            if signal.get("price_target"):
+                targets = signal["price_target"]
                 print(f"Current Price: ${targets.get('current', 0):.2f}")
                 print(f"Upside Target: ${targets.get('upside', 0):.2f}")
                 print(f"Downside Target: ${targets.get('downside', 0):.2f}")
@@ -317,7 +325,10 @@ class SPYTradingTool:
                 self.agent.incremental_update(processed_data, timesteps=500)
 
                 if self.auto_save:
-                    model_path = os.path.join(self.save_dir, f'spy_model_{datetime.now().strftime("%Y%m%d_%H%M%S")}.zip')
+                    model_path = os.path.join(
+                        self.save_dir,
+                        f'spy_model_{datetime.now().strftime("%Y%m%d_%H%M%S")}.zip',
+                    )
                     self.agent.save_model(model_path)
 
             # 5. Update metrics
@@ -332,19 +343,20 @@ class SPYTradingTool:
             print(f"  Model Updates: {perf['total_updates']}")
 
             return {
-                'status': 'success',
-                'signal': signal,
-                'performance': perf,
-                'timestamp': self.last_update_time,
+                "status": "success",
+                "signal": signal,
+                "performance": perf,
+                "timestamp": self.last_update_time,
             }
 
         except Exception as e:
             print(f"Error during update: {e}")
             import traceback
-            traceback.print_exc()
-            return {'status': 'error', 'error': str(e)}
 
-    def run_continuous(self, update_interval: int = 60, max_updates: Optional[int] = None):
+            traceback.print_exc()
+            return {"status": "error", "error": str(e)}
+
+    def run_continuous(self, update_interval: int = 60, max_updates: int | None = None):
         """Run continuous trading loop with periodic updates.
 
         Parameters
@@ -368,7 +380,7 @@ class SPYTradingTool:
         try:
             while True:
                 # Perform update
-                result = self.update(timeframe='1m')
+                result = self.update(timeframe="1m")
 
                 # Check if should stop
                 if max_updates and update_num >= max_updates:
@@ -387,7 +399,7 @@ class SPYTradingTool:
         finally:
             # Save final model
             if self.auto_save:
-                final_model_path = os.path.join(self.save_dir, 'spy_model_final.zip')
+                final_model_path = os.path.join(self.save_dir, "spy_model_final.zip")
                 self.agent.save_model(final_model_path)
                 print(f"\nFinal model saved to {final_model_path}")
 
@@ -411,15 +423,15 @@ class SPYTradingTool:
         # Fetch historical data
         from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 
-        end_date = datetime.now().strftime('%Y-%m-%d')
-        start_date = (datetime.now() - timedelta(days=training_days)).strftime('%Y-%m-%d')
+        end_date = datetime.now().strftime("%Y-%m-%d")
+        start_date = (datetime.now() - timedelta(days=training_days)).strftime(
+            "%Y-%m-%d"
+        )
 
         print(f"Fetching historical data: {start_date} to {end_date}")
 
         downloader = YahooDownloader(
-            start_date=start_date,
-            end_date=end_date,
-            ticker_list=[self.ticker]
+            start_date=start_date, end_date=end_date, ticker_list=[self.ticker]
         )
 
         data = downloader.fetch_data()
@@ -445,7 +457,7 @@ class SPYTradingTool:
 
         # Save model
         if self.auto_save:
-            model_path = os.path.join(self.save_dir, 'spy_model_initial.zip')
+            model_path = os.path.join(self.save_dir, "spy_model_initial.zip")
             self.agent.save_model(model_path)
             print(f"\nInitial model saved to {model_path}")
 
@@ -473,7 +485,7 @@ class SPYTradingTool:
             if not data.empty:
                 # Simulate portfolio values (simplified)
                 # In production, you'd backtest properly
-                prices = data['close'].values
+                prices = data["close"].values
                 portfolio_values = (prices / prices[0]) * self.initial_capital
                 timeframe_data[tf] = portfolio_values
 
@@ -516,7 +528,7 @@ class SPYTradingTool:
 def main():
     """Main entry point."""
     # Configuration
-    TICKER = 'SPY'
+    TICKER = "SPY"
     INITIAL_CAPITAL = 10000
     UPDATE_INTERVAL = 60  # seconds (1 minute)
     MAX_UPDATES = None  # Run indefinitely (or set a number for testing)
@@ -526,26 +538,23 @@ def main():
         ticker=TICKER,
         initial_capital=INITIAL_CAPITAL,
         auto_save=True,
-        save_dir='./spy_models',
+        save_dir="./spy_models",
     )
 
     # Train initial model (optional - comment out if loading existing model)
-    print("\nTrain initial model? (y/n): ", end='')
-    if input().lower().strip() == 'y':
+    print("\nTrain initial model? (y/n): ", end="")
+    if input().lower().strip() == "y":
         tool.train_initial_model(training_days=30, timesteps=10000)
 
     # Optimize timeframes
-    print("\nRun timeframe optimization? (y/n): ", end='')
-    if input().lower().strip() == 'y':
+    print("\nRun timeframe optimization? (y/n): ", end="")
+    if input().lower().strip() == "y":
         tool.optimize_timeframes()
 
     # Run continuous trading
     print("\nStarting continuous trading...")
-    tool.run_continuous(
-        update_interval=UPDATE_INTERVAL,
-        max_updates=MAX_UPDATES
-    )
+    tool.run_continuous(update_interval=UPDATE_INTERVAL, max_updates=MAX_UPDATES)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
