@@ -67,6 +67,15 @@
     - [Sponsorship](#sponsorship)
   - [LICENSE](#license)
 
+## Project Contributors
+
+FinRL® is an open-source financial reinforcement learning framework developed and maintained by the AI4Finance Foundation.
+
+Key contributors include:
+
+- [**Hongyang (Bruce) Yang**](https://www.linkedin.com/in/brucehy/) – research and development on financial reinforcement learning frameworks, market environments, and quantitative trading applications
+- [other contributors…]
+  
 ## Overview
 
 FinRL has three layers: market environments, agents, and applications.  For a trading task (on the top), an agent (in the middle) interacts with a market environment (at the bottom), making sequential decisions.
