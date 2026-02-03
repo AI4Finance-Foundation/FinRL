@@ -48,7 +48,9 @@ class AlpacaPaperTrading:
                     "if_discrete": False,
                     "max_step": 10000,
                 }
-                args = Config(agent_class=AgentPPO, env_class=StockEnvEmpty, env_args=env_args)
+                args = Config(
+                    agent_class=AgentPPO, env_class=StockEnvEmpty, env_args=env_args
+                )
                 args.cwd = cwd
                 args.net_dims = net_dim if isinstance(net_dim, list) else [net_dim]
                 args.gpu_id = 0
@@ -60,12 +62,14 @@ class AlpacaPaperTrading:
                         state_dim,
                         action_dim,
                         gpu_id=args.gpu_id,
-                        args=args
+                        args=args,
                     )
                     # Load saved actor weights
                     actor_path = f"{cwd}/act.pth"
                     if os.path.exists(actor_path):
-                        agent_instance.act.load_state_dict(torch.load(actor_path, map_location=agent_instance.device))
+                        agent_instance.act.load_state_dict(
+                            torch.load(actor_path, map_location=agent_instance.device)
+                        )
                     self.act = agent_instance.act
                     self.device = agent_instance.device
                 except BaseException as e:
