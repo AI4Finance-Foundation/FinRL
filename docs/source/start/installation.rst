@@ -163,6 +163,42 @@ Step 2: install dependencies
 Step 3: Install box2d (if using box2d)
 --------------------------------------------------------------------------
 
+Installing box2d on Windows requires Microsoft Visual C++ Build Tools and SWIG:
+
+**3.1 Install Microsoft Visual C++ Build Tools**
+
+Download and install `Visual C++ Build Tools <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_.
+During installation, select the **"Desktop development with C++"** workload.
+
+**3.2 Install SWIG**
+
+.. code-block:: bash
+
+    pip install swig
+
+Alternatively, you can download SWIG from `swig.org <http://www.swig.org/download.html>`_ and add it to your PATH.
+
+**3.3 Install box2d-py**
+
+.. code-block:: bash
+
+    pip install box2d-py
+
+If you encounter errors, try installing via conda (recommended for Windows):
+
+.. code-block:: bash
+
+    conda install -c conda-forge box2d-py
+
+**Troubleshooting**
+
+If you see "Microsoft Visual C++ 14.0 or greater is required", ensure you have:
+
+1. Installed Visual C++ Build Tools with "Desktop development with C++" workload
+2. Restarted your terminal/command prompt after installation
+3. SWIG is properly installed and in your PATH
+
+If box2d is not required for your use case, you can skip this step and use FinRL without box2d-dependent environments.
 
 Step 4:  test (If using YahooFinance in China, VPN is needed)
 -------------------------------------------------------------------------------------

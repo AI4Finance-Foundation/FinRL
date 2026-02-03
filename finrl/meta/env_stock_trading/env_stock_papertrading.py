@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime
+import os
 import threading
 import time
 
@@ -37,26 +38,42 @@ class AlpacaPaperTrading:
         if agent == "ppo":
             if drl_lib == "elegantrl":
                 from elegantrl.agents import AgentPPO
-                from elegantrl.train.run import init_agent
-                from elegantrl.train.config import (
-                    Arguments,
-                )  # bug fix:ModuleNotFoundError: No module named 'elegantrl.run'
+                from elegantrl.train.config import Config
 
-                # load agent
-                config = {
+                # load agent using new ElegantRL API (Config replaces deprecated Arguments)
+                env_args = {
+                    "env_name": "StockEnvEmpty",
                     "state_dim": state_dim,
                     "action_dim": action_dim,
+                    "if_discrete": False,
+                    "max_step": 10000,
                 }
-                args = Arguments(agent_class=AgentPPO, env=StockEnvEmpty(config))
+                args = Config(
+                    agent_class=AgentPPO, env_class=StockEnvEmpty, env_args=env_args
+                )
                 args.cwd = cwd
-                args.net_dim = net_dim
-                # load agent
+                args.net_dims = net_dim if isinstance(net_dim, list) else [net_dim]
+                args.gpu_id = 0
+
+                # load agent directly using new API
                 try:
-                    agent = init_agent(args, gpu_id=0)
-                    self.act = agent.act
-                    self.device = agent.device
-                except BaseException:
-                    raise ValueError("Fail to load agent!")
+                    agent_instance = AgentPPO(
+                        args.net_dims,
+                        state_dim,
+                        action_dim,
+                        gpu_id=args.gpu_id,
+                        args=args,
+                    )
+                    # Load saved actor weights
+                    actor_path = f"{cwd}/act.pth"
+                    if os.path.exists(actor_path):
+                        agent_instance.act.load_state_dict(
+                            torch.load(actor_path, map_location=agent_instance.device)
+                        )
+                    self.act = agent_instance.act
+                    self.device = agent_instance.device
+                except BaseException as e:
+                    raise ValueError(f"Fail to load agent! Error: {e}")
 
             elif drl_lib == "rllib":
                 from ray.rllib.agents import ppo
