@@ -57,18 +57,33 @@ class TensorboardCallback(BaseCallback):
 
     def _on_rollout_end(self) -> bool:
         try:
-            rollout_buffer_rewards = self.locals["rollout_buffer"].rewards.flatten()
-            self.logger.record(
-                key="train/reward_min", value=min(rollout_buffer_rewards)
-            )
-            self.logger.record(
-                key="train/reward_mean", value=statistics.mean(rollout_buffer_rewards)
-            )
-            self.logger.record(
-                key="train/reward_max", value=max(rollout_buffer_rewards)
-            )
+            # On-policy algorithms (A2C, PPO) use rollout_buffer
+            if "rollout_buffer" in self.locals:
+                rewards = self.locals["rollout_buffer"].rewards.flatten()
+            # Off-policy algorithms (DDPG, TD3, SAC) use replay_buffer
+            elif hasattr(self.model, "replay_buffer") and self.model.replay_buffer is not None:
+                buf = self.model.replay_buffer
+                if buf.full:
+                    rewards = buf.rewards[:buf.buffer_size].flatten()
+                elif buf.pos > 0:
+                    rewards = buf.rewards[:buf.pos].flatten()
+                else:
+                    return True
+            else:
+                return True
+
+            if len(rewards) > 0:
+                self.logger.record(
+                    key="train/reward_min", value=float(min(rewards))
+                )
+                self.logger.record(
+                    key="train/reward_mean",
+                    value=float(statistics.mean(rewards)),
+                )
+                self.logger.record(
+                    key="train/reward_max", value=float(max(rewards))
+                )
         except BaseException as error:
-            # Handle the case where "rewards" is not found
             self.logger.record(key="train/reward_min", value=None)
             self.logger.record(key="train/reward_mean", value=None)
             self.logger.record(key="train/reward_max", value=None)
