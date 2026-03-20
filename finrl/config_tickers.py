@@ -37,7 +37,8 @@ DOW_30_TICKER = [
     "SHW",
 ]
 
-# Nasdaq 100 constituents at 2019/01
+# Nasdaq 100 constituents at 2026/03/20
+# check https://www.cnbc.com/nasdaq-100/
 NAS_100_TICKER = [
     "AMGN",
     "AAPL",
