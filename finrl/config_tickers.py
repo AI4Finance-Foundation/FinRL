@@ -71,7 +71,6 @@ NAS_100_TICKER = [
     "ISRG",
     "VRTX",
     "HSIC",
-    "BIDU",
     "ADP",
     "ROST",
     "ORLY",
