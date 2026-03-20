@@ -72,7 +72,6 @@ NAS_100_TICKER = [
     "VRTX",
     "HSIC",
     "BIDU",
-    "ATVI",
     "ADP",
     "ROST",
     "ORLY",
