@@ -103,8 +103,7 @@ NAS_100_TICKER = [
     "PEP",
     "NXPI",
     "XEL",
-    "AMD",
-    "WLTW"
+    "AMD"
 ]
 
 # SP 500 constituents at 2019
