@@ -100,7 +100,6 @@ NAS_100_TICKER = [
     "FOXA",
     "MXIM",
     "TMUS",
-    "EXPE",
     "TCOM",
     "ULTA",
     "CSX",
