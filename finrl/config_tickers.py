@@ -115,7 +115,6 @@ NAS_100_TICKER = [
     "AMD",
     "NTAP",
     "VRSN",
-    "LULU",
     "WLTW",
     "UAL",
 ]
