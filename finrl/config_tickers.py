@@ -105,7 +105,6 @@ NAS_100_TICKER = [
     "NXPI",
     "XEL",
     "AMD",
-    "VRSN",
     "WLTW"
 ]
 
