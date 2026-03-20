@@ -36,7 +36,7 @@
 | Dev Roadmap  | Stage | Users | Project | Description |
 |----|----|----|----|----|
 | 0.0 (Preparation) | Entry | Practitioners | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta)| gym-style market environments |
-| 1.0 (Proof-of-Concept)| End-to-End | developers | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | automatic pipeline |
+| 1.0 (Proof-of-Concept)| End-to-End | Developers | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | automatic pipeline |
 | 2.0 (Professional) | Advanced | experts | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | algorithms |
 | 3.0 (Production) | Production | hedge funds | [FinRL-X](https://github.com/AI4Finance-Foundation/FinRL-Trading) | An AI-Native deployment |
 
