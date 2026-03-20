@@ -96,7 +96,6 @@ NAS_100_TICKER = [
     "SWKS",
     "INCY",
     "PYPL",
-    "FOXA",
     "MXIM",
     "TMUS",
     "TCOM",
