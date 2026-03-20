@@ -56,7 +56,6 @@ NAS_100_TICKER = [
     "FISV",
     "INTU",
     "AMZN",
-    "EBAY",
     "GILD",
     "NLOK",
     "CMCSA",
