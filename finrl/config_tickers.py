@@ -93,7 +93,6 @@ NAS_100_TICKER = [
     "CTAS",
     "KLAC",
     "IDXX",
-    "WYNN",
     "MELI",
     "CDNS",
     "WDAY",
