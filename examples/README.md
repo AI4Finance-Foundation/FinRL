@@ -38,6 +38,15 @@ python examples/FinRL_StockTrading_2026_2_train.py
 
 This script trains 5 DRL agents (A2C, DDPG, PPO, TD3, SAC) using Stable Baselines 3 on the training data. Trained models are saved to the `trained_models/` directory.
 
+**Key Hyperparameters:**
+
+| Parameter | Description | Default in Script |
+|-----------|-------------|-------------------|
+| `total_timesteps` | Total number of environment interactions for training. **This is the most important parameter** — higher values give the agent more experience to learn from, leading to better trading performance. Start with a small value (e.g., 1,000) for a quick test, then increase (e.g., 20,000–200,000) for serious training. | 20,000 |
+| `learning_rate` | Controls how much the model weights are updated at each step. Too high causes instability; too low causes slow learning. | 0.001 |
+| `batch_size` | Number of samples used per gradient update. Larger batches give more stable updates but require more memory. | 100 |
+| `buffer_size` | Size of the replay buffer (for off-policy algorithms like DDPG, TD3, SAC). Stores past experiences for the agent to learn from. Larger buffers retain more diverse experiences. | 1,000,000 |
+
 **3. Backtest**
 
 ```bash
