@@ -74,7 +74,6 @@ NAS_100_TICKER = [
     "BKNG",
     "MYL",
     "MU",
-    "DLTR",
     "SIRI",
     "MNST",
     "AVGO",
