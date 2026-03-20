@@ -34,9 +34,8 @@
 | 3.0 (Production) | Production | Institutions and Hedge Funds | [FinRL-X](https://github.com/AI4Finance-Foundation/FinRL-Trading) | An AI-Native deployment |
 
 [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT): an open-source project for financial large language models, designed for research and real-world FinTech applications.
-[![](https://dcbadge.vercel.app/api/server/trsr8SXpW5)](https://discord.gg/trsr8SXpW5)
-
 ![Visitors](https://api.visitorbadge.io/api/VisitorHit?user=AI4Finance-Foundation&repo=FinRL&countColor=%23B17A)
+[![Discord](https://dcbadge.limes.pink/api/server/trsr8SXpW5?v=20260320)](https://discord.gg/trsr8SXpW5)
 
 ## Outline
 
