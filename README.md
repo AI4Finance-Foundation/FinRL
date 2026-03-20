@@ -199,7 +199,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 * 2021-08-25
 	0.3.1: pytorch version with a three-layer architecture, apps (financial tasks), drl_agents (drl algorithms), neo_finrl (gym env)
 * 2020-12-14
-  	Upgraded to **Pytorch** with stable-baselines3; Remove tensorflow 1.0 at this moment, under development to support tensorflow 2.0
+  	Upgraded to **Pytorch** with stable-baselines3; Removed TensorFlow 1.x support; TensorFlow 2.0 support was under development at the time.
 * 2020-11-27
   	0.1: Beta version with tensorflow 1.5
 </div>
