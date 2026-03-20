@@ -319,4 +319,4 @@ For trademark inquiries or permissions, please contact: contact@finrl.ai
 
 ```
 
-**Disclaimer: We are sharing codes for academic purpose under the MIT license. Nothing herein is financial advice, and NOT a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
+**Disclaimer: We are sharing codes for academic purpose under the MIT license. Nothing herein constitutes financial advice or a recommendation to trade real money. Please use common sense and always first consult a professional before trading or investing.**
