@@ -2,7 +2,7 @@ from __future__ import annotations
 
 SINGLE_TICKER = ["AAPL"]
 
-# Dow 30 constituents in 2021/10
+# Dow 30 constituents in 2026/03/20
 # check https://wrds-www.wharton.upenn.edu/ for U.S. index constituents
 DOW_30_TICKER = [
     "AXP",
