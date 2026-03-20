@@ -4,8 +4,7 @@ Stock NeurIPS2018 Part 3. Backtest
 This series is a reproduction of paper "Deep reinforcement learning for
 automated stock trading: An ensemble strategy".
 
-This is the third and last part of the NeurIPS2018 series, introducing how to
-use the agents we trained to do backtest, and compare with baselines such as
+Introducing how to use the agents we trained to do backtest, and compare with baselines such as
 Mean Variance Optimization and DJIA index.
 """
 

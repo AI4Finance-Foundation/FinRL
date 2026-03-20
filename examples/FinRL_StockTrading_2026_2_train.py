@@ -4,8 +4,7 @@ Stock NeurIPS2018 Part 2. Train
 This series is a reproduction of paper "Deep reinforcement learning for
 automated stock trading: An ensemble strategy".
 
-This is the second part of the NeurIPS2018 series, introducing how to use
-FinRL to make data into the gym form environment, and train DRL agents on it.
+Introduce how to use FinRL to make data into the gym form environment, and train DRL agents on it.
 """
 
 import pandas as pd

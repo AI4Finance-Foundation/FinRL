@@ -3,8 +3,7 @@ Stock NeurIPS2018 Part 1. Data
 
 This series is a reproduction of paper "Deep reinforcement learning for automated stock trading: An ensemble strategy".
 
-This is the first part of the NeurIPS2018 series, introducing how to use FinRL
-to fetch and process data that we need for ML/RL trading.
+Introduce how to use FinRL to fetch and process data that we need for ML/RL trading.
 """
 
 import itertools
