@@ -81,7 +81,6 @@ NAS_100_TICKER = [
     "MYL",
     "MU",
     "DLTR",
-    "ALXN",
     "SIRI",
     "MNST",
     "AVGO",
