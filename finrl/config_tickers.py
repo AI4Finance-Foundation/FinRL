@@ -105,7 +105,6 @@ NAS_100_TICKER = [
     "MCHP",
     "CTAS",
     "KLAC",
-    "HAS",
     "JBHT",
     "IDXX",
     "WYNN",
