@@ -310,12 +310,9 @@ Thank you!
 
 MIT License
 ```
-Trademark Disclaimer
+Trademark Notice
 
-FinRL® is a registered trademark.
-This license does not grant permission to use the FinRL name, logo, or related trademarks
-without prior written consent, except as permitted by applicable trademark law.
-For trademark inquiries or permissions, please contact: contact@finrl.ai
+FinRL and the FinRL logo are trademarks of FinRL LLC. Use of these marks by the AI4Finance Foundation is permitted under license. The open-source license for this repository does not grant any right to use the FinRL name, logo, or related trademarks without prior written permission from FinRL LLC, except as permitted by applicable law.
 
 ```
 
