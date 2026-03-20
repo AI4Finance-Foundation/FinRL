@@ -107,8 +107,7 @@ NAS_100_TICKER = [
     "XEL",
     "AMD",
     "VRSN",
-    "WLTW",
-    "UAL",
+    "WLTW"
 ]
 
 # SP 500 constituents at 2019
