@@ -80,7 +80,6 @@ NAS_100_TICKER = [
     "ADI",
     "WDC",
     "REGN",
-    "LBTYK",
     "VRSK",
     "NFLX",
     "TSLA",
