@@ -17,7 +17,6 @@ DOW_30_TICKER = [
     "HD",
     "HON",
     "IBM",
-    "INTC",
     "JNJ",
     "KO",
     "JPM",
