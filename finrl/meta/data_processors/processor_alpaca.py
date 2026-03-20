@@ -14,11 +14,9 @@ from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 from stockstats import StockDataFrame as Sdf
 
-# import alpaca_trade_api as tradeapi
-
 
 class AlpacaProcessor:
-    def __init__(self, API_KEY=None, API_SECRET=None, API_BASE_URL=None, client=None):
+    def __init__(self, API_KEY=None, API_SECRET=None, client=None):
         if client is None:
             try:
                 self.client = StockHistoricalDataClient(API_KEY, API_SECRET)
@@ -426,15 +424,19 @@ class AlpacaProcessor:
             # Now reset the index
             barset.reset_index(inplace=True)
 
+            # If one column is returned, do not process
+            if len(barset.columns) <= 1:
+                continue
+
             # Set 'timestamp' as the new index
             if "level_0" in barset.columns:
                 barset.rename(columns={"level_0": "symbol"}, inplace=True)
-            if "level_1" in bars.columns:
+            if "level_1" in barset.columns:
                 barset.rename(columns={"level_1": "timestamp"}, inplace=True)
             barset.set_index("timestamp", inplace=True)
 
             # Reorder and rename columns as needed
-            barset = bars[
+            barset = barset[
                 [
                     "close",
                     "high",

@@ -6,11 +6,14 @@ import datetime
 import threading
 import time
 
-import alpaca_trade_api as tradeapi
-import gym
+import gymnasium as gym
 import numpy as np
 import pandas as pd
 import torch
+from alpaca.trading.client import TradingClient
+from alpaca.trading.enums import OrderSide
+from alpaca.trading.enums import QueryOrderStatus
+from alpaca.trading.requests import GetOrdersRequest
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 from finrl.meta.paper_trading.common import AgentPPO
@@ -94,7 +97,9 @@ class PaperTradingAlpaca:
 
         # connect to Alpaca trading API
         try:
-            self.alpaca = tradeapi.REST(API_KEY, API_SECRET, API_BASE_URL, "v2")
+            self.alpaca = TradingClient(
+                api_key=API_KEY, secret_key=SECRET_KEY, paper=True
+            )
         except:
             raise ValueError(
                 "Fail to connect Alpaca. Please check account info and internet connection."
@@ -145,7 +150,11 @@ class PaperTradingAlpaca:
         return latency
 
     def run(self):
-        orders = self.alpaca.list_orders(status="open")
+        # params to filter orders by
+        request_params = GetOrdersRequest(status=QueryOrderStatus.OPEN)
+
+        # orders that satisfy params
+        orders = self.alpaca.get_orders(filter=request_params)
         for order in orders:
             self.alpaca.cancel_order(order.id)
 
@@ -168,7 +177,7 @@ class PaperTradingAlpaca:
                 print("Market closing soon.  Closing positions.")
 
                 threads = []
-                positions = self.alpaca.list_positions()
+                positions = self.alpaca.get_all_positions()
                 for position in positions:
                     if position.side == "long":
                         orderSide = "sell"
@@ -280,7 +289,7 @@ class PaperTradingAlpaca:
 
         else:  # sell all when turbulence
             threads = []
-            positions = self.alpaca.list_positions()
+            positions = self.alpaca.get_all_positions()
             for position in positions:
                 if position.side == "long":
                     orderSide = "sell"
@@ -313,7 +322,7 @@ class PaperTradingAlpaca:
         ).astype(np.float32)
 
         tech = tech * 2**-7
-        positions = self.alpaca.list_positions()
+        positions = self.alpaca.get_all_positions()
         stocks = [0] * len(self.stockUniverse)
         for position in positions:
             ind = self.stockUniverse.index(position.symbol)
