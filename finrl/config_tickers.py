@@ -49,7 +49,6 @@ NAS_100_TICKER = [
     "MSFT",
     "ADBE",
     "CSCO",
-    "XLNX",
     "QCOM",
     "COST",
     "SBUX",
