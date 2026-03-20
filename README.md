@@ -38,7 +38,7 @@
 | 0.0 (Preparation) | Entry | Practitioners | [FinRL-Meta](https://github.com/AI4Finance-Foundation/FinRL-Meta)| gym-style market environments |
 | 1.0 (Proof-of-Concept)| End-to-End | Developers | [this repo](https://github.com/AI4Finance-Foundation/FinRL) | automatic pipeline |
 | 2.0 (Professional) | Advanced | Researchers and Experts | [ElegantRL](https://github.com/AI4Finance-Foundation/ElegantRL) | algorithms |
-| 3.0 (Production) | Production | hedge funds | [FinRL-X](https://github.com/AI4Finance-Foundation/FinRL-Trading) | An AI-Native deployment |
+| 3.0 (Production) | Production | Hedge Funds | [FinRL-X](https://github.com/AI4Finance-Foundation/FinRL-Trading) | An AI-Native deployment |
 
 
 ## Outline
