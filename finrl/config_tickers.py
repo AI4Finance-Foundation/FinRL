@@ -78,7 +78,7 @@ NAS_100_TICKER = [
     "AVGO",
     "TXN",
     "MDLZ",
-    "FB",
+    "META",
     "ADI",
     "WDC",
     "REGN",
