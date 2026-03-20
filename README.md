@@ -40,8 +40,7 @@
 
 
 
-**Financial reinforcement learning (FinRL®)** ([Document website](https://finrl.readthedocs.io/en/latest/index.html)) is **the first open-source framework** for financial reinforcement learning. FinRL has evolved into an **ecosystem**
-* [FinRL-DeepSeek](https://github.com/AI4Finance-Foundation/FinRL_DeepSeek): LLM-Infused Risk-Sensitive Reinforcement Learning for Trading Agents
+**Financial reinforcement learning (FinRL®)** is **the first open-source framework** for financial reinforcement learning. 
 
 | Dev Roadmap  | Stage | Users | Project | Description |
 |----|----|----|----|----|
