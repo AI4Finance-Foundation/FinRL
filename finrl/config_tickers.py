@@ -53,7 +53,6 @@ NAS_100_TICKER = [
     "QCOM",
     "COST",
     "SBUX",
-    "FISV",
     "INTU",
     "AMZN",
     "GILD",
