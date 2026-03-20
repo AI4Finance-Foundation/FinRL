@@ -124,7 +124,6 @@ NAS_100_TICKER = [
     "IDXX",
     "WYNN",
     "MELI",
-    "ALGN",
     "CDNS",
     "WDAY",
     "SNPS",
