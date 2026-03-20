@@ -2,17 +2,8 @@
 <img align="center" width="30%" alt="image" src="https://github.com/AI4Finance-Foundation/FinGPT/assets/31713746/e0371951-1ce1-488e-aa25-0992dafcc139">
 </div>
 
-# FinRL: Financial Reinforcement Learning [![X](https://img.shields.io/badge/X-Share-black?logo=x)](https://twitter.com/intent/tweet?text=FinRL-Financial-Deep-Reinforcement-Learning%20&url=https://github.com/AI4Finance-Foundation/FinRL&hashtags=DRL,AI) [![Facebook](https://img.shields.io/badge/Facebook-Share-1877F2?logo=facebook&logoColor=white)](https://www.facebook.com/sharer.php?u=https%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL) [![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL)
+# FinRL: Financial Reinforcement Learning [![X](https://img.shields.io/badge/X-Share-black?logo=x)](https://twitter.com/intent/tweet?text=FinRL-Financial-Deep-Reinforcement-Learning%20&url=https://github.com/AI4Finance-Foundation/FinRL&hashtags=DRL,AI) [![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL)
 
-[1.1]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_twitter_22x22.png
-[1.2]: http://www.tensorlet.org/wp-content/uploads/2021/01/facebook-button_22x22.png
-[1.3]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_google_22.xx_.png
-[1.4]: http://www.tensorlet.org/wp-content/uploads/2021/01/button_linkedin_22x22.png
-
-[1]: https://twitter.com/intent/tweet?text=FinRL-Financial-Deep-Reinforcement-Learning%20&url=https://github.com/AI4Finance-Foundation/FinRL&hashtags=DRL&hashtags=AI
-[2]: https://www.facebook.com/sharer.php?u=http%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL
-[3]: https://plus.google.com/share?url=https://github.com/AI4Finance-Foundation/FinRL
-[4]: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL
 
 <div align="center">
 <img align="center" src=figs/logo_transparent_background.png width="55%"/>
