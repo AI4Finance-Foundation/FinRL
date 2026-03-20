@@ -1,7 +1,3 @@
-<div align="center">
-<img align="center" width="30%" alt="image" src="https://github.com/AI4Finance-Foundation/FinGPT/assets/31713746/e0371951-1ce1-488e-aa25-0992dafcc139">
-</div>
-
 # FinRL: Financial Reinforcement Learning [![X](https://img.shields.io/badge/X-Share-black?logo=x)](https://twitter.com/intent/tweet?text=FinRL-Financial-Deep-Reinforcement-Learning%20&url=https://github.com/AI4Finance-Foundation/FinRL&hashtags=DRL,AI) [![LinkedIn](https://img.shields.io/badge/LinkedIn-Share-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2FAI4Finance-Foundation%2FFinRL)
 
 
@@ -360,5 +356,9 @@ Trademark Notice
 FinRL and the FinRL logo are trademarks of FinRL LLC. Use of these marks by the AI4Finance Foundation is permitted under license. The open-source license for this repository does not grant any right to use the FinRL name, logo, or related trademarks without prior written permission from FinRL LLC, except as permitted by applicable law.
 
 ```
+<div align="center">
+<img align="center" width="30%" alt="image" src="https://github.com/AI4Finance-Foundation/FinGPT/assets/31713746/e0371951-1ce1-488e-aa25-0992dafcc139">
+</div>
+
 
 **Disclaimer: We are sharing codes for academic purpose under the MIT license. Nothing herein constitutes financial advice or a recommendation to trade real money. Users are solely responsible for any financial decisions made using this software. Consult a qualified professional before deploying capital.**
