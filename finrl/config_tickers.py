@@ -56,7 +56,6 @@ NAS_100_TICKER = [
     "INTU",
     "AMZN",
     "GILD",
-    "NLOK",
     "CMCSA",
     "FAST",
     "ADSK",
