@@ -85,7 +85,6 @@ NAS_100_TICKER = [
     "ILMN",
     "LRCX",
     "EA",
-    "WBA",
     "KHC",
     "PYPL",
     "TMUS",
