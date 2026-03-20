@@ -73,7 +73,55 @@ FinRL has three layers: market environments, agents, and applications.  For a tr
 <img align="center" src=figs/finrl_framework.png>
 </div>
 
-A quick-start example is available in: Stock_NeurIPS2018.ipynb. Videos [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
+Videos [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
+
+## FinRL Stock Trading 2026 Tutorial
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/AI4Finance-Foundation/FinRL.git
+cd FinRL
+```
+
+### Step 2: Create and Activate Virtual Environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### Step 3: Install FinRL
+
+```bash
+pip install -e .
+```
+
+### Step 4: Run the Scripts
+
+**1. Data Download & Preprocessing**
+
+```bash
+python examples/FinRL_StockTrading_2026_1_data.py
+```
+
+This script downloads DOW 30 stock data from Yahoo Finance, adds technical indicators (MACD, RSI, etc.), VIX, and turbulence index, then splits the data into training set (2014–2025) and trading set (2026-01-01 to 2026-03-20), saving them as `train_data.csv` and `trade_data.csv`.
+
+**2. Train DRL Agents**
+
+```bash
+python examples/FinRL_StockTrading_2026_2_train.py
+```
+
+This script trains 5 DRL agents (A2C, DDPG, PPO, TD3, SAC) using Stable Baselines 3 on the training data. Trained models are saved to the `trained_models/` directory.
+
+**3. Backtest**
+
+```bash
+python examples/FinRL_StockTrading_2026_3_Backtest.py
+```
+
+This script loads the trained agents, runs them on the trading data, and compares their performance against two baselines: Mean Variance Optimization (MVO) and the DJIA index. Results are printed to the console and a plot is saved as `backtest_result.png`.
 
 
 ## File Structure
