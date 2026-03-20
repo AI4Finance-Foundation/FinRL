@@ -24,6 +24,7 @@ DOW_30_TICKER = [
     "MMM",
     "MRK",
     "MSFT",
+    "NVDA",
     "NKE",
     "PG",
     "TRV",
