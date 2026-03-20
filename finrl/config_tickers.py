@@ -65,7 +65,6 @@ NAS_100_TICKER = [
     "GOOGL",
     "ISRG",
     "VRTX",
-    "HSIC",
     "ADP",
     "ROST",
     "ORLY",
