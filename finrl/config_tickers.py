@@ -8,6 +8,7 @@ DOW_30_TICKER = [
     "MMM",
     "AXP",
     "AMGN",
+    "AMZN",
     "AAPL",
     "BA",
     "CAT",
