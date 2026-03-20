@@ -68,7 +68,7 @@
 
 ## Project Contributors
 
-FinRL® is an open-source financial reinforcement learning framework developed by contributors from the AI4Finance community and maintained by the AI4Finance Foundation..
+FinRL® is an open-source financial reinforcement learning framework developed by contributors from the AI4Finance community and maintained by the AI4Finance Foundation.
 
 Key contributors include:
 
