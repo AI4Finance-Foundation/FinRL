@@ -54,7 +54,6 @@ NAS_100_TICKER = [
     "COST",
     "SBUX",
     "FISV",
-    "CTXS",
     "INTU",
     "AMZN",
     "EBAY",
