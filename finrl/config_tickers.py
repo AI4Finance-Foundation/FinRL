@@ -73,7 +73,6 @@ NAS_100_TICKER = [
     "ADP",
     "ROST",
     "ORLY",
-    "CERN",
     "BKNG",
     "MYL",
     "MU",
