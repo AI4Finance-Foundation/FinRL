@@ -89,7 +89,6 @@ NAS_100_TICKER = [
     "KHC",
     "PYPL",
     "TMUS",
-    "TCOM",
     "ULTA",
     "CSX",
     "MCHP",
