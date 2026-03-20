@@ -94,7 +94,6 @@ NAS_100_TICKER = [
     "TCOM",
     "ULTA",
     "CSX",
-    "NTES",
     "MCHP",
     "CTAS",
     "KLAC",
