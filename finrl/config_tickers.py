@@ -69,7 +69,6 @@ NAS_100_TICKER = [
     "ORLY",
     "BKNG",
     "MU",
-    "SIRI",
     "MNST",
     "AVGO",
     "TXN",
