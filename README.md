@@ -286,6 +286,25 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 ## Citing FinRL
 
 ```
+@article{finrl2020,
+    author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
+    title   = {{FinRL}: A deep reinforcement learning library for automated stock trading in quantitative finance},
+    journal = {Deep RL Workshop, NeurIPS 2020},
+    year    = {2020}
+}
+```
+
+```
+@article{liu2021finrl,
+    author  = {Liu, Xiao-Yang and Yang, Hongyang and Gao, Jiechao and Wang, Christina Dan},
+    title   = {{FinRL}: Deep reinforcement learning framework to automate trading in quantitative finance},
+    journal = {ACM International Conference on AI in Finance (ICAIF)},
+    year    = {2021}
+}
+
+```
+
+```
 @article{dynamic_datasets,
     author = {Liu, Xiao-Yang and Xia, Ziyi and Yang, Hongyang and Gao, Jiechao and Zha, Daochen and Zhu, Ming and Wang, Christina Dan and Wang, Zhaoran and Guo, Jian},
     title = {Dynamic Datasets and Market Environments for Financial Reinforcement Learning},
@@ -304,24 +323,7 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 }
 ```
 
-```
-@article{liu2021finrl,
-    author  = {Liu, Xiao-Yang and Yang, Hongyang and Gao, Jiechao and Wang, Christina Dan},
-    title   = {{FinRL}: Deep reinforcement learning framework to automate trading in quantitative finance},
-    journal = {ACM International Conference on AI in Finance (ICAIF)},
-    year    = {2021}
-}
 
-```
-
-```
-@article{finrl2020,
-    author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
-    title   = {{FinRL}: A deep reinforcement learning library for automated stock trading in quantitative finance},
-    journal = {Deep RL Workshop, NeurIPS 2020},
-    year    = {2020}
-}
-```
 
 ```
 @article{liu2018practical,
@@ -361,4 +363,4 @@ FinRL and the FinRL logo are trademarks of FinRL LLC. Use of these marks by the 
 </div>
 
 
-**Disclaimer: We are sharing codes for academic purpose under the MIT license. Nothing herein constitutes financial advice or a recommendation to trade real money. Users are solely responsible for any financial decisions made using this software. Consult a qualified professional before deploying capital.**
+**Disclaimer: We are sharing codes for academic purposes under the MIT license. Nothing herein constitutes financial advice or a recommendation to trade real money. Users are solely responsible for any financial decisions made using this software. Consult a qualified professional before deploying capital.**
