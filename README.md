@@ -83,7 +83,8 @@ FinRL has three layers: market environments, agents, and applications.  For a tr
 Videos [FinRL](http://www.youtube.com/watch?v=ZSGJjtM-5jA) at [AI4Finance Youtube Channel](https://www.youtube.com/channel/UCrVri6k3KPBa3NhapVV4K5g).
 
 ## FinRL Stock Trading 2026 Tutorial
-
+This tutorial demonstrates the original FinRL workflow for educational and research purposes.
+For the latest production-oriented pipeline, please use **[FinRL-X / FinRL-Trading](https://github.com/AI4Finance-Foundation/FinRL-Trading)**.
 ### Step 1: Clone the Repository
 
 ```bash
