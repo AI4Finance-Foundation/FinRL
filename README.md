@@ -74,7 +74,17 @@ Key contributors include:
   
 ## Overview
 
-FinRL has three layers: market environments, agents, and applications.  For a trading task (on the top), an agent (in the middle) interacts with a market environment (at the bottom), making sequential decisions.
+FinRL is the original open-source framework for financial reinforcement learning, organized around three core layers:
+
+- **Market Environments**
+- **DRL Agents**
+- **Financial Applications**
+
+For a trading task, an agent interacts with a market environment and learns sequential decision-making policies.
+
+This repository focuses on the **classic FinRL workflow** for education, experimentation, and research prototyping.
+
+For the **next-generation production-oriented stack**, including modular deployment and AI-native trading infrastructure, please visit **[FinRL-X / FinRL-Trading](https://github.com/AI4Finance-Foundation/FinRL-Trading)**.
 
 <div align="center">
 <img align="center" src=figs/finrl_framework.png>
