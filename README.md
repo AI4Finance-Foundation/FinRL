@@ -309,9 +309,6 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 +
 ## Citing FinRL
 
-```md
-## FinRL-X
-
 For the next-generation AI-native modular trading infrastructure, see **[FinRL-X / FinRL-Trading](https://github.com/AI4Finance-Foundation/FinRL-Trading)**.
 
 ```bibtex
