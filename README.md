@@ -324,60 +324,11 @@ For the next-generation AI-native modular trading infrastructure, see **[FinRL-X
 If you use the original FinRL framework, please cite the FinRL papers:
 
 ```
-@inproceedings{yang2020finrl,
-  title={FinRL: A deep reinforcement learning library for automated stock trading in quantitative finance},
-  author={Yang, Xiao-Yang and others},
-  booktitle={NeurIPS 2020 Deep RL Workshop},
-  year={2020}
-}
-```
-
-```
 @article{finrl2020,
     author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
     title   = {{FinRL}: A deep reinforcement learning library for automated stock trading in quantitative finance},
     journal = {Deep RL Workshop, NeurIPS 2020},
     year    = {2020}
-}
-```
-
-```
-@article{liu2021finrl,
-    author  = {Liu, Xiao-Yang and Yang, Hongyang and Gao, Jiechao and Wang, Christina Dan},
-    title   = {{FinRL}: Deep reinforcement learning framework to automate trading in quantitative finance},
-    journal = {ACM International Conference on AI in Finance (ICAIF)},
-    year    = {2021}
-}
-
-```
-
-```
-@article{dynamic_datasets,
-    author = {Liu, Xiao-Yang and Xia, Ziyi and Yang, Hongyang and Gao, Jiechao and Zha, Daochen and Zhu, Ming and Wang, Christina Dan and Wang, Zhaoran and Guo, Jian},
-    title = {Dynamic Datasets and Market Environments for Financial Reinforcement Learning},
-    journal = {Machine Learning - Springer Nature},
-    year = {2024}
-}
-```
-
-
-```
-@article{liu2022finrl_meta,
-  title={FinRL-Meta: Market Environments and Benchmarks for Data-Driven Financial Reinforcement Learning},
-  author={Liu, Xiao-Yang and Xia, Ziyi and Rui, Jingyang and Gao, Jiechao and Yang, Hongyang and Zhu, Ming and Wang, Christina Dan and Wang, Zhaoran and Guo, Jian},
-  journal={NeurIPS},
-  year={2022}
-}
-```
-
-
-
-```
-@article{liu2018practical,
-  title={Practical deep reinforcement learning approach for stock trading},
-  author={Liu, Xiao-Yang and Xiong, Zhuoran and Zhong, Shan and Yang, Hongyang and Walid, Anwar},
-  journal={NeurIPS Workshop on Deep Reinforcement Learning},
-  year={2018}
 }
 ```
 
