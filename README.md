@@ -43,6 +43,21 @@ For the next-generation AI-native and production-oriented trading stack, please 
 | **FinRL-X** | **Next Generation / Production** | **Professional traders, institutions, hedge funds** | [**FinRL-Trading**](https://github.com/AI4Finance-Foundation/FinRL-Trading) | **AI-native modular infrastructure for deployment-aware quantitative trading** |
 > **Recommended for new users:** Start with **[FinRL-X / FinRL-Trading](https://github.com/AI4Finance-Foundation/FinRL-Trading)** if you are building modern or production-oriented trading systems.
 
+### 🔄 FinRL-X vs. FinRL: What Changed
+
+| Capability | FinRL (Stage 1.0) | FinRL-X (Stage 3.0) |
+|---|---|---|
+| **Paradigm** | Deep Reinforcement Learning | AI-Native (ML + DRL + LLM-ready) |
+| **Architecture** | Three-layer coupled monolith | Fully decoupled modular layers |
+| **Strategies** | DRL agents (A2C, DDPG, PPO, SAC, TD3) | ML selection + DRL timing + extensible base |
+| **Data Layer** | 14 manually-wired processors | Auto-select: Yahoo Finance → FMP → WRDS |
+| **Backtesting** | Custom hand-rolled evaluation loops | Professional `bt` library engine |
+| **Live Trading** | Basic Alpaca support | Full multi-account integration + risk controls |
+| **Configuration** | `config.py` + `config_tickers.py` | Type-safe Pydantic + `.env` multi-env |
+| **Risk Management** | Gym environment constraints only | Order · portfolio · strategy-level controls |
+| **Target Users** | Researchers & students | Quants, institutions, production deployments |
+| **Paper** | [arXiv:2011.09607](https://arxiv.org/abs/2011.09607) | [arXiv:2603.21330](https://arxiv.org/abs/2603.21330) |
+
 [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT): an open-source project for financial large language models, designed for research and real-world FinTech applications.
 
 ![Visitors](https://api.visitorbadge.io/api/VisitorHit?user=AI4Finance-Foundation&repo=FinRL&countColor=%23B17A)
