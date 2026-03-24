@@ -346,10 +346,10 @@ Please check [Contributing Guidelines](https://github.com/AI4Finance-Foundation/
 
 ### Contributors
 
-Thank you!
+Thanks to all contributors who have helped build FinRL.
 
-<a href="https://github.com/AI4Finance-LLC/FinRL-Library/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=AI4Finance-LLC/FinRL-Library" />
+<a href="https://github.com/AI4Finance-Foundation/FinRL/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AI4Finance-Foundation/FinRL" alt="FinRL contributors" />
 </a>
 
 
