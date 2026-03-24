@@ -21,7 +21,11 @@
 ![](https://img.shields.io/github/issues-pr-raw/AI4Finance-Foundation/finrl?label=Open+PRs)
 ![](https://img.shields.io/github/issues-pr-closed-raw/AI4Finance-Foundation/finrl?label=Closed+PRs)
 
-
+> [!IMPORTANT]
+> **FinRL-X** is the next-generation evolution of FinRL, designed for AI-native, modular, and production-oriented quantitative trading.
+> 
+> - **This repository (`FinRL`)** preserves the original end-to-end educational and research framework.
+> - **For the latest architecture, live trading deployment, and production-focused development, please use [`FinRL-X / FinRL-Trading`](https://github.com/AI4Finance-Foundation/FinRL-Trading).**
 
 
 **Financial reinforcement learning (FinRL®)** is **the first open-source framework** for financial reinforcement learning. 
