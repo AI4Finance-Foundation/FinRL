@@ -309,6 +309,30 @@ Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30
 +
 ## Citing FinRL
 
+```md
+## FinRL-X
+
+For the next-generation AI-native modular trading infrastructure, see **[FinRL-X / FinRL-Trading](https://github.com/AI4Finance-Foundation/FinRL-Trading)**.
+
+```bibtex
+@inproceedings{yang2026finrlx,
+  title     = {FinRL-X: An AI-Native Modular Infrastructure for Quantitative Trading},
+  author    = {Yang, Hongyang and Zhang, Boyu and She, Yang and Liao, Xinyu and Zhang, Xiaoli},
+  booktitle = {Proceedings of the 2nd International Workshop on Decision Making and Optimization in Financial Technologies (DMO-FinTech)},
+  year      = {2026},
+  note      = {Workshop at PAKDD 2026}
+}
+
+If you use the original FinRL framework, please cite the FinRL papers:
+
+```bibtex
+@inproceedings{yang2020finrl,
+  title={FinRL: A deep reinforcement learning library for automated stock trading in quantitative finance},
+  author={Yang, Xiao-Yang and others},
+  booktitle={NeurIPS 2020 Deep RL Workshop},
+  year={2020}
+}
+
 ```
 @article{finrl2020,
     author  = {Liu, Xiao-Yang and Yang, Hongyang and Chen, Qian and Zhang, Runjia and Yang, Liuqing and Xiao, Bowen and Wang, Christina Dan},
