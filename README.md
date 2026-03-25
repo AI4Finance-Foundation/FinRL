@@ -2,7 +2,7 @@
 <img align="center" width="30%" alt="image" src="https://github.com/AI4Finance-Foundation/FinGPT/assets/31713746/e0371951-1ce1-488e-aa25-0992dafcc139">
 </div>
 
-# FinRL: Financial Reinforcement Learning → FinRL-X 
+# FinRL: Financial Reinforcement Learning → FinRL-X
 
 <div align="center">
 <img align="center" src=figs/logo_transparent_background.png width="55%"/>
@@ -24,7 +24,7 @@
 
 > [!IMPORTANT]
 > **FinRL-X** is the next-generation evolution of FinRL, designed for AI-native, modular, and production-oriented quantitative trading.
-> 
+>
 > - **This repository (`FinRL`)** preserves the original end-to-end educational and research framework.
 > - **For the latest architecture, live trading deployment, and production-focused development, please use [`FinRL-X / FinRL-Trading`](https://github.com/AI4Finance-Foundation/FinRL-Trading).**
 
@@ -87,7 +87,7 @@ Key contributors include:
 
 - [**Hongyang (Bruce) Yang**](https://www.linkedin.com/in/brucehy/) – research and development on financial reinforcement learning frameworks, market environments, and quantitative trading applications
 - [other contributors…]
-  
+
 ## Overview
 
 FinRL is the original open-source framework for financial reinforcement learning, organized around three core layers:
