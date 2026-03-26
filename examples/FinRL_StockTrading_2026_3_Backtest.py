@@ -8,7 +8,10 @@ Introducing how to use the agents we trained to do backtest, and compare with ba
 Mean Variance Optimization and DJIA index.
 """
 
+from __future__ import annotations
+
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np

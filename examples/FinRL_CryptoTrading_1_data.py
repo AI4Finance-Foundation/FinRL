@@ -37,14 +37,14 @@ yf.set_tz_cache_location(_yf_cache)
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
-TICKERS   = ["BTC-USD", "ETH-USD"]        # yfinance symbols
+TICKERS = ["BTC-USD", "ETH-USD"]  # yfinance symbols
 TIMEFRAME = "1m"
 
 # yfinance 1m data is limited to ~30 days back from today (2026-03-25)
 TRAIN_START = "2026-02-24"
-TRAIN_END   = "2026-03-14"   # exclusive upper bound for yfinance
-TEST_START  = "2026-03-14"
-TEST_END    = "2026-03-25"   # exclusive upper bound for yfinance
+TRAIN_END = "2026-03-14"  # exclusive upper bound for yfinance
+TEST_START = "2026-03-14"
+TEST_END = "2026-03-25"  # exclusive upper bound for yfinance
 
 TECH_INDICATORS = [
     "macd",
@@ -60,6 +60,7 @@ OUTPUT_FILE = "crypto_data_arrays.npz"
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
+
 def fetch_1m(ticker: str, start: str, end: str) -> pd.DataFrame:
     """Download 1-minute OHLCV for a single ticker via yfinance.
 
@@ -68,7 +69,7 @@ def fetch_1m(ticker: str, start: str, end: str) -> pd.DataFrame:
     """
     chunks = []
     t0 = pd.Timestamp(start, tz="UTC")
-    t1 = pd.Timestamp(end,   tz="UTC")
+    t1 = pd.Timestamp(end, tz="UTC")
     chunk_size = pd.Timedelta(days=7)
 
     while t0 < t1:
@@ -85,8 +86,9 @@ def fetch_1m(ticker: str, start: str, end: str) -> pd.DataFrame:
         if not raw.empty:
             # yfinance with a single ticker returns simple columns
             raw = raw.copy()
-            raw.columns = [c.lower() if isinstance(c, str) else c[0].lower()
-                           for c in raw.columns]
+            raw.columns = [
+                c.lower() if isinstance(c, str) else c[0].lower() for c in raw.columns
+            ]
             raw = raw[["open", "high", "low", "close", "volume"]]
             chunks.append(raw)
         t0 = t_end_chunk
@@ -154,7 +156,7 @@ for ticker in TICKERS:
     print(f"\n[{ticker}] Train period:")
     df_train_raw = fetch_1m(ticker, TRAIN_START, TRAIN_END)
     print(f"[{ticker}] Test  period:")
-    df_test_raw  = fetch_1m(ticker, TEST_START,  TEST_END)
+    df_test_raw = fetch_1m(ticker, TEST_START, TEST_END)
 
     # Combine for indicator computation (needs continuous history for SMA-60 etc.)
     df_all = pd.concat([df_train_raw, df_test_raw])
@@ -182,18 +184,22 @@ print("=" * 60)
 
 split_ts = pd.Timestamp(TEST_START, tz="UTC")
 
-train_dfs = {t: df[df.index <  split_ts] for t, df in all_with_ind.items()}
-test_dfs  = {t: df[df.index >= split_ts] for t, df in all_with_ind.items()}
+train_dfs = {t: df[df.index < split_ts] for t, df in all_with_ind.items()}
+test_dfs = {t: df[df.index >= split_ts] for t, df in all_with_ind.items()}
 
 train_price, train_tech, train_dates = build_arrays(train_dfs, TICKERS, TECH_INDICATORS)
-test_price,  test_tech,  test_dates  = build_arrays(test_dfs,  TICKERS, TECH_INDICATORS)
+test_price, test_tech, test_dates = build_arrays(test_dfs, TICKERS, TECH_INDICATORS)
 
 print(f"\nTrain  price shape : {train_price.shape}")
 print(f"Train  tech  shape : {train_tech.shape}")
 print(f"Test   price shape : {test_price.shape}")
 print(f"Test   tech  shape : {test_tech.shape}")
-print(f"\nBTC price range (train): ${train_price[:,0].min():,.0f} – ${train_price[:,0].max():,.0f}")
-print(f"ETH price range (train): ${train_price[:,1].min():,.0f} – ${train_price[:,1].max():,.0f}")
+print(
+    f"\nBTC price range (train): ${train_price[:,0].min():,.0f} – ${train_price[:,0].max():,.0f}"
+)
+print(
+    f"ETH price range (train): ${train_price[:,1].min():,.0f} – ${train_price[:,1].max():,.0f}"
+)
 
 # ── Part 4: Save ──────────────────────────────────────────────────────────────
 
@@ -203,14 +209,16 @@ print("=" * 60)
 
 np.savez(
     OUTPUT_FILE,
-    train_price_array = train_price,
-    train_tech_array  = train_tech,
-    train_date_ary    = train_dates,
-    test_price_array  = test_price,
-    test_tech_array   = test_tech,
-    test_date_ary     = test_dates,
+    train_price_array=train_price,
+    train_tech_array=train_tech,
+    train_date_ary=train_dates,
+    test_price_array=test_price,
+    test_tech_array=test_tech,
+    test_date_ary=test_dates,
 )
 print(f"\nSaved to: {OUTPUT_FILE}")
-print(f"  Train: {len(train_dates):,} timesteps  ({train_dates[0]} → {train_dates[-1]})")
+print(
+    f"  Train: {len(train_dates):,} timesteps  ({train_dates[0]} → {train_dates[-1]})"
+)
 print(f"  Test : {len(test_dates):,}  timesteps  ({test_dates[0]} → {test_dates[-1]})")
 print("\nDone — run FinRL_CryptoTrading_2_train.py next.")

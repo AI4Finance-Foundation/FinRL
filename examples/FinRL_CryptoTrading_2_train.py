@@ -14,52 +14,54 @@ Requires: crypto_data_arrays.npz  (from Part 1)
 
 from __future__ import annotations
 
-import numpy as np
-from stable_baselines3 import PPO, SAC
-from stable_baselines3.common.vec_env import DummyVecEnv
-
 import os
 
 import gymnasium as gym
+import numpy as np
 from gymnasium import spaces
+from stable_baselines3 import PPO
+from stable_baselines3 import SAC
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 from finrl.meta.env_cryptocurrency_trading.env_multiple_crypto import CryptoEnv
 
 TRAINED_MODEL_DIR = "trained_models"
-RESULTS_DIR       = "results"
+RESULTS_DIR = "results"
 
 
 def check_and_make_directories(dirs):
     for d in dirs:
         os.makedirs(d, exist_ok=True)
 
+
 # ── Configuration ──────────────────────────────────────────────────────────────
 
-DATA_FILE       = "crypto_data_arrays.npz"
-INITIAL_CAPITAL = 1_000_000.0   # USD
-BUY_COST_PCT    = 0.001         # 0.1 % taker fee (Binance standard)
-SELL_COST_PCT   = 0.001
-LOOKBACK        = 1
+DATA_FILE = "crypto_data_arrays.npz"
+INITIAL_CAPITAL = 1_000_000.0  # USD
+BUY_COST_PCT = 0.001  # 0.1 % taker fee (Binance standard)
+SELL_COST_PCT = 0.001
+LOOKBACK = 1
 
 # Total environment timesteps for training
 PPO_TIMESTEPS = 200_000
 SAC_TIMESTEPS = 200_000
 
 PPO_PARAMS = {
-    "n_steps"      : 2048,
-    "batch_size"   : 64,
-    "ent_coef"     : 0.01,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "ent_coef": 0.01,
     "learning_rate": 2.5e-4,
 }
 SAC_PARAMS = {
-    "batch_size"    : 256,
-    "buffer_size"   : 100_000,
-    "learning_rate" : 1e-4,
+    "batch_size": 256,
+    "buffer_size": 100_000,
+    "learning_rate": 1e-4,
     "learning_starts": 1_000,
-    "ent_coef"      : "auto_0.1",
+    "ent_coef": "auto_0.1",
 }
 
 # ── Gymnasium wrapper ──────────────────────────────────────────────────────────
+
 
 class CryptoEnvWrapper(gym.Env):
     """Thin Gymnasium wrapper around FinRL's CryptoEnv.
@@ -133,14 +135,18 @@ class CryptoEnvWrapper(gym.Env):
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
+
 def make_env(price_array, tech_array, **kwargs):
     """Factory that returns a zero-argument lambda, as required by DummyVecEnv."""
+
     def _init():
         return CryptoEnvWrapper(price_array, tech_array, **kwargs)
+
     return _init
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
+
 
 def main():
     check_and_make_directories([TRAINED_MODEL_DIR, RESULTS_DIR])
@@ -152,18 +158,18 @@ def main():
 
     data = np.load(DATA_FILE)
     price_array = data["train_price_array"]
-    tech_array  = data["train_tech_array"]
+    tech_array = data["train_tech_array"]
 
     print(f"  price_array : {price_array.shape}")
     print(f"  tech_array  : {tech_array.shape}")
 
     env_kwargs = dict(
-        price_array    = price_array,
-        tech_array     = tech_array,
-        initial_capital= INITIAL_CAPITAL,
-        buy_cost_pct   = BUY_COST_PCT,
-        sell_cost_pct  = SELL_COST_PCT,
-        lookback       = LOOKBACK,
+        price_array=price_array,
+        tech_array=tech_array,
+        initial_capital=INITIAL_CAPITAL,
+        buy_cost_pct=BUY_COST_PCT,
+        sell_cost_pct=SELL_COST_PCT,
+        lookback=LOOKBACK,
     )
 
     # ── 2. Build vectorised environment ───────────────────────────────────────
