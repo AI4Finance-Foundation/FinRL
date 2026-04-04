@@ -177,7 +177,8 @@ class PaperTradingAlpaca:
                     qty = abs(int(float(position.qty)))
                     respSO = []
                     tSubmitOrder = threading.Thread(
-                        target=self.submitOrder(qty, position.symbol, orderSide, respSO)
+                        target=self.submitOrder,
+                        args=(qty, position.symbol, orderSide, respSO),
                     )
                     tSubmitOrder.start()
                     threads.append(tSubmitOrder)  # record thread for joining later
@@ -239,9 +240,8 @@ class PaperTradingAlpaca:
                 qty = abs(int(sell_num_shares))
                 respSO = []
                 tSubmitOrder = threading.Thread(
-                    target=self.submitOrder(
-                        qty, self.stockUniverse[index], "sell", respSO
-                    )
+                    target=self.submitOrder,
+                    args=(qty, self.stockUniverse[index], "sell", respSO),
                 )
                 tSubmitOrder.start()
                 threads.append(tSubmitOrder)  # record thread for joining later
@@ -266,9 +266,8 @@ class PaperTradingAlpaca:
                     qty = abs(int(buy_num_shares))
                 respSO = []
                 tSubmitOrder = threading.Thread(
-                    target=self.submitOrder(
-                        qty, self.stockUniverse[index], "buy", respSO
-                    )
+                    target=self.submitOrder,
+                    args=(qty, self.stockUniverse[index], "buy", respSO),
                 )
                 tSubmitOrder.start()
                 threads.append(tSubmitOrder)  # record thread for joining later
@@ -289,7 +288,8 @@ class PaperTradingAlpaca:
                 qty = abs(int(float(position.qty)))
                 respSO = []
                 tSubmitOrder = threading.Thread(
-                    target=self.submitOrder(qty, position.symbol, orderSide, respSO)
+                    target=self.submitOrder,
+                    args=(qty, position.symbol, orderSide, respSO),
                 )
                 tSubmitOrder.start()
                 threads.append(tSubmitOrder)  # record thread for joining later
