@@ -7,11 +7,15 @@ automated stock trading: An ensemble strategy".
 Introduce how to use FinRL to make data into the gym form environment, and train DRL agents on it.
 """
 
+from __future__ import annotations
+
 import pandas as pd
 from stable_baselines3.common.logger import configure
 
 from finrl.agents.stablebaselines3.models import DRLAgent
-from finrl.config import INDICATORS, TRAINED_MODEL_DIR, RESULTS_DIR
+from finrl.config import INDICATORS
+from finrl.config import RESULTS_DIR
+from finrl.config import TRAINED_MODEL_DIR
 from finrl.main import check_and_make_directories
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 

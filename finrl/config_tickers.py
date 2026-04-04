@@ -140,7 +140,7 @@ NAS_100_TICKER = [
     "TRI",
     "WBD",
     "WMT",
-    "ZS"
+    "ZS",
 ]
 
 # SP 500 constituents at 2019
