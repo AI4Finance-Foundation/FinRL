@@ -103,6 +103,10 @@ This repository focuses on the **classic FinRL workflow** for education, experim
 For the **next-generation production-oriented stack**, including modular deployment and AI-native trading infrastructure, please visit **[FinRL-X / FinRL-Trading](https://github.com/AI4Finance-Foundation/FinRL-Trading)**.
 
 <div align="center">
+  <img src="https://github.com/AI4Finance-Foundation/FinRL-Trading/blob/master/figs/FinRL_X_Framework.png" width="880"/>
+</div>
+
+<div align="center">
 <img align="center" src=figs/finrl_framework.png>
 </div>
 
