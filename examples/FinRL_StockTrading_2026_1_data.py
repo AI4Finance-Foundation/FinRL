@@ -6,14 +6,21 @@ This series is a reproduction of paper "Deep reinforcement learning for automate
 Introduce how to use FinRL to fetch and process data that we need for ML/RL trading.
 """
 
+from __future__ import annotations
+
 import itertools
 
 import pandas as pd
 import yfinance as yf
 
 from finrl import config_tickers
-from finrl.config import INDICATORS, TRAIN_START_DATE, TRAIN_END_DATE, TRADE_START_DATE, TRADE_END_DATE
-from finrl.meta.preprocessor.preprocessors import FeatureEngineer, data_split
+from finrl.config import INDICATORS
+from finrl.config import TRADE_END_DATE
+from finrl.config import TRADE_START_DATE
+from finrl.config import TRAIN_END_DATE
+from finrl.config import TRAIN_START_DATE
+from finrl.meta.preprocessor.preprocessors import data_split
+from finrl.meta.preprocessor.preprocessors import FeatureEngineer
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 
 # %% Part 1. Fetch data - Single ticker
