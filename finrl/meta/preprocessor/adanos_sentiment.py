@@ -178,7 +178,9 @@ def add_adanos_market_sentiment(
         axis=1,
     )
 
-    enriched = enriched.merge(feature_frame, on=[ticker_column, date_column], how="left")
+    enriched = enriched.merge(
+        feature_frame, on=[ticker_column, date_column], how="left"
+    )
 
     if fillna:
         lag_columns = [f"{column}_lag{lag}" for column in lag_base_columns]

@@ -16,8 +16,8 @@ import pandas as pd
 from finrl.config import INDICATORS
 from finrl.meta.preprocessor.adanos_sentiment import ADANOS_SENTIMENT_FEATURES
 from finrl.meta.preprocessor.adanos_sentiment import add_adanos_market_sentiment
-from finrl.meta.preprocessor.preprocessors import FeatureEngineer
 from finrl.meta.preprocessor.preprocessors import data_split
+from finrl.meta.preprocessor.preprocessors import FeatureEngineer
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 
 TRAIN_START_DATE = "2025-12-01"
@@ -45,7 +45,9 @@ feature_engineer = FeatureEngineer(
 processed = feature_engineer.preprocess_data(df_raw)
 
 list_ticker = processed["tic"].unique().tolist()
-list_date = list(pd.date_range(processed["date"].min(), processed["date"].max()).astype(str))
+list_date = list(
+    pd.date_range(processed["date"].min(), processed["date"].max()).astype(str)
+)
 combination = list(itertools.product(list_date, list_ticker))
 
 processed_full = pd.DataFrame(combination, columns=["date", "tic"]).merge(
