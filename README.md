@@ -270,6 +270,8 @@ OHLCV: open, high, low, and close prices; volume. adjusted_close: adjusted close
 
 Technical indicators: 'macd', 'boll_ub', 'boll_lb', 'rsi_30', 'dx_30', 'close_30_sma', 'close_60_sma'. Users also can add new features.
 
+Optional structured market sentiment features can be added on top of existing OHLCV datasets through `finrl.meta.preprocessor.adanos_sentiment`. See `examples/FinRL_StockTrading_2026_1_data_with_adanos.py` for a recent-window example using lagged Adanos sentiment features.
+
 
 ## Installation
 + [Install description for all operating systems (MAC OS, Ubuntu, Windows 10)](./docs/source/start/installation.rst)
