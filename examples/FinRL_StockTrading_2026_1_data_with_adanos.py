@@ -1,11 +1,8 @@
-"""
-Stock Trading 2026 Part 1 (optional Adanos sentiment features).
-
-This example keeps the classic FinRL Yahoo + technical-indicator pipeline and
-optionally augments it with lagged market sentiment features when ADANOS_API_KEY
-is available.
-"""
-
+# Stock Trading 2026 Part 1 (optional Adanos sentiment features).
+#
+# This example keeps the classic FinRL Yahoo + technical-indicator pipeline and
+# optionally augments it with lagged market sentiment features when
+# ADANOS_API_KEY is available.
 from __future__ import annotations
 
 import itertools
