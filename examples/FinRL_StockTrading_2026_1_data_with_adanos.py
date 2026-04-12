@@ -2,7 +2,8 @@
 #
 # This example keeps the classic FinRL Yahoo + technical-indicator pipeline and
 # optionally augments it with lagged market sentiment features when
-# ADANOS_API_KEY is available.
+# ADANOS_API_KEY is available. The default lag=1 creates t-1 sentiment
+# columns to avoid same-day sentiment leakage.
 from __future__ import annotations
 
 import itertools

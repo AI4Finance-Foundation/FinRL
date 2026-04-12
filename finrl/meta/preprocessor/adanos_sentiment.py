@@ -89,8 +89,15 @@ def add_adanos_market_sentiment(
     """
     Optionally enrich a FinRL dataframe with lagged Adanos market sentiment.
 
-    The function is intentionally fail-open: without an API key, or when remote
-    requests fail, the original dataframe is returned unchanged.
+    The function is intentionally fail-open: importing this module never reads
+    environment variables or calls the external API. Without an explicit
+    ``api_key``, or when remote requests fail, a copy of the original dataframe
+    is returned unchanged.
+
+    Sentiment features are shifted per ticker before merging back into the
+    state. The default ``lag=1`` creates t-1 columns such as
+    ``adanos_buzz_mean_lag1`` to avoid same-day sentiment leakage. Use
+    ``lag=2`` or higher for a more conservative delay.
     """
 
     enriched = df.copy()

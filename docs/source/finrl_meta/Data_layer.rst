@@ -41,4 +41,4 @@ Feature engineering is the last part of the data layer. We automate the calculat
 
 Users can add their features by two ways: 1) Write user-defined feature extraction functions directly. The returned features will be added to a feature array. 2) Store the features in a file, and move it to a specified folder. Then, these features will be obtained by reading from the specified file.
 
-For example, optional structured market sentiment features can be merged into the standard OHLCV pipeline through ``finrl.meta.preprocessor.adanos_sentiment`` and then appended to the environment ``tech_indicator_list`` as lagged state features.
+For example, optional structured market sentiment features can be merged into the standard OHLCV pipeline through ``finrl.meta.preprocessor.adanos_sentiment`` and then appended to the environment ``tech_indicator_list`` as lagged state features. The helper defaults to ``lag=1`` and creates t-1 columns such as ``adanos_buzz_mean_lag1`` to avoid same-day sentiment leakage; ``lag=2`` or higher can be used when a more conservative delay is desired.

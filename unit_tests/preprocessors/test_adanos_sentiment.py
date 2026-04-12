@@ -47,29 +47,43 @@ class DummySession:
         return self.responses[url]
 
 
-def test_add_adanos_market_sentiment_is_noop_without_api_key():
-    df = pd.DataFrame(
+class FailingSession:
+    def get(self, url, params, headers, timeout):
+        raise AssertionError("API should not be called without an explicit api_key")
+
+
+def _simple_ohlcv_frame(ticker="AAPL", dates=None):
+    if dates is None:
+        dates = ["2026-03-01", "2026-03-02"]
+    return pd.DataFrame(
         {
-            "date": ["2026-03-01", "2026-03-02"],
-            "tic": ["AAPL", "AAPL"],
-            "close": [100.0, 101.0],
+            "date": dates,
+            "tic": [ticker] * len(dates),
+            "close": [100.0 + idx for idx in range(len(dates))],
         }
     )
+
+
+def test_add_adanos_market_sentiment_is_noop_without_api_key():
+    df = _simple_ohlcv_frame()
 
     result = add_adanos_market_sentiment(df, api_key=None)
 
     assert list(result.columns) == ["date", "tic", "close"]
     pd.testing.assert_frame_equal(result, df)
+    assert result is not df
+
+
+def test_add_adanos_market_sentiment_default_no_key_skips_network_call():
+    df = _simple_ohlcv_frame()
+
+    result = add_adanos_market_sentiment(df, session=FailingSession())
+
+    pd.testing.assert_frame_equal(result, df)
 
 
 def test_add_adanos_market_sentiment_merges_lagged_daily_features():
-    df = pd.DataFrame(
-        {
-            "date": ["2026-03-01", "2026-03-02"],
-            "tic": ["AAPL", "AAPL"],
-            "close": [100.0, 101.0],
-        }
-    )
+    df = _simple_ohlcv_frame()
 
     responses = {
         "https://api.adanos.org/reddit/stocks/v1/stock/AAPL": DummyResponse(
@@ -125,13 +139,7 @@ def test_add_adanos_market_sentiment_merges_lagged_daily_features():
 
 
 def test_add_adanos_market_sentiment_ignores_missing_sources():
-    df = pd.DataFrame(
-        {
-            "date": ["2026-03-01", "2026-03-02"],
-            "tic": ["TSLA", "TSLA"],
-            "close": [200.0, 201.0],
-        }
-    )
+    df = _simple_ohlcv_frame(ticker="TSLA")
 
     responses = {
         "https://api.adanos.org/reddit/stocks/v1/stock/TSLA": DummyResponse(
@@ -162,3 +170,48 @@ def test_add_adanos_market_sentiment_ignores_missing_sources():
     assert "adanos_x_buzz_lag1" in result.columns
     assert result.loc[1, "adanos_x_buzz_lag1"] == 55.0
     assert result.loc[1, "adanos_source_coverage_lag1"] == 1.0
+
+
+def test_add_adanos_market_sentiment_supports_conservative_lag():
+    df = _simple_ohlcv_frame(
+        dates=["2026-03-01", "2026-03-02", "2026-03-03"],
+    )
+
+    responses = {
+        "https://api.adanos.org/reddit/stocks/v1/stock/AAPL": DummyResponse(
+            {
+                "daily_trend": [
+                    {
+                        "date": "2026-03-01",
+                        "buzz_score": 40.0,
+                        "sentiment_score": 0.10,
+                    },
+                    {
+                        "date": "2026-03-02",
+                        "buzz_score": 60.0,
+                        "sentiment_score": 0.30,
+                    },
+                    {
+                        "date": "2026-03-03",
+                        "buzz_score": 80.0,
+                        "sentiment_score": 0.50,
+                    },
+                ]
+            }
+        )
+    }
+
+    result = add_adanos_market_sentiment(
+        df,
+        api_key="test-key",
+        sources=("reddit",),
+        lag=2,
+        session=DummySession(responses),
+    )
+
+    assert "adanos_buzz_mean_lag2" in result.columns
+    assert "adanos_buzz_mean_lag1" not in result.columns
+    assert result.loc[0, "adanos_buzz_mean_lag2"] == 0.0
+    assert result.loc[1, "adanos_buzz_mean_lag2"] == 0.0
+    assert result.loc[2, "adanos_reddit_buzz_lag2"] == 40.0
+    assert result.loc[2, "adanos_sentiment_mean_lag2"] == pytest.approx(0.10)

@@ -36,7 +36,7 @@ This script downloads DOW 30 stock data from Yahoo Finance, adds technical indic
 ADANOS_API_KEY=your_key_here python examples/FinRL_StockTrading_2026_1_data_with_adanos.py
 ```
 
-This companion example keeps the classic Yahoo Finance preprocessing flow and optionally augments the state with lagged retail sentiment features from Adanos. Without `ADANOS_API_KEY`, the script runs as a no-op enrichment step and keeps the original feature set.
+This companion example keeps the classic Yahoo Finance preprocessing flow and optionally augments the state with lagged retail sentiment features from Adanos. Without `ADANOS_API_KEY`, the script runs as a no-op enrichment step and keeps the original feature set. The default `lag=1` creates t-1 feature columns such as `adanos_buzz_mean_lag1` so same-day sentiment cannot leak into the current state; pass `lag=2` or higher for a more conservative delay.
 
 **2. Train DRL Agents**
 
