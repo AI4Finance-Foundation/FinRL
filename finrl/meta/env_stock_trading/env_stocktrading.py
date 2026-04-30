@@ -223,12 +223,50 @@ class StockTradingEnv(gym.Env):
 
         return buy_num_shares
 
+    def _validate_action_shares(self, action_shares):
+        """Hook for subclasses to apply additional constraints on the integer
+        share count BEFORE ``_buy_stock`` / ``_sell_stock`` execution.
+
+        Default implementation is identity. Override in a subclass to enforce
+        e.g. per-step share-delta caps, tighter budget clamps, no-shorting,
+        or any constraint that needs to operate on the post-``* self.hmax``
+        share count. This avoids the common pitfall of overriding ``step``
+        and accidentally validating the raw ``[-1, 1]`` action before the
+        parent's ``* self.hmax`` rescaling.
+
+        Args:
+            action_shares: integer numpy array of shape ``(stock_dim,)`` with
+                the candidate per-stock share-delta (positive = buy, negative
+                = sell), as produced by ``actions * self.hmax``.
+
+        Returns:
+            A modified integer numpy array of the same shape.
+        """
+        return action_shares
+
     def _make_plot(self):
         plt.plot(self.asset_memory, "r")
         plt.savefig(f"results/account_value_trade_{self.episode}.png")
         plt.close()
 
     def step(self, actions):
+        """Advance the environment by one bar.
+
+        ``actions`` is the policy output, expected to be continuous and
+        normalised to ``[-1, 1]`` (this is the action_space defined in
+        ``__init__``). Inside this method the action is rescaled to an
+        integer share count via ``actions = actions * self.hmax`` followed
+        by ``astype(int)`` before any ``_sell_stock`` / ``_buy_stock`` call
+        sees it.
+
+        Subclasses overriding ``step`` should validate the action AFTER the
+        ``* self.hmax`` rescaling, not before — applying an integer cast or
+        budget clamp to the raw ``[-1, 1]`` action will collapse the entire
+        action grid (e.g. clipping to ``{-1, 0, 1}`` pre-rescaling becomes
+        ``{-hmax, 0, hmax}`` post-rescaling, with no fine-grained levels in
+        between). For tighter post-rescaling constraints, override
+        ``_validate_action_shares`` rather than re-implementing this method.
+        """
         self.terminal = self.day >= len(self.df.index.unique()) - 1
         if self.terminal:
             # print(f"Episode: {self.episode}")
@@ -318,6 +356,11 @@ class StockTradingEnv(gym.Env):
             if self.turbulence_threshold is not None:
                 if self.turbulence >= self.turbulence_threshold:
                     actions = np.array([-self.hmax] * self.stock_dim)
+            # Hook for subclasses that want to enforce additional constraints
+            # (per-step share-delta caps, tighter budget pre-checks, no-shorting
+            # rules, etc.) on the integer share count BEFORE buy/sell execution.
+            # Default implementation is identity; see _validate_action_shares.
+            actions = self._validate_action_shares(actions)
             begin_total_asset = self.state[0] + sum(
                 np.array(self.state[1 : (self.stock_dim + 1)])
                 * np.array(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
