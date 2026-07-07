@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from typing import List
+
 import numpy as np
 import pandas as pd
 from stockstats import StockDataFrame as Sdf
-from typing import List
 
 from finrl.meta.preprocessor.fxmacrodatadownloader import FXMacroDataDownloader
 
