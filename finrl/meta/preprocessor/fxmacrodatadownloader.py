@@ -40,7 +40,7 @@ class FXMacroDataDownloader:
         end_date: str,
         ticker_list: List[str],
         api_key: str = None,
-        base_url: str = "https://api.fxmacrodata.com/v1",
+        base_url: str = "https://fxmacrodata.com/api/v1",
         timeout: float = 30,
     ):
         self.start_date = start_date
