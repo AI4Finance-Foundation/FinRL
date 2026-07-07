@@ -4,6 +4,9 @@ import numpy as np
 import pandas as pd
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
+from finrl.meta.data_processors.processor_fxmacrodata import (
+    FXMacroDataProcessor as FXMacroData,
+)
 from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
 from finrl.meta.data_processors.processor_yahoofinance import (
     YahooFinanceProcessor as YahooFinance,
@@ -27,6 +30,14 @@ class DataProcessor:
 
         elif data_source == "yahoofinance":
             self.processor = YahooFinance()
+
+        elif data_source == "fxmacrodata":
+            self.processor = FXMacroData(
+                api_key=kwargs.get("API_KEY") or kwargs.get("api_key"),
+                base_url=kwargs.get("BASE_URL")
+                or kwargs.get("base_url")
+                or "https://api.fxmacrodata.com/v1",
+            )
 
         else:
             raise ValueError("Data source input is NOT supported yet.")
