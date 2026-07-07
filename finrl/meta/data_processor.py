@@ -36,7 +36,7 @@ class DataProcessor:
                 api_key=kwargs.get("API_KEY") or kwargs.get("api_key"),
                 base_url=kwargs.get("BASE_URL")
                 or kwargs.get("base_url")
-                or "https://api.fxmacrodata.com/v1",
+                or "https://fxmacrodata.com/api/v1",
             )
 
         else:
