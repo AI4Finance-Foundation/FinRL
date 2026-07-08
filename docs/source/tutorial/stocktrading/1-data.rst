@@ -50,18 +50,30 @@ In FinRL's YahooDownloader, we modified the data frame to the form that convenie
                                     end_date = '2020-01-31',
                                     ticker_list = ['aapl']).fetch_data()
 
-**using FXMacroData for daily FX spot data**
+**using FXMacroData for daily FX spot data and macro events**
 
 FXMacroData provides daily FX spot rates for currency pairs such as EUR/USD.
 The downloader maps each daily rate to FinRL's OHLCV shape, with open, high,
-low, and close set to the FX spot rate and volume set to 0.
+low, and close set to the FX spot rate and volume set to 0. FXMacroData also
+provides official macro announcements, release-calendar rows, and forecast
+groups that can be joined into a trading state.
 
 ..  code-block:: python
     from finrl.meta.preprocessor.fxmacrodatadownloader import FXMacroDataDownloader
+    from finrl.meta.data_processors.processor_fxmacrodata import FXMacroDataProcessor
 
     eurusd_df_finrl = FXMacroDataDownloader(start_date = '2020-01-01',
                                             end_date = '2020-01-31',
                                             ticker_list = ['EURUSD']).fetch_data()
+
+    processor = FXMacroDataProcessor()
+    macro_df = processor.download_macro_data(currency = 'usd',
+                                             indicator_list = ['inflation',
+                                                               'policy_rate'],
+                                             start_date = '2020-01-01',
+                                             end_date = '2020-01-31')
+    eurusd_with_macro = processor.add_macro_features(eurusd_df_finrl, macro_df,
+                                                     date_column = 'date')
 
 Data for the chosen ticker
 ----------------------------------------

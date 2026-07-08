@@ -150,5 +150,7 @@ Choices for ``--mode``: start mode, train, download_data, backtest
 
 FXMacroData can be used as a daily FX spot data source by setting
 ``data_source="fxmacrodata"`` and passing pairs such as ``["EURUSD"]`` as the
-ticker list. API keys can be passed in ``kwargs`` with ``api_key`` or supplied
+ticker list. It also exposes macro announcement, release-calendar, and forecast
+data through the FXMacroData processor so event features can be joined into an
+RL state frame. API keys can be passed in ``kwargs`` with ``api_key`` or supplied
 through the ``FXMACRODATA_API_KEY`` or ``FXMD_API_KEY`` environment variables.
