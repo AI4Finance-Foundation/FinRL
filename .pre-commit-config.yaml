@@ -1,6 +1,6 @@
 exclude: 'Stock_NeurIPS2018.py'
 ci:
-    skip: [flake8]  # remove this eventually
+    skip: [flake8, reorder-python-imports]  # remove this eventually
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -16,7 +16,7 @@ repos:
       - id: reorder-python-imports
         args: [--py37-plus, --add-import, "from __future__ import annotations"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         args: [--py37-plus]

@@ -1,5 +1,3 @@
-"""Contains methods and classes to collect daily FX spot data from FXMacroData."""
-
 from __future__ import annotations
 
 import json
@@ -39,7 +37,7 @@ class FXMacroDataDownloader:
         self,
         start_date: str,
         end_date: str,
-        ticker_list: List[str],
+        ticker_list: list[str],
         api_key: str = None,
         base_url: str = DEFAULT_BASE_URL,
         timeout: float = 30,
@@ -154,7 +152,7 @@ class FXMacroDataMacroDownloader:
     def __init__(
         self,
         currency: str,
-        indicator_list: List[str] = None,
+        indicator_list: list[str] = None,
         start_date: str = None,
         end_date: str = None,
         api_key: str = None,
@@ -353,7 +351,7 @@ def empty_macro_frame() -> pd.DataFrame:
     )
 
 
-def concat_frames(frames: List[pd.DataFrame]) -> pd.DataFrame:
+def concat_frames(frames: list[pd.DataFrame]) -> pd.DataFrame:
     frames = [frame for frame in frames if frame is not None and not frame.empty]
     if not frames:
         return empty_macro_frame()
