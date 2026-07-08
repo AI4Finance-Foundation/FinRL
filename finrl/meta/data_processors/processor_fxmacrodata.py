@@ -1,5 +1,3 @@
-"""FXMacroData data processor for daily FX spot data."""
-
 from __future__ import annotations
 
 from typing import List
@@ -21,7 +19,7 @@ class FXMacroDataProcessor:
 
     def download_data(
         self,
-        ticker_list: List[str],
+        ticker_list: list[str],
         start_date: str,
         end_date: str,
         time_interval: str,
@@ -45,7 +43,7 @@ class FXMacroDataProcessor:
     def download_macro_data(
         self,
         currency: str,
-        indicator_list: List[str],
+        indicator_list: list[str],
         start_date: str = None,
         end_date: str = None,
         dataset: str = "announcements",
@@ -69,7 +67,7 @@ class FXMacroDataProcessor:
     def download_release_calendar(
         self,
         currency: str,
-        indicator_list: List[str] = None,
+        indicator_list: list[str] = None,
         start_date: str = None,
         end_date: str = None,
     ) -> pd.DataFrame:
@@ -85,7 +83,7 @@ class FXMacroDataProcessor:
     def download_predictions(
         self,
         currency: str,
-        indicator_list: List[str],
+        indicator_list: list[str],
         start_date: str = None,
         end_date: str = None,
     ) -> pd.DataFrame:
@@ -150,7 +148,7 @@ class FXMacroDataProcessor:
         return df
 
     def add_technical_indicator(
-        self, data: pd.DataFrame, tech_indicator_list: List[str]
+        self, data: pd.DataFrame, tech_indicator_list: list[str]
     ) -> pd.DataFrame:
         df = data.copy()
         df = df.sort_values(by=["tic", "timestamp"])
@@ -194,8 +192,8 @@ class FXMacroDataProcessor:
         return self.add_vix(df)
 
     def df_to_array(
-        self, df: pd.DataFrame, tech_indicator_list: List[str], if_vix: bool
-    ) -> List[np.ndarray]:
+        self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool
+    ) -> list[np.ndarray]:
         df = df.copy()
         unique_ticker = df.tic.unique()
         if_first_time = True
