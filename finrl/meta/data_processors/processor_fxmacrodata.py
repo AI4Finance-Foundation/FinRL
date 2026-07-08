@@ -15,7 +15,7 @@ from finrl.meta.preprocessor.fxmacrodatadownloader import FXMacroDataMacroDownlo
 class FXMacroDataProcessor:
     """Provides daily FX spot data from FXMacroData for FinRL processors."""
 
-    def __init__(self, api_key=None, base_url="https://fxmacrodata.com/api/v1"):
+    def __init__(self, api_key=None, base_url="https://api.fxmacrodata.com/v1"):
         self.api_key = api_key
         self.base_url = base_url
 
