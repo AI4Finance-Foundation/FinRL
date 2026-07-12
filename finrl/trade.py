@@ -44,9 +44,9 @@ def trade(
             cwd = kwargs.get("cwd", "./" + str(model_name))  # current working directory
             state_dim = kwargs.get("state_dim")  # dimension of state/observations space
             action_dim = kwargs.get("action_dim")  # dimension of action space
-        except:
+        except (KeyError, TypeError, AttributeError) as e:
             raise ValueError(
-                "Fail to read parameters. Please check inputs for net_dim, cwd, state_dim, action_dim."
+                f"Fail to read parameters. Please check inputs for net_dim, cwd, state_dim, action_dim. Error: {e}"
             )
 
         # initialize paper trading env
