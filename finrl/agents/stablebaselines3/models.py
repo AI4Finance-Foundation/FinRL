@@ -1,7 +1,6 @@
 # DRL models from Stable Baselines 3
 from __future__ import annotations
 
-import statistics
 import time
 
 import numpy as np
@@ -56,23 +55,30 @@ class TensorboardCallback(BaseCallback):
         return True
 
     def _on_rollout_end(self) -> bool:
-        try:
-            rollout_buffer_rewards = self.locals["rollout_buffer"].rewards.flatten()
-            self.logger.record(
-                key="train/reward_min", value=min(rollout_buffer_rewards)
-            )
-            self.logger.record(
-                key="train/reward_mean", value=statistics.mean(rollout_buffer_rewards)
-            )
-            self.logger.record(
-                key="train/reward_max", value=max(rollout_buffer_rewards)
-            )
-        except BaseException as error:
-            # Handle the case where "rewards" is not found
-            self.logger.record(key="train/reward_min", value=None)
-            self.logger.record(key="train/reward_mean", value=None)
-            self.logger.record(key="train/reward_max", value=None)
-            print("Logging Error:", error)
+        # On-policy algorithms (A2C, PPO) expose a ``rollout_buffer``; off-policy
+        # algorithms (DDPG, TD3, SAC) expose a ``replay_buffer``. A model has
+        # exactly one of them, so read whichever is present instead of assuming
+        # ``rollout_buffer`` -- the previous code raised a KeyError for off-policy
+        # algorithms and logged empty (None) reward stats every rollout (#1395).
+        buffer = getattr(self.model, "rollout_buffer", None) or getattr(
+            self.model, "replay_buffer", None
+        )
+        if buffer is None:
+            return True
+
+        rewards = np.asarray(buffer.rewards)
+        # A replay buffer is not full early in training; only its first ``pos``
+        # rows hold real transitions, so drop the zero-initialized tail to keep
+        # the reward statistics meaningful.
+        if not getattr(buffer, "full", False):
+            rewards = rewards[: getattr(buffer, "pos", 0)]
+        rewards = rewards.flatten()
+        if rewards.size == 0:
+            return True
+
+        self.logger.record(key="train/reward_min", value=float(rewards.min()))
+        self.logger.record(key="train/reward_mean", value=float(rewards.mean()))
+        self.logger.record(key="train/reward_max", value=float(rewards.max()))
         return True
 
 
