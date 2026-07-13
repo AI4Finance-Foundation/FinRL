@@ -60,7 +60,7 @@ class CryptoEnv:  # custom env
         self.total_asset = self.cash + (self.stocks * self.price_array[self.time]).sum()
 
         state = self.get_state()
-        return state
+        return state, {}
 
     def step(self, actions) -> (np.ndarray, float, bool, None):
         self.time += 1
@@ -106,7 +106,7 @@ class CryptoEnv:  # custom env
             tech_i = self.tech_array[self.time - i]
             normalized_tech_i = tech_i * 2**-15
             state = np.hstack((state, normalized_tech_i)).astype(np.float32)
-        return state
+        return state, {}
 
     def close(self):
         pass
