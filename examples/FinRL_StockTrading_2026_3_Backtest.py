@@ -152,7 +152,12 @@ MVO_result = pd.DataFrame(Portfolio_Assets, columns=["Mean Var"])
 
 import yfinance as yf
 
-df_dji = yf.download("^DJI", start=TRADE_START_DATE, end=TRADE_END_DATE)
+# DIA is the DJIA-tracking ETF; adjusted prices include dividends, so the
+# baseline uses the same total-return convention as the agent's account
+# value. ^DJI is a price-return index and would understate the baseline.
+df_dji = yf.download(
+    "DIA", start=TRADE_START_DATE, end=TRADE_END_DATE, auto_adjust=True
+)
 df_dji = df_dji[["Close"]].reset_index()
 df_dji.columns = ["date", "close"]
 df_dji["date"] = df_dji["date"].astype(str)
