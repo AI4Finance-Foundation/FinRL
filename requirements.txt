@@ -26,6 +26,8 @@ ray[default]
 ray[tune]
 recommonmark
 
+sb3-contrib
+
 # Model Building Requirements
 scikit-learn>=0.21.0
 
@@ -39,7 +41,6 @@ setuptools>=65.5.0
 # to build docs using sphinx
 sphinx
 sphinx_rtd_theme
-
 SQLAlchemy
 stable-baselines3[extra]
 stockstats>=0.4.0

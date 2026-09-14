@@ -5,6 +5,8 @@ import datetime
 import joblib
 import optuna
 import pandas as pd
+from sb3_contrib import CrossQ
+from sb3_contrib import TQC
 from stable_baselines3 import A2C
 from stable_baselines3 import DDPG
 from stable_baselines3 import PPO
@@ -94,7 +96,15 @@ class TuneSB3Optuna:
         self.total_timesteps = total_timesteps
         self.n_trials = n_trials
         self.logging_callback = logging_callback
-        self.MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
+        self.MODELS = {
+            "a2c": A2C,
+            "ddpg": DDPG,
+            "td3": TD3,
+            "sac": SAC,
+            "ppo": PPO,
+            "tqc": TQC,
+            "crossq": CrossQ,
+        }
 
         check_and_make_directories(
             [
