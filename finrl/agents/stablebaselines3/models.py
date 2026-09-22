@@ -6,6 +6,8 @@ import time
 
 import numpy as np
 import pandas as pd
+from sb3_contrib import CrossQ
+from sb3_contrib import TQC
 from stable_baselines3 import A2C
 from stable_baselines3 import DDPG
 from stable_baselines3 import PPO
@@ -21,7 +23,23 @@ from finrl import config
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from finrl.meta.preprocessor.preprocessors import data_split
 
-MODELS = {"a2c": A2C, "ddpg": DDPG, "td3": TD3, "sac": SAC, "ppo": PPO}
+# TQC (Kuznetsov et al., 2020, ICML) and CrossQ (Bhatt et al., 2024, ICLR)
+# are both off-policy, continuous-control actor-critics from sb3-contrib --
+# same `predict`/`learn` API as SAC/TD3 above, so they drop into every
+# method below unchanged. TQC has direct evidence in this domain (Xiao et
+# al., 2023, "Truncated Quantile Critics Algorithm for Cryptocurrency
+# Portfolio Optimization", IEEE SMC); CrossQ trades SAC's target networks
+# for Batch Normalization, matching or beating its sample efficiency at a
+# fraction of the wall-clock cost.
+MODELS = {
+    "a2c": A2C,
+    "ddpg": DDPG,
+    "td3": TD3,
+    "sac": SAC,
+    "ppo": PPO,
+    "tqc": TQC,
+    "crossq": CrossQ,
+}
 
 MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
 
@@ -137,7 +155,7 @@ class DRLAgent:
         model,
         tb_log_name,
         total_timesteps=5000,
-        callbacks: Type[BaseCallback] = None,
+        callbacks: type[BaseCallback] = None,
     ):  # this function is static method, so it can be called without creating an instance of the class
         model = model.learn(
             total_timesteps=total_timesteps,
@@ -261,7 +279,7 @@ class DRLEnsembleAgent:
         tb_log_name,
         iter_num,
         total_timesteps=5000,
-        callbacks: Type[BaseCallback] = None,
+        callbacks: type[BaseCallback] = None,
     ):
         model = model.learn(
             total_timesteps=total_timesteps,
