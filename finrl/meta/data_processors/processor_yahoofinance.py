@@ -495,9 +495,15 @@ class YahooFinanceProcessor:
         return df
 
     def df_to_array(
-        self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool
-    ) -> list[np.ndarray]:
+        self, df: pd.DataFrame, tech_indicator_list: list[str], if_vix: bool) -> list[np.ndarray]:
         df = df.copy()
+        
+        # Align dates across all tickers to prevent shape mismatch in np.hstack
+        df = df.set_index(['date', 'tic']).unstack(level=1)
+        df = df.ffill().bfill()
+        df = df.stack(level=1, dropna=False).reset_index()
+        df = df.sort_values(by=['date', 'tic']).reset_index(drop=True)
+
         unique_ticker = df.tic.unique()
         if_first_time = True
         for tic in unique_ticker:
@@ -516,9 +522,9 @@ class YahooFinanceProcessor:
                 tech_array = np.hstack(
                     [tech_array, df[df.tic == tic][tech_indicator_list].values]
                 )
-        #        print("Successfully transformed into array")
+        # print("Successfully transformed into array")
         return price_array, tech_array, turbulence_array
-
+    
     def get_trading_days(self, start: str, end: str) -> list[str]:
         nyse = tc.get_calendar("NYSE")
         df = nyse.date_range_htf("1D", pd.Timestamp(start), pd.Timestamp(end))
