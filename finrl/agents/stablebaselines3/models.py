@@ -83,7 +83,8 @@ class TensorboardCallback(BaseCallback):
                     key="train/reward_min", value=min(rollout_buffer_rewards)
                 )
                 self.logger.record(
-                    key="train/reward_mean", value=statistics.mean(rollout_buffer_rewards)
+                    key="train/reward_mean",
+                    value=statistics.mean(rollout_buffer_rewards),
                 )
                 self.logger.record(
                     key="train/reward_max", value=max(rollout_buffer_rewards)
