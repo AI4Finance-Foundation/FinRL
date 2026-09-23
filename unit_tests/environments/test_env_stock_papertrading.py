@@ -1,5 +1,7 @@
 """Regression tests for paper-trading order dispatch."""
 
+from __future__ import annotations
+
 import ast
 from pathlib import Path
 
@@ -36,4 +38,7 @@ def test_trade_starts_submit_order_threads_without_calling_submit_order_early():
     ]
 
     assert len(order_threads) == 3
-    assert all(any(keyword.arg == "args" for keyword in node.keywords) for node in order_threads)
+    assert all(
+        any(keyword.arg == "args" for keyword in node.keywords)
+        for node in order_threads
+    )
