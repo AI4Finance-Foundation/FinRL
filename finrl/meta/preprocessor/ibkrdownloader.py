@@ -138,7 +138,8 @@ if __name__ == "__main__":
     try:
         df = intr.fetch_data()
         df.to_csv("data.csv", index=False)
-    except:
+    except (ConnectionError, TimeoutError, RuntimeError, Exception) as e:
+        print(f"Error fetching data: {e}")
         intr.disconnect()
 
     intr.disconnect()
