@@ -188,7 +188,7 @@ Windows 10 (wsl install)
 
 Step 1: Install Ubuntu on Windows 10
 --------------------------------------
-Please check this video for detailed steps:
+Please check this video for detailed steps: https://youtu.be/QM3mzEJCzjY?si=UxTlRGeMOG-daROy
 
 .. raw:: html
 
