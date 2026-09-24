@@ -81,7 +81,7 @@ class BitcoinEnv:  # custom env
                 self.stocks * 2**-4,
             )
         ).astype(np.float32)
-        return state
+        return state, {}
 
     def step(self, action) -> (np.ndarray, float, bool, None):
         stock_action = action[0]

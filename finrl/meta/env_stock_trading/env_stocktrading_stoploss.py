@@ -167,7 +167,7 @@ class StockTradingEnvStopLoss(gym.Env):
             + self.get_date_vector(self.date_index)
         )
         self.state_memory.append(init_state)
-        return init_state
+        return init_state, {}
 
     def get_date_vector(self, date, cols=None):
         if (cols is None) and (self.cached_data is not None):
