@@ -28,6 +28,9 @@ class StockTradingEnv(gym.Env):
         sell_cost_pct (float, array): Cost for selling shares, each index corresponds to each asset
         turbulence_threshold (float): Maximum turbulence allowed in market for purchases to occur. If exceeded, positions are liquidated
         print_verbosity(int): When iterating (step), how often to print stats about state of env
+    allow_short_selling (bool): If False, the agent cannot take short
+        positions. The action space is restricted to [0, 1] and negative
+        actions are clipped. Default is True for backward compatibility.
     """
 
     metadata = {"render.modes": ["human"]}
@@ -55,6 +58,7 @@ class StockTradingEnv(gym.Env):
         model_name="",
         mode="",
         iteration="",
+        allow_short_selling: bool = True,
     ):
         self.day = day
         self.df = df
@@ -68,7 +72,10 @@ class StockTradingEnv(gym.Env):
         self.state_space = state_space
         self.action_space = action_space
         self.tech_indicator_list = tech_indicator_list
-        self.action_space = spaces.Box(low=-1, high=1, shape=(self.action_space,))
+        if self.allow_short_selling:
+            self.action_space = spaces.Box(low=-1, high=1, shape=(self.action_space,))
+        else:
+            self.action_space = spaces.Box(low=0, high=1, shape=(self.action_space,))
         self.observation_space = spaces.Box(
             low=-np.inf, high=np.inf, shape=(self.state_space,)
         )
@@ -83,6 +90,7 @@ class StockTradingEnv(gym.Env):
         self.model_name = model_name
         self.mode = mode
         self.iteration = iteration
+        self.allow_short_selling = allow_short_selling
         # initalize state
         self.state = self._initiate_state()
 
@@ -315,6 +323,9 @@ class StockTradingEnv(gym.Env):
             actions = actions.astype(
                 int
             )  # convert into integer because we can't by fraction of shares
+            # Prevent short selling: clip negative actions to 0
+            if not self.allow_short_selling:
+                actions = np.where(actions < 0, 0, actions)
             if self.turbulence_threshold is not None:
                 if self.turbulence >= self.turbulence_threshold:
                     actions = np.array([-self.hmax] * self.stock_dim)
