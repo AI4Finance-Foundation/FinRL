@@ -51,7 +51,7 @@ def backtest_plot(
     account_value,
     baseline_start=config.TRADE_START_DATE,
     baseline_end=config.TRADE_END_DATE,
-    baseline_ticker="^DJI",
+    baseline_ticker="DIA",
     value_col_name="account_value",
 ):
     df = deepcopy(account_value)
@@ -74,6 +74,9 @@ def backtest_plot(
 
 
 def get_baseline(ticker, start, end):
+    # DIA (a DJIA-tracking ETF) is the default baseline because the
+    # downloader adjusts close prices for dividends, matching the
+    # total-return basis of the agent's account value.
     return YahooDownloader(
         start_date=start, end_date=end, ticker_list=[ticker]
     ).fetch_data()
