@@ -173,7 +173,7 @@ class YahooFinanceProcessor:
                 print(f"Error fetching data for {stock_name}: {e}")
 
         combined_df = pd.concat(all_dataframes, ignore_index=True)
-        combined_df = combined_df.sort_values(by=["day", "tick"]).reset_index(drop=True)
+        combined_df = combined_df.sort_values(by=["day", "tic"]).reset_index(drop=True)
 
         return combined_df
 
