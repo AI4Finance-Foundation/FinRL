@@ -172,8 +172,11 @@ class YahooFinanceProcessor:
             except Exception as e:
                 print(f"Error fetching data for {stock_name}: {e}")
 
+        if not all_dataframes:
+            return pd.DataFrame()
+
         combined_df = pd.concat(all_dataframes, ignore_index=True)
-        combined_df = combined_df.sort_values(by=["day", "tick"]).reset_index(drop=True)
+        combined_df = combined_df.sort_values(by=["day", "tic"]).reset_index(drop=True)
 
         return combined_df
 
