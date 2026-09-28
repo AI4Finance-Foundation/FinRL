@@ -832,7 +832,7 @@ def alpaca_history(key, secret, url, start, end):
 
 
 def DIA_history(start):
-    data_df = yf.download(["^DJI"], start=start, interval="5m")
+    data_df = yf.download(["^DJI"], start=start, interval="5m", auto_adjust=False)
     data_df = data_df.iloc[:]
     baseline_returns = data_df["Adj Close"].values / data_df["Adj Close"].values[0]
     return data_df, baseline_returns
