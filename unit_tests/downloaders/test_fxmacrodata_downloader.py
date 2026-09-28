@@ -55,7 +55,7 @@ def test_fxmacrodata_downloader_fetch_data(monkeypatch):
     request, timeout = requests[0]
     assert request.full_url == (
         "https://example.com/v1/forex/eur/usd?"
-        "start_date=2024-01-02&end_date=2024-01-03"
+        "start_date=2024-01-02&end_date=2024-01-03&limit=100&offset=0"
     )
     assert dict(request.header_items())["X-api-key"] == API_KEY
     assert timeout == 30
@@ -160,7 +160,7 @@ def test_fxmacrodata_macro_downloader_fetches_announcements(monkeypatch):
     request, timeout = requests[0]
     assert request.full_url == (
         "https://example.com/v1/announcements/usd/inflation?"
-        "start_date=2026-01-01&end_date=2026-06-30"
+        "start_date=2026-01-01&end_date=2026-06-30&limit=100&offset=0"
     )
     assert dict(request.header_items())["X-api-key"] == API_KEY
     assert timeout == 30
@@ -266,3 +266,38 @@ def test_fxmacrodata_processor_adds_macro_features():
     assert pd.isna(data.loc[0, "macro_usd_inflation_value"])
     assert data.loc[1, "macro_usd_inflation_value"] == 4.2
     assert data.loc[2, "macro_usd_inflation_value"] == 4.2
+
+
+def test_fxmacrodata_downloader_follows_pagination(monkeypatch):
+    urls = []
+    pages = {
+        0: {
+            "data": [{"date": "2024-01-03", "val": 1.103}],
+            "pagination": {"has_more": True, "next_offset": 1},
+        },
+        1: {
+            "data": [{"date": "2024-01-02", "val": 1.102}],
+            "pagination": {"has_more": False, "next_offset": None},
+        },
+    }
+
+    def mock_urlopen(request, timeout):
+        urls.append(request.full_url)
+        offset = int(request.full_url.rsplit("offset=", 1)[1])
+        return FXMacroDataResponse(pages[offset])
+
+    monkeypatch.setattr(
+        "finrl.meta.preprocessor.fxmacrodatadownloader.urlopen", mock_urlopen
+    )
+
+    data = FXMacroDataDownloader(
+        start_date="2024-01-01",
+        end_date="2024-01-03",
+        ticker_list=["EURUSD"],
+        api_key=API_KEY,
+        base_url="https://example.com/v1",
+    ).fetch_data()
+
+    assert len(urls) == 2
+    assert urls[1].endswith("limit=100&offset=1")
+    assert data["date"].tolist() == ["2024-01-02", "2024-01-03"]

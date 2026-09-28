@@ -11,6 +11,8 @@ import pandas as pd
 
 DEFAULT_BASE_URL = "https://api.fxmacrodata.com/v1"
 API_KEY_ENV_VARS = ("FXMACRODATA_API_KEY", "FXMD_API_KEY")
+PAGE_LIMIT = 100
+MAX_PAGES = 1000
 
 
 class FXMacroDataDownloader:
@@ -289,13 +291,34 @@ def request_json(base_url: str, path: str, params: dict, api_key: str, timeout: 
 
 
 def request_rows(base_url: str, path: str, params: dict, api_key: str, timeout: float):
-    payload = request_json(base_url, path, params, api_key, timeout)
-    if isinstance(payload, dict):
+    """Fetch every row in the window.
+
+    List endpoints return at most 100 rows per request (20 by default), so
+    follow ``pagination.next_offset`` until ``has_more`` is false.
+    """
+    rows = []
+    offset = 0
+    for _ in range(MAX_PAGES):
+        page_params = dict(params, limit=PAGE_LIMIT, offset=offset)
+        payload = request_json(base_url, path, page_params, api_key, timeout)
+        if isinstance(payload, list):
+            return rows + payload
+        if not isinstance(payload, dict):
+            break
         data = payload.get("data", [])
-        return data if isinstance(data, list) else []
-    if isinstance(payload, list):
-        return payload
-    return []
+        if not isinstance(data, list) or not data:
+            break
+        rows.extend(data)
+        pagination = payload.get("pagination")
+        if not isinstance(pagination, dict) or not pagination.get("has_more"):
+            break
+        next_offset = pagination.get("next_offset")
+        if next_offset is None:
+            next_offset = offset + len(data)
+        if next_offset <= offset:
+            break
+        offset = next_offset
+    return rows
 
 
 def get_env_api_key():
