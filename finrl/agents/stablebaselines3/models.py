@@ -75,18 +75,22 @@ class TensorboardCallback(BaseCallback):
 
     def _on_rollout_end(self) -> bool:
         try:
-            rollout_buffer_rewards = self.locals["rollout_buffer"].rewards.flatten()
-            self.logger.record(
-                key="train/reward_min", value=min(rollout_buffer_rewards)
-            )
-            self.logger.record(
-                key="train/reward_mean", value=statistics.mean(rollout_buffer_rewards)
-            )
-            self.logger.record(
-                key="train/reward_max", value=max(rollout_buffer_rewards)
-            )
+            # check if rollout_buffer exists fo on-policy algos only
+            # off-policy algos use replay_buffer instead (DDPG, SAC, TD3)
+            if "rollout_buffer" in self.locals:
+                rollout_buffer_rewards = self.locals["rollout_buffer"].rewards.flatten()
+                self.logger.record(
+                    key="train/reward_min", value=min(rollout_buffer_rewards)
+                )
+                self.logger.record(
+                    key="train/reward_mean",
+                    value=statistics.mean(rollout_buffer_rewards),
+                )
+                self.logger.record(
+                    key="train/reward_max", value=max(rollout_buffer_rewards)
+                )
         except BaseException as error:
-            # Handle the case where "rewards" is not found
+            # handle the case where "rewards" is not found
             self.logger.record(key="train/reward_min", value=None)
             self.logger.record(key="train/reward_mean", value=None)
             self.logger.record(key="train/reward_max", value=None)
