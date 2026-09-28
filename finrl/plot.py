@@ -64,7 +64,7 @@ def backtest_plot(
 
     baseline_df["date"] = pd.to_datetime(baseline_df["date"], format="%Y-%m-%d")
     baseline_df = pd.merge(df[["date"]], baseline_df, how="left", on="date")
-    baseline_df = baseline_df.fillna(method="ffill").fillna(method="bfill")
+    baseline_df = baseline_df.ffill().bfill()
     baseline_returns = get_daily_return(baseline_df, value_col_name="close")
 
     with pyfolio.plotting.plotting_context(font_scale=1.1):
