@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import calendar
 from datetime import datetime
+from datetime import timezone
 
 import ccxt
 import numpy as np
@@ -14,6 +15,13 @@ class CCXTEngineer:
         self.binance = ccxt.binance()
 
     def data_fetch(self, start, end, pair_list=["BTC/USDT"], period="1m"):
+        """Download OHLCV bars from Binance for each pair in ``pair_list``.
+
+        ``start`` and ``end`` (``"%Y%m%d %H:%M:%S"``) are interpreted as UTC, and the
+        index of the returned DataFrame holds naive UTC timestamps, independent of the
+        local timezone of the machine.
+        """
+
         def min_ohlcv(dt, pair, limit):
             since = calendar.timegm(dt.utctimetuple()) * 1000
             ohlcv = self.binance.fetch_ohlcv(
@@ -46,9 +54,11 @@ class CCXTEngineer:
             df = pd.DataFrame(
                 ohlcv, columns=["time", "open", "high", "low", "close", "volume"]
             )
-            df["time"] = [
-                datetime.fromtimestamp(float(time) / 1000) for time in df["time"]
-            ]
+            # Binance stamps bars in UTC milliseconds; keep the index in UTC (naive)
+            # rather than the local timezone of the machine running the download.
+            df["time"] = pd.to_datetime(df["time"], unit="ms", utc=True).dt.tz_localize(
+                None
+            )
             df["open"] = df["open"].astype(np.float64)
             df["high"] = df["high"].astype(np.float64)
             df["low"] = df["low"].astype(np.float64)
@@ -67,12 +77,12 @@ class CCXTEngineer:
             end_timestamp = calendar.timegm(end_dt.utctimetuple())
             if period == "1m":
                 date_list = [
-                    datetime.utcfromtimestamp(float(time))
+                    datetime.fromtimestamp(float(time), tz=timezone.utc)
                     for time in range(start_timestamp, end_timestamp, 60 * 720)
                 ]
             else:
                 date_list = [
-                    datetime.utcfromtimestamp(float(time))
+                    datetime.fromtimestamp(float(time), tz=timezone.utc)
                     for time in range(start_timestamp, end_timestamp, 60 * 1440)
                 ]
             df = ohlcv(date_list, pair, period)
