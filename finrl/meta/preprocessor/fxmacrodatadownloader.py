@@ -4,8 +4,9 @@ import json
 import os
 from typing import List
 from urllib.parse import urlencode
+from urllib.request import build_opener
+from urllib.request import HTTPRedirectHandler
 from urllib.request import Request
-from urllib.request import urlopen
 
 import pandas as pd
 
@@ -13,6 +14,18 @@ DEFAULT_BASE_URL = "https://api.fxmacrodata.com/v1"
 API_KEY_ENV_VARS = ("FXMACRODATA_API_KEY", "FXMD_API_KEY")
 PAGE_LIMIT = 100
 MAX_PAGES = 1000
+
+
+class NoRedirectHandler(HTTPRedirectHandler):
+    """Refuse redirects so the API key header is never sent to another URL."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+def urlopen(request, timeout):
+    # A 3xx response surfaces as urllib.error.HTTPError instead of being followed.
+    return build_opener(NoRedirectHandler).open(request, timeout=timeout)
 
 
 class FXMacroDataDownloader:
@@ -144,7 +157,7 @@ class FXMacroDataDownloader:
         for key in ("val", "value", "close", "rate"):
             value = row.get(key)
             if value is not None:
-                return float(value)
+                return number(value)
         return None
 
 
@@ -172,13 +185,18 @@ class FXMacroDataMacroDownloader:
         self.timeout = timeout
 
     def fetch_catalogue(self, include_coverage: bool = True) -> dict:
-        return request_json(
+        payload = request_json(
             self.base_url,
             f"data_catalogue/{self.currency}",
             {"include_coverage": str(include_coverage).lower()},
             self.api_key,
             self.timeout,
         )
+        if not isinstance(payload, dict) or (
+            "detail" in payload and "data" not in payload
+        ):
+            raise ValueError(response_error(payload))
+        return payload
 
     def fetch_announcements(self) -> pd.DataFrame:
         frames = []
@@ -284,10 +302,17 @@ def request_json(base_url: str, path: str, params: dict, api_key: str, timeout: 
     if query:
         url = f"{url}?{query}"
     request = Request(url)
+    api_key = clean_api_key(api_key)
     if api_key:
         request.add_header("X-API-Key", api_key)
     with urlopen(request, timeout=timeout) as response:
-        return json.loads(response.read().decode("utf-8"))
+        body = response.read()
+    try:
+        return json.loads(body.decode("utf-8"))
+    except ValueError:
+        raise ValueError(
+            f"FXMacroData returned a non-JSON response for {path}."
+        ) from None
 
 
 def request_rows(base_url: str, path: str, params: dict, api_key: str, timeout: float):
@@ -302,23 +327,42 @@ def request_rows(base_url: str, path: str, params: dict, api_key: str, timeout: 
         page_params = dict(params, limit=PAGE_LIMIT, offset=offset)
         payload = request_json(base_url, path, page_params, api_key, timeout)
         if isinstance(payload, list):
-            return rows + payload
-        if not isinstance(payload, dict):
+            return rows + [row for row in payload if isinstance(row, dict)]
+        data = payload.get("data") if isinstance(payload, dict) else None
+        if not isinstance(data, list):
+            raise ValueError(response_error(payload))
+        if not data:
             break
-        data = payload.get("data", [])
-        if not isinstance(data, list) or not data:
-            break
-        rows.extend(data)
+        rows.extend(row for row in data if isinstance(row, dict))
         pagination = payload.get("pagination")
         if not isinstance(pagination, dict) or not pagination.get("has_more"):
             break
         next_offset = pagination.get("next_offset")
         if next_offset is None:
             next_offset = offset + len(data)
-        if next_offset <= offset:
+        if not isinstance(next_offset, int) or next_offset <= offset:
             break
         offset = next_offset
     return rows
+
+
+def clean_api_key(api_key):
+    if not api_key:
+        return None
+    api_key = api_key.strip()
+    if any(not "!" <= char <= "~" for char in api_key):
+        # Never echo the key: http.client would put it in its error message.
+        raise ValueError(
+            "FXMacroData API key contains whitespace or other invalid characters."
+        )
+    return api_key or None
+
+
+def response_error(payload) -> str:
+    message = "FXMacroData returned an unexpected response"
+    if isinstance(payload, dict) and isinstance(payload.get("detail"), str):
+        return f"{message}: {payload['detail']}"
+    return f"{message}: expected a JSON object with a 'data' list."
 
 
 def get_env_api_key():
