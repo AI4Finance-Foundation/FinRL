@@ -38,13 +38,19 @@ def make_env(shares):
 
 
 @pytest.mark.parametrize("shares", [[0], [5], [5, 3]])
-def test_initial_holdings_contribute_to_state_and_reward(shares):
-    env = make_env(shares)
+@pytest.mark.parametrize("shares_type", [list, np.array], ids=["list", "array"])
+def test_initial_holdings_contribute_to_state_and_reward(shares, shares_type):
+    env = make_env(shares_type(shares))
     stock_dim = len(shares)
     holdings = slice(stock_dim + 1, 2 * stock_dim + 1)
+    expected_state = (
+        [1000] + [10.0 + i for i in range(stock_dim)] + shares + [0.0] * stock_dim
+    )
+    np.testing.assert_array_equal(env.state, expected_state)
     assert env.state[holdings] == shares
 
     state, _ = env.reset()
+    np.testing.assert_array_equal(state, expected_state)
     assert state[holdings] == shares
     initial_value = 1000 + sum((10 + i) * count for i, count in enumerate(shares))
     assert env.asset_memory == [initial_value]
@@ -55,8 +61,9 @@ def test_initial_holdings_contribute_to_state_and_reward(shares):
     assert env.asset_memory == [initial_value, initial_value + reward]
 
 
-def test_reset_restores_single_stock_initial_holdings_after_selling():
-    shares = [5]
+@pytest.mark.parametrize("shares_type", [list, np.array], ids=["list", "array"])
+def test_reset_restores_single_stock_initial_holdings_after_selling(shares_type):
+    shares = shares_type([5])
     env = make_env(shares)
     state, _, _, _, _ = env.step(np.array([-1.0]))
     assert state[0] == 1050
@@ -65,5 +72,5 @@ def test_reset_restores_single_stock_initial_holdings_after_selling():
     state, _ = env.reset()
     assert state[0] == 1000
     assert state[2] == 5
-    assert shares == [5]
+    np.testing.assert_array_equal(shares, [5])
     assert env.asset_memory == [1050]

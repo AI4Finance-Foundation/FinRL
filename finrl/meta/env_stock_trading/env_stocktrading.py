@@ -418,7 +418,7 @@ class StockTradingEnv(gym.Env):
                 state = (
                     [self.initial_amount]
                     + self.data.close.values.tolist()
-                    + self.num_stock_shares
+                    + list(self.num_stock_shares)
                     + sum(
                         (
                             self.data[tech].values.tolist()
@@ -432,7 +432,7 @@ class StockTradingEnv(gym.Env):
                 state = (
                     [self.initial_amount]
                     + [self.data.close]
-                    + self.num_stock_shares
+                    + list(self.num_stock_shares)
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
                 )
         else:
