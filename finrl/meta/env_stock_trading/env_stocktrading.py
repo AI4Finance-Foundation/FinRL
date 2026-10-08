@@ -432,7 +432,7 @@ class StockTradingEnv(gym.Env):
                 state = (
                     [self.initial_amount]
                     + [self.data.close]
-                    + [0] * self.stock_dim
+                    + self.num_stock_shares
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
                 )
         else:
