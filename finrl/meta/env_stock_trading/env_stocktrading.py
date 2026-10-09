@@ -418,7 +418,7 @@ class StockTradingEnv(gym.Env):
                 state = (
                     [self.initial_amount]
                     + self.data.close.values.tolist()
-                    + self.num_stock_shares
+                    + list(self.num_stock_shares)
                     + sum(
                         (
                             self.data[tech].values.tolist()
@@ -432,7 +432,7 @@ class StockTradingEnv(gym.Env):
                 state = (
                     [self.initial_amount]
                     + [self.data.close]
-                    + self.num_stock_shares
+                    + list(self.num_stock_shares)
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
                 )
         else:
@@ -442,9 +442,11 @@ class StockTradingEnv(gym.Env):
                 state = (
                     [self.previous_state[0]]
                     + self.data.close.values.tolist()
-                    + self.previous_state[
-                        (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
-                    ]
+                    + list(
+                        self.previous_state[
+                            (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
+                        ]
+                    )
                     + sum(
                         (
                             self.data[tech].values.tolist()
@@ -458,9 +460,11 @@ class StockTradingEnv(gym.Env):
                 state = (
                     [self.previous_state[0]]
                     + [self.data.close]
-                    + self.previous_state[
-                        (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
-                    ]
+                    + list(
+                        self.previous_state[
+                            (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
+                        ]
+                    )
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
                 )
         return state
