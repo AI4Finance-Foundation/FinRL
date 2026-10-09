@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 import json
+import threading
+from http.server import BaseHTTPRequestHandler
+from http.server import HTTPServer
+from urllib.error import HTTPError
 
 import pandas as pd
 import pytest
@@ -23,6 +27,8 @@ class FXMacroDataResponse:
         return False
 
     def read(self):
+        if isinstance(self.payload, bytes):
+            return self.payload
         return json.dumps(self.payload).encode("utf-8")
 
 
@@ -301,3 +307,153 @@ def test_fxmacrodata_downloader_follows_pagination(monkeypatch):
     assert len(urls) == 2
     assert urls[1].endswith("limit=100&offset=1")
     assert data["date"].tolist() == ["2024-01-02", "2024-01-03"]
+
+
+def test_fxmacrodata_downloader_does_not_follow_redirects(monkeypatch):
+    for name in ("http_proxy", "HTTP_PROXY", "all_proxy", "ALL_PROXY"):
+        monkeypatch.delenv(name, raising=False)
+    paths = []
+    headers = []
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            paths.append(self.path)
+            headers.append(self.headers.get("X-API-Key"))
+            if self.path.startswith("/v1/"):
+                self.send_response(302)
+                self.send_header(
+                    "Location", f"http://127.0.0.1:{self.server.server_port}/target"
+                )
+                self.end_headers()
+                return
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b'{"data": []}')
+
+        def log_message(self, *args):
+            pass
+
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        with pytest.raises(HTTPError) as excinfo:
+            FXMacroDataDownloader(
+                start_date="2024-01-02",
+                end_date="2024-01-03",
+                ticker_list=["EURUSD"],
+                api_key="secret-key",
+                base_url=f"http://127.0.0.1:{server.server_port}/v1",
+            ).fetch_data()
+    finally:
+        server.shutdown()
+        server.server_close()
+
+    assert excinfo.value.code == 302
+    assert "secret-key" not in str(excinfo.value)
+    assert len(paths) == 1 and paths[0].startswith("/v1/forex/eur/usd")
+    assert headers == ["secret-key"]
+
+
+@pytest.mark.parametrize("api_key", ["secret\nkey", "secret key", "secret\x00key"])
+def test_fxmacrodata_downloader_rejects_bad_api_key(monkeypatch, api_key):
+    def mock_urlopen(request, timeout):
+        raise AssertionError("no request should be sent")
+
+    monkeypatch.setattr(
+        "finrl.meta.preprocessor.fxmacrodatadownloader.urlopen", mock_urlopen
+    )
+
+    with pytest.raises(ValueError) as excinfo:
+        FXMacroDataDownloader(
+            "2024-01-02", "2024-01-03", ["EURUSD"], api_key=api_key
+        ).fetch_data()
+
+    assert "invalid characters" in str(excinfo.value)
+    assert "secret" not in str(excinfo.value)
+
+
+def test_fxmacrodata_downloader_strips_api_key(monkeypatch):
+    requests = []
+
+    def mock_urlopen(request, timeout):
+        requests.append(request)
+        return FXMacroDataResponse({"data": [{"date": "2024-01-02", "val": 1.1}]})
+
+    monkeypatch.setattr(
+        "finrl.meta.preprocessor.fxmacrodatadownloader.urlopen", mock_urlopen
+    )
+
+    FXMacroDataDownloader(
+        "2024-01-02", "2024-01-03", ["EURUSD"], api_key=" api_key\n"
+    ).fetch_data()
+
+    assert dict(requests[0].header_items())["X-api-key"] == API_KEY
+
+
+@pytest.mark.parametrize(
+    "payload, message",
+    [
+        ({"detail": "Invalid API key"}, "Invalid API key"),
+        (b"<html>Service Unavailable</html>", "non-JSON response"),
+        ("unexpected", "expected a JSON object"),
+        ({"data": {"date": "2024-01-02"}}, "expected a JSON object"),
+    ],
+)
+def test_fxmacrodata_downloader_rejects_error_bodies(monkeypatch, payload, message):
+    monkeypatch.setattr(
+        "finrl.meta.preprocessor.fxmacrodatadownloader.urlopen",
+        lambda request, timeout: FXMacroDataResponse(payload),
+    )
+
+    with pytest.raises(ValueError, match=message):
+        FXMacroDataDownloader(
+            "2024-01-02", "2024-01-03", ["EURUSD"], api_key=API_KEY
+        ).fetch_data()
+
+
+def test_fxmacrodata_downloader_skips_malformed_rows(monkeypatch):
+    monkeypatch.setattr(
+        "finrl.meta.preprocessor.fxmacrodatadownloader.urlopen",
+        lambda request, timeout: FXMacroDataResponse(
+            {
+                "data": [
+                    "2024-01-01",
+                    {"date": "2024-01-02", "val": "n/a"},
+                    {"date": "2024-01-03", "val": 1.103},
+                ]
+            }
+        ),
+    )
+
+    data = FXMacroDataDownloader(
+        "2024-01-01", "2024-01-03", ["EURUSD"], api_key=API_KEY
+    ).fetch_data()
+
+    assert data["date"].tolist() == ["2024-01-03"]
+    assert data["close"].tolist() == [1.103]
+
+
+@pytest.mark.parametrize("next_offset", [0, "1"])
+def test_fxmacrodata_downloader_stops_on_bad_next_offset(monkeypatch, next_offset):
+    urls = []
+
+    def mock_urlopen(request, timeout):
+        urls.append(request.full_url)
+        return FXMacroDataResponse(
+            {
+                "data": [{"date": "2024-01-02", "val": 1.102}],
+                "pagination": {"has_more": True, "next_offset": next_offset},
+            }
+        )
+
+    monkeypatch.setattr(
+        "finrl.meta.preprocessor.fxmacrodatadownloader.urlopen", mock_urlopen
+    )
+
+    data = FXMacroDataDownloader(
+        "2024-01-01", "2024-01-03", ["EURUSD"], api_key=API_KEY
+    ).fetch_data()
+
+    assert len(urls) == 1
+    assert data["date"].tolist() == ["2024-01-02"]
