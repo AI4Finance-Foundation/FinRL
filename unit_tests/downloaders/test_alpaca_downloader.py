@@ -5,7 +5,6 @@ import pytest
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 
-
 API_KEY = "???"
 API_SECRET = "???"
 API_BASE_URL = "https://paper-api.alpaca.markets"
