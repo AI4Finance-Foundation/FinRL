@@ -306,7 +306,7 @@ class FeatureEngineer:
             ].dropna(axis=1)
 
             cov_temp = filtered_hist_price.cov()
-            current_temp = current_price[[x for x in filtered_hist_price]] - np.mean(
+            current_temp = current_price[[*filtered_hist_price]] - np.mean(
                 filtered_hist_price, axis=0
             )
             # cov_temp = hist_price.cov()
