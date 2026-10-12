@@ -420,6 +420,9 @@ def test_fxmacrodata_downloader_skips_malformed_rows(monkeypatch):
                 "data": [
                     "2024-01-01",
                     {"date": "2024-01-02", "val": "n/a"},
+                    {"date": "2024-01-02", "val": "nan"},
+                    {"date": "2024-01-02", "val": float("inf")},
+                    {"date": "2024-01-02", "val": True},
                     {"date": "2024-01-03", "val": 1.103},
                 ]
             }

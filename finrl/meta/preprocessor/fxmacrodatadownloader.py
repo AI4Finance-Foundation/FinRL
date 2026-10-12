@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 from typing import List
 from urllib.parse import urlencode
@@ -374,12 +375,13 @@ def get_env_api_key():
 
 
 def number(value):
-    if value is None:
+    if value is None or isinstance(value, bool):
         return None
     try:
-        return float(value)
+        result = float(value)
     except (TypeError, ValueError):
         return None
+    return result if math.isfinite(result) else None
 
 
 def prediction_summary(row: dict):
