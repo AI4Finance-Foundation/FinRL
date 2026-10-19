@@ -30,7 +30,7 @@ python examples/FinRL_StockTrading_2026_1_data.py
 
 This script downloads DOW 30 stock data from Yahoo Finance, adds technical indicators (MACD, RSI, etc.), VIX, and turbulence index, then splits the data into training set (2014–2025) and trading set (2026-01-01 to 2026-03-20), saving them as `train_data.csv` and `trade_data.csv`.
 
-**Backtest limitation:** the script uses the static `DOW_30_TICKER` snapshot dated 2026-03-20 for its 2014–2025 training period. This is not the historical Dow membership for those dates and introduces survivorship bias. Treat the resulting strategy as an experiment on today's constituent list, not as a point-in-time historical Dow backtest; use historical membership data for that purpose.
+**Backtest limitation:** the script uses the static `DOW_30_TICKER` snapshot dated 2026-03-20 for its 2014–2025 training period. This is not the historical Dow membership for those dates and introduces survivorship bias. The snapshot matches the 2026-01-01 to 2026-03-20 trading period, but that does not remove bias from the training data. Treat the resulting strategy as an experiment on today's constituent list, not as a point-in-time historical Dow backtest; use historical membership data for historical training and backtests.
 
 **2. Train DRL Agents**
 

@@ -31,11 +31,13 @@ We use Dow 30 constituents as an example throughout this article, because those 
 
     ``DOW_30_TICKER`` is a static snapshot of Dow constituents (dated 2026-03-20 in
     ``finrl/config_tickers.py``), not a point-in-time constituent history. Using this list
-    to select stocks for earlier backtest periods introduces survivorship bias: the list
+    to select stocks for periods before that date introduces survivorship bias: the list
     includes companies that joined the index later and excludes companies that left it.
     Performance from this universe should not be presented as a historical Dow strategy
     or compared directly with the historical DJIA as if both used the same constituents.
-    Use point-in-time membership data for valid historical constituent backtests.
+    The snapshot is aligned with the example's 2026-01-01 to 2026-03-20 trading period,
+    but not its 2014-2025 training period. Use point-in-time membership data for valid
+    historical constituent backtests.
 
 A lot of people are terrified by the word “Deep Reinforcement Learning”, actually, you can just treat it as a “Smart AI” or “Smart Stock Trader” or “R2-D2 Trader” if you want, and just use it.
 
