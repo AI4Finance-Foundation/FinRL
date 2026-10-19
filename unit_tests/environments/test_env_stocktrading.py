@@ -7,7 +7,7 @@ import pytest
 from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 
 
-def make_env(prices, indicators=None, cost=0.001):
+def make_env(prices, indicators=None, cost=0.001, members=None):
     """StockTradingEnv on synthetic prices of shape (days, stocks), no downloads."""
     indicators = indicators or {}
     n_days, n_stocks = prices.shape
@@ -16,6 +16,8 @@ def make_env(prices, indicators=None, cost=0.001):
         for stock in range(n_stocks):
             row = {"date": f"2020-01-{day + 1:02d}", "tic": f"S{stock}"}
             row["close"] = prices[day, stock]
+            if members is not None:
+                row["is_member"] = members[day, stock]
             for name, values in indicators.items():
                 row[name] = values[day, stock]
             rows.append(row)
@@ -30,9 +32,13 @@ def make_env(prices, indicators=None, cost=0.001):
         buy_cost_pct=[cost] * n_stocks,
         sell_cost_pct=[cost] * n_stocks,
         reward_scaling=1.0,
-        state_space=1 + 2 * n_stocks + len(indicators) * n_stocks,
+        state_space=1
+        + 2 * n_stocks
+        + len(indicators) * n_stocks
+        + (n_stocks if members is not None else 0),
         action_space=n_stocks,
         tech_indicator_list=list(indicators),
+        member_col="is_member" if members is not None else None,
     )
 
 
@@ -76,3 +82,42 @@ def test_missing_price_is_not_traded(prices):
     state, *_ = env.step(np.array([0.0, -0.3]))
     assert shares(state) == [50, 0]
     assert state[0] > cash_after_buy
+
+
+def test_inactive_constituents_cannot_be_bought(prices):
+    members = np.ones_like(prices, dtype=bool)
+    members[0, 1] = False
+    env = make_env(prices, members=members)
+    initial_state, _ = env.reset()
+
+    assert initial_state[1 : 1 + len(prices[0])] == [50.0, 0.0]
+
+    state, *_ = env.step(np.array([0.5, 0.5]))
+
+    assert shares(state) == [50, 0]
+    assert state[-2:] == [1.0, 1.0]
+
+
+def test_inactive_constituent_features_are_hidden(prices):
+    members = np.ones_like(prices, dtype=bool)
+    members[0, 1] = False
+    indicators = {"macd": np.ones_like(prices)}
+    env = make_env(prices, indicators=indicators, members=members)
+
+    state, _ = env.reset()
+
+    assert state[2] == 0.0
+    assert state[-1] == 0.0
+
+
+def test_removed_constituent_is_liquidated_at_removal_close(prices):
+    members = np.ones_like(prices, dtype=bool)
+    members[1:, 1] = False
+    env = make_env(prices, members=members)
+    env.reset()
+
+    state, *_ = env.step(np.array([0.5, 0.5]))
+
+    assert shares(state) == [50, 0]
+    assert state[0] > 10_000 - (50 * 50 + 50 * 20) * 1.001
+    assert state[-2:] == [1.0, 0.0]

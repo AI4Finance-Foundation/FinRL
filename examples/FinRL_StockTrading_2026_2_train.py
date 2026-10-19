@@ -30,7 +30,7 @@ train = train.set_index(train.columns[0])
 train.index.names = [""]
 
 stock_dimension = len(train.tic.unique())
-state_space = 1 + 2 * stock_dimension + len(INDICATORS) * stock_dimension
+state_space = 1 + 2 * stock_dimension + (len(INDICATORS) + 1) * stock_dimension
 print(f"Stock Dimension: {stock_dimension}, State Space: {state_space}")
 
 buy_cost_list = sell_cost_list = [0.001] * stock_dimension
@@ -47,6 +47,7 @@ env_kwargs = {
     "tech_indicator_list": INDICATORS,
     "action_space": stock_dimension,
     "reward_scaling": 1e-4,
+    "member_col": "is_member",
 }
 
 e_train_gym = StockTradingEnv(df=train, **env_kwargs)

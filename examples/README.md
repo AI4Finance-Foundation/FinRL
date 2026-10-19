@@ -28,9 +28,9 @@ pip install -e .
 python examples/FinRL_StockTrading_2026_1_data.py
 ```
 
-This script downloads DOW 30 stock data from Yahoo Finance, adds technical indicators (MACD, RSI, etc.), VIX, and turbulence index, then splits the data into training set (2014–2025) and trading set (2026-01-01 to 2026-03-20), saving them as `train_data.csv` and `trade_data.csv`.
+This script downloads the union of Dow constituents that were members during 2014–2025 plus the roster snapshot used for the 2026-01-01 to 2026-03-20 trading period. It adds technical indicators (MACD, RSI, etc.), VIX, and turbulence, then saves `train_data.csv` and `trade_data.csv` with a date-specific `is_member` field.
 
-**Backtest limitation:** the script uses the static `DOW_30_TICKER` snapshot dated 2026-03-20 for its 2014–2025 training period. This is not the historical Dow membership for those dates and introduces survivorship bias. The snapshot matches the 2026-01-01 to 2026-03-20 trading period, but that does not remove bias from the training data. Treat the resulting strategy as an experiment on today's constituent list, not as a point-in-time historical Dow backtest; use historical membership data for historical training and backtests.
+The training data records historical membership as of each trading date. The training and backtest environments keep a fixed action dimension by using the union of constituents, expose the membership mask to the policy, reject actions for inactive stocks, and liquidate holdings when a constituent leaves the index. Missing Yahoo Finance prices for active members stop data preparation with an error instead of silently dropping the constituent.
 
 **2. Train DRL Agents**
 
@@ -55,4 +55,4 @@ This script trains 5 DRL agents (A2C, DDPG, PPO, TD3, SAC) using Stable Baseline
 python examples/FinRL_StockTrading_2026_3_Backtest.py
 ```
 
-This script loads the trained agents, runs them on the trading data, and compares their performance against two baselines: Mean Variance Optimization (MVO) and the DJIA index. Results are printed to the console and a plot is saved as `backtest_result.png`.
+This script loads the trained agents and compares their performance against a point-in-time equal-weight basket of the active Dow members and the DJIA index. Results are printed to the console and a plot is saved as `backtest_result.png`.
