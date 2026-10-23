@@ -252,6 +252,7 @@ class YahooFinanceProcessor:
                     end=current_tic_start_date + delta,
                     interval=self.time_interval,
                     proxy=proxy,
+                    auto_adjust=False,
                 )
                 if temp_df.columns.nlevels != 1:
                     temp_df.columns = temp_df.columns.droplevel(1)
@@ -261,16 +262,18 @@ class YahooFinanceProcessor:
                 current_tic_start_date += delta
 
         data_df = data_df.reset_index().drop(columns=["Adj Close"])
-        # convert the column names to match processor_alpaca.py as far as poss
-        data_df.columns = [
-            "timestamp",
-            "open",
-            "high",
-            "low",
-            "close",
-            "volume",
-            "tic",
-        ]
+        # convert the column names to match processor_alpaca.py as far as poss;
+        # map them by name, since current yfinance returns them sorted
+        data_df = data_df.rename(
+            columns={
+                data_df.columns[0]: "timestamp",
+                "Open": "open",
+                "High": "high",
+                "Low": "low",
+                "Close": "close",
+                "Volume": "volume",
+            }
+        )[["timestamp", "open", "high", "low", "close", "volume", "tic"]]
 
         return data_df
 
