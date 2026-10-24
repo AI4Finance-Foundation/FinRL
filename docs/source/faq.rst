@@ -66,11 +66,11 @@ Outline
 
     - :raw-html:`<font color="#A52A2A">Can a sentiment feature be added to improve the model's performance? </font>`
 
-	*Yes, you can add it. Remember to check on the code that this additional feature is being fed to the model (state)*
+	*Yes, you can add it. Remember to check on the code that this additional feature is being fed to the model (state). See the optional `finrl.meta.preprocessor.adanos_sentiment` helper for one structured market sentiment workflow.*
 
     - :raw-html:`<font color="#A52A2A">Is there a good free source for market sentiment to use as a feature?  </font>`
 
-	*No, you'll have to use a paid service or library/code to scrape news and obtain the sentiment from them (normally, using deep learning and NLP)*
+	*Usually no. In practice you'll often use a paid service or your own scraping/NLP pipeline. FinRL now includes an optional Adanos-based example showing how a structured paid sentiment feed can be merged into the state as lagged features.*
 
 .. _Section-2:
 
