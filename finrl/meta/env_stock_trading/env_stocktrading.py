@@ -47,6 +47,7 @@ class StockTradingEnv(gym.Env):
         tech_indicator_list: list[str],
         turbulence_threshold=None,
         risk_indicator_col="turbulence",
+        member_col: str | None = None,
         make_plots: bool = False,
         print_verbosity=10,
         day=0,
@@ -78,6 +79,7 @@ class StockTradingEnv(gym.Env):
         self.print_verbosity = print_verbosity
         self.turbulence_threshold = turbulence_threshold
         self.risk_indicator_col = risk_indicator_col
+        self.member_col = member_col if member_col in self.df.columns else None
         self.initial = initial
         self.previous_state = previous_state
         self.model_name = model_name
@@ -112,10 +114,7 @@ class StockTradingEnv(gym.Env):
 
     def _sell_stock(self, index, action):
         def _do_sell_normal():
-            if (
-                self.state[index + 2 * self.stock_dim + 1] != True
-            ):  # check if the stock is able to sell, for simlicity we just add it in techical index
-                # if self.state[index + 1] > 0: # if we use price<0 to denote a stock is unable to trade in that day, the total asset calculation may be wrong for the price is unreasonable
+            if self.state[index + 1] > 0:
                 # Sell only if the price is > 0 (no missing data in this particular date)
                 # perform sell action based on the sign of the action
                 if self.state[index + self.stock_dim + 1] > 0:
@@ -181,10 +180,7 @@ class StockTradingEnv(gym.Env):
 
     def _buy_stock(self, index, action):
         def _do_buy():
-            if (
-                self.state[index + 2 * self.stock_dim + 1] != True
-            ):  # check if the stock is able to buy
-                # if self.state[index + 1] >0:
+            if self.state[index + 1] > 0:
                 # Buy only if the price is > 0 (no missing data in this particular date)
                 available_amount = self.state[0] // (
                     self.state[index + 1] * (1 + self.buy_cost_pct[index])
@@ -315,9 +311,16 @@ class StockTradingEnv(gym.Env):
             actions = actions.astype(
                 int
             )  # convert into integer because we can't by fraction of shares
+            if self.member_col is not None:
+                # A stable union of historical constituents keeps the policy's
+                # action dimension fixed; only current members can be traded.
+                active = self.data[self.member_col].to_numpy(dtype=bool)
+                actions[~active] = 0
             if self.turbulence_threshold is not None:
                 if self.turbulence >= self.turbulence_threshold:
                     actions = np.array([-self.hmax] * self.stock_dim)
+            if self.member_col is not None:
+                actions[~self.data[self.member_col].to_numpy(dtype=bool)] = 0
             begin_total_asset = self.state[0] + sum(
                 np.array(self.state[1 : (self.stock_dim + 1)])
                 * np.array(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
@@ -350,6 +353,22 @@ class StockTradingEnv(gym.Env):
                 elif len(self.df.tic.unique()) > 1:
                     self.turbulence = self.data[self.risk_indicator_col].values[0]
             self.state = self._update_state()
+            if self.member_col is not None:
+                # Liquidate names removed from the index at the first close
+                # where they are no longer constituents.
+                inactive = ~self.data[self.member_col].to_numpy(dtype=bool)
+                holdings_start = self.stock_dim + 1
+                for index in np.flatnonzero(inactive):
+                    held_shares = self.state[holdings_start + index]
+                    price = self.data.close.values[index]
+                    if held_shares > 0 and price > 0:
+                        self.state[0] += (
+                            price * held_shares * (1 - self.sell_cost_pct[index])
+                        )
+                        self.state[holdings_start + index] = 0
+                        self.cost += price * held_shares * self.sell_cost_pct[index]
+                        self.trades += 1
+                self.state = self._update_state()
 
             end_total_asset = self.state[0] + sum(
                 np.array(self.state[1 : (self.stock_dim + 1)])
@@ -417,22 +436,20 @@ class StockTradingEnv(gym.Env):
                 # for multiple stock
                 state = (
                     [self.initial_amount]
-                    + self.data.close.values.tolist()
-                    + self.num_stock_shares
+                    + self._stock_values("close")
+                    + list(self.num_stock_shares)
                     + sum(
-                        (
-                            self.data[tech].values.tolist()
-                            for tech in self.tech_indicator_list
-                        ),
+                        (self._stock_values(tech) for tech in self.tech_indicator_list),
                         [],
                     )
+                    + self._membership_state()
                 )  # append initial stocks_share to initial state, instead of all zero
             else:
                 # for single stock
                 state = (
                     [self.initial_amount]
                     + [self.data.close]
-                    + [0] * self.stock_dim
+                    + list(self.num_stock_shares)
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
                 )
         else:
@@ -441,26 +458,28 @@ class StockTradingEnv(gym.Env):
                 # for multiple stock
                 state = (
                     [self.previous_state[0]]
-                    + self.data.close.values.tolist()
-                    + self.previous_state[
-                        (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
-                    ]
+                    + self._stock_values("close")
+                    + list(
+                        self.previous_state[
+                            (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
+                        ]
+                    )
                     + sum(
-                        (
-                            self.data[tech].values.tolist()
-                            for tech in self.tech_indicator_list
-                        ),
+                        (self._stock_values(tech) for tech in self.tech_indicator_list),
                         [],
                     )
+                    + self._membership_state()
                 )
             else:
                 # for single stock
                 state = (
                     [self.previous_state[0]]
                     + [self.data.close]
-                    + self.previous_state[
-                        (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
-                    ]
+                    + list(
+                        self.previous_state[
+                            (self.stock_dim + 1) : (self.stock_dim * 2 + 1)
+                        ]
+                    )
                     + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
                 )
         return state
@@ -470,15 +489,13 @@ class StockTradingEnv(gym.Env):
             # for multiple stock
             state = (
                 [self.state[0]]
-                + self.data.close.values.tolist()
+                + self._stock_values("close")
                 + list(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
                 + sum(
-                    (
-                        self.data[tech].values.tolist()
-                        for tech in self.tech_indicator_list
-                    ),
+                    (self._stock_values(tech) for tech in self.tech_indicator_list),
                     [],
                 )
+                + self._membership_state()
             )
 
         else:
@@ -488,9 +505,24 @@ class StockTradingEnv(gym.Env):
                 + [self.data.close]
                 + list(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
                 + sum(([self.data[tech]] for tech in self.tech_indicator_list), [])
+                + self._membership_state()
             )
 
         return state
+
+    def _membership_state(self):
+        """Return the per-asset membership mask as an observation feature."""
+        if self.member_col is None:
+            return []
+        return self.data[self.member_col].astype(float).tolist()
+
+    def _stock_values(self, column):
+        """Return asset observations, hiding values outside the active universe."""
+        values = self.data[column].values.copy()
+        if self.member_col is not None:
+            active = self.data[self.member_col].to_numpy(dtype=bool)
+            values[~active] = 0
+        return values.tolist()
 
     def _get_date(self):
         if len(self.df.tic.unique()) > 1:

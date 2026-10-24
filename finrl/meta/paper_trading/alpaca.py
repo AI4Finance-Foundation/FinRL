@@ -168,6 +168,7 @@ class PaperTradingAlpaca:
                 print("Market closing soon.  Closing positions.")
 
                 threads = []
+                submitted = []
                 positions = self.alpaca.list_positions()
                 for position in positions:
                     if position.side == "long":
@@ -176,6 +177,7 @@ class PaperTradingAlpaca:
                         orderSide = "buy"
                     qty = abs(int(float(position.qty)))
                     respSO = []
+                    submitted.append((qty, position.symbol, orderSide, respSO))
                     tSubmitOrder = threading.Thread(
                         target=self.submitOrder,
                         args=(qty, position.symbol, orderSide, respSO),
@@ -185,6 +187,8 @@ class PaperTradingAlpaca:
 
                 for x in threads:  #  wait for all threads to complete
                     x.join()
+
+                self.reportFailedOrders(submitted)
 
                 # Run script again after market close for next trading day.
                 print("Sleeping until market close (15 minutes).")
@@ -212,6 +216,7 @@ class PaperTradingAlpaca:
 
     def trade(self):
         state = self.get_state()
+        failed = []
 
         if self.drl_lib == "elegantrl":
             with torch.no_grad():
@@ -235,10 +240,12 @@ class PaperTradingAlpaca:
         if self.turbulence_bool == 0:
             min_action = 10  # stock_cd
             threads = []
+            submitted = []
             for index in np.where(action < -min_action)[0]:  # sell_index:
                 sell_num_shares = min(self.stocks[index], -action[index])
                 qty = abs(int(sell_num_shares))
                 respSO = []
+                submitted.append((qty, self.stockUniverse[index], "sell", respSO))
                 tSubmitOrder = threading.Thread(
                     target=self.submitOrder,
                     args=(qty, self.stockUniverse[index], "sell", respSO),
@@ -251,7 +258,10 @@ class PaperTradingAlpaca:
             for x in threads:  #  wait for all threads to complete
                 x.join()
 
+            failed.extend(self.reportFailedOrders(submitted))
+
             threads = []
+            submitted = []
             for index in np.where(action > min_action)[0]:  # buy_index:
                 if self.cash < 0:
                     tmp_cash = 0
@@ -265,6 +275,7 @@ class PaperTradingAlpaca:
                 else:
                     qty = abs(int(buy_num_shares))
                 respSO = []
+                submitted.append((qty, self.stockUniverse[index], "buy", respSO))
                 tSubmitOrder = threading.Thread(
                     target=self.submitOrder,
                     args=(qty, self.stockUniverse[index], "buy", respSO),
@@ -277,8 +288,11 @@ class PaperTradingAlpaca:
             for x in threads:  #  wait for all threads to complete
                 x.join()
 
+            failed.extend(self.reportFailedOrders(submitted))
+
         else:  # sell all when turbulence
             threads = []
+            submitted = []
             positions = self.alpaca.list_positions()
             for position in positions:
                 if position.side == "long":
@@ -287,6 +301,7 @@ class PaperTradingAlpaca:
                     orderSide = "buy"
                 qty = abs(int(float(position.qty)))
                 respSO = []
+                submitted.append((qty, position.symbol, orderSide, respSO))
                 tSubmitOrder = threading.Thread(
                     target=self.submitOrder,
                     args=(qty, position.symbol, orderSide, respSO),
@@ -297,7 +312,11 @@ class PaperTradingAlpaca:
             for x in threads:  #  wait for all threads to complete
                 x.join()
 
+            failed.extend(self.reportFailedOrders(submitted))
+
             self.stocks_cd[:] = 0
+
+        return failed
 
     def get_state(self):
         alpaca = AlpacaProcessor(api=self.alpaca)
@@ -382,6 +401,39 @@ class PaperTradingAlpaca:
             )
             """
             resp.append(True)
+
+    def reportFailedOrders(self, submitted):
+        """Log the orders that did not go through, and return them.
+
+        ``submitOrder`` reports its outcome by appending to the response list
+        it is handed, so a response list only means anything once the thread
+        that owns it has been joined. Each entry of ``submitted`` is a
+        ``(qty, stock, side, resp)`` tuple, collected by the caller so the
+        responses outlive the join.
+
+        A response list that is empty counts as a failure too: the thread died
+        before it could record anything, which is exactly the outcome that
+        would otherwise go unnoticed.
+        """
+        failed = [
+            (qty, stock, side)
+            for qty, stock, side, resp in submitted
+            if not resp or not all(resp)
+        ]
+        if failed:
+            summary = ", ".join(
+                str(qty) + " " + str(stock) + " " + str(side)
+                for qty, stock, side in failed
+            )
+            print(
+                "| WARNING: "
+                + str(len(failed))
+                + " of "
+                + str(len(submitted))
+                + " orders did not go through: "
+                + summary
+            )
+        return failed
 
     @staticmethod
     def sigmoid_sign(ary, thresh):

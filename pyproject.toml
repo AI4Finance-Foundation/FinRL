@@ -36,6 +36,7 @@ pyfolio-reloaded = "^0.9"
 pyportfolioopt = "^1"
 ray = {extras=["default", "tune"], version = "^2"}
 scikit-learn = "^1"
+sb3-contrib = ">=2.0.0a5"
 stable-baselines3 = {version = ">=2.0.0a5", extras = ["extra"]}
 stockstats = "^0.5"
 wrds = "^3"

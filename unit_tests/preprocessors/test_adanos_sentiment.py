@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import importlib.util
+import runpy
 import sys
 from pathlib import Path
+from types import ModuleType
+from types import SimpleNamespace
 
 import pandas as pd
 import pytest
@@ -136,6 +139,9 @@ def test_add_adanos_market_sentiment_merges_lagged_daily_features():
     assert result.loc[1, "adanos_sentiment_mean_lag1"] == pytest.approx(0.15)
     assert result.loc[1, "adanos_source_coverage_lag1"] == 2.0
     assert len(session.calls) == 2
+    assert all(
+        call[1] == {"from": "2026-03-01", "to": "2026-03-02"} for call in session.calls
+    )
 
 
 def test_add_adanos_market_sentiment_ignores_missing_sources():
@@ -215,3 +221,75 @@ def test_add_adanos_market_sentiment_supports_conservative_lag():
     assert result.loc[1, "adanos_buzz_mean_lag2"] == 0.0
     assert result.loc[2, "adanos_reddit_buzz_lag2"] == 40.0
     assert result.loc[2, "adanos_sentiment_mean_lag2"] == pytest.approx(0.10)
+
+
+@pytest.mark.parametrize("available", [False, True])
+def test_example_selects_only_features_present_in_saved_data(
+    monkeypatch, tmp_path, available
+):
+    def module(name, **attributes):
+        value = ModuleType(name)
+        value.__dict__.update(attributes)
+        monkeypatch.setitem(sys.modules, name, value)
+
+    for name in ("finrl", "finrl.meta", "finrl.meta.preprocessor"):
+        module(name, __path__=[])
+    module("finrl.config", INDICATORS=["close"])
+    monkeypatch.setitem(
+        sys.modules,
+        "finrl.meta.preprocessor.adanos_sentiment",
+        ADANOS_SENTIMENT,
+    )
+    module(
+        "finrl.meta.preprocessor.preprocessors",
+        FeatureEngineer=lambda **kwargs: SimpleNamespace(preprocess_data=lambda df: df),
+        data_split=lambda df, start, end: df.loc[
+            (df["date"] >= start) & (df["date"] < end)
+        ],
+    )
+    module(
+        "finrl.meta.preprocessor.yahoodownloader",
+        YahooDownloader=lambda **kwargs: SimpleNamespace(
+            fetch_data=_simple_ohlcv_frame
+        ),
+    )
+    monkeypatch.setenv("ADANOS_API_KEY", "test-key")
+    monkeypatch.chdir(tmp_path)
+
+    class Session:
+        def get(self, url, **kwargs):
+            if not available:
+                raise ADANOS_SENTIMENT.requests.Timeout("synthetic timeout")
+            return DummyResponse(
+                {"daily_trend": [{"date": "2026-03-01", "buzz_score": 40.0}]}
+            )
+
+    monkeypatch.setattr(ADANOS_SENTIMENT.requests, "Session", Session)
+    namespace = runpy.run_path(
+        str(
+            MODULE_PATH.parents[3]
+            / "examples"
+            / "FinRL_StockTrading_2026_1_data_with_adanos.py"
+        )
+    )
+    expected = ["close"]
+    if available:
+        expected += ADANOS_SENTIMENT.ADANOS_SENTIMENT_FEATURES
+    assert namespace["feature_columns"] == expected
+    saved = pd.read_csv(tmp_path / "trade_data_with_adanos.csv")
+    assert set(expected).issubset(saved.columns)
+
+
+def test_date_window_uses_utc_and_empty_history_preserves_input():
+    df = _simple_ohlcv_frame()
+    df["date"] = pd.to_datetime(
+        ["2026-03-01T00:30:00+02:00", "2026-03-02T00:30:00+02:00"]
+    )
+    session = DummySession(
+        {"https://api.adanos.org/reddit/stocks/v1/stock/AAPL": DummyResponse({})}
+    )
+    result = add_adanos_market_sentiment(
+        df, api_key="test-key", sources=("reddit",), session=session
+    )
+    assert session.calls[0][1] == {"from": "2026-02-28", "to": "2026-03-01"}
+    pd.testing.assert_frame_equal(result, df)

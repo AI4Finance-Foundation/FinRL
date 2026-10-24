@@ -136,7 +136,7 @@ def main():
         temp = pd.read_csv(
             "results/account_value_trade_{}_{}.csv".format("ensemble", i)
         )
-        df_account_value = df_account_value.append(temp, ignore_index=True)
+        df_account_value = pd.concat([df_account_value, temp], ignore_index=True)
     sharpe = (
         (252**0.5)
         * df_account_value.account_value.pct_change(1).mean()

@@ -1,9 +1,3 @@
-# Stock Trading 2026 Part 1 (optional Adanos sentiment features).
-#
-# This example keeps the classic FinRL Yahoo + technical-indicator pipeline and
-# optionally augments it with lagged market sentiment features when
-# ADANOS_API_KEY is available. The default lag=1 creates t-1 sentiment
-# columns to avoid same-day sentiment leakage.
 from __future__ import annotations
 
 import itertools
@@ -57,16 +51,19 @@ processed_full = processed_full.sort_values(["date", "tic"]).fillna(0)
 processed_with_sentiment = add_adanos_market_sentiment(
     processed_full,
     api_key=api_key,
-    days=90,
 )
 
-if api_key:
-    feature_columns = INDICATORS + ADANOS_SENTIMENT_FEATURES
+sentiment_columns = [
+    column
+    for column in ADANOS_SENTIMENT_FEATURES
+    if column in processed_with_sentiment.columns
+]
+feature_columns = INDICATORS + sentiment_columns
+if sentiment_columns:
     print("Added Adanos sentiment features:")
-    print(ADANOS_SENTIMENT_FEATURES)
+    print(sentiment_columns)
 else:
-    feature_columns = INDICATORS
-    print("ADANOS_API_KEY is not set. Proceeding without optional sentiment features.")
+    print("No Adanos sentiment features available. Keeping the original feature set.")
 
 train = data_split(processed_with_sentiment, TRAIN_START_DATE, TRAIN_END_DATE)
 trade = data_split(processed_with_sentiment, TRADE_START_DATE, TRADE_END_DATE)

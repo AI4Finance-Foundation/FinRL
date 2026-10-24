@@ -293,7 +293,7 @@ class SinopacProcessor:
         def resample_to_kbars(group):
             group.set_index("timestamp", inplace=True)
             ohlc_dict = {"price": "ohlc", "volume": "sum"}
-            kbars = group.resample("1T").apply(ohlc_dict)
+            kbars = group.resample("1min").apply(ohlc_dict)
             kbars.columns = ["Open", "High", "Low", "Close", "Volume"]
             return kbars
 

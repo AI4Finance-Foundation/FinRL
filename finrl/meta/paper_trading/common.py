@@ -7,6 +7,7 @@ import os
 import time
 
 import gym
+import numpy as np
 import torch.nn as nn
 from torch import Tensor
 from torch.distributions.normal import Normal
@@ -800,7 +801,6 @@ def test(
 
 import alpaca_trade_api as tradeapi
 import pandas_market_calendars as tc
-import numpy as np
 import pandas as pd
 import yfinance as yf
 
@@ -822,9 +822,8 @@ def alpaca_history(key, secret, url, start, end):
     trading_days = get_trading_days(start, end)
     df = pd.DataFrame()
     for day in trading_days:
-        df = df.append(
-            api.get_portfolio_history(date_start=day, timeframe="5Min").df.iloc[:78]
-        )
+        history = api.get_portfolio_history(date_start=day, timeframe="5Min").df
+        df = pd.concat([df, history.iloc[:78]])
     equities = df.equity.values
     cumu_returns = equities / equities[0]
     cumu_returns = cumu_returns[~np.isnan(cumu_returns)]

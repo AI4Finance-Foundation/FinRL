@@ -131,12 +131,14 @@ class FeatureEngineer:
         use_vix=False,
         use_turbulence=False,
         user_defined_feature=False,
+        keep_incomplete_tickers=False,
     ):
         self.use_technical_indicator = use_technical_indicator
         self.tech_indicator_list = tech_indicator_list
         self.use_vix = use_vix
         self.use_turbulence = use_turbulence
         self.user_defined_feature = user_defined_feature
+        self.keep_incomplete_tickers = keep_incomplete_tickers
 
     def preprocess_data(self, df):
         """main method to do the feature engineering
@@ -144,7 +146,7 @@ class FeatureEngineer:
         @:return: a DataMatrices object
         """
         # clean data
-        df = self.clean_data(df)
+        df = self.clean_data(df, self.keep_incomplete_tickers)
 
         # add technical indicators using stockstats
         if self.use_technical_indicator:
@@ -167,10 +169,18 @@ class FeatureEngineer:
             print("Successfully added user defined features")
 
         # fill the missing values at the beginning and the end
-        df = df.ffill().bfill()
+        if self.keep_incomplete_tickers:
+            df = df.sort_values(["tic", "date"])
+            value_columns = df.columns.difference(["date", "tic"])
+            df[value_columns] = df.groupby("tic", sort=False)[value_columns].transform(
+                lambda group: group.ffill().bfill()
+            )
+            df = df.sort_values(["date", "tic"])
+        else:
+            df = df.ffill().bfill()
         return df
 
-    def clean_data(self, data):
+    def clean_data(self, data, keep_incomplete_tickers=False):
         """
         clean the raw data
         deal with missing values
@@ -182,8 +192,11 @@ class FeatureEngineer:
         df = df.sort_values(["date", "tic"], ignore_index=True)
         df.index = df.date.factorize()[0]
         merged_closes = df.pivot_table(index="date", columns="tic", values="close")
-        merged_closes = merged_closes.dropna(axis=1)
-        tics = merged_closes.columns
+        if keep_incomplete_tickers:
+            tics = merged_closes.columns[merged_closes.notna().any()]
+        else:
+            merged_closes = merged_closes.dropna(axis=1)
+            tics = merged_closes.columns
         df = df[df.tic.isin(tics)]
         # df = data.copy()
         # list_ticker = df["tic"].unique().tolist()
@@ -243,7 +256,7 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        df["daily_return"] = df.close.pct_change(1)
+        df["daily_return"] = df.groupby("tic").close.pct_change(1)
         # df['return_lag_1']=df.close.pct_change(2)
         # df['return_lag_2']=df.close.pct_change(3)
         # df['return_lag_3']=df.close.pct_change(4)

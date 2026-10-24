@@ -47,6 +47,29 @@ SAC_PARAMS = {
     "learning_starts": 100,
     "ent_coef": "auto_0.1",
 }
+# TQC (Kuznetsov et al., 2020, "Controlling Overestimation Bias with
+# Truncated Mixture of Continuous Distributional Quantile Critics", ICML) is
+# SAC with a distributional, quantile-truncated critic, so its defaults
+# mirror SAC_PARAMS plus its own knob (sb3-contrib's own default of 2).
+TQC_PARAMS = {
+    "batch_size": 64,
+    "buffer_size": 100000,
+    "learning_rate": 0.0001,
+    "learning_starts": 100,
+    "ent_coef": "auto_0.1",
+    "top_quantiles_to_drop_per_net": 2,
+}
+# CrossQ (Bhatt et al., 2024, "CrossQ: Batch Normalization in Deep
+# Reinforcement Learning for Greater Sample Efficiency and Simplicity",
+# ICLR) removes the target networks SAC relies on, so its defaults follow
+# sb3-contrib's own rather than SAC_PARAMS's.
+CROSSQ_PARAMS = {
+    "batch_size": 256,
+    "buffer_size": 1000000,
+    "learning_rate": 0.001,
+    "learning_starts": 100,
+    "ent_coef": "auto",
+}
 ERL_PARAMS = {
     "learning_rate": 3e-5,
     "batch_size": 2048,

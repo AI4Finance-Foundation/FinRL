@@ -41,13 +41,7 @@ def _safe_float(value) -> float | None:
 
 
 def _normalize_date_column(series: pd.Series) -> pd.Series:
-    return pd.to_datetime(series).dt.strftime("%Y-%m-%d")
-
-
-def _resolve_days(df: pd.DataFrame, date_column: str, lag: int, max_days: int) -> int:
-    dates = pd.to_datetime(df[date_column])
-    span_days = max(int((dates.max() - dates.min()).days) + 1 + lag, 7)
-    return min(span_days, max_days)
+    return pd.to_datetime(series, utc=True).dt.strftime("%Y-%m-%d")
 
 
 def _build_feature_frame(
@@ -77,7 +71,6 @@ def add_adanos_market_sentiment(
     *,
     api_key: str | None = None,
     base_url: str = "https://api.adanos.org",
-    days: int | None = None,
     sources: Iterable[str] = ADANOS_SENTIMENT_SOURCES,
     lag: int = 1,
     ticker_column: str = "tic",
@@ -94,10 +87,11 @@ def add_adanos_market_sentiment(
     ``api_key``, or when remote requests fail, a copy of the original dataframe
     is returned unchanged.
 
-    Sentiment features are shifted per ticker before merging back into the
-    state. The default ``lag=1`` creates t-1 columns such as
-    ``adanos_buzz_mean_lag1`` to avoid same-day sentiment leakage. Use
-    ``lag=2`` or higher for a more conservative delay.
+    Requests use the dataframe's inclusive UTC date bounds, subject to account
+    lookback limits and source coverage. No window is silently shortened.
+    Features shift by ``lag`` observed dataframe dates per ticker, not calendar
+    days. A positive lag prevents using a row's same-day aggregate but does not
+    remove historical revision bias or establish point-in-time availability.
     """
 
     enriched = df.copy()
@@ -111,7 +105,7 @@ def add_adanos_market_sentiment(
     normalized_dates = _normalize_date_column(enriched[date_column])
     enriched[date_column] = normalized_dates
 
-    effective_days = days or _resolve_days(enriched, date_column, lag, max_days=365)
+    period = {"from": normalized_dates.min(), "to": normalized_dates.max()}
     client = session or requests.Session()
     headers = {"X-API-Key": api_key, "Accept": "application/json"}
 
@@ -125,7 +119,7 @@ def add_adanos_market_sentiment(
             try:
                 response = client.get(
                     endpoint,
-                    params={"days": effective_days},
+                    params=period,
                     headers=headers,
                     timeout=timeout,
                 )
@@ -155,7 +149,7 @@ def add_adanos_market_sentiment(
                 )
 
     if not ticker_history:
-        return enriched
+        return df.copy()
 
     feature_frame = _build_feature_frame(ticker_history, sources)
     base_frame = (

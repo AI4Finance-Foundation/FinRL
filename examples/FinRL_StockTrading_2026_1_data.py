@@ -13,14 +13,15 @@ import itertools
 import pandas as pd
 import yfinance as yf
 
-from finrl import config_tickers
 from finrl.config import INDICATORS
 from finrl.config import TRADE_END_DATE
 from finrl.config import TRADE_START_DATE
 from finrl.config import TRAIN_END_DATE
 from finrl.config import TRAIN_START_DATE
-from finrl.meta.preprocessor.preprocessors import data_split
 from finrl.meta.preprocessor.preprocessors import FeatureEngineer
+from finrl.meta.preprocessor.dow import DOW_30_HISTORICAL_UNIVERSE
+from finrl.meta.preprocessor.dow import add_dow_membership
+from finrl.meta.preprocessor.preprocessors import data_split
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 
 # %% Part 1. Fetch data - Single ticker
@@ -41,13 +42,13 @@ print(aapl_df_finrl.head())
 
 # %% Part 2. Fetch data - DOW 30 tickers
 
-print("\n=== DOW 30 Tickers ===")
-print(config_tickers.DOW_30_TICKER)
+print("\n=== Historical Dow ticker universe ===")
+print(DOW_30_HISTORICAL_UNIVERSE)
 
 df_raw = YahooDownloader(
     start_date=TRAIN_START_DATE,
     end_date=TRADE_END_DATE,
-    ticker_list=config_tickers.DOW_30_TICKER,
+    ticker_list=list(DOW_30_HISTORICAL_UNIVERSE),
 ).fetch_data()
 print("\n=== Raw data ===")
 print(df_raw.head())
@@ -60,11 +61,12 @@ fe = FeatureEngineer(
     use_vix=True,
     use_turbulence=True,
     user_defined_feature=False,
+    keep_incomplete_tickers=True,
 )
 
 processed = fe.preprocess_data(df_raw)
 
-list_ticker = processed["tic"].unique().tolist()
+list_ticker = list(DOW_30_HISTORICAL_UNIVERSE)
 list_date = list(
     pd.date_range(processed["date"].min(), processed["date"].max()).astype(str)
 )
@@ -75,7 +77,26 @@ processed_full = pd.DataFrame(combination, columns=["date", "tic"]).merge(
 )
 processed_full = processed_full[processed_full["date"].isin(processed["date"])]
 processed_full = processed_full.sort_values(["date", "tic"])
-processed_full = processed_full.fillna(0)
+processed_full = add_dow_membership(processed_full)
+active_rows = processed_full["is_member"]
+if processed_full.loc[active_rows, "close"].isna().any():
+    missing = processed_full.loc[
+        active_rows & processed_full["close"].isna(), ["date", "tic"]
+    ]
+    raise ValueError(
+        "Yahoo Finance data is missing for active Dow constituents; "
+        f"inspect these rows before training:\n{missing.head(10)}"
+    )
+feature_columns = [
+    column
+    for column in processed_full.columns
+    if column not in {"date", "tic", "is_member"}
+]
+processed_full[feature_columns] = processed_full.groupby("tic", sort=False)[
+    feature_columns
+].transform(lambda values: values.ffill().bfill())
+processed_full[feature_columns] = processed_full[feature_columns].fillna(0)
+processed_full["is_member"] = processed_full["is_member"].astype(int)
 
 print("\n=== Processed data ===")
 print(processed_full.head())

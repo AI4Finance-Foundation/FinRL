@@ -78,7 +78,7 @@ class WrdsProcessor:
                 empty = False
                 dataset = x[0]
                 dataset = self.preprocess_to_ohlcv(
-                    dataset, time_interval=(str(time_interval) + "S")
+                    dataset, time_interval=(str(time_interval) + "s")
                 )
                 if first_time:
                     print("Data for date: " + i + " finished")
@@ -99,7 +99,7 @@ class WrdsProcessor:
             result = result.reset_index(drop=True)
             return result
 
-    def preprocess_to_ohlcv(self, df, time_interval="60S"):
+    def preprocess_to_ohlcv(self, df, time_interval="60s"):
         df = df[["date", "time_m", "sym_root", "size", "price"]]
         tic_list = np.unique(df["sym_root"].values)
         final_df = None
@@ -128,7 +128,9 @@ class WrdsProcessor:
                 final_df = data_ohlc.reset_index()
                 first_time = False
             else:
-                final_df = final_df.append(data_ohlc.reset_index(), ignore_index=True)
+                final_df = pd.concat(
+                    [final_df, data_ohlc.reset_index()], ignore_index=True
+                )
         return final_df
 
     def clean_data(self, df):

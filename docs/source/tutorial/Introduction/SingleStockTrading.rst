@@ -1,4 +1,4 @@
-:github_url: https://github.com/AI4Finance-LLC/FinRL-Library
+:github_url: https://github.com/AI4Finance-Foundation/FinRL
 
 Single Stock Trading
 ============================
@@ -10,7 +10,7 @@ Deep Reinforcement Learning for Stock Trading from Scratch: Single Stock Trading
 
     Run the code step by step at `Google Colab`_.
 
-    .. _Google Colab: https://colab.research.google.com/github/AI4Finance-LLC/FinRL-Library/blob/master/examples/old/DRL_single_stock_trading.ipynb
+    .. _Google Colab: https://colab.research.google.com/github/AI4Finance-Foundation/FinRL-Tutorials/blob/master/1-Introduction/Stock_NeurIPS2018_SB3.ipynb
 
 
 
@@ -127,7 +127,7 @@ We can either download the stock data like open-high-low-close price manually by
 
 FinRL uses a YahooDownloader_ class to extract data.
 
-.. _YahooDownloader: https://github.com/AI4Finance-LLC/FinRL-Library/blob/master/finrl/marketdata/yahoodownloader.py
+.. _YahooDownloader: https://github.com/AI4Finance-Foundation/FinRL/blob/master/finrl/meta/preprocessor/yahoodownloader.py
 
 .. code-block:: python
 
@@ -192,7 +192,7 @@ In practical trading, various information needs to be taken into account, for ex
 
 FinRL uses a FeatureEngineer_ class to preprocess data.
 
-.. _FeatureEngineer: https://github.com/AI4Finance-LLC/FinRL-Library/blob/master/finrl/preprocessing/preprocessors.py
+.. _FeatureEngineer: https://github.com/AI4Finance-Foundation/FinRL/blob/master/finrl/meta/preprocessor/preprocessors.py
 
 .. code-block:: python
 
