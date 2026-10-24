@@ -278,7 +278,7 @@ class PortfolioOptimizationEnv(gym.Env):
                 savefig=self._results_file / "portfolio_summary.png",
             )
 
-            return self._state, self._reward, self._terminal,False,self._info
+            return self._state, self._reward, self._terminal, False, self._info
 
         else:
             # transform action to numpy array (if it's a list)
@@ -366,7 +366,7 @@ class PortfolioOptimizationEnv(gym.Env):
             return self._state, self._reward, self._terminal, False, self._info
         return self._state, self._reward, self._terminal, self._info
 
-    def reset(self,*, seed=None, options=None):
+    def reset(self, *, seed=None, options=None):
         """Resets the environment and returns it to its initial state (the
         fist date of the dataframe).
 
@@ -395,7 +395,7 @@ class PortfolioOptimizationEnv(gym.Env):
         self._portfolio_value = self._initial_amount
         self._terminal = False
 
-        return self._state,self._info
+        return self._state, self._info
 
     def _get_state_and_info_from_time_index(self, time_index):
         """Gets state and information given a time index. It also updates "data"
