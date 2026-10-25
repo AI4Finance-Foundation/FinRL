@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-import time
 from copy import deepcopy
 
 import gym
@@ -107,9 +106,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             print("data cached!")
 
     def seed(self, seed=None):
-        if seed is None:
-            seed = int(round(time.time() * 1000))
-        random.seed(seed)
+        self._rng = random.Random(seed)
 
     @property
     def current_step(self):
@@ -135,10 +132,11 @@ class StockTradingEnvCashpenalty(gym.Env):
         seed=None,
         options=None,
     ):
-        self.seed()
+        if seed is not None or not hasattr(self, "_rng"):
+            self.seed(seed)
         self.sum_trades = 0
         if self.random_start:
-            starting_point = random.choice(range(int(len(self.dates) * 0.5)))
+            starting_point = self._rng.choice(range(int(len(self.dates) * 0.5)))
             self.starting_point = starting_point
         else:
             self.starting_point = 0
