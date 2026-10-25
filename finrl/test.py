@@ -55,6 +55,7 @@ def test(
             cwd=cwd,
             net_dimension=net_dimension,
             environment=env_instance,
+            env_args=env_config,
         )
         return episode_total_assets
     elif drl_lib == "rllib":

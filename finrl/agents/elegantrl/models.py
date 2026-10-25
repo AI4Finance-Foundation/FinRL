@@ -137,7 +137,9 @@ class DRLAgent:
             net_dim, env.state_dim, env.action_dim, gpu_id=gpu_id, args=args
         ).act
         parameters_dict = {}
-        act = torch.load(actor_path)
+        # ElegantRL saves the whole actor module, not a state_dict, so it
+        # must be unpickled; torch>=2.6 defaults to weights_only=True.
+        act = torch.load(actor_path, weights_only=False)
         for name, param in act.named_parameters():
             parameters_dict[name] = torch.tensor(param.detach().cpu().numpy())
 
@@ -145,7 +147,7 @@ class DRLAgent:
 
         if_discrete = env.if_discrete
         device = next(act.parameters()).device
-        state = env.reset()
+        state, _ = env.reset()  # Gymnasium API: (obs, info)
         episode_returns = []  # the cumulative_return / initial_account
         episode_total_assets = [env.initial_total_asset]
         max_step = env.max_step
@@ -157,7 +159,9 @@ class DRLAgent:
             action = (
                 a_tensor.detach().cpu().numpy()[0]
             )  # not need detach(), because using torch.no_grad() outside
-            state, reward, done, _ = env.step(action)
+            # Gymnasium API: (obs, reward, terminated, truncated, info)
+            state, reward, terminated, truncated, _ = env.step(action)
+            done = terminated or truncated
             total_asset = env.amount + (env.price_ary[env.day] * env.stocks).sum()
             episode_total_assets.append(total_asset)
             episode_return = total_asset / env.initial_total_asset
