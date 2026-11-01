@@ -1,5 +1,68 @@
 from __future__ import annotations
 
+import itertools
+
+import pandas as pd
+
+
+def fundamentals_available_date(period_end, report_date, fallback_lag_days=90):
+    """Return the first date each quarter's fundamentals can be used.
+
+    A fiscal period's numbers are not public when it ends (``datadate``), only
+    once they are reported (Compustat ``rdq``). ``rdq`` has no time of day and
+    results often come out after the close, so they are used from the next day.
+    Quarters without a report date wait ``fallback_lag_days`` after the period
+    end, the longest SEC deadline for filing an annual report.
+
+    :param period_end: (series) fiscal period ends as YYYYMMDD numbers
+    :param report_date: (series) report dates as YYYYMMDD numbers, or NaN
+    :param fallback_lag_days: (int) days to wait when the report date is missing
+    :return: (series) dates
+    """
+    period_end = pd.to_datetime(period_end.astype(str), format="%Y%m%d")
+    report_date = pd.to_datetime(
+        report_date.astype("Int64").astype("string"), format="%Y%m%d"
+    )
+    available = (report_date + pd.Timedelta(days=1)).fillna(
+        period_end + pd.Timedelta(days=fallback_lag_days)
+    )
+    return available.rename("date")
+
+
+def align_fundamentals_to_daily(prices, ratios):
+    """Attach to each ticker's trading days the latest fundamentals already public.
+
+    :param prices: (df) daily prices with ``date`` and ``tic`` columns
+    :param ratios: (df) fundamentals with ``tic`` and ``date`` columns, in reporting
+        order, where ``date`` is when they can first be used
+    :return: (df) one row per trading day and ticker, sorted by ticker and date.
+        Prices are carried forward over gaps and are NaN before a ticker's first
+        price; ratios are NaN before its first report.
+    """
+    prices = prices.assign(date=prices["date"].astype("datetime64[ns]"))
+    ratios = ratios.assign(date=ratios["date"].astype("datetime64[ns]"))
+    # Quarters reported on the same day: the later one replaces the earlier one
+    ratios = ratios.drop_duplicates(["date", "tic"], keep="last")
+
+    combination = list(
+        itertools.product(sorted(prices["date"].unique()), prices["tic"].unique())
+    )
+    daily = pd.DataFrame(combination, columns=["date", "tic"]).merge(
+        prices, on=["date", "tic"], how="left"
+    )
+    daily = daily.sort_values(["tic", "date"], ignore_index=True)
+    price_columns = daily.columns.difference(["date", "tic"])
+    daily[price_columns] = daily.groupby("tic")[price_columns].ffill()
+
+    daily = pd.merge_asof(
+        daily.sort_values("date"),
+        ratios.sort_values("date"),
+        on="date",
+        by="tic",
+        direction="backward",
+    )
+    return daily.sort_values(["tic", "date"], ignore_index=True)
+
 
 def main():
     import pandas as pd
@@ -23,8 +86,6 @@ def main():
     import sys
 
     sys.path.append("../FinRL")
-
-    import itertools
 
     from finrl.config import (
         DATA_SAVE_DIR,
@@ -90,6 +151,7 @@ def main():
         "dlttq",  # Long term debt
         "dlcq",  # Debt in current liabilites
         "ltq",  # Liabilities
+        "rdq",  # Report date of quarterly earnings
     ]
 
     # Omit items that will not be used
@@ -122,7 +184,8 @@ def main():
     )
 
     # Calculate financial ratios
-    date = pd.to_datetime(fund_data["date"], format="%Y%m%d")
+    # "date" is when each quarter's ratios become public, not when the quarter ended
+    date = fundamentals_available_date(fund_data["date"], fund_data["rdq"])
 
     tic = fund_data["tic"].to_frame("tic")
 
@@ -291,19 +354,9 @@ def main():
     final_ratios = final_ratios.fillna(0)
     final_ratios = final_ratios.replace(np.inf, 0)
 
-    list_ticker = df["tic"].unique().tolist()
-    list_date = list(pd.date_range(df["date"].min(), df["date"].max()))
-    combination = list(itertools.product(list_date, list_ticker))
-
-    # Merge stock price data and ratios into one dataframe
-    processed_full = pd.DataFrame(combination, columns=["date", "tic"]).merge(
-        df, on=["date", "tic"], how="left"
-    )
-    processed_full = processed_full.merge(final_ratios, how="left", on=["date", "tic"])
-    processed_full = processed_full.sort_values(["tic", "date"])
-
-    # Backfill the ratio data to make them daily
-    processed_full = processed_full.bfill(axis="rows")
+    # Merge stock price data and ratios into one dataframe, using on each trading
+    # day only the ratios that were already public
+    processed_full = align_fundamentals_to_daily(df, final_ratios)
 
     # Calculate P/E, P/B and dividend yield using daily closing price
     processed_full["PE"] = processed_full["close"] / processed_full["EPS"]
