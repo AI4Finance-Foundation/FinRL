@@ -159,7 +159,7 @@ This script trains 5 DRL agents (A2C, DDPG, PPO, TD3, SAC) using Stable Baseline
 python examples/FinRL_StockTrading_2026_3_Backtest.py
 ```
 
-This script loads the trained agents, runs them on the trading data, and compares their performance against two baselines: Mean Variance Optimization (MVO) and the DJIA index. Results are printed to the console and a plot is saved as `backtest_result.png`.
+This script loads the trained agents, runs them on the trading data, and compares their performance against two baselines: Mean Variance Optimization (MVO) and the DJIA index (total return, via the DIA ETF). Results are printed to the console and a plot is saved as `backtest_result.png`.
 
 
 ## File Structure
