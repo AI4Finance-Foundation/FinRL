@@ -195,7 +195,7 @@ class SinopacProcessor:
             ].dropna(axis=1)
 
             cov_temp = filtered_hist_price.cov()
-            current_temp = current_price[[x for x in filtered_hist_price]] - np.mean(
+            current_temp = current_price[[*filtered_hist_price]] - np.mean(
                 filtered_hist_price, axis=0
             )
             temp = current_temp.values.dot(np.linalg.pinv(cov_temp)).dot(
