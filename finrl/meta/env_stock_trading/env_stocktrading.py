@@ -73,11 +73,22 @@ class StockTradingEnv(gym.Env):
         self.observation_space = spaces.Box(
             low=-np.inf, high=np.inf, shape=(self.state_space,)
         )
-        self.data = self.df.loc[self.day, :]
         # df does not change for the lifetime of the env, so the two unique() scans
         # (tens of thousands of rows) are done once here instead of on every step.
         self._num_days = len(self.df.index.unique())
         self._num_tics = len(self.df.tic.unique())
+        # Row positions for each day, so step()/reset() can take a fast iloc slice
+        # instead of a label lookup over the full frame. Disabled when a day's rows
+        # are not one contiguous block, where loc() and iloc() would differ.
+        index_values = self.df.index.to_numpy()
+        starts = np.flatnonzero(np.r_[True, index_values[1:] != index_values[:-1]])
+        stops = np.r_[starts[1:], len(index_values)]
+        self._day_slices = {index_values[start]: slice(start, stop) for start, stop in zip(starts, stops)}
+        # A single-ticker frame has one row per day, where loc() returns a Series; keep
+        # that path on loc() so the row object type does not change.
+        if len(self._day_slices) != self._num_days or self._num_tics == 1:
+            self._day_slices = None
+        self.data = self._row(self.day)
         self.terminal = False
         self.make_plots = make_plots
         self.print_verbosity = print_verbosity
@@ -350,7 +361,7 @@ class StockTradingEnv(gym.Env):
 
             # state: s -> s+1
             self.day += 1
-            self.data = self.df.loc[self.day, :]
+            self.data = self._row(self.day)
             if self.turbulence_threshold is not None:
                 if self._num_tics == 1:
                     self.turbulence = self.data[self.risk_indicator_col]
@@ -389,6 +400,12 @@ class StockTradingEnv(gym.Env):
 
         return self.state, self.reward, self.terminal, False, {}
 
+    def _row(self, day: int):
+        """Return the frame rows for `day`, using the precomputed slice when available."""
+        if self._day_slices is None:
+            return self.df.loc[day, :]
+        return self.df.iloc[self._day_slices[day]]
+
     def reset(
         self,
         *,
@@ -397,7 +414,7 @@ class StockTradingEnv(gym.Env):
     ):
         # initiate state
         self.day = 0
-        self.data = self.df.loc[self.day, :]
+        self.data = self._row(self.day)
         self.state = self._initiate_state()
 
         if self.initial:
