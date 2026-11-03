@@ -36,7 +36,7 @@ class StockEnvNAS100:
         self.min_stock_rate = min_stock_rate
         beg_i, mid_i, end_i = 0, int(211210), int(422420)
 
-        (i0, i1) = (beg_i, mid_i) if if_eval else (mid_i, end_i)
+        i0, i1 = (beg_i, mid_i) if if_eval else (mid_i, end_i)
         data_arrays = (
             self.load_data(cwd) if cwd is not None else price_ary,
             tech_ary,
