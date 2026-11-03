@@ -83,7 +83,10 @@ class StockTradingEnv(gym.Env):
         index_values = self.df.index.to_numpy()
         starts = np.flatnonzero(np.r_[True, index_values[1:] != index_values[:-1]])
         stops = np.r_[starts[1:], len(index_values)]
-        self._day_slices = {index_values[start]: slice(start, stop) for start, stop in zip(starts, stops)}
+        self._day_slices = {
+            index_values[start]: slice(start, stop)
+            for start, stop in zip(starts, stops)
+        }
         # A single-ticker frame has one row per day, where loc() returns a Series; keep
         # that path on loc() so the row object type does not change.
         if len(self._day_slices) != self._num_days or self._num_tics == 1:
