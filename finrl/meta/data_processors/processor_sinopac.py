@@ -23,7 +23,7 @@ class SinopacProcessor:
                         f"{repr(security_type)} fetch done."
                     ),
                 )
-            except BaseException:
+            except Exception:
                 raise ValueError("Wrong Account Info!")
         else:
             self.api = api

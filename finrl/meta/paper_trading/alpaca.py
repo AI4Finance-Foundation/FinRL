@@ -51,7 +51,7 @@ class PaperTradingAlpaca:
                     )
                     self.act = actor
                     self.device = agent.device
-                except BaseException:
+                except Exception:
                     raise ValueError("Fail to load agent!")
 
             elif drl_lib == "rllib":

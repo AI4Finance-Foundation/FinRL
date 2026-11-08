@@ -55,7 +55,7 @@ class AlpacaPaperTrading:
                     agent = init_agent(args, gpu_id=0)
                     self.act = agent.act
                     self.device = agent.device
-                except BaseException:
+                except Exception:
                     raise ValueError("Fail to load agent!")
 
             elif drl_lib == "rllib":
