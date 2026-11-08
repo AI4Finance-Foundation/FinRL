@@ -22,7 +22,7 @@ class DataProcessor:
                 API_BASE_URL = kwargs.get("API_BASE_URL")
                 self.processor = Alpaca(API_KEY, API_SECRET, API_BASE_URL)
                 print("Alpaca successfully connected")
-            except BaseException:
+            except Exception:
                 raise ValueError("Please input correct account info for alpaca!")
 
         elif data_source == "wrds":

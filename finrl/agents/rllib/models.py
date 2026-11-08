@@ -158,7 +158,7 @@ class DRLAgent:
         try:
             trainer.restore(agent_path)
             print("Restoring from checkpoint path", agent_path)
-        except BaseException:
+        except Exception:
             raise ValueError("Fail to load agent!")
 
         # test on the testing env
