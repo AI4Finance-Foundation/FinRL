@@ -2,9 +2,10 @@ FROM stablebaselines/rl-baselines3-zoo
 
 WORKDIR /src
 
-COPY requirements.txt .
+# copy the code instead of mounting
+COPY . .
 
-RUN pip install -r requirements.txt -I
+RUN pip install -e ".[all,dev]"
 
 RUN pip install jupyterlab
 
@@ -12,9 +13,6 @@ RUN pip install jupyterlab
 ENV TINI_VERSION v0.6.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
 RUN chmod +x /usr/bin/tini
-
-# copy the code instead of mounting
-COPY . .
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 

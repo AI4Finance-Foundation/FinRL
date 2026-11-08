@@ -3,19 +3,17 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
-from finrl.meta.data_processors.processor_fxmacrodata import (
-    FXMacroDataProcessor as FXMacroData,
-)
-from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
-from finrl.meta.data_processors.processor_yahoofinance import (
-    YahooFinanceProcessor as YahooFinance,
-)
+# Each vendor module is imported inside the branch that needs it, so that one
+# vendor's missing optional dependency does not break the others.
 
 
 class DataProcessor:
     def __init__(self, data_source, tech_indicator=None, vix=None, **kwargs):
         if data_source == "alpaca":
+            from finrl.meta.data_processors.processor_alpaca import (
+                AlpacaProcessor as Alpaca,
+            )
+
             try:
                 API_KEY = kwargs.get("API_KEY")
                 API_SECRET = kwargs.get("API_SECRET")
@@ -26,12 +24,22 @@ class DataProcessor:
                 raise ValueError("Please input correct account info for alpaca!")
 
         elif data_source == "wrds":
+            from finrl.meta.data_processors.processor_wrds import WrdsProcessor as Wrds
+
             self.processor = Wrds()
 
         elif data_source == "yahoofinance":
+            from finrl.meta.data_processors.processor_yahoofinance import (
+                YahooFinanceProcessor as YahooFinance,
+            )
+
             self.processor = YahooFinance()
 
         elif data_source == "fxmacrodata":
+            from finrl.meta.data_processors.processor_fxmacrodata import (
+                FXMacroDataProcessor as FXMacroData,
+            )
+
             self.processor = FXMacroData(
                 api_key=kwargs.get("API_KEY") or kwargs.get("api_key"),
                 base_url=kwargs.get("BASE_URL")

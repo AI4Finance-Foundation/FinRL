@@ -1,59 +1,80 @@
-[tool.poetry]
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "finrl"
 version = "0.3.8"
-
-description = "FinRL: Financial Reinforcement Learning Framework. Version 0.3.5 notes: stable version, code refactoring, more tutorials, clear documentation"
-authors = ["Hongyang Yang, Xiaoyang Liu"]
-license = "MIT"
-
+description = "FinRL: Financial Reinforcement Learning Framework"
 readme = "README.md"
-classifiers=[
-        # Trove classifiers
-        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-        "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
-    ]
-keywords=["Reinforcement Learning", "Finance"]
-[tool.poetry.urls]
-github = "https://github.com/finrl/finrl-library"
+license = { text = "MIT" }
+authors = [{ name = "AI4Finance Foundation", email = "contact@ai4finance.org" }]
+requires-python = ">=3.10"
+keywords = ["Reinforcement Learning", "Finance"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+# What `import finrl`, the Stable-Baselines3 agents, the pandas trading
+# environments, YahooDownloader/FeatureEngineer and the unit tests need.
+dependencies = [
+    "numpy>=1.17.3",
+    "pandas>=1.1.5",
+    "matplotlib",
+    "scikit-learn>=0.21.0",
+    "gymnasium",
+    "stable-baselines3>=2.0.0",
+    "sb3-contrib>=2.0.0",
+    "tensorboard",
+    "stockstats>=0.4.0",
+    "yfinance>=0.2",
+    "pyfolio-reloaded>=0.9",
+    "pandas-market-calendars",
+    "pytz",
+    "requests",
+    "tqdm",
+]
 
-[tool.poetry.dependencies]
-python = "^3.7"
-elegantrl = {git="https://github.com/AI4Finance-Foundation/ElegantRL.git#egg=elegantrl"}
-alpaca-trade-api = "^3"
-ccxt = "^3"
-jqdatasdk = "^1"
-pyfolio-reloaded = "^0.9"
-pyportfolioopt = "^1"
-ray = {extras=["default", "tune"], version = "^2"}
-scikit-learn = "^1"
-sb3-contrib = ">=2.0.0a5"
-stable-baselines3 = {version = ">=2.0.0a5", extras = ["extra"]}
-stockstats = "^0.5"
-wrds = "^3"
-yfinance = "^0.2"
-alpaca-py = "^0.37"
-webdriver-manager = "^4"
-selenium = "^4"
-pandas-market-calendars = "^5"
+[project.optional-dependencies]
+# Alpaca market data and paper trading (finrl.meta.paper_trading, processor_alpaca).
+alpaca = ["alpaca-py>=0.37", "alpaca-trade-api>=2.1.0"]
+# ElegantRL agents. The PyPI release is old; the tutorials use the git main:
+#   pip install git+https://github.com/AI4Finance-Foundation/ElegantRL.git
+elegantrl = ["elegantrl"]
+# Ray RLlib agents.
+rllib = ["ray[rllib,tune]>=2"]
+# Hyperparameter search (finrl.agents.stablebaselines3.tune_sb3).
+optuna = ["optuna", "joblib"]
+# Data vendors other than the Yahoo Finance CSV path.
+data = [
+    "beautifulsoup4",
+    "ccxt>=1.66.32",
+    "ib_insync",
+    "jqdatasdk",
+    "lz4",
+    "selenium>=4",
+    "shioaji",
+    "tushare",
+    "webdriver-manager>=4",
+    "wrds>=3",
+]
+# Portfolio-optimization agents and architectures.
+portfolio = ["torch-geometric", "quantstats", "pyportfolioopt>=1"]
+docs = ["sphinx", "sphinx_rtd_theme", "recommonmark"]
+test = ["pytest", "finrl[alpaca,data]"]
+dev = ["finrl[test,docs]", "pre-commit", "black", "isort", "mypy", "pandas-stubs"]
+all = ["finrl[alpaca,elegantrl,rllib,optuna,data,portfolio]"]
 
+[project.urls]
+Homepage = "https://github.com/AI4Finance-Foundation/FinRL"
+Documentation = "https://finrl.readthedocs.io"
+Issues = "https://github.com/AI4Finance-Foundation/FinRL/issues"
 
-[tool.poetry.group.dev.dependencies]
-black = "^24"
-isort = "^5"
-jupyter = "^1"
-mypy = "^1"
-pandas-stubs = "^2"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.setuptools.packages.find]
+include = ["finrl*"]
+exclude = ["unit_tests*", "docs*", "examples*", "docker*"]
