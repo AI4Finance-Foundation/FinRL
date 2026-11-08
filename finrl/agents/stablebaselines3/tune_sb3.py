@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime
+import warnings
 
 import joblib
 import optuna
@@ -69,10 +70,14 @@ class TuneSB3Optuna:
     ----------
       env_train: Training environment for SB3
       model_name: str
-      env_trade: testing environment
+      env_trade: testing environment, used only by backtest()
       logging_callback: callback for tuning
       total_timesteps: int
       n_trials: number of hyperparameter configurations
+      env_val: validation environment on which each trial is scored. It must
+        end before env_trade starts, otherwise the hyperparameters are chosen
+        on the data they are later backtested on and the backtest is
+        in-sample.
 
     Note:
       The default sampler and pruner are used are
@@ -88,11 +93,21 @@ class TuneSB3Optuna:
         logging_callback,
         total_timesteps: int = 50000,
         n_trials: int = 30,
+        env_val=None,
     ):
         self.env_train = env_train
         self.agent = DRLAgent(env=env_train)
         self.model_name = model_name
         self.env_trade = env_trade
+        if env_val is None:
+            warnings.warn(
+                "TuneSB3Optuna: no env_val given, so trials are scored on "
+                "env_trade and the result of backtest() is in-sample. Pass a "
+                "validation environment that ends before env_trade starts.",
+                stacklevel=2,
+            )
+            env_val = env_trade
+        self.env_val = env_val
         self.total_timesteps = total_timesteps
         self.n_trials = n_trials
         self.logging_callback = logging_callback
@@ -151,7 +166,7 @@ class TuneSB3Optuna:
             f"./{config.TRAINED_MODEL_DIR}/{self.model_name}_{trial.number}.pth"
         )
         df_account_value, _ = DRLAgent.DRL_prediction(
-            model=trained_model, environment=self.env_trade
+            model=trained_model, environment=self.env_val
         )
         sharpe = self.calculate_sharpe(df_account_value)
 
