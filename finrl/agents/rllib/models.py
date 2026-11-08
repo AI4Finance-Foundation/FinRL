@@ -161,14 +161,16 @@ class DRLAgent:
         except BaseException:
             raise ValueError("Fail to load agent!")
 
-        # test on the testing env
-        state = env_instance.reset()
+        # test on the testing env (Gymnasium API: reset -> (obs, info),
+        # step -> (obs, reward, terminated, truncated, info))
+        state, _ = env_instance.reset()
         episode_returns = []  # the cumulative_return / initial_account
         episode_total_assets = [env_instance.initial_total_asset]
         done = False
         while not done:
             action = trainer.compute_single_action(state)
-            state, reward, done, _ = env_instance.step(action)
+            state, reward, terminated, truncated, _ = env_instance.step(action)
+            done = terminated or truncated
 
             total_asset = (
                 env_instance.amount

@@ -217,14 +217,16 @@ class DRLAgent:
         except BaseException as error:
             raise ValueError(f"Failed to load agent. Error: {str(error)}") from error
 
-        # test on the testing env
-        state = environment.reset()
+        # test on the testing env (Gymnasium API: reset -> (obs, info),
+        # step -> (obs, reward, terminated, truncated, info))
+        state, _ = environment.reset()
         episode_returns = []  # the cumulative_return / initial_account
         episode_total_assets = [environment.initial_total_asset]
         done = False
         while not done:
             action = model.predict(state, deterministic=deterministic)[0]
-            state, reward, done, _ = environment.step(action)
+            state, reward, terminated, truncated, _ = environment.step(action)
+            done = terminated or truncated
 
             total_asset = (
                 environment.amount
