@@ -396,7 +396,7 @@ The action space describes the allowed actions that the agent interacts with the
             # load data from a pandas dataframe
             self.data = self.df.loc[self.day,:]
             self.terminal = False
-            # initalize state
+            # initialize state
             self.state = [INITIAL_ACCOUNT_BALANCE] + \
                           self.data.adjcp.values.tolist() + \
                           [0]*STOCK_DIM + \
@@ -590,7 +590,7 @@ The action space describes the allowed actions that the agent interacts with the
             self.data = self.df.loc[self.day,:]
             self.terminal = False
             self.turbulence_threshold = turbulence_threshold
-            # initalize state
+            # initialize state
             self.state = [INITIAL_ACCOUNT_BALANCE] + \
                           self.data.adjcp.values.tolist() + \
                           [0]*STOCK_DIM + \
