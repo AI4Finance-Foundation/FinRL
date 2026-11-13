@@ -85,7 +85,7 @@ class StockTradingEnv(gym.Env):
         self.model_name = model_name
         self.mode = mode
         self.iteration = iteration
-        # initalize state
+        # initialize state
         self.state = self._initiate_state()
 
         # initialize reward
