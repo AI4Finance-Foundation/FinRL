@@ -60,7 +60,7 @@ class WrdsProcessor:
                 )
                 if_empty = False
                 return data, if_empty
-            except BaseException:
+            except Exception:
                 print("Data for date: " + date + " error")
                 if_empty = True
                 return None, if_empty
@@ -114,7 +114,7 @@ class WrdsProcessor:
                 time = str(date) + " " + str(time_m)
                 try:
                     time = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
-                except BaseException:
+                except Exception:
                     time = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
                 time_list.append(time)
             temp_df["time"] = time_list

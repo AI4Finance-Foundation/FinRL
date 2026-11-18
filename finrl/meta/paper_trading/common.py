@@ -620,7 +620,7 @@ class DRLAgent:
                 model.target_step = model_kwargs["target_step"]
                 model.eval_gap = model_kwargs["eval_gap"]
                 model.eval_times = model_kwargs["eval_times"]
-            except BaseException:
+            except Exception:
                 raise ValueError(
                     "Fail to read arguments, please check 'model_kwargs' input."
                 )
@@ -650,7 +650,7 @@ class DRLAgent:
             )
             act = actor
             device = agent.device
-        except BaseException:
+        except Exception:
             raise ValueError("Fail to load agent!")
 
         # test on the testing env

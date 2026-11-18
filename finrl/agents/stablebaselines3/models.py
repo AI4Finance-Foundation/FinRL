@@ -61,11 +61,11 @@ class TensorboardCallback(BaseCallback):
         try:
             self.logger.record(key="train/reward", value=self.locals["rewards"][0])
 
-        except BaseException as error:
+        except Exception as error:
             try:
                 self.logger.record(key="train/reward", value=self.locals["reward"][0])
 
-            except BaseException as inner_error:
+            except Exception as inner_error:
                 # Handle the case where neither "rewards" nor "reward" is found
                 self.logger.record(key="train/reward", value=None)
                 # Print the original error and the inner error for debugging
@@ -89,7 +89,7 @@ class TensorboardCallback(BaseCallback):
                 self.logger.record(
                     key="train/reward_max", value=max(rollout_buffer_rewards)
                 )
-        except BaseException as error:
+        except Exception as error:
             # handle the case where "rewards" is not found
             self.logger.record(key="train/reward_min", value=None)
             self.logger.record(key="train/reward_mean", value=None)
@@ -214,7 +214,7 @@ class DRLAgent:
             # load agent
             model = MODELS[model_name].load(cwd)
             print("Successfully load model", cwd)
-        except BaseException as error:
+        except Exception as error:
             raise ValueError(f"Failed to load agent. Error: {str(error)}") from error
 
         # test on the testing env

@@ -185,7 +185,7 @@ class BitcoinEnv:  # custom env
             try:
                 price_ary = np.load(f"{data_cwd}/price_ary.npy")
                 tech_ary = np.load(f"{data_cwd}/tech_ary.npy")
-            except BaseException:
+            except Exception:
                 raise ValueError("Data files not found!")
         else:
             price_ary = price_ary

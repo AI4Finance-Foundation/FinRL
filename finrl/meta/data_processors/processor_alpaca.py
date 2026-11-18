@@ -22,7 +22,7 @@ class AlpacaProcessor:
         if client is None:
             try:
                 self.client = StockHistoricalDataClient(API_KEY, API_SECRET)
-            except BaseException:
+            except Exception:
                 raise ValueError("Wrong Account Info!")
         else:
             self.client = client

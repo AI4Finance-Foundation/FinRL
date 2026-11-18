@@ -95,7 +95,7 @@ class DRLAgent:
                 model.state_value_tau = 0.1  # the tau of normalize for value and state `std = (1-std)*std + tau*std`
                 model.eval_times = model_kwargs.get("eval_times", 2**5)
                 model.eval_per_step = int(2e4)
-            except BaseException:
+            except Exception:
                 raise ValueError(
                     "Fail to read arguments, please check 'model_kwargs' input."
                 )
