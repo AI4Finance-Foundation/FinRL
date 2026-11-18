@@ -1,19 +1,70 @@
-name: Run Tests!
+name: Tests
 
 on:
+  push:
+    branches: [master]
+  pull_request:
   schedule:
     - cron: "0 6 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  tests:
-    name: run pytest inside sb3 docker container
+  unit:
+    name: pytest (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
-
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install what `import finrl` and the unit tests import
+        # An explicit list rather than requirements.txt: that file also
+        # carries TA-Lib (needs the C library), swig, sphinx and other tools
+        # the tests never import. Switch to `pip install -e ".[test]"` once
+        # the dependency list lives in pyproject.toml.
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy pandas gymnasium "stable-baselines3>=2.0" sb3-contrib \
+            stockstats scikit-learn matplotlib yfinance pyfolio-reloaded \
+            pandas-market-calendars pytz requests beautifulsoup4 selenium \
+            webdriver-manager alpaca-py alpaca-trade-api wrds pytest
+      - name: Run the offline unit tests
+        run: python -m pytest unit_tests -q -p no:cacheprovider
 
-      - name: build container # use docker buildkit for caching?
-        run: bash docker/bin/build_container.sh
-
-      - name: Run Tests
-        run: bash docker/bin/test.sh
+  network:
+    name: tests that download from Yahoo Finance
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy pandas gymnasium "stable-baselines3>=2.0" sb3-contrib \
+            stockstats scikit-learn matplotlib yfinance pyfolio-reloaded \
+            pandas-market-calendars pytz requests beautifulsoup4 selenium \
+            webdriver-manager alpaca-py alpaca-trade-api wrds pytest
+      - name: Run every test, including the downloads
+        # The Alpaca downloader tests are collected only when both secrets
+        # exist in the repository; otherwise they stay skipped.
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_API_SECRET: ${{ secrets.ALPACA_API_SECRET }}
+        run: python -m pytest unit_tests -q -p no:cacheprovider --run-network

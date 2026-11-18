@@ -1,13 +1,16 @@
 from __future__ import annotations
 
+import os
+
 import pandas as pd
 import pytest
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
 
 
-API_KEY = "???"
-API_SECRET = "???"
+# Collected only with `--run-network` and real credentials, see conftest.py.
+API_KEY = os.environ.get("ALPACA_API_KEY", "???")
+API_SECRET = os.environ.get("ALPACA_API_SECRET", "???")
 API_BASE_URL = "https://paper-api.alpaca.markets"
 data_url = "wss://data.alpaca.markets"
 
