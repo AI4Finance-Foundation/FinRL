@@ -47,7 +47,8 @@ class CCXTEngineer:
                 ohlcv, columns=["time", "open", "high", "low", "close", "volume"]
             )
             df["time"] = [
-                datetime.fromtimestamp(float(time) / 1000, tz=timezone.utc) for time in df["time"]
+                datetime.fromtimestamp(float(time) / 1000, tz=timezone.utc)
+                for time in df["time"]
             ]
             df["open"] = df["open"].astype(np.float64)
             df["high"] = df["high"].astype(np.float64)
