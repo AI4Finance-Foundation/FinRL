@@ -22,7 +22,7 @@ class StockTradingEnv(gym.Env):
 
     Parameters:
         df (pandas.DataFrame): Dataframe containing data
-        hmax (int): Maximum cash to be traded in each trade per asset.
+        hmax (int): Maximum number of shares to trade per asset in one step.
         initial_amount (int): Amount of cash initially available
         buy_cost_pct (float, array): Cost for buying shares, each index corresponds to each asset
         sell_cost_pct (float, array): Cost for selling shares, each index corresponds to each asset
@@ -30,7 +30,7 @@ class StockTradingEnv(gym.Env):
         print_verbosity(int): When iterating (step), how often to print stats about state of env
     """
 
-    metadata = {"render.modes": ["human"]}
+    metadata = {"render_modes": ["human"]}
 
     def __init__(
         self,
@@ -52,7 +52,7 @@ class StockTradingEnv(gym.Env):
         print_verbosity=10,
         day=0,
         initial=True,
-        previous_state=[],
+        previous_state=None,
         model_name="",
         mode="",
         iteration="",
@@ -81,7 +81,7 @@ class StockTradingEnv(gym.Env):
         self.risk_indicator_col = risk_indicator_col
         self.member_col = member_col if member_col in self.df.columns else None
         self.initial = initial
-        self.previous_state = previous_state
+        self.previous_state = [] if previous_state is None else previous_state
         self.model_name = model_name
         self.mode = mode
         self.iteration = iteration
@@ -391,6 +391,7 @@ class StockTradingEnv(gym.Env):
         seed=None,
         options=None,
     ):
+        super().reset(seed=seed)  # seeds self.np_random when a seed is given
         # initiate state
         self.day = 0
         self.data = self.df.loc[self.day, :]
@@ -540,18 +541,7 @@ class StockTradingEnv(gym.Env):
             df_date.columns = ["date"]
 
             state_list = self.state_memory
-            df_states = pd.DataFrame(
-                state_list,
-                columns=[
-                    "cash",
-                    "Bitcoin_price",
-                    "Gold_price",
-                    "Bitcoin_num",
-                    "Gold_num",
-                    "Bitcoin_Disable",
-                    "Gold_Disable",
-                ],
-            )
+            df_states = pd.DataFrame(state_list, columns=self._state_columns())
             df_states.index = df_date.date
             # df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
         else:
@@ -560,6 +550,18 @@ class StockTradingEnv(gym.Env):
             df_states = pd.DataFrame({"date": date_list, "states": state_list})
         # print(df_states)
         return df_states
+
+    def _state_columns(self):
+        """Column names matching the layout of ``self.state``."""
+        tics = list(self.data.tic.values)
+        columns = ["cash"]
+        columns += [f"{tic}_close" for tic in tics]
+        columns += [f"{tic}_shares" for tic in tics]
+        for tech in self.tech_indicator_list:
+            columns += [f"{tic}_{tech}" for tic in tics]
+        if self.member_col is not None:
+            columns += [f"{tic}_member" for tic in tics]
+        return columns
 
     def save_asset_memory(self):
         date_list = self.date_memory
