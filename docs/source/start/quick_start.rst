@@ -154,3 +154,10 @@ ticker list. It also exposes macro announcement, release-calendar, and forecast
 data through the FXMacroData processor so event features can be joined into an
 RL state frame. API keys can be passed in ``kwargs`` with ``api_key`` or supplied
 through the ``FXMACRODATA_API_KEY`` or ``FXMD_API_KEY`` environment variables.
+
+RealMarketAPI can be used for forex, metals and crypto candles (for example
+``EURUSD``, ``XAUUSD``, ``BTCUSD``) by setting ``data_source="realmarketapi"``.
+Date ranges are served at ``1h``, ``4h`` and ``1d`` (resampled from hourly
+candles in UTC); ``1m``, ``5m`` and ``15m`` are limited to a recent window. The
+API key can be passed in ``kwargs`` with ``api_key`` or supplied through the
+``REALMARKETAPI_API_KEY`` environment variable.
