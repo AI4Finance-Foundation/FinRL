@@ -112,7 +112,7 @@ class StockPortfolioEnv(gym.Env):
         )
         self.terminal = False
         self.turbulence_threshold = turbulence_threshold
-        # initalize state: inital portfolio return + individual stock return + individual weights
+        # initialize state: initial portfolio return + individual stock return + individual weights
         self.portfolio_value = self.initial_amount
 
         # memorize portfolio value each step
