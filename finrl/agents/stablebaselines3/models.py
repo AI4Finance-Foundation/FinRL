@@ -137,6 +137,9 @@ class DRLAgent:
 
         if model_kwargs is None:
             model_kwargs = MODEL_KWARGS[model_name]
+        # Work on a copy: the caller's dict (or the module-level defaults)
+        # must not end up holding the noise object in place of its name.
+        model_kwargs = dict(model_kwargs)
 
         if "action_noise" in model_kwargs:
             n_actions = self.env.action_space.shape[-1]
@@ -255,10 +258,11 @@ class DRLEnsembleAgent:
                 f"Model '{model_name}' not found in MODELS."
             )  # this is more informative than NotImplementedError("NotImplementedError")
 
-        if model_kwargs is None:
-            temp_model_kwargs = MODEL_KWARGS[model_name]
-        else:
-            temp_model_kwargs = model_kwargs.copy()
+        # Work on a copy: the caller's dict (or the module-level defaults)
+        # must not end up holding the noise object in place of its name.
+        temp_model_kwargs = dict(
+            MODEL_KWARGS[model_name] if model_kwargs is None else model_kwargs
+        )
 
         if "action_noise" in temp_model_kwargs:
             n_actions = env.action_space.shape[-1]
