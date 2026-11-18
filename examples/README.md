@@ -32,6 +32,14 @@ This script downloads the union of Dow constituents that were members during 201
 
 The training data records historical membership as of each trading date. The training and backtest environments keep a fixed action dimension by using the union of constituents, expose the membership mask to the policy, reject actions for inactive stocks, and liquidate holdings when a constituent leaves the index. Missing Yahoo Finance prices for active members stop data preparation with an error instead of silently dropping the constituent.
 
+**Optional: Add structured market sentiment features**
+
+```bash
+ADANOS_API_KEY=your_key_here python examples/FinRL_StockTrading_2026_1_data_with_adanos.py
+```
+
+This companion example keeps the Yahoo Finance preprocessing flow and optionally adds lagged sentiment features from Adanos. Without `ADANOS_API_KEY`, or when enrichment yields no features, it keeps the original feature set. Requests use explicit UTC `from` and `to` bounds derived from the dataset. Set the example's dates within your plan's available history: Free, Hobby and Professional currently allow 30, 90 and 365 days of lookback from today, subject to source coverage. A short historical window can still exceed that limit. The default `lag=1` shifts by one observed date per ticker, not one calendar day. This does not remove revision bias or make historical aggregates point-in-time safe. API requests happen during preprocessing, never inside environment steps.
+
 **2. Train DRL Agents**
 
 ```bash
