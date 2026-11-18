@@ -73,7 +73,25 @@ class StockTradingEnv(gym.Env):
         self.observation_space = spaces.Box(
             low=-np.inf, high=np.inf, shape=(self.state_space,)
         )
-        self.data = self.df.loc[self.day, :]
+        # df does not change for the lifetime of the env, so the two unique() scans
+        # (tens of thousands of rows) are done once here instead of on every step.
+        self._num_days = len(self.df.index.unique())
+        self._num_tics = len(self.df.tic.unique())
+        # Row positions for each day, so step()/reset() can take a fast iloc slice
+        # instead of a label lookup over the full frame. Disabled when a day's rows
+        # are not one contiguous block, where loc() and iloc() would differ.
+        index_values = self.df.index.to_numpy()
+        starts = np.flatnonzero(np.r_[True, index_values[1:] != index_values[:-1]])
+        stops = np.r_[starts[1:], len(index_values)]
+        self._day_slices = {
+            index_values[start]: slice(start, stop)
+            for start, stop in zip(starts, stops)
+        }
+        # A single-ticker frame has one row per day, where loc() returns a Series; keep
+        # that path on loc() so the row object type does not change.
+        if len(self._day_slices) != self._num_days or self._num_tics == 1:
+            self._day_slices = None
+        self.data = self._row(self.day)
         self.terminal = False
         self.make_plots = make_plots
         self.print_verbosity = print_verbosity
@@ -225,7 +243,7 @@ class StockTradingEnv(gym.Env):
         plt.close()
 
     def step(self, actions):
-        self.terminal = self.day >= len(self.df.index.unique()) - 1
+        self.terminal = self.day >= self._num_days - 1
         if self.terminal:
             # print(f"Episode: {self.episode}")
             if self.make_plots:
@@ -346,11 +364,11 @@ class StockTradingEnv(gym.Env):
 
             # state: s -> s+1
             self.day += 1
-            self.data = self.df.loc[self.day, :]
+            self.data = self._row(self.day)
             if self.turbulence_threshold is not None:
-                if len(self.df.tic.unique()) == 1:
+                if self._num_tics == 1:
                     self.turbulence = self.data[self.risk_indicator_col]
-                elif len(self.df.tic.unique()) > 1:
+                elif self._num_tics > 1:
                     self.turbulence = self.data[self.risk_indicator_col].values[0]
             self.state = self._update_state()
             if self.member_col is not None:
@@ -385,6 +403,12 @@ class StockTradingEnv(gym.Env):
 
         return self.state, self.reward, self.terminal, False, {}
 
+    def _row(self, day: int):
+        """Return the frame rows for `day`, using the precomputed slice when available."""
+        if self._day_slices is None:
+            return self.df.loc[day, :]
+        return self.df.iloc[self._day_slices[day]]
+
     def reset(
         self,
         *,
@@ -393,7 +417,7 @@ class StockTradingEnv(gym.Env):
     ):
         # initiate state
         self.day = 0
-        self.data = self.df.loc[self.day, :]
+        self.data = self._row(self.day)
         self.state = self._initiate_state()
 
         if self.initial:
@@ -432,7 +456,7 @@ class StockTradingEnv(gym.Env):
     def _initiate_state(self):
         if self.initial:
             # For Initial State
-            if len(self.df.tic.unique()) > 1:
+            if self._num_tics > 1:
                 # for multiple stock
                 state = (
                     [self.initial_amount]
@@ -454,7 +478,7 @@ class StockTradingEnv(gym.Env):
                 )
         else:
             # Using Previous State
-            if len(self.df.tic.unique()) > 1:
+            if self._num_tics > 1:
                 # for multiple stock
                 state = (
                     [self.previous_state[0]]
@@ -485,7 +509,7 @@ class StockTradingEnv(gym.Env):
         return state
 
     def _update_state(self):
-        if len(self.df.tic.unique()) > 1:
+        if self._num_tics > 1:
             # for multiple stock
             state = (
                 [self.state[0]]
@@ -525,15 +549,15 @@ class StockTradingEnv(gym.Env):
         return values.tolist()
 
     def _get_date(self):
-        if len(self.df.tic.unique()) > 1:
-            date = self.data.date.unique()[0]
+        if self._num_tics > 1:
+            date = self.data.date.iloc[0]
         else:
             date = self.data.date
         return date
 
     # add save_state_memory to preserve state in the trading process
     def save_state_memory(self):
-        if len(self.df.tic.unique()) > 1:
+        if self._num_tics > 1:
             # date and close price length must match actions length
             date_list = self.date_memory[:-1]
             df_date = pd.DataFrame(date_list)
@@ -572,7 +596,7 @@ class StockTradingEnv(gym.Env):
         return df_account_value
 
     def save_action_memory(self):
-        if len(self.df.tic.unique()) > 1:
+        if self._num_tics > 1:
             # date and close price length must match actions length
             date_list = self.date_memory[:-1]
             df_date = pd.DataFrame(date_list)
