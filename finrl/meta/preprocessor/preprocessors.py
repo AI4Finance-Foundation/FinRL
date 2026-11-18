@@ -168,16 +168,17 @@ class FeatureEngineer:
             df = self.add_user_defined_feature(df)
             print("Successfully added user defined features")
 
-        # fill the missing values at the beginning and the end
-        if self.keep_incomplete_tickers:
-            df = df.sort_values(["tic", "date"])
-            value_columns = df.columns.difference(["date", "tic"])
-            df[value_columns] = df.groupby("tic", sort=False)[value_columns].transform(
-                lambda group: group.ffill().bfill()
-            )
-            df = df.sort_values(["date", "tic"])
-        else:
-            df = df.ffill().bfill()
+        # fill the missing values at the beginning and the end of each
+        # ticker's own series. The frame is sorted by date and then ticker,
+        # so a whole-frame ffill/bfill would copy values across tickers: during
+        # the warm-up window of a rolling indicator every ticker would receive
+        # the first ticker's value from a later date.
+        df = df.sort_values(["tic", "date"])
+        value_columns = df.columns.difference(["date", "tic"])
+        df[value_columns] = df.groupby("tic", sort=False)[value_columns].transform(
+            lambda group: group.ffill().bfill()
+        )
+        df = df.sort_values(["date", "tic"])
         return df
 
     def clean_data(self, data, keep_incomplete_tickers=False):
