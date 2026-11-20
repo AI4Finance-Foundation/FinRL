@@ -58,6 +58,8 @@ class CryptoEnv:  # custom env
         self.cash = self.initial_cash  # reset()
         self.stocks = np.zeros(self.crypto_num, dtype=np.float32)
         self.total_asset = self.cash + (self.stocks * self.price_array[self.time]).sum()
+        self.episode_return = 0.0
+        self.gamma_return = 0.0
 
         state = self.get_state()
         return state
