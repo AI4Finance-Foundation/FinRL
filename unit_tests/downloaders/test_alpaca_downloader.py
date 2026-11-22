@@ -4,6 +4,7 @@ from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
+import pandas_market_calendars as tc
 import pytest
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor
@@ -15,7 +16,18 @@ API_BASE_URL = "https://paper-api.alpaca.markets"
 data_url = "wss://data.alpaca.markets"
 
 
-def test_trading_days_accept_timezone_aware_dates():
+def test_trading_days_accept_timezone_aware_dates(monkeypatch):
+    calendar = tc.get_calendar("NYSE")
+    date_range = calendar.date_range_htf
+
+    def date_range_requiring_naive_bounds(frequency, start, end):
+        for bound in (start, end):
+            if pd.Timestamp(bound).tz is not None:
+                raise ValueError("Date must be timezone naive")
+        return date_range(frequency, start, end)
+
+    monkeypatch.setattr(calendar, "date_range_htf", date_range_requiring_naive_bounds)
+    monkeypatch.setattr(tc, "get_calendar", lambda name: calendar)
     processor = AlpacaProcessor(client=object())
     assert processor.get_trading_days(
         pd.Timestamp("2024-07-03", tz="UTC"),
@@ -25,8 +37,7 @@ def test_trading_days_accept_timezone_aware_dates():
 
 def test_clean_data_aligns_duplicate_and_missing_bars(monkeypatch):
     processor = AlpacaProcessor(client=object())
-    processor.start = processor.end = "2024-07-05"
-    monkeypatch.setattr(processor, "get_trading_days", lambda **kwargs: ["2024-07-05"])
+    processor.start = processor.end = pd.Timestamp("2024-07-05", tz="UTC")
     start = pd.Timestamp("2024-07-05 09:30", tz="America/New_York")
     end = start + pd.Timedelta(minutes=1)
     bars = pd.DataFrame(
@@ -40,14 +51,24 @@ def test_clean_data_aligns_duplicate_and_missing_bars(monkeypatch):
     )
     bars = bars.assign(open=bars.close, high=bars.close, low=bars.close, volume=1)
 
-    cleaned = processor.clean_data(bars).assign(VIXY=30.0)
+    cleaned = processor.clean_data(bars)
+    vix = (
+        cleaned.loc[cleaned["tic"] == "AAA", ["timestamp", "close"]]
+        .copy()
+        .assign(close=30.0)
+    )
+    monkeypatch.setattr(processor, "download_and_clean_data", lambda: vix)
+    featured = processor.add_technical_indicator(cleaned, ["close_2_sma"])
     prices, features, volatility = processor.df_to_array(
-        cleaned, ["volume"], if_vix=True
+        processor.add_vix(featured), ["close_2_sma", "volume"], if_vix=True
     )
 
-    assert prices.shape == features.shape == (390, 2)
+    assert prices.shape == (390, 2)
+    assert features.shape == (390, 4)
     np.testing.assert_array_equal(prices[:2], [[11.0, 20.0], [12.0, 20.0]])
-    np.testing.assert_array_equal(features[:2], [[1.0, 1.0], [1.0, 0.0]])
+    np.testing.assert_array_equal(
+        features[:2], [[11.0, 1.0, 20.0, 1.0], [11.5, 1.0, 20.0, 0.0]]
+    )
     np.testing.assert_array_equal(volatility, np.full(390, 30.0))
 
 
