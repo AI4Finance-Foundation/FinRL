@@ -4,12 +4,11 @@ import random
 import time
 from copy import deepcopy
 
-import gym
+import gymnasium as gym
 import matplotlib
 import numpy as np
 import pandas as pd
-from gym import spaces
-from stable_baselines3.common import logger
+from gymnasium import spaces
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.vec_env import SubprocVecEnv
 
@@ -137,7 +136,7 @@ class StockTradingEnvStopLoss(gym.Env):
         seed=None,
         options=None,
     ):
-        self.seed()
+        self.seed(seed)
         self.sum_trades = 0
         self.actual_num_trades = 0
         self.closing_diff_avg_buy = np.zeros(len(self.assets))
@@ -167,7 +166,7 @@ class StockTradingEnvStopLoss(gym.Env):
             + self.get_date_vector(self.date_index)
         )
         self.state_memory.append(init_state)
-        return init_state
+        return init_state, {}
 
     def get_date_vector(self, date, cols=None):
         if (cols is None) and (self.cached_data is not None):
@@ -187,38 +186,23 @@ class StockTradingEnvStopLoss(gym.Env):
     def return_terminal(self, reason="Last Date", reward=0):
         state = self.state_memory[-1]
         self.log_step(reason=reason, terminal_reward=reward)
-        # Add outputs to logger interface
-        gl_pct = self.account_information["total_assets"][-1] / self.initial_amount
-        logger.record("environment/GainLoss_pct", (gl_pct - 1) * 100)
-        logger.record(
-            "environment/total_assets",
-            int(self.account_information["total_assets"][-1]),
-        )
-        reward_pct = self.account_information["total_assets"][-1] / self.initial_amount
-        logger.record("environment/total_reward_pct", (reward_pct - 1) * 100)
-        logger.record("environment/total_trades", self.sum_trades)
-        logger.record(
-            "environment/actual_num_trades",
-            self.actual_num_trades,
-        )
-        logger.record(
-            "environment/avg_daily_trades",
-            self.sum_trades / (self.current_step),
-        )
-        logger.record(
-            "environment/avg_daily_trades_per_asset",
-            self.sum_trades / (self.current_step) / len(self.assets),
-        )
-        logger.record("environment/completed_steps", self.current_step)
-        logger.record(
-            "environment/sum_rewards", np.sum(self.account_information["reward"])
-        )
-        logger.record(
-            "environment/cash_proportion",
-            self.account_information["cash"][-1]
-            / self.account_information["total_assets"][-1],
-        )
-        return state, reward, True, {}
+        total_assets = self.account_information["total_assets"][-1]
+        return_pct = (total_assets / self.initial_amount - 1) * 100
+        avg_daily_trades = self.sum_trades / self.current_step if self.current_step else 0
+        info = {
+            "environment/GainLoss_pct": return_pct,
+            "environment/total_assets": int(total_assets),
+            "environment/total_reward_pct": return_pct,
+            "environment/total_trades": self.sum_trades,
+            "environment/avg_daily_trades": avg_daily_trades,
+            "environment/avg_daily_trades_per_asset": avg_daily_trades / len(self.assets),
+            "environment/completed_steps": self.current_step,
+            "environment/sum_rewards": np.sum(self.account_information["reward"]),
+            "environment/cash_proportion": (
+                self.account_information["cash"][-1] / total_assets if total_assets else 0
+            ),
+        }
+        return state, reward, True, False, info
 
     def log_step(self, reason, terminal_reward=None):
         if terminal_reward is None:
@@ -422,11 +406,12 @@ class StockTradingEnvStopLoss(gym.Env):
             # Update average buy price
             buys = np.sign(buys)
             self.n_buys += buys
-            self.avg_buy_price = np.where(
-                buys > 0,
-                self.avg_buy_price + ((closings - self.avg_buy_price) / self.n_buys),
-                self.avg_buy_price,
-            )  # incremental average
+            self.avg_buy_price += np.divide(
+                closings - self.avg_buy_price,
+                self.n_buys,
+                out=np.zeros_like(self.avg_buy_price),
+                where=buys > 0,
+            )
 
             # set as zero when we don't have any holdings anymore
             self.n_buys = np.where(holdings_updated > 0, self.n_buys, 0)
@@ -444,7 +429,7 @@ class StockTradingEnvStopLoss(gym.Env):
             )
             self.state_memory.append(state)
 
-            return state, reward, False, {}
+            return state, reward, False, False, {}
 
     def get_sb_env(self):
         def get_self():
