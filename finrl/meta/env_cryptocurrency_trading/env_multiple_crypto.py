@@ -46,7 +46,9 @@ class CryptoEnv(gym.Env):
         self.observation_space = spaces.Box(
             -np.inf, np.inf, shape=(self.state_dim,), dtype=np.float32
         )
-        self.action_space = spaces.Box(-1, 1, shape=(self.action_dim,), dtype=np.float32)
+        self.action_space = spaces.Box(
+            -1, 1, shape=(self.action_dim,), dtype=np.float32
+        )
         self.if_discrete = False
         self.target_return = 10
 
