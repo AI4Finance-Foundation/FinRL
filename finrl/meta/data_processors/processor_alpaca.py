@@ -430,9 +430,16 @@ class AlpacaProcessor:
         times = pd.date_range(
             data["timestamp"].min(), data["timestamp"].max(), freq="min"
         )
-        new_df = pd.concat(
-            [self.clean_individual_ticker((ticker, data, times)) for ticker in ticker_list]
-        ).rename_axis("timestamp").reset_index()
+        new_df = (
+            pd.concat(
+                [
+                    self.clean_individual_ticker((ticker, data, times))
+                    for ticker in ticker_list
+                ]
+            )
+            .rename_axis("timestamp")
+            .reset_index()
+        )
 
         df = self.add_technical_indicator(new_df, tech_indicator_list)
         df["VIXY"] = 0

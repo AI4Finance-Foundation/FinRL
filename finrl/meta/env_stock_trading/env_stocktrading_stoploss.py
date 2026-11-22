@@ -188,18 +188,23 @@ class StockTradingEnvStopLoss(gym.Env):
         self.log_step(reason=reason, terminal_reward=reward)
         total_assets = self.account_information["total_assets"][-1]
         return_pct = (total_assets / self.initial_amount - 1) * 100
-        avg_daily_trades = self.sum_trades / self.current_step if self.current_step else 0
+        avg_daily_trades = (
+            self.sum_trades / self.current_step if self.current_step else 0
+        )
         info = {
             "environment/GainLoss_pct": return_pct,
             "environment/total_assets": int(total_assets),
             "environment/total_reward_pct": return_pct,
             "environment/total_trades": self.sum_trades,
             "environment/avg_daily_trades": avg_daily_trades,
-            "environment/avg_daily_trades_per_asset": avg_daily_trades / len(self.assets),
+            "environment/avg_daily_trades_per_asset": avg_daily_trades
+            / len(self.assets),
             "environment/completed_steps": self.current_step,
             "environment/sum_rewards": np.sum(self.account_information["reward"]),
             "environment/cash_proportion": (
-                self.account_information["cash"][-1] / total_assets if total_assets else 0
+                self.account_information["cash"][-1] / total_assets
+                if total_assets
+                else 0
             ),
         }
         return state, reward, True, False, info

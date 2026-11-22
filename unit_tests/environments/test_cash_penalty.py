@@ -8,7 +8,9 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 from finrl.meta.env_stock_trading.env_stocktrading_cashpenalty import (
     StockTradingEnvCashpenalty,
 )
-from finrl.meta.env_stock_trading.env_stocktrading_stoploss import StockTradingEnvStopLoss
+from finrl.meta.env_stock_trading.env_stocktrading_stoploss import (
+    StockTradingEnvStopLoss,
+)
 
 
 @pytest.mark.parametrize(
