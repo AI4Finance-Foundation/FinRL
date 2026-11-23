@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import gymnasium as gym
 import numpy as np
+from gymnasium import spaces
 
 
-class CryptoEnv:  # custom env
+class CryptoEnv(gym.Env):  # custom env
     def __init__(
         self,
         config,
@@ -39,10 +41,14 @@ class CryptoEnv:  # custom env
 
         """env information"""
         self.env_name = "MulticryptoEnv"
-        self.state_dim = (
-            1 + (self.price_array.shape[1] + self.tech_array.shape[1]) * lookback
-        )
+        self.state_dim = 1 + self.crypto_num + self.tech_array.shape[1] * lookback
         self.action_dim = self.price_array.shape[1]
+        self.action_space = spaces.Box(
+            low=-1, high=1, shape=(self.action_dim,), dtype=np.float32
+        )
+        self.observation_space = spaces.Box(
+            low=-np.inf, high=np.inf, shape=(self.state_dim,), dtype=np.float32
+        )
         self.if_discrete = False
         self.target_return = 10
 
@@ -51,7 +57,8 @@ class CryptoEnv:  # custom env
         *,
         seed=None,
         options=None,
-    ) -> np.ndarray:
+    ) -> tuple[np.ndarray, dict]:
+        super().reset(seed=seed)
         self.time = self.lookback - 1
         self.current_price = self.price_array[self.time]
         self.current_tech = self.tech_array[self.time]
@@ -60,9 +67,9 @@ class CryptoEnv:  # custom env
         self.total_asset = self.cash + (self.stocks * self.price_array[self.time]).sum()
 
         state = self.get_state()
-        return state
+        return state, {}
 
-    def step(self, actions) -> (np.ndarray, float, bool, None):
+    def step(self, actions) -> tuple[np.ndarray, float, bool, bool, dict]:
         self.time += 1
 
         price = self.price_array[self.time]
@@ -98,7 +105,7 @@ class CryptoEnv:  # custom env
         if done:
             reward = self.gamma_return
             self.episode_return = self.total_asset / self.initial_cash
-        return state, reward, done, None
+        return state, reward, done, False, {}
 
     def get_state(self):
         state = np.hstack((self.cash * 2**-18, self.stocks * 2**-3))

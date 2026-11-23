@@ -37,7 +37,7 @@ def test_zero_step(data, ticker_list):
     # step with all zeros
     for i in range(2):
         actions = np.zeros(len(ticker_list))
-        next_state, _, _, _ = env.step(actions)
+        next_state, _, _, _, _ = env.step(actions)
         cash = next_state[0]
         holdings = next_state[1 : 1 + len(ticker_list)]
         asset_value = env.account_information["asset_value"][-1]
@@ -68,7 +68,7 @@ def test_patient(data, ticker_list):
     _ = env.reset()
 
     actions = np.array([1.0, 1.0])
-    next_state, _, is_done, _ = env.step(actions)
+    next_state, _, is_done, _, _ = env.step(actions)
     holdings = next_state[1 : 1 + len(ticker_list)]
 
     assert not is_done
@@ -105,8 +105,8 @@ def test_validate_caching(data):
     for i in range(10):
         actions = np.random.uniform(low=-1, high=1, size=2)
         print(f"actions: {actions}")
-        un_state, un_reward, _, _ = env_uncached.step(actions)
-        ca_state, ca_reward, _, _ = env_cached.step(actions)
+        un_state, un_reward, _, _, _ = env_uncached.step(actions)
+        ca_state, ca_reward, _, _, _ = env_cached.step(actions)
 
         assert un_state == ca_state
         assert un_reward == ca_reward

@@ -4,16 +4,17 @@ import random
 import time
 from copy import deepcopy
 
-import gym
+import gymnasium as gym
 import matplotlib
 import numpy as np
 import pandas as pd
-from gym import spaces
-from stable_baselines3.common import logger
+from gymnasium import spaces
+from stable_baselines3.common.logger import Logger
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.vec_env import SubprocVecEnv
 
 matplotlib.use("Agg")
+logger = Logger(folder=None, output_formats=[])
 
 
 class StockTradingEnvCashpenalty(gym.Env):
@@ -135,7 +136,8 @@ class StockTradingEnvCashpenalty(gym.Env):
         seed=None,
         options=None,
     ):
-        self.seed()
+        super().reset(seed=seed)
+        self.seed(seed)
         self.sum_trades = 0
         if self.random_start:
             starting_point = random.choice(range(int(len(self.dates) * 0.5)))
@@ -160,7 +162,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             + self.get_date_vector(self.date_index)
         )
         self.state_memory.append(init_state)
-        return init_state
+        return init_state, {}
 
     def get_date_vector(self, date, cols=None):
         if (cols is None) and (self.cached_data is not None):
@@ -207,7 +209,7 @@ class StockTradingEnvCashpenalty(gym.Env):
             self.account_information["cash"][-1]
             / self.account_information["total_assets"][-1],
         )
-        return state, reward, True, {}
+        return state, reward, True, False, {}
 
     def log_step(self, reason, terminal_reward=None):
         if terminal_reward is None:
@@ -373,7 +375,7 @@ class StockTradingEnvCashpenalty(gym.Env):
                 [coh] + list(holdings_updated) + self.get_date_vector(self.date_index)
             )
             self.state_memory.append(state)
-            return state, reward, False, {}
+            return state, reward, False, False, {}
 
     def get_sb_env(self):
         def get_self():
