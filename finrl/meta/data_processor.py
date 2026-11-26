@@ -4,6 +4,9 @@ import numpy as np
 import pandas as pd
 
 from finrl.meta.data_processors.processor_alpaca import AlpacaProcessor as Alpaca
+from finrl.meta.data_processors.processor_aperiodic import (
+    AperiodicProcessor as Aperiodic,
+)
 from finrl.meta.data_processors.processor_fxmacrodata import (
     FXMacroDataProcessor as FXMacroData,
 )
@@ -37,6 +40,14 @@ class DataProcessor:
                 base_url=kwargs.get("BASE_URL")
                 or kwargs.get("base_url")
                 or "https://api.fxmacrodata.com/v1",
+            )
+
+        elif data_source == "aperiodic":
+            self.processor = Aperiodic(
+                api_key=kwargs.get("API_KEY") or kwargs.get("api_key"),
+                exchange=kwargs.get("exchange", "binance"),
+                derivative_features=kwargs.get("derivative_features"),
+                preview=kwargs.get("preview", False),
             )
 
         else:
