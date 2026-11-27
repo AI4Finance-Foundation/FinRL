@@ -377,6 +377,8 @@ class DRLEnsembleAgent:
             start=self.unique_trade_date[iter_num - self.rebalance_window],
             end=self.unique_trade_date[iter_num],
         )
+        if trade_data.empty:
+            raise ValueError("The ensemble trading window contains no market data")
         trade_env = DummyVecEnv(
             [
                 lambda: StockTradingEnv(
@@ -403,17 +405,18 @@ class DRLEnsembleAgent:
         )
 
         trade_obs = trade_env.reset()
+        final_state = trade_env.envs[0].render()
 
-        for i in range(len(trade_data.index.unique())):
+        for _ in range(trade_data.index.nunique()):
             action, _states = model.predict(trade_obs)
-            trade_obs, rewards, dones, info = trade_env.step(action)
-            if i == (len(trade_data.index.unique()) - 2):
-                # print(env_test.render())
-                last_state = trade_env.envs[0].render()
+            trade_obs, _, dones, _ = trade_env.step(action)
+            if dones[0]:
+                break
+            final_state = trade_env.envs[0].render()
 
-        df_last_state = pd.DataFrame({"last_state": last_state})
-        df_last_state.to_csv(f"results/last_state_{name}_{i}.csv", index=False)
-        return last_state
+        df_last_state = pd.DataFrame({"last_state": final_state})
+        df_last_state.to_csv(f"results/last_state_{name}_{iter_num}.csv", index=False)
+        return final_state
 
     def _train_window(
         self,

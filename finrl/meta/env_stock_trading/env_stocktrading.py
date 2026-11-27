@@ -256,8 +256,7 @@ class StockTradingEnv(gym.Env):
                     * df_total_value["daily_return"].mean()
                     / df_total_value["daily_return"].std()
                 )
-            df_rewards = pd.DataFrame(self.rewards_memory)
-            df_rewards.columns = ["account_rewards"]
+            df_rewards = pd.DataFrame(self.rewards_memory, columns=["account_rewards"])
             df_rewards["date"] = self.date_memory[:-1]
             if self.episode % self.print_verbosity == 0:
                 print(f"day: {self.day}, episode: {self.episode}")
@@ -574,15 +573,11 @@ class StockTradingEnv(gym.Env):
     def save_action_memory(self):
         if len(self.df.tic.unique()) > 1:
             # date and close price length must match actions length
-            date_list = self.date_memory[:-1]
-            df_date = pd.DataFrame(date_list)
-            df_date.columns = ["date"]
-
-            action_list = self.actions_memory
-            df_actions = pd.DataFrame(action_list)
-            df_actions.columns = self.data.tic.values
-            df_actions.index = df_date.date
-            # df_actions = pd.DataFrame({'date':date_list,'actions':action_list})
+            df_actions = pd.DataFrame(
+                self.actions_memory,
+                columns=self.data.tic.values,
+                index=pd.Index(self.date_memory[:-1], name="date"),
+            )
         else:
             date_list = self.date_memory[:-1]
             action_list = self.actions_memory

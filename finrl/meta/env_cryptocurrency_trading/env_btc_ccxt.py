@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import gymnasium as gym
 import numpy as np
+from gymnasium import spaces
 
 
-class BitcoinEnv:  # custom env
+class BitcoinEnv(gym.Env):
     def __init__(
         self,
         data_cwd=None,
@@ -46,6 +48,12 @@ class BitcoinEnv:  # custom env
         self.env_name = "BitcoinEnv4"
         self.state_dim = 1 + 1 + self.price_ary.shape[1] + self.tech_ary.shape[1]
         self.action_dim = 1
+        self.observation_space = spaces.Box(
+            -np.inf, np.inf, shape=(self.state_dim,), dtype=np.float32
+        )
+        self.action_space = spaces.Box(
+            -1, 1, shape=(self.action_dim,), dtype=np.float32
+        )
         self.if_discrete = False
         self.target_return = 10
         self.max_step = self.price_ary.shape[0]
@@ -55,7 +63,8 @@ class BitcoinEnv:  # custom env
         *,
         seed=None,
         options=None,
-    ) -> np.ndarray:
+    ) -> tuple[np.ndarray, dict]:
+        super().reset(seed=seed)
         self.day = 0
         self.day_price = self.price_ary[self.day]
         self.day_tech = self.tech_ary[self.day]
@@ -63,6 +72,8 @@ class BitcoinEnv:  # custom env
         self.account = self.initial_account__reset
         self.stocks = 0.0
         self.total_asset = self.account + self.day_price[0] * self.stocks
+        self.episode_return = 0.0
+        self.gamma_return = 0.0
 
         normalized_tech = [
             self.day_tech[0] * 2**-1,
@@ -81,9 +92,9 @@ class BitcoinEnv:  # custom env
                 self.stocks * 2**-4,
             )
         ).astype(np.float32)
-        return state
+        return state, {}
 
-    def step(self, action) -> (np.ndarray, float, bool, None):
+    def step(self, action) -> tuple[np.ndarray, float, bool, bool, dict]:
         stock_action = action[0]
         """buy or sell stock"""
         adj = self.day_price[0]
@@ -131,7 +142,7 @@ class BitcoinEnv:  # custom env
             reward += self.gamma_return
             self.gamma_return = 0.0
             self.episode_return = next_total_asset / self.initial_account
-        return state, reward, done, None
+        return state, float(reward), done, False, {}
 
     def draw_cumulative_return(self, args, _torch) -> list:
         state_dim = self.state_dim
@@ -146,7 +157,7 @@ class BitcoinEnv:  # custom env
         act = agent.act
         device = agent.device
 
-        state = self.reset()
+        state, _ = self.reset()
         episode_returns = list()
         episode_returns.append(1)
         btc_returns = list()  # the cumulative_return / initial_account
@@ -160,10 +171,10 @@ class BitcoinEnv:  # custom env
                 action = (
                     a_tensor.detach().cpu().numpy()[0]
                 )  # not need detach(), because with torch.no_grad() outside
-                state, reward, done, _ = self.step(action)
+                state, _, terminated, truncated, _ = self.step(action)
 
                 episode_returns.append(self.total_asset / 1e6)
-                if done:
+                if terminated or truncated:
                     break
 
         import matplotlib.pyplot as plt

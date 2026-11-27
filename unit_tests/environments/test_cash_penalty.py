@@ -1,12 +1,47 @@
 from __future__ import annotations
 
 import numpy as np
+import pandas as pd
 import pytest
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 from finrl.meta.env_stock_trading.env_stocktrading_cashpenalty import (
     StockTradingEnvCashpenalty,
 )
-from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
+from finrl.meta.env_stock_trading.env_stocktrading_stoploss import (
+    StockTradingEnvStopLoss,
+)
+
+
+@pytest.mark.parametrize(
+    "env_class", [StockTradingEnvCashpenalty, StockTradingEnvStopLoss]
+)
+def test_dummy_vec_env_completes_episode(env_class):
+    data = pd.DataFrame(
+        {
+            "date": ["2024-01-01", "2024-01-02", "2024-01-03"],
+            "tic": ["AAA"] * 3,
+            "open": [10.0] * 3,
+            "close": [10.0] * 3,
+            "high": [10.0] * 3,
+            "low": [10.0] * 3,
+            "volume": [100] * 3,
+        }
+    )
+    env = DummyVecEnv([lambda: env_class(df=data, random_start=False)])
+    try:
+        initial_obs = env.reset()
+        action = np.zeros((1, 1), dtype=np.float32)
+        for _ in range(2):
+            _, _, done, _ = env.step(action)
+            assert not done[0]
+
+        obs, _, done, info = env.step(action)
+        assert done[0]
+        assert info[0]["environment/completed_steps"] == 2
+        np.testing.assert_array_equal(obs, initial_obs)
+    finally:
+        env.close()
 
 
 @pytest.fixture(scope="session")
@@ -21,6 +56,8 @@ def indicator_list():
 
 @pytest.fixture(scope="session")
 def data(ticker_list):
+    from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
+
     return YahooDownloader(
         start_date="2019-01-01", end_date="2019-02-01", ticker_list=ticker_list
     ).fetch_data()
@@ -37,7 +74,7 @@ def test_zero_step(data, ticker_list):
     # step with all zeros
     for i in range(2):
         actions = np.zeros(len(ticker_list))
-        next_state, _, _, _ = env.step(actions)
+        next_state, _, _, _, _ = env.step(actions)
         cash = next_state[0]
         holdings = next_state[1 : 1 + len(ticker_list)]
         asset_value = env.account_information["asset_value"][-1]
@@ -68,7 +105,7 @@ def test_patient(data, ticker_list):
     _ = env.reset()
 
     actions = np.array([1.0, 1.0])
-    next_state, _, is_done, _ = env.step(actions)
+    next_state, _, is_done, _, _ = env.step(actions)
     holdings = next_state[1 : 1 + len(ticker_list)]
 
     assert not is_done
@@ -105,8 +142,8 @@ def test_validate_caching(data):
     for i in range(10):
         actions = np.random.uniform(low=-1, high=1, size=2)
         print(f"actions: {actions}")
-        un_state, un_reward, _, _ = env_uncached.step(actions)
-        ca_state, ca_reward, _, _ = env_cached.step(actions)
+        un_state, un_reward, _, _, _ = env_uncached.step(actions)
+        ca_state, ca_reward, _, _, _ = env_cached.step(actions)
 
         assert un_state == ca_state
         assert un_reward == ca_reward
