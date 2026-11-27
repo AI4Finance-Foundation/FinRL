@@ -75,6 +75,69 @@ groups that can be joined into a trading state.
     eurusd_with_macro = processor.add_macro_features(eurusd_df_finrl, macro_df,
                                                      date_column = 'date')
 
+**using Aperiodic for crypto and RWA perpetual futures**
+
+Aperiodic provides OHLCV bars (1m to 1d, UTC) for perpetual futures on
+Binance, OKX and Hyperliquid, including Hyperliquid HIP-3 markets for
+tokenized stocks, indices and commodities, and contracts that have since been
+delisted, so a universe can be built without survivorship bias. Install the
+SDK with ``pip install "aperiodic[pandas]"`` (Python 3.11+).
+
+A ticker names the perpetual as ``BASE-QUOTE`` on the venue set by
+``exchange``:
+
+=================  ===============  ==========================================
+Ticker             ``exchange``     Contract
+=================  ===============  ==========================================
+``BTC-USDT``       ``binance``      BTC perpetual settled in USDT
+``BTC-USDT``       ``okx``          the same pair on OKX
+``BTC-USDC``       ``hyperliquid``  Hyperliquid's BTC perpetual
+``XYZ:TSLA-USDC``  ``hyperliquid``  HIP-3 Tesla perpetual listed by ``XYZ``
+``BTC-USD:BTC``    ``okx``          inverse perpetual settled in BTC
+=================  ===============  ==========================================
+
+Append ``@binance``, ``@okx`` or ``@hyperliquid`` to a ticker to mix venues
+in one list; the ``tic`` column keeps the ticker as written. Full Aperiodic
+symbols such as ``perpetual-BTC-USDT:USDT`` are accepted as well, and
+``list_tickers()`` returns every ticker on a venue, delisted ones included.
+
+..  code-block:: python
+
+    from finrl.config import INDICATORS
+    from finrl.meta.data_processor import DataProcessor
+
+    dp = DataProcessor('aperiodic', exchange = 'binance',
+                       derivative_features = ['funding_rate', 'open_interest'])
+    df = dp.download_data(ticker_list = ['BTC-USDT', 'ETH-USDT',
+                                         'XYZ:TSLA-USDC@hyperliquid'],
+                          start_date = '2026-07-01',
+                          end_date = '2026-09-30',
+                          time_interval = '1h')
+    df = dp.clean_data(df)
+    df = dp.add_technical_indicator(df, INDICATORS + ['funding_rate',
+                                                      'open_interest'])
+    df = dp.add_turbulence(df)
+    price_array, tech_array, turbulence_array = dp.df_to_array(df, if_vix = False)
+
+``derivative_features`` takes ``funding_rate``, ``open_interest``,
+``open_interest_notional`` and ``basis_bps``. They are joined on the bar's open
+time and hold the last value observed during that bar. Listing them with the
+indicators carries them into ``tech_array``. ``clean_data`` aligns all tickers
+on one clock: a missing bar repeats the previous close with zero volume, so a
+delisted contract keeps its last close and one listed after ``start_date``
+starts at its first close. Perpetuals have no VIX, so use ``add_turbulence``
+with ``if_vix = False`` for the risk signal.
+``AperiodicDownloader`` in ``finrl.meta.preprocessor.aperiodicdownloader``
+returns the same data with a ``date`` column, like ``YahooDownloader``.
+
+Without a key, ``preview = True`` reads a small public sample (the exact
+parameters are listed at https://aperiodic.io/catalog#preview). A free account
+key, set as ``APERIODIC_API_KEY`` or passed as ``api_key`` (sign up at
+https://aperiodic.io), covers a fixed sample of markets and dates; paid plans
+cover every perpetual and year, see https://aperiodic.io/pricing. A request
+outside your access raises an error with the API's message rather than
+returning an empty frame.
+
 Data for the chosen ticker
 ----------------------------------------
 ..  code-block:: python

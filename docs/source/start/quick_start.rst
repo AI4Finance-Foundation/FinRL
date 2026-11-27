@@ -154,3 +154,13 @@ ticker list. It also exposes macro announcement, release-calendar, and forecast
 data through the FXMacroData processor so event features can be joined into an
 RL state frame. API keys can be passed in ``kwargs`` with ``api_key`` or supplied
 through the ``FXMACRODATA_API_KEY`` or ``FXMD_API_KEY`` environment variables.
+
+Aperiodic provides perpetual-futures bars for Binance, OKX and Hyperliquid,
+including Hyperliquid HIP-3 markets (tokenized stocks, indices and commodities)
+and delisted contracts. Set ``data_source="aperiodic"``, choose the venue with
+``exchange`` (``"binance"``, ``"okx"`` or ``"hyperliquid"``) and pass tickers
+such as ``["BTC-USDT", "ETH-USDT"]``; ``derivative_features=["funding_rate",
+"open_interest"]`` adds those columns to each bar. It needs
+``pip install "aperiodic[pandas]"`` (Python 3.11+) and reads the API key from
+``api_key`` in ``kwargs`` or the ``APERIODIC_API_KEY`` environment variable.
+See :doc:`../tutorial/stocktrading/1-data` for the ticker format and access.
