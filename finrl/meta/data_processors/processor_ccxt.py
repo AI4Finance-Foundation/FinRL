@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import calendar
-from datetime import datetime
+from datetime import datetime, timezone
 
 import ccxt
 import numpy as np
@@ -47,7 +47,8 @@ class CCXTEngineer:
                 ohlcv, columns=["time", "open", "high", "low", "close", "volume"]
             )
             df["time"] = [
-                datetime.fromtimestamp(float(time) / 1000) for time in df["time"]
+                datetime.fromtimestamp(float(time) / 1000, tz=timezone.utc)
+                for time in df["time"]
             ]
             df["open"] = df["open"].astype(np.float64)
             df["high"] = df["high"].astype(np.float64)
@@ -67,12 +68,12 @@ class CCXTEngineer:
             end_timestamp = calendar.timegm(end_dt.utctimetuple())
             if period == "1m":
                 date_list = [
-                    datetime.utcfromtimestamp(float(time))
+                    datetime.fromtimestamp(float(time), tz=timezone.utc)
                     for time in range(start_timestamp, end_timestamp, 60 * 720)
                 ]
             else:
                 date_list = [
-                    datetime.utcfromtimestamp(float(time))
+                    datetime.fromtimestamp(float(time), tz=timezone.utc)
                     for time in range(start_timestamp, end_timestamp, 60 * 1440)
                 ]
             df = ohlcv(date_list, pair, period)
