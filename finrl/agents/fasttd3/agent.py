@@ -257,8 +257,9 @@ class FastTD3:
         self._update_count += 1
         obs, actions, rewards, next_obs, dones = self.buffer.sample(self.batch_size)
 
-        with torch.no_grad(), torch.autocast(
-            device_type=self.device.type, enabled=self.use_amp
+        with (
+            torch.no_grad(),
+            torch.autocast(device_type=self.device.type, enabled=self.use_amp),
         ):
             next_actions = self.actor_target(next_obs)
             smoothing_noise = (
